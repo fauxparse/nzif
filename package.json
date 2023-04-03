@@ -4,6 +4,13 @@
   "author": "Matt Powell <fauxparse@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@graphql-codegen/add": "^4.0.1",
+    "@graphql-codegen/cli": "3.2.2",
+    "@graphql-codegen/client-preset": "2.1.1",
+    "@graphql-codegen/typescript": "^3.0.2",
+    "@graphql-codegen/typescript-operations": "^3.0.2",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.7",
+    "@thx/graphql-typescript-scalar-type-policies": "^2.0.0",
     "@types/lodash-es": "^4.17.7",
     "@types/luxon": "^3.2.0",
     "@types/react": "^18.0.32",
@@ -29,11 +36,16 @@
     "vite-plugin-ruby": "^3.2.1"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.11",
     "@vitejs/plugin-react": "^3.1.0",
     "clsx": "^1.2.1",
+    "graphql": "^16.6.0",
     "lodash-es": "^4.17.21",
     "luxon": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "scripts": {
+    "codegen": "graphql-codegen --config codegen.ts"
   }
 }

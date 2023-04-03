@@ -3,6 +3,7 @@
   "trailingComma": "es5",
   "singleQuote": true,
   "printWidth": 100,
+
   "overrides": [
     {
       "files": ["*.css", "*.json"],

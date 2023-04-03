@@ -1,0 +1,20 @@
+"""
+An ISO 8601-encoded datetime
+"""
+scalar ISO8601DateTime
+
+type Mutation {
+  """
+  An example field added by the generator
+  """
+  testField: String!
+}
+
+type Query {
+  now: ISO8601DateTime!
+
+  """
+  An example field added by the generator
+  """
+  testField: String!
+}

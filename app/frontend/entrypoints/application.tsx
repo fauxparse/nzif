@@ -1,5 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { ApolloProvider } from '@apollo/client';
+import { client } from '../graphql';
 import App from '../App';
 
 // Example: Load Rails libraries in Vite.
@@ -12,6 +14,8 @@ import App from '../App';
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
   </React.StrictMode>
 );

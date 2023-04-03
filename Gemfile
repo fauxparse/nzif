@@ -62,3 +62,6 @@ group :development do
 end
 
 gem "vite_rails", "~> 3.0"
+
+gem "graphql", "~> 2.0"
+gem "graphiql-rails", group: :development
