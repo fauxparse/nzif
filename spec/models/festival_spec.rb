@@ -1,0 +1,75 @@
+require 'rails_helper'
+
+RSpec.describe Festival do
+  subject(:festival) { build(:festival) }
+
+  it { is_expected.to be_valid }
+
+  describe '#end_date' do
+    subject(:end_date) { festival.end_date }
+
+    before { festival.validate }
+
+    context 'when before start_date' do
+      let(:festival) { build(:festival, start_date: '2023-10-07', end_date: '2023-10-06') }
+
+      it 'has an error' do
+        expect(festival.errors[:end_date]).to include('must be after 2023-10-07')
+      end
+    end
+
+    context 'when in a different year from start_date' do
+      let(:festival) { build(:festival, start_date: '2023-10-07', end_date: '2024-10-14') }
+
+      it 'has an error' do
+        expect(festival.errors[:end_date]).to include('must be the same year as 2023-10-07')
+      end
+    end
+  end
+
+  describe '#year' do
+    before { create(:festival, start_date: '2023-07-22', end_date: '2023-07-29') }
+
+    it 'must be unique' do
+      expect(festival).not_to be_valid
+    end
+  end
+
+  describe '#state' do
+    subject(:state) { festival.state }
+
+    before do
+      travel_to Time.zone.local(2023, 7, 27, 13, 0)
+    end
+
+    context 'when in the past' do
+      let(:festival) { create(:festival, start_date: 1.year.ago.beginning_of_month) }
+
+      it { is_expected.to eq(:finished) }
+
+      it 'is in scope' do
+        expect(described_class.finished).to include(festival)
+      end
+    end
+
+    context 'when in the future' do
+      let(:festival) { create(:festival, start_date: 1.year.from_now.beginning_of_month) }
+
+      it { is_expected.to eq(:upcoming) }
+
+      it 'is in scope' do
+        expect(described_class.upcoming).to include(festival)
+      end
+    end
+
+    context 'when happening now' do
+      let(:festival) { create(:festival, start_date: 1.day.ago, end_date: Time.zone.today) }
+
+      it { is_expected.to eq(:happening) }
+
+      it 'is in scope' do
+        expect(described_class.happening).to include(festival)
+      end
+    end
+  end
+end

@@ -1,0 +1,2 @@
+class TimeValidator < DateTimeValidator
+end

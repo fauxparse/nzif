@@ -1,20 +1,14 @@
 module Types
   class QueryType < Types::BaseObject
-    # Add `node(id: ID!) and `nodes(ids: [ID!]!)`
-    include GraphQL::Types::Relay::HasNodeField
-    include GraphQL::Types::Relay::HasNodesField
+    description 'Top-level query interface'
 
-    # Add root-level fields here.
-    # They will be entry points for queries on your schema.
-
-    field :test_field, String, null: false
-    def test_field
-      'Hello World!'
+    field :festival, Types::Festival, null: false do
+      description 'Find a festival by year'
+      argument :year, String, required: true, description: 'The year of the festival'
     end
 
-    field :now, GraphQL::Types::ISO8601DateTime, null: false
-    def now
-      Time.zone.now
+    def festival(year:)
+      ::Festival.by_year(year).first
     end
   end
 end

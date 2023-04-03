@@ -24,9 +24,11 @@ const config: CodegenConfig = {
         strictScalars: true,
         scalars: {
           ISO8601DateTime: 'luxon#DateTime',
+          ISODate: 'luxon#DateTime',
         },
         scalarTypePolicies: {
           ISO8601DateTime: './policies/dateTimePolicy#dateTimePolicy',
+          ISODate: './policies/dateTimePolicy#datePolicy',
         },
       },
     },

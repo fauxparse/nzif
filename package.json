@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "author": "Matt Powell <fauxparse@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "codegen": "graphql-codegen --config codegen.ts",
+    "types": "bundle exec rails graphql:schema:dump && yarn codegen"
+  },
   "devDependencies": {
     "@graphql-codegen/add": "^4.0.1",
     "@graphql-codegen/cli": "3.2.2",
@@ -44,8 +48,5 @@
     "luxon": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
-  },
-  "scripts": {
-    "codegen": "graphql-codegen --config codegen.ts"
   }
 }

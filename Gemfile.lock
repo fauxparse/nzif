@@ -80,6 +80,11 @@ GEM
     diff-lcs (1.5.0)
     dry-cli (1.0.0)
     erubi (1.12.0)
+    factory_bot (6.2.1)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
     graphiql-rails (1.9.0)
@@ -197,6 +202,8 @@ GEM
       parser (>= 3.2.1.0)
     rubocop-capybara (2.17.1)
       rubocop (~> 1.41)
+    rubocop-graphql (1.1.1)
+      rubocop (>= 0.87, < 2)
     rubocop-rails (2.18.0)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
@@ -240,6 +247,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   debug
+  factory_bot_rails
   graphiql-rails
   graphql (~> 2.0)
   jbuilder
@@ -248,6 +256,7 @@ DEPENDENCIES
   rails (~> 7.0.4, >= 7.0.4.3)
   rspec-rails
   rubocop (~> 1.48)
+  rubocop-graphql (~> 1.1)
   rubocop-rails (~> 2.18)
   rubocop-rspec (~> 2.19)
   sprockets-rails

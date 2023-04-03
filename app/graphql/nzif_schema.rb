@@ -26,6 +26,9 @@ class NZIFSchema < GraphQL::Schema
   # Stop validating when it encounters this many errors:
   validate_max_errors(100)
 
+  max_depth 10
+  max_complexity 100
+
   # Relay-style Object Identification:
 
   # Return a string UUID for `object`

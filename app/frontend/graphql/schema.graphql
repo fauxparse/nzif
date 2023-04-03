@@ -1,8 +1,56 @@
 """
-An ISO 8601-encoded datetime
+A festival
 """
-scalar ISO8601DateTime
+type Festival {
+  """
+  The last day of the festival
+  """
+  endDate: ISODate!
 
+  """
+  Year of the festival
+  """
+  id: ID!
+
+  """
+  The first day of the festival
+  """
+  startDate: ISODate!
+
+  """
+  State of the festival
+  """
+  state: FestivalState!
+}
+
+"""
+The state of a festival
+"""
+enum FestivalState {
+  """
+  In the past
+  """
+  finished
+
+  """
+  Happening right now
+  """
+  happening
+
+  """
+  In the future
+  """
+  upcoming
+}
+
+"""
+A date in ISO8601 format
+"""
+scalar ISODate
+
+"""
+Top-level mutation interface
+"""
 type Mutation {
   """
   An example field added by the generator
@@ -10,11 +58,17 @@ type Mutation {
   testField: String!
 }
 
+"""
+Top-level query interface
+"""
 type Query {
-  now: ISO8601DateTime!
-
   """
-  An example field added by the generator
+  Find a festival by year
   """
-  testField: String!
+  festival(
+    """
+    The year of the festival
+    """
+    year: String!
+  ): Festival!
 }

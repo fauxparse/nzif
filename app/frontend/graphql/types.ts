@@ -15,32 +15,67 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** An ISO 8601-encoded datetime */
-  ISO8601DateTime: DateTime;
+  /** A date in ISO8601 format */
+  ISODate: DateTime;
 };
 
+/** A festival */
+export type Festival = {
+  __typename: 'Festival';
+  /** The last day of the festival */
+  endDate: Scalars['ISODate'];
+  /** Year of the festival */
+  id: Scalars['ID'];
+  /** The first day of the festival */
+  startDate: Scalars['ISODate'];
+  /** State of the festival */
+  state: FestivalState;
+};
+
+/** The state of a festival */
+export enum FestivalState {
+  /** In the past */
+  Finished = 'finished',
+  /** Happening right now */
+  Happening = 'happening',
+  /** In the future */
+  Upcoming = 'upcoming'
+}
+
+/** Top-level mutation interface */
 export type Mutation = {
   __typename: 'Mutation';
   /** An example field added by the generator */
   testField: Scalars['String'];
 };
 
+/** Top-level query interface */
 export type Query = {
   __typename: 'Query';
-  now: Scalars['ISO8601DateTime'];
-  /** An example field added by the generator */
-  testField: Scalars['String'];
+  /** Find a festival by year */
+  festival: Festival;
+};
+
+
+/** Top-level query interface */
+export type QueryFestivalArgs = {
+  year: Scalars['String'];
 };
 
 export type TestQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TestQueryQuery = { __typename: 'Query', now: DateTime };
+export type TestQueryQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, state: FestivalState } };
 
 
 export const TestQueryDocument = gql`
     query TestQuery {
-  now
+  festival(year: "2023") {
+    id
+    startDate
+    endDate
+    state
+  }
 }
     `;
 
@@ -70,8 +105,8 @@ export function useTestQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type TestQueryQueryHookResult = ReturnType<typeof useTestQueryQuery>;
 export type TestQueryLazyQueryHookResult = ReturnType<typeof useTestQueryLazyQuery>;
 export type TestQueryQueryResult = Apollo.QueryResult<TestQueryQuery, TestQueryQueryVariables>;
-import { dateTimePolicy } from './policies/dateTimePolicy';
+import { datePolicy } from './policies/dateTimePolicy';
 
 export const scalarTypePolicies = {
-  Query: { fields: { now: dateTimePolicy } },
+  Festival: { fields: { endDate: datePolicy, startDate: datePolicy } },
 };
