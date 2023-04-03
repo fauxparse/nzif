@@ -1,11 +1,13 @@
 require:
   - rubocop-rails
+  - rubocop-rspec
 
 AllCops:
   NewCops: enable
   TargetRubyVersion: 3.2.1
   Exclude:
     - 'bin/*'
+    - 'db/schema.rb'
 
 Layout/FirstArrayElementIndentation:
   EnforcedStyle: consistent
