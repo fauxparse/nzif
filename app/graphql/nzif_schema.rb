@@ -1,4 +1,12 @@
 class NZIFSchema < GraphQL::Schema
+  use GraphqlDevise::SchemaPlugin.new(
+    query: Types::QueryType,
+    mutation: Types::MutationType,
+    resource_loaders: [
+      GraphqlDevise::ResourceLoader.new(User),
+    ],
+  )
+
   mutation(Types::MutationType)
   query(Types::QueryType)
 
@@ -26,8 +34,8 @@ class NZIFSchema < GraphQL::Schema
   # Stop validating when it encounters this many errors:
   validate_max_errors(100)
 
-  max_depth 10
-  max_complexity 100
+  max_depth 50
+  max_complexity 1000
 
   # Relay-style Object Identification:
 

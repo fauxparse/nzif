@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Types
-  class Show < Types::BaseObject
-    implements Types::Activity
+  class ShowType < Types::BaseObject
+    implements Types::ActivityType
 
     description 'A show'
   end

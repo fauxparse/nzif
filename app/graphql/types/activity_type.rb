@@ -1,10 +1,27 @@
 module Types
-  class ActivityType < BaseEnum
-    description 'The state of a festival'
+  module ActivityType
+    include BaseInterface
 
-    value 'show', 'Show', value: ::Show
-    value 'workshop', 'Workshop', value: ::Workshop
+    description 'An activity that may be scheduled during the Festival'
 
-    graphql_name 'ActivityType'
+    field :id, ID, null: false, description: 'Unique ID'
+    field :name, String, null: false, description: 'Activity name'
+    field :slug, String, null: false, description: 'For use in URL generation'
+
+    definition_methods do
+      def resolve_type(object, _context)
+        case object
+        when Show then Types::ShowType
+        when Workshop then Types::WorkshopType
+        else
+          raise "Unexpected Activity: #{object.inspect}"
+        end
+      end
+    end
+
+    orphan_types(
+      ShowType,
+      WorkshopType,
+    )
   end
 end

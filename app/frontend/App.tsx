@@ -20,6 +20,22 @@ gql`
         name
       }
     }
+
+    user {
+      id
+      name
+    }
+  }
+`;
+
+gql`
+  mutation LogIn {
+    userLogin(email: "fauxparse@gmail.com", password: "thecaptainnow") {
+      authenticatable {
+        id
+        name
+      }
+    }
   }
 `;
 
@@ -27,7 +43,7 @@ const App: React.FC = () => {
   const { data } = useTestQueryQuery();
 
   // eslint-disable-next-line no-console
-  console.log(data?.festival);
+  console.log(data);
 
   return (
     <div>
