@@ -1,6 +1,7 @@
 import React from 'react';
 import { gql } from '@apollo/client';
 import { useTestQueryQuery } from './graphql/types';
+import Header from './molecules/Header';
 
 gql`
   query TestQuery {
@@ -46,8 +47,8 @@ const App: React.FC = () => {
   console.log(data);
 
   return (
-    <div>
-      <h1>NZIF</h1>
+    <div className="app">
+      <Header />
     </div>
   );
 };

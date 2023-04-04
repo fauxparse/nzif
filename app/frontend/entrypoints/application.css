@@ -1,0 +1,142 @@
+@import url('@radix-ui/colors/slate.css');
+@import url('@radix-ui/colors/slateDark.css');
+@import url('@radix-ui/colors/crimson.css');
+@import url('@radix-ui/colors/crimsonDark.css');
+@import url('@radix-ui/colors/crimsonA.css');
+@import url('@radix-ui/colors/crimsonDarkA.css');
+
+
+:where(html){
+  --ease-1: cubic-bezier(.25,0,.5,1);
+  --ease-2: cubic-bezier(.25,0,.4,1);
+  --ease-3: cubic-bezier(.25,0,.3,1);
+  --ease-4: cubic-bezier(.25,0,.2,1);
+  --ease-5: cubic-bezier(.25,0,.1,1);
+  --ease-in-1: cubic-bezier(.25,0,1,1);
+  --ease-in-2: cubic-bezier(.50,0,1,1);
+  --ease-in-3: cubic-bezier(.70,0,1,1);
+  --ease-in-4: cubic-bezier(.90,0,1,1);
+  --ease-in-5: cubic-bezier(1,0,1,1);
+  --ease-out-1: cubic-bezier(0,0,.75,1);
+  --ease-out-2: cubic-bezier(0,0,.50,1);
+  --ease-out-3: cubic-bezier(0,0,.3,1);
+  --ease-out-4: cubic-bezier(0,0,.1,1);
+  --ease-out-5: cubic-bezier(0,0,0,1);
+  --ease-in-out-1: cubic-bezier(.1,0,.9,1);
+  --ease-in-out-2: cubic-bezier(.3,0,.7,1);
+  --ease-in-out-3: cubic-bezier(.5,0,.5,1);
+  --ease-in-out-4: cubic-bezier(.7,0,.3,1);
+  --ease-in-out-5: cubic-bezier(.9,0,.1,1);
+  --ease-elastic-1: cubic-bezier(.5,.75,.75,1.25);
+  --ease-elastic-2: cubic-bezier(.5,1,.75,1.25);
+  --ease-elastic-3: cubic-bezier(.5,1.25,.75,1.25);
+  --ease-elastic-4: cubic-bezier(.5,1.5,.75,1.25);
+  --ease-elastic-5: cubic-bezier(.5,1.75,.75,1.25);
+  --ease-squish-1: cubic-bezier(.5,-.1,.1,1.5);
+  --ease-squish-2: cubic-bezier(.5,-.3,.1,1.5);
+  --ease-squish-3: cubic-bezier(.5,-.5,.1,1.5);
+  --ease-squish-4: cubic-bezier(.5,-.7,.1,1.5);
+  --ease-squish-5: cubic-bezier(.5,-.9,.1,1.5);
+  --ease-step-1: steps(2);
+  --ease-step-2: steps(3);
+  --ease-step-3: steps(4);
+  --ease-step-4: steps(7);
+  --ease-step-5: steps(10);
+}
+
+:root {
+  --font-stack: system, -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+  --font-family-base: "Archivo", var(--font-stack);
+
+  /* Spacing */
+  --tiny: 0.25rem;
+  --small: 0.5rem;
+  --spacing: 1rem;
+  --large: 1.5rem;
+  --huge: 2.5rem;
+
+  color-scheme: light dark;
+  font-synthesis: none;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-size-adjust: 100%;
+}
+
+body {
+  /* Neutral colors */
+  --neutral1: var(--slate1);
+  --neutral2: var(--slate2);
+  --neutral3: var(--slate3);
+  --neutral4: var(--slate4);
+  --neutral5: var(--slate5);
+  --neutral6: var(--slate6);
+  --neutral7: var(--slate7);
+  --neutral8: var(--slate8);
+  --neutral9: var(--slate9);
+  --neutral10: var(--slate10);
+  --neutral11: var(--slate11);
+  --neutral12: var(--slate12);
+
+  /* Accent colors */
+  --accent1: var(--crimson1);
+  --accent2: var(--crimson2);
+  --accent3: var(--crimson3);
+  --accent4: var(--crimson4);
+  --accent5: var(--crimson5);
+  --accent6: var(--crimson6);
+  --accent7: var(--crimson7);
+  --accent8: var(--crimson8);
+  --accent9: var(--crimson9);
+  --accent10: var(--crimson10);
+  --accent11: var(--crimson11);
+  --accent12: var(--crimson12);
+  --accentA1: var(--crimsonA1);
+  --accentA2: var(--crimsonA2);
+  --accentA3: var(--crimsonA3);
+  --accentA4: var(--crimsonA4);
+  --accentA5: var(--crimsonA5);
+  --accentA6: var(--crimsonA6);
+  --accentA7: var(--crimsonA7);
+  --accentA8: var(--crimsonA8);
+  --accentA9: var(--crimsonA9);
+  --accentA10: var(--crimsonA10);
+  --accentA11: var(--crimsonA11);
+  --accentA12: var(--crimsonA12);
+
+  /* Color aliases */
+  --background: var(--neutral1);
+  --background-subtle: var(--neutral2);
+  --background-element: var(--neutral3);
+  --background-hover: var(--neutral4);
+  --background-active: var(--neutral5);
+  --border-subtle: var(--neutral6);
+  --border-element: var(--neutral7);
+  --border-hover: var(--neutral8);
+  --solid: var(--neutral9);
+  --solid-hover: var(--neutral10);
+  --text-subtle: var(--neutral11);
+  --text: var(--neutral12);
+  --background-accent: var(--accent1);
+  --background-subtle-accent: var(--accent2);
+  --background-element-accent: var(--accent3);
+  --background-hover-accent: var(--accent4);
+  --background-active-accent: var(--accent5);
+  --border-subtle-accent: var(--accent6);
+  --border-element-accent: var(--accent7);
+  --border-hover-accent: var(--accent8);
+  --solid-accent: var(--accent9);
+  --solid-hover-accent: var(--accent10);
+  --text-subtle-accent: var(--accent10);
+  --text-accent: var(--accent11);
+
+  margin: 0;
+  background-color: var(--background);
+  color: var(--text);
+  font-family: var(--font-family-base);
+  transition: all 0.5s var(--ease-3);
+}
+
+*::selection {
+  background-color: var(--accentA4);
+}

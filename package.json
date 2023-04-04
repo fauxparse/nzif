@@ -8,6 +8,7 @@
     "types": "bundle exec rails graphql:schema:dump && yarn codegen"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-0",
     "@graphql-codegen/add": "^4.0.1",
     "@graphql-codegen/cli": "3.2.2",
     "@graphql-codegen/client-preset": "2.1.1",
@@ -26,6 +27,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "graphql-tag": "^2.0.0",
     "postcss": "^8.4.21",
     "postcss-combine-duplicated-selectors": "^10.0.3",
     "postcss-custom-media": "^9.1.2",
@@ -34,6 +36,11 @@
     "postcss-jit-props": "^1.0.13",
     "postcss-nested": "^6.0.1",
     "prettier": "^2.8.7",
+    "stylelint": "^15.4.0",
+    "stylelint-config-hudochenkov": "^9.0.0",
+    "stylelint-config-standard": "^32.0.0",
+    "stylelint-order": "^6.0.3",
+    "stylelint-use-nesting": "^4.1.0",
     "typescript": "^5.0.3",
     "vite": "^4.2.1",
     "vite-plugin-fonts": "^0.7.0",
@@ -41,12 +48,14 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.11",
+    "@radix-ui/colors": "^0.1.8",
     "@vitejs/plugin-react": "^3.1.0",
     "clsx": "^1.2.1",
     "graphql": "^16.6.0",
     "lodash-es": "^4.17.21",
     "luxon": "^3.3.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "usehooks-ts": "^2.9.1"
   }
 }

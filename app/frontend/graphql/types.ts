@@ -254,6 +254,11 @@ export type LogInMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogInMutation = { __typename: 'Mutation', userLogin: { __typename: 'UserLoginPayload', authenticatable: { __typename: 'User', id: string, name: string } } | null };
 
+export type HeaderQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HeaderQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime }, user: { __typename: 'User', id: string, name: string } | null };
+
 
 export const TestQueryDocument = gql`
     query TestQuery {
@@ -339,6 +344,46 @@ export function useLogInMutation(baseOptions?: Apollo.MutationHookOptions<LogInM
 export type LogInMutationHookResult = ReturnType<typeof useLogInMutation>;
 export type LogInMutationResult = Apollo.MutationResult<LogInMutation>;
 export type LogInMutationOptions = Apollo.BaseMutationOptions<LogInMutation, LogInMutationVariables>;
+export const HeaderDocument = gql`
+    query Header {
+  festival(year: "2023") {
+    id
+    startDate
+    endDate
+  }
+  user {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useHeaderQuery__
+ *
+ * To run a query within a React component, call `useHeaderQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHeaderQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHeaderQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHeaderQuery(baseOptions?: Apollo.QueryHookOptions<HeaderQuery, HeaderQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HeaderQuery, HeaderQueryVariables>(HeaderDocument, options);
+      }
+export function useHeaderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HeaderQuery, HeaderQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HeaderQuery, HeaderQueryVariables>(HeaderDocument, options);
+        }
+export type HeaderQueryHookResult = ReturnType<typeof useHeaderQuery>;
+export type HeaderLazyQueryHookResult = ReturnType<typeof useHeaderLazyQuery>;
+export type HeaderQueryResult = Apollo.QueryResult<HeaderQuery, HeaderQueryVariables>;
 import { datePolicy } from './policies/dateTimePolicy';
 
 export const scalarTypePolicies = {

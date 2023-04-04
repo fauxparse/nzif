@@ -1,0 +1,12 @@
+query Header {
+  festival(year: "2023") {
+    id
+    startDate
+    endDate
+  }
+
+  user {
+    id
+    name
+  }
+}
