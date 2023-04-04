@@ -10,6 +10,11 @@ AllCops:
     - 'bin/*'
     - 'db/schema.rb'
 
+GraphQL/ObjectDescription:
+  Exclude:
+    - 'app/graphql/nzif_schema.rb'
+    - 'app/graphql/sources/**/*'
+
 Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
 

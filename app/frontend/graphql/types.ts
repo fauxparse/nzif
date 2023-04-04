@@ -19,9 +19,31 @@ export type Scalars = {
   ISODate: DateTime;
 };
 
+/** An activity that may be scheduled during the Festival */
+export type Activity = {
+  /** Unique ID */
+  id: Scalars['ID'];
+  /** Activity name */
+  name: Scalars['String'];
+  /** For use in URL generation */
+  slug: Scalars['String'];
+};
+
+/** The state of a festival */
+export enum ActivityType {
+  /** Show */
+  Show = 'show',
+  /** Workshop */
+  Workshop = 'workshop'
+}
+
 /** A festival */
 export type Festival = {
   __typename: 'Festival';
+  /** Activities (including unscheduled ones) */
+  activities: Array<Activity>;
+  /** Retrieve an activity by its type and slug */
+  activity: Maybe<Activity>;
   /** The last day of the festival */
   endDate: Scalars['ISODate'];
   /** Year of the festival */
@@ -30,6 +52,19 @@ export type Festival = {
   startDate: Scalars['ISODate'];
   /** State of the festival */
   state: FestivalState;
+};
+
+
+/** A festival */
+export type FestivalActivitiesArgs = {
+  type: InputMaybe<ActivityType>;
+};
+
+
+/** A festival */
+export type FestivalActivityArgs = {
+  slug: Scalars['String'];
+  type: ActivityType;
 };
 
 /** The state of a festival */
@@ -62,10 +97,32 @@ export type QueryFestivalArgs = {
   year: Scalars['String'];
 };
 
+/** A show */
+export type Show = Activity & {
+  __typename: 'Show';
+  /** Unique ID */
+  id: Scalars['ID'];
+  /** Activity name */
+  name: Scalars['String'];
+  /** For use in URL generation */
+  slug: Scalars['String'];
+};
+
+/** A workshop */
+export type Workshop = Activity & {
+  __typename: 'Workshop';
+  /** Unique ID */
+  id: Scalars['ID'];
+  /** Activity name */
+  name: Scalars['String'];
+  /** For use in URL generation */
+  slug: Scalars['String'];
+};
+
 export type TestQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TestQueryQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, state: FestivalState } };
+export type TestQueryQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, state: FestivalState, activities: Array<{ __typename: 'Show', id: string, name: string } | { __typename: 'Workshop', id: string, name: string }>, activity: { __typename: 'Show', id: string, name: string } | { __typename: 'Workshop', id: string, name: string } | null } };
 
 
 export const TestQueryDocument = gql`
@@ -75,6 +132,14 @@ export const TestQueryDocument = gql`
     startDate
     endDate
     state
+    activities(type: workshop) {
+      id
+      name
+    }
+    activity(type: show, slug: "the-history-boy") {
+      id
+      name
+    }
   }
 }
     `;

@@ -1,7 +1,13 @@
 class Festival < ApplicationRecord
+  has_many :activities, dependent: :destroy
+
   validates :start_date, presence: true
   validates :end_date, presence: true, date: { after: :start_date, same_year: :start_date }
   validates :year, uniqueness: { conditions: -> { with_year } }
+
+  def self.find(year)
+    by_year(year).first!
+  end
 
   # Adds a fake year column so we can query on it
   def self.with_year
@@ -11,8 +17,7 @@ class Festival < ApplicationRecord
   end
 
   def self.by_year(year)
-    date = Date.new(year.to_i, 1, 1)
-    where(start_date: date...(date + 1.year))
+    with_year.where(year:)
   end
 
   def self.upcoming
@@ -29,7 +34,9 @@ class Festival < ApplicationRecord
 
   delegate :year, to: :start_date
 
-  alias to_param year
+  def to_param
+    year.to_s
+  end
 
   def state
     return :upcoming if start_date.future?

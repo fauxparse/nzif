@@ -72,4 +72,30 @@ RSpec.describe Festival do
       end
     end
   end
+
+  describe '#to_param' do
+    subject(:to_param) { festival.to_param }
+
+    it { is_expected.to eq(festival.year.to_s) }
+  end
+
+  describe '.find' do
+    subject(:found) { described_class.find(year) }
+
+    before { festival.save! }
+
+    context 'when it exists' do
+      let(:year) { festival.year }
+
+      it { is_expected.to eq(festival) }
+    end
+
+    context 'when it does not exist' do
+      let(:year) { '1666' }
+
+      it 'raises an exception' do
+        expect { found }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+  end
 end

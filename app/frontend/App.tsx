@@ -9,6 +9,16 @@ gql`
       startDate
       endDate
       state
+
+      activities(type: workshop) {
+        id
+        name
+      }
+
+      activity(type: show, slug: "the-history-boy") {
+        id
+        name
+      }
     }
   }
 `;

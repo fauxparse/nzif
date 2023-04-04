@@ -1,7 +1,67 @@
 """
+An activity that may be scheduled during the Festival
+"""
+interface Activity {
+  """
+  Unique ID
+  """
+  id: ID!
+
+  """
+  Activity name
+  """
+  name: String!
+
+  """
+  For use in URL generation
+  """
+  slug: String!
+}
+
+"""
+The state of a festival
+"""
+enum ActivityType {
+  """
+  Show
+  """
+  show
+
+  """
+  Workshop
+  """
+  workshop
+}
+
+"""
 A festival
 """
 type Festival {
+  """
+  Activities (including unscheduled ones)
+  """
+  activities(
+    """
+    Activity type
+    """
+    type: ActivityType
+  ): [Activity!]!
+
+  """
+  Retrieve an activity by its type and slug
+  """
+  activity(
+    """
+    URL segment
+    """
+    slug: String!
+
+    """
+    Activity type
+    """
+    type: ActivityType!
+  ): Activity
+
   """
   The last day of the festival
   """
@@ -71,4 +131,44 @@ type Query {
     """
     year: String!
   ): Festival!
+}
+
+"""
+A show
+"""
+type Show implements Activity {
+  """
+  Unique ID
+  """
+  id: ID!
+
+  """
+  Activity name
+  """
+  name: String!
+
+  """
+  For use in URL generation
+  """
+  slug: String!
+}
+
+"""
+A workshop
+"""
+type Workshop implements Activity {
+  """
+  Unique ID
+  """
+  id: ID!
+
+  """
+  Activity name
+  """
+  name: String!
+
+  """
+  For use in URL generation
+  """
+  slug: String!
 }
