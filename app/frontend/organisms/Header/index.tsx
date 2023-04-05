@@ -1,10 +1,13 @@
 import React, { useMemo } from 'react';
-import { useHeaderQuery } from '../../graphql/types';
+import { useCycle } from 'framer-motion';
 import { DateTime } from 'luxon';
-import ThemeSwitch from './ThemeSwitch';
-import { motion, useCycle } from 'framer-motion';
-import UserIcon from './UserIcon';
+
+import { useCurrentUserQuery, useHeaderQuery } from '../../graphql/types';
+
 import Overlay from './Overlay';
+import ThemeSwitch from './ThemeSwitch';
+import UserIcon from './UserIcon';
+
 import './Header.css';
 
 const dateRange = (start: DateTime, end: DateTime) => {
@@ -18,9 +21,13 @@ const dateRange = (start: DateTime, end: DateTime) => {
 const Header: React.FC = () => {
   const [open, toggleOverlay] = useCycle(false, true);
 
-  const { data } = useHeaderQuery();
+  const { data: festivalData } = useHeaderQuery();
 
-  const { festival, user } = data || {};
+  const { data: userData, loading } = useCurrentUserQuery();
+
+  const { festival } = festivalData || {};
+
+  const { user = null } = userData || {};
 
   const dates = useMemo(() => {
     if (!festival) return '';
@@ -32,13 +39,15 @@ const Header: React.FC = () => {
       <div className="header__logo">NZIF {festival?.startDate?.year}</div>
       <div className="header__dates">{dates}</div>
       <div className="header__user">
-        <button className="button" onClick={() => toggleOverlay()}>
-          <span className="button__text">{user?.name || 'Log in'}</span>
-          <UserIcon className="button__icon" />
-        </button>
+        {!loading && (
+          <button className="button" onClick={() => toggleOverlay()}>
+            <span className="button__text">{user?.name || 'Log in'}</span>
+            <UserIcon className="button__icon" />
+          </button>
+        )}
         <ThemeSwitch />
       </div>
-      <Overlay open={open} onToggle={() => toggleOverlay()} />
+      {!loading && <Overlay user={user} open={open} onToggle={() => toggleOverlay()} />}
     </header>
   );
 };

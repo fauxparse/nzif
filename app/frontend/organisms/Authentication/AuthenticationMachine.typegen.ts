@@ -3,6 +3,7 @@
 export interface Typegen0 {
   '@@xstate/typegen': true;
   internalEvents: {
+    '': { type: '' };
     'done.invoke.authentication.loggingIn:invocation[0]': {
       type: 'done.invoke.authentication.loggingIn:invocation[0]';
       data: unknown;
@@ -51,11 +52,12 @@ export interface Typegen0 {
     actions: never;
     delays: never;
     guards: never;
-    services: never;
+    services: 'logIn' | 'logOut' | 'resetPassword' | 'signUp';
   };
   eventsCausingActions: {
     clearError: 'FORGOT_CLICKED' | 'LOG_IN_CLICKED' | 'SIGN_UP_CLICKED';
     clearLoading:
+      | ''
       | 'done.invoke.authentication.loggingIn:invocation[0]'
       | 'done.invoke.authentication.loggingOut:invocation[0]'
       | 'done.invoke.authentication.resetting:invocation[0]'
@@ -75,7 +77,9 @@ export interface Typegen0 {
       | 'done.invoke.authentication.signingUp:invocation[0]';
   };
   eventsCausingDelays: {};
-  eventsCausingGuards: {};
+  eventsCausingGuards: {
+    loggedIn: '';
+  };
   eventsCausingServices: {
     logIn: 'LOG_IN';
     logOut: 'LOG_OUT';
@@ -84,6 +88,7 @@ export interface Typegen0 {
   };
   matchesStates:
     | 'forgotPassword'
+    | 'loading'
     | 'logIn'
     | 'loggedIn'
     | 'loggedOut'

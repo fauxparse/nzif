@@ -8,7 +8,7 @@ import Input from './Input';
 import { formItem, formPage } from './variants';
 
 type SignupForm = HTMLFormElement & {
-  name: HTMLInputElement;
+  fullName: HTMLInputElement;
   email: HTMLInputElement;
   password: HTMLInputElement;
 };
@@ -18,8 +18,13 @@ const Signup = forwardRef<SignupForm>((_, ref) => {
 
   const submit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { email: emailInput, password: passwordInput } = event.currentTarget;
-    machine.send({ type: 'LOG_IN', email: emailInput.value, password: passwordInput.value });
+    const { fullName: nameInput, email: emailInput, password: passwordInput } = event.currentTarget;
+    machine.send({
+      type: 'SIGN_UP',
+      name: nameInput.value,
+      email: emailInput.value,
+      password: passwordInput.value,
+    });
   };
 
   return (
@@ -35,7 +40,8 @@ const Signup = forwardRef<SignupForm>((_, ref) => {
       <motion.h2 variants={formItem}>Sign up</motion.h2>
 
       <Input
-        name="name"
+        name="fullName"
+        required
         placeholder="Full name"
         icon={
           <Icon path="M5.3163 19.4384C5.92462 18.0052 7.34492 17 9 17H15C16.6551 17 18.0754 18.0052 18.6837 19.4384M16 9.5C16 11.7091 14.2091 13.5 12 13.5C9.79086 13.5 8 11.7091 8 9.5C8 7.29086 9.79086 5.5 12 5.5C14.2091 5.5 16 7.29086 16 9.5ZM22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" />
@@ -59,7 +65,7 @@ const Signup = forwardRef<SignupForm>((_, ref) => {
         }
       />
       <motion.button type="submit" className="button" data-variant="primary" variants={formItem}>
-        <span className="button__text">Log in</span>
+        <span className="button__text">Sign up</span>
       </motion.button>
       <motion.p variants={formItem}>
         Already have an account?{' '}

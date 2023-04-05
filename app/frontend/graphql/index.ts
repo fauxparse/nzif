@@ -1,6 +1,7 @@
-import { ApolloClient, HttpLink, InMemoryCache, from } from '@apollo/client';
-import { scalarTypePolicies } from './types';
+import { ApolloClient, from, HttpLink, InMemoryCache } from '@apollo/client';
+
 import authentication from './authentication';
+import { scalarTypePolicies } from './types';
 
 const http = new HttpLink({
   uri: '/graphql',

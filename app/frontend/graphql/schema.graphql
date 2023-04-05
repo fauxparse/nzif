@@ -127,7 +127,7 @@ type Mutation {
   userConfirmRegistrationWithToken(confirmationToken: String!): UserConfirmRegistrationWithTokenPayload
   userLogin(email: String!, password: String!): UserLoginPayload
   userLogout: UserLogoutPayload
-  userRegister(confirmUrl: String, email: String!, password: String!, passwordConfirmation: String!): UserRegisterPayload
+  userRegister(confirmUrl: String, email: String!, name: String!, password: String!, passwordConfirmation: String!): UserRegisterPayload
   userResendConfirmationWithToken(confirmUrl: String!, email: String!): UserResendConfirmationWithTokenPayload
   userSendPasswordResetWithToken(email: String!, redirectUrl: String!): UserSendPasswordResetWithTokenPayload
   userUpdatePasswordWithToken(password: String!, passwordConfirmation: String!, resetPasswordToken: String!): UserUpdatePasswordWithTokenPayload

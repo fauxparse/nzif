@@ -1,23 +1,23 @@
 import { createContext } from 'react';
 import { assign, createMachine, InterpreterFrom } from 'xstate';
 
-type LogInAction = { type: 'LOG_IN'; email: string; password: string };
-type LogOutAction = { type: 'LOG_OUT' };
-type SignUpAction = { type: 'SIGN_UP'; name: string; email: string; password: string };
-type ResetPasswordAction = { type: 'RESET_PASSWORD'; email: string };
+export type LogInAction = { type: 'LOG_IN'; email: string; password: string };
+export type LogOutAction = { type: 'LOG_OUT' };
+export type SignUpAction = { type: 'SIGN_UP'; name: string; email: string; password: string };
+export type ResetPasswordAction = { type: 'RESET_PASSWORD'; email: string };
 type NavigationAction = {
   type: 'TOGGLE' | 'LOG_IN_CLICKED' | 'SIGN_UP_CLICKED' | 'FORGOT_CLICKED';
 };
 
 type Action = LogInAction | LogOutAction | SignUpAction | ResetPasswordAction | NavigationAction;
 
-type User = {
+export type User = {
   id: string;
   name: string;
-  email: string;
+  email?: string;
 };
 
-type Context = {
+export type Context = {
   user: User | null;
   error: string | null;
   loading: boolean;
@@ -45,13 +45,27 @@ const AuthenticationMachine = createMachine(
     context: {
       user: null,
       error: null,
-      loading: false,
+      loading: true,
     },
 
-    initial: 'logIn',
+    initial: 'loading',
     id: 'authentication',
 
     states: {
+      loading: {
+        always: [
+          {
+            cond: 'loggedIn',
+            target: 'loggedIn',
+            actions: 'clearLoading',
+          },
+          {
+            target: 'logIn',
+            actions: 'clearLoading',
+          },
+        ],
+      },
+
       loggedIn: {
         on: {
           LOG_OUT: {
@@ -177,13 +191,8 @@ const AuthenticationMachine = createMachine(
       setLoading: assign({ loading: true }),
       clearLoading: assign({ loading: false }),
     },
-    services: {
-      logIn: () =>
-        Promise.resolve({ user: { id: '69', name: 'Lauren Ipsum', email: 'dolor@sit.amet' } }),
-      signUp: () =>
-        Promise.resolve({ user: { id: '69', name: 'Lauren Ipsum', email: 'dolor@sit.amet' } }),
-      logOut: () => Promise.resolve(true),
-      resetPassword: () => Promise.resolve(true),
+    guards: {
+      loggedIn: (context) => !!context.user,
     },
   }
 );

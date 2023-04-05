@@ -30,17 +30,6 @@ gql`
   }
 `;
 
-gql`
-  mutation LogIn {
-    userLogin(email: "fauxparse@gmail.com", password: "thecaptainnow") {
-      authenticatable {
-        id
-        name
-      }
-    }
-  }
-`;
-
 const App: React.FC = () => {
   const { data } = useTestQueryQuery();
 
