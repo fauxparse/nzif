@@ -1,7 +1,8 @@
 import React from 'react';
 import { gql } from '@apollo/client';
+
 import { useTestQueryQuery } from './graphql/types';
-import Header from './molecules/Header';
+import Header from './organisms/Header';
 
 gql`
   query TestQuery {

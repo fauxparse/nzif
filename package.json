@@ -7,7 +7,8 @@
     "codegen": "graphql-codegen --config codegen.ts",
     "types": "bundle exec rails graphql:schema:dump && yarn codegen",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test": "vitest"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-0",
@@ -24,6 +25,8 @@
     "@storybook/react": "^7.0.2",
     "@storybook/react-vite": "^7.0.2",
     "@storybook/testing-library": "^0.0.14-next.2",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
     "@thx/graphql-typescript-scalar-type-policies": "^2.0.0",
     "@types/lodash-es": "^4.17.7",
     "@types/luxon": "^3.2.0",
@@ -33,11 +36,15 @@
     "@typescript-eslint/parser": "^5.57.0",
     "eslint": "^8.37.0",
     "eslint-config-prettier": "^8.8.0",
+    "eslint-import-resolver-typescript": "^3.5.4",
+    "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-storybook": "^0.6.11",
     "graphql-tag": "^2.0.0",
+    "jsdom": "^21.1.1",
     "postcss": "^8.4.21",
     "postcss-combine-duplicated-selectors": "^10.0.3",
     "postcss-custom-media": "^9.1.2",
@@ -47,6 +54,7 @@
     "postcss-nested": "^6.0.1",
     "prettier": "^2.8.7",
     "prop-types": "^15.8.1",
+    "resize-observer-polyfill": "^1.5.1",
     "storybook": "^7.0.2",
     "stylelint": "^15.4.0",
     "stylelint-config-hudochenkov": "^9.0.0",
@@ -56,7 +64,9 @@
     "typescript": "^5.0.3",
     "vite": "^4.2.1",
     "vite-plugin-fonts": "^0.7.0",
-    "vite-plugin-ruby": "^3.2.1"
+    "vite-plugin-ruby": "^3.2.1",
+    "vitest": "^0.29.8",
+    "vitest-axe": "^0.1.0"
   },
   "dependencies": {
     "@apollo/client": "^3.7.11",
