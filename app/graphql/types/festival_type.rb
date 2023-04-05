@@ -1,21 +1,21 @@
 module Types
-  class Festival < Types::BaseObject
+  class FestivalType < Types::BaseObject
     description 'A festival'
 
     field :id, ID, null: false, description: 'Year of the festival'
 
-    field :activities, [Types::Activity], null: false do
+    field :activities, [Types::ActivityType], null: false do
       description 'Activities (including unscheduled ones)'
-      argument :type, Types::ActivityType, required: false, description: 'Activity type'
+      argument :type, Types::ActivityTypeType, required: false, description: 'Activity type'
     end
-    field :activity, Types::Activity, null: true do
+    field :activity, Types::ActivityType, null: true do
       description 'Retrieve an activity by its type and slug'
       argument :slug, String, required: true, description: 'URL segment'
-      argument :type, Types::ActivityType, required: true, description: 'Activity type'
+      argument :type, Types::ActivityTypeType, required: true, description: 'Activity type'
     end
     field :end_date, Types::ISODate, null: false, description: 'The last day of the festival'
     field :start_date, Types::ISODate, null: false, description: 'The first day of the festival'
-    field :state, Types::FestivalState, null: false, description: 'State of the festival'
+    field :state, Types::FestivalStateType, null: false, description: 'State of the festival'
 
     def id
       object.start_date.year.to_s

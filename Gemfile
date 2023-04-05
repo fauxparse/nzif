@@ -73,3 +73,5 @@ group :development do
 
   gem 'graphiql-rails'
 end
+
+gem "graphql_devise", "~> 1.2"

@@ -48,6 +48,11 @@
     "prettier": "^2.8.7",
     "prop-types": "^15.8.1",
     "storybook": "^7.0.2",
+    "stylelint": "^15.4.0",
+    "stylelint-config-hudochenkov": "^9.0.0",
+    "stylelint-config-standard": "^32.0.0",
+    "stylelint-order": "^6.0.3",
+    "stylelint-use-nesting": "^4.1.0",
     "typescript": "^5.0.3",
     "vite": "^4.2.1",
     "vite-plugin-fonts": "^0.7.0",
@@ -55,12 +60,17 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.11",
+    "@radix-ui/colors": "^0.1.8",
     "@vitejs/plugin-react": "^3.1.0",
+    "@xstate/react": "^3.2.1",
     "clsx": "^1.2.1",
+    "framer-motion": "^10.10.0",
     "graphql": "^16.6.0",
     "lodash-es": "^4.17.21",
     "luxon": "^3.3.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "usehooks-ts": "^2.9.1",
+    "xstate": "^4.37.1"
   }
 }

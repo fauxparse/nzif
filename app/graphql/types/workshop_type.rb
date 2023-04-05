@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Types
-  class Workshop < Types::BaseObject
-    implements Types::Activity
+  class WorkshopType < Types::BaseObject
+    implements Types::ActivityType
 
     description 'A workshop'
   end

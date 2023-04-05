@@ -14,6 +14,7 @@ GraphQL/ObjectDescription:
   Exclude:
     - 'app/graphql/nzif_schema.rb'
     - 'app/graphql/sources/**/*'
+    - 'app/graphql/types/base_*'
 
 Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
@@ -27,6 +28,14 @@ Layout/FirstHashElementIndentation:
 Layout/LineLength:
   Max: 100
   AllowedPatterns: ['\A\s*#']
+
+Metrics/AbcSize:
+  Exclude:
+    - 'db/migrate/*'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/*'
 
 Style/BlockComments:
   Exclude:

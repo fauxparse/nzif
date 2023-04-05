@@ -1,0 +1,39 @@
+{
+  "extends": ["stylelint-config-standard", "stylelint-config-hudochenkov/order"],
+  "plugins": ["stylelint-use-nesting"],
+  "rules": {
+    "at-rule-no-unknown": null,
+    "block-no-empty": true,
+    "csstools/use-nesting": "always",
+    "custom-property-pattern": null,
+    "no-descending-specificity": null,
+    "selector-class-pattern": [
+      "^[-\\w]+((__|--)[-\\w]+)*$",
+      {
+        "resolveNestedSelectors": true
+      }
+    ],
+    "order/order": [
+      [
+        "dollar-variables",
+        "custom-properties",
+        "at-rules",
+        "declarations",
+        {
+          "type": "at-rule",
+          "name": "for"
+        },
+        {
+          "type": "at-rule",
+          "name": "supports"
+        },
+        {
+          "type": "at-rule",
+          "name": "media"
+        },
+        "rules"
+      ],
+      { "severity": "warning" }
+    ]
+  }
+}
