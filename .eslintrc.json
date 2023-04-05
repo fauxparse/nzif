@@ -13,13 +13,19 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react", "prettier", "react-hooks", "@typescript-eslint"],
+  "plugins": [
+    "react",
+    "prettier",
+    "react-hooks",
+    "@typescript-eslint"
+  ],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
     "prettier",
-    "prettier/prettier"
+    "prettier/prettier",
+    "plugin:storybook/recommended"
   ],
   "settings": {
     "react": {
@@ -28,7 +34,12 @@
     "import/resolver": {
       "typescript": []
     },
-    "linkComponents": [{ "name": "Link", "linkAttribute": "to" }]
+    "linkComponents": [
+      {
+        "name": "Link",
+        "linkAttribute": "to"
+      }
+    ]
   },
   "globals": {
     "process": true
