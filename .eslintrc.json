@@ -33,6 +33,7 @@
   "globals": {
     "process": true
   },
+  "ignorePatterns": ["*.typegen.ts"],
   "rules": {
     "max-len": [
       "warn",

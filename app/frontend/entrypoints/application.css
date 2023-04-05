@@ -55,6 +55,10 @@
   --large: 1.5rem;
   --huge: 2.5rem;
 
+  /* White space */
+  --max-width: 75rem;
+  --horizontal-padding: max(var(--large), calc((100vw - var(--max-width)) / 2));
+
   color-scheme: light dark;
   font-synthesis: none;
   text-rendering: optimizelegibility;
@@ -129,12 +133,20 @@ body {
   --solid-hover-accent: var(--accent10);
   --text-subtle-accent: var(--accent10);
   --text-accent: var(--accent11);
+  --contrast-accent: var(--accent1);
 
   margin: 0;
   background-color: var(--background);
   color: var(--text);
   font-family: var(--font-family-base);
+  line-height: 1.5;
   transition: all 0.5s var(--ease-3);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 *::selection {

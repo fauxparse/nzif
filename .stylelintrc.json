@@ -6,6 +6,13 @@
     "block-no-empty": true,
     "csstools/use-nesting": "always",
     "custom-property-pattern": null,
+    "no-descending-specificity": null,
+    "selector-class-pattern": [
+      "^[-\\w]+((__|--)[-\\w]+)*$",
+      {
+        "resolveNestedSelectors": true
+      }
+    ],
     "order/order": [
       [
         "dollar-variables",

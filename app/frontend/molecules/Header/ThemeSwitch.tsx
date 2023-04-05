@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDarkMode } from 'usehooks-ts';
+import './ThemeSwitch.css';
 
 const ThemeSwitch: React.FC = () => {
   const { isDarkMode, toggle } = useDarkMode();
