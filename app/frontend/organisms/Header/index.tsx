@@ -30,7 +30,14 @@ const Header: React.FC = () => {
 
   const dates = useMemo(() => {
     if (!festival) return '';
-    return `${dateRange(festival.startDate, festival.endDate)} in Te Whanganui-a-Tara`;
+    return (
+      <>
+        {dateRange(festival.startDate, festival.endDate)} in{' '}
+        <dfn>
+          <abbr title="Wellington, New Zealand">Te Whanganui-a-Tara</abbr>
+        </dfn>
+      </>
+    );
   }, [festival]);
 
   return (

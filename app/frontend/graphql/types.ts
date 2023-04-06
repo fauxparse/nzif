@@ -245,16 +245,6 @@ export type Workshop = Activity & {
   slug: Scalars['String'];
 };
 
-export type TestQueryQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type TestQueryQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, state: FestivalState, activities: Array<{ __typename: 'Show', id: string, name: string } | { __typename: 'Workshop', id: string, name: string }>, activity: { __typename: 'Show', id: string, name: string } | { __typename: 'Workshop', id: string, name: string } | null }, user: { __typename: 'User', id: string, name: string } | null };
-
-export type HeaderQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type HeaderQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime } };
-
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -289,92 +279,12 @@ export type ResetPasswordMutationVariables = Exact<{
 
 export type ResetPasswordMutation = { __typename: 'Mutation', userSendPasswordResetWithToken: { __typename: 'UserSendPasswordResetWithTokenPayload', message: string } | null };
 
+export type HeaderQueryVariables = Exact<{ [key: string]: never; }>;
 
-export const TestQueryDocument = gql`
-    query TestQuery {
-  festival(year: "2023") {
-    id
-    startDate
-    endDate
-    state
-    activities(type: workshop) {
-      id
-      name
-    }
-    activity(type: show, slug: "the-history-boy") {
-      id
-      name
-    }
-  }
-  user {
-    id
-    name
-  }
-}
-    `;
 
-/**
- * __useTestQueryQuery__
- *
- * To run a query within a React component, call `useTestQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `useTestQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useTestQueryQuery({
- *   variables: {
- *   },
- * });
- */
-export function useTestQueryQuery(baseOptions?: Apollo.QueryHookOptions<TestQueryQuery, TestQueryQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<TestQueryQuery, TestQueryQueryVariables>(TestQueryDocument, options);
-      }
-export function useTestQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TestQueryQuery, TestQueryQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<TestQueryQuery, TestQueryQueryVariables>(TestQueryDocument, options);
-        }
-export type TestQueryQueryHookResult = ReturnType<typeof useTestQueryQuery>;
-export type TestQueryLazyQueryHookResult = ReturnType<typeof useTestQueryLazyQuery>;
-export type TestQueryQueryResult = Apollo.QueryResult<TestQueryQuery, TestQueryQueryVariables>;
-export const HeaderDocument = gql`
-    query Header {
-  festival(year: "2023") {
-    id
-    startDate
-    endDate
-  }
-}
-    `;
+export type HeaderQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime } };
 
-/**
- * __useHeaderQuery__
- *
- * To run a query within a React component, call `useHeaderQuery` and pass it any options that fit your needs.
- * When your component renders, `useHeaderQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useHeaderQuery({
- *   variables: {
- *   },
- * });
- */
-export function useHeaderQuery(baseOptions?: Apollo.QueryHookOptions<HeaderQuery, HeaderQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<HeaderQuery, HeaderQueryVariables>(HeaderDocument, options);
-      }
-export function useHeaderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HeaderQuery, HeaderQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<HeaderQuery, HeaderQueryVariables>(HeaderDocument, options);
-        }
-export type HeaderQueryHookResult = ReturnType<typeof useHeaderQuery>;
-export type HeaderLazyQueryHookResult = ReturnType<typeof useHeaderLazyQuery>;
-export type HeaderQueryResult = Apollo.QueryResult<HeaderQuery, HeaderQueryVariables>;
+
 export const CurrentUserDocument = gql`
     query CurrentUser {
   user {
@@ -567,6 +477,42 @@ export function useResetPasswordMutation(baseOptions?: Apollo.MutationHookOption
 export type ResetPasswordMutationHookResult = ReturnType<typeof useResetPasswordMutation>;
 export type ResetPasswordMutationResult = Apollo.MutationResult<ResetPasswordMutation>;
 export type ResetPasswordMutationOptions = Apollo.BaseMutationOptions<ResetPasswordMutation, ResetPasswordMutationVariables>;
+export const HeaderDocument = gql`
+    query Header {
+  festival(year: "2023") {
+    id
+    startDate
+    endDate
+  }
+}
+    `;
+
+/**
+ * __useHeaderQuery__
+ *
+ * To run a query within a React component, call `useHeaderQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHeaderQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHeaderQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHeaderQuery(baseOptions?: Apollo.QueryHookOptions<HeaderQuery, HeaderQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HeaderQuery, HeaderQueryVariables>(HeaderDocument, options);
+      }
+export function useHeaderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HeaderQuery, HeaderQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HeaderQuery, HeaderQueryVariables>(HeaderDocument, options);
+        }
+export type HeaderQueryHookResult = ReturnType<typeof useHeaderQuery>;
+export type HeaderLazyQueryHookResult = ReturnType<typeof useHeaderLazyQuery>;
+export type HeaderQueryResult = Apollo.QueryResult<HeaderQuery, HeaderQueryVariables>;
 import { datePolicy } from './policies/dateTimePolicy';
 
 export const scalarTypePolicies = {

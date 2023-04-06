@@ -73,6 +73,7 @@
       position: relative;
       z-index: var(--z-index-overlay-toggle);
       color: var(--neutralA11);
+      pointer-events: all;
 
       &__text {
         display: none;
@@ -122,6 +123,7 @@
 
       .header__overlay__toggle {
         opacity: 1;
+        pointer-events: auto;
         transition-delay: 0s;
 
         &:hover {

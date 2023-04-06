@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 
 import Authentication from '../Authentication';
@@ -53,6 +53,17 @@ const Overlay: React.FC<OverlayProps> = ({ open, onToggle }) => {
   const onLogOut = () => logOut().then(close);
 
   const onResetPassword = (variables) => resetPassword(variables);
+
+  useEffect(() => {
+    const { style } = document.body;
+    if (open) {
+      style.overflow = 'hidden';
+      style.pointerEvents = 'none';
+    } else {
+      style.removeProperty('overflow');
+      style.removeProperty('pointer-events');
+    }
+  }, [open]);
 
   return (
     <motion.div
