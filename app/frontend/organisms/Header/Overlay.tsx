@@ -1,16 +1,9 @@
 import React from 'react';
-import { useApolloClient } from '@apollo/client';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 
-import { saveAuthenticationInfo } from '../../graphql/authentication';
-import {
-  useLogInMutation,
-  useLogOutMutation,
-  useResetPasswordMutation,
-  useSignUpMutation,
-} from '../../graphql/types';
 import Authentication from '../Authentication';
 import { User } from '../Authentication/AuthenticationMachine';
+import { useAuthentication } from '../Authentication/AuthenticationProvider';
 
 const overlay: Variants = {
   open: {
@@ -45,69 +38,21 @@ type OverlayProps = {
   onToggle: () => void;
 };
 
-const Overlay: React.FC<OverlayProps> = ({ user, open, onToggle }) => {
-  const client = useApolloClient();
+const Overlay: React.FC<OverlayProps> = ({ open, onToggle }) => {
+  const { user, logIn, logOut, signUp, resetPassword } = useAuthentication();
 
-  const [logIn] = useLogInMutation({
-    update: (_, { data }) => {
-      const { credentials } = data?.userLogin || {};
-      if (credentials) {
-        saveAuthenticationInfo(credentials);
-      }
-    },
-    refetchQueries: ['CurrentUser'],
-  });
+  const close = <T,>(value: T): T => {
+    onToggle();
+    return value;
+  };
 
-  const [logOut] = useLogOutMutation();
+  const onLogIn = (variables) => logIn(variables).then(close);
 
-  const [signUp] = useSignUpMutation({
-    update: (_, { data }) => {
-      const { credentials } = data?.userRegister || {};
-      if (credentials) {
-        saveAuthenticationInfo(credentials);
-      }
-    },
-    refetchQueries: ['CurrentUser'],
-  });
+  const onSignUp = (variables) => signUp(variables).then(close);
 
-  const [resetPassword] = useResetPasswordMutation();
+  const onLogOut = () => logOut().then(close);
 
-  const onLogIn = (variables) =>
-    logIn({ variables }).then(
-      ({ data }) =>
-        new Promise<{ user: User }>((resolve, reject) => {
-          const { user, credentials } = data?.userLogin || {};
-          if (user && credentials) {
-            resolve({ user });
-            onToggle();
-          } else {
-            reject();
-          }
-        })
-    );
-
-  const onSignUp = (variables) =>
-    signUp({ variables }).then(
-      ({ data }) =>
-        new Promise<{ user: User }>((resolve, reject) => {
-          const { user, credentials } = data?.userRegister || {};
-          if (user && credentials) {
-            resolve({ user });
-            onToggle();
-          } else {
-            reject();
-          }
-        })
-    );
-
-  const onLogOut = () =>
-    logOut().then(() => {
-      onToggle();
-      client.resetStore();
-      return true;
-    });
-
-  const onResetPassword = (variables) => resetPassword({ variables }).then(() => true);
+  const onResetPassword = (variables) => resetPassword(variables);
 
   return (
     <motion.div

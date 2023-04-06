@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 
-import { AuthenticationContext } from './AuthenticationMachine';
+import { AuthenticationMachineContext } from './AuthenticationMachine';
 
 const LoggedIn: React.FC = () => {
-  const { machine } = useContext(AuthenticationContext);
+  const { machine } = useContext(AuthenticationMachineContext);
 
   return (
     <div>

@@ -199,6 +199,6 @@ const AuthenticationMachine = createMachine(
 
 export default AuthenticationMachine;
 
-export const AuthenticationContext = createContext(
+export const AuthenticationMachineContext = createContext(
   {} as { machine: InterpreterFrom<typeof AuthenticationMachine> }
 );

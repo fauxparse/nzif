@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 import Icon from '../../atoms/Icon';
 
-import { AuthenticationContext } from './AuthenticationMachine';
+import { AuthenticationMachineContext } from './AuthenticationMachine';
 import Input from './Input';
 import { formItem, formPage } from './variants';
 
@@ -14,7 +14,7 @@ type SignupForm = HTMLFormElement & {
 };
 
 const Signup = forwardRef<SignupForm>((_, ref) => {
-  const { machine } = useContext(AuthenticationContext);
+  const { machine } = useContext(AuthenticationMachineContext);
 
   const submit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

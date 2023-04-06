@@ -3,7 +3,7 @@ import { useInterpret, useSelector } from '@xstate/react';
 import { AnimatePresence, motion, usePresence } from 'framer-motion';
 
 import AuthenticationMachine, {
-  AuthenticationContext,
+  AuthenticationMachineContext,
   Context,
   LogInAction,
   ResetPasswordAction,
@@ -51,7 +51,7 @@ const Authentication = forwardRef<HTMLDivElement, AuthenticationProps>(
     }, [isPresent, safeToRemove]);
 
     return (
-      <AuthenticationContext.Provider value={{ machine }}>
+      <AuthenticationMachineContext.Provider value={{ machine }}>
         <motion.div ref={ref} className="authentication">
           <AnimatePresence mode="wait">
             {isPresent && state.matches('logIn') && <Login key="logIn" />}
@@ -60,7 +60,7 @@ const Authentication = forwardRef<HTMLDivElement, AuthenticationProps>(
             {isPresent && state.matches('loggedIn') && <LoggedIn />}
           </AnimatePresence>
         </motion.div>
-      </AuthenticationContext.Provider>
+      </AuthenticationMachineContext.Provider>
     );
   }
 );

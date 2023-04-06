@@ -2,6 +2,7 @@ import React from 'react';
 import { gql } from '@apollo/client';
 
 import { useTestQueryQuery } from './graphql/types';
+import AuthenticationProvider from './organisms/Authentication/AuthenticationProvider';
 import Header from './organisms/Header';
 
 gql`
@@ -37,9 +38,11 @@ const App: React.FC = () => {
   console.log(data);
 
   return (
-    <div className="app">
-      <Header />
-    </div>
+    <AuthenticationProvider>
+      <div className="app">
+        <Header />
+      </div>
+    </AuthenticationProvider>
   );
 };
 

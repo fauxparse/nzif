@@ -2,7 +2,8 @@ import React, { useMemo } from 'react';
 import { useCycle } from 'framer-motion';
 import { DateTime } from 'luxon';
 
-import { useCurrentUserQuery, useHeaderQuery } from '../../graphql/types';
+import { useHeaderQuery } from '../../graphql/types';
+import { useAuthentication } from '../Authentication/AuthenticationProvider';
 
 import Overlay from './Overlay';
 import ThemeSwitch from './ThemeSwitch';
@@ -23,11 +24,9 @@ const Header: React.FC = () => {
 
   const { data: festivalData } = useHeaderQuery();
 
-  const { data: userData, loading } = useCurrentUserQuery();
-
   const { festival } = festivalData || {};
 
-  const { user = null } = userData || {};
+  const { user, loading } = useAuthentication();
 
   const dates = useMemo(() => {
     if (!festival) return '';
