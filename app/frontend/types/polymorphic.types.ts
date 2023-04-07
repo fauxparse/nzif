@@ -4,7 +4,7 @@ import { ComponentPropsWithoutRef, ComponentPropsWithRef, ElementType } from 're
 
 export type As<C extends ElementType> = {
   /** HTML element or React component to render as */
-  as?: C;
+  as?: C | undefined;
 };
 
 export type PolymorphicProps<C extends ElementType, Props = Record<string, never>> = Props &

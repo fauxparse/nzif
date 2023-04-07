@@ -1,0 +1,76 @@
+:where(.input) {
+  --input-font-size: var(--font-size-medium);
+  --input-line-height: var(--line-height-medium);
+  --input-border: var(--border-element);
+  --input-border-width: 1px;
+  --input-border-radius: var(--border-radius-standard);
+  --input-padding-block: var(--small);
+  --input-padding-inline: var(--spacing);
+  --input-background: var(--background-element);
+  --input-foreground: var(--text);
+  --input-read-only-background: var(--background);
+  --input-read-only-foreground: var(--text-subtle);
+  --input-placeholder: var(--text-subtle);
+  --input-hover: var(--border-hover);
+  --input-focus: var(--border-focus-accent);
+
+  width: auto;
+  padding: calc(var(--input-padding-block) - var(--input-border-width))
+    calc(var(--input-padding-inline) - var(--input-border-width));
+  border: var(--input-border-width) solid var(--input-border);
+  border-radius: var(--input-border-radius);
+  background-color: var(--input-background);
+  color: var(--input-foreground);
+  outline: 0 solid var(--focus);
+  font: inherit;
+  font-size: var(--input-font-size);
+  line-height: var(--input-line-height);
+  transition: outline-width var(--timing-standard) var(--ease-squish-5);
+
+  &:where([data-size="small"]) {
+    --input-padding-block: var(--tiny);
+    --input-padding-inline: var(--small);
+    --input-font-size: var(--font-size-small);
+    --input-line-height: var(--line-height-small);
+  }
+
+  &:where([data-size="medium"]) {
+    --input-padding-block: var(--small);
+    --input-padding-inline: var(--spacing);
+    --input-font-size: var(--font-size-medium);
+    --input-line-height: var(--line-height-medium);
+  }
+
+  &:where([data-size="large"]) {
+    --input-padding-block: var(--spacing);
+    --input-padding-inline: var(--large);
+    --input-font-size: var(--font-size-large);
+    --input-line-height: var(--line-height-large);
+    --input-border-radius: var(--border-radius-large);
+  }
+
+  &:where(:hover) {
+    border-color: var(--input-hover);
+  }
+
+  &:where(:focus) {
+    border-color: var(--input-focus);
+    outline-width: var(--focus-width);
+  }
+
+  &:where(:disabled) {
+    background-color: var(--background);
+    opacity: var(--disabled-opacity);
+  }
+
+  &:where([readonly]) {
+    background-color: var(--input-read-only-background);
+    color: var(--input-read-only-foreground);
+    outline-width: 0;
+  }
+
+  &::placeholder {
+    color: var(--input-placeholder);
+    opacity: var(--placeholder-opacity);
+  }
+}

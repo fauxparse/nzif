@@ -2,12 +2,13 @@ import React, { useMemo } from 'react';
 import { useCycle } from 'framer-motion';
 import { DateTime } from 'luxon';
 
+import Button from '../../atoms/Button';
+import Icon from '../../atoms/Icon';
 import { useHeaderQuery } from '../../graphql/types';
 import { useAuthentication } from '../Authentication/AuthenticationProvider';
 
 import Overlay from './Overlay';
 import ThemeSwitch from './ThemeSwitch';
-import UserIcon from './UserIcon';
 
 import './Header.css';
 
@@ -46,10 +47,13 @@ const Header: React.FC = () => {
       <div className="header__dates">{dates}</div>
       <div className="header__user">
         {!loading && (
-          <button className="button" onClick={() => toggleOverlay()}>
-            <span className="button__text">{user?.name || 'Log in'}</span>
-            <UserIcon className="button__icon" />
-          </button>
+          <Button
+            toolbar
+            className="user-button"
+            icon={<Icon name="user" />}
+            text={user?.name || 'Log in'}
+            onClick={() => toggleOverlay()}
+          />
         )}
         <ThemeSwitch />
       </div>

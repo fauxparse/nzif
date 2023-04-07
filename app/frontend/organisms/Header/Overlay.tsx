@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { AnimatePresence, motion, Variants } from 'framer-motion';
+import { AnimatePresence, motion, useWillChange, Variants } from 'framer-motion';
 
 import Authentication from '../Authentication';
 import { User } from '../Authentication/AuthenticationMachine';
@@ -41,6 +41,8 @@ type OverlayProps = {
 const Overlay: React.FC<OverlayProps> = ({ open, onToggle }) => {
   const { user, logIn, logOut, signUp, resetPassword } = useAuthentication();
 
+  const willChange = useWillChange();
+
   const close = <T,>(value: T): T => {
     onToggle();
     return value;
@@ -72,6 +74,7 @@ const Overlay: React.FC<OverlayProps> = ({ open, onToggle }) => {
       initial={false}
       animate={open ? 'open' : 'closed'}
       aria-expanded={open || undefined}
+      style={{ willChange }}
     >
       <AnimatePresence mode="sync">
         {open && (

@@ -22,6 +22,7 @@ const user: User = {
 
 export const Primary: Story = {
   args: {
+    user: null,
     onLogIn: () => Promise.resolve({ user }),
     onSignUp: () => Promise.resolve({ user }),
     onLogOut: () => Promise.resolve(true),

@@ -1,0 +1,106 @@
+@import url('@radix-ui/colors/slate.css');
+@import url('@radix-ui/colors/slateDark.css');
+@import url('@radix-ui/colors/slateA.css');
+@import url('@radix-ui/colors/slateDarkA.css');
+@import url('@radix-ui/colors/crimson.css');
+@import url('@radix-ui/colors/crimsonDark.css');
+@import url('@radix-ui/colors/crimsonA.css');
+@import url('@radix-ui/colors/crimsonDarkA.css');
+@import url('@radix-ui/colors/orange.css');
+@import url('@radix-ui/colors/orangeDark.css');
+
+:where(body) {
+  /* Neutral colors */
+  --neutral1: var(--slate1);
+  --neutral2: var(--slate2);
+  --neutral3: var(--slate3);
+  --neutral4: var(--slate4);
+  --neutral5: var(--slate5);
+  --neutral6: var(--slate6);
+  --neutral7: var(--slate7);
+  --neutral8: var(--slate8);
+  --neutral9: var(--slate9);
+  --neutral10: var(--slate10);
+  --neutral11: var(--slate11);
+  --neutral12: var(--slate12);
+  --neutralA1: var(--slateA1);
+  --neutralA2: var(--slateA2);
+  --neutralA3: var(--slateA3);
+  --neutralA4: var(--slateA4);
+  --neutralA5: var(--slateA5);
+  --neutralA6: var(--slateA6);
+  --neutralA7: var(--slateA7);
+  --neutralA8: var(--slateA8);
+  --neutralA9: var(--slateA9);
+  --neutralA10: var(--slateA10);
+  --neutralA11: var(--slateA11);
+  --neutralA12: var(--slateA12);
+
+  /* Accent colors */
+  --accent1: var(--crimson1);
+  --accent2: var(--crimson2);
+  --accent3: var(--crimson3);
+  --accent4: var(--crimson4);
+  --accent5: var(--crimson5);
+  --accent6: var(--crimson6);
+  --accent7: var(--crimson7);
+  --accent8: var(--crimson8);
+  --accent9: var(--crimson9);
+  --accent10: var(--crimson10);
+  --accent11: var(--crimson11);
+  --accent12: var(--crimson12);
+  --accentA1: var(--crimsonA1);
+  --accentA2: var(--crimsonA2);
+  --accentA3: var(--crimsonA3);
+  --accentA4: var(--crimsonA4);
+  --accentA5: var(--crimsonA5);
+  --accentA6: var(--crimsonA6);
+  --accentA7: var(--crimsonA7);
+  --accentA8: var(--crimsonA8);
+  --accentA9: var(--crimsonA9);
+  --accentA10: var(--crimsonA10);
+  --accentA11: var(--crimsonA11);
+  --accentA12: var(--crimsonA12);
+
+  /* Color aliases */
+  --background: var(--neutral1);
+  --background-subtle: var(--neutral2);
+  --background-element: var(--neutral3);
+  --background-hover: var(--neutral4);
+  --background-active: var(--neutral5);
+  --border-subtle: var(--neutral6);
+  --border-element: var(--neutral7);
+  --border-hover: var(--neutral8);
+  --solid: var(--neutral9);
+  --solid-hover: var(--neutral10);
+  --text-subtle: var(--neutral11);
+  --text: var(--neutral12);
+  --background-accent: var(--accent1);
+  --background-subtle-accent: var(--accent2);
+  --background-element-accent: var(--accent3);
+  --background-hover-accent: var(--accent4);
+  --background-active-accent: var(--accent5);
+  --border-subtle-accent: var(--accent6);
+  --border-element-accent: var(--accent7);
+  --border-hover-accent: var(--accent8);
+  --border-focus-accent: var(--accent9);
+  --solid-accent: var(--accent9);
+  --solid-hover-accent: var(--accent10);
+  --text-subtle-accent: var(--accent10);
+  --text-accent: var(--accent11);
+  --contrast-accent: var(--accent1);
+  --white: var(--accent1);
+  --focus: var(--accentA7);
+
+  /* Misc */
+  --disabled-opacity: 0.6;
+  --placeholder-opacity: 0.75;
+}
+
+:where([data-theme="dark"]) {
+  --white: var(--neutral12);
+}
+
+*::selection {
+  background-color: var(--accent4);
+}

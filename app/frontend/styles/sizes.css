@@ -1,0 +1,19 @@
+:where(:root) {
+  --tiny: 0.25rem;
+  --small: 0.5rem;
+  --spacing: 1rem;
+  --large: 1.5rem;
+  --huge: 2.5rem;
+  --icon-size: 1.5rem;
+  --border-radius-standard: 0.25rem;
+  --border-radius-large: 0.5rem;
+  --button-size-small: 2rem;
+  --button-size-medium: 2.5rem;
+  --button-size-large: 3.5rem;
+  --focus-width: 0.25rem;
+  --border-width-standard: 1px;
+
+  /* White space */
+  --max-width: 75rem;
+  --horizontal-padding: max(var(--large), calc((100vw - var(--max-width)) / 2));
+}

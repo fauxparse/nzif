@@ -1,0 +1,122 @@
+.input-group {
+  --addon-padding-block: var(--small);
+  --addon-padding-inline: var(--spacing);
+  --addon-font-size: var(--font-size-medium);
+  --addon-line-height: var(--line-height-medium);
+  --addon-border-width: var(--border-width-standard);
+  --addon-border-radius: var(--border-radius-standard);
+  --input-group-padding-start: calc(
+    (
+      (var(--icon-size) + var(--addon-padding-block)) * var(--input-group-start-icons) +
+      var(--addon-padding-block)
+    ) * min(1, var(--input-group-start-icons))
+  );
+  --input-group-padding-end: calc(
+    (
+      (var(--icon-size) + var(--addon-padding-block)) * var(--input-group-end-icons) +
+      var(--addon-padding-block)
+    ) * min(1, var(--input-group-end-icons))
+  );
+
+  display: flex;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  &:where([data-size="small"]) {
+    --addon-padding-block: var(--tiny);
+    --addon-padding-inline: var(--small);
+    --addon-font-size: var(--font-size-small);
+    --addon-line-height: var(--line-height-small);
+  }
+
+  &:where([data-size="medium"]) {
+    --addon-padding-block: var(--small);
+    --addon-padding-inline: var(--spacing);
+    --addon-font-size: var(--font-size-medium);
+    --addon-line-height: var(--line-height-medium);
+  }
+
+  &:where([data-size="large"]) {
+    --addon-padding-block: var(--spacing);
+    --addon-padding-inline: var(--spacing-large);
+    --addon-font-size: var(--font-size-large);
+    --addon-line-height: var(--line-height-large);
+    --addon-border-width: var(--border-radius-large);
+    --addon-border-radius: var(--border-radius-large);
+  }
+
+  &__add-on {
+    width: auto;
+    padding: calc(var(--addon-padding-block) - var(--addon-border-width))
+      calc(var(--addon-padding-inline) - var(--addon-border-width));
+    border: var(--addon-border-width) solid var(--border-element);
+    border-radius: var(--addon-border-radius);
+    background-color: var(--background-subtle);
+    outline: 0 solid var(--focus);
+    font-size: var(--addon-font-size);
+    line-height: var(--addon-line-height);
+  }
+
+  :where(.input-group > *) {
+    position: relative;
+  }
+
+  :where(.input-group > .input) {
+    flex: 1;
+  }
+
+  :where(.input-group > :not(:first-child)) {
+    margin-left: calc(var(--addon-border-width) * -1);
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+  }
+
+  :where(.input-group > :not(:last-child)) {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+
+  :where(:not(.input-group__add-on)):where(:focus, :hover) {
+    z-index: 1;
+  }
+
+  :where(.button) {
+    --button-border-color: var(--input-border);
+  }
+
+  :where(.input-group > .icon) {
+    position: relative;
+    z-index: 2;
+    margin: var(--addon-padding-block);
+    color: var(--text-subtle);
+    pointer-events: none;
+
+    + :where(.icon) {
+      margin-inline-start: 0;
+    }
+
+    ~ :where(.input) {
+      border-start-start-radius: var(--input-border-radius);
+      border-end-start-radius: var(--input-border-radius);
+      margin-inline-start: calc(var(--input-group-padding-start) * -1);
+      padding-inline-start: calc(var(--input-group-padding-start) - var(--input-border-width));
+    }
+  }
+
+  :where(.input-group > .input:not(:last-child)) {
+    --border-end-radius: calc(min(1, var(--input-group-end-icons)) * var(--input-border-radius));
+
+    padding-inline-end: calc(var(--input-group-padding-end) - var(--input-border-width));
+    margin-inline-end: calc(var(--input-group-padding-end) * -1);
+    border-start-end-radius: var(--border-end-radius);
+    border-end-end-radius: var(--border-end-radius);
+
+    ~ :where(.icon) {
+      + :where(.icon) {
+        margin-inline-start: 0;
+      }
+    }
+  }
+}

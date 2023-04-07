@@ -1,0 +1,132 @@
+:root,
+:where([data-theme]) {
+  --button-background: transparent;
+  --button-text: var(--text);
+  --button-border-color: var(--text);
+  --button-border-width: 1px;
+  --button-border-radius: var(--border-radius-standard);
+  --button-hover-background: var(--neutral4);
+  --button-hover-text: var(--button-text);
+  --button-active-background: var(--neutral5);
+  --button-size: var(--button-size-medium);
+  --button-font-size: 1rem;
+  --button-line-height: 1.5rem;
+  --button-padding-inline: calc(var(--spacing) - var(--button-border-width));
+  --button-inline-text: var(--accent11);
+  --button-inline-hover: var(--accentA4);
+}
+
+:where(.button) {
+  --button-padding-block: calc(
+    (var(--button-size) - var(--button-line-height)) / 2 - var(--button-border-width)
+  );
+  --button-outline-width: 0;
+
+  display: flex;
+  align-items: center;
+  width: max-content;
+  padding: var(--button-padding-block);
+  border: var(--button-border-width) solid var(--button-border-color);
+  border-radius: var(--button-border-radius);
+  background: var(--button-background);
+  color: var(--button-text);
+  box-shadow: none;
+
+  /* outline: var(--button-outline-width) solid var(--focus); */
+  outline-offset: 0;
+  font: inherit;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--button-font-size);
+  line-height: var(--button-line-height);
+  text-decoration: none;
+  cursor: pointer;
+  transition: outline-width var(--timing-slow) var(--ease-squish-5);
+  appearance: none;
+
+  :where(.button__text) {
+    flex: 1;
+    padding-inline: calc(var(--button-padding-inline) - var(--button-padding-block));
+    text-align: center;
+  }
+
+  &:where([data-stretch]) {
+    width: unset;
+  }
+
+  &:where(:hover:not(:disabled, [aria-disabled])) {
+    background: var(--button-hover-background);
+    color: var(--button-hover-text);
+  }
+
+  &:where(:focus-visible) {
+    --button-outline-width: var(--focus-width);
+  }
+
+  &:where(:active) {
+    background: var(--button-active-background);
+  }
+
+  &:where([data-size="small"]) {
+    --button-size: var(--button-size-small);
+    --button-font-size: var(--font-size-small);
+    --button-line-height: var(--line-height-medium);
+    --button-padding-inline: calc(var(--small) - var(--button-border-width));
+  }
+
+  &:where([data-size="medium"]) {
+    --button-size: var(--button-size-medium);
+    --button-font-size: 1rem;
+    --button-line-height: 1.5rem;
+    --button-padding-inline: calc(var(--spacing) - var(--button-border-width));
+  }
+
+  &:where([data-size="large"]) {
+    --button-size: var(--button-size-large);
+    --button-font-size: var(--font-size-large);
+    --button-line-height: var(--line-height-large);
+    --button-padding-inline: calc(var(--large) - var(--button-border-width));
+    --button-border-width: 2px;
+    --button-border-radius: var(--border-radius-large);
+    --icon-size: var(--line-height-large);
+  }
+
+  &:where([data-variant="primary"]) {
+    --button-background: var(--solid-accent);
+    --button-text: var(--contrast-accent);
+    --button-border-width: 0px;
+    --button-hover-background: var(--solid-hover-accent);
+    --button-active-background: var(--accent11);
+  }
+
+  &:where([data-variant="toolbar"]) {
+    --button-border-width: 0px;
+  }
+
+  &:where([data-variant="inline"]) {
+    --button-border-width: 0px;
+    --button-text: var(--button-inline-text);
+    --button-hover-background: var(--button-inline-hover);
+    --button-active-background: var(--button-inline-hover);
+    --button-hover-text: var(--button-inline-text);
+    --button-border-radius: var(--button-line-height);
+
+    display: inline-flex;
+    vertical-align: baseline;
+    margin: 0 calc(var(--button-padding-block) * -1);
+    padding: 0 var(--button-padding-block);
+    font-weight: var(--font-weight-normal);
+
+    .button__text {
+      padding: 0;
+    }
+  }
+
+  &:where(:disabled, [aria-disabled]) {
+    opacity: var(--disabled-opacity);
+    cursor: not-allowed;
+  }
+
+  &:where(:has(.icon:only-child)) {
+    border-radius: 50%;
+  }
+}

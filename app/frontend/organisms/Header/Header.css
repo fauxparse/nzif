@@ -11,38 +11,18 @@
   padding-inline: var(--horizontal-padding);
   padding-block: var(--large);
   border-bottom: 1px solid var(--border-subtle);
-  transition: border-color 0.5s var(--ease-3);
 
   @media screen and (width > 1024px) {
     grid-template: "logo dates user" auto;
     grid-template-columns: 1fr auto 1fr;
   }
 
-  .button {
-    display: flex;
-    gap: var(--small);
-    align-items: center;
-    padding: var(--small);
-    border: 0;
+  .user-button {
+    flex-direction: row-reverse;
     border-radius: var(--huge);
-    background-color: transparent;
-    color: var(--text-subtle);
-    font: inherit;
-    cursor: pointer;
 
-    &__text {
-      flex: 1;
-      padding: 0 var(--small);
-      text-align: center;
-    }
-
-    &:hover {
-      background-color: var(--background-hover);
-      color: var(--text);
-    }
-
-    svg {
-      stroke: currentcolor;
+    .button__text {
+      font-weight: var(--font-weight-normal);
     }
   }
 

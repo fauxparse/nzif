@@ -6,8 +6,8 @@
   "scripts": {
     "codegen": "graphql-codegen --config codegen.ts",
     "types": "bundle exec rails graphql:schema:dump && yarn codegen",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
+    "storybook": "STORYBOOK=1 storybook dev -p 6006",
+    "build-storybook": "STORYBOOK=1 storybook build",
     "test": "vitest"
   },
   "devDependencies": {
@@ -80,6 +80,7 @@
     "luxon": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-merge-refs": "^2.0.1",
     "usehooks-ts": "^2.9.1",
     "xstate": "^4.37.1"
   }

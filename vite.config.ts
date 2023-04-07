@@ -5,14 +5,14 @@ import { configDefaults, defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [
-    ruby(),
+    ...(process.env.STORYBOOK ? [] : [ruby()]),
     react(),
     fonts({
       google: {
         families: [
           {
             name: 'Archivo',
-            styles: 'wght,wdth@400,100;500,100;600,100;700,100;700,125',
+            styles: 'wght,wdth@400,100;500,100;500,125;600,100;700,100;700,125',
           },
         ],
       },
