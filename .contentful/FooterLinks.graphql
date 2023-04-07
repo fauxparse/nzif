@@ -1,0 +1,21 @@
+query FooterLinks {
+  footerCollection(limit: 1) {
+    items {
+      linksCollection {
+        items {
+          sys {
+            id
+          }
+
+          ... on Page {
+            slug
+            title
+            body {
+              json
+            }
+          }
+        }
+      }
+    }
+  }
+}

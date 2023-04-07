@@ -1,37 +1,10 @@
 import { useEffect, useState } from 'react';
-import { gql } from '@apollo/client';
 
 import {
   PreferenceValue,
   useGetPreferenceQuery,
   useUpdatePreferenceMutation,
 } from '../graphql/types';
-
-gql`
-  query GetPreference($id: String!) {
-    preference(id: $id) {
-      id
-      ...PreferenceValueFragment
-    }
-  }
-
-  mutation UpdatePreference($id: String!, $value: PreferenceValue!) {
-    updatePreference(id: $id, value: $value) {
-      id
-      ...PreferenceValueFragment
-    }
-  }
-
-  fragment PreferenceValueFragment on Preference {
-    ... on StringPreference {
-      valueAsString: value
-    }
-
-    ... on BooleanPreference {
-      valueAsBoolean: value
-    }
-  }
-`;
 
 const usePreference = <T extends boolean | string>(
   id: string,

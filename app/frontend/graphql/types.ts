@@ -372,15 +372,10 @@ export const GetPreferenceDocument = gql`
     query GetPreference($id: String!) {
   preference(id: $id) {
     id
-    ... on StringPreference {
-      valueAsString: value
-    }
-    ... on BooleanPreference {
-      valueAsBoolean: value
-    }
+    ...PreferenceValueFragment
   }
 }
-    `;
+    ${PreferenceValueFragmentFragmentDoc}`;
 
 /**
  * __useGetPreferenceQuery__
@@ -413,15 +408,10 @@ export const UpdatePreferenceDocument = gql`
     mutation UpdatePreference($id: String!, $value: PreferenceValue!) {
   updatePreference(id: $id, value: $value) {
     id
-    ... on StringPreference {
-      valueAsString: value
-    }
-    ... on BooleanPreference {
-      valueAsBoolean: value
-    }
+    ...PreferenceValueFragment
   }
 }
-    `;
+    ${PreferenceValueFragmentFragmentDoc}`;
 export type UpdatePreferenceMutationFn = Apollo.MutationFunction<UpdatePreferenceMutation, UpdatePreferenceMutationVariables>;
 
 /**

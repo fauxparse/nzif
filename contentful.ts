@@ -2,10 +2,10 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: 'app/frontend/graphql/schema.graphql',
-  documents: ['app/frontend/**/*.graphql'],
+  schema: 'app/frontend/contentful/contentful.graphql',
+  documents: ['.contentful/*.graphql'],
   generates: {
-    'app/frontend/graphql/types.ts': {
+    'app/frontend/contentful/types.ts': {
       plugins: [
         {
           add: {
@@ -23,12 +23,15 @@ const config: CodegenConfig = {
         emitLegacyCommonJSImports: false,
         strictScalars: true,
         scalars: {
-          ISO8601DateTime: 'luxon#DateTime',
-          ISODate: 'luxon#DateTime',
+          DateTime: 'luxon#DateTime',
+          Dimension: 'number',
+          HexColor: 'string',
+          Quality: 'number',
+          JSON: '@contentful/rich-text-types#Document',
         },
         scalarTypePolicies: {
-          ISO8601DateTime: './policies/dateTimePolicy#dateTimePolicy',
-          ISODate: './policies/dateTimePolicy#datePolicy',
+          DateTime: '../graphql/policies/dateTimePolicy#dateTimePolicy',
+          Document: './policies/richTextPolicy#richTextPolicy',
         },
       },
     },

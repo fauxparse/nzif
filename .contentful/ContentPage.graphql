@@ -1,0 +1,11 @@
+query ContentPage($slug: String!) {
+  pageCollection(where: { slug: $slug }, limit: 1) {
+    items {
+      slug
+      title
+      body {
+        json
+      }
+    }
+  }
+}
