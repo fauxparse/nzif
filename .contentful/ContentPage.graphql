@@ -3,6 +3,9 @@ query ContentPage($slug: String!) {
     items {
       slug
       title
+      lede {
+        json
+      }
       body {
         json
       }

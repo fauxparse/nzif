@@ -15,5 +15,10 @@
 
   /* White space */
   --max-width: 75rem;
-  --horizontal-padding: max(var(--large), calc((100vw - var(--max-width)) / 2));
+  --min-horizontal-padding: var(--large);
+  --horizontal-padding: max(var(--min-horizontal-padding), calc((100vw - var(--max-width)) / 2));
+
+  @media (width > 768px) {
+    --min-horizontal-padding: var(--huge);
+  }
 }

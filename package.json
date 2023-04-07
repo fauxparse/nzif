@@ -86,6 +86,7 @@
     "lodash-es": "^4.17.21",
     "luxon": "^3.3.0",
     "react": "^18.2.0",
+    "react-balanced": "^0.0.1",
     "react-dom": "^18.2.0",
     "react-merge-refs": "^2.0.1",
     "react-router-dom": "^6.10.0",

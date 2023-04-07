@@ -343,7 +343,7 @@ export type FooterLinkingCollectionsEntryCollectionArgs = {
 
 export type FooterLinksCollection = {
   __typename: 'FooterLinksCollection';
-  items: Array<Maybe<Entry>>;
+  items: Array<Maybe<Page>>;
   limit: Scalars['Int'];
   skip: Scalars['Int'];
   total: Scalars['Int'];
@@ -462,6 +462,7 @@ export type Page = Entry & {
   __typename: 'Page';
   body: Maybe<PageBody>;
   contentfulMetadata: ContentfulMetadata;
+  lede: Maybe<PageLede>;
   linkedFrom: Maybe<PageLinkingCollections>;
   slug: Maybe<Scalars['String']>;
   sys: Sys;
@@ -471,6 +472,12 @@ export type Page = Entry & {
 
 /** A page of content [See type definition](https://app.contentful.com/spaces/4hh9rxfdoza6/content_types/page) */
 export type PageBodyArgs = {
+  locale: InputMaybe<Scalars['String']>;
+};
+
+
+/** A page of content [See type definition](https://app.contentful.com/spaces/4hh9rxfdoza6/content_types/page) */
+export type PageLedeArgs = {
   locale: InputMaybe<Scalars['String']>;
 };
 
@@ -532,6 +539,9 @@ export type PageFilter = {
   body_exists: InputMaybe<Scalars['Boolean']>;
   body_not_contains: InputMaybe<Scalars['String']>;
   contentfulMetadata: InputMaybe<ContentfulMetadataFilter>;
+  lede_contains: InputMaybe<Scalars['String']>;
+  lede_exists: InputMaybe<Scalars['Boolean']>;
+  lede_not_contains: InputMaybe<Scalars['String']>;
   slug: InputMaybe<Scalars['String']>;
   slug_contains: InputMaybe<Scalars['String']>;
   slug_exists: InputMaybe<Scalars['Boolean']>;
@@ -549,13 +559,47 @@ export type PageFilter = {
   title_not_in: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+export type PageLede = {
+  __typename: 'PageLede';
+  json: Scalars['JSON'];
+  links: PageLedeLinks;
+};
+
+export type PageLedeAssets = {
+  __typename: 'PageLedeAssets';
+  block: Array<Maybe<Asset>>;
+  hyperlink: Array<Maybe<Asset>>;
+};
+
+export type PageLedeEntries = {
+  __typename: 'PageLedeEntries';
+  block: Array<Maybe<Entry>>;
+  hyperlink: Array<Maybe<Entry>>;
+  inline: Array<Maybe<Entry>>;
+};
+
+export type PageLedeLinks = {
+  __typename: 'PageLedeLinks';
+  assets: PageLedeAssets;
+  entries: PageLedeEntries;
+};
+
 export type PageLinkingCollections = {
   __typename: 'PageLinkingCollections';
   entryCollection: Maybe<EntryCollection>;
+  footerCollection: Maybe<FooterCollection>;
 };
 
 
 export type PageLinkingCollectionsEntryCollectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  locale: InputMaybe<Scalars['String']>;
+  preview: InputMaybe<Scalars['Boolean']>;
+  skip?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type PageLinkingCollectionsFooterCollectionArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   locale: InputMaybe<Scalars['String']>;
   preview: InputMaybe<Scalars['Boolean']>;
@@ -701,12 +745,12 @@ export type ContentPageQueryVariables = Exact<{
 }>;
 
 
-export type ContentPageQuery = { __typename: 'Query', pageCollection: { __typename: 'PageCollection', items: Array<{ __typename: 'Page', slug: string | null, title: string | null, body: { __typename: 'PageBody', json: Document } | null } | null> } | null };
+export type ContentPageQuery = { __typename: 'Query', pageCollection: { __typename: 'PageCollection', items: Array<{ __typename: 'Page', slug: string | null, title: string | null, lede: { __typename: 'PageLede', json: Document } | null, body: { __typename: 'PageBody', json: Document } | null } | null> } | null };
 
 export type FooterLinksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FooterLinksQuery = { __typename: 'Query', footerCollection: { __typename: 'FooterCollection', items: Array<{ __typename: 'Footer', linksCollection: { __typename: 'FooterLinksCollection', items: Array<{ __typename: 'Footer', sys: { __typename: 'Sys', id: string } } | { __typename: 'Page', slug: string | null, title: string | null, body: { __typename: 'PageBody', json: Document } | null, sys: { __typename: 'Sys', id: string } } | null> } | null } | null> } | null };
+export type FooterLinksQuery = { __typename: 'Query', footerCollection: { __typename: 'FooterCollection', items: Array<{ __typename: 'Footer', linksCollection: { __typename: 'FooterLinksCollection', items: Array<{ __typename: 'Page', slug: string | null, title: string | null, body: { __typename: 'PageBody', json: Document } | null, sys: { __typename: 'Sys', id: string } } | null> } | null } | null> } | null };
 
 
 export const ContentPageDocument = gql`
@@ -715,6 +759,9 @@ export const ContentPageDocument = gql`
     items {
       slug
       title
+      lede {
+        json
+      }
       body {
         json
       }

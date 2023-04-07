@@ -23,15 +23,26 @@
   color: var(--text);
 }
 
+:where([data-theme="light"]) {
+  color-scheme: light;
+}
+
+:where([data-theme="dark"]) {
+  color-scheme: dark;
+}
+
+:where(main > * > section) {
+  padding-inline: var(--horizontal-padding);
+}
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 .app {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
   min-height: 100vh;
   min-height: 100dvh;
   min-height: 100svh;
