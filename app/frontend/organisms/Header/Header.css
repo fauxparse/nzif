@@ -16,7 +16,6 @@
   }
 
   .user-button {
-    flex-direction: row-reverse;
     border-radius: var(--huge);
 
     .button__text {
@@ -38,6 +37,11 @@
     color: var(--accent11);
     font-size: 1.5rem;
     font-variation-settings: "wdth" 125, 'wght' 900;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
   }
 
   &__user {

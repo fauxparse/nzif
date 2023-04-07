@@ -12,6 +12,7 @@ import { useAuthentication } from '../Authentication/AuthenticationProvider';
 import Overlay from './Overlay';
 
 import './Header.css';
+import { Link } from 'react-router-dom';
 
 const dateRange = (start: DateTime, end: DateTime) => {
   if (start.hasSame(end, 'month')) {
@@ -42,9 +43,12 @@ const Header: React.FC = () => {
 
   return (
     <header className="header">
-      <div className="header__logo">NZIF {festival?.startDate?.year}</div>
+      <div className="header__logo">
+        <Link to="/">NZIF {festival?.startDate?.year}</Link>
+      </div>
       <div className="header__dates">{dates}</div>
       <div className="header__user">
+        <ThemeSwitcher />
         {!loading && (
           <Button
             toolbar
@@ -54,7 +58,6 @@ const Header: React.FC = () => {
             onClick={() => toggleOverlay()}
           />
         )}
-        <ThemeSwitcher />
       </div>
       {!loading && <Overlay user={user} open={open} onToggle={() => toggleOverlay()} />}
     </header>
