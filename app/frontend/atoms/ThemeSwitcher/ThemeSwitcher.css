@@ -1,6 +1,6 @@
 @custom-media --motion-ok (prefers-reduced-motion: no-preference);
 
-.theme-switch {
+.theme-switcher {
   --transition-duration: .5s;
 
   display: flex;
@@ -70,7 +70,6 @@
       }
     }
 
-    /* stylelint-disable-next-line no-descending-specificity */
     .sun-beams {
       opacity: 0;
     }

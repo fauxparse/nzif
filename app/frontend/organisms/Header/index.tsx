@@ -5,11 +5,11 @@ import { DateTime } from 'luxon';
 import Button from '../../atoms/Button';
 import Icon from '../../atoms/Icon';
 import Placename from '../../atoms/Placename/Placename';
+import ThemeSwitcher from '../../atoms/ThemeSwitcher';
 import { useHeaderQuery } from '../../graphql/types';
 import { useAuthentication } from '../Authentication/AuthenticationProvider';
 
 import Overlay from './Overlay';
-import ThemeSwitch from './ThemeSwitch';
 
 import './Header.css';
 
@@ -54,7 +54,7 @@ const Header: React.FC = () => {
             onClick={() => toggleOverlay()}
           />
         )}
-        <ThemeSwitch />
+        <ThemeSwitcher />
       </div>
       {!loading && <Overlay user={user} open={open} onToggle={() => toggleOverlay()} />}
     </header>
