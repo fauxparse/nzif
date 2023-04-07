@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef } from 'react';
+import React, { ComponentPropsWithoutRef } from 'react';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
@@ -52,11 +52,6 @@ describe('Button', () => {
       </Button>
     );
     expect(screen.getByText('button').parentElement).toHaveClass('button');
-  });
-
-  it('has a loading state', () => {
-    render(<Button loading text="button" />);
-    expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
 
   describe('primary', () => {

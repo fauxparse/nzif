@@ -1,0 +1,24 @@
+.placename {
+  display: inline-flex;
+  vertical-align: baseline;
+  gap: var(--tiny);
+  align-items: baseline;
+  padding: 0 var(--small) 0 var(--tiny);
+  border-radius: var(--line-height-medium);
+  background: var(--background-element-accent);
+  color: var(--text-accent);
+  line-height: var(--line-height-medium);
+  cursor: help;
+
+  &__icon {
+    --icon-size: 1rem;
+
+    align-self: center;
+
+    path {
+      fill: currentcolor;
+      stroke: none;
+      fill-rule: evenodd;
+    }
+  }
+}

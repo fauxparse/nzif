@@ -4,6 +4,7 @@ import { DateTime } from 'luxon';
 
 import Button from '../../atoms/Button';
 import Icon from '../../atoms/Icon';
+import Placename from '../../atoms/Placename/Placename';
 import { useHeaderQuery } from '../../graphql/types';
 import { useAuthentication } from '../Authentication/AuthenticationProvider';
 
@@ -34,9 +35,7 @@ const Header: React.FC = () => {
     return (
       <>
         {dateRange(festival.startDate, festival.endDate)} in{' '}
-        <dfn>
-          <abbr title="Wellington, New Zealand">Te Whanganui-a-Tara</abbr>
-        </dfn>
+        <Placename name="Wellington" indigenousName="Te Whanganui-a-Tara" />
       </>
     );
   }, [festival]);

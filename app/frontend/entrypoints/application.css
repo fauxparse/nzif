@@ -2,6 +2,7 @@
 @import url('../styles/sizes.css');
 @import url('../styles/transitions.css');
 @import url('../styles/typography.css');
+@import url('../styles/shadows.css');
 
 :root {
   /* Stacking */

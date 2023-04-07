@@ -1,0 +1,59 @@
+:root,
+:where([data-theme]) {
+  --tooltip-background: var(--amber3);
+  --tooltip-foreground: var(--amber11);
+}
+
+:where(.tooltip) {
+  --arrow-rotation: 45deg;
+  --arrow-size: var(--small);
+  --max-tooltip-width: 15rem;
+
+  max-width: var(--max-tooltip-width);
+  padding: var(--tiny) var(--small);
+  border-radius: var(--border-radius-standard);
+  background: var(--tooltip-background);
+  color: var(--tooltip-foreground);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  text-align: center;
+  filter: drop-shadow(0 -1px 3px hsl(var(--shadow-hsl) / 3%))
+    drop-shadow(0 1px 2px hsl(var(--shadow-hsl) / 3%))
+    drop-shadow(0 2px 5px hsl(var(--shadow-hsl) / 5%))
+    drop-shadow(0 4px 12px hsl(var(--shadow-hsl) / 6%))
+    drop-shadow(0 12px 15px hsl(var(--shadow-hsl) / 7%));
+  transform-origin: 50% 100%;
+
+  &:where([data-placement^="top"]) {
+    --arrow-rotation: 45deg;
+
+    transform-origin: 50% calc(100% + var(--spacing-small));
+  }
+
+  &:where([data-placement^="bottom"]) {
+    --arrow-rotation: 225deg;
+
+    transform-origin: 50% calc(var(--spacing-small) * -1);
+  }
+
+  &:where([data-placement^="left"]) {
+    --arrow-rotation: -45deg;
+
+    transform-origin: calc(100% + var(--spacing-small)) 50%;
+  }
+
+  &:where([data-placement^="right"]) {
+    --arrow-rotation: 135deg;
+
+    transform-origin: calc(var(--spacing-small) * -1) 50%;
+  }
+}
+
+:where(.tooltip__arrow) {
+  position: absolute;
+  width: var(--arrow-size);
+  height: var(--arrow-size);
+  border-bottom-right-radius: calc(var(--arrow-size) / 4);
+  background: inherit;
+  transform: rotate(var(--arrow-rotation));
+}
