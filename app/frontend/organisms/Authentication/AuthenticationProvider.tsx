@@ -43,8 +43,8 @@ const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }) => {
       if (credentials) {
         saveAuthenticationInfo(credentials);
       }
+      client.resetStore();
     },
-    refetchQueries: ['CurrentUser'],
   });
 
   const [doLogOut] = useLogOutMutation();

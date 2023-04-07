@@ -42,10 +42,15 @@ gem 'bootsnap', require: false
 gem 'vite_rails', '~> 3.0'
 
 gem 'graphql', '~> 2.0'
+gem 'graphql_devise', '~> 1.2'
 
 gem 'auto_strip_attributes', '~> 2.6'
 gem 'hashid-rails', '~> 1.4'
 gem 'stringex', '~> 2.8'
+
+gem 'hashie', '~> 5.0'
+
+gem 'interactor-rails', github: 'fauxparse/interactor-rails'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -73,5 +78,3 @@ group :development do
 
   gem 'graphiql-rails'
 end
-
-gem "graphql_devise", "~> 1.2"

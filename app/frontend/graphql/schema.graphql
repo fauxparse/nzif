@@ -33,6 +33,26 @@ enum ActivityType {
   workshop
 }
 
+"""
+A boolean user preference
+"""
+type BooleanPreference implements Preference {
+  """
+  Preference description
+  """
+  description: String!
+
+  """
+  Preference ID
+  """
+  id: String!
+
+  """
+  Preference value
+  """
+  value: Boolean!
+}
+
 type Credential {
   accessToken: String!
   client: String!
@@ -121,9 +141,19 @@ Top-level mutation interface
 """
 type Mutation {
   """
-  An example field added by the generator
+  Updates a user’s preference
   """
-  testField: String!
+  updatePreference(
+    """
+    The ID of the preference to update
+    """
+    id: String!
+
+    """
+    The new value for the preference as a boolean
+    """
+    value: PreferenceValue!
+  ): Preference
   userConfirmRegistrationWithToken(confirmationToken: String!): UserConfirmRegistrationWithTokenPayload
   userLogin(email: String!, password: String!): UserLoginPayload
   userLogout: UserLogoutPayload
@@ -131,6 +161,36 @@ type Mutation {
   userResendConfirmationWithToken(confirmUrl: String!, email: String!): UserResendConfirmationWithTokenPayload
   userSendPasswordResetWithToken(email: String!, redirectUrl: String!): UserSendPasswordResetWithTokenPayload
   userUpdatePasswordWithToken(password: String!, passwordConfirmation: String!, resetPasswordToken: String!): UserUpdatePasswordWithTokenPayload
+}
+
+"""
+A user preference
+"""
+interface Preference {
+  """
+  Preference description
+  """
+  description: String!
+
+  """
+  Preference ID
+  """
+  id: String!
+}
+
+"""
+Value for a user preference
+"""
+input PreferenceValue {
+  """
+  The new value for the preference as a boolean
+  """
+  boolean: Boolean
+
+  """
+  The new value for the preference as a string
+  """
+  string: String
 }
 
 """
@@ -146,6 +206,16 @@ type Query {
     """
     year: String!
   ): Festival!
+
+  """
+  User preference (if set)
+  """
+  preference(
+    """
+    The ID of the preference to retrieve
+    """
+    id: String!
+  ): Preference
 
   """
   Current user
@@ -171,6 +241,26 @@ type Show implements Activity {
   For use in URL generation
   """
   slug: String!
+}
+
+"""
+A string user preference
+"""
+type StringPreference implements Preference {
+  """
+  Preference description
+  """
+  description: String!
+
+  """
+  Preference ID
+  """
+  id: String!
+
+  """
+  Preference value
+  """
+  value: String!
 }
 
 """

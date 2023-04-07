@@ -37,6 +37,9 @@ Metrics/MethodLength:
   Exclude:
     - 'db/migrate/*'
 
+RSpec/NestedGroups:
+  Max: 5
+
 Style/BlockComments:
   Exclude:
     - spec/spec_helper.rb

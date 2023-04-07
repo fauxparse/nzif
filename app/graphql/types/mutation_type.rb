@@ -1,12 +1,9 @@
+# rubocop:disable GraphQL/FieldDescription
 module Types
   class MutationType < Types::BaseObject
     description 'Top-level mutation interface'
 
-    # TODO: remove me
-    field :test_field, String, null: false,
-      description: 'An example field added by the generator'
-    def test_field
-      'Hello World'
-    end
+    field :update_preference, mutation: Mutations::UpdatePreference
   end
 end
+# rubocop:enable GraphQL/FieldDescription

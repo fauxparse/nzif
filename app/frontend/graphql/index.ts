@@ -12,6 +12,7 @@ export const client = new ApolloClient({
   cache: new InMemoryCache({
     possibleTypes: {
       Activity: ['Show', 'Workshop'],
+      Preference: ['BooleanPreference', 'StringPreference'],
     },
     typePolicies: {
       ...scalarTypePolicies,

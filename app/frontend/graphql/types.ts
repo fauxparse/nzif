@@ -37,6 +37,17 @@ export enum ActivityType {
   Workshop = 'workshop'
 }
 
+/** A boolean user preference */
+export type BooleanPreference = Preference & {
+  __typename: 'BooleanPreference';
+  /** Preference description */
+  description: Scalars['String'];
+  /** Preference ID */
+  id: Scalars['String'];
+  /** Preference value */
+  value: Scalars['Boolean'];
+};
+
 export type Credential = {
   __typename: 'Credential';
   accessToken: Scalars['String'];
@@ -89,8 +100,8 @@ export enum FestivalState {
 /** Top-level mutation interface */
 export type Mutation = {
   __typename: 'Mutation';
-  /** An example field added by the generator */
-  testField: Scalars['String'];
+  /** Updates a user’s preference */
+  updatePreference: Maybe<Preference>;
   userConfirmRegistrationWithToken: Maybe<UserConfirmRegistrationWithTokenPayload>;
   userLogin: Maybe<UserLoginPayload>;
   userLogout: Maybe<UserLogoutPayload>;
@@ -98,6 +109,13 @@ export type Mutation = {
   userResendConfirmationWithToken: Maybe<UserResendConfirmationWithTokenPayload>;
   userSendPasswordResetWithToken: Maybe<UserSendPasswordResetWithTokenPayload>;
   userUpdatePasswordWithToken: Maybe<UserUpdatePasswordWithTokenPayload>;
+};
+
+
+/** Top-level mutation interface */
+export type MutationUpdatePreferenceArgs = {
+  id: Scalars['String'];
+  value: PreferenceValue;
 };
 
 
@@ -145,11 +163,29 @@ export type MutationUserUpdatePasswordWithTokenArgs = {
   resetPasswordToken: Scalars['String'];
 };
 
+/** A user preference */
+export type Preference = {
+  /** Preference description */
+  description: Scalars['String'];
+  /** Preference ID */
+  id: Scalars['String'];
+};
+
+/** Value for a user preference */
+export type PreferenceValue = {
+  /** The new value for the preference as a boolean */
+  boolean: InputMaybe<Scalars['Boolean']>;
+  /** The new value for the preference as a string */
+  string: InputMaybe<Scalars['String']>;
+};
+
 /** Top-level query interface */
 export type Query = {
   __typename: 'Query';
   /** Find a festival by year */
   festival: Festival;
+  /** User preference (if set) */
+  preference: Maybe<Preference>;
   /** Current user */
   user: Maybe<User>;
 };
@@ -158,6 +194,12 @@ export type Query = {
 /** Top-level query interface */
 export type QueryFestivalArgs = {
   year: Scalars['String'];
+};
+
+
+/** Top-level query interface */
+export type QueryPreferenceArgs = {
+  id: Scalars['String'];
 };
 
 /** A show */
@@ -169,6 +211,17 @@ export type Show = Activity & {
   name: Scalars['String'];
   /** For use in URL generation */
   slug: Scalars['String'];
+};
+
+/** A string user preference */
+export type StringPreference = Preference & {
+  __typename: 'StringPreference';
+  /** Preference description */
+  description: Scalars['String'];
+  /** Preference ID */
+  id: Scalars['String'];
+  /** Preference value */
+  value: Scalars['String'];
 };
 
 /** A user */
@@ -245,6 +298,27 @@ export type Workshop = Activity & {
   slug: Scalars['String'];
 };
 
+export type GetPreferenceQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type GetPreferenceQuery = { __typename: 'Query', preference: { __typename: 'BooleanPreference', id: string, valueAsBoolean: boolean } | { __typename: 'StringPreference', id: string, valueAsString: string } | null };
+
+export type UpdatePreferenceMutationVariables = Exact<{
+  id: Scalars['String'];
+  value: PreferenceValue;
+}>;
+
+
+export type UpdatePreferenceMutation = { __typename: 'Mutation', updatePreference: { __typename: 'BooleanPreference', id: string, valueAsBoolean: boolean } | { __typename: 'StringPreference', id: string, valueAsString: string } | null };
+
+type PreferenceValueFragment_BooleanPreference_Fragment = { __typename: 'BooleanPreference', valueAsBoolean: boolean };
+
+type PreferenceValueFragment_StringPreference_Fragment = { __typename: 'StringPreference', valueAsString: string };
+
+export type PreferenceValueFragmentFragment = PreferenceValueFragment_BooleanPreference_Fragment | PreferenceValueFragment_StringPreference_Fragment;
+
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -284,7 +358,97 @@ export type HeaderQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type HeaderQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime } };
 
+export const PreferenceValueFragmentFragmentDoc = gql`
+    fragment PreferenceValueFragment on Preference {
+  ... on StringPreference {
+    valueAsString: value
+  }
+  ... on BooleanPreference {
+    valueAsBoolean: value
+  }
+}
+    `;
+export const GetPreferenceDocument = gql`
+    query GetPreference($id: String!) {
+  preference(id: $id) {
+    id
+    ... on StringPreference {
+      valueAsString: value
+    }
+    ... on BooleanPreference {
+      valueAsBoolean: value
+    }
+  }
+}
+    `;
 
+/**
+ * __useGetPreferenceQuery__
+ *
+ * To run a query within a React component, call `useGetPreferenceQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPreferenceQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPreferenceQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetPreferenceQuery(baseOptions: Apollo.QueryHookOptions<GetPreferenceQuery, GetPreferenceQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPreferenceQuery, GetPreferenceQueryVariables>(GetPreferenceDocument, options);
+      }
+export function useGetPreferenceLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPreferenceQuery, GetPreferenceQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPreferenceQuery, GetPreferenceQueryVariables>(GetPreferenceDocument, options);
+        }
+export type GetPreferenceQueryHookResult = ReturnType<typeof useGetPreferenceQuery>;
+export type GetPreferenceLazyQueryHookResult = ReturnType<typeof useGetPreferenceLazyQuery>;
+export type GetPreferenceQueryResult = Apollo.QueryResult<GetPreferenceQuery, GetPreferenceQueryVariables>;
+export const UpdatePreferenceDocument = gql`
+    mutation UpdatePreference($id: String!, $value: PreferenceValue!) {
+  updatePreference(id: $id, value: $value) {
+    id
+    ... on StringPreference {
+      valueAsString: value
+    }
+    ... on BooleanPreference {
+      valueAsBoolean: value
+    }
+  }
+}
+    `;
+export type UpdatePreferenceMutationFn = Apollo.MutationFunction<UpdatePreferenceMutation, UpdatePreferenceMutationVariables>;
+
+/**
+ * __useUpdatePreferenceMutation__
+ *
+ * To run a mutation, you first call `useUpdatePreferenceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePreferenceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePreferenceMutation, { data, loading, error }] = useUpdatePreferenceMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      value: // value for 'value'
+ *   },
+ * });
+ */
+export function useUpdatePreferenceMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePreferenceMutation, UpdatePreferenceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePreferenceMutation, UpdatePreferenceMutationVariables>(UpdatePreferenceDocument, options);
+      }
+export type UpdatePreferenceMutationHookResult = ReturnType<typeof useUpdatePreferenceMutation>;
+export type UpdatePreferenceMutationResult = Apollo.MutationResult<UpdatePreferenceMutation>;
+export type UpdatePreferenceMutationOptions = Apollo.BaseMutationOptions<UpdatePreferenceMutation, UpdatePreferenceMutationVariables>;
 export const CurrentUserDocument = gql`
     query CurrentUser {
   user {

@@ -24,9 +24,9 @@ const dateRange = (start: DateTime, end: DateTime) => {
 const Header: React.FC = () => {
   const [open, toggleOverlay] = useCycle(false, true);
 
-  const { data: festivalData } = useHeaderQuery();
+  const { data } = useHeaderQuery();
 
-  const { festival } = festivalData || {};
+  const { festival } = data || {};
 
   const { user, loading } = useAuthentication();
 
