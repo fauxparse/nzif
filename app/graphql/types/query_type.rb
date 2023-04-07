@@ -16,6 +16,8 @@ module Types
       argument :id, String, required: true, description: 'The ID of the preference to retrieve'
     end
 
+    field :search, resolver: Resolvers::SearchQuery, description: 'Search for content'
+
     def festival(year:)
       Festival.by_year(year).first
     end
