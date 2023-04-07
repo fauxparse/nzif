@@ -4,7 +4,7 @@
 module.exports = [
   {
     type: 'select',
-    choices: ['atom', 'molecule', 'helper'],
+    choices: ['atom', 'molecule', 'organism', 'helper'],
     name: 'type',
     message: 'Component type',
   },

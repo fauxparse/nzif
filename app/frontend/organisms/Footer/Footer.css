@@ -1,0 +1,26 @@
+.footer {
+  padding: var(--large) var(--horizontal-padding) var(--huge);
+  border-top: 1px solid var(--border-subtle);
+  background-color: var(--background-subtle);
+  color: var(--text-subtle);
+  font-size: var(--font-size-small);
+  line-height: 2;
+
+  nav {
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      margin: 0;
+      padding: 0;
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+  }
+}
