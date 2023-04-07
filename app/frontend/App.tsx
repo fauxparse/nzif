@@ -1,32 +1,25 @@
 import React from 'react';
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import PlacenameProvider from './atoms/Placename/PlacenameProvider';
-import { useContentPageQuery } from './contentful/types';
 import AuthenticationProvider from './organisms/Authentication/AuthenticationProvider';
-import Footer from './organisms/Footer';
-import Header from './organisms/Header';
+import Contentful from './pages/Contentful';
+import Public from './pages/public';
+import Home from './pages/Public/Home';
 
-const App: React.FC = () => {
-  const { data } = useContentPageQuery({
-    variables: { slug: 'code-of-conduct' },
-    context: { clientName: 'contentful' },
-  });
-
-  return (
-    <AuthenticationProvider>
-      <PlacenameProvider>
-        <div className="app">
-          <Header />
-          <main>
-            {data?.pageCollection?.items?.[0]?.body?.json &&
-              documentToReactComponents(data?.pageCollection?.items?.[0]?.body?.json)}
-          </main>
-          <Footer />
-        </div>
-      </PlacenameProvider>
-    </AuthenticationProvider>
-  );
-};
+const App: React.FC = () => (
+  <AuthenticationProvider>
+    <PlacenameProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Public />}>
+            <Route path="/" element={<Home />} />
+            <Route path=":slug" element={<Contentful />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </PlacenameProvider>
+  </AuthenticationProvider>
+);
 
 export default App;

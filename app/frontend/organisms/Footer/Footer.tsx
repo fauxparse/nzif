@@ -6,6 +6,7 @@ import { Page, useFooterLinksQuery } from '../../contentful/types';
 import { FooterProps } from './Footer.types';
 
 import './Footer.css';
+import { Link } from 'react-router-dom';
 
 const isPageLink = (link): link is Page => link?.__typename === 'Page';
 
@@ -26,7 +27,7 @@ export const Footer = forwardRef<HTMLElement, FooterProps>((props, ref) => {
         <ul>
           {links.map((link) => (
             <li key={link?.sys.id}>
-              <a href={`/${link.slug}`}>{link.title}</a>
+              <Link to={`/${link.slug}`}>{link.title}</Link>
             </li>
           ))}
         </ul>
