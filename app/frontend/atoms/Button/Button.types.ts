@@ -2,6 +2,7 @@ import { ElementType, ReactElement, ReactNode } from 'react';
 
 import { Polymorphic, WithDisplayName } from '../../types/polymorphic.types';
 import { PropsWithVariants } from '../../types/variants';
+import { IconName } from '../Icon/icons';
 
 /* c8 ignore next */
 export enum ButtonSize {
@@ -41,7 +42,7 @@ export type BaseButtonProps = AllButtonVariants & {
    * Icon to render inside the button
    * @type ReactNode
    */
-  icon?: ReactNode;
+  icon?: IconName | ReactNode;
   stretch?: boolean;
 };
 

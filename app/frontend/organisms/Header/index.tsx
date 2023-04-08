@@ -1,18 +1,18 @@
 import React, { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { useCycle } from 'framer-motion';
 import { DateTime } from 'luxon';
 
 import Button from '../../atoms/Button';
-import Icon from '../../atoms/Icon';
 import Placename from '../../atoms/Placename/Placename';
 import ThemeSwitcher from '../../atoms/ThemeSwitcher';
 import { useHeaderQuery } from '../../graphql/types';
 import { useAuthentication } from '../Authentication/AuthenticationProvider';
 
 import Overlay from './Overlay';
+import Search from './Search';
 
 import './Header.css';
-import { Link } from 'react-router-dom';
 
 const dateRange = (start: DateTime, end: DateTime) => {
   if (start.hasSame(end, 'month')) {
@@ -48,12 +48,13 @@ const Header: React.FC = () => {
       </div>
       <div className="header__dates">{dates}</div>
       <div className="header__user">
+        <Search />
         <ThemeSwitcher />
         {!loading && (
           <Button
             toolbar
             className="user-button"
-            icon={<Icon name="user" />}
+            icon="user"
             text={user?.name || 'Log in'}
             onClick={() => toggleOverlay()}
           />

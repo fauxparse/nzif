@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   post '/graphql', to: 'graphql#execute'
 
   get '*path', to: 'festivals#show'
+  root to: 'festivals#show'
 end

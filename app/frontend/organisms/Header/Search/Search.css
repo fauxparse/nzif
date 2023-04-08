@@ -1,0 +1,128 @@
+.search {
+  position: relative;
+  width: var(--huge);
+  height: var(--huge);
+
+  &__inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: flex-start;
+    overflow: hidden;
+    border-radius: var(--huge);
+    outline: 0 solid var(--focus);
+    transition: outline-width 0.2s var(--ease-standard);
+
+    .button {
+      flex-shrink: 0;
+
+      &:hover {
+        background-color: var(--neutral4);
+      }
+    }
+
+    input {
+      flex: 1;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      font: inherit;
+      appearance: none;
+
+      &::placeholder {
+        color: var(--text-subtle);
+        opacity: var(--placeholder-opacity);
+      }
+
+      &::-webkit-search-decoration,
+      &::-webkit-search-cancel-button,
+      &::-webkit-search-results-button,
+      &::-webkit-search-results-decoration {
+        display: none;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    &:focus-within {
+      outline-width: var(--focus-width);
+    }
+
+    &[aria-expanded="true"],
+    &[data-collapsing="true"],
+    &:hover {
+      z-index: var(--z-index-search);
+      background-color: var(--background-hover)
+    }
+  }
+
+  &__results {
+    z-index: calc(var(--z-index-search) + 1);
+    padding: var(--small);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--border-radius-large);
+    background-color: var(--background-subtle);
+    box-shadow: var(--shadow-6);
+
+    .spinner {
+      margin: var(--spacing) auto;
+    }
+  }
+
+  &__empty {
+    margin: var(--large);
+    color: var(--text-subtle);
+    text-align: center;
+  }
+
+  &__result {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--spacing);
+    align-items: center;
+    width: 100%;
+    padding: var(--small) var(--spacing);
+    border: 0;
+    border-radius: var(--border-radius-standard);
+    background-color: transparent;
+    color: var(--text-subtle);
+    box-shadow: none;
+    font: inherit;
+    font-size: var(--font-size-medium);
+    line-height: var(--line-height-medium);
+    text-align: left;
+    appearance: none;
+
+    &__title,
+    &__description {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &__title {
+      color: var(--text);
+    }
+
+    &__description {
+      font-size: var(--font-size-small);
+    }
+
+    .return-key {
+      color: var(--accent9);
+      opacity: 0;
+    }
+
+    &[aria-selected="true"] {
+      background-color: var(--accent5);
+      color: var(--accent12);
+
+      .return-key {
+        opacity: 1;
+      }
+    }
+  }
+}

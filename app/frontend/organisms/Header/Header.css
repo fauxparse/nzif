@@ -1,4 +1,5 @@
 .header {
+  position: relative;
   display: grid;
   grid-template:
     "dates dates" auto
@@ -51,9 +52,12 @@
     align-items: center;
     justify-self: end;
 
+    .user-button {
+      z-index: var(--z-index-overlay-toggle);
+    }
+
     .button {
       position: relative;
-      z-index: var(--z-index-overlay-toggle);
       color: var(--neutralA11);
       pointer-events: all;
 

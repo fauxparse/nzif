@@ -27,14 +27,29 @@ export type Activity = {
   name: Scalars['String'];
   /** For use in URL generation */
   slug: Scalars['String'];
+  /** Type of activity */
+  type: ActivityType;
+};
+
+/** A search result from an activity */
+export type ActivityResult = SearchResult & {
+  __typename: 'ActivityResult';
+  /** Activity */
+  activity: Activity;
+  /** Unique ID */
+  id: Scalars['ID'];
+  /** Title of result page */
+  title: Scalars['String'];
+  /** Link to result page */
+  url: Scalars['String'];
 };
 
 /** The state of a festival */
 export enum ActivityType {
   /** Show */
-  Show = 'show',
+  Show = 'Show',
   /** Workshop */
-  Workshop = 'workshop'
+  Workshop = 'Workshop'
 }
 
 /** A boolean user preference */
@@ -163,6 +178,21 @@ export type MutationUserUpdatePasswordWithTokenArgs = {
   resetPasswordToken: Scalars['String'];
 };
 
+/** A search result from a content page */
+export type PageResult = SearchResult & {
+  __typename: 'PageResult';
+  /** Unique ID */
+  id: Scalars['ID'];
+  /** Lede of the page */
+  lede: Maybe<Scalars['String']>;
+  /** Slug of the page */
+  slug: Scalars['String'];
+  /** Title of the page */
+  title: Scalars['String'];
+  /** Link to result page */
+  url: Scalars['String'];
+};
+
 /** A user preference */
 export type Preference = {
   /** Preference description */
@@ -186,6 +216,8 @@ export type Query = {
   festival: Festival;
   /** User preference (if set) */
   preference: Maybe<Preference>;
+  /** Search for content */
+  search: Array<SearchResult>;
   /** Current user */
   user: Maybe<User>;
 };
@@ -202,6 +234,23 @@ export type QueryPreferenceArgs = {
   id: Scalars['String'];
 };
 
+
+/** Top-level query interface */
+export type QuerySearchArgs = {
+  limit: InputMaybe<Scalars['Int']>;
+  query: Scalars['String'];
+};
+
+/** An individual search result */
+export type SearchResult = {
+  /** Unique ID */
+  id: Scalars['ID'];
+  /** Title of result page */
+  title: Scalars['String'];
+  /** Link to result page */
+  url: Scalars['String'];
+};
+
 /** A show */
 export type Show = Activity & {
   __typename: 'Show';
@@ -211,6 +260,8 @@ export type Show = Activity & {
   name: Scalars['String'];
   /** For use in URL generation */
   slug: Scalars['String'];
+  /** Type of activity */
+  type: ActivityType;
 };
 
 /** A string user preference */
@@ -296,6 +347,8 @@ export type Workshop = Activity & {
   name: Scalars['String'];
   /** For use in URL generation */
   slug: Scalars['String'];
+  /** Type of activity */
+  type: ActivityType;
 };
 
 export type GetPreferenceQueryVariables = Exact<{
@@ -357,6 +410,13 @@ export type HeaderQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type HeaderQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime } };
+
+export type SearchQueryVariables = Exact<{
+  query: Scalars['String'];
+}>;
+
+
+export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'ActivityResult', id: string, title: string, url: string, activity: { __typename: 'Show', id: string, name: string, type: ActivityType } | { __typename: 'Workshop', id: string, name: string, type: ActivityType } } | { __typename: 'PageResult', lede: string | null, id: string, title: string, url: string }> };
 
 export const PreferenceValueFragmentFragmentDoc = gql`
     fragment PreferenceValueFragment on Preference {
@@ -667,6 +727,53 @@ export function useHeaderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Hea
 export type HeaderQueryHookResult = ReturnType<typeof useHeaderQuery>;
 export type HeaderLazyQueryHookResult = ReturnType<typeof useHeaderLazyQuery>;
 export type HeaderQueryResult = Apollo.QueryResult<HeaderQuery, HeaderQueryVariables>;
+export const SearchDocument = gql`
+    query Search($query: String!) {
+  search(query: $query) {
+    id
+    title
+    url
+    ... on PageResult {
+      lede
+    }
+    ... on ActivityResult {
+      activity {
+        id
+        name
+        type
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchQuery__
+ *
+ * To run a query within a React component, call `useSearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *   },
+ * });
+ */
+export function useSearchQuery(baseOptions: Apollo.QueryHookOptions<SearchQuery, SearchQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
+      }
+export function useSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchQuery, SearchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
+        }
+export type SearchQueryHookResult = ReturnType<typeof useSearchQuery>;
+export type SearchLazyQueryHookResult = ReturnType<typeof useSearchLazyQuery>;
+export type SearchQueryResult = Apollo.QueryResult<SearchQuery, SearchQueryVariables>;
 import { datePolicy } from './policies/dateTimePolicy';
 
 export const scalarTypePolicies = {

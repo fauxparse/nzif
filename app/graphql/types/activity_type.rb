@@ -7,6 +7,7 @@ module Types
     field :id, ID, null: false, description: 'Unique ID'
     field :name, String, null: false, description: 'Activity name'
     field :slug, String, null: false, description: 'For use in URL generation'
+    field :type, ActivityTypeType, null: false, description: 'Type of activity'
 
     definition_methods do
       def resolve_type(object, _context)
@@ -17,6 +18,10 @@ module Types
           raise "Unexpected Activity: #{object.inspect}"
         end
       end
+    end
+
+    def type
+      object.class
     end
 
     orphan_types(

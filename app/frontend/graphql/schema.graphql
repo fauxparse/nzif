@@ -16,6 +16,36 @@ interface Activity {
   For use in URL generation
   """
   slug: String!
+
+  """
+  Type of activity
+  """
+  type: ActivityType!
+}
+
+"""
+A search result from an activity
+"""
+type ActivityResult implements SearchResult {
+  """
+  Activity
+  """
+  activity: Activity!
+
+  """
+  Unique ID
+  """
+  id: ID!
+
+  """
+  Title of result page
+  """
+  title: String!
+
+  """
+  Link to result page
+  """
+  url: String!
 }
 
 """
@@ -25,12 +55,12 @@ enum ActivityType {
   """
   Show
   """
-  show
+  Show
 
   """
   Workshop
   """
-  workshop
+  Workshop
 }
 
 """
@@ -164,6 +194,36 @@ type Mutation {
 }
 
 """
+A search result from a content page
+"""
+type PageResult implements SearchResult {
+  """
+  Unique ID
+  """
+  id: ID!
+
+  """
+  Lede of the page
+  """
+  lede: String
+
+  """
+  Slug of the page
+  """
+  slug: String!
+
+  """
+  Title of the page
+  """
+  title: String!
+
+  """
+  Link to result page
+  """
+  url: String!
+}
+
+"""
 A user preference
 """
 interface Preference {
@@ -218,9 +278,44 @@ type Query {
   ): Preference
 
   """
+  Search for content
+  """
+  search(
+    """
+    Maximum number of results to return
+    """
+    limit: Int
+
+    """
+    Text to search for
+    """
+    query: String!
+  ): [SearchResult!]!
+
+  """
   Current user
   """
   user: User
+}
+
+"""
+An individual search result
+"""
+interface SearchResult {
+  """
+  Unique ID
+  """
+  id: ID!
+
+  """
+  Title of result page
+  """
+  title: String!
+
+  """
+  Link to result page
+  """
+  url: String!
 }
 
 """
@@ -241,6 +336,11 @@ type Show implements Activity {
   For use in URL generation
   """
   slug: String!
+
+  """
+  Type of activity
+  """
+  type: ActivityType!
 }
 
 """
@@ -367,4 +467,9 @@ type Workshop implements Activity {
   For use in URL generation
   """
   slug: String!
+
+  """
+  Type of activity
+  """
+  type: ActivityType!
 }

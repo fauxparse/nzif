@@ -1,0 +1,19 @@
+query Search($query: String!) {
+  search(query: $query) {
+    id
+    title
+    url
+
+    ... on PageResult {
+      lede
+    }
+
+    ... on ActivityResult {
+      activity {
+        id
+        name
+        type
+      }
+    }
+  }
+}

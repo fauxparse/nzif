@@ -16,20 +16,10 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /**
-   * A date-time string at UTC, such as 2007-12-03T10:15:30Z,
-   *     compliant with the 'date-time' format outlined in section 5.6 of
-   *     the RFC 3339 profile of the ISO 8601 standard for representation
-   *     of dates and times using the Gregorian calendar.
-   */
   DateTime: DateTime;
-  /** The 'Dimension' type represents dimensions as whole numeric values between `1` and `4000`. */
   Dimension: number;
-  /** The 'HexColor' type represents color in `rgb:ffffff` string format. */
   HexColor: string;
-  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: Document;
-  /** The 'Quality' type represents quality as whole numeric values between `1` and `100`. */
   Quality: number;
 };
 
@@ -846,8 +836,4 @@ export function useFooterLinksLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type FooterLinksQueryHookResult = ReturnType<typeof useFooterLinksQuery>;
 export type FooterLinksLazyQueryHookResult = ReturnType<typeof useFooterLinksLazyQuery>;
 export type FooterLinksQueryResult = Apollo.QueryResult<FooterLinksQuery, FooterLinksQueryVariables>;
-import { dateTimePolicy } from '../graphql/policies/dateTimePolicy';
-
-export const scalarTypePolicies = {
-  Sys: { fields: { firstPublishedAt: dateTimePolicy, publishedAt: dateTimePolicy } },
-};
+export const scalarTypePolicies = {};

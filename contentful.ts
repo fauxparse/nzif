@@ -2,7 +2,13 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: 'app/frontend/contentful/contentful.graphql',
+  schema: {
+    'https://graphql.contentful.com/content/v1/spaces/4hh9rxfdoza6': {
+      headers: {
+        Authorization: `Bearer yOfSEJ4VUqP4uj_dPMEfVryXFV2F_CgA2gSjMoREqc8`,
+      },
+    },
+  },
   documents: ['.contentful/*.graphql'],
   generates: {
     'app/frontend/contentful/types.ts': {

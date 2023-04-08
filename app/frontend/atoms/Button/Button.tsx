@@ -3,6 +3,7 @@ import clsx from 'clsx';
 
 import { PolymorphicRef } from '../../types/polymorphic.types';
 import { extractVariants } from '../../types/variants';
+import Icon, { isIconName } from '../Icon';
 
 import { AllButtonVariants, BUTTON_VARIANTS, ButtonComponent, ButtonProps } from './Button.types';
 
@@ -37,7 +38,7 @@ export const Button: ButtonComponent = forwardRef(
         {...extraButtonProps}
         {...buttonProps}
       >
-        {icon}
+        {isIconName(icon) ? <Icon name={icon} /> : icon}
         {!!text && <span className="button__text">{text}</span>}
         {buttonChildren}
       </Component>

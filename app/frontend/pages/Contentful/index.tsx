@@ -5,6 +5,7 @@ import { documentToReactComponents, Options } from '@contentful/rich-text-react-
 import { BLOCKS, Document, Text } from '@contentful/rich-text-types';
 import { deburr, kebabCase } from 'lodash-es';
 
+import Spinner from '../../atoms/Spinner';
 import { useContentPageQuery } from '../../contentful/types';
 
 import TableOfContents from './TableOfContents';
@@ -33,14 +34,6 @@ const Contentful: React.FC = () => {
     context: { clientName: 'contentful' },
   });
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
   const page = data?.pageCollection?.items?.[0];
 
   const document: Document | undefined = page?.body?.json;
@@ -48,7 +41,7 @@ const Contentful: React.FC = () => {
   return (
     <div className="content-page">
       <section>
-        {document && (
+        {document ? (
           <>
             <header className="content-page__header">
               <Balanced as="h1">{page?.title}</Balanced>
@@ -58,11 +51,13 @@ const Contentful: React.FC = () => {
                 </Balanced>
               )}
             </header>
-            <TableOfContents document={document} />
+            {document && <TableOfContents document={document} />}
             <div className="content-page__content">
               {documentToReactComponents(document, renderOptions)}
             </div>
           </>
+        ) : (
+          <Spinner large />
         )}
       </section>
     </div>

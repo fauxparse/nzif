@@ -53,6 +53,7 @@ gem 'hashie', '~> 5.0'
 gem 'interactor-rails', github: 'fauxparse/interactor-rails'
 
 gem 'contentful', '~> 2.16'
+gem 'pg_search', '~> 2.3'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

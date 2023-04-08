@@ -6,7 +6,6 @@ import React from 'react';
 import type { StoryObj, Meta } from '@storybook/react';
 
 import { <%= Name %> } from './<%= Name %>';
-import { <%= Name %>Props } from './<%= Name %>.types';
 
 type Story = StoryObj<typeof <%= Name %>>;
 
