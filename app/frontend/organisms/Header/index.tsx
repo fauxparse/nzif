@@ -49,7 +49,6 @@ const Header: React.FC = () => {
       <div className="header__dates">{dates}</div>
       <div className="header__user">
         <Search />
-        <ThemeSwitcher />
         {!loading && (
           <Button
             toolbar
@@ -59,6 +58,7 @@ const Header: React.FC = () => {
             onClick={() => toggleOverlay()}
           />
         )}
+        <ThemeSwitcher />
       </div>
       {!loading && <Overlay user={user} open={open} onToggle={() => toggleOverlay()} />}
     </header>

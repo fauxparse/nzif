@@ -1,9 +1,9 @@
 module Sources
-  class ActivitiesBySlug < GraphQL::Dataloader::Source
+  class ActivitiesBySlug < BaseSource
     attr_reader :festival, :type
 
-    def initialize(festival:, type:)
-      super()
+    def initialize(context:, festival:, type:)
+      super(context:)
       @festival = festival
       @type = type
     end

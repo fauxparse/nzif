@@ -50,4 +50,13 @@ class NZIFSchema < GraphQL::Schema
     # For example, use Rails' GlobalID library (https://github.com/rails/globalid):
     GlobalID.find(global_id)
   end
+
+  rescue_from(ActiveRecord::RecordInvalid) do |error|
+    errors = error.record.errors
+    messages = errors.as_json.keys.index_with { |attr| errors.full_messages_for(attr) }
+    raise GraphQL::ExecutionError.new(
+      error.message,
+      extensions: { errors: messages.as_json },
+    )
+  end
 end

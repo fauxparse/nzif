@@ -10,11 +10,23 @@ AllCops:
     - 'bin/*'
     - 'db/schema.rb'
 
+GraphQL/ExtractType:
+  Exclude:
+    - 'app/graphql/**/base_*.rb'
+    - 'app/graphql/types/mutation_type.rb'
+    - 'app/graphql/types/query_type.rb'
+
+GraphQL/FieldDescription:
+  Exclude:
+    - 'app/graphql/**/base_*.rb'
+    - 'app/graphql/types/mutation_type.rb'
+    - 'app/graphql/types/query_type.rb'
+
 GraphQL/ObjectDescription:
   Exclude:
     - 'app/graphql/nzif_schema.rb'
     - 'app/graphql/sources/**/*'
-    - 'app/graphql/types/base_*'
+    - 'app/graphql/**/base_*'
 
 Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
@@ -36,6 +48,19 @@ Metrics/AbcSize:
 Metrics/MethodLength:
   Exclude:
     - 'db/migrate/*'
+
+RSpec/ContextWording:
+  Prefixes:
+    - when
+    - with
+    - without
+    - for
+
+RSpec/ExampleLength:
+  Max: 10
+
+RSpec/MultipleSubjects:
+  Enabled: false
 
 RSpec/NestedGroups:
   Max: 5

@@ -54,6 +54,7 @@
 
     .user-button {
       z-index: var(--z-index-overlay-toggle);
+      flex-direction: row-reverse;
     }
 
     .button {

@@ -35,4 +35,10 @@ RSpec.describe Activity do
       end
     end
   end
+
+  describe '.to_param' do
+    subject(:to_param) { Workshop.to_param }
+
+    it { is_expected.to eq 'workshops' }
+  end
 end

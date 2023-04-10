@@ -3,8 +3,10 @@ require 'rails_helper'
 describe Users::UpdatePreference, type: :interactor do
   let(:user) { create(:user) }
 
+  let(:current_user) { create(:user, :admin) }
+
   describe '.call' do
-    subject(:call) { described_class.call(user:, id:, value:) }
+    subject(:call) { described_class.call(user:, id:, value:, current_user:) }
 
     context 'with a valid preference' do
       let(:id) { :show_indigenous_names }

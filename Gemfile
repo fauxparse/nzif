@@ -55,6 +55,9 @@ gem 'interactor-rails', github: 'fauxparse/interactor-rails'
 gem 'contentful', '~> 2.16'
 gem 'pg_search', '~> 2.3'
 
+gem 'action_policy', '~> 0.6.5'
+gem 'action_policy-graphql', '~> 0.5.3'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
@@ -80,4 +83,9 @@ group :development do
   gem 'rubocop-rspec', '~> 2.19', require: false
 
   gem 'graphiql-rails'
+end
+
+group :test do
+  gem 'simplecov', require: false
+  gem 'simplecov-summary', require: false
 end

@@ -22,11 +22,15 @@ module Types
     end
 
     def activities(type: nil)
-      dataloader.with(Sources::ActivitiesByFestival, type:).load(object.id)
+      dataloader
+        .with(Sources::ActivitiesByFestival, context:, type:)
+        .load(object.id)
     end
 
     def activity(type:, slug:)
-      dataloader.with(Sources::ActivitiesBySlug, festival: object, type:).load(slug)
+      dataloader
+        .with(Sources::ActivitiesBySlug, context:, festival: object, type:)
+        .load(slug)
     end
   end
 end
