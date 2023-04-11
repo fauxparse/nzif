@@ -1,14 +1,12 @@
 class Activity < ApplicationRecord
   include Sluggable
-  include PgSearch::Model
+  include Searchable
 
   sluggable scope: %i[festival_id type]
 
   belongs_to :festival
 
-  pg_search_scope :search_activities,
-    against: { name: 'A', description: 'B' },
-    using: { tsearch: { dictionary: 'english', tsvector_column: 'searchable' } }
+  searchable_on :name, :description
 
   def self.to_param
     name.demodulize.underscore.dasherize.pluralize

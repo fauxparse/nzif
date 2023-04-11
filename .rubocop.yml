@@ -27,6 +27,7 @@ GraphQL/ObjectDescription:
     - 'app/graphql/nzif_schema.rb'
     - 'app/graphql/sources/**/*'
     - 'app/graphql/**/base_*'
+    - 'app/graphql/types/query_type.rb'
 
 Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
@@ -55,6 +56,7 @@ RSpec/ContextWording:
     - with
     - without
     - for
+    - by
 
 RSpec/ExampleLength:
   Max: 10

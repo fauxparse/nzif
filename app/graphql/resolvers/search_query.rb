@@ -8,14 +8,25 @@ module Resolvers
     argument :query, String, required: true, description: 'Text to search for'
 
     def resolve(query:, limit: 5)
-      activity_matches(query:, limit:) + page_matches(query:, limit:)
+      %i[activity user page].flat_map do |type|
+        send("#{type}_matches", query:, limit:)
+      end
     end
 
     private
 
     def activity_matches(query:, limit:)
-      Activity.search_activities(query).includes(:festival).limit(limit).map do |activity|
-        Hashie::Mash.new(activity:)
+      authorized_scope(Activity, type: :relation)
+        .search(query).includes(:festival).limit(limit).map do |activity|
+          Hashie::Mash.new(activity:)
+        end
+    end
+
+    def user_matches(query:, limit:)
+      return [] unless allowed_to?(:index?, User)
+
+      authorized_scope(User, type: :relation).search(query).limit(limit).map do |user|
+        Hashie::Mash.new(user:)
       end
     end
 

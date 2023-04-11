@@ -14,6 +14,10 @@ export default defineConfig({
             name: 'Archivo',
             styles: 'wght,wdth@400,100;500,100;500,125;600,100;700,100;700,125',
           },
+          {
+            name: 'Inter',
+            styles: 'wght@400;500;600;700;900',
+          },
         ],
       },
     }),

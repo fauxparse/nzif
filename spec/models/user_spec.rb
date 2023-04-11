@@ -71,4 +71,35 @@ RSpec.describe User do
       it { is_expected.to be true }
     end
   end
+
+  describe '.search' do
+    before do
+      create(:user, name: 'Thom Yorke', email: 'bungeye@head.radio')
+      create(:user, name: 'Jonny Greenwood', email: 'weirdo@head.radio')
+      create(:user, name: 'Colin Greenwood', email: 'lownotes@head.radio')
+      create(:user, name: 'Ed O’Brien', email: 'backup@head.radio')
+      create(:user, name: 'Phil Selway', email: 'sticks@head.radio')
+    end
+
+    context 'by name' do
+      subject(:results) { described_class.search('greenwood') }
+
+      it 'returns partial matches' do
+        expect(results).to contain_exactly(
+          an_object_having_attributes(name: 'Colin Greenwood'),
+          an_object_having_attributes(name: 'Jonny Greenwood'),
+        )
+      end
+    end
+
+    context 'by email' do
+      subject(:results) { described_class.search('bungeye') }
+
+      it 'returns partial matches' do
+        expect(results).to contain_exactly(
+          an_object_having_attributes(name: 'Thom Yorke'),
+        )
+      end
+    end
+  end
 end

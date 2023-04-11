@@ -1,6 +1,6 @@
 module Types
   class QueryType < Types::BaseObject
-    description 'Top-level query interface'
+    include Authorization
 
     field :festival, FestivalType, null: false do
       description 'Find a festival by year'
@@ -9,6 +9,9 @@ module Types
 
     field :user, UserType, null: true do
       description 'Current user'
+
+      argument :id, ID, required: false,
+        description: 'The ID of the user to retrieve (defaults to current user)'
     end
 
     field :preference, PreferenceType, null: true do
@@ -22,8 +25,12 @@ module Types
       Festival.by_year(year).first
     end
 
-    def user
-      context[:current_resource]
+    def user(id: nil)
+      if id
+        authorized_scope(User, type: :relation).find(id)
+      else
+        context[:current_resource]
+      end
     end
 
     def preference(id:)

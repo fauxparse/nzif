@@ -1,0 +1,20 @@
+fragment EditableUser on User {
+  id
+  name
+  email
+  roles
+}
+
+query EditUser($id: ID!) {
+  user(id: $id) {
+    ...EditableUser
+  }
+}
+
+mutation UpdateUser($id: ID!, $attributes: UserAttributes!) {
+  updateUser(id: $id, attributes: $attributes) {
+    user {
+      ...EditableUser
+    }
+  }
+}

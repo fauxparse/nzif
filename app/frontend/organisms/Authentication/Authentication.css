@@ -24,8 +24,7 @@
     h2 {
       font-size: 3rem;
       line-height: 1.25;
-      text-transform: uppercase;
-      font-variation-settings: var(--wide);
+      text-transform: lowercase;
     }
 
     .input,
@@ -70,7 +69,6 @@
     align-items: center;
     font-size: 0.875rem;
     text-transform: uppercase;
-    font-variation-settings: "wdth" 125;
 
     &::before,
     &::after {

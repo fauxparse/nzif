@@ -36,8 +36,8 @@
     grid-area: logo;
     justify-self: start;
     color: var(--accent11);
+    font-weight: 900;
     font-size: 1.5rem;
-    font-variation-settings: "wdth" 125, 'wght' 900;
 
     a {
       color: inherit;

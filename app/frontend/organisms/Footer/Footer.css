@@ -1,7 +1,7 @@
 .footer {
   padding: var(--large) var(--horizontal-padding) var(--huge);
   border-top: 1px solid var(--border-subtle);
-  background-color: var(--background-subtle);
+  background: linear-gradient(to bottom, var(--background-subtle), var(--background));
   color: var(--text-subtle);
   font-size: var(--font-size-small);
   line-height: 2;

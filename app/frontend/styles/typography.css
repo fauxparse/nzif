@@ -17,8 +17,7 @@
   --line-height-large: 2rem;
   --line-height-huge: 3rem;
   --font-stack: system, -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
-  --font-family-base: "Archivo", var(--font-stack);
-  --wide: "wdth" 125;
+  --font-family-base: "Inter", var(--font-stack);
 }
 
 body {
@@ -26,4 +25,5 @@ body {
   font-size: var(--font-size-medium);
   font-family: var(--font-family-base);
   line-height: calc(var(--line-height-medium) / var(--font-size-medium));
+  font-feature-settings: "cv03", "cv04", "cv11"
 }

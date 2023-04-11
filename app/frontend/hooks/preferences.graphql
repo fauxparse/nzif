@@ -1,18 +1,20 @@
 query GetPreference($id: String!) {
   preference(id: $id) {
-    id
     ...PreferenceValueFragment
   }
 }
 
 mutation UpdatePreference($id: String!, $value: PreferenceValue!) {
   updatePreference(id: $id, value: $value) {
-    id
-    ...PreferenceValueFragment
+    preference {
+      ...PreferenceValueFragment
+    }
   }
 }
 
 fragment PreferenceValueFragment on Preference {
+  id
+
   ... on StringPreference {
     valueAsString: value
   }

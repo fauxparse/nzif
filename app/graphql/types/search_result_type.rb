@@ -12,6 +12,8 @@ module Types
       def resolve_type(object, _context)
         if object.activity?
           ActivityResultType
+        elsif object.user?
+          UserResultType
         elsif object.slug?
           PageResultType
         else
@@ -22,6 +24,7 @@ module Types
 
     orphan_types(
       ActivityResultType,
+      UserResultType,
       PageResultType,
     )
   end

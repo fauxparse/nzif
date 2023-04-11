@@ -23,6 +23,29 @@ CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
 COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs';
 
 
+--
+-- Name: unaccent; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS unaccent WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION unaccent; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION unaccent IS 'text search dictionary that removes accents';
+
+
+--
+-- Name: my_concat(text, text[]); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.my_concat(text, text[]) RETURNS text
+    LANGUAGE internal IMMUTABLE
+    AS $$text_concat_ws$$;
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -170,7 +193,8 @@ CREATE TABLE public.users (
     tokens json,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    preferences public.hstore DEFAULT ''::public.hstore NOT NULL
+    preferences public.hstore DEFAULT ''::public.hstore NOT NULL,
+    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('english'::regconfig, public.my_concat(' '::text, regexp_split_to_array((COALESCE(email, ''::character varying))::text, '[.@]'::text))), 'B'::"char"))) STORED
 );
 
 
@@ -333,6 +357,13 @@ CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING bt
 
 
 --
+-- Name: index_users_on_searchable; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_users_on_searchable ON public.users USING gin (searchable);
+
+
+--
 -- Name: index_users_on_uid_and_provider; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -362,6 +393,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230407185946'),
 ('20230407200707'),
 ('20230407200831'),
-('20230409225123');
+('20230409225123'),
+('20230410203022'),
+('20230410205819');
 
 

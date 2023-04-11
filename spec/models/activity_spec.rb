@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Activity do
-  describe '.search_activities' do
-    subject(:search) { described_class.search_activities(query) }
+  describe '.search' do
+    subject(:search) { described_class.search(query) }
 
     let(:query) { 'needle' }
 

@@ -1,0 +1,76 @@
+.admin {
+  .inset {
+    padding-inline: var(--horizontal-padding);
+  }
+
+  .two-columns {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--large) 6rem;
+
+    > header {
+      grid-column: 1 / -1;
+      padding: var(--large) 0;
+
+      h1 {
+        margin: var(--small) 0;
+      }
+    }
+
+    aside {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding-top: var(--huge);
+    }
+  }
+
+  .edit-user {
+    fieldset {
+      display: flex;
+      flex-direction: column;
+      padding: 0 0 var(--huge);
+      border: 0;
+
+      label {
+        color: var(--text-subtle);
+        font-weight: var(--font-weight-medium);
+        line-height: var(--huge);
+
+        &:not(:first-child) {
+          margin-top: var(--large);
+        }
+
+        &[data-required] {
+          &::after {
+            content: " ✻";
+            color: var(--accent9);
+          }
+        }
+      }
+    }
+
+    .error-message {
+      line-height: var(--huge);
+    }
+  }
+
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    font-size: var(--font-size-small);
+
+    a {
+      color: var(--text-subtle);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--text-accent);
+      }
+    }
+
+    .icon {
+      color: var(--neutral6);
+    }
+  }
+}

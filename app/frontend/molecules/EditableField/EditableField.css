@@ -1,0 +1,13 @@
+.error-message {
+  color: var(--red11);
+  font-size: var(--font-size-small);
+}
+
+.input {
+  &[data-has-errors] {
+    --input-border: var(--red7);
+    --input-hover: var(--red8);
+    --input-focus: var(--red8);
+    --focus: var(--redA7);
+  }
+}
