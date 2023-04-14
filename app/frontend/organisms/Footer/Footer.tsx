@@ -1,4 +1,6 @@
 import React, { forwardRef, useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { DateTime } from 'luxon';
 
 import { Page, useFooterLinksQuery } from '../../contentful/types';
@@ -6,7 +8,6 @@ import { Page, useFooterLinksQuery } from '../../contentful/types';
 import { FooterProps } from './Footer.types';
 
 import './Footer.css';
-import { Link } from 'react-router-dom';
 
 const isPageLink = (link): link is Page => link?.__typename === 'Page';
 
@@ -22,7 +23,7 @@ export const Footer = forwardRef<HTMLElement, FooterProps>((props, ref) => {
   );
 
   return (
-    <footer ref={ref} className="footer" {...props}>
+    <motion.footer layout ref={ref} className="footer">
       <nav>
         <ul>
           {links.map((link) => (
@@ -33,7 +34,7 @@ export const Footer = forwardRef<HTMLElement, FooterProps>((props, ref) => {
         </ul>
       </nav>
       <p>&copy; {DateTime.now().toFormat('yyyy')} New Zealand Improvisation Trust</p>
-    </footer>
+    </motion.footer>
   );
 });
 

@@ -6,6 +6,7 @@ export type BaseEditableFieldProps = {
   label: string;
   name: string;
   required?: boolean;
+  autoSelect?: boolean;
   errors?: {
     [key: string]: string[];
   };

@@ -97,6 +97,7 @@
   --contrast-accent: var(--accent1);
   --white: var(--accent1);
   --focus: var(--accentA7);
+  --highlight: var(--accentA4);
 
   /* Misc */
   --disabled-opacity: 0.6;
@@ -108,5 +109,5 @@
 }
 
 *::selection {
-  background-color: var(--accent4);
+  background-color: var(--highlight);
 }

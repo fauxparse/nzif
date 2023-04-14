@@ -18,6 +18,10 @@ export const INPUT_VARIANTS = {
 
 export type AllInputVariants = PropsWithVariants<typeof INPUT_VARIANTS>;
 
+export type BaseInputProps = {
+  autoSelect?: boolean;
+};
+
 export type InputProps<C extends ElementType = 'input'> = Polymorphic<C, AllInputVariants>;
 
 export type InputComponent = WithDisplayName<

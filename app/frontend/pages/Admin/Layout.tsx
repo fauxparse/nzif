@@ -1,16 +1,22 @@
-import React, { useMemo } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import React, { lazy, Suspense, useMemo } from 'react';
+import { Route, Routes, useLocation, useRoutes } from 'react-router-dom';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 
-import { BreadcrumbProvider } from '../../molecules/Breadcrumbs';
+import LocationContext from '../../../LocationContext';
+import usePrevious from '../../hooks/usePrevious';
 import Footer from '../../organisms/Footer';
 import Header from '../../organisms/Header';
+import AnimatedOutlet from '../AnimatedOutlet';
 
-import UserOverview from './Users/User';
-import Dashboard from './Dashboard';
-import Users from './Users';
+const Contentful = lazy(() => import('../Contentful'));
 
-import './Admin.css';
+const suspend = (Component: React.FC) => (
+  <Suspense>
+    <Component />
+  </Suspense>
+);
+
+const CONTAINERS: RegExp[] = [/^(\/admin\/users\/[^/]+)/];
 
 const pageVariants: Variants = {
   from: (direction = -1) => ({
@@ -30,10 +36,10 @@ const pageVariants: Variants = {
   }),
 };
 
-const CONTAINERS: RegExp[] = [/^(\/admin\/users\/[^/]+)/];
-
-const Admin: React.FC = () => {
+const Routing: React.FC = () => {
   const location = useLocation();
+
+  const previousLocation = usePrevious(location);
 
   const locationKey = useMemo(() => {
     for (let i = 0; i < CONTAINERS.length; i++) {
@@ -44,7 +50,7 @@ const Admin: React.FC = () => {
   }, [location]);
 
   return (
-    <BreadcrumbProvider label="Admin" path="admin">
+    <>
       <Header />
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.main
@@ -53,17 +59,14 @@ const Admin: React.FC = () => {
           initial="from"
           animate="in"
           exit="to"
+          custom={-1}
         >
-          <Routes location={location} key={location.pathname.replace(/users.*/, 'users')}>
-            <Route path="" element={<Dashboard />} />
-            <Route path="users" element={<Users />} />
-            <Route path="users/:id/*" element={<UserOverview />} />
-          </Routes>
+          <AnimatedOutlet />
         </motion.main>
-        <Footer />
       </AnimatePresence>
-    </BreadcrumbProvider>
+      <Footer />
+    </>
   );
 };
 
-export default Admin;
+export default Routing;

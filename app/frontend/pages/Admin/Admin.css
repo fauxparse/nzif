@@ -1,76 +1,58 @@
-.admin {
-  .inset {
-    padding-inline: var(--horizontal-padding);
-  }
+.inset {
+  margin-inline: var(--horizontal-padding);
+}
 
-  .two-columns {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: var(--large) 6rem;
+.page__header {
+  display: grid;
+  gap: var(--small);
+  padding: var(--large) var(--horizontal-padding);
 
-    > header {
-      grid-column: 1 / -1;
-      padding: var(--large) 0;
+  &:has(.tabs) {
+    padding-bottom: 0;
+    border-bottom: var(--border-width-standard) solid var(--border-subtle);
 
-      h1 {
-        margin: var(--small) 0;
-      }
-    }
-
-    aside {
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      padding-top: var(--huge);
+    .tabs {
+      margin-bottom: calc(var(--border-width-standard) * -1);
     }
   }
 
-  .edit-user {
-    fieldset {
-      display: flex;
-      flex-direction: column;
-      padding: 0 0 var(--huge);
-      border: 0;
+  h1 {
+    margin: 0
+  }
+}
 
-      label {
-        color: var(--text-subtle);
-        font-weight: var(--font-weight-medium);
-        line-height: var(--huge);
+.two-columns {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--large) 6rem;
 
-        &:not(:first-child) {
-          margin-top: var(--large);
-        }
+  > header {
+    grid-column: 1 / -1;
+    padding: var(--large) 0;
 
-        &[data-required] {
-          &::after {
-            content: " ✻";
-            color: var(--accent9);
-          }
-        }
-      }
-    }
-
-    .error-message {
-      line-height: var(--huge);
+    h1 {
+      margin: var(--small) 0;
     }
   }
 
-  .breadcrumbs {
+  aside {
     display: flex;
-    align-items: center;
-    font-size: var(--font-size-small);
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: var(--huge);
+  }
+}
 
-    a {
-      color: var(--text-subtle);
-      text-decoration: none;
+.form {
+  fieldset {
+    padding-block: var(--huge);
+  }
 
-      &:hover {
-        color: var(--text-accent);
-      }
-    }
-
-    .icon {
-      color: var(--neutral6);
-    }
+  &__footer {
+    display: flex;
+    gap: var(--spacing);
+    justify-content: flex-end;
+    padding: var(--large) 0 var(--huge);
+    border-top: var(--border-width-standard) solid var(--border-subtle);
   }
 }

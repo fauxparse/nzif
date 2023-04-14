@@ -1,13 +1,14 @@
-import React, { lazy, Suspense } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React, { lazy, Suspense, useMemo } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
+
+import LocationContext from '../LocationContext';
+
+import usePrevious from './hooks/usePrevious';
+import Public from './pages/Public';
 
 const Admin = lazy(() => import('./pages/Admin'));
-const Dashboard = lazy(() => import('./pages/Admin/Dashboard'));
 const Contentful = lazy(() => import('./pages/Contentful'));
-const Public = lazy(() => import('./pages/Public'));
 const Home = lazy(() => import('./pages/Public/Home'));
-const Users = lazy(() => import('./pages/Admin/Users'));
-const EditUser = lazy(() => import('./pages/Admin/Users/Edit'));
 
 const suspend = (Component: React.FC) => (
   <Suspense>
@@ -15,18 +16,32 @@ const suspend = (Component: React.FC) => (
   </Suspense>
 );
 
-const Routing: React.FC = () => (
-  <Routes>
-    <Route path="admin" element={suspend(Admin)}>
-      <Route path="" element={suspend(Dashboard)} />
-      <Route path="users" element={suspend(Users)} />
-      <Route path="users/:id" element={suspend(EditUser)} />
-    </Route>
-    <Route path="/" element={suspend(Public)}>
-      <Route path="/" element={suspend(Home)} />
-      <Route path=":slug" element={suspend(Contentful)} />
-    </Route>
-  </Routes>
-);
+const CONTAINERS: RegExp[] = [/^(\/admin)/];
+
+const Routing: React.FC = () => {
+  const location = useLocation();
+
+  const previousLocation = usePrevious(location);
+
+  const locationKey = useMemo(() => {
+    for (let i = 0; i < CONTAINERS.length; i++) {
+      const match = location.pathname.match(CONTAINERS[i]);
+      if (match) return match[1];
+    }
+    return location.pathname;
+  }, [location]);
+
+  return (
+    <LocationContext.Provider value={{ location, previousLocation }}>
+      <Routes location={location} key={locationKey}>
+        <Route path="admin/*" element={suspend(Admin)} />
+        <Route path="" element={<Public />}>
+          <Route path="" element={suspend(Home)} />
+          <Route path=":slug" element={suspend(Contentful)} />
+        </Route>
+      </Routes>
+    </LocationContext.Provider>
+  );
+};
 
 export default Routing;

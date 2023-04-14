@@ -1,3 +1,4 @@
 
 vite: bin/vite dev
 web: bin/rails s
+storybook: STORYBOOK=true yarn storybook

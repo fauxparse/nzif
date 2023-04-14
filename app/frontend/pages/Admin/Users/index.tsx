@@ -1,9 +1,12 @@
 import React from 'react';
 
+import { BreadcrumbProvider } from '../../../molecules/Breadcrumbs';
+import AnimatedOutlet from '../../AnimatedOutlet';
+
 const Users: React.FC = () => (
-  <div>
-    <h1>Users</h1>
-  </div>
+  <BreadcrumbProvider label="Users" path="users">
+    <AnimatedOutlet />
+  </BreadcrumbProvider>
 );
 
 export default Users;

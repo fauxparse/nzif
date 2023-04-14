@@ -1,0 +1,55 @@
+:where(.tabs) {
+  --tab-highlight: var(--accent9);
+
+  display: flex;
+  gap: var(--large);
+  border-bottom: var(--border-width-standard) solid var(--border-subtle);
+
+  .tab {
+    position: relative;
+    display: flex;
+    gap: var(--small);
+    margin: 0 0 calc(var(--border-width-standard) * -1);
+    padding: var(--spacing) 0;
+    border: none;
+    background-color: transparent;
+    color: var(--text-subtle);
+    font: inherit;
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    cursor: pointer;
+    appearance: none;
+
+    &:hover {
+      color: var(--text);
+    }
+
+    &[aria-selected="true"] {
+      color: var(--text-accent);
+    }
+
+    &:focus-visible {
+      outline: none;
+
+      .tab__text {
+        margin: calc(var(--small) * -1);
+        padding: var(--small);
+        border-radius: var(--huge);
+        background-color: var(--highlight)
+      }
+    }
+
+    &__text {
+      line-height: var(--line-height-standard);
+    }
+
+    &__highlight {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 0.125rem;
+      background-color: var(--tab-highlight);
+    }
+  }
+}
