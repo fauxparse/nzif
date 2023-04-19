@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useCycle } from 'framer-motion';
 import { DateTime } from 'luxon';
@@ -10,7 +10,7 @@ import { useHeaderQuery } from '../../graphql/types';
 import { useAuthentication } from '../Authentication/AuthenticationProvider';
 
 import Overlay from './Overlay';
-import Search from './Search';
+import HeaderSearch from './Search';
 
 import './Header.css';
 
@@ -23,6 +23,8 @@ const dateRange = (start: DateTime, end: DateTime) => {
 };
 
 const Header: React.FC = () => {
+  const container = useRef<HTMLElement>(null);
+
   const [open, toggleOverlay] = useCycle(false, true);
 
   const { data } = useHeaderQuery();
@@ -42,13 +44,13 @@ const Header: React.FC = () => {
   }, [festival]);
 
   return (
-    <header className="header">
+    <header ref={container} className="header">
       <div className="header__logo">
         <Link to="/">NZIF {festival?.startDate?.year}</Link>
       </div>
       <div className="header__dates">{dates}</div>
       <div className="header__user">
-        <Search />
+        <HeaderSearch container={container} />
         {!loading && (
           <Button
             toolbar

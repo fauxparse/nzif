@@ -15,5 +15,13 @@ query Search($query: String!) {
         type
       }
     }
+
+    ... on UserResult {
+      user {
+        id
+        name
+        email
+      }
+    }
   }
 }

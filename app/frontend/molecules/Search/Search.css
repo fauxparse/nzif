@@ -1,9 +1,13 @@
+:where(body) {
+  --loading-background: var(--neutralA5);
+}
+
 .search {
   position: relative;
   width: var(--huge);
   height: var(--huge);
 
-  &__inner {
+  &__input {
     position: absolute;
     inset: 0;
     display: flex;
@@ -66,10 +70,6 @@
     border-radius: var(--border-radius-large);
     background-color: var(--background-subtle);
     box-shadow: var(--shadow-6);
-
-    .spinner {
-      margin: var(--spacing) auto;
-    }
   }
 
   &__empty {
@@ -80,10 +80,11 @@
 
   &__result {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: var(--icon-size) 1fr auto;
     gap: var(--spacing);
     align-items: center;
     width: 100%;
+    min-width: 0;
     padding: var(--small) var(--spacing);
     border: 0;
     border-radius: var(--border-radius-standard);
@@ -96,11 +97,49 @@
     text-align: left;
     appearance: none;
 
+    &__text {
+      grid-column: 2;
+      min-width: 0;
+    }
+
     &__title,
     &__description {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+
+      &:empty {
+        display: flex;
+        align-items: center;
+        height: 1.5rem;
+      }
+    }
+
+    &[aria-busy="true"] {
+      .search__result__title,
+      .search__result__description {
+        &::before {
+          content: "";
+          width: 60%;
+          height: var(--font-size-medium);
+          border-radius: var(--border-radius-standard);
+          background: var(--loading-background);
+        }
+      }
+
+      .search__result__description {
+        &::before {
+          width: 80%;
+          height: var(--font-size-small);
+        }
+      }
+
+      .icon--skeleton {
+        width: var(--icon-size);
+        height: var(--icon-size);
+        border-radius: 50%;
+        background-color: var(--loading-background);
+      }
     }
 
     &__title {
@@ -109,6 +148,13 @@
 
     &__description {
       font-size: var(--font-size-small);
+
+      &:empty {
+        &::before {
+          width: 80%;
+          height: var(--font-size-small);
+        }
+      }
     }
 
     .return-key {
@@ -119,6 +165,7 @@
     &[aria-selected="true"] {
       background-color: var(--accent5);
       color: var(--accent12);
+      cursor: pointer;
 
       .return-key {
         opacity: 1;

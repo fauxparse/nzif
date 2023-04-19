@@ -473,7 +473,7 @@ export type SearchQueryVariables = Exact<{
 }>;
 
 
-export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'ActivityResult', id: string, title: string, url: string, activity: { __typename: 'Show', id: string, name: string, type: ActivityType } | { __typename: 'Workshop', id: string, name: string, type: ActivityType } } | { __typename: 'PageResult', lede: string | null, id: string, title: string, url: string } | { __typename: 'UserResult', id: string, title: string, url: string }> };
+export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'ActivityResult', id: string, title: string, url: string, activity: { __typename: 'Show', id: string, name: string, type: ActivityType } | { __typename: 'Workshop', id: string, name: string, type: ActivityType } } | { __typename: 'PageResult', lede: string | null, id: string, title: string, url: string } | { __typename: 'UserResult', id: string, title: string, url: string, user: { __typename: 'User', id: string, name: string, email: string } }> };
 
 export type EditableUserFragment = { __typename: 'User', id: string, name: string, email: string, roles: Array<Role> };
 
@@ -824,6 +824,13 @@ export const SearchDocument = gql`
         id
         name
         type
+      }
+    }
+    ... on UserResult {
+      user {
+        id
+        name
+        email
       }
     }
   }
