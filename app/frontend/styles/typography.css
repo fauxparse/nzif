@@ -1,3 +1,8 @@
+@font-face {
+  font-family: Inter;
+  src: url("/fonts/Inter-roman.var.woff2") format("woff2");
+}
+
 :where(:root) {
   --font-weight-light: 300;
   --font-weight-normal: 400;
@@ -18,6 +23,7 @@
   --line-height-huge: 3rem;
   --font-stack: system, -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
   --font-family-base: "Inter", var(--font-stack);
+  --font-feature-settings: "cv03", "cv04", "cv11";
 }
 
 body {
@@ -25,5 +31,5 @@ body {
   font-size: var(--font-size-medium);
   font-family: var(--font-family-base);
   line-height: calc(var(--line-height-medium) / var(--font-size-medium));
-  font-feature-settings: "cv03", "cv04", "cv11";
+  font-feature-settings: var(--font-feature-settings);
 }

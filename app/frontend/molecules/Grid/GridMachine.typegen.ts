@@ -1,0 +1,26 @@
+// This file was automatically generated. Edits will be overwritten
+
+export interface Typegen0 {
+  '@@xstate/typegen': true;
+  internalEvents: {
+    'xstate.init': { type: 'xstate.init' };
+  };
+  invokeSrcNameMap: {};
+  missingImplementations: {
+    actions: never;
+    delays: never;
+    guards: never;
+    services: never;
+  };
+  eventsCausingActions: {
+    clearSelection: 'CLEAR_SELECTION';
+    clearSelectionOrigin: 'POINTER_UP';
+    setSelection: 'POINTER_DOWN' | 'POINTER_MOVE' | 'POINTER_UP';
+    setSelectionOrigin: 'POINTER_DOWN' | 'POINTER_MOVE';
+  };
+  eventsCausingDelays: {};
+  eventsCausingGuards: {};
+  eventsCausingServices: {};
+  matchesStates: 'idle' | 'selecting';
+  tags: never;
+}

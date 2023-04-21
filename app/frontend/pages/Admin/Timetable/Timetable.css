@@ -1,0 +1,105 @@
+.timetable {
+  .page__header {
+    position: sticky;
+    left: 0;
+    padding-inline: var(--horizontal-padding);
+    border-bottom: 0;
+  }
+
+  &__grid {
+    overflow: scroll;
+    height: 100vh;
+  }
+
+  .grid {
+    --column-width: 2rem;
+    --row-height: auto;
+    --row-header-width: max(var(--horizontal-padding), 10rem);
+    --column-header-height: var(--large);
+    --grid-background-header: transparent;
+    --grid-background-cell: transparent;
+
+    width: calc(var(--row-header-width) * var(--row-headers) + var(--column-width) * var(--columns));
+    font-variant-numeric: tabular-nums;
+
+    &__column-header {
+      padding: var(--small);
+      border-top: 0;
+      color: var(--text-subtle);
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+
+      &:not(:nth-child(4n+1)) {
+        border-right: 0;
+      }
+    }
+
+    &__row-header{
+      &:not(.grid__column-header) {
+        display: grid;
+        grid-template-rows: 1.5rem 1.5rem;
+        grid-template-columns: 1fr auto;
+        gap: var(--small);
+        align-items: center;
+        justify-items: flex-end;
+        align-self: stretch;
+        padding: var(--small);
+        border-bottom: 0;
+        background-color: var(--background);
+        font-size: var(--font-size-small);
+        line-height: 1;
+
+        .weekday {
+          align-self: flex-end;
+        }
+
+        .month {
+          align-self: flex-start;
+        }
+
+        .day {
+          grid-row: 1 / -1;
+          grid-column: 2;
+          font-weight: 200;
+          font-size: var(--huge);
+          line-height: 1;
+        }
+      }
+
+      &.grid__column-header {
+        background-color: var(--background);
+      }
+    }
+
+    &__cell {
+      min-height: var(--spacing);
+
+      &:not(:nth-child(4n + 1)) {
+        border-right-color: transparent;
+      }
+
+      &:not([data-last-track]) {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  &__slot {
+    position: relative;
+    min-height: 3.5rem;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 2px 3px 3px 2px;
+      border-radius: var(--border-radius-standard);
+      background-color: var(--neutralA3);
+    }
+
+    .grid[data-selecting] & {
+      pointer-events: none;
+    }
+  }
+}
+
+

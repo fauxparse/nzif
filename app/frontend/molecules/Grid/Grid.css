@@ -1,0 +1,70 @@
+:where(.grid) {
+  --rows: 1;
+  --columns: 1;
+  --column-width: 6rem;
+  --row-height: 2.5rem;
+  --row-header-width: 8rem;
+  --column-header-height: 3.5rem;
+  --row-headers: 0;
+  --column-headers: 0;
+  --grid-border-light: var(--neutral6);
+  --grid-border-heavy: var(--neutral7);
+  --grid-background-header: var(--neutral3);
+  --grid-background-cell: var(--neutral2);
+  --stack-cell: 0;
+  --stack-column-header: 1;
+  --stack-selection: 2;
+  --stack-row-header: 3;
+  --stack-top-left: 4;
+
+  display: grid;
+  grid-template-rows: calc(var(--column-headers) * var(--column-header-height) + (1 - var(--column-headers)) * var(--row-height)) repeat(calc(var(--rows) - 1 + var(--column-headers)), var(--row-height));
+  grid-template-columns: calc(var(--row-headers) * var(--row-header-width) + (1 - var(--row-headers)) * var(--column-width)) repeat(calc(var(--columns) - 1 + var(--row-headers)), var(--column-width));
+  user-select: none;
+}
+
+:where(.grid__row) {
+  display: contents;
+}
+
+:where(.grid__row-header, .grid__column-header) {
+  position: sticky;
+  border: var(--border-width-standard) solid var(--grid-border-heavy);
+  background-color: var(--grid-background-header);
+}
+
+:where(.grid__column-header) {
+  top: 0;
+  z-index: var(--stack-column-header);
+
+  &:where(:not(.grid__row-header)) {
+    border-left-width: 0;
+  }
+}
+
+:where(.grid__row-header) {
+  left: 0;
+  z-index: var(--stack-row-header);
+
+  &:where(:not(.grid__column-header)) {
+    border-top-width: 0;
+  }
+
+  &:where(.grid__column-header) {
+    z-index: var(--stack-top-left);
+  }
+}
+
+:where(.grid__cell) {
+  border: var(--border-width-standard) solid var(--grid-border-light);
+  border-width: 0 var(--border-width-standard) var(--border-width-standard) 0;
+  background-color: var(--grid-background-cell);
+  cursor: cell;
+}
+
+:where(.grid__selection) {
+  z-index: var(--stack-selection);
+  outline: 2px solid var(--accent9);
+  pointer-events: none;
+  touch-action: none;
+}

@@ -8,11 +8,12 @@ export default defineConfig({
     ...(process.env.STORYBOOK ? [] : [ruby()]),
     react(),
     fonts({
-      google: {
+      custom: {
         families: [
           {
-            name: 'Inter',
-            styles: 'wght@400;500;600;700;900',
+            name: 'CooperStd',
+            local: 'Cooper Std',
+            src: './app/assets/fonts/*.otf',
           },
         ],
       },

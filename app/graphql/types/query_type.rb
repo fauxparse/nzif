@@ -4,7 +4,7 @@ module Types
 
     field :festival, FestivalType, null: false do
       description 'Find a festival by year'
-      argument :year, String, required: true, description: 'The year of the festival'
+      argument :year, String, required: false, description: 'The year of the festival'
     end
 
     field :user, UserType, null: true do
@@ -21,8 +21,12 @@ module Types
 
     field :search, resolver: Resolvers::SearchQuery, description: 'Search for content'
 
-    def festival(year:)
-      Festival.by_year(year).first
+    def festival(year: nil)
+      if year
+        Festival.by_year(year).first!
+      else
+        Festival.where('end_date >= ?', Time.zone.today).first!
+      end
     end
 
     def user(id: nil)

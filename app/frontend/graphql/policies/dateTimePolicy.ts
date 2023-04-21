@@ -9,7 +9,7 @@ export const dateTimePolicy: FieldPolicy<DateTime, string> = {
     } else if (incoming instanceof DateTime) {
       return incoming;
     } else {
-      return DateTime.fromISO(incoming as string);
+      return DateTime.fromISO(incoming as string, { zone: 'Pacific/Auckland' });
     }
   },
 };

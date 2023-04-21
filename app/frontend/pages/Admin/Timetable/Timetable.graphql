@@ -1,0 +1,7 @@
+query Timetable($year: String) {
+  festival(year: $year) {
+    id
+    startDate
+    endDate
+  }
+}

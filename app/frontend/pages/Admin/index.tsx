@@ -3,11 +3,11 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 
 import { BreadcrumbProvider } from '../../molecules/Breadcrumbs';
-import Footer from '../../organisms/Footer';
 import Header from '../../organisms/Header';
 
 import UserOverview from './Users/User';
 import Dashboard from './Dashboard';
+import Timetable from './Timetable';
 import Users from './Users';
 
 import './Admin.css';
@@ -56,11 +56,11 @@ const Admin: React.FC = () => {
         >
           <Routes location={location} key={location.pathname.replace(/users.*/, 'users')}>
             <Route path="" element={<Dashboard />} />
+            <Route path="timetable" element={<Timetable />} />
             <Route path="users" element={<Users />} />
             <Route path="users/:id/*" element={<UserOverview />} />
           </Routes>
         </motion.main>
-        <Footer />
       </AnimatePresence>
     </BreadcrumbProvider>
   );

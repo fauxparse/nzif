@@ -276,7 +276,7 @@ type Query {
     """
     The year of the festival
     """
-    year: String!
+    year: String
   ): Festival!
 
   """

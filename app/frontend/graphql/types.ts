@@ -232,7 +232,7 @@ export type Query = {
 
 
 export type QueryFestivalArgs = {
-  year: Scalars['String'];
+  year: InputMaybe<Scalars['String']>;
 };
 
 
@@ -474,6 +474,13 @@ export type SearchQueryVariables = Exact<{
 
 
 export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'ActivityResult', id: string, title: string, url: string, activity: { __typename: 'Show', id: string, name: string, type: ActivityType } | { __typename: 'Workshop', id: string, name: string, type: ActivityType } } | { __typename: 'PageResult', lede: string | null, id: string, title: string, url: string } | { __typename: 'UserResult', id: string, title: string, url: string, user: { __typename: 'User', id: string, name: string, email: string } }> };
+
+export type TimetableQueryVariables = Exact<{
+  year: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type TimetableQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime } };
 
 export type EditableUserFragment = { __typename: 'User', id: string, name: string, email: string, roles: Array<Role> };
 
@@ -864,6 +871,43 @@ export function useSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Sea
 export type SearchQueryHookResult = ReturnType<typeof useSearchQuery>;
 export type SearchLazyQueryHookResult = ReturnType<typeof useSearchLazyQuery>;
 export type SearchQueryResult = Apollo.QueryResult<SearchQuery, SearchQueryVariables>;
+export const TimetableDocument = gql`
+    query Timetable($year: String) {
+  festival(year: $year) {
+    id
+    startDate
+    endDate
+  }
+}
+    `;
+
+/**
+ * __useTimetableQuery__
+ *
+ * To run a query within a React component, call `useTimetableQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTimetableQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTimetableQuery({
+ *   variables: {
+ *      year: // value for 'year'
+ *   },
+ * });
+ */
+export function useTimetableQuery(baseOptions?: Apollo.QueryHookOptions<TimetableQuery, TimetableQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TimetableQuery, TimetableQueryVariables>(TimetableDocument, options);
+      }
+export function useTimetableLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TimetableQuery, TimetableQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TimetableQuery, TimetableQueryVariables>(TimetableDocument, options);
+        }
+export type TimetableQueryHookResult = ReturnType<typeof useTimetableQuery>;
+export type TimetableLazyQueryHookResult = ReturnType<typeof useTimetableLazyQuery>;
+export type TimetableQueryResult = Apollo.QueryResult<TimetableQuery, TimetableQueryVariables>;
 export const EditUserDocument = gql`
     query EditUser($id: ID!) {
   user(id: $id) {
