@@ -1,0 +1,26 @@
+:where(:root),
+:where([data-theme="light"]) {
+  --logo-blob-blend-mode: multiply;
+}
+
+:where([data-theme="dark"]) {
+  --logo-blob-blend-mode: screen;
+}
+
+:where(.logo) {
+  width: 800px;
+  height: 600px;
+
+
+  :where(.logo__blob) {
+    mix-blend-mode: var(--logo-blob-blend-mode);
+  }
+
+  :where(.logo__nz) {
+    fill: var(--accent9);
+  }
+
+  :where(.logo__if) {
+    fill: var(--background);
+  }
+}
