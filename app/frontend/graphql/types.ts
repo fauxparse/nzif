@@ -36,6 +36,8 @@ export type ActivityResult = SearchResult & {
   __typename: 'ActivityResult';
   /** Activity */
   activity: Activity;
+  /** Supporting description */
+  description: Maybe<Scalars['String']>;
   /** Unique ID */
   id: Scalars['ID'];
   /** Title of result page */
@@ -190,6 +192,8 @@ export type MutationUserUpdatePasswordWithTokenArgs = {
 /** A search result from a content page */
 export type PageResult = SearchResult & {
   __typename: 'PageResult';
+  /** Supporting description */
+  description: Maybe<Scalars['String']>;
   /** Unique ID */
   id: Scalars['ID'];
   /** Lede of the page */
@@ -261,6 +265,8 @@ export enum Role {
 
 /** An individual search result */
 export type SearchResult = {
+  /** Supporting description */
+  description: Maybe<Scalars['String']>;
   /** Unique ID */
   id: Scalars['ID'];
   /** Title of result page */
@@ -371,6 +377,8 @@ export type UserResendConfirmationWithTokenPayload = {
 /** A search result from a user */
 export type UserResult = SearchResult & {
   __typename: 'UserResult';
+  /** Supporting description */
+  description: Maybe<Scalars['String']>;
   /** Unique ID */
   id: Scalars['ID'];
   /** Title of result page */
@@ -393,6 +401,38 @@ export type UserUpdatePasswordWithTokenPayload = {
   authenticatable: User;
   /** Authentication credentials. Resource must be signed_in for credentials to be returned. */
   credentials: Maybe<Credential>;
+};
+
+/** A venue */
+export type Venue = {
+  __typename: 'Venue';
+  /** Address */
+  address: Scalars['String'];
+  /** Building */
+  building: Scalars['String'];
+  /** Unique ID */
+  id: Scalars['ID'];
+  /** Latitude */
+  latitude: Scalars['Float'];
+  /** Longitude */
+  longitude: Scalars['Float'];
+  /** Room */
+  room: Maybe<Scalars['String']>;
+};
+
+/** A search result from a venue */
+export type VenueResult = SearchResult & {
+  __typename: 'VenueResult';
+  /** Supporting description */
+  description: Maybe<Scalars['String']>;
+  /** Unique ID */
+  id: Scalars['ID'];
+  /** Title of result page */
+  title: Scalars['String'];
+  /** Link to result page */
+  url: Scalars['String'];
+  /** Venue */
+  venue: Venue;
 };
 
 /** A workshop */
@@ -473,7 +513,7 @@ export type SearchQueryVariables = Exact<{
 }>;
 
 
-export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'ActivityResult', id: string, title: string, url: string, activity: { __typename: 'Show', id: string, name: string, type: ActivityType } | { __typename: 'Workshop', id: string, name: string, type: ActivityType } } | { __typename: 'PageResult', lede: string | null, id: string, title: string, url: string } | { __typename: 'UserResult', id: string, title: string, url: string, user: { __typename: 'User', id: string, name: string, email: string } }> };
+export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'ActivityResult', id: string, title: string, description: string | null, url: string, activity: { __typename: 'Show', id: string, name: string, type: ActivityType } | { __typename: 'Workshop', id: string, name: string, type: ActivityType } } | { __typename: 'PageResult', lede: string | null, id: string, title: string, description: string | null, url: string } | { __typename: 'UserResult', id: string, title: string, description: string | null, url: string, user: { __typename: 'User', id: string, name: string, email: string } } | { __typename: 'VenueResult', id: string, title: string, description: string | null, url: string, venue: { __typename: 'Venue', id: string, room: string | null, building: string, address: string } }> };
 
 export type TimetableQueryVariables = Exact<{
   year: InputMaybe<Scalars['String']>;
@@ -822,6 +862,7 @@ export const SearchDocument = gql`
   search(query: $query) {
     id
     title
+    description
     url
     ... on PageResult {
       lede
@@ -838,6 +879,14 @@ export const SearchDocument = gql`
         id
         name
         email
+      }
+    }
+    ... on VenueResult {
+      venue {
+        id
+        room
+        building
+        address
       }
     }
   }

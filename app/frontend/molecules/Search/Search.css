@@ -65,6 +65,7 @@
 
   &__results {
     z-index: calc(var(--z-index-search) + 1);
+    overflow-y: auto;
     padding: var(--small);
     border: 1px solid var(--border-subtle);
     border-radius: var(--border-radius-large);

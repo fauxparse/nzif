@@ -53,6 +53,9 @@ gem 'hashie', '~> 5.0'
 gem 'interactor-rails', github: 'fauxparse/interactor-rails'
 
 gem 'contentful', '~> 2.16'
+
+gem 'geocoder', '~> 1.8'
+gem 'geokit-rails', '~> 2.5'
 gem 'pg_search', '~> 2.3'
 
 gem 'action_policy', '~> 0.6.5'
@@ -83,6 +86,8 @@ group :development do
   gem 'rubocop-rspec', '~> 2.19', require: false
 
   gem 'graphiql-rails'
+
+  gem 'seed-fu', '~> 2.3'
 end
 
 group :test do

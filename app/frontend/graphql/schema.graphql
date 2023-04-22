@@ -33,6 +33,11 @@ type ActivityResult implements SearchResult {
   activity: Activity!
 
   """
+  Supporting description
+  """
+  description: String
+
+  """
   Unique ID
   """
   id: ID!
@@ -213,6 +218,11 @@ A search result from a content page
 """
 type PageResult implements SearchResult {
   """
+  Supporting description
+  """
+  description: String
+
+  """
   Unique ID
   """
   id: ID!
@@ -334,6 +344,11 @@ enum Role {
 An individual search result
 """
 interface SearchResult {
+  """
+  Supporting description
+  """
+  description: String
+
   """
   Unique ID
   """
@@ -512,6 +527,11 @@ A search result from a user
 """
 type UserResult implements SearchResult {
   """
+  Supporting description
+  """
+  description: String
+
+  """
   Unique ID
   """
   id: ID!
@@ -549,6 +569,71 @@ type UserUpdatePasswordWithTokenPayload {
   Authentication credentials. Resource must be signed_in for credentials to be returned.
   """
   credentials: Credential
+}
+
+"""
+A venue
+"""
+type Venue {
+  """
+  Address
+  """
+  address: String!
+
+  """
+  Building
+  """
+  building: String!
+
+  """
+  Unique ID
+  """
+  id: ID!
+
+  """
+  Latitude
+  """
+  latitude: Float!
+
+  """
+  Longitude
+  """
+  longitude: Float!
+
+  """
+  Room
+  """
+  room: String
+}
+
+"""
+A search result from a venue
+"""
+type VenueResult implements SearchResult {
+  """
+  Supporting description
+  """
+  description: String
+
+  """
+  Unique ID
+  """
+  id: ID!
+
+  """
+  Title of result page
+  """
+  title: String!
+
+  """
+  Link to result page
+  """
+  url: String!
+
+  """
+  Venue
+  """
+  venue: Venue!
 }
 
 """

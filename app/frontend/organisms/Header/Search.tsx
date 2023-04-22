@@ -61,17 +61,16 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ container }) => {
               const searchResult: SearchResult = {
                 id: result.id,
                 title: result.title,
+                description: result.description || '',
                 url: result.url,
-                description: '',
                 icon: 'page',
               };
               if (isPageResult(result)) {
                 searchResult.icon = 'page';
-                searchResult.description = result.lede || '(no description)';
+                searchResult.description ||= '(no description)';
               }
               if (isActivityResult(result)) {
                 searchResult.icon = camelCase(result.activity.type) as IconName;
-                searchResult.description = result.activity.type;
               }
               if (isUserResult(result)) {
                 searchResult.icon = 'user';

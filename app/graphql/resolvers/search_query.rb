@@ -8,7 +8,7 @@ module Resolvers
     argument :query, String, required: true, description: 'Text to search for'
 
     def resolve(query:, limit: 5)
-      %i[activity user page].flat_map do |type|
+      %i[activity user venue page].flat_map do |type|
         send("#{type}_matches", query:, limit:)
       end
     end
@@ -27,6 +27,12 @@ module Resolvers
 
       authorized_scope(User, type: :relation).search(query).limit(limit).map do |user|
         Hashie::Mash.new(user:)
+      end
+    end
+
+    def venue_matches(query:, limit:)
+      Venue.search(query).limit(limit).map do |venue|
+        Hashie::Mash.new(venue:)
       end
     end
 

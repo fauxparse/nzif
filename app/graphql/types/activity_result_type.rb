@@ -14,6 +14,10 @@ module Types
       activity.name
     end
 
+    def description
+      activity.class.name
+    end
+
     def url
       "/#{object.festival.to_param}/#{activity.class.to_param}/#{activity.to_param}"
     end

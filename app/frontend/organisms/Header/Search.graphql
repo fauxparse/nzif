@@ -2,6 +2,7 @@ query Search($query: String!) {
   search(query: $query) {
     id
     title
+    description
     url
 
     ... on PageResult {
@@ -21,6 +22,15 @@ query Search($query: String!) {
         id
         name
         email
+      }
+    }
+
+    ... on VenueResult {
+      venue {
+        id
+        room
+        building
+        address
       }
     }
   }

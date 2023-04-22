@@ -12,6 +12,10 @@ module Types
       "page[#{object.slug}]"
     end
 
+    def description
+      object.lede
+    end
+
     def url
       "/#{object.slug}"
     end

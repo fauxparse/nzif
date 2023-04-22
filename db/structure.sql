@@ -24,6 +24,20 @@ COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs
 
 
 --
+-- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION postgis; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION postgis IS 'PostGIS geometry and geography spatial types and functions';
+
+
+--
 -- Name: unaccent; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -218,6 +232,42 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
+-- Name: venues; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.venues (
+    id bigint NOT NULL,
+    room character varying,
+    building character varying NOT NULL,
+    address character varying NOT NULL,
+    latitude numeric(15,10),
+    longitude numeric(15,10),
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, (COALESCE(room, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('english'::regconfig, (COALESCE(building, ''::character varying))::text), 'B'::"char"))) STORED
+);
+
+
+--
+-- Name: venues_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.venues_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: venues_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.venues_id_seq OWNED BY public.venues.id;
+
+
+--
 -- Name: activities id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -243,6 +293,13 @@ ALTER TABLE ONLY public.roles ALTER COLUMN id SET DEFAULT nextval('public.roles_
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Name: venues id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.venues ALTER COLUMN id SET DEFAULT nextval('public.venues_id_seq'::regclass);
 
 
 --
@@ -291,6 +348,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: venues venues_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.venues
+    ADD CONSTRAINT venues_pkey PRIMARY KEY (id);
 
 
 --
@@ -371,6 +436,13 @@ CREATE UNIQUE INDEX index_users_on_uid_and_provider ON public.users USING btree 
 
 
 --
+-- Name: index_venues_on_latitude_and_longitude; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_venues_on_latitude_and_longitude ON public.venues USING btree (latitude, longitude);
+
+
+--
 -- Name: roles fk_rails_ab35d699f0; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -395,6 +467,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230407200831'),
 ('20230409225123'),
 ('20230410203022'),
-('20230410205819');
+('20230410205819'),
+('20230422022541');
 
 

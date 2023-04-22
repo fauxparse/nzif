@@ -14,6 +14,10 @@ module Types
       user.name
     end
 
+    def description
+      null
+    end
+
     def url
       "/admin/users/#{user.to_param}"
     end

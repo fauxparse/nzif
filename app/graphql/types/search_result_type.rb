@@ -6,16 +6,15 @@ module Types
 
     field :id, ID, null: false, description: 'Unique ID'
     field :title, String, null: false, description: 'Title of result page'
+    field :description, String, null: true, description: 'Supporting description'
     field :url, String, null: false, description: 'Link to result page'
 
     definition_methods do
       def resolve_type(object, _context)
-        if object.activity?
-          ActivityResultType
-        elsif object.user?
-          UserResultType
-        elsif object.slug?
-          PageResultType
+        if object.activity? then ActivityResultType
+        elsif object.user? then UserResultType
+        elsif object.venue? then VenueResultType
+        elsif object.slug? then PageResultType
         else
           raise "Unexpected Activity: #{object.inspect}"
         end
@@ -24,8 +23,9 @@ module Types
 
     orphan_types(
       ActivityResultType,
-      UserResultType,
       PageResultType,
+      UserResultType,
+      VenueResultType,
     )
   end
 end
