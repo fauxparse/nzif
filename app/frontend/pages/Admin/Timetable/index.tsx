@@ -2,9 +2,9 @@ import React, { useMemo } from 'react';
 import { first, last, range } from 'lodash-es';
 import { DateTime } from 'luxon';
 
-import { useTimetableQuery } from '../../../graphql/types';
-import Breadcrumbs from '../../../molecules/Breadcrumbs';
-import BreadcrumbProvider from '../../../molecules/Breadcrumbs/BreadcrumbProvider';
+import { useTimetableQuery } from '@/graphql/types';
+import Breadcrumbs from '@/molecules/Breadcrumbs';
+import BreadcrumbProvider from '@/molecules/Breadcrumbs/BreadcrumbProvider';
 
 import Context from './Context';
 import Grid from './Grid';

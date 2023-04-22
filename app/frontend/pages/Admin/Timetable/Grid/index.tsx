@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import BaseGrid from '../../../../molecules/Grid';
+import BaseGrid from '@/molecules/Grid';
 
 import Cell from './Cell';
 import ColumnHeader from './ColumnHeader';

@@ -1,9 +1,15 @@
 import react from '@vitejs/plugin-react';
+import path from 'path';
 import fonts from 'vite-plugin-fonts';
 import ruby from 'vite-plugin-ruby';
 import { configDefaults, defineConfig } from 'vitest/config';
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './app/frontend'),
+    },
+  },
   plugins: [
     ...(process.env.STORYBOOK ? [] : [ruby()]),
     react(),
