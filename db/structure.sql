@@ -186,6 +186,41 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: slots; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.slots (
+    id bigint NOT NULL,
+    festival_id bigint NOT NULL,
+    venue_id bigint,
+    starts_at timestamp without time zone NOT NULL,
+    ends_at timestamp without time zone NOT NULL,
+    activity_type character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: slots_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.slots_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: slots_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.slots_id_seq OWNED BY public.slots.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -289,6 +324,13 @@ ALTER TABLE ONLY public.roles ALTER COLUMN id SET DEFAULT nextval('public.roles_
 
 
 --
+-- Name: slots id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.slots ALTER COLUMN id SET DEFAULT nextval('public.slots_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -340,6 +382,14 @@ ALTER TABLE ONLY public.roles
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: slots slots_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.slots
+    ADD CONSTRAINT slots_pkey PRIMARY KEY (id);
 
 
 --
@@ -401,6 +451,27 @@ CREATE UNIQUE INDEX index_roles_on_user_id_and_name ON public.roles USING btree 
 
 
 --
+-- Name: index_slots_on_everything; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_slots_on_everything ON public.slots USING btree (festival_id, venue_id, starts_at, ends_at);
+
+
+--
+-- Name: index_slots_on_festival_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_slots_on_festival_id ON public.slots USING btree (festival_id);
+
+
+--
+-- Name: index_slots_on_venue_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_slots_on_venue_id ON public.slots USING btree (venue_id);
+
+
+--
 -- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -443,11 +514,27 @@ CREATE INDEX index_venues_on_latitude_and_longitude ON public.venues USING btree
 
 
 --
+-- Name: slots fk_rails_7ac879864b; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.slots
+    ADD CONSTRAINT fk_rails_7ac879864b FOREIGN KEY (festival_id) REFERENCES public.festivals(id) ON DELETE CASCADE;
+
+
+--
 -- Name: roles fk_rails_ab35d699f0; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.roles
     ADD CONSTRAINT fk_rails_ab35d699f0 FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: slots fk_rails_f482cd28c7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.slots
+    ADD CONSTRAINT fk_rails_f482cd28c7 FOREIGN KEY (venue_id) REFERENCES public.venues(id) ON DELETE SET NULL;
 
 
 --
@@ -468,6 +555,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230409225123'),
 ('20230410203022'),
 ('20230410205819'),
-('20230422022541');
+('20230422022541'),
+('20230422033310');
 
 

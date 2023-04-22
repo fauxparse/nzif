@@ -1,5 +1,6 @@
 class Festival < ApplicationRecord
   has_many :activities, dependent: :destroy
+  has_many :slots, dependent: :destroy
 
   validates :start_date, presence: true
   validates :end_date, presence: true, date: { after: :start_date, same_year: :start_date }

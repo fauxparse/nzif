@@ -2,6 +2,7 @@ class DateTimeValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     return if value.blank?
 
+    validate_before(record, attribute, value)
     validate_after(record, attribute, value)
     validate_same(record, attribute, value)
   end
@@ -9,7 +10,18 @@ class DateTimeValidator < ActiveModel::EachValidator
   private
 
   def fetch_option(record, option)
-    record.send options[option]
+    if options[option].respond_to?(:call)
+      record.instance_exec(&options[option])
+    else
+      record.send options[option]
+    end
+  end
+
+  def validate_before(record, attribute, value)
+    return unless options[:before]
+
+    limit = fetch_option(record, :before)
+    record.errors.add(attribute, "must be before #{limit}") if value >= limit
   end
 
   def validate_after(record, attribute, value)

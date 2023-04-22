@@ -16,6 +16,8 @@ module Types
     field :end_date, Types::ISODate, null: false, description: 'The last day of the festival'
     field :start_date, Types::ISODate, null: false, description: 'The first day of the festival'
     field :state, Types::FestivalStateType, null: false, description: 'State of the festival'
+    field :timetable, Types::TimetableType, null: false,
+      description: 'The timetable for the festival'
 
     def id
       object.start_date.year.to_s
@@ -31,6 +33,10 @@ module Types
       dataloader
         .with(Sources::ActivitiesBySlug, context:, festival: object, type:)
         .load(slug)
+    end
+
+    def timetable
+      object
     end
   end
 end
