@@ -1,0 +1,59 @@
+:where(.checkbox) {
+  :where(rect) {
+    fill: var(--background);
+    stroke: var(--input-outline);
+    stroke-width: 1.5px;
+
+    + :where(path) {
+      fill: none;
+      stroke: var(--background);
+      transform: none;
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+    }
+  }
+
+  :where(:checked ~ .icon) {
+    :where(rect) {
+      fill: var(--input-active);
+    }
+
+    :where(path) {
+      transition: stroke-dashoffset var(--timing-slow) var(--ease-standard);
+      stroke-dashoffset: 0;
+    }
+  }
+
+  &:where(:has(:indeterminate)) {
+    &::after {
+      content: "";
+      position: absolute;
+      inset: calc(50% - 1px) calc(100% / 3);
+      border-radius: 1px;
+      background-color: var(--accent3);
+    }
+  }
+
+  :indeterminate {
+    &::after {
+      content: "";
+      position: absolute;
+      inset: calc(50% - 1px) calc(100% / 3);
+      border-radius: 1px;
+      background-color: var(--accent3);
+    }
+  }
+
+  :where(:indeterminate ~ .icon) {
+    --input-outline: var(--input-active);
+
+    :where(rect) {
+      fill: var(--input-outline);
+      stroke: var(--input-outline);
+    }
+
+    :where(path) {
+      opacity: 0;
+    }
+  }
+}

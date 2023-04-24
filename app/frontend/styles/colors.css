@@ -98,6 +98,9 @@
   --white: var(--accent1);
   --focus: var(--accentA7);
   --highlight: var(--accentA4);
+  --input-outline: var(--neutral7);
+  --input-active: var(--accent9);
+  --input-inactive: var(--neutral7);
 
   /* Misc */
   --disabled-opacity: 0.6;
