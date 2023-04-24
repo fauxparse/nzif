@@ -26,6 +26,6 @@ module Geocodable
   end
 
   def requires_geocoding?
-    latitude.blank? || longitude.blank? || address_changed? || new_record?
+    latitude.blank? || longitude.blank? || address_changed?
   end
 end

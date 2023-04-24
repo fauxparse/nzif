@@ -42,6 +42,9 @@ Layout/LineLength:
   Max: 100
   AllowedPatterns: ['\A\s*#']
 
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
 Metrics/AbcSize:
   Exclude:
     - 'db/migrate/*'
@@ -52,14 +55,18 @@ Metrics/MethodLength:
 
 RSpec/ContextWording:
   Prefixes:
+    - as
+    - by
+    - for
     - when
     - with
     - without
-    - for
-    - by
 
 RSpec/ExampleLength:
   Max: 10
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
 
 RSpec/MultipleSubjects:
   Enabled: false

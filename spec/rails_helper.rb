@@ -12,6 +12,9 @@ require 'rspec/rails'
 require 'action_policy/rspec/dsl'
 require 'support/factory_bot'
 
+require 'support/interactor_helper'
+require 'support/mutation_helper'
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -63,8 +66,24 @@ RSpec.configure do |config|
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
 
+  config.include InteractorHelper, type: :interactor
+  config.include MutationHelper, type: :mutation
+
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  Geocoder.configure(lookup: :test)
+
+  Geocoder::Lookup::Test.set_default_stub(
+    [
+      {
+        'coordinates' => [-41.2921901197085, 174.7858539802915],
+        'address' => '1 Kent Tce, Wellington',
+        'country' => 'New Zealand',
+        'country_code' => 'NZ',
+      },
+    ],
+  )
 end

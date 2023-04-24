@@ -1,7 +1,41 @@
+fragment TimetableSlot on Slot {
+  id
+  startsAt
+  endsAt
+  activityType
+
+  venue {
+    id
+    room
+  }
+}
+
 query Timetable($year: String) {
   festival(year: $year) {
     id
     startDate
     endDate
+
+    timetable {
+      id
+
+      slots {
+        ...TimetableSlot
+      }
+    }
+
+    venues {
+      id
+      room
+      building
+    }
+  }
+}
+
+mutation CreateSlots($attributes: MultipleSlotAttributes!) {
+  createSlots(attributes: $attributes) {
+    slots {
+      ...TimetableSlot
+    }
   }
 }

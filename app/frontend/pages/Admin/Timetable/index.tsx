@@ -18,6 +18,10 @@ const Timetable: React.FC = () => {
   const startHour = 9;
   const endHour = 26;
 
+  const festival = data?.festival || null;
+  const slots = festival?.timetable?.slots || [];
+  const venues = festival?.venues || [];
+
   const dates = useMemo(() => {
     const [startDate, rows] = data
       ? [
@@ -34,11 +38,12 @@ const Timetable: React.FC = () => {
         startHour,
         endHour,
         granularity,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        startDate: first(dates)!,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        endDate: last(dates)!,
+        startDate: first(dates) as DateTime,
+        endDate: last(dates) as DateTime,
         dates,
+        venues,
+        slots,
+        festival,
       }}
     >
       <BreadcrumbProvider label="Timetable" path="timetable">
@@ -48,7 +53,7 @@ const Timetable: React.FC = () => {
             <h1>Timetable</h1>
           </header>
           <div className="timetable__grid">
-            <Grid />
+            <Grid slots={slots} />
           </div>
         </div>
       </BreadcrumbProvider>

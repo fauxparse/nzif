@@ -63,7 +63,7 @@ const Input = forwardRef<HTMLDivElement, InputProps>(
         onAnimationStart={containerAnimationStart}
         onAnimationComplete={containerAnimationComplete}
       >
-        <Button toolbar icon="search" aria-label="search" onClick={() => toggle()} />
+        <Button ghost icon="search" aria-label="search" onClick={() => toggle()} />
         <motion.input
           ref={inputRef}
           type="search"
@@ -78,7 +78,7 @@ const Input = forwardRef<HTMLDivElement, InputProps>(
         {expanded && (
           <>
             <Button
-              toolbar
+              ghost
               icon={loading ? <Spinner /> : 'clear'}
               aria-label="Clear"
               onClick={() => toggle()}

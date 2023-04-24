@@ -8,7 +8,9 @@
   /* Stacking */
   --z-index-overlay: 10;
   --z-index-overlay-toggle: 11;
+  --z-index-popover: 20;
   --z-index-search: 20;
+  --z-index-select-content: 30;
 
   color-scheme: light dark;
   font-synthesis: none;

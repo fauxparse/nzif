@@ -135,10 +135,10 @@ export const Inline: Story = {
   ),
 };
 
-export const Toolbar: Story = {
+export const Ghost: Story = {
   args: {
     ...Default.args,
-    variant: ButtonVariant.TOOLBAR,
+    variant: ButtonVariant.GHOST,
   } as ButtonProps,
 };
 

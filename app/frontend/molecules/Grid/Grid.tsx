@@ -13,7 +13,7 @@ import { useInterpret, useSelector } from '@xstate/react';
 import clsx from 'clsx';
 import { range } from 'lodash-es';
 
-import { GridComponent } from './Grid.types';
+import { GridComponent, Region } from './Grid.types';
 import GridMachine from './GridMachine';
 import Selection from './Selection';
 import useAutoScroll from './useAutoScroll';
@@ -33,6 +33,7 @@ export const Grid: GridComponent = forwardRef(
       columnHeader: ColumnHeaderComponent,
       rowHeader: RowHeaderComponent,
       selection: SelectionComponent = Selection,
+      onSelectionChange,
       ...props
     },
     ref
@@ -47,6 +48,16 @@ export const Grid: GridComponent = forwardRef(
     const columnOffset = RowHeaderComponent ? 1 : 0;
 
     const machine = useInterpret(GridMachine);
+
+    const state = useSelector(machine, (state) => state);
+
+    const selection = state.context.selection;
+
+    const currentSelection = useRef<Region | null>(null);
+
+    useEffect(() => {
+      currentSelection.current = selection;
+    }, [selection]);
 
     const [selecting, setSelecting] = useState(false);
 
@@ -81,9 +92,12 @@ export const Grid: GridComponent = forwardRef(
         updateMachine(e);
         if (Date.now() - selectionStart.current < 300) {
           machine.send('CLEAR_SELECTION');
+          onSelectionChange?.(null);
+        } else {
+          onSelectionChange?.(currentSelection.current);
         }
       },
-      [updateMachine, machine]
+      [updateMachine, machine, onSelectionChange]
     );
 
     const panStart = (e: React.PointerEvent) => {
@@ -101,8 +115,6 @@ export const Grid: GridComponent = forwardRef(
       setSelecting(true);
       updateMachine(e);
     };
-
-    const selection = useSelector(machine, (state) => state.context.selection);
 
     useEffect(() => {
       return () => {

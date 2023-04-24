@@ -32,6 +32,7 @@ export type BaseGridProps = {
   columnHeader?: React.FC<ColumnHeaderProps>;
   cell?: React.FC<CellProps>;
   selection?: React.FC<SelectionProps>;
+  onSelectionChange?: (selection: Region | null) => void;
 };
 
 export type GridProps<C extends ElementType = 'div'> = Polymorphic<C, BaseGridProps>;

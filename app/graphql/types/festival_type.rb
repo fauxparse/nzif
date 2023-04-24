@@ -18,6 +18,7 @@ module Types
     field :state, Types::FestivalStateType, null: false, description: 'State of the festival'
     field :timetable, Types::TimetableType, null: false,
       description: 'The timetable for the festival'
+    field :venues, [Types::VenueType], null: false, description: 'Venues'
 
     def id
       object.start_date.year.to_s
@@ -37,6 +38,12 @@ module Types
 
     def timetable
       object
+    end
+
+    def venues
+      dataloader
+        .with(Sources::VenuesByFestival, context:)
+        .load(object.id)
     end
   end
 end

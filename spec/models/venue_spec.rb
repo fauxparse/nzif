@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Venue do
-  subject(:venue) { build(:venue) }
+  subject(:venue) { build(:venue, latitude: nil, longitude: nil) }
 
   it { is_expected.to be_valid }
 

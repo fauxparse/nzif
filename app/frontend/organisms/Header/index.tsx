@@ -53,7 +53,7 @@ const Header: React.FC = () => {
         <HeaderSearch container={container} />
         {!loading && (
           <Button
-            toolbar
+            ghost
             className="user-button"
             icon="user"
             text={user?.name || 'Log in'}

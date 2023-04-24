@@ -15,7 +15,7 @@ export enum ButtonSize {
 export enum ButtonVariant {
   PRIMARY = 'primary',
   SECONDARY = 'secondary',
-  TOOLBAR = 'toolbar',
+  GHOST = 'ghost',
   INLINE = 'inline',
 }
 

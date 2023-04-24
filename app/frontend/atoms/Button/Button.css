@@ -93,12 +93,13 @@
   &:where([data-variant="primary"]) {
     --button-background: var(--solid-accent);
     --button-text: var(--contrast-accent);
+    --button-hover-text: var(--contrast-accent);
     --button-border-width: 0px;
     --button-hover-background: var(--solid-hover-accent);
     --button-active-background: var(--accent11);
   }
 
-  &:where([data-variant="toolbar"]) {
+  &:where([data-variant="ghost"]) {
     --button-border-width: 0px;
   }
 

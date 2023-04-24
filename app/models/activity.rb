@@ -13,8 +13,8 @@ class Activity < ApplicationRecord
   end
 
   def self.descendants
-    Dir[Rails.root.join('app/models/activities/*.rb')].map do |file|
-      require_once file
+    @_descendants ||= Dir[Rails.root.join('app/models/activity/*.rb')].map do |file|
+      File.basename(file, '.rb').classify.constantize
     end
     super
   end

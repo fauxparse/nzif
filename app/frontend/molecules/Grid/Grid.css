@@ -1,3 +1,12 @@
+:root {
+  --stack-grid-cell: 0;
+  --stack-grid-column-header: 1;
+  --stack-grid-selection: 2;
+  --stack-grid-row-header: 3;
+  --stack-grid-top-left: 4;
+  --stack-grid-popover: 5;
+}
+
 :where(.grid) {
   --rows: 1;
   --columns: 1;
@@ -11,11 +20,6 @@
   --grid-border-heavy: var(--neutral7);
   --grid-background-header: var(--neutral3);
   --grid-background-cell: var(--neutral2);
-  --stack-cell: 0;
-  --stack-column-header: 1;
-  --stack-selection: 2;
-  --stack-row-header: 3;
-  --stack-top-left: 4;
 
   display: grid;
   grid-template-rows: calc(var(--column-headers) * var(--column-header-height) + (1 - var(--column-headers)) * var(--row-height)) repeat(calc(var(--rows) - 1 + var(--column-headers)), var(--row-height));
@@ -35,7 +39,7 @@
 
 :where(.grid__column-header) {
   top: 0;
-  z-index: var(--stack-column-header);
+  z-index: var(--stack-grid-column-header);
 
   &:where(:not(.grid__row-header)) {
     border-left-width: 0;
@@ -44,14 +48,14 @@
 
 :where(.grid__row-header) {
   left: 0;
-  z-index: var(--stack-row-header);
+  z-index: var(--stack-grid-row-header);
 
   &:where(:not(.grid__column-header)) {
     border-top-width: 0;
   }
 
   &:where(.grid__column-header) {
-    z-index: var(--stack-top-left);
+    z-index: var(--stack-grid-top-left);
   }
 }
 
@@ -63,7 +67,7 @@
 }
 
 :where(.grid__selection) {
-  z-index: var(--stack-selection);
+  z-index: var(--stack-grid-selection);
   outline: 2px solid var(--accent9);
   pointer-events: none;
   touch-action: none;

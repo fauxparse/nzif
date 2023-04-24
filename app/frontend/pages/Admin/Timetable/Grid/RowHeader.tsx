@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 
 import { RowHeaderProps } from '../../../../molecules/Grid/Grid.types';
 
-import { useGrid } from './Context';
+import { useGridContext } from './Context';
 
 const RowHeader: React.FC<RowHeaderProps> = ({ row, style, ...props }) => {
-  const { rows } = useGrid();
+  const { rows } = useGridContext();
   const { date, track, tracks } = rows[row];
 
   if (track > 0) return <div style={{ gridColumn: 1, gridRow: row + 2, visibility: 'hidden' }} />;

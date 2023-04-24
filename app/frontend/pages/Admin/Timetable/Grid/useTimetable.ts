@@ -61,7 +61,9 @@ const SCHEDULES = [
 const overlaps = (a: Block, b: Block) =>
   a.row === b.row && a.column < b.column + b.width && b.column < a.column + a.width;
 
-const gcd = memoize((x: number, y: number) => (!y ? x : gcd(y, x % y)));
+const gcd: (x: number, y: number) => number = memoize((x: number, y: number) =>
+  !y ? x : gcd(y, x % y)
+);
 
 const lcm = (...arr: number[]) => arr.reduce((a, b) => (a * b) / gcd(a, b));
 
@@ -180,7 +182,7 @@ const useTimetable = <T extends Schedule = Schedule>(schedules = SCHEDULES as T[
     [groupHeights]
   );
 
-  return { rows, groupHeights, selectionHeight, cellToTime, timeToCell };
+  return { dates, rows, groupHeights, selectionHeight, cellToTime, timeToCell };
 };
 
 export default useTimetable;

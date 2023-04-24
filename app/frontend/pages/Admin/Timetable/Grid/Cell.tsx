@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 
 import { CellProps } from '../../../../molecules/Grid/Grid.types';
 
-import { useGrid } from './Context';
+import { useGridContext } from './Context';
 
 const Cell: React.FC<CellProps> = ({ row, column, style = {}, ...props }) => {
-  const { rows } = useGrid();
+  const { rows } = useGridContext();
 
   const { track, tracks, row: group } = rows[row];
 

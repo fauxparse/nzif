@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Slot do
-  subject(:slot) { build(:slot) }
+  subject(:slot) { build(:slot, festival:, venue:) }
+
+  let(:festival) { create(:festival) }
+  let(:venue) { create(:venue) }
 
   it { is_expected.to be_valid }
 
@@ -24,6 +27,21 @@ RSpec.describe Slot do
   context 'with a bad activity type' do
     before do
       slot.activity_type = 'Prank'
+    end
+
+    it { is_expected.not_to be_valid }
+  end
+
+  context 'when there is another activity overlapping' do
+    before do
+      create(
+        :slot,
+        festival:,
+        venue:,
+        activity_type: Workshop,
+        starts_at: slot.starts_at - 1.hour,
+        ends_at: slot.ends_at - 1.hour,
+      )
     end
 
     it { is_expected.not_to be_valid }

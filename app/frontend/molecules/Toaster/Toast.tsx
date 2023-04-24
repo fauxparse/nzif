@@ -53,7 +53,7 @@ const Toast = forwardRef<HTMLDivElement, NotificationProps>(
         {options.dismissable && onDismiss && (
           <Button
             className="toast__dismiss"
-            toolbar
+            ghost
             icon="close"
             aria-label="Dismiss"
             onClick={() => onDismiss(id)}

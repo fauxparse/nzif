@@ -20,7 +20,7 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
 
     return (
       <Button
-        toolbar
+        ghost
         ref={ref}
         className={clsx('theme-switcher', className)}
         title="Toggles light & dark"
