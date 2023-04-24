@@ -31,8 +31,7 @@
   background: var(--button-background);
   color: var(--button-text);
   box-shadow: none;
-
-  /* outline: var(--button-outline-width) solid var(--focus); */
+  outline: var(--button-outline-width) solid var(--focus);
   outline-offset: 0;
   font: inherit;
   font-weight: var(--font-weight-bold);

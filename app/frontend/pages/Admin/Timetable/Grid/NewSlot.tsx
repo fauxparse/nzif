@@ -1,17 +1,20 @@
 import React, { useMemo, useReducer } from 'react';
-import * as Select from '@radix-ui/react-select';
-import clsx from 'clsx';
 import { groupBy, pick, range, uniqueId } from 'lodash-es';
 import { DateTime } from 'luxon';
 
-import { TimetableSlotFragmentDoc } from '../../../../graphql/types';
 import { useTimetableContext } from '../Context';
 import Button from '@/atoms/Button';
 import Checkbox from '@/atoms/Checkbox';
-import Icon from '@/atoms/Icon';
-import { ActivityType, Scalars, useCreateSlotsMutation } from '@/graphql/types';
+import {
+  ActivityType,
+  Scalars,
+  TimetableSlotFragmentDoc,
+  useCreateSlotsMutation,
+} from '@/graphql/types';
 import Scrollable from '@/helpers/Scrollable';
 import { Region } from '@/molecules/Grid/Grid.types';
+import Select from '@/molecules/Select';
+import activityTypeLabel from '@/util/activityTypeLabel';
 
 import { useGridContext } from './Context';
 
@@ -19,23 +22,6 @@ type NewSlotProps = {
   selection: Region;
   onClose: () => void;
 };
-
-const SelectItem = React.forwardRef<HTMLDivElement, Select.SelectItemProps>(
-  ({ children, className, ...props }, forwardedRef) => {
-    return (
-      <Select.Item className={clsx('select__item', className)} {...props} ref={forwardedRef}>
-        <Select.ItemIndicator className="select__item__indicator">
-          <Icon name="check" />
-        </Select.ItemIndicator>
-        <span className="select__item__text">
-          <Select.ItemText>{children}</Select.ItemText>
-        </span>
-      </Select.Item>
-    );
-  }
-);
-
-SelectItem.displayName = 'SelectItem';
 
 type State = {
   activityType: ActivityType;
@@ -63,6 +49,11 @@ type Action =
       type: 'RESET';
       selection: Region;
     };
+
+const ACTIVITY_TYPE_OPTIONS = Object.values(ActivityType).map((value) => ({
+  value,
+  label: activityTypeLabel(value),
+}));
 
 const NewSlot: React.FC<NewSlotProps> = ({ selection, onClose }) => {
   const { cellToTime, timeToCell } = useGridContext();
@@ -229,32 +220,13 @@ const NewSlot: React.FC<NewSlotProps> = ({ selection, onClose }) => {
               </li>
             ))}
           </ul>
-          <Select.Root
+          <Select
+            options={ACTIVITY_TYPE_OPTIONS}
             value={activityType}
-            onValueChange={(activityType: ActivityType) =>
+            onChange={(activityType: ActivityType) =>
               dispatch({ type: 'SELECT_ACTIVITY_TYPE', activityType })
             }
-          >
-            <Select.Trigger aria-label="Activity type" asChild>
-              <Button className="select__trigger">
-                <span className="button__text">
-                  <Select.Value placeholder="Activity type" />
-                </span>
-                <Icon name="chevronDown" className="select__chevron" />
-              </Button>
-            </Select.Trigger>
-            <Select.Portal style={{ zIndex: 100 }}>
-              <Select.Content className="select__content">
-                <Select.Viewport>
-                  {Object.values(ActivityType).map((type) => (
-                    <SelectItem key={type} value={type}>
-                      {type}
-                    </SelectItem>
-                  ))}
-                </Select.Viewport>
-              </Select.Content>
-            </Select.Portal>
-          </Select.Root>
+          />
           <ul className="new-slot__options">
             {venues.map((venue) => (
               <li key={venue.id}>

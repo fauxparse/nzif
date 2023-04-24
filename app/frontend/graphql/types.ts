@@ -608,21 +608,21 @@ export type SearchQueryVariables = Exact<{
 
 export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'ActivityResult', id: string, title: string, description: string | null, url: string, activity: { __typename: 'Show', id: string, name: string, type: ActivityType } | { __typename: 'Workshop', id: string, name: string, type: ActivityType } } | { __typename: 'PageResult', lede: string | null, id: string, title: string, description: string | null, url: string } | { __typename: 'UserResult', id: string, title: string, description: string | null, url: string, user: { __typename: 'User', id: string, name: string, email: string } } | { __typename: 'VenueResult', id: string, title: string, description: string | null, url: string, venue: { __typename: 'Venue', id: string, room: string | null, building: string, address: string } }> };
 
-export type TimetableSlotFragment = { __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, venue: { __typename: 'Venue', id: string, room: string | null } | null };
+export type TimetableSlotFragment = { __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null };
 
 export type TimetableQueryVariables = Exact<{
   year: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type TimetableQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, timetable: { __typename: 'Timetable', id: string, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, venue: { __typename: 'Venue', id: string, room: string | null } | null }> }, venues: Array<{ __typename: 'Venue', id: string, room: string | null, building: string }> } };
+export type TimetableQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, timetable: { __typename: 'Timetable', id: string, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> }, venues: Array<{ __typename: 'Venue', id: string, room: string | null, building: string }> } };
 
 export type CreateSlotsMutationVariables = Exact<{
   attributes: MultipleSlotAttributes;
 }>;
 
 
-export type CreateSlotsMutation = { __typename: 'Mutation', createSlots: { __typename: 'CreateMultiplePayload', slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, venue: { __typename: 'Venue', id: string, room: string | null } | null }> } | null };
+export type CreateSlotsMutation = { __typename: 'Mutation', createSlots: { __typename: 'CreateMultiplePayload', slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | null };
 
 export type EditableUserFragment = { __typename: 'User', id: string, name: string, email: string, roles: Array<Role> };
 
@@ -661,6 +661,7 @@ export const TimetableSlotFragmentDoc = gql`
   venue {
     id
     room
+    building
   }
 }
     `;

@@ -6,19 +6,13 @@ import {
   FloatingFocusManager,
   offset,
   shift,
-  useClick,
   useDismiss,
   useFloating,
   useInteractions,
   useRole,
 } from '@floating-ui/react';
-import * as Select from '@radix-ui/react-select';
-import clsx from 'clsx';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
-import { camelCase } from 'lodash-es';
 
-import Button from '@/atoms/Button';
-import Icon, { IconName } from '@/atoms/Icon';
 import { TimetableQuery } from '@/graphql/types';
 import BaseGrid from '@/molecules/Grid';
 import { Region } from '@/molecules/Grid/Grid.types';
@@ -30,6 +24,7 @@ import { FloatingArrow } from './FloatingArrow';
 import NewSlot from './NewSlot';
 import RowHeader from './RowHeader';
 import { Selection } from './Selection';
+import TimetableSlot from './TimetableSlot';
 import useTimetable from './useTimetable';
 
 type Slot = TimetableQuery['festival']['timetable']['slots'][0];
@@ -119,21 +114,7 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
           {rows.map((row, i) => (
             <Fragment key={i}>
               {row.blocks.map((slot, i) => (
-                <div
-                  key={i}
-                  className="timetable__slot"
-                  style={{
-                    gridRow: `${slot.row + 2} / span ${slot.height}`,
-                    gridColumn: `${slot.column + 2} / span ${slot.width}`,
-                  }}
-                >
-                  <Icon name={camelCase(slot.data.activityType) as IconName} />
-                  <span>
-                    {`${slot.data.activityType}${
-                      slot.data.venue?.room && ` in ${slot.data.venue.room}`
-                    }`}
-                  </span>
-                </div>
+                <TimetableSlot key={i} slot={slot} />
               ))}
             </Fragment>
           ))}

@@ -100,20 +100,34 @@
   &__slot {
     position: relative;
     z-index: 0;
-    display: flex;
-    gap: var(--small);
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: var(--icon-size) 1fr var(--button-size-small);
+    gap: 0 var(--spacing);
     justify-content: center;
     align-items: center;
-    min-height: 3.5rem;
+    margin: 2px 3px 0 2px;
+    padding: var(--small);
+    border-radius: var(--border-radius-standard);
+    background-color: var(--neutral3);
     color: var(--neutral9);
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
 
-    &::before {
-      content: "";
-      position: absolute;
-      inset: 2px 3px 3px 2px;
-      z-index: -1;
-      border-radius: var(--border-radius-standard);
-      background-color: var(--neutral3);
+    > .icon {
+      grid-row: 1 / -1;
+    }
+
+    > .button{
+      grid-row: 1 / -1;
+      grid-column: 3;
+    }
+
+    span {
+      grid-column: 2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .grid[data-selecting] & {

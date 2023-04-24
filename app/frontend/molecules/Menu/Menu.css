@@ -1,0 +1,65 @@
+:root {
+  --menu-width: 16rem;
+}
+
+:where(.menu) {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  width: var(--menu-width);
+  padding: calc(var(--tiny) - var(--border-width-standard));
+  border: var(--border-width-standard) solid var(--popup-border);
+  border-radius: var(--border-radius-large);
+  background-color: var(--background-subtle);
+  box-shadow: var(--shadow-4);
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+:where(.menu__item) {
+  display: grid;
+  grid-template-columns: var(--icon-size) 1fr auto;
+  gap: 0 var(--small);
+  align-items: flex-start;
+  padding: var(--tiny) var(--small);
+  border: 0;
+  border-radius: var(--border-radius-standard);
+  background-color: transparent;
+  font: inherit;
+  line-height: var(--line-height-medium);
+  text-align: left;
+  cursor: pointer;
+  appearance: none;
+
+  :where(.menu__item__icon) {
+    grid-column: 1;
+  }
+
+  :where(.menu__item__label) {
+    grid-column: 2;
+  }
+
+  :where(.menu__item__right) {
+    grid-column: 3;
+    color: var(--text-subtle);
+    font-size: var(--font-size-small);
+  }
+
+  &:where(:hover, :focus) {
+    background-color: var(--accent4);
+    outline: none;
+  }
+
+  &:where(:active, [aria-selected="true"]) {
+    background-color: var(--accent5);
+  }
+
+  &:where(:disabled) {
+    background: transparent;
+    color: var(--text-subtle);
+    opacity: var(--disabled-opacity);
+    cursor: not-allowed;
+  }
+}

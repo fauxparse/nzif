@@ -1,0 +1,77 @@
+.select {
+  width: unset;
+
+  .button__text {
+    flex: 1;
+    font-weight: var(--font-weight-normal);
+    text-align: left;
+  }
+
+  &[data-empty] {
+    .button__text {
+      color: var(--text-subtle);
+    }
+  }
+
+  &__menu {
+    overflow-y: auto;
+    width: unset;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+    scroll-behavior: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__scroll-arrow {
+    --border-radius: var(--border-radius-large);
+
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: var(--icon-size);
+    border-radius: 0;
+    cursor: default;
+    user-select: none;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      z-index: -1;
+      display: block;
+      width: 100%;
+      height: 2rem;
+      border: var(--border-width-standard) solid var(--popup-border);
+      pointer-events: none;
+    }
+
+    &[data-dir="up"] {
+      top: 0;
+
+      &::before {
+        top: 0;
+        border-bottom-width: 0;
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
+        background: linear-gradient(to bottom, var(--background-subtle) 50%, transparent);
+      }
+    }
+
+    &[data-dir="down"] {
+      bottom: 0;
+
+      &::before {
+        top: auto;
+        bottom: 0;
+        border-top-width: 0;
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
+        background: linear-gradient(to top, var(--background-subtle) 50%, transparent);
+      }
+    }
+  }
+}
