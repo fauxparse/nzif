@@ -5,7 +5,6 @@ to: app/frontend/<%= h.inflection.pluralize(type) %>/<%= h.changeCase.pascal(nam
 import <%= Name %> from './<%= Name %>';
 import { <%= Name %>Props } from './<%= Name %>.types';
 
-export { <%= Name %> };
 export type { <%= Name %>Props };
 
 export default <%= Name %>;

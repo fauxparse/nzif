@@ -13,6 +13,7 @@ import {
 } from '@/graphql/types';
 import Scrollable from '@/helpers/Scrollable';
 import { Region } from '@/molecules/Grid/Grid.types';
+import Popover from '@/molecules/Popover';
 import Select from '@/molecules/Select';
 import activityTypeLabel from '@/util/activityTypeLabel';
 
@@ -183,7 +184,7 @@ const NewSlot: React.FC<NewSlotProps> = ({ selection, onClose }) => {
 
   return (
     <>
-      <header className="popover__header">
+      <Popover.Header>
         <h3 className="popover__title">Add {selection.height > 1 ? 'slots' : 'slot'}</h3>
         <h4>
           <time dateTime={dates[0].startsAt.toISODate() || undefined}>
@@ -194,10 +195,10 @@ const NewSlot: React.FC<NewSlotProps> = ({ selection, onClose }) => {
             {dates[0].endsAt.toFormat('h:mm a')}
           </time>
         </h4>
-        <Button ghost icon="close" onClick={onClose} aria-label="Close" />
-      </header>
-      <Scrollable className="popover__body">
-        <form className="new-slot" id="new-slot" onSubmit={submit}>
+        <Popover.Close />
+      </Popover.Header>
+      <Scrollable className="popover__body new-slot">
+        <form id="new-slot" onSubmit={submit}>
           <ul
             className="new-slot__options new-slot__dates"
             style={{ gridTemplateRows: `repeat(${Math.ceil(dates.length / 2)}, auto)` }}
