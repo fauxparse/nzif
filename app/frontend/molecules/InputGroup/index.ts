@@ -1,8 +1,13 @@
+import AddOn from './AddOn';
 import InputGroupContext from './context';
-import { InputGroup } from './InputGroup';
+import Icon from './Icon';
+import InputGroup from './InputGroup';
 
 import './Inputgroup.css';
 
-export { InputGroup, InputGroupContext };
+export { InputGroupContext };
 
-export default InputGroup;
+export default Object.assign(InputGroup, {
+  AddOn,
+  Icon,
+});

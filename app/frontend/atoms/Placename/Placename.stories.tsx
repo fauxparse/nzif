@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Placename } from './Placename';
+import Placename from '.';
 
 type Story = StoryObj<typeof Placename>;
 

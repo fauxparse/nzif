@@ -1,9 +1,9 @@
 import React, { Children, ElementType, forwardRef } from 'react';
 import clsx from 'clsx';
 
-import { PolymorphicRef } from '../../types/polymorphic.types';
-import { extractVariants } from '../../types/variants';
 import Icon, { isIconName } from '../Icon';
+import { PolymorphicRef } from '@/types/polymorphic.types';
+import { extractVariants } from '@/types/variants';
 
 import { AllButtonVariants, BUTTON_VARIANTS, ButtonComponent, ButtonProps } from './Button.types';
 
@@ -12,7 +12,7 @@ import './Button.css';
 const useCustomButton = <T extends AllButtonVariants>(props: T): T =>
   extractVariants(BUTTON_VARIANTS, props);
 
-export const Button: ButtonComponent = forwardRef(
+const Button: ButtonComponent = forwardRef(
   <C extends ElementType = 'button'>(
     { className, text, icon, as, stretch, children, ...props }: ButtonProps<C>,
     ref?: PolymorphicRef<C>

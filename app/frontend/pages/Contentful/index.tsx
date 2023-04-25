@@ -5,14 +5,14 @@ import { documentToReactComponents, Options } from '@contentful/rich-text-react-
 import { BLOCKS, Document, Text } from '@contentful/rich-text-types';
 import { deburr, kebabCase } from 'lodash-es';
 
-import Spinner from '../../atoms/Spinner';
-import { useContentPageQuery } from '../../contentful/types';
+import Spinner from '@/atoms/Spinner';
+import { useContentPageQuery } from '@/contentful/types';
 
 import TableOfContents from './TableOfContents';
 
 import './Contentful.css';
 
-const isTextNode = (node): node is Text => node.nodeType === 'text';
+const isTextNode = (node: { nodeType: string }): node is Text => node.nodeType === 'text';
 
 const renderOptions: Options = {
   renderNode: {
@@ -29,7 +29,7 @@ const renderOptions: Options = {
 
 const Contentful: React.FC = () => {
   const { slug = '' } = useParams<{ slug: string }>();
-  const { loading, data, error } = useContentPageQuery({
+  const { data } = useContentPageQuery({
     variables: { slug },
     context: { clientName: 'contentful' },
   });

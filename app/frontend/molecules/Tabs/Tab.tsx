@@ -1,14 +1,11 @@
-import React, { ElementType, forwardRef } from 'react';
+import { forwardRef } from 'react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 
-import { TabComponent, TabProps } from './Tabs.types';
+import { TabComponent } from './Tabs.types';
 
 const Tab: TabComponent = forwardRef(
-  <C extends ElementType = 'button'>(
-    { as, className, selected, text, children, ...props }: TabProps<C>,
-    ref
-  ) => {
+  ({ as, className, selected, text, children, ...props }, ref) => {
     const Component = as || 'button';
 
     return (

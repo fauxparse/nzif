@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { useCycle } from 'framer-motion';
 import { DateTime } from 'luxon';
 
-import Button from '../../atoms/Button';
-import Placename from '../../atoms/Placename/Placename';
-import ThemeSwitcher from '../../atoms/ThemeSwitcher';
-import { useHeaderQuery } from '../../graphql/types';
 import { useAuthentication } from '../Authentication/AuthenticationProvider';
+import Button from '@/atoms/Button';
+import Placename from '@/atoms/Placename/Placename';
+import ThemeSwitcher from '@/atoms/ThemeSwitcher';
+import { useHeaderQuery } from '@/graphql/types';
 
 import Overlay from './Overlay';
 import HeaderSearch from './Search';

@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import clsx from 'clsx';
 
-import OriginalIcon, { IconProps } from '../../atoms/Icon';
+import OriginalIcon, { IconProps } from '@/atoms/Icon';
 
 import { InputGroupIconPosition } from './InputGroup.types';
 

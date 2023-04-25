@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import { User } from '../../../../graphql/types';
+import { User } from '@/graphql/types';
 
 type ContextType = { user: User | null; basePath: string };
 

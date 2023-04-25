@@ -1,4 +1,4 @@
-import { ProtonProps } from '@/components/Proton';
+import { ComponentPropsWithoutRef } from 'react';
 
 export type UnwantedInputProps =
   | 'accept'
@@ -25,4 +25,4 @@ export type UnwantedInputProps =
   | 'step'
   | 'width';
 
-export type RadioProps = Omit<ProtonProps<'input'>, UnwantedInputProps>;
+export type RadioProps = Omit<ComponentPropsWithoutRef<'input'>, UnwantedInputProps>;

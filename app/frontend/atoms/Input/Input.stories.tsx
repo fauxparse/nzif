@@ -1,7 +1,7 @@
 import type { StoryObj } from '@storybook/react';
 
-import { Input } from './Input';
 import { InputProps, InputSize } from './Input.types';
+import Input from '.';
 
 type Story = StoryObj<typeof Input>;
 

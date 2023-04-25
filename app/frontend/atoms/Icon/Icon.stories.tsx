@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import ICONS from './icons';
+import ICONS, { IconName } from './icons';
 import Icon, { IconProps } from '.';
 
 const meta = {
@@ -31,7 +31,7 @@ export const All: Story = {
   args: { name: 'user' },
   render: () => (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, 1.5rem)', gap: '1rem' }}>
-      {Object.keys(ICONS).map((name) => (
+      {(Object.keys(ICONS) as IconName[]).map((name) => (
         <Icon key={name} name={name} />
       ))}
     </div>

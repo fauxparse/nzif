@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CellProps } from '../../../../molecules/Grid/Grid.types';
+import { CellProps } from '@/molecules/Grid/Grid.types';
 
 import { useGridContext } from './Context';
 

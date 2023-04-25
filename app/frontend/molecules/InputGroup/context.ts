@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-import { InputSize } from '../../atoms/Input';
+import { InputSize } from '@/atoms/Input';
 
 export default createContext({} as { size?: InputSize });

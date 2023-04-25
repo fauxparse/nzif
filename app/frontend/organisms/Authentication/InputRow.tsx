@@ -1,9 +1,9 @@
 import React, { forwardRef } from 'react';
 import { motion } from 'framer-motion';
 
-import { IconName } from '../../atoms/Icon/icons';
-import Input, { InputProps } from '../../atoms/Input';
-import InputGroup from '../../molecules/InputGroup';
+import { IconName } from '@/atoms/Icon/icons';
+import Input, { InputProps } from '@/atoms/Input';
+import InputGroup from '@/molecules/InputGroup';
 
 import { formItem } from './variants';
 

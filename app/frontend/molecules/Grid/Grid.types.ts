@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef, ElementType, ReactElement } from 'react';
 
-import { Polymorphic, WithDisplayName } from '../../types/polymorphic.types';
+import { Polymorphic, WithDisplayName } from '@/types/polymorphic.types';
 
 export type Cell = {
   row: number;

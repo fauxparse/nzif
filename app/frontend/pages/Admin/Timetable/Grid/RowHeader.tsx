@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { RowHeaderProps } from '../../../../molecules/Grid/Grid.types';
+import { RowHeaderProps } from '@/molecules/Grid/Grid.types';
 
 import { useGridContext } from './Context';
 

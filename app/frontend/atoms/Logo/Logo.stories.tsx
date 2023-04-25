@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj, Meta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { Logo } from './Logo';
 
@@ -9,9 +9,7 @@ export default {
   title: 'Atoms/Logo',
   component: Logo,
   argTypes: {},
-  args: {
-    text: 'Logo',
-  },
+  args: {},
   render: (args) => <Logo {...args} />,
 } satisfies Meta<typeof Logo>;
 

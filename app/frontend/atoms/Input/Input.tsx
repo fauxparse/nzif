@@ -2,8 +2,8 @@ import React, { ElementType, forwardRef, useContext } from 'react';
 import clsx from 'clsx';
 import { set } from 'lodash-es';
 
-import { InputGroupContext } from '../../molecules/InputGroup';
-import { extractVariants } from '../../types/variants';
+import { InputGroupContext } from '@/molecules/InputGroup';
+import { extractVariants } from '@/types/variants';
 
 import { AllInputVariants, INPUT_VARIANTS, InputComponent, InputSize } from './Input.types';
 
@@ -12,7 +12,7 @@ import './Input.css';
 const useCustomInput = <T extends AllInputVariants>(props: T, defaultSize: InputSize): T =>
   extractVariants(set(INPUT_VARIANTS, 'size.defaultValue', defaultSize), props);
 
-export const Input: InputComponent = forwardRef(
+const Input: InputComponent = forwardRef(
   ({ as, className, iconBefore, iconAfter, autoSelect, onFocus, ...props }, ref) => {
     const Component = (as || 'input') as ElementType;
 

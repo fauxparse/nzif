@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, useId } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import Input from '../../atoms/Input';
+import Input from '@/atoms/Input';
 
 import { EditableFieldComponent } from './EditableField.types';
 

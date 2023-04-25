@@ -1,7 +1,7 @@
 import { ElementType, ReactElement, ReactNode } from 'react';
 
-import { Polymorphic, WithDisplayName } from '../../types/polymorphic.types';
 import { IconName } from '@/atoms/Icon';
+import { Polymorphic, WithDisplayName } from '@/types/polymorphic.types';
 
 export type BaseMenuProps = {
   //

@@ -4,6 +4,11 @@ import { AnimatePresence, motion, useWillChange, Variants } from 'framer-motion'
 import Authentication from '../Authentication';
 import { User } from '../Authentication/AuthenticationMachine';
 import { useAuthentication } from '../Authentication/AuthenticationProvider';
+import {
+  LogInMutationVariables,
+  ResetPasswordMutationVariables,
+  SignUpMutationVariables,
+} from '@/graphql/types';
 
 const overlay: Variants = {
   open: {
@@ -48,13 +53,13 @@ const Overlay: React.FC<OverlayProps> = ({ open, onToggle }) => {
     return value;
   };
 
-  const onLogIn = (variables) => logIn(variables).then(close);
+  const onLogIn = (variables: LogInMutationVariables) => logIn(variables).then(close);
 
-  const onSignUp = (variables) => signUp(variables).then(close);
+  const onSignUp = (variables: SignUpMutationVariables) => signUp(variables).then(close);
 
   const onLogOut = () => logOut().then(close);
 
-  const onResetPassword = (variables) => resetPassword(variables);
+  const onResetPassword = (variables: ResetPasswordMutationVariables) => resetPassword(variables);
 
   useEffect(() => {
     const { style } = document.body;

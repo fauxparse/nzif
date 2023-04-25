@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { Document, Text } from '@contentful/rich-text-types';
 import { deburr, kebabCase } from 'lodash-es';
 
-import Icon from '../../atoms/Icon';
+import Icon from '@/atoms/Icon';
 
 type TableOfContentsProps = {
   document: Document;
@@ -14,7 +14,7 @@ type TOCSection = {
   subheadings: TOCSection[];
 };
 
-const isTextNode = (node): node is Text => node.nodeType === 'text';
+const isTextNode = (node: { nodeType: string }): node is Text => node.nodeType === 'text';
 
 const TableOfContents: React.FC<TableOfContentsProps> = ({ document }) => {
   const headings = useMemo(

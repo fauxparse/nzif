@@ -4,7 +4,7 @@ to: app/frontend/<%= h.inflection.pluralize(type) %>/<%= h.changeCase.pascal(nam
 <% Name = h.changeCase.pascal(name) -%>
 import { ElementType, ReactElement } from 'react';
 
-import { Polymorphic, WithDisplayName } from '../../types/polymorphic.types';
+import { Polymorphic, WithDisplayName } from '@/types/polymorphic.types';
 
 export type Base<%= Name %>Props = {
   //

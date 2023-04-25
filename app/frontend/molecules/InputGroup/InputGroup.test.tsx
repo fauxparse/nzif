@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import Input from '../../atoms/Input';
+import Input from '@/atoms/Input';
 
 import InputGroup from '.';
 

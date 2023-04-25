@@ -2,9 +2,9 @@ import React, { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 
-import Footer from '../../organisms/Footer';
-import Header from '../../organisms/Header';
-import AnimatedOutlet from '../AnimatedOutlet';
+import Footer from '@/organisms/Footer';
+import Header from '@/organisms/Header';
+import AnimatedOutlet from '@/pages/AnimatedOutlet';
 
 const CONTAINERS: RegExp[] = [/^(\/admin\/users\/[^/]+)/];
 

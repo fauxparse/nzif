@@ -32,11 +32,6 @@ const makePoints = (points: { x: number; y: number }[]) =>
     noiseOffsetY: Math.random() * 1000,
   }));
 
-type Blob = {
-  points: { x: number; y: number }[];
-  color: string;
-};
-
 const COLORS = [crimson.crimson9, cyan.cyan9, yellow.yellow9] as const;
 
 const NOISE_STEP = 0.005;

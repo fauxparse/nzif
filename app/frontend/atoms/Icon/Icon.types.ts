@@ -4,12 +4,7 @@ import { IconName } from './icons';
 
 export type { IconName };
 
-type CustomIcon = {
+export type IconProps = Omit<ComponentPropsWithoutRef<'svg'>, 'name'> & {
+  name?: IconName;
   path?: string;
 };
-
-type NamedIcon = {
-  name: IconName;
-};
-
-export type IconProps = ComponentPropsWithoutRef<'svg'> & (NamedIcon | CustomIcon);

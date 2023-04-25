@@ -1,7 +1,7 @@
 import { ElementType, ReactElement } from 'react';
 
-import { Polymorphic, WithDisplayName } from '../../types/polymorphic.types';
-import { PropsWithVariants } from '../../types/variants';
+import { Polymorphic, WithDisplayName } from '@/types/polymorphic.types';
+import { PropsWithVariants } from '@/types/variants';
 
 export enum InputSize {
   SMALL = 'small',

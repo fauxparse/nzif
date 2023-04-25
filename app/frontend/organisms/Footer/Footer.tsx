@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { DateTime } from 'luxon';
 
-import { Page, useFooterLinksQuery } from '../../contentful/types';
+import { Page, useFooterLinksQuery } from '@/contentful/types';
 
 import { FooterProps } from './Footer.types';
 
 import './Footer.css';
 
-const isPageLink = (link): link is Page => link?.__typename === 'Page';
+const isPageLink = (link: { __typename: string } | null): link is Page =>
+  link?.__typename === 'Page';
 
 export const Footer = forwardRef<HTMLElement, FooterProps>((props, ref) => {
   const { data } = useFooterLinksQuery({ context: { clientName: 'contentful' } });

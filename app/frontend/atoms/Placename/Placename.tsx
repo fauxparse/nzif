@@ -1,15 +1,15 @@
 import React, { ElementType, forwardRef, useContext } from 'react';
 import clsx from 'clsx';
 
-import Tooltip from '../../helpers/Tooltip';
 import Icon from '../Icon';
+import Tooltip from '@/helpers/Tooltip';
 
 import { PlacenameComponent } from './Placename.types';
 import { PlacenameContext } from './PlacenameProvider';
 
 import './Placename.css';
 
-export const Placename: PlacenameComponent = forwardRef(
+const Placename: PlacenameComponent = forwardRef(
   ({ as, className, name, indigenousName, showIndigenousNameByDefault, ...props }, ref) => {
     const Component = (as || 'span') as ElementType;
 

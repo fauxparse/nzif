@@ -1,6 +1,6 @@
 import { ComponentProps } from 'react';
 
-import { IconName } from '../../atoms/Icon';
+import { IconName } from '@/atoms/Icon';
 
 export interface SearchResult {
   id: string;

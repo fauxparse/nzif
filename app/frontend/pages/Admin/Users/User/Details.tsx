@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
-import Button from '../../../../atoms/Button';
-import { UserAttributes, useUpdateUserMutation } from '../../../../graphql/types';
-import EditableField from '../../../../molecules/EditableField';
+import Button from '@/atoms/Button';
+import { UserAttributes, useUpdateUserMutation } from '@/graphql/types';
+import EditableField from '@/molecules/EditableField';
 
 import useUserContext from './useUserContext';
 

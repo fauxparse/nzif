@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef } from 'react';
 
-import { PropsWithVariants } from '../../types/variants';
+import { PropsWithVariants } from '@/types/variants';
 
 export enum SpinnerSize {
   SMALL = 'small',

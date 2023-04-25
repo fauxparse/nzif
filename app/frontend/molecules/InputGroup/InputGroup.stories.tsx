@@ -1,10 +1,10 @@
 import type { StoryObj } from '@storybook/react';
 
-import Button from '../../atoms/Button';
-import Input from '../../atoms/Input';
+import Button from '@/atoms/Button';
+import Input from '@/atoms/Input';
 
 import { InputGroupProps } from './InputGroup.types';
-import { InputGroup } from '.';
+import InputGroup from '.';
 
 type Story = StoryObj<typeof InputGroup>;
 

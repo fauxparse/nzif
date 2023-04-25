@@ -2,11 +2,11 @@ import React, { useMemo } from 'react';
 import { Link, Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 
-import { useEditUserQuery, User } from '../../../../graphql/types';
-import usePrevious from '../../../../hooks/usePrevious';
-import { BreadcrumbProvider } from '../../../../molecules/Breadcrumbs';
-import Breadcrumbs from '../../../../molecules/Breadcrumbs/Breadcrumbs';
-import Tabs from '../../../../molecules/Tabs/Tabs';
+import { useEditUserQuery, User } from '@/graphql/types';
+import usePrevious from '@/hooks/usePrevious';
+import { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
+import Breadcrumbs from '@/molecules/Breadcrumbs/Breadcrumbs';
+import Tabs from '@/molecules/Tabs/Tabs';
 
 import Details from './Details';
 import Schedule from './Schedule';

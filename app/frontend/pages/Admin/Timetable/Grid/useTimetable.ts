@@ -2,8 +2,8 @@ import { useCallback, useContext, useMemo } from 'react';
 import { map, memoize, partition, range, sortBy } from 'lodash-es';
 import { DateTime } from 'luxon';
 
-import { Cell } from '../../../../molecules/Grid/Grid.types';
 import Context from '../Context';
+import { Cell } from '@/molecules/Grid/Grid.types';
 
 export interface Schedule {
   startsAt: DateTime;

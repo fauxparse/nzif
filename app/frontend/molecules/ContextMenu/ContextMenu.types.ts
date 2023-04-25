@@ -1,6 +1,6 @@
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement } from 'react';
 
-import { WithDisplayName } from '../../types/polymorphic.types';
+import { WithDisplayName } from '@/types/polymorphic.types';
 
 export type ContextMenuProps = {
   id?: string;

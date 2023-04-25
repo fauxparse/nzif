@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import clsx from 'clsx';
 
-import { extractVariants } from '../../types/variants';
+import { extractVariants } from '@/types/variants';
 
 import { AllSpinnerVariants, SPINNER_VARIANTS, SpinnerProps } from './Spinner.types';
 

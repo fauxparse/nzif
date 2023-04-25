@@ -1,6 +1,6 @@
-import React, { createContext } from 'react';
+import React, { createContext, PropsWithChildren } from 'react';
 
-import usePreference from '../../hooks/usePreference';
+import usePreference from '@/hooks/usePreference';
 
 export const PlacenameContext = createContext({
   showIndigenousNameByDefault: true,
@@ -10,7 +10,7 @@ export const PlacenameContext = createContext({
   setShowIndigenousNameByDefault: (value: boolean) => void;
 });
 
-const PlacenameProvider = ({ children }) => {
+const PlacenameProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [showIndigenousNameByDefault, setShowIndigenousNameByDefault] = usePreference<boolean>(
     'showIndigenousNames',
     true

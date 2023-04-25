@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import { HTMLMotionProps, motion } from 'framer-motion';
 
-import Icon from '../../atoms/Icon';
+import Icon from '@/atoms/Icon';
 
 import { SearchResult } from './Search.types';
 

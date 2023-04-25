@@ -10,18 +10,11 @@ import React, {
 import clsx from 'clsx';
 import { get } from 'lodash-es';
 
-import { AllInputVariants, InputSize } from '../../atoms/Input/Input.types';
-import { extractVariants } from '../../types/variants';
+import { AllInputVariants, InputSize } from '@/atoms/Input/Input.types';
+import { extractVariants } from '@/types/variants';
 
-import AddOn from './AddOn';
 import InputGroupContext from './context';
-import Icon from './Icon';
-import {
-  InputGroupComponent,
-  InputGroupIconPosition,
-  InputGroupProps,
-  InputGroupWithAddon,
-} from './InputGroup.types';
+import { InputGroupComponent, InputGroupIconPosition, InputGroupProps } from './InputGroup.types';
 
 import './InputGroup.css';
 
@@ -35,7 +28,7 @@ const flattenChildren = (children: InputGroupProps['children']): ReactElement[] 
       child.type === Fragment ? flattenChildren(get(child.props, 'children', [])) : child
     );
 
-const InputGroupItself: InputGroupComponent = forwardRef(
+const InputGroup: InputGroupComponent = forwardRef(
   ({ as, className, style = {}, children, ...props }, ref) => {
     const Component = (as || 'fieldset') as ElementType;
 
@@ -73,11 +66,6 @@ const InputGroupItself: InputGroupComponent = forwardRef(
   }
 );
 
-InputGroupItself.displayName = 'InputGroup';
-
-export const InputGroup: InputGroupWithAddon = Object.assign(InputGroupItself, {
-  AddOn,
-  Icon,
-});
+InputGroup.displayName = 'InputGroup';
 
 export default InputGroup;

@@ -1,15 +1,18 @@
 import React, { createContext, PropsWithChildren, useContext } from 'react';
 import { useApolloClient } from '@apollo/client';
 
-import { saveAuthenticationInfo } from '../../graphql/authentication';
+import { saveAuthenticationInfo } from '@/graphql/authentication';
 import {
+  LogInMutationVariables,
+  ResetPasswordMutationVariables,
+  SignUpMutationVariables,
   useCurrentUserQuery,
   useLogInMutation,
   useLogOutMutation,
   User,
   useResetPasswordMutation,
   useSignUpMutation,
-} from '../../graphql/types';
+} from '@/graphql/types';
 
 export type AuthenticatedUser = Pick<User, 'id' | 'name'>;
 
@@ -61,7 +64,7 @@ const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   const [doResetPassword] = useResetPasswordMutation();
 
-  const logIn = (variables) =>
+  const logIn = (variables: LogInMutationVariables) =>
     doLogIn({ variables }).then(
       ({ data }) =>
         new Promise<{ user: AuthenticatedUser }>((resolve, reject) => {
@@ -74,7 +77,7 @@ const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }) => {
         })
     );
 
-  const signUp = (variables) =>
+  const signUp = (variables: SignUpMutationVariables) =>
     doSignUp({ variables }).then(
       ({ data }) =>
         new Promise<{ user: AuthenticatedUser }>((resolve, reject) => {
@@ -93,7 +96,8 @@ const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }) => {
       return true;
     });
 
-  const resetPassword = (variables) => doResetPassword({ variables }).then(() => true);
+  const resetPassword = (variables: ResetPasswordMutationVariables) =>
+    doResetPassword({ variables }).then(() => true);
 
   return (
     <AuthenticationContext.Provider value={{ loading, user, logIn, logOut, signUp, resetPassword }}>

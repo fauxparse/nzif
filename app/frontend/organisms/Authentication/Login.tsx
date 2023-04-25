@@ -1,8 +1,8 @@
 import React, { forwardRef, useContext, useRef } from 'react';
 import { mergeRefs } from 'react-merge-refs';
-import { motion } from 'framer-motion';
+import { AnimationDefinition, motion } from 'framer-motion';
 
-import { Button } from '../../atoms/Button/Button';
+import Button from '@/atoms/Button';
 
 import { AuthenticationMachineContext } from './AuthenticationMachine';
 import Divider from './Divider';
@@ -27,7 +27,7 @@ const Login = forwardRef<LoginForm>((_, ref) => {
     machine.send({ type: 'LOG_IN', email: emailInput.value, password: passwordInput.value });
   };
 
-  const focusEmailInput = (animation) => {
+  const focusEmailInput = (animation: AnimationDefinition) => {
     if (animation === 'in') ownRef.current?.email?.focus();
   };
 

@@ -1,7 +1,7 @@
 import React, { forwardRef, useState } from 'react';
-import { motion, Variants } from 'framer-motion';
+import { HTMLMotionProps, motion, Variants } from 'framer-motion';
 
-import Button from '../../atoms/Button';
+import Button from '@/atoms/Button';
 
 import { Notification } from './Toaster.types';
 
@@ -24,7 +24,7 @@ const Toast = forwardRef<HTMLDivElement, NotificationProps>(
 
     const [dragAxis, setDragAxis] = useState<'x' | 'y'>('y');
 
-    const dragEnd = (event, { delta, velocity }) => {
+    const dragEnd: HTMLMotionProps<'div'>['onDragEnd'] = (event, { delta, velocity }) => {
       if (options.dismissable && delta[dragAxis] > DRAG_THRESHOLD && velocity[dragAxis] > 0.5) {
         setThrowing(true);
         onDismiss(id);

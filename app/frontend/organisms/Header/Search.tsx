@@ -2,16 +2,16 @@ import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { camelCase } from 'lodash-es';
 
-import { IconName } from '../../atoms/Icon';
+import { IconName } from '@/atoms/Icon';
 import {
   ActivityResult,
   PageResult,
   SearchResult as BaseSearchResult,
   UserResult,
   useSearchLazyQuery,
-} from '../../graphql/types';
-import Search from '../../molecules/Search';
-import { SearchResult } from '../../molecules/Search/Search.types';
+} from '@/graphql/types';
+import Search from '@/molecules/Search';
+import { SearchResult } from '@/molecules/Search/Search.types';
 
 import './Header.css';
 

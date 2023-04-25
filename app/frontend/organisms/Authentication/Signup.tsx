@@ -1,8 +1,8 @@
 import React, { forwardRef, useContext, useRef } from 'react';
 import { mergeRefs } from 'react-merge-refs';
-import { motion } from 'framer-motion';
+import { AnimationDefinition, motion } from 'framer-motion';
 
-import Button from '../../atoms/Button';
+import Button from '@/atoms/Button';
 
 import { AuthenticationMachineContext } from './AuthenticationMachine';
 import Input from './InputRow';
@@ -32,7 +32,7 @@ const Signup = forwardRef<SignupForm>((_, ref) => {
     });
   };
 
-  const focusEmailInput = (animation) => {
+  const focusEmailInput = (animation: AnimationDefinition) => {
     if (animation === 'in') ownRef.current?.email.focus();
   };
 

@@ -3,7 +3,7 @@ import { randFullName, randJobTitle } from '@ngneat/falso';
 import type { Meta, StoryObj } from '@storybook/react';
 import { deburr } from 'lodash-es';
 
-import { IconName } from '../../atoms/Icon';
+import { IconName } from '@/atoms/Icon';
 
 import { Search } from './Search';
 import { SearchResult } from './Search.types';

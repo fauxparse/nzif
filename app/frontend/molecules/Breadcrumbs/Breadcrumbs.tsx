@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, Fragment, useContext } from 'react';
 import clsx from 'clsx';
 
-import Icon from '../../atoms/Icon';
+import Icon from '@/atoms/Icon';
 
 import { BreadcrumbsComponent } from './Breadcrumbs.types';
 import Context from './Context';

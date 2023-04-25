@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 
-import { BreadcrumbProvider } from '../../molecules/Breadcrumbs';
-import Header from '../../organisms/Header';
+import { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
+import Header from '@/organisms/Header';
 
 import UserOverview from './Users/User';
 import Dashboard from './Dashboard';

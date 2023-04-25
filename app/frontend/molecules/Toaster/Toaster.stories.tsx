@@ -2,10 +2,10 @@ import React from 'react';
 import { randPhrase } from '@ngneat/falso';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Button from '../../atoms/Button';
+import Button from '@/atoms/Button';
 
 import Context from './Context';
-import { Toaster } from './Toaster';
+import Toaster from '.';
 
 type Story = StoryObj<typeof Toaster>;
 
