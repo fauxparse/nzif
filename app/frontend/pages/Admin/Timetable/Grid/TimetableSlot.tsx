@@ -23,7 +23,6 @@ const TimetableSlot: React.FC<TimetableSlotProps> = ({ slot }) => (
     <span className="timetable__slot__venue">
       {slot.data.venue?.room || slot.data.venue?.building}
     </span>
-    <Button small ghost icon="moreVertical" aria-label="options" />
   </div>
 );
 

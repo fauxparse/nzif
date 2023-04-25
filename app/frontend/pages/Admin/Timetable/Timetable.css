@@ -102,7 +102,7 @@
     z-index: 0;
     display: grid;
     grid-template-rows: auto auto;
-    grid-template-columns: var(--icon-size) 1fr var(--button-size-small);
+    grid-template-columns: var(--icon-size) 1fr;
     gap: 0 var(--spacing);
     justify-content: center;
     align-items: center;
@@ -116,11 +116,6 @@
 
     > .icon {
       grid-row: 1 / -1;
-    }
-
-    > .button{
-      grid-row: 1 / -1;
-      grid-column: 3;
     }
 
     span {
@@ -138,7 +133,7 @@
 
 .new-slot {
   width: 24rem;
-  height: 32rem;
+  height: 24rem;
 
   .scrollable__content {
     display: flex;
@@ -194,79 +189,5 @@
     grid-template-columns: 1fr 1fr;
     grid-auto-flow: column;
     gap: var(--small);
-  }
-}
-
-.select {
-  &__trigger {
-    width: unset;
-
-    .button__text {
-      flex: 1;
-      font-weight: var(--font-weight-normal);
-      text-align: left;
-    }
-  }
-
-  &__content {
-    overflow: hidden;
-    padding: calc(var(--border-radius-large) - var(--border-radius-standard));
-    border-radius: var(--border-radius-large);
-    background-color: var(--background-subtle);
-    box-shadow: var(--shadow-4);
-  }
-
-  &__item {
-    position: relative;
-    z-index: var(--z-index-select-content);
-    display: grid;
-    grid-template-columns: var(--icon-size) 1fr;
-    gap: var(--small);
-    align-items: center;
-    height: var(--huge);
-    padding: 0 var(--small);
-    border-radius: var(--border-radius-standard);
-    font-size: var(--font-size-medium);
-    line-height: var(--line-height-medium);
-    user-select: none;
-
-    &__text {
-      grid-column: 2;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    &__indicator {
-      display: block;
-      display: contents;
-      color: var(--accent11);
-    }
-
-    &[data-disabled] {
-      color: var(--text-subtle);
-      opacity: var(--disabled-opacity);
-      pointer-events: none;
-    }
-
-    &[data-highlighted] {
-      background-color: var(--accent4);
-      color: var(--accent11);
-      outline: none;
-    }
-  }
-
-  &__viewport {
-    padding: var(--tiny);
-  }
-
-  &__scroll-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: var(--icon-size);
-    background-color: var(--background-subtle);
-    color: var(--text-subtle);
-    cursor: default;
   }
 }

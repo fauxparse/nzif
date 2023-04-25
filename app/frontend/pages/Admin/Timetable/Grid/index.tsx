@@ -26,6 +26,8 @@ type GridProps = {
 const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granularity = 4 }) => {
   const { dates, rows, selectionHeight, cellToTime, timeToCell } = useTimetable<Slot>(slots);
 
+  const [selection, updateSelection] = useState<Region | null>(null);
+
   const [ghostSelection, setGhostSelection] = useState<Region>({
     row: 0,
     column: 0,
@@ -33,12 +35,11 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
     height: 1,
   });
 
-  const [selectionVisible, setSelectionVisible] = useState(false);
-
   const setSelection = (selection: Region | null) => {
+    updateSelection(selection);
+
     if (selection) {
       setGhostSelection(selection);
-      setSelectionVisible(true);
       setPopupOpen(true);
     }
   };
@@ -47,7 +48,7 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
 
   useEffect(() => {
     if (!popupOpen) {
-      setSelectionVisible(false);
+      setSelection(null);
     }
   }, [popupOpen]);
 
@@ -59,12 +60,12 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
         <BaseGrid
           rows={rows.length}
           columns={(endHour - startHour) * granularity}
+          selection={selection}
           rowHeader={RowHeader}
           columnHeader={ColumnHeader}
           cell={Cell}
-          selection={Selection}
+          selectionComponent={Selection}
           onSelectionChange={setSelection}
-          data-selection-visible={selectionVisible}
         >
           {rows.map((row, i) => (
             <Fragment key={i}>

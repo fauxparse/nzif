@@ -28,10 +28,11 @@ export type CellProps = HTMLMotionProps<'div'> & Cell;
 export type BaseGridProps = {
   rows: number;
   columns: number;
+  selection?: Region | null;
   rowHeader?: React.FC<RowHeaderProps>;
   columnHeader?: React.FC<ColumnHeaderProps>;
   cell?: React.FC<CellProps>;
-  selection?: React.FC<SelectionProps>;
+  selectionComponent?: React.FC<SelectionProps>;
   onSelectionChange?: (selection: Region | null) => void;
 };
 

@@ -15,7 +15,7 @@ export interface Typegen0 {
   eventsCausingActions: {
     clearSelection: 'CLEAR_SELECTION';
     clearSelectionOrigin: 'POINTER_UP';
-    setSelection: 'POINTER_DOWN' | 'POINTER_MOVE' | 'POINTER_UP';
+    setSelection: 'POINTER_DOWN' | 'POINTER_MOVE' | 'POINTER_UP' | 'SET_SELECTION';
     setSelectionOrigin: 'POINTER_DOWN' | 'POINTER_MOVE';
   };
   eventsCausingDelays: {};

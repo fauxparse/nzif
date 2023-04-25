@@ -32,7 +32,8 @@ export const Grid: GridComponent = forwardRef(
       cell: CellComponent,
       columnHeader: ColumnHeaderComponent,
       rowHeader: RowHeaderComponent,
-      selection: SelectionComponent = Selection,
+      selection: selectionProp,
+      selectionComponent: SelectionComponent = Selection,
       onSelectionChange,
       ...props
     },
@@ -129,6 +130,11 @@ export const Grid: GridComponent = forwardRef(
     });
 
     const mergedRefs = mergeRefs([ref, container]);
+
+    useEffect(() => {
+      if (selectionProp === undefined) return;
+      machine.send({ type: 'SET_SELECTION', selection: selectionProp });
+    }, [selectionProp, machine]);
 
     return (
       <Component

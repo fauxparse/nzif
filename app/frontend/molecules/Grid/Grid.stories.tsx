@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { motion } from 'framer-motion';
 import { DateTime } from 'luxon';
 
-import { Grid } from './Grid';
-import { CellProps, ColumnHeaderProps, RowHeaderProps } from './Grid.types';
+import Button from '@/atoms/Button';
+import {
+  CellProps,
+  ColumnHeaderProps,
+  GridProps,
+  Region,
+  RowHeaderProps,
+} from '@/molecules/Grid/Grid.types';
+
+import Grid from '.';
 
 type Story = StoryObj<typeof Grid>;
 
@@ -12,9 +20,7 @@ export default {
   title: 'Molecules/Grid',
   component: Grid,
   argTypes: {},
-  args: {
-    text: 'Grid',
-  },
+  args: {},
   render: (args) => <Grid {...args} />,
   parameters: {
     layout: 'fullscreen',
@@ -39,6 +45,25 @@ const Cell: React.FC<CellProps> = ({ row, column, ...props }) => (
   <motion.div {...props}>{`${column}, ${row}`}</motion.div>
 );
 
+const ControlledGrid = () => {
+  const [selection, setSelection] = useState<Region | null>(null);
+
+  return (
+    <>
+      <Grid
+        rows={8}
+        columns={30}
+        cell={Cell}
+        columnHeader={ColumnHeader}
+        rowHeader={RowHeader}
+        selection={selection}
+        onSelectionChange={setSelection}
+      />
+      <Button text="Clear" onClick={() => setSelection(null)} />
+    </>
+  );
+};
+
 export const DateGrid: Story = {
   args: {
     rows: 8,
@@ -47,4 +72,8 @@ export const DateGrid: Story = {
     columnHeader: ColumnHeader,
     rowHeader: RowHeader,
   },
+};
+
+export const Controlled: Story = {
+  render: () => <ControlledGrid />,
 };

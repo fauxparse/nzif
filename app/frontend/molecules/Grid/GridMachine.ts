@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash-es';
+import { isEqual, pick } from 'lodash-es';
 import { assign, createMachine } from 'xstate';
 
 import { Cell, Region } from './Grid.types';
@@ -13,9 +13,17 @@ type GridContext = {
 type PointerDownEvent = { type: 'POINTER_DOWN' } & Cell;
 type PointerMoveEvent = { type: 'POINTER_MOVE' } & Cell;
 type PointerUpEvent = { type: 'POINTER_UP' } & Cell;
+type SetSelectionEvent = { type: 'SET_SELECTION'; selection: Region | null };
 type ClearSelectionEvent = { type: 'CLEAR_SELECTION' };
 
-type GridEvent = PointerDownEvent | PointerMoveEvent | PointerUpEvent | ClearSelectionEvent;
+type GridEvent =
+  | PointerDownEvent
+  | PointerMoveEvent
+  | PointerUpEvent
+  | SetSelectionEvent
+  | ClearSelectionEvent;
+
+const isSetSelectionEvent = (event: GridEvent): event is SetSelectionEvent => 'selection' in event;
 
 const GridMachine = createMachine(
   {
@@ -44,6 +52,12 @@ const GridMachine = createMachine(
             target: 'idle',
             actions: ['clearSelection'],
           },
+          SET_SELECTION: {
+            target: 'idle',
+            cond: ({ selection }, { selection: newSelection }) =>
+              newSelection !== undefined && !isEqual(selection, newSelection),
+            actions: ['setSelection'],
+          },
         },
       },
 
@@ -59,6 +73,13 @@ const GridMachine = createMachine(
             target: 'idle',
             actions: ['setSelection', 'clearSelectionOrigin'],
           },
+
+          SET_SELECTION: {
+            target: 'idle',
+            cond: ({ selection }, { selection: newSelection }) =>
+              newSelection !== undefined && !isEqual(selection, newSelection),
+            actions: ['setSelection'],
+          },
         },
       },
     },
@@ -71,9 +92,17 @@ const GridMachine = createMachine(
         selectionOrigin: (_, { row, column }) => ({ row, column }),
       }),
       setSelection: assign({
-        selectionOrigin: ({ selectionOrigin }, { row, column }) =>
-          selectionOrigin || { row, column },
-        selection: ({ selection, selectionOrigin }, { row, column }) => {
+        selectionOrigin: ({ selectionOrigin }, event) => {
+          if (isSetSelectionEvent(event)) {
+            return event.selection && pick(event.selection, ['row', 'column']);
+          }
+          const { row, column } = event;
+          return selectionOrigin || { row, column };
+        },
+        selection: ({ selection, selectionOrigin }, event) => {
+          if (isSetSelectionEvent(event)) return event.selection;
+
+          const { row, column } = event;
           if (!selectionOrigin) return { row, column, width: 1, height: 1 };
           const { row: row0, column: column0 } = selectionOrigin;
           const newSelection = {
