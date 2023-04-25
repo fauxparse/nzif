@@ -6,12 +6,11 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  useState,
 } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 import { useInterpret, useSelector } from '@xstate/react';
 import clsx from 'clsx';
-import { range } from 'lodash-es';
+import { range, throttle } from 'lodash-es';
 
 import { GridComponent, Region } from './Grid.types';
 import GridMachine from './GridMachine';
@@ -60,68 +59,68 @@ export const Grid: GridComponent = forwardRef(
       currentSelection.current = selection;
     }, [selection]);
 
-    const [selecting, setSelecting] = useState(false);
+    const selecting = state.matches('selecting');
 
-    const startTimer = useRef<number>();
-    const selectionStart = useRef<number>(Date.now());
+    const rowRef = useRef<number | null>(null);
+    const columnRef = useRef<number | null>(null);
 
-    const updateMachine = useCallback(
-      (e: PointerEvent) => {
-        const target = e.target as HTMLElement;
-        const { row, column } = target.dataset;
-        const type =
-          e.type === 'pointerdown'
-            ? 'POINTER_DOWN'
-            : e.type === 'pointerup'
-            ? 'POINTER_UP'
-            : 'POINTER_MOVE';
-        if (row && column) {
-          machine.send({
-            type,
-            row: parseInt(row, 10),
-            column: parseInt(column, 10),
-          });
-        }
-      },
+    const updateMachine = useMemo(
+      () =>
+        throttle(
+          (e: PointerEvent) => {
+            const target = (e.target as HTMLElement).closest('[data-row]');
+            if (!target) return;
+            const { row: rowString, column: columnString } = (target as HTMLElement).dataset;
+            if (!rowString || !columnString) return;
+            const row = Number(rowString);
+            const column = Number(columnString);
+            if (row === rowRef.current && column === columnRef.current) return;
+            const type =
+              e.type === 'pointerdown'
+                ? 'POINTER_DOWN'
+                : e.type === 'pointerup'
+                ? 'POINTER_UP'
+                : 'POINTER_MOVE';
+            rowRef.current = row;
+            columnRef.current = column;
+            machine.send({
+              type,
+              row,
+              column,
+            });
+          },
+          50,
+          { leading: true, trailing: true }
+        ),
       [machine]
     );
 
-    const panEnd = useCallback(
-      (e: PointerEvent) => {
-        clearTimeout(startTimer.current);
-        setSelecting(false);
-        updateMachine(e);
-        if (Date.now() - selectionStart.current < 300) {
-          machine.send('CLEAR_SELECTION');
-          onSelectionChange?.(null);
-        } else {
-          onSelectionChange?.(currentSelection.current);
-        }
-      },
-      [updateMachine, machine, onSelectionChange]
-    );
+    const pointerDown = useCallback(
+      (e: React.PointerEvent) => {
+        const el = container.current;
+        if (!el) return;
 
-    const panStart = (e: React.PointerEvent) => {
-      e.persist();
-      selectionStart.current = Date.now();
-      window.addEventListener('pointerup', panEnd, { once: true });
-
-      startTimer.current = window.setTimeout(() => {
-        setSelecting(true);
         updateMachine(e.nativeEvent);
-      }, 300);
-    };
+        const pointerMove = (e: PointerEvent) => {
+          updateMachine(e);
+        };
+        const pointerUp = () => {
+          machine.send({
+            type: 'POINTER_UP',
+            row: rowRef.current ?? 0,
+            column: columnRef.current ?? 0,
+          });
+          el.removeEventListener('pointermove', pointerMove);
+          rowRef.current = null;
+          columnRef.current = null;
+          onSelectionChange?.(currentSelection.current);
+        };
 
-    const panMove = (e: PointerEvent) => {
-      setSelecting(true);
-      updateMachine(e);
-    };
-
-    useEffect(() => {
-      return () => {
-        clearTimeout(startTimer.current);
-      };
-    }, []);
+        el.addEventListener('pointermove', pointerMove);
+        window.addEventListener('pointerup', pointerUp, { once: true });
+      },
+      [machine, onSelectionChange, updateMachine]
+    );
 
     useAutoScroll({
       container: container.current || document.documentElement,
@@ -148,6 +147,7 @@ export const Grid: GridComponent = forwardRef(
           '--column-headers': ColumnHeaderComponent ? 1 : 0,
         }}
         data-selecting={selecting || undefined}
+        onPointerDown={pointerDown}
         {...props}
       >
         {ColumnHeaderComponent && (
@@ -188,14 +188,8 @@ export const Grid: GridComponent = forwardRef(
                   column={column}
                   className="grid__cell"
                   role="gridcell"
-                  onPointerDown={panStart}
-                  onPan={panMove}
                   data-row={row}
                   data-column={column}
-                  style={{
-                    gridRow: row + rowOffset + 1,
-                    gridColumn: column + columnOffset + 1,
-                  }}
                 />
               ))}
           </div>

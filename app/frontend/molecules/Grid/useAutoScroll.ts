@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 
+import scrollParent from '@/util/scrollParent';
+
 type UseAutoScrollOptions = {
   container: HTMLElement;
   verticalContainer?: HTMLElement;
@@ -8,7 +10,7 @@ type UseAutoScrollOptions = {
   speed?: number;
 };
 
-const scrollVelocity = (position: number, max: number, edgeSize): number => {
+const scrollVelocity = (position: number, max: number, edgeSize: number): number => {
   if (position < edgeSize) {
     return (position - edgeSize) / edgeSize;
   }
@@ -30,8 +32,11 @@ const useAutoScroll = ({
   useEffect(() => {
     if (!enabled) return;
 
-    const { clientWidth, scrollWidth } = horizontalContainer;
-    const { clientHeight, scrollHeight } = verticalContainer;
+    const horizontalScrollParent = scrollParent(horizontalContainer);
+    const verticalScrollParent = scrollParent(verticalContainer);
+
+    const { clientWidth, scrollWidth } = horizontalScrollParent;
+    const { clientHeight, scrollHeight } = verticalScrollParent;
     const maxX = Math.max(0, scrollWidth - clientWidth);
     const maxY = Math.max(0, scrollHeight - clientHeight);
     let timer: ReturnType<typeof requestAnimationFrame>;
@@ -50,14 +55,14 @@ const useAutoScroll = ({
       const checkScroll = () => {
         cancelAnimationFrame(timer);
 
-        const x = horizontalContainer.scrollLeft;
+        const x = horizontalScrollParent.scrollLeft;
         const x2 = Math.max(0, Math.min(maxX, x + vx * speed));
-        const y = verticalContainer.scrollTop;
+        const y = verticalScrollParent.scrollTop;
         const y2 = Math.max(0, Math.min(maxY, y + vy * speed));
 
         if (x !== x2 || y !== y2) {
-          verticalContainer.scrollTop = y2;
-          horizontalContainer.scrollLeft = x2;
+          verticalScrollParent.scrollTop = y2;
+          horizontalScrollParent.scrollLeft = x2;
           timer = requestAnimationFrame(checkScroll);
         }
       };
@@ -66,13 +71,13 @@ const useAutoScroll = ({
     };
 
     window.addEventListener('pointermove', pointerMove);
-    horizontalContainer.style.scrollBehavior = 'auto';
-    verticalContainer.style.scrollBehavior = 'auto';
+    horizontalScrollParent.style.scrollBehavior = 'auto';
+    verticalScrollParent.style.scrollBehavior = 'auto';
 
     return () => {
       window.removeEventListener('pointermove', pointerMove);
-      horizontalContainer.style.removeProperty('scroll-behavior');
-      verticalContainer.style.removeProperty('scroll-behavior');
+      horizontalScrollParent.style.removeProperty('scroll-behavior');
+      verticalScrollParent.style.removeProperty('scroll-behavior');
     };
   }, [enabled, horizontalContainer, verticalContainer, edgeSize, speed]);
 };

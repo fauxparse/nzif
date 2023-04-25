@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { motion } from 'framer-motion';
 import { DateTime } from 'luxon';
 
 import Button from '@/atoms/Button';
-import {
-  CellProps,
-  ColumnHeaderProps,
-  GridProps,
-  Region,
-  RowHeaderProps,
-} from '@/molecules/Grid/Grid.types';
+import { CellProps, ColumnHeaderProps, Region, RowHeaderProps } from '@/molecules/Grid/Grid.types';
 
 import Grid from '.';
 
@@ -30,19 +23,25 @@ export default {
 const startDate = DateTime.local(2023, 10, 7);
 
 const ColumnHeader: React.FC<ColumnHeaderProps> = ({ column, ...props }) => (
-  <motion.div {...props}>
+  <div {...props}>
     {startDate
       .set({ hour: Math.floor(column / 2) + 9, minute: (column % 2) * 30 })
       .toFormat('h:mm')}
-  </motion.div>
+  </div>
 );
 
 const RowHeader: React.FC<RowHeaderProps> = ({ row, ...props }) => (
-  <motion.div {...props}>{startDate.plus({ days: row }).toFormat('ccc d MMM')}</motion.div>
+  <div {...props}>{startDate.plus({ days: row }).toFormat('ccc d MMM')}</div>
 );
 
 const Cell: React.FC<CellProps> = ({ row, column, ...props }) => (
-  <motion.div {...props}>{`${column}, ${row}`}</motion.div>
+  <div
+    {...props}
+    style={{
+      gridRow: row + 2,
+      gridColumn: column + 2,
+    }}
+  >{`${column}, ${row}`}</div>
 );
 
 const ControlledGrid = () => {

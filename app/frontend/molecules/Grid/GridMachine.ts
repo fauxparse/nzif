@@ -27,7 +27,7 @@ const isSetSelectionEvent = (event: GridEvent): event is SetSelectionEvent => 's
 
 const GridMachine = createMachine(
   {
-    /** @xstate-layout N4IgpgJg5mDOIC5RQE4EsIDoMBswGIAFAeQEkA5AFQFEAlAfQBFiB1cgbQAYBdRUABwD2sNABc0ggHZ8QAD0QBaABwAmTCo0A2AKyaV2gDQgAnoqUAWTKs4BmAIz6Avo6OoMmWGDwBjcZKhEZFR09ACyxABq1Fy8SCBCIuJSMvIIdgCcNpia6XbmnHqGJooqSkqYtukFTi4gbliePn4BJBQ0DACqhDEyCWIS0nGpCgDsWWWaI3ZKI0WmCAoq6ZrZIyOcSjZb21vOtZKCEHAy9b3C-clDJSojVirmKtOzRvMKNpuYdmsbOzvOrugsLgwGdEgMUoovuk7g8nnNIZpLOkHutNr97P86oCPF4wL40P5QRdBqBUnY8phtBltPZ9C8EUiUT90XY9o4gA */
+    /** @xstate-layout N4IgpgJg5mDOIC5RQE4EsIDoMBswGIAFAeQEkA5AFQFEAlAfQBFiB1cgbQAYBdRUABwD2sNABc0ggHZ8QAD0QBaAIwB2JZhUqATABYdANgCcADgDMnYztP6ANCACeircczHtxrQFYvu06cNKpgC+QXaoGNgQeERkVHT0ALLEAGrUXLxIIEIi4lIy8gimrqYGps4qpp6VSp76WnaOCAolOpj6mhZ+XV0hYehYuAQAwgAy1ACCDADK1GNDlKTEHDwy2WIS0pkFRWal5ZXVtfUOiv5abR1m3T2hIOEDUQQzlPQzcwtL6avC63lbiDsSvoym4Dp4anUGoglBZMFofJ4VKCquD9L07v1MLAwHgAMbiSRQGIUGgMJKpL6ZNa5TagApKQxFIxKHScOqeKFNZwuTj+NledH3LE4sD4tCE4lxBgAVUIlIEPxp+UUFVcxnaSjcHJOXMM+guKk61z8gsx2LxBKJz1es2o80WywyCpyG2VhRKmECnh0LKUWjBSlsOuUKkMrkCxk4Bi0+gMOksIVukkEEDgMnu3xdfzpp0MKkw8dMmvhFU43qUnIU8c4nrqKn0gZhmg8aNuQsGmd+tLkpx0YcLxa0pfLlYjmDKvs4mvVhnBnlNEXNostnaV-wQQ5rPrcbM4mn0nC0hkrKk8ntM9Z3-t5kZUiaCQA */
     id: 'grid',
     tsTypes: {} as import('./GridMachine.typegen').Typegen0,
     schema: {
@@ -41,12 +41,8 @@ const GridMachine = createMachine(
       idle: {
         on: {
           POINTER_DOWN: {
-            target: 'selecting',
-            actions: ['setSelectionOrigin', 'setSelection'],
-          },
-          POINTER_MOVE: {
-            target: 'selecting',
-            actions: ['setSelectionOrigin', 'setSelection'],
+            target: 'pointerDown',
+            actions: ['clearSelection', 'setSelectionOrigin'],
           },
           CLEAR_SELECTION: {
             target: 'idle',
@@ -57,6 +53,34 @@ const GridMachine = createMachine(
             cond: ({ selection }, { selection: newSelection }) =>
               newSelection !== undefined && !isEqual(selection, newSelection),
             actions: ['setSelection'],
+          },
+        },
+      },
+
+      pointerDown: {
+        on: {
+          POINTER_MOVE: {
+            target: 'selecting',
+            internal: true,
+            actions: 'setSelection',
+          },
+          POINTER_UP: {
+            target: 'idle',
+            actions: ['clearSelection', 'clearSelectionOrigin'],
+          },
+        },
+        after: {
+          300: {
+            target: 'selecting',
+            actions: assign({
+              selection: ({ selectionOrigin }) =>
+                selectionOrigin && {
+                  row: selectionOrigin.row,
+                  column: selectionOrigin.column,
+                  width: 1,
+                  height: 1,
+                },
+            }),
           },
         },
       },

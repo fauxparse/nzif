@@ -1,5 +1,4 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useMemo } from 'react';
 
 import { RowHeaderProps } from '../../../../molecules/Grid/Grid.types';
 
@@ -9,20 +8,24 @@ const RowHeader: React.FC<RowHeaderProps> = ({ row, style, ...props }) => {
   const { rows } = useGridContext();
   const { date, track, tracks } = rows[row];
 
+  const weekday = useMemo(() => date.toFormat('cccc'), [date]);
+  const day = useMemo(() => date.toFormat('dd'), [date]);
+  const month = useMemo(() => date.toFormat('MMMM'), [date]);
+
   if (track > 0) return <div style={{ gridColumn: 1, gridRow: row + 2, visibility: 'hidden' }} />;
 
   return (
-    <motion.div
+    <div
       style={{
         gridColumn: 1,
         gridRow: `${row + 2} / span ${tracks}`,
       }}
       {...props}
     >
-      <span className="weekday">{date.toFormat('cccc')}</span>
-      <span className="day">{date.toFormat('dd')}</span>
-      <span className="month">{date.toFormat('MMMM')}</span>
-    </motion.div>
+      <span className="weekday">{weekday}</span>
+      <span className="day">{day}</span>
+      <span className="month">{month}</span>
+    </div>
   );
 };
 

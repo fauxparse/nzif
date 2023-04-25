@@ -1,5 +1,4 @@
-import { ElementType, ReactElement } from 'react';
-import { HTMLMotionProps } from 'framer-motion';
+import { ComponentPropsWithoutRef, ElementType, ReactElement } from 'react';
 
 import { Polymorphic, WithDisplayName } from '../../types/polymorphic.types';
 
@@ -15,15 +14,15 @@ export type Region = {
   height: number;
 };
 
-export type RowHeaderProps = HTMLMotionProps<'div'> & {
+export type RowHeaderProps = ComponentPropsWithoutRef<'div'> & {
   row: number;
 };
 
-export type ColumnHeaderProps = HTMLMotionProps<'div'> & {
+export type ColumnHeaderProps = ComponentPropsWithoutRef<'div'> & {
   column: number;
 };
 
-export type CellProps = HTMLMotionProps<'div'> & Cell;
+export type CellProps = ComponentPropsWithoutRef<'div'> & Cell;
 
 export type BaseGridProps = {
   rows: number;
