@@ -4,7 +4,7 @@ import { HTMLMotionProps, motion, Variants } from 'framer-motion';
 import Button from '@/atoms/Button';
 import Spinner from '@/atoms/Spinner/Spinner';
 
-type InputProps = HTMLMotionProps<'input'> & {
+export type InputProps = HTMLMotionProps<'input'> & {
   left: number;
   right: number;
   expanded: boolean;
