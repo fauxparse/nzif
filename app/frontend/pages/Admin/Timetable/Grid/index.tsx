@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 
 import { TimetableQuery } from '@/graphql/types';
+import ContextMenu from '@/molecules/ContextMenu';
 import BaseGrid from '@/molecules/Grid';
 import { Region } from '@/molecules/Grid/Grid.types';
 import Popover from '@/molecules/Popover';
@@ -12,6 +13,7 @@ import NewSlot from './NewSlot';
 import RowHeader from './RowHeader';
 import { Selection } from './Selection';
 import TimetableSlot from './TimetableSlot';
+import TimetableSlotContextMenu from './TimetableSlotContextMenu';
 import useTimetable from './useTimetable';
 
 type Slot = TimetableQuery['festival']['timetable']['slots'][0];
@@ -55,40 +57,43 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
   const [ghost, setGhost] = useState<HTMLDivElement | null>(null);
 
   return (
-    <div className="timetable__grid">
-      <GridContext.Provider value={{ dates, rows, selectionHeight, cellToTime, timeToCell }}>
-        <BaseGrid
-          rows={rows.length}
-          columns={(endHour - startHour) * granularity}
-          selection={selection}
-          rowHeader={RowHeader}
-          columnHeader={ColumnHeader}
-          cell={Cell}
-          selectionComponent={Selection}
-          onSelectionChange={setSelection}
-        >
-          {rows.map((row, i) => (
-            <Fragment key={i}>
-              {row.blocks.map((slot, i) => (
-                <TimetableSlot key={i} slot={slot} />
-              ))}
-            </Fragment>
-          ))}
-          <Selection
-            className="timetable__selection--ghost"
-            selection={ghostSelection}
-            rowOffset={1}
-            columnOffset={1}
-            ref={setGhost}
-          />
-        </BaseGrid>
-        {ghost && (
-          <Popover reference={ghost} open={popupOpen} onOpenChange={setPopupOpen}>
-            <NewSlot selection={ghostSelection} onClose={() => setPopupOpen(false)} />
-          </Popover>
-        )}
-      </GridContext.Provider>
-    </div>
+    <ContextMenu.Root>
+      <div className="timetable__grid">
+        <GridContext.Provider value={{ dates, rows, selectionHeight, cellToTime, timeToCell }}>
+          <BaseGrid
+            rows={rows.length}
+            columns={(endHour - startHour) * granularity}
+            selection={selection}
+            rowHeader={RowHeader}
+            columnHeader={ColumnHeader}
+            cell={Cell}
+            selectionComponent={Selection}
+            onSelectionChange={setSelection}
+          >
+            {rows.map((row, i) => (
+              <Fragment key={i}>
+                {row.blocks.map((slot, i) => (
+                  <TimetableSlot key={i} slot={slot} />
+                ))}
+              </Fragment>
+            ))}
+            <Selection
+              className="timetable__selection--ghost"
+              selection={ghostSelection}
+              rowOffset={1}
+              columnOffset={1}
+              ref={setGhost}
+            />
+          </BaseGrid>
+          {ghost && (
+            <Popover reference={ghost} open={popupOpen} onOpenChange={setPopupOpen}>
+              <NewSlot selection={ghostSelection} onClose={() => setPopupOpen(false)} />
+            </Popover>
+          )}
+        </GridContext.Provider>
+      </div>
+      <TimetableSlotContextMenu />
+    </ContextMenu.Root>
   );
 };
 

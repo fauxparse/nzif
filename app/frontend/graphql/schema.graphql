@@ -261,6 +261,16 @@ type Mutation {
   ): CreateMultiplePayload
 
   """
+  Removes a slot from the timetable
+  """
+  destroySlot(
+    """
+    Slot ID
+    """
+    id: ID!
+  ): Boolean
+
+  """
   Updates a user’s preference
   """
   updatePreference(

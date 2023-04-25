@@ -40,3 +40,7 @@ mutation CreateSlots($attributes: MultipleSlotAttributes!) {
     }
   }
 }
+
+mutation DestroySlot($id: ID!) {
+  destroySlot(id: $id)
+}

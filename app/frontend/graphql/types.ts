@@ -153,6 +153,8 @@ export type Mutation = {
   createSlot: Maybe<CreatePayload>;
   /** Create multiple activity slots at once */
   createSlots: Maybe<CreateMultiplePayload>;
+  /** Removes a slot from the timetable */
+  destroySlot: Maybe<Scalars['Boolean']>;
   /** Updates a user’s preference */
   updatePreference: Maybe<UpdatePreferencePayload>;
   /** Update a user */
@@ -177,6 +179,12 @@ export type MutationCreateSlotArgs = {
 /** Top-level mutation interface */
 export type MutationCreateSlotsArgs = {
   attributes: MultipleSlotAttributes;
+};
+
+
+/** Top-level mutation interface */
+export type MutationDestroySlotArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -623,6 +631,13 @@ export type CreateSlotsMutationVariables = Exact<{
 
 
 export type CreateSlotsMutation = { __typename: 'Mutation', createSlots: { __typename: 'CreateMultiplePayload', slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | null };
+
+export type DestroySlotMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DestroySlotMutation = { __typename: 'Mutation', destroySlot: boolean | null };
 
 export type EditableUserFragment = { __typename: 'User', id: string, name: string, email: string, roles: Array<Role> };
 
@@ -1118,6 +1133,37 @@ export function useCreateSlotsMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateSlotsMutationHookResult = ReturnType<typeof useCreateSlotsMutation>;
 export type CreateSlotsMutationResult = Apollo.MutationResult<CreateSlotsMutation>;
 export type CreateSlotsMutationOptions = Apollo.BaseMutationOptions<CreateSlotsMutation, CreateSlotsMutationVariables>;
+export const DestroySlotDocument = gql`
+    mutation DestroySlot($id: ID!) {
+  destroySlot(id: $id)
+}
+    `;
+export type DestroySlotMutationFn = Apollo.MutationFunction<DestroySlotMutation, DestroySlotMutationVariables>;
+
+/**
+ * __useDestroySlotMutation__
+ *
+ * To run a mutation, you first call `useDestroySlotMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDestroySlotMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [destroySlotMutation, { data, loading, error }] = useDestroySlotMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDestroySlotMutation(baseOptions?: Apollo.MutationHookOptions<DestroySlotMutation, DestroySlotMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DestroySlotMutation, DestroySlotMutationVariables>(DestroySlotDocument, options);
+      }
+export type DestroySlotMutationHookResult = ReturnType<typeof useDestroySlotMutation>;
+export type DestroySlotMutationResult = Apollo.MutationResult<DestroySlotMutation>;
+export type DestroySlotMutationOptions = Apollo.BaseMutationOptions<DestroySlotMutation, DestroySlotMutationVariables>;
 export const EditUserDocument = gql`
     query EditUser($id: ID!) {
   user(id: $id) {
