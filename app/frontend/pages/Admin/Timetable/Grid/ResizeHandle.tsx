@@ -20,6 +20,9 @@ const ResizeHandle = forwardRef<HTMLDivElement, ResizeHandleProps>(
       const { currentTarget: el } = e;
       const grid = el.closest('.timetable__grid') as HTMLDivElement;
 
+      e.preventDefault();
+      e.stopPropagation();
+
       if (!grid) return;
 
       setDragging(true);

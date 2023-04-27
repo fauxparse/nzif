@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import React, { ComponentPropsWithoutRef, useRef } from 'react';
 import { camelCase } from 'lodash-es';
 
 import Icon, { IconName } from '@/atoms/Icon';
@@ -9,11 +9,11 @@ import { useGridContext } from './Context';
 import ResizeHandle from './ResizeHandle';
 import { Block } from './useTimetable';
 
-interface TimetableSlotProps {
+type TimetableSlotProps = ComponentPropsWithoutRef<'div'> & {
   slot: Block<TimetableSlotFragment>;
-}
+};
 
-const TimetableSlot: React.FC<TimetableSlotProps> = ({ slot }) => {
+const TimetableSlot: React.FC<TimetableSlotProps> = React.memo(({ slot, ...props }) => {
   const container = useRef<HTMLDivElement | null>(null);
 
   const [updateSlot] = useUpdateSlotMutation();
@@ -28,7 +28,7 @@ const TimetableSlot: React.FC<TimetableSlotProps> = ({ slot }) => {
       },
     });
 
-  const dragStart = (column: number, final = false) => {
+  const dragStartEdge = (column: number, final = false) => {
     if (!container.current) return;
     const right = slot.column + slot.width - 1;
     const left = Math.min(right, column);
@@ -40,7 +40,7 @@ const TimetableSlot: React.FC<TimetableSlotProps> = ({ slot }) => {
     if (startsAt) update({ startsAt });
   };
 
-  const dragEnd = (column: number, final = false) => {
+  const dragEndEdge = (column: number, final = false) => {
     if (!container.current) return;
     const width = Math.max(1, column - slot.column + 1);
     container.current.style.gridColumn = `${slot.column + 2} / span ${width}`;
@@ -61,17 +61,20 @@ const TimetableSlot: React.FC<TimetableSlotProps> = ({ slot }) => {
           gridColumn: `${slot.column + 2} / span ${slot.width}`,
         }}
         data-id={slot.data.id}
+        {...props}
       >
         <Icon name={camelCase(slot.data.activityType) as IconName} />
         <span className="timetable__slot__type">{slot.data.activityType}</span>
         <span className="timetable__slot__venue">
           {slot.data.venue?.room || slot.data.venue?.building}
         </span>
-        <ResizeHandle side="start" column={slot.column} onDrag={dragStart} />
-        <ResizeHandle side="end" column={slot.column + slot.width - 1} onDrag={dragEnd} />
+        <ResizeHandle side="start" column={slot.column} onDrag={dragStartEdge} />
+        <ResizeHandle side="end" column={slot.column + slot.width - 1} onDrag={dragEndEdge} />
       </div>
     </ContextMenu.Trigger>
   );
-};
+});
+
+TimetableSlot.displayName = 'TimetableSlot';
 
 export default TimetableSlot;
