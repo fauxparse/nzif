@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo } from 'react';
-import { map, memoize, partition, range, sortBy } from 'lodash-es';
+import { map, memoize, partition, range } from 'lodash-es';
 import { DateTime } from 'luxon';
 
 import Context from '../Context';
@@ -27,37 +27,6 @@ export type Row<T extends Schedule> = {
   blocks: Block<T>[];
 };
 
-const SCHEDULES = [
-  {
-    startsAt: DateTime.fromISO('2023-10-09T10:00:00+13:00'),
-    endsAt: DateTime.fromISO('2023-10-09T13:00:00+13:00'),
-  },
-  {
-    startsAt: DateTime.fromISO('2023-10-09T10:00:00+13:00'),
-    endsAt: DateTime.fromISO('2023-10-09T13:00:00+13:00'),
-  },
-  {
-    startsAt: DateTime.fromISO('2023-10-09T10:00:00+13:00'),
-    endsAt: DateTime.fromISO('2023-10-09T13:00:00+13:00'),
-  },
-  {
-    startsAt: DateTime.fromISO('2023-10-09T18:30:00+13:00'),
-    endsAt: DateTime.fromISO('2023-10-09T19:30:00+13:00'),
-  },
-  {
-    startsAt: DateTime.fromISO('2023-10-09T19:00:00+13:00'),
-    endsAt: DateTime.fromISO('2023-10-09T20:00:00+13:00'),
-  },
-  {
-    startsAt: DateTime.fromISO('2023-10-09T19:30:00+13:00'),
-    endsAt: DateTime.fromISO('2023-10-09T20:30:00+13:00'),
-  },
-  {
-    startsAt: DateTime.fromISO('2023-10-10T10:00:00+13:00'),
-    endsAt: DateTime.fromISO('2023-10-10T10:00:00+13:00'),
-  },
-];
-
 const overlaps = (a: Block, b: Block) =>
   a.row === b.row && a.column < b.column + b.width && b.column < a.column + a.width;
 
@@ -67,7 +36,7 @@ const gcd: (x: number, y: number) => number = memoize((x: number, y: number) =>
 
 const lcm = (...arr: number[]) => arr.reduce((a, b) => (a * b) / gcd(a, b));
 
-const useTimetable = <T extends Schedule = Schedule>(schedules = SCHEDULES as T[]) => {
+const useTimetable = <T extends Schedule = Schedule>(schedules: T[]) => {
   const { startDate, endDate, startHour, granularity } = useContext(Context);
 
   const dates = useMemo(() => {
@@ -145,7 +114,7 @@ const useTimetable = <T extends Schedule = Schedule>(schedules = SCHEDULES as T[
   }, []);
 
   const rows = useMemo(() => {
-    const groups = sortBy(schedules, 'startsAt').reduce((groups, schedule) => {
+    const groups = schedules.reduce((groups, schedule) => {
       const block = scheduleToBlock(schedule);
       const group = groups.get(block.row) || [];
       return groups.set(block.row, [...group, block]);

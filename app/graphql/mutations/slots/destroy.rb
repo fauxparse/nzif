@@ -3,6 +3,8 @@ module Mutations
     class Destroy < BaseMutation
       description 'Removes a slot from the timetable'
 
+      graphql_name 'DestroySlot'
+
       payload_type Boolean
 
       argument :id, ID, required: true, description: 'Slot ID'

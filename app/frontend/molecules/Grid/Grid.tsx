@@ -6,6 +6,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 import { useInterpret, useSelector } from '@xstate/react';
@@ -59,6 +60,8 @@ export const Grid: GridComponent = forwardRef(
       currentSelection.current = selection;
     }, [selection]);
 
+    const [pointerIsDown, setPointerDown] = useState(false);
+
     const selecting = state.matches('selecting');
 
     const rowRef = useRef<number | null>(null);
@@ -100,11 +103,13 @@ export const Grid: GridComponent = forwardRef(
         const el = container.current;
         if (!el) return;
 
+        setPointerDown(true);
         updateMachine(e.nativeEvent);
         const pointerMove = (e: PointerEvent) => {
           updateMachine(e);
         };
         const pointerUp = () => {
+          setPointerDown(false);
           machine.send({
             type: 'POINTER_UP',
             row: rowRef.current ?? 0,
@@ -125,7 +130,7 @@ export const Grid: GridComponent = forwardRef(
     useAutoScroll({
       container: container.current || document.documentElement,
       verticalContainer: document.documentElement,
-      enabled: selecting,
+      enabled: pointerIsDown,
     });
 
     const mergedRefs = mergeRefs([ref, container]);

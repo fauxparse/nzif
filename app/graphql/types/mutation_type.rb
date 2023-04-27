@@ -9,5 +9,6 @@ module Types
     field :create_slot, mutation: Mutations::Slots::Create
     field :create_slots, mutation: Mutations::Slots::CreateMultiple
     field :destroy_slot, mutation: Mutations::Slots::Destroy
+    field :update_slot, mutation: Mutations::Slots::Update
   end
 end

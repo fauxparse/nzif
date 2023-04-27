@@ -3,6 +3,8 @@ module Mutations
     class CreateMultiple < BaseMutation
       description 'Create multiple activity slots at once'
 
+      graphql_name 'CreateMultipleSlots'
+
       argument :attributes, Types::MultipleSlotAttributes, required: true,
         description: 'The attributes for the slots'
 

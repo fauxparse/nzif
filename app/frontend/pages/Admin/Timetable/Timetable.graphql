@@ -8,6 +8,7 @@ fragment TimetableSlot on Slot {
     id
     room
     building
+    position
   }
 }
 
@@ -43,4 +44,12 @@ mutation CreateSlots($attributes: MultipleSlotAttributes!) {
 
 mutation DestroySlot($id: ID!) {
   destroySlot(id: $id)
+}
+
+mutation UpdateSlot($id: ID!, $attributes: SlotAttributes!) {
+  updateSlot(id: $id, attributes: $attributes) {
+    slot {
+      ...TimetableSlot
+    }
+  }
 }

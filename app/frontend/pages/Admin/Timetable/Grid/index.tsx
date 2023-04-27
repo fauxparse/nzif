@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import { sortBy } from 'lodash-es';
 
 import { TimetableQuery } from '@/graphql/types';
 import ContextMenu from '@/molecules/ContextMenu';
@@ -26,7 +27,9 @@ type GridProps = {
 };
 
 const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granularity = 4 }) => {
-  const { dates, rows, selectionHeight, cellToTime, timeToCell } = useTimetable<Slot>(slots);
+  const sortedSlots = sortBy(slots, ['startsAt', (s) => s.venue?.position ?? Infinity]);
+
+  const { dates, rows, selectionHeight, cellToTime, timeToCell } = useTimetable<Slot>(sortedSlots);
 
   const [selection, updateSelection] = useState<Region | null>(null);
 
@@ -72,8 +75,8 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
           >
             {rows.map((row, i) => (
               <Fragment key={i}>
-                {row.blocks.map((slot, i) => (
-                  <TimetableSlot key={i} slot={slot} />
+                {row.blocks.map((slot) => (
+                  <TimetableSlot key={slot.data.id} slot={slot} />
                 ))}
               </Fragment>
             ))}

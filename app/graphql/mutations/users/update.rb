@@ -3,6 +3,8 @@ module Mutations
     class Update < BaseMutation
       description 'Update a user'
 
+      graphql_name 'UpdateUser'
+
       field :user, Types::UserType, null: false,
         description: 'The updated user'
 

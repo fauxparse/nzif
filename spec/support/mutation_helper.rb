@@ -15,5 +15,7 @@ module MutationHelper
     let(:context) { {} }
 
     let(:variables) { {} }
+
+    let(:data) { result['data'].deep_transform_keys { |key| key.to_s.underscore.to_sym } }
   end
 end

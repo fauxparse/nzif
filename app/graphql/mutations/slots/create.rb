@@ -3,6 +3,8 @@ module Mutations
     class Create < BaseMutation
       description 'Create an activity slot'
 
+      graphql_name 'CreateSlot'
+
       argument :attributes, Types::SlotAttributes, required: true,
         description: 'The attributes for the slot'
       argument :festival_id, ID, required: true,

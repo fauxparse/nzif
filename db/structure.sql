@@ -279,7 +279,8 @@ CREATE TABLE public.venues (
     longitude numeric(15,10),
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, (COALESCE(room, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('english'::regconfig, (COALESCE(building, ''::character varying))::text), 'B'::"char"))) STORED
+    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, (COALESCE(room, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('english'::regconfig, (COALESCE(building, ''::character varying))::text), 'B'::"char"))) STORED,
+    "position" integer DEFAULT 0 NOT NULL
 );
 
 
@@ -556,6 +557,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230410203022'),
 ('20230410205819'),
 ('20230422022541'),
-('20230422033310');
+('20230422033310'),
+('20230427052656');
 
 

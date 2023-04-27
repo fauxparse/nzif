@@ -22,9 +22,11 @@ const RowHeader: React.FC<RowHeaderProps> = ({ row, style, ...props }) => {
       }}
       {...props}
     >
-      <span className="weekday">{weekday}</span>
-      <span className="day">{day}</span>
-      <span className="month">{month}</span>
+      <div className="timetable__date">
+        <span className="weekday">{weekday}</span>
+        <span className="day">{day}</span>
+        <span className="month">{month}</span>
+      </div>
     </div>
   );
 };
