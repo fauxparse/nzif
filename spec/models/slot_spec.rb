@@ -8,6 +8,12 @@ RSpec.describe Slot do
 
   it { is_expected.to be_valid }
 
+  describe '#activity_type' do
+    subject(:activity_type) { slot.activity_type }
+
+    it { is_expected.to eq Workshop }
+  end
+
   context 'when the start time is before the start date of the festival' do
     before do
       slot.starts_at = (slot.festival.start_date - 1.day).beginning_of_day
@@ -25,11 +31,9 @@ RSpec.describe Slot do
   end
 
   context 'with a bad activity type' do
-    before do
-      slot.activity_type = 'Prank'
+    it 'raises an error' do
+      expect { slot.activity_type = 'Prank' }.to raise_error(/not a valid activity_type/)
     end
-
-    it { is_expected.not_to be_valid }
   end
 
   context 'when there is another activity overlapping' do
@@ -45,5 +49,11 @@ RSpec.describe Slot do
     end
 
     it { is_expected.not_to be_valid }
+  end
+
+  describe '.activity_type_values' do
+    subject(:activity_type_values) { described_class.activity_type_values }
+
+    it { is_expected.to eq %i[Workshop Show] }
   end
 end

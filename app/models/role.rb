@@ -3,9 +3,7 @@ class Role < ApplicationRecord
 
   validates :name, presence: true
 
-  enum :name,
-    admin: 'admin',
-    participant_liaison: 'participant_liaison'
+  enum :name, :role_name
 
   def name=(value)
     super(value.to_s)

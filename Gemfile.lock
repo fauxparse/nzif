@@ -68,6 +68,9 @@ GEM
     activerecord (7.0.4.3)
       activemodel (= 7.0.4.3)
       activesupport (= 7.0.4.3)
+    activerecord-postgres_enum (2.0.1)
+      activerecord (>= 5.2)
+      pg
     activestorage (7.0.4.3)
       actionpack (= 7.0.4.3)
       activejob (= 7.0.4.3)
@@ -344,6 +347,7 @@ PLATFORMS
 DEPENDENCIES
   action_policy (~> 0.6.5)
   action_policy-graphql (~> 0.5.3)
+  activerecord-postgres_enum
   acts_as_list (~> 1.1.0)
   auto_strip_attributes (~> 2.6)
   bootsnap

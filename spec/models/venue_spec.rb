@@ -5,6 +5,12 @@ RSpec.describe Venue do
 
   it { is_expected.to be_valid }
 
+  describe '#name' do
+    subject(:name) { venue.name }
+
+    it { is_expected.to eq 'The Stage at BATS' }
+  end
+
   describe 'geocoding' do
     before { venue.save! }
 

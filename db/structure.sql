@@ -59,6 +59,26 @@ COMMENT ON EXTENSION unaccent IS 'text search dictionary that removes accents';
 
 
 --
+-- Name: activity_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.activity_type AS ENUM (
+    'Workshop',
+    'Show'
+);
+
+
+--
+-- Name: role_name; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.role_name AS ENUM (
+    'admin',
+    'participant_liaison'
+);
+
+
+--
 -- Name: my_concat(text, text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -78,7 +98,7 @@ SET default_table_access_method = heap;
 CREATE TABLE public.activities (
     id bigint NOT NULL,
     festival_id bigint,
-    type character varying,
+    type public.activity_type NOT NULL,
     name character varying,
     slug character varying,
     created_at timestamp(6) without time zone NOT NULL,
@@ -158,7 +178,7 @@ ALTER SEQUENCE public.festivals_id_seq OWNED BY public.festivals.id;
 CREATE TABLE public.roles (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
-    name character varying,
+    name public.role_name,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -202,7 +222,7 @@ CREATE TABLE public.slots (
     venue_id bigint,
     starts_at timestamp without time zone NOT NULL,
     ends_at timestamp without time zone NOT NULL,
-    activity_type character varying,
+    activity_type public.activity_type,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -565,6 +585,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230410205819'),
 ('20230422022541'),
 ('20230422033310'),
-('20230427052656');
+('20230427052656'),
+('20230429064646'),
+('20230429104442'),
+('20230429110004');
 
 

@@ -2,6 +2,8 @@ class Slot < ApplicationRecord
   belongs_to :festival
   belongs_to :venue, optional: true
 
+  enum :activity_type
+
   validates :starts_at, :ends_at,
     presence: true,
     date: {
@@ -9,7 +11,6 @@ class Slot < ApplicationRecord
       on_or_before: -> { festival.end_date },
     }
   validates :ends_at, time: { after: :starts_at }
-  validates :activity_type, inclusion: { in: Activity.descendants }
   validate :check_for_venue_clashes
 
   def self.overlapping(slot)
@@ -18,8 +19,6 @@ class Slot < ApplicationRecord
 
   def activity_type
     super.constantize
-  rescue NameError
-    nil
   end
 
   def activity_type=(value)

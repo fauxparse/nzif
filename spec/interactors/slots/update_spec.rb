@@ -6,7 +6,9 @@ RSpec.describe Slots::Update, type: :interactor do
 
     let(:festival) { slot.festival }
 
-    let(:attributes) { { starts_at: slot.starts_at - 1.hour } }
+    let(:attributes) { { starts_at: slot.starts_at - 1.hour, venue_id: venue.to_param } }
+
+    let(:venue) { create(:venue) }
 
     let(:context) do
       {
@@ -20,6 +22,10 @@ RSpec.describe Slots::Update, type: :interactor do
 
       it 'updates the slot' do
         expect { result }.to change { slot.reload.starts_at }.by(-1.hour)
+      end
+
+      it 'updates the venue' do
+        expect { result }.to change { slot.reload.venue }.to(venue)
       end
     end
 
