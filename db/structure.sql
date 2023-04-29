@@ -64,7 +64,8 @@ COMMENT ON EXTENSION unaccent IS 'text search dictionary that removes accents';
 
 CREATE TYPE public.activity_type AS ENUM (
     'Workshop',
-    'Show'
+    'Show',
+    'SocialEvent'
 );
 
 
@@ -605,6 +606,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230429064646'),
 ('20230429104442'),
 ('20230429110004'),
-('20230429111227');
+('20230429111227'),
+('20230429195143');
 
 

@@ -63,6 +63,11 @@ enum ActivityType {
   Show
 
   """
+  SocialEvent
+  """
+  SocialEvent
+
+  """
   Workshop
   """
   Workshop
@@ -563,6 +568,31 @@ input SlotAttributes {
   The ID of the venue
   """
   venueId: ID
+}
+
+"""
+A social event
+"""
+type SocialEvent implements Activity {
+  """
+  Unique ID
+  """
+  id: ID!
+
+  """
+  Activity name
+  """
+  name: String!
+
+  """
+  For use in URL generation
+  """
+  slug: String!
+
+  """
+  Type of activity
+  """
+  type: ActivityType!
 }
 
 """

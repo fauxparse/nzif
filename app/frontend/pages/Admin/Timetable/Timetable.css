@@ -140,7 +140,7 @@
   &__activity {
     border-color: transparent;
     background-color: var(--activity9);
-    color: white;
+    color: var(--activity-foreground);
   }
 
   &__resize-handle {

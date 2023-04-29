@@ -24,6 +24,11 @@
             },
             {
               "kind": "OBJECT",
+              "name": "SocialEvent",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "Workshop",
               "ofType": null
             }
@@ -217,6 +222,12 @@
           "fields": null,
           "inputFields": null,
           "enumValues": [
+            {
+              "name": "SocialEvent",
+              "description": "SocialEvent",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "Show",
               "description": "Show",
@@ -2198,6 +2209,95 @@
               "deprecationReason": null
             }
           ],
+          "enumValues": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "SocialEvent",
+          "description": "A social event",
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Activity",
+              "ofType": null
+            }
+          ],
+          "possibleTypes": null,
+          "fields": [
+            {
+              "name": "id",
+              "description": "Unique ID",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "name",
+              "description": "Activity name",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "slug",
+              "description": "For use in URL generation",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "type",
+              "description": "Type of activity",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "ActivityType",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            }
+          ],
+          "inputFields": null,
           "enumValues": null
         },
         {

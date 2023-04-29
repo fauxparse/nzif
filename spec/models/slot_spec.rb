@@ -96,6 +96,6 @@ RSpec.describe Slot do
   describe '.activity_type_values' do
     subject(:activity_type_values) { described_class.activity_type_values }
 
-    it { is_expected.to eq %i[Workshop Show] }
+    it { is_expected.to eq %i[Workshop Show SocialEvent] }
   end
 end

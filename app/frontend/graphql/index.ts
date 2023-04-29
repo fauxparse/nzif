@@ -20,7 +20,7 @@ export const client = new ApolloClient({
   link: split((operation) => operation.getContext().clientName === 'contentful', contentful, local),
   cache: new InMemoryCache({
     possibleTypes: {
-      Activity: ['Show', 'Workshop'],
+      Activity: ['Show', 'Workshop', 'SocialEvent'],
       Preference: ['BooleanPreference', 'StringPreference'],
       SearchResult: ['ActivityResult', 'UserResult', 'VenueResult', 'PageResult'],
     },

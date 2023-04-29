@@ -175,6 +175,7 @@ const NewSlot: React.FC<NewSlotProps> = ({ selection, onClose }) => {
               ...date,
               activityType,
               venue: venues.find((venue) => venue.id === venueId) || null,
+              activity: null,
             }))
           ),
         },

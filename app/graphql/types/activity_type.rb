@@ -14,6 +14,7 @@ module Types
         case object
         when Show then Types::ShowType
         when Workshop then Types::WorkshopType
+        when SocialEvent then Types::SocialEventType
         else
           raise "Unexpected Activity: #{object.inspect}"
         end
@@ -27,6 +28,7 @@ module Types
     orphan_types(
       ShowType,
       WorkshopType,
+      SocialEventType,
     )
   end
 end
