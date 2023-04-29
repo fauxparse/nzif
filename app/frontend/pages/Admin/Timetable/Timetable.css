@@ -111,10 +111,8 @@
   &__slot {
     position: relative;
     z-index: 0;
-    display: grid;
-    grid-template-rows: auto auto;
-    grid-template-columns: var(--icon-size) 1fr;
-    gap: 0 var(--spacing);
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     margin: 2px 3px 0 2px;
@@ -125,13 +123,9 @@
     font-size: var(--font-size-small);
     line-height: var(--line-height-small);
 
-    > .icon {
-      grid-row: 1 / -1;
-    }
-
     span {
-      grid-column: 2;
       overflow: hidden;
+      max-width: calc(100% - var(--small) * 2);
       text-overflow: ellipsis;
       white-space: nowrap;
     }

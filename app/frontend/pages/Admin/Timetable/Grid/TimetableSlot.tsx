@@ -1,7 +1,5 @@
 import React, { ComponentPropsWithoutRef, useRef } from 'react';
-import { camelCase } from 'lodash-es';
 
-import Icon, { IconName } from '@/atoms/Icon';
 import { SlotAttributes, TimetableSlotFragment, useUpdateSlotMutation } from '@/graphql/types';
 import ContextMenu from '@/molecules/ContextMenu';
 
@@ -63,7 +61,6 @@ const TimetableSlot: React.FC<TimetableSlotProps> = React.memo(({ slot, ...props
         data-id={slot.data.id}
         {...props}
       >
-        <Icon name={camelCase(slot.data.activityType) as IconName} />
         <span className="timetable__slot__type">{slot.data.activityType}</span>
         <span className="timetable__slot__venue">
           {slot.data.venue?.room || slot.data.venue?.building}
