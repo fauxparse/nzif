@@ -4,6 +4,12 @@ fragment TimetableSlot on Slot {
   endsAt
   activityType
 
+  activity {
+    id
+    type
+    name
+  }
+
   venue {
     id
     room

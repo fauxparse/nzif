@@ -1,4 +1,6 @@
 import React, { ComponentPropsWithoutRef, useRef } from 'react';
+import clsx from 'clsx';
+import { kebabCase } from 'lodash-es';
 
 import { SlotAttributes, TimetableSlotFragment, useUpdateSlotMutation } from '@/graphql/types';
 import ContextMenu from '@/molecules/ContextMenu';
@@ -9,9 +11,10 @@ import { Block } from './useTimetable';
 
 type TimetableSlotProps = Omit<ComponentPropsWithoutRef<'div'>, 'slot'> & {
   slot: Block<TimetableSlotFragment>;
+  hidden?: boolean;
 };
 
-const TimetableSlot: React.FC<TimetableSlotProps> = React.memo(({ slot, ...props }) => {
+const TimetableSlot: React.FC<TimetableSlotProps> = React.memo(({ slot, hidden, ...props }) => {
   const container = useRef<HTMLDivElement | null>(null);
 
   const [updateSlot] = useUpdateSlotMutation();
@@ -53,15 +56,19 @@ const TimetableSlot: React.FC<TimetableSlotProps> = React.memo(({ slot, ...props
     <ContextMenu.Trigger id="slot">
       <div
         ref={container}
-        className="timetable__slot"
+        className={clsx('timetable__slot', slot.data.activity && 'timetable__activity')}
         style={{
           gridRow: `${slot.row + 2} / span ${slot.height}`,
           gridColumn: `${slot.column + 2} / span ${slot.width}`,
+          opacity: hidden ? 0 : undefined,
         }}
         data-id={slot.data.id}
+        data-activity-type={kebabCase(slot.data.activityType)}
         {...props}
       >
-        <span className="timetable__slot__type">{slot.data.activityType}</span>
+        <span className="timetable__slot__title">
+          {slot.data.activity?.name || slot.data.activityType}
+        </span>
         <span className="timetable__slot__venue">
           {slot.data.venue?.room || slot.data.venue?.building}
         </span>

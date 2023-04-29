@@ -51,6 +51,48 @@ RSpec.describe Slot do
     it { is_expected.not_to be_valid }
   end
 
+  context 'with an activity' do
+    subject(:slot) { build(:slot, festival:, venue:, activity:) }
+
+    let(:activity) { create(:workshop, festival:) }
+
+    it { is_expected.to be_valid }
+
+    context 'when the activity type doesn’t match the slot' do
+      let(:activity) { create(:show, festival:) }
+
+      it { is_expected.not_to be_valid }
+    end
+
+    context 'when the activity is set to nil' do
+      before do
+        slot.save!
+      end
+
+      it 'nullifies the activity' do
+        expect { slot.update!(activity: nil) }.to change { slot.reload.activity }.to(nil)
+      end
+
+      it 'does not nullify the activity type' do
+        expect { slot.update!(activity: nil) }.not_to change { slot.reload.activity_type }
+      end
+    end
+
+    context 'when the activity is deleted' do
+      before do
+        slot.save!
+      end
+
+      it 'nullifies the activity' do
+        expect { activity.destroy! }.to change { slot.reload.activity }.to(nil)
+      end
+
+      it 'does not nullify the activity type' do
+        expect { activity.destroy! }.not_to change { slot.reload.activity_type }
+      end
+    end
+  end
+
   describe '.activity_type_values' do
     subject(:activity_type_values) { described_class.activity_type_values }
 

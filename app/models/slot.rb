@@ -1,6 +1,7 @@
 class Slot < ApplicationRecord
   belongs_to :festival
   belongs_to :venue, optional: true
+  belongs_to :activity, optional: true
 
   enum :activity_type
 
@@ -12,6 +13,7 @@ class Slot < ApplicationRecord
     }
   validates :ends_at, time: { after: :starts_at }
   validate :check_for_venue_clashes
+  validate :check_activity_type, if: :activity_type?
 
   def self.overlapping(slot)
     where('starts_at < ? AND ends_at > ?', slot.ends_at, slot.starts_at).where.not(id: slot.id)
@@ -33,5 +35,11 @@ class Slot < ApplicationRecord
     clashes = festival.slots.overlapping(self).where(venue:)
 
     errors.add(:venue, "is already in use at #{clashes.first.starts_at}") if clashes.exists?
+  end
+
+  def check_activity_type
+    return if activity.blank? || activity.is_a?(activity_type)
+
+    errors.add(:activity_id, "should be a #{activity_type}")
   end
 end

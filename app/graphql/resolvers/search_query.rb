@@ -4,10 +4,14 @@ module Resolvers
 
     description 'Search for content across the app'
 
+    argument :activity_type, Types::ActivityTypeType, required: false,
+      description: 'Type of activity to return'
     argument :limit, Integer, required: false, description: 'Maximum number of results to return'
     argument :query, String, required: true, description: 'Text to search for'
 
-    def resolve(query:, limit: 5)
+    def resolve(query:, activity_type: nil, limit: 5)
+      @activity_type = activity_type
+
       %i[activity user venue page].flat_map do |type|
         send("#{type}_matches", query:, limit:)
       end
@@ -15,11 +19,14 @@ module Resolvers
 
     private
 
+    attr_reader :activity_type
+
     def activity_matches(query:, limit:)
-      authorized_scope(Activity, type: :relation)
-        .search(query).includes(:festival).limit(limit).map do |activity|
-          Hashie::Mash.new(activity:)
-        end
+      scope = authorized_scope(Activity, type: :relation)
+      scope = scope.by_type(activity_type) if activity_type.present?
+      scope.search(query).includes(:festival).limit(limit).map do |activity|
+        Hashie::Mash.new(activity:)
+      end
     end
 
     def user_matches(query:, limit:)

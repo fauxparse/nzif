@@ -312,6 +312,7 @@ export type QueryPreferenceArgs = {
 
 
 export type QuerySearchArgs = {
+  activityType: InputMaybe<ActivityType>;
   limit: InputMaybe<Scalars['Int']>;
   query: Scalars['String'];
 };
@@ -357,6 +358,8 @@ export type Show = Activity & {
 /** A slot in the Festival schedule */
 export type Slot = {
   __typename: 'Slot';
+  /** The activity that will take place during this slot */
+  activity: Maybe<Activity>;
   /** The type of activity that will take place during this slot */
   activityType: ActivityType;
   /** The time at which the slot ends */
@@ -634,21 +637,21 @@ export type SearchQueryVariables = Exact<{
 
 export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'ActivityResult', id: string, title: string, description: string | null, url: string, activity: { __typename: 'Show', id: string, name: string, type: ActivityType } | { __typename: 'Workshop', id: string, name: string, type: ActivityType } } | { __typename: 'PageResult', lede: string | null, id: string, title: string, description: string | null, url: string } | { __typename: 'UserResult', id: string, title: string, description: string | null, url: string, user: { __typename: 'User', id: string, name: string, email: string } } | { __typename: 'VenueResult', id: string, title: string, description: string | null, url: string, venue: { __typename: 'Venue', id: string, room: string | null, building: string, address: string } }> };
 
-export type TimetableSlotFragment = { __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, venue: { __typename: 'Venue', id: string, room: string | null, building: string, position: number } | null };
+export type TimetableSlotFragment = { __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, activity: { __typename: 'Show', id: string, type: ActivityType, name: string } | { __typename: 'Workshop', id: string, type: ActivityType, name: string } | null, venue: { __typename: 'Venue', id: string, room: string | null, building: string, position: number } | null };
 
 export type TimetableQueryVariables = Exact<{
   year: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type TimetableQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, timetable: { __typename: 'Timetable', id: string, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, venue: { __typename: 'Venue', id: string, room: string | null, building: string, position: number } | null }> }, venues: Array<{ __typename: 'Venue', id: string, room: string | null, building: string, position: number }> } };
+export type TimetableQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, timetable: { __typename: 'Timetable', id: string, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, activity: { __typename: 'Show', id: string, type: ActivityType, name: string } | { __typename: 'Workshop', id: string, type: ActivityType, name: string } | null, venue: { __typename: 'Venue', id: string, room: string | null, building: string, position: number } | null }> }, venues: Array<{ __typename: 'Venue', id: string, room: string | null, building: string, position: number }> } };
 
 export type CreateSlotsMutationVariables = Exact<{
   attributes: MultipleSlotAttributes;
 }>;
 
 
-export type CreateSlotsMutation = { __typename: 'Mutation', createSlots: { __typename: 'CreateMultipleSlotsPayload', slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, venue: { __typename: 'Venue', id: string, room: string | null, building: string, position: number } | null }> } | null };
+export type CreateSlotsMutation = { __typename: 'Mutation', createSlots: { __typename: 'CreateMultipleSlotsPayload', slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, activity: { __typename: 'Show', id: string, type: ActivityType, name: string } | { __typename: 'Workshop', id: string, type: ActivityType, name: string } | null, venue: { __typename: 'Venue', id: string, room: string | null, building: string, position: number } | null }> } | null };
 
 export type DestroySlotMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -663,7 +666,7 @@ export type UpdateSlotMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSlotMutation = { __typename: 'Mutation', updateSlot: { __typename: 'UpdateSlotPayload', slot: { __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, venue: { __typename: 'Venue', id: string, room: string | null, building: string, position: number } | null } } | null };
+export type UpdateSlotMutation = { __typename: 'Mutation', updateSlot: { __typename: 'UpdateSlotPayload', slot: { __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, activity: { __typename: 'Show', id: string, type: ActivityType, name: string } | { __typename: 'Workshop', id: string, type: ActivityType, name: string } | null, venue: { __typename: 'Venue', id: string, room: string | null, building: string, position: number } | null } } | null };
 
 export type EditableUserFragment = { __typename: 'User', id: string, name: string, email: string, roles: Array<Role> };
 
@@ -699,6 +702,11 @@ export const TimetableSlotFragmentDoc = gql`
   startsAt
   endsAt
   activityType
+  activity {
+    id
+    type
+    name
+  }
   venue {
     id
     room

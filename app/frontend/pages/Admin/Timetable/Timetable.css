@@ -117,11 +117,13 @@
     align-items: center;
     margin: 2px 3px 0 2px;
     padding: var(--small);
+    border: var(--border-width-standard) solid var(--activity6);
     border-radius: var(--border-radius-standard);
-    background-color: var(--neutral3);
-    color: var(--neutral9);
+    background-color: var(--activity3);
+    color: var(--activity9);
     font-size: var(--font-size-small);
     line-height: var(--line-height-small);
+    transition: opacity 0.3s var(--ease-standard);
 
     span {
       overflow: hidden;
@@ -133,6 +135,12 @@
     .grid[data-selecting] & {
       pointer-events: none;
     }
+  }
+
+  &__activity {
+    border-color: transparent;
+    background-color: var(--activity9);
+    color: white;
   }
 
   &__resize-handle {
@@ -156,10 +164,11 @@
     position: fixed;
     z-index: 100;
     border-radius: var(--border-radius-standard);
-    background-color: var(--accent9);
+    pointer-events: none;
 
     &__shadow {
-      background-color: var(--accentA3);
+      background-color: var(--activityA2);
+      pointer-events: none;
     }
   }
 }

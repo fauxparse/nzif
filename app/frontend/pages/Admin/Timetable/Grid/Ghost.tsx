@@ -1,12 +1,12 @@
 import { forwardRef, PropsWithChildren, useEffect, useMemo, useRef } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 import { useSelector } from '@xstate/react';
+import clsx from 'clsx';
 import { motion } from 'framer-motion';
-import { clamp } from 'lodash-es';
+import { clamp, kebabCase } from 'lodash-es';
 import { DateTime } from 'luxon';
 
 import { useTimetableContext } from '../Context';
-import Icon from '@/atoms/Icon';
 import { TimetableQuery } from '@/graphql/types';
 import { Cell } from '@/molecules/Grid/Grid.types';
 
@@ -80,55 +80,38 @@ const Ghost = forwardRef<HTMLDivElement, GhostProps>(({ offset, onMove }, ref) =
     const rect = dragState.context.element.getBoundingClientRect();
     const { style } = ghost.current;
     style.position = 'absolute';
-    style.left = `${rect.left}px`;
-    style.top = `${rect.top + document.documentElement.scrollTop}px`;
+    style.left = `${rect.left - 2}px`;
+    style.top = `${rect.top + document.documentElement.scrollTop - 2}px`;
     style.width = `${rect.width}px`;
     style.height = `${rect.height}px`;
   }, [dragState.context.element]);
-
-  const snapPosition = useMemo(() => {
-    if (clashes.length) return { x: 0, y: 0 };
-    if (dragState.matches('lifted') || !position || !element.current) return offset;
-    const cell = element.current
-      ?.closest('.grid')
-      ?.querySelector(
-        `[data-row="${position.row}"][data-column="${position.column}"]`
-      ) as HTMLElement;
-    if (!cell) return offset;
-    const { left, top } = cell.getBoundingClientRect();
-    return { x: 0, y: 0, left, top };
-  }, [clashes, dragState, offset, position]);
 
   useEffect(() => {
     if (!dragState.matches('dropped') || !block.current?.data) return;
     if (!clashes.length) onMove({ slot: block.current.data, startsAt: cellToTime(position) });
   }, [dragState, clashes, onMove, cellToTime, position]);
 
+  const data = block.current?.data;
+
   return (
     <>
       <motion.div
         ref={mergeRefs([ref, ghost])}
-        className="ghost"
-        initial={{ boxShadow: 'var(--shadow-0)' }}
-        animate={{
+        className={clsx('ghost', 'timetable__slot', data?.activity && 'timetable__activity')}
+        data-activity-type={kebabCase(data?.activityType || 'activity')}
+        style={{
+          transform: `translate3d(${offset.x}px, ${offset.y}px, 0)`,
           boxShadow: 'var(--shadow-4)',
-          x: offset.x,
-          y: offset.y,
-          transition: { duration: 0.15, x: { duration: 0 }, y: { duration: 0 } },
         }}
-        exit={{
-          boxShadow: 'var(--shadow-0)',
-          ...snapPosition,
-          transition: {
-            ease: [0.4, 0, 0.2, 1],
-          },
-        }}
+        exit={{ opacity: 0 }}
       >
-        <Icon name={clashes.length ? 'cancel' : 'check'} />
+        <span className="timetable__slot__title">{data?.activity?.name || data?.activityType}</span>
+        <span className="timetable__slot__venue">{data?.venue?.room || data?.venue?.building}</span>
       </motion.div>
       {dragState.matches('lifted') && (
         <div
           className="ghost__shadow"
+          data-activity-type={kebabCase(data?.activityType || 'activity')}
           style={{
             gridRow: `${shadow.row + 2} / span ${shadow.height}`,
             gridColumn: `${shadow.column + 2} / span ${shadow.width}`,

@@ -414,6 +414,11 @@ type Query {
   """
   search(
     """
+    Type of activity to return
+    """
+    activityType: ActivityType
+
+    """
     Maximum number of results to return
     """
     limit: Int
@@ -504,6 +509,11 @@ type Show implements Activity {
 A slot in the Festival schedule
 """
 type Slot {
+  """
+  The activity that will take place during this slot
+  """
+  activity: Activity
+
   """
   The type of activity that will take place during this slot
   """

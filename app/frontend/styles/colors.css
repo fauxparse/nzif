@@ -14,6 +14,14 @@
 @import url('@radix-ui/colors/redDark.css');
 @import url('@radix-ui/colors/redA.css');
 @import url('@radix-ui/colors/redDarkA.css');
+@import url('@radix-ui/colors/cyan.css');
+@import url('@radix-ui/colors/cyanDark.css');
+@import url('@radix-ui/colors/cyanA.css');
+@import url('@radix-ui/colors/cyanDarkA.css');
+@import url('@radix-ui/colors/grass.css');
+@import url('@radix-ui/colors/grassDark.css');
+@import url('@radix-ui/colors/grassA.css');
+@import url('@radix-ui/colors/grassDarkA.css');
 
 :where(body) {
   /* Neutral colors */
@@ -102,9 +110,113 @@
   --input-active: var(--accent9);
   --input-inactive: var(--neutral7);
 
+  /* Activity colors */
+  --show1: var(--cyan1);
+  --show2: var(--cyan2);
+  --show3: var(--cyan3);
+  --show4: var(--cyan4);
+  --show5: var(--cyan5);
+  --show6: var(--cyan6);
+  --show7: var(--cyan7);
+  --show8: var(--cyan8);
+  --show9: var(--cyan9);
+  --show10: var(--cyan10);
+  --show11: var(--cyan11);
+  --show12: var(--cyan12);
+  --showA1: var(--cyanA1);
+  --showA2: var(--cyanA2);
+  --showA3: var(--cyanA3);
+  --showA4: var(--cyanA4);
+  --showA5: var(--cyanA5);
+  --showA6: var(--cyanA6);
+  --showA7: var(--cyanA7);
+  --showA8: var(--cyanA8);
+  --showA9: var(--cyanA9);
+  --showA10: var(--cyanA10);
+  --showA11: var(--cyanA11);
+  --showA12: var(--cyanA12);
+  --workshop1: var(--grass1);
+  --workshop2: var(--grass2);
+  --workshop3: var(--grass3);
+  --workshop4: var(--grass4);
+  --workshop5: var(--grass5);
+  --workshop6: var(--grass6);
+  --workshop7: var(--grass7);
+  --workshop8: var(--grass8);
+  --workshop9: var(--grass9);
+  --workshop10: var(--grass10);
+  --workshop11: var(--grass11);
+  --workshop12: var(--grass12);
+  --workshopA1: var(--grassA1);
+  --workshopA2: var(--grassA2);
+  --workshopA3: var(--grassA3);
+  --workshopA4: var(--grassA4);
+  --workshopA5: var(--grassA5);
+  --workshopA6: var(--grassA6);
+  --workshopA7: var(--grassA7);
+  --workshopA8: var(--grassA8);
+  --workshopA9: var(--grassA9);
+  --workshopA10: var(--grassA10);
+  --workshopA11: var(--grassA11);
+  --workshopA12: var(--grassA12);
+
   /* Misc */
   --disabled-opacity: 0.6;
   --placeholder-opacity: 0.75;
+}
+
+:where([data-activity-type="workshop"]) {
+  --activity1: var(--workshop1);
+  --activity2: var(--workshop2);
+  --activity3: var(--workshop3);
+  --activity4: var(--workshop4);
+  --activity5: var(--workshop5);
+  --activity6: var(--workshop6);
+  --activity7: var(--workshop7);
+  --activity8: var(--workshop8);
+  --activity9: var(--workshop9);
+  --activity10: var(--workshop10);
+  --activity11: var(--workshop11);
+  --activity12: var(--workshop12);
+  --activityA1: var(--workshopA1);
+  --activityA2: var(--workshopA2);
+  --activityA3: var(--workshopA3);
+  --activityA4: var(--workshopA4);
+  --activityA5: var(--workshopA5);
+  --activityA6: var(--workshopA6);
+  --activityA7: var(--workshopA7);
+  --activityA8: var(--workshopA8);
+  --activityA9: var(--workshopA9);
+  --activityA10: var(--workshopA10);
+  --activityA11: var(--workshopA11);
+  --activityA12: var(--workshopA12);
+}
+
+:where([data-activity-type="show"]) {
+  --activity1: var(--show1);
+  --activity2: var(--show2);
+  --activity3: var(--show3);
+  --activity4: var(--show4);
+  --activity5: var(--show5);
+  --activity6: var(--show6);
+  --activity7: var(--show7);
+  --activity8: var(--show8);
+  --activity9: var(--show9);
+  --activity10: var(--show10);
+  --activity11: var(--show11);
+  --activity12: var(--show12);
+  --activityA1: var(--showA1);
+  --activityA2: var(--showA2);
+  --activityA3: var(--showA3);
+  --activityA4: var(--showA4);
+  --activityA5: var(--showA5);
+  --activityA6: var(--showA6);
+  --activityA7: var(--showA7);
+  --activityA8: var(--showA8);
+  --activityA9: var(--showA9);
+  --activityA10: var(--showA10);
+  --activityA11: var(--showA11);
+  --activityA12: var(--showA12);
 }
 
 :where([data-theme="light"]) {

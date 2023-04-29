@@ -224,7 +224,8 @@ CREATE TABLE public.slots (
     ends_at timestamp without time zone NOT NULL,
     activity_type public.activity_type,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    activity_id bigint
 );
 
 
@@ -479,6 +480,13 @@ CREATE UNIQUE INDEX index_roles_on_user_id_and_name ON public.roles USING btree 
 
 
 --
+-- Name: index_slots_on_activity_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_slots_on_activity_id ON public.slots USING btree (activity_id);
+
+
+--
 -- Name: index_slots_on_everything; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -542,6 +550,14 @@ CREATE INDEX index_venues_on_latitude_and_longitude ON public.venues USING btree
 
 
 --
+-- Name: slots fk_rails_634f411c00; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.slots
+    ADD CONSTRAINT fk_rails_634f411c00 FOREIGN KEY (activity_id) REFERENCES public.activities(id) ON DELETE SET NULL;
+
+
+--
 -- Name: slots fk_rails_7ac879864b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -588,6 +604,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230427052656'),
 ('20230429064646'),
 ('20230429104442'),
-('20230429110004');
+('20230429110004'),
+('20230429111227');
 
 

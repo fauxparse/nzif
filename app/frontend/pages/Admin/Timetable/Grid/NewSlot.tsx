@@ -146,7 +146,7 @@ const NewSlot: React.FC<NewSlotProps> = ({ selection, onClose }) => {
         attributes: {
           festivalId: festival.id,
           venueIds: Array.from(venueIds),
-          activityType: ActivityType.Workshop,
+          activityType,
           timeRanges: selectedDates,
         },
       },
@@ -167,7 +167,7 @@ const NewSlot: React.FC<NewSlotProps> = ({ selection, onClose }) => {
       optimisticResponse: {
         __typename: 'Mutation',
         createSlots: {
-          __typename: 'CreateMultiplePayload',
+          __typename: 'CreateMultipleSlotsPayload',
           slots: selectedDates.flatMap((date) =>
             Array.from(venueIds).map((venueId) => ({
               __typename: 'Slot',

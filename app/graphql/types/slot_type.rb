@@ -2,6 +2,8 @@ module Types
   class SlotType < Types::BaseObject
     description 'A slot in the Festival schedule'
 
+    field :activity, ActivityType, null: true,
+      description: 'The activity that will take place during this slot'
     field :activity_type, ActivityTypeType, null: false,
       description: 'The type of activity that will take place during this slot'
     field :ends_at, GraphQL::Types::ISO8601DateTime, null: false,

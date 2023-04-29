@@ -32,7 +32,7 @@ type GridProps = {
 };
 
 const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granularity = 4 }) => {
-  const sortedSlots = sortBy(slots, ['startsAt', (s) => s.venue?.position ?? Infinity]);
+  const sortedSlots = sortBy(slots, [(s) => s.venue?.position ?? Infinity]);
 
   const columns = (endHour - startHour) * granularity;
 
@@ -58,6 +58,8 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
   const [selectionElement, setSelectionElement] = useState<HTMLDivElement | null>(null);
 
   const machine = useInterpret(DragMachine, {});
+
+  const dragState = useSelector(machine, (state) => state);
 
   const ghostRef = useRef<HTMLDivElement | null>(null);
 
@@ -147,8 +149,6 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
     document.addEventListener('pointerup', pointerUp, { once: true });
   };
 
-  const dragState = useSelector(machine, (state) => state);
-
   return (
     <ContextMenu.Root>
       <div className="timetable__grid">
@@ -178,7 +178,14 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
             {rows.map((row, i) => (
               <Fragment key={i}>
                 {row.blocks.map((slot) => (
-                  <TimetableSlot key={slot.data.id} slot={slot} />
+                  <TimetableSlot
+                    key={slot.data.id}
+                    slot={slot}
+                    hidden={
+                      dragState.matches('lifted') &&
+                      dragState.context.block?.data?.id === slot.data.id
+                    }
+                  />
                 ))}
               </Fragment>
             ))}

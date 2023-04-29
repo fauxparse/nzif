@@ -8,6 +8,8 @@ class Activity < ApplicationRecord
 
   searchable_on :name, :description
 
+  scope :by_type, ->(type) { where(type: type.to_s) }
+
   def self.to_param
     name.demodulize.underscore.dasherize.pluralize
   end
