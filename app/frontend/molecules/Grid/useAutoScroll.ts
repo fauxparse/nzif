@@ -7,12 +7,18 @@ type UseAutoScrollOptions = {
   verticalContainer?: HTMLElement;
   enabled?: boolean;
   edgeSize?: number;
+  offsetX?: () => number;
   speed?: number;
 };
 
-const scrollVelocity = (position: number, max: number, edgeSize: number): number => {
-  if (position < edgeSize) {
-    return (position - edgeSize) / edgeSize;
+const scrollVelocity = (
+  position: number,
+  max: number,
+  edgeSize: number,
+  offset: number
+): number => {
+  if (position < edgeSize + offset) {
+    return (position - edgeSize - offset) / edgeSize;
   }
 
   if (position > max - edgeSize) {
@@ -27,6 +33,7 @@ const useAutoScroll = ({
   verticalContainer = horizontalContainer,
   enabled = true,
   edgeSize = 100,
+  offsetX = () => 0,
   speed = 32,
 }: UseAutoScrollOptions) => {
   useEffect(() => {
@@ -41,11 +48,13 @@ const useAutoScroll = ({
     const maxY = Math.max(0, scrollHeight - clientHeight);
     let timer: ReturnType<typeof requestAnimationFrame>;
 
+    const horizontalOffset = offsetX();
+
     const pointerMove = (event: PointerEvent) => {
       const { clientX, clientY } = event;
 
-      const vx = scrollVelocity(clientX, clientWidth, edgeSize);
-      const vy = scrollVelocity(clientY, clientHeight, edgeSize);
+      const vx = scrollVelocity(clientX, clientWidth, edgeSize, horizontalOffset);
+      const vy = scrollVelocity(clientY, clientHeight, edgeSize, 0);
 
       if (!vx && !vy) {
         cancelAnimationFrame(timer);
@@ -78,8 +87,9 @@ const useAutoScroll = ({
       window.removeEventListener('pointermove', pointerMove);
       horizontalScrollParent.style.removeProperty('scroll-behavior');
       verticalScrollParent.style.removeProperty('scroll-behavior');
+      cancelAnimationFrame(timer);
     };
-  }, [enabled, horizontalContainer, verticalContainer, edgeSize, speed]);
+  }, [enabled, horizontalContainer, verticalContainer, edgeSize, speed, offsetX]);
 };
 
 export default useAutoScroll;

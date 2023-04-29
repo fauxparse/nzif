@@ -641,7 +641,7 @@ export type TimetableQueryVariables = Exact<{
 }>;
 
 
-export type TimetableQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, timetable: { __typename: 'Timetable', id: string, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, venue: { __typename: 'Venue', id: string, room: string | null, building: string, position: number } | null }> }, venues: Array<{ __typename: 'Venue', id: string, room: string | null, building: string }> } };
+export type TimetableQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, timetable: { __typename: 'Timetable', id: string, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, venue: { __typename: 'Venue', id: string, room: string | null, building: string, position: number } | null }> }, venues: Array<{ __typename: 'Venue', id: string, room: string | null, building: string, position: number }> } };
 
 export type CreateSlotsMutationVariables = Exact<{
   attributes: MultipleSlotAttributes;
@@ -1093,6 +1093,7 @@ export const TimetableDocument = gql`
       id
       room
       building
+      position
     }
   }
 }

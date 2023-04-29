@@ -9,7 +9,7 @@ import { useGridContext } from './Context';
 import ResizeHandle from './ResizeHandle';
 import { Block } from './useTimetable';
 
-type TimetableSlotProps = ComponentPropsWithoutRef<'div'> & {
+type TimetableSlotProps = Omit<ComponentPropsWithoutRef<'div'>, 'slot'> & {
   slot: Block<TimetableSlotFragment>;
 };
 

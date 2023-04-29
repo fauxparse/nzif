@@ -108,13 +108,6 @@
     }
   }
 
-  &__selection {
-    &--ghost {
-      opacity: 0;
-      pointer-events: none;
-    }
-  }
-
   &__slot {
     position: relative;
     z-index: 0;
@@ -162,6 +155,17 @@
 
     &[data-side="end"] {
       right: 0;
+    }
+  }
+
+  .ghost {
+    position: fixed;
+    z-index: 100;
+    border-radius: var(--border-radius-standard);
+    background-color: var(--accent9);
+
+    &__shadow {
+      background-color: var(--accentA3);
     }
   }
 }

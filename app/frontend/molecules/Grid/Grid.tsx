@@ -34,7 +34,9 @@ export const Grid: GridComponent = forwardRef(
       rowHeader: RowHeaderComponent,
       selection: selectionProp,
       selectionComponent: SelectionComponent = Selection,
+      onSelectionStart,
       onSelectionChange,
+      onPointerDown,
       ...props
     },
     ref
@@ -100,6 +102,10 @@ export const Grid: GridComponent = forwardRef(
 
     const pointerDown = useCallback(
       (e: React.PointerEvent) => {
+        onPointerDown?.(e);
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        if (e.defaultPrevented) return;
+
         const el = container.current;
         if (!el) return;
 
@@ -124,13 +130,14 @@ export const Grid: GridComponent = forwardRef(
         el.addEventListener('pointermove', pointerMove);
         window.addEventListener('pointerup', pointerUp, { once: true });
       },
-      [machine, onSelectionChange, updateMachine]
+      [machine, onPointerDown, onSelectionChange, updateMachine]
     );
 
     useAutoScroll({
       container: container.current || document.documentElement,
       verticalContainer: document.documentElement,
       enabled: pointerIsDown,
+      offsetX: () => container.current?.querySelector('.grid__row-header')?.clientWidth ?? 0,
     });
 
     const mergedRefs = mergeRefs([ref, container]);

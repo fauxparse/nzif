@@ -3,6 +3,8 @@
 export interface Typegen0 {
   '@@xstate/typegen': true;
   internalEvents: {
+    'xstate.after(0)#drag.clicked': { type: 'xstate.after(0)#drag.clicked' };
+    'xstate.after(0)#drag.dropped': { type: 'xstate.after(0)#drag.dropped' };
     'xstate.after(300)#drag.pointerDown': { type: 'xstate.after(300)#drag.pointerDown' };
     'xstate.init': { type: 'xstate.init' };
   };
@@ -10,10 +12,17 @@ export interface Typegen0 {
   missingImplementations: {
     actions: never;
     delays: never;
-    guards: 'isMouseEvent';
+    guards: never;
     services: never;
   };
-  eventsCausingActions: {};
+  eventsCausingActions: {
+    clear:
+      | 'POINTER_UP'
+      | 'xstate.after(0)#drag.clicked'
+      | 'xstate.after(0)#drag.dropped'
+      | 'xstate.init';
+    setOrigin: 'POINTER_DOWN';
+  };
   eventsCausingDelays: {};
   eventsCausingGuards: {
     isMouseEvent: 'POINTER_MOVE';

@@ -30,6 +30,7 @@ query Timetable($year: String) {
       id
       room
       building
+      position
     }
   }
 }

@@ -1,4 +1,5 @@
 import React, { ComponentPropsWithoutRef, forwardRef } from 'react';
+import { mergeRefs } from 'react-merge-refs';
 import clsx from 'clsx';
 
 import { SelectionProps as BaseSelectionProps } from '@/molecules/Grid/Grid.types';
@@ -14,14 +15,14 @@ type SelectionProps = BaseSelectionProps &
 
 export const Selection = forwardRef<HTMLDivElement, SelectionProps>(
   ({ className, selection, rowOffset, columnOffset, style = {}, ...props }, ref) => {
-    const { selectionHeight } = useGridContext();
+    const { selectionHeight, setSelectionElement } = useGridContext();
 
     const row = selectionHeight(0, selection.row);
     const height = selectionHeight(selection.row, selection.height);
 
     return (
       <div
-        ref={ref}
+        ref={mergeRefs([ref, setSelectionElement])}
         className={clsx('grid__selection', className)}
         style={{
           ...style,

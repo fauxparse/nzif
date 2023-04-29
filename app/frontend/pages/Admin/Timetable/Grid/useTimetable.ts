@@ -3,12 +3,10 @@ import { map, memoize, partition, range } from 'lodash-es';
 import { DateTime } from 'luxon';
 
 import Context from '../Context';
+import { SlotAttributes, TimetableQuery, useUpdateSlotMutation } from '@/graphql/types';
 import { Cell } from '@/molecules/Grid/Grid.types';
 
-export interface Schedule {
-  startsAt: DateTime;
-  endsAt: DateTime;
-}
+export type Schedule = TimetableQuery['festival']['timetable']['slots'][0];
 
 export interface Block<T extends Schedule = Schedule> {
   row: number;
@@ -75,7 +73,7 @@ const useTimetable = <T extends Schedule = Schedule>(schedules: T[]) => {
         ...startCell,
         width: endCell.column - startCell.column,
         height: 1,
-        data: schedule,
+        data: schedule as T,
         track: 0,
       };
     },
@@ -151,7 +149,33 @@ const useTimetable = <T extends Schedule = Schedule>(schedules: T[]) => {
     [groupHeights]
   );
 
-  return { dates, rows, groupHeights, selectionHeight, cellToTime, timeToCell };
+  const [updateSlot] = useUpdateSlotMutation();
+
+  const moveSlot = useCallback(
+    ({ slot, startsAt }: { slot: T; startsAt: DateTime }) => {
+      const endsAt = startsAt.plus(slot.endsAt.diff(slot.startsAt));
+      updateSlot({
+        variables: {
+          id: slot.id,
+          attributes: { startsAt, endsAt } as SlotAttributes,
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          updateSlot: {
+            __typename: 'UpdateSlotPayload',
+            slot: {
+              ...slot,
+              startsAt,
+              endsAt,
+            },
+          },
+        },
+      });
+    },
+    [updateSlot]
+  );
+
+  return { dates, rows, groupHeights, selectionHeight, cellToTime, timeToCell, moveSlot };
 };
 
 export default useTimetable;
