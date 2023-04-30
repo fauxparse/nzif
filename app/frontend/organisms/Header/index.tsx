@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 
 import { useAuthentication } from '../Authentication/AuthenticationProvider';
 import Button from '@/atoms/Button';
+import Logo from '@/atoms/Logo';
 import Placename from '@/atoms/Placename/Placename';
 import ThemeSwitcher from '@/atoms/ThemeSwitcher';
 import { useHeaderQuery } from '@/graphql/types';
@@ -46,7 +47,9 @@ const Header: React.FC = () => {
   return (
     <header ref={container} className="header">
       <div className="header__logo">
-        <Link to="/">NZIF {festival?.startDate?.year}</Link>
+        <Link to="/">
+          <Logo />
+        </Link>
       </div>
       <div className="header__dates">{dates}</div>
       <div className="header__user">

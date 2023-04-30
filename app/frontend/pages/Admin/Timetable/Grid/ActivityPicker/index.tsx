@@ -14,8 +14,8 @@ type ActivityPickerProps = Omit<PopoverProps, 'slot'> & {
 const ActivityPicker: React.FC<ActivityPickerProps> = ({ activity, slot, ...props }) => (
   <Popover
     className="activity-picker"
-    placement="right-start"
-    offset={{ mainAxis: 8, crossAxis: 11 }}
+    placement={activity ? 'right' : 'right-start'}
+    offset={{ mainAxis: 8, crossAxis: activity ? 0 : 11 }}
     {...props}
   >
     {activity ? (

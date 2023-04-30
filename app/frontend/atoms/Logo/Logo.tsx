@@ -76,7 +76,7 @@ export const Logo: React.FC<LogoProps> = ({ className, ...props }) => {
   }, [blobs]);
 
   return (
-    <svg className={clsx('logo', className)} {...props}>
+    <svg className={clsx('logo', className)} viewBox="0 0 800 600" {...props}>
       {blobs.map((blob, i) => (
         <path
           className="logo__blob"

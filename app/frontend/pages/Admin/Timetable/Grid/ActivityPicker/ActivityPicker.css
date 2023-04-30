@@ -27,6 +27,10 @@
       background: transparent;
       outline: none;
     }
+
+    .popover__close {
+      border-radius: 50%;
+    }
   }
 
   &__results {
