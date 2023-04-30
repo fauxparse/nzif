@@ -7,12 +7,12 @@ import { clamp, kebabCase } from 'lodash-es';
 import { DateTime } from 'luxon';
 
 import { useTimetableContext } from '../Context';
-import { TimetableQuery } from '@/graphql/types';
+import { TimetableSlotFragment } from '@/graphql/types';
 import { Cell } from '@/molecules/Grid/Grid.types';
 
 import { useGridContext } from './Context';
 
-type Slot = TimetableQuery['festival']['timetable']['slots'][0];
+type Slot = TimetableSlotFragment;
 
 type GhostProps = PropsWithChildren<{
   offset: Cell & { x: number; y: number };

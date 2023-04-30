@@ -19,7 +19,7 @@ module Types
     end
 
     def url
-      "/#{object.festival.to_param}/#{activity.class.to_param}/#{activity.to_param}"
+      "/#{activity.festival.to_param}/#{activity.class.to_param}/#{activity.to_param}"
     end
 
     delegate :activity, to: :object

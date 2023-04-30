@@ -1,0 +1,16 @@
+query ActivitySearch($query: String!, $activityType: ActivityType!) {
+  search(query: $query, activityType: $activityType, only: [Activity]) {
+    id
+    title
+    description
+    url
+
+    ... on ActivityResult {
+      activity {
+        id
+        type
+        name
+      }
+    }
+  }
+}

@@ -3,10 +3,10 @@ import { map, memoize, partition, range } from 'lodash-es';
 import { DateTime } from 'luxon';
 
 import Context from '../Context';
-import { SlotAttributes, TimetableQuery, useUpdateSlotMutation } from '@/graphql/types';
+import { SlotAttributes, TimetableSlotFragment, useUpdateSlotMutation } from '@/graphql/types';
 import { Cell } from '@/molecules/Grid/Grid.types';
 
-export type Schedule = TimetableQuery['festival']['timetable']['slots'][0];
+export type Schedule = TimetableSlotFragment;
 
 export interface Block<T extends Schedule = Schedule> {
   row: number;

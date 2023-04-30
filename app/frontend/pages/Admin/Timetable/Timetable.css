@@ -103,7 +103,7 @@
 
     &__selection {
       border-radius: var(--border-radius-standard);
-      background: var(--accentA3);
+      background: var(--neutralA3);
       outline: none;
     }
   }

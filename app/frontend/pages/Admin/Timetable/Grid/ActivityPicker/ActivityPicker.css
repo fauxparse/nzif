@@ -1,0 +1,40 @@
+.activity-picker {
+  width: 24rem;
+
+  &__search {
+    display: flex;
+    margin: 0;
+    padding: 0;
+
+    .input-group {
+      flex: 1;
+      gap: var(--small);
+      align-items: center;
+      padding-left: var(--small);
+      border: 0;
+
+      > * {
+        border: 0;
+      }
+    }
+
+    input {
+      --input-border-width: 0px;
+
+      flex: 1 1 0;
+      width: 0;
+      border: 0;
+      background: transparent;
+      outline: none;
+    }
+  }
+
+  &__results {
+    padding: var(--tiny);
+    border-top: var(--border-width-standard) solid var(--border-subtle);
+
+    .search__result {
+      padding-inline: var(--half);
+    }
+  }
+}

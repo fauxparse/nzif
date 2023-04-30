@@ -3,13 +3,14 @@ import { useInterpret, useSelector } from '@xstate/react';
 import { AnimatePresence } from 'framer-motion';
 import { isEqual, sortBy } from 'lodash-es';
 
-import { TimetableQuery } from '@/graphql/types';
+import { TimetableSlotFragment } from '@/graphql/types';
 import ContextMenu from '@/molecules/ContextMenu';
 import BaseGrid from '@/molecules/Grid';
 import { Region } from '@/molecules/Grid/Grid.types';
 import Popover from '@/molecules/Popover';
 import scrollParent from '@/util/scrollParent';
 
+import ActivityPicker from './ActivityPicker';
 import Cell from './Cell';
 import ColumnHeader from './ColumnHeader';
 import { GridContext } from './Context';
@@ -22,7 +23,7 @@ import TimetableSlot from './TimetableSlot';
 import TimetableSlotContextMenu from './TimetableSlotContextMenu';
 import useTimetable, { Block } from './useTimetable';
 
-type Slot = TimetableQuery['festival']['timetable']['slots'][0];
+type Slot = TimetableSlotFragment;
 
 type GridProps = {
   startHour?: number;
@@ -44,24 +45,28 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
   const setSelection = (selection: Region | null) => {
     updateSelection(selection);
 
-    setPopupOpen(!!selection);
+    setNewSlotOpen(!!selection);
   };
 
-  const [popupOpen, setPopupOpen] = useState(false);
+  const [newSlotOpen, setNewSlotOpen] = useState(false);
 
   useEffect(() => {
-    if (!popupOpen) {
+    if (!newSlotOpen) {
       setSelection(null);
     }
-  }, [popupOpen]);
+  }, [newSlotOpen]);
 
   const [selectionElement, setSelectionElement] = useState<HTMLDivElement | null>(null);
+
+  const [clickedSlot, setClickedSlot] = useState<HTMLElement | null>(null);
 
   const machine = useInterpret(DragMachine, {});
 
   const dragState = useSelector(machine, (state) => state);
 
   const ghostRef = useRef<HTMLDivElement | null>(null);
+
+  const slot = useRef<TimetableSlotFragment | null>(null);
 
   const blockFromSlot = (slot: Slot | null): Block<Slot> | null => {
     if (!slot) return null;
@@ -149,6 +154,13 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
     document.addEventListener('pointerup', pointerUp, { once: true });
   };
 
+  useEffect(() => {
+    if (dragState.matches('clicked')) {
+      setClickedSlot(dragState.context.element);
+      slot.current = dragState.context.block?.data || null;
+    }
+  }, [dragState]);
+
   return (
     <ContextMenu.Root>
       <div className="timetable__grid">
@@ -198,9 +210,20 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
             </AnimatePresence>
           </BaseGrid>
           {selectionElement && selection && (
-            <Popover reference={selectionElement} open={popupOpen} onOpenChange={setPopupOpen}>
-              <NewSlot selection={selection} onClose={() => setPopupOpen(false)} />
+            <Popover reference={selectionElement} open={newSlotOpen} onOpenChange={setNewSlotOpen}>
+              <NewSlot selection={selection} onClose={() => setNewSlotOpen(false)} />
             </Popover>
+          )}
+          {clickedSlot && slot.current && (
+            <ActivityPicker
+              slot={slot.current}
+              activity={slot.current.activity}
+              reference={clickedSlot}
+              open
+              onOpenChange={(open) => {
+                if (!open) setClickedSlot(null);
+              }}
+            />
           )}
         </GridContext.Provider>
       </div>

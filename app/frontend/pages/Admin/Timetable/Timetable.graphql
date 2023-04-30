@@ -1,3 +1,9 @@
+fragment TimetableActivity on Activity {
+  id
+  type
+  name
+}
+
 fragment TimetableSlot on Slot {
   id
   startsAt
@@ -5,9 +11,7 @@ fragment TimetableSlot on Slot {
   activityType
 
   activity {
-    id
-    type
-    name
+    ...TimetableActivity
   }
 
   venue {

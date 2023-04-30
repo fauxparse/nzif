@@ -1,12 +1,12 @@
 import { assign, createMachine } from 'xstate';
 
-import { TimetableQuery } from '@/graphql/types';
+import { TimetableSlotFragment } from '@/graphql/types';
 import { Cell } from '@/molecules/Grid/Grid.types';
 
 import { Block } from './useTimetable';
 
 type PointerType = PointerEvent['pointerType'];
-type Slot = TimetableQuery['festival']['timetable']['slots'][0];
+type Slot = TimetableSlotFragment;
 
 type Context = {
   element: HTMLElement | null;
@@ -75,7 +75,7 @@ const DragMachine = createMachine(
           POINTER_UP: '#drag.clicked',
         },
         after: {
-          300: 'lifted.idle',
+          700: 'lifted.idle',
         },
       },
 

@@ -5,7 +5,7 @@ export interface Typegen0 {
   internalEvents: {
     'xstate.after(0)#drag.clicked': { type: 'xstate.after(0)#drag.clicked' };
     'xstate.after(0)#drag.dropped': { type: 'xstate.after(0)#drag.dropped' };
-    'xstate.after(300)#drag.pointerDown': { type: 'xstate.after(300)#drag.pointerDown' };
+    'xstate.after(700)#drag.pointerDown': { type: 'xstate.after(700)#drag.pointerDown' };
     'xstate.init': { type: 'xstate.init' };
   };
   invokeSrcNameMap: {};

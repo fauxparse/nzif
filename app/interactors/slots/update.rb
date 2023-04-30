@@ -16,6 +16,10 @@ module Slots
           venue_id = attributes.delete(:venue_id)
           attributes[:venue_id] = Venue.decode_id(venue_id) || venue_id
         end
+        if attributes.key?(:activity_id)
+          activity_id = attributes.delete(:activity_id)
+          attributes[:activity_id] = Activity.decode_id(activity_id) || activity_id
+        end
       end
     end
   end

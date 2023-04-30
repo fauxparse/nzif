@@ -429,6 +429,11 @@ type Query {
     limit: Int
 
     """
+    Type of object to search for
+    """
+    only: [SearchType!] = [Activity, User, Venue, Page]
+
+    """
     Text to search for
     """
     query: String!
@@ -483,6 +488,31 @@ interface SearchResult {
   Link to result page
   """
   url: String!
+}
+
+"""
+Type of object to search for
+"""
+enum SearchType {
+  """
+  Activity
+  """
+  Activity
+
+  """
+  Page
+  """
+  Page
+
+  """
+  User
+  """
+  User
+
+  """
+  Venue
+  """
+  Venue
 }
 
 """
@@ -549,6 +579,11 @@ type Slot {
 Attributes for adding or updating an activity slot
 """
 input SlotAttributes {
+  """
+  Scheduled activity
+  """
+  activityId: ID
+
   """
   The type of activity
   """

@@ -15,7 +15,8 @@ export const FloatingArrow = React.forwardRef(function FloatingArrow(
       placement,
       middlewareData: { arrow },
     },
-    width = 48,
+    width = 20,
+    height = 24,
     stroke,
     style = {},
     ...props
@@ -44,24 +45,24 @@ export const FloatingArrow = React.forwardRef(function FloatingArrow(
       aria-hidden
       ref={ref}
       width={width}
-      height={width}
-      viewBox={`0 0 48 48`}
+      height={height}
+      viewBox={`0 0 20 24`}
       style={{
         ...style,
         position: 'absolute',
         pointerEvents: 'none',
         [xOffsetProp]: arrowX,
         [yOffsetProp]: arrowY,
-        [side]: `calc(100% - ${width / 2 - 1}px)`,
+        [side]: `calc(100% - ${7}px)`,
         transform: `${rotation}${style?.transform ? ` ${style.transform}` : ''}`,
       }}
     >
       <path
-        d="M24.5 48v-5.375a3.998 3.998 0 0 0-1.172-2.829l-12.96-12.96a4.001 4.001 0 0 1 .01-5.667c4.358-4.32 8.735-8.638 12.982-12.975a3.998 3.998 0 0 0 1.14-2.796V0h2v48h-7.5Z"
+        d="M13,28l0,-5.858c0,-1.061 -0.421,-2.078 -1.172,-2.828c-1.541,-1.541 -4.246,-4.247 -5.899,-5.9c-0.781,-0.781 -0.781,-2.047 -0,-2.828c1.653,-1.653 4.358,-4.359 5.899,-5.9c0.751,-0.75 1.172,-1.767 1.172,-2.828c0,-2.213 0,-5.858 0,-5.858"
         fill="var(--popover-background)"
       />
       <path
-        d="M24.5 0v5.398a3.998 3.998 0 0 1-1.14 2.796c-4.247 4.337-8.624 8.655-12.982 12.975a3.998 3.998 0 0 0-.01 5.667l12.96 12.96a3.998 3.998 0 0 1 1.172 2.829V48"
+        d="M12.5,28l0,-5.858c0,-1.061 -0.421,-2.078 -1.172,-2.828c-1.541,-1.541 -4.246,-4.247 -5.899,-5.9c-0.781,-0.781 -0.781,-2.047 -0,-2.828c1.653,-1.653 4.358,-4.359 5.899,-5.9c0.751,-0.75 1.172,-1.767 1.172,-2.828c0,-2.213 0,-5.858 0,-5.858"
         fill="none"
         stroke="var(--popover-border)"
         strokeWidth="1"

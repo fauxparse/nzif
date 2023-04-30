@@ -154,7 +154,11 @@ const NewSlot: React.FC<NewSlotProps> = ({ selection, onClose }) => {
         if (!data?.createSlots) return;
 
         const refs = data.createSlots.slots.map((slot) =>
-          cache.writeFragment({ fragment: TimetableSlotFragmentDoc, data: slot })
+          cache.writeFragment({
+            fragment: TimetableSlotFragmentDoc,
+            fragmentName: 'TimetableSlot',
+            data: slot,
+          })
         );
 
         cache.modify({

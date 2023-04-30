@@ -23,8 +23,8 @@ import './Popover.css';
 const popoverVariants: Variants = {
   initial: (placement) => ({
     opacity: 0,
-    x: placement === 'right' ? 160 : placement === 'left' ? -160 : 0,
-    y: placement === 'bottom' ? 160 : placement === 'top' ? -160 : 0,
+    x: placement === 'right' ? -80 : placement === 'left' ? 80 : 0,
+    y: placement === 'bottom' ? -80 : placement === 'top' ? 80 : 0,
     scale: 1,
   }),
   animate: {
@@ -32,6 +32,10 @@ const popoverVariants: Variants = {
     x: 0,
     y: 0,
     scale: 1,
+    transition: {
+      type: 'spring',
+      bounce: 0.2,
+    },
   },
   exit: {
     opacity: 0,
@@ -48,17 +52,19 @@ export const Popover: React.FC<PopoverProps> = ({
   open,
   onOpenChange,
   style = {},
+  offset: initialOffset = 8,
+  placement: initialPlacement = 'right',
   children,
   ...props
 }) => {
   const arrowRef = useRef<SVGSVGElement>(null);
 
   const { x, y, refs, strategy, context, placement } = useFloating({
-    placement: 'right',
+    placement: initialPlacement,
     open,
     onOpenChange,
     middleware: [
-      offset(24),
+      offset(initialOffset),
       flip({ fallbackAxisSideDirection: 'end' }),
       shift({ crossAxis: true }),
       arrow({
@@ -96,7 +102,7 @@ export const Popover: React.FC<PopoverProps> = ({
               initial="initial"
               animate="animate"
               exit="exit"
-              custom={placement}
+              custom={placement.split('-')[0]}
             >
               {children}
               <FloatingArrow ref={arrowRef} context={context} stroke="var(--popover-border)" />

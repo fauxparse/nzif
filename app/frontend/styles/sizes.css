@@ -1,6 +1,7 @@
 :where(:root) {
   --tiny: 0.25rem;
   --small: 0.5rem;
+  --half: 0.75rem;
   --spacing: 1rem;
   --large: 1.5rem;
   --huge: 2.5rem;

@@ -7,12 +7,14 @@ module Resolvers
     argument :activity_type, Types::ActivityTypeType, required: false,
       description: 'Type of activity to return'
     argument :limit, Integer, required: false, description: 'Maximum number of results to return'
+    argument :only, [Types::SearchTypeType], required: false, default_value: %i[activity user venue page],
+      description: 'Type of object to search for'
     argument :query, String, required: true, description: 'Text to search for'
 
-    def resolve(query:, activity_type: nil, limit: 5)
+    def resolve(query:, only:, activity_type: nil, limit: 5)
       @activity_type = activity_type
 
-      %i[activity user venue page].flat_map do |type|
+      only.flat_map do |type|
         send("#{type}_matches", query:, limit:)
       end
     end

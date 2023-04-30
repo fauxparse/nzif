@@ -1,11 +1,12 @@
 import { ComponentProps } from 'react';
 
 import { IconName } from '@/atoms/Icon';
+import { Maybe } from '@/graphql/types';
 
 export interface SearchResult {
   id: string;
   title: string;
-  description: string;
+  description: Maybe<string>;
   url: string;
   icon?: IconName;
 }

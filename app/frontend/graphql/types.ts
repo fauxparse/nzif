@@ -316,6 +316,7 @@ export type QueryPreferenceArgs = {
 export type QuerySearchArgs = {
   activityType: InputMaybe<ActivityType>;
   limit: InputMaybe<Scalars['Int']>;
+  only?: InputMaybe<Array<SearchType>>;
   query: Scalars['String'];
 };
 
@@ -343,6 +344,18 @@ export type SearchResult = {
   /** Link to result page */
   url: Scalars['String'];
 };
+
+/** Type of object to search for */
+export enum SearchType {
+  /** Activity */
+  Activity = 'Activity',
+  /** Page */
+  Page = 'Page',
+  /** User */
+  User = 'User',
+  /** Venue */
+  Venue = 'Venue'
+}
 
 /** A show */
 export type Show = Activity & {
@@ -376,6 +389,8 @@ export type Slot = {
 
 /** Attributes for adding or updating an activity slot */
 export type SlotAttributes = {
+  /** Scheduled activity */
+  activityId: InputMaybe<Scalars['ID']>;
   /** The type of activity */
   activityType: InputMaybe<ActivityType>;
   /** The time at which the slot ends */
@@ -652,6 +667,22 @@ export type SearchQueryVariables = Exact<{
 
 export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'ActivityResult', id: string, title: string, description: string | null, url: string, activity: { __typename: 'Show', id: string, name: string, type: ActivityType } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType } | { __typename: 'Workshop', id: string, name: string, type: ActivityType } } | { __typename: 'PageResult', lede: string | null, id: string, title: string, description: string | null, url: string } | { __typename: 'UserResult', id: string, title: string, description: string | null, url: string, user: { __typename: 'User', id: string, name: string, email: string } } | { __typename: 'VenueResult', id: string, title: string, description: string | null, url: string, venue: { __typename: 'Venue', id: string, room: string | null, building: string, address: string } }> };
 
+export type ActivitySearchQueryVariables = Exact<{
+  query: Scalars['String'];
+  activityType: ActivityType;
+}>;
+
+
+export type ActivitySearchQuery = { __typename: 'Query', search: Array<{ __typename: 'ActivityResult', id: string, title: string, description: string | null, url: string, activity: { __typename: 'Show', id: string, type: ActivityType, name: string } | { __typename: 'SocialEvent', id: string, type: ActivityType, name: string } | { __typename: 'Workshop', id: string, type: ActivityType, name: string } } | { __typename: 'PageResult', id: string, title: string, description: string | null, url: string } | { __typename: 'UserResult', id: string, title: string, description: string | null, url: string } | { __typename: 'VenueResult', id: string, title: string, description: string | null, url: string }> };
+
+type TimetableActivity_Show_Fragment = { __typename: 'Show', id: string, type: ActivityType, name: string };
+
+type TimetableActivity_SocialEvent_Fragment = { __typename: 'SocialEvent', id: string, type: ActivityType, name: string };
+
+type TimetableActivity_Workshop_Fragment = { __typename: 'Workshop', id: string, type: ActivityType, name: string };
+
+export type TimetableActivityFragment = TimetableActivity_Show_Fragment | TimetableActivity_SocialEvent_Fragment | TimetableActivity_Workshop_Fragment;
+
 export type TimetableSlotFragment = { __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, activity: { __typename: 'Show', id: string, type: ActivityType, name: string } | { __typename: 'SocialEvent', id: string, type: ActivityType, name: string } | { __typename: 'Workshop', id: string, type: ActivityType, name: string } | null, venue: { __typename: 'Venue', id: string, room: string | null, building: string, position: number } | null };
 
 export type TimetableQueryVariables = Exact<{
@@ -711,6 +742,13 @@ export const PreferenceValueFragmentFragmentDoc = gql`
   }
 }
     `;
+export const TimetableActivityFragmentDoc = gql`
+    fragment TimetableActivity on Activity {
+  id
+  type
+  name
+}
+    `;
 export const TimetableSlotFragmentDoc = gql`
     fragment TimetableSlot on Slot {
   id
@@ -718,9 +756,7 @@ export const TimetableSlotFragmentDoc = gql`
   endsAt
   activityType
   activity {
-    id
-    type
-    name
+    ...TimetableActivity
   }
   venue {
     id
@@ -729,7 +765,7 @@ export const TimetableSlotFragmentDoc = gql`
     position
   }
 }
-    `;
+    ${TimetableActivityFragmentDoc}`;
 export const EditableUserFragmentDoc = gql`
     fragment EditableUser on User {
   id
@@ -1100,6 +1136,52 @@ export function useSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Sea
 export type SearchQueryHookResult = ReturnType<typeof useSearchQuery>;
 export type SearchLazyQueryHookResult = ReturnType<typeof useSearchLazyQuery>;
 export type SearchQueryResult = Apollo.QueryResult<SearchQuery, SearchQueryVariables>;
+export const ActivitySearchDocument = gql`
+    query ActivitySearch($query: String!, $activityType: ActivityType!) {
+  search(query: $query, activityType: $activityType, only: [Activity]) {
+    id
+    title
+    description
+    url
+    ... on ActivityResult {
+      activity {
+        id
+        type
+        name
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useActivitySearchQuery__
+ *
+ * To run a query within a React component, call `useActivitySearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useActivitySearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useActivitySearchQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *      activityType: // value for 'activityType'
+ *   },
+ * });
+ */
+export function useActivitySearchQuery(baseOptions: Apollo.QueryHookOptions<ActivitySearchQuery, ActivitySearchQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ActivitySearchQuery, ActivitySearchQueryVariables>(ActivitySearchDocument, options);
+      }
+export function useActivitySearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ActivitySearchQuery, ActivitySearchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ActivitySearchQuery, ActivitySearchQueryVariables>(ActivitySearchDocument, options);
+        }
+export type ActivitySearchQueryHookResult = ReturnType<typeof useActivitySearchQuery>;
+export type ActivitySearchLazyQueryHookResult = ReturnType<typeof useActivitySearchLazyQuery>;
+export type ActivitySearchQueryResult = Apollo.QueryResult<ActivitySearchQuery, ActivitySearchQueryVariables>;
 export const TimetableDocument = gql`
     query Timetable($year: String) {
   festival(year: $year) {
