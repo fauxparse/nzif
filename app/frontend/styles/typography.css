@@ -1,6 +1,31 @@
 @font-face {
-  font-family: Inter;
-  src: url("/fonts/Inter-roman.var.woff2") format("woff2");
+  font-weight: 400;
+  font-family: "DIN Round Pro";
+  src: url("~/fonts/DINRoundPro.woff2") format("woff2");
+}
+
+@font-face {
+  font-weight: 300;
+  font-family: "DIN Round Pro";
+  src: url("~/fonts/DINRoundPro-Light.woff2") format("woff2");
+}
+
+@font-face {
+  font-weight: 500;
+  font-family: "DIN Round Pro";
+  src: url("~/fonts/DINRoundPro-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-weight: 700;
+  font-family: "DIN Round Pro";
+  src: url("~/fonts/DINRoundPro-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-weight: 900;
+  font-family: "DIN Round Pro";
+  src: url("~/fonts/DINRoundPro-Black.woff2") format("woff2");
 }
 
 :where(:root) {
@@ -22,8 +47,7 @@
   --line-height-large: 2rem;
   --line-height-huge: 3rem;
   --font-stack: system, -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
-  --font-family-base: "Inter", var(--font-stack);
-  --font-feature-settings: "cv03", "cv04", "cv11";
+  --font-family-base: "DIN Round Pro", var(--font-stack);
 }
 
 body {
