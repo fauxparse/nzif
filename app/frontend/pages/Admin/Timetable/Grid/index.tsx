@@ -10,7 +10,7 @@ import { Region } from '@/molecules/Grid/Grid.types';
 import Popover from '@/molecules/Popover';
 import scrollParent from '@/util/scrollParent';
 
-import ActivityPicker from './ActivityPicker';
+import ActivityPopover from './ActivityPopover';
 import Cell from './Cell';
 import ColumnHeader from './ColumnHeader';
 import { GridContext } from './Context';
@@ -135,7 +135,7 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
 
       setDragOffset((current) => (isEqual(newPosition, current) ? current : newPosition));
 
-      if (moved) return;
+      if (moved || Math.abs(x) + Math.abs(y) < 8) return;
 
       machine.send({
         type: 'POINTER_MOVE',
@@ -215,7 +215,7 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
             </Popover>
           )}
           {clickedSlot && slot.current && (
-            <ActivityPicker
+            <ActivityPopover
               slot={slot.current}
               activity={slot.current.activity}
               reference={clickedSlot}

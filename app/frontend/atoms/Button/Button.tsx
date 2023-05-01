@@ -28,6 +28,8 @@ const Button: ButtonComponent = forwardRef(
       typeof child === 'string' ? <span className="button__text">{child}</span> : child
     );
 
+    const iconOnly = !!icon && !text && !buttonChildren;
+
     return (
       <Component
         ref={ref}
@@ -35,6 +37,7 @@ const Button: ButtonComponent = forwardRef(
         data-size={size}
         data-variant={variant}
         data-stretch={stretch || undefined}
+        data-icon-only={iconOnly || undefined}
         {...extraButtonProps}
         {...buttonProps}
       >

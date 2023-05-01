@@ -5,8 +5,8 @@ import { deburr } from 'lodash-es';
 
 import { IconName } from '@/atoms/Icon';
 
-import { Search } from './Search';
 import { SearchResult } from './Search.types';
+import Search from '.';
 
 import './Search.css';
 

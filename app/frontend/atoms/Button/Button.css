@@ -126,6 +126,10 @@
     cursor: not-allowed;
   }
 
+  &:where([data-icon-only]) {
+    border-radius: 50%;
+  }
+
   &:where(:has(.icon:only-child)) {
     border-radius: 50%;
   }

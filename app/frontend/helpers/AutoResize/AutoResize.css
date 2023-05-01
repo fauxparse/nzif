@@ -1,0 +1,3 @@
+:where([data-auto-resize]) {
+  resize: none;
+}

@@ -20,9 +20,13 @@ export type AllInputVariants = PropsWithVariants<typeof INPUT_VARIANTS>;
 
 export type BaseInputProps = {
   autoSelect?: boolean;
+  htmlSize?: number;
 };
 
-export type InputProps<C extends ElementType = 'input'> = Polymorphic<C, AllInputVariants>;
+export type InputProps<C extends ElementType = 'input'> = Polymorphic<
+  C,
+  BaseInputProps & AllInputVariants
+>;
 
 export type InputComponent = WithDisplayName<
   <C extends ElementType = 'input'>(props: InputProps<C>) => ReactElement | null

@@ -47,6 +47,16 @@
     --addon-border-radius: var(--border-radius-large);
   }
 
+  &:where([disabled]) {
+    .input-group__icon {
+      opacity: var(--disabled-opacity);
+    }
+
+    input {
+      cursor: not-allowed;
+    }
+  }
+
   &__add-on {
     width: auto;
     padding: calc(var(--addon-padding-block) - var(--addon-border-width))

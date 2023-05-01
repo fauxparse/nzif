@@ -89,6 +89,7 @@
   --solid-hover: var(--neutral10);
   --text-subtle: var(--neutral11);
   --text: var(--neutral12);
+  --text-error: var(--red11);
   --background-accent: var(--accent1);
   --background-subtle-accent: var(--accent2);
   --background-element-accent: var(--accent3);

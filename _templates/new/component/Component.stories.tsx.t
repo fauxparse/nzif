@@ -5,7 +5,7 @@ to: app/frontend/<%= h.inflection.pluralize(type) %>/<%= h.changeCase.pascal(nam
 import React from 'react';
 import type { StoryObj, Meta } from '@storybook/react';
 
-import { <%= Name %> } from './<%= Name %>';
+import <%= Name %> from '.';
 
 type Story = StoryObj<typeof <%= Name %>>;
 

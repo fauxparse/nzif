@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef } from 'react';
+import { ComponentPropsWithoutRef, MutableRefObject } from 'react';
 import { Placement } from '@floating-ui/react';
 
 export type PopoverProps = ComponentPropsWithoutRef<'div'> & {
@@ -6,5 +6,6 @@ export type PopoverProps = ComponentPropsWithoutRef<'div'> & {
   open: boolean;
   placement?: Placement;
   offset?: number | { mainAxis?: number; crossAxis?: number; alignmentAxis?: number | null };
+  initialFocus?: number | MutableRefObject<HTMLElement | null>;
   onOpenChange: (open: boolean) => void;
 };

@@ -54,6 +54,7 @@ export const Popover: React.FC<PopoverProps> = ({
   style = {},
   offset: initialOffset = 8,
   placement: initialPlacement = 'right',
+  initialFocus = 0,
   children,
   ...props
 }) => {
@@ -83,11 +84,25 @@ export const Popover: React.FC<PopoverProps> = ({
     refs.setReference(reference);
   }, [refs, reference]);
 
+  // useEffect(() => {
+  //   if (open) {
+  //     document.getElementById('root')?.setAttribute('inert', 'true');
+  //     return () => document.getElementById('root')?.removeAttribute('inert');
+  //   } else {
+  //     document.getElementById('root')?.removeAttribute('inert');
+  //   }
+  // }, [open]);
+
   return (
     <PopoverContext.Provider value={{ open, setOpen: onOpenChange }}>
       <AnimatePresence>
         {open && (
-          <FloatingFocusManager context={context} modal={false} closeOnFocusOut={false}>
+          <FloatingFocusManager
+            context={context}
+            modal={false}
+            closeOnFocusOut={false}
+            initialFocus={initialFocus}
+          >
             <motion.div
               className={clsx('popover', className)}
               ref={refs.setFloating}

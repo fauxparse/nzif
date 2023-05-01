@@ -13,7 +13,7 @@ const useCustomInput = <T extends AllInputVariants>(props: T, defaultSize: Input
   extractVariants(set(INPUT_VARIANTS, 'size.defaultValue', defaultSize), props);
 
 const Input: InputComponent = forwardRef(
-  ({ as, className, iconBefore, iconAfter, autoSelect, onFocus, ...props }, ref) => {
+  ({ as, className, iconBefore, iconAfter, autoSelect, htmlSize, onFocus, ...props }, ref) => {
     const Component = (as || 'input') as ElementType;
 
     const { size: inputGroupSize } = useContext(InputGroupContext);
@@ -33,6 +33,7 @@ const Input: InputComponent = forwardRef(
       <Component
         ref={ref}
         className={clsx('input', className)}
+        size={htmlSize ?? undefined}
         data-size={size}
         onFocus={focus}
         {...inputProps}

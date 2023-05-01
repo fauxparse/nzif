@@ -135,6 +135,10 @@
     .grid[data-selecting] & {
       pointer-events: none;
     }
+
+    &:hover {
+      border-color: var(--activity7);
+    }
   }
 
   &__activity {
