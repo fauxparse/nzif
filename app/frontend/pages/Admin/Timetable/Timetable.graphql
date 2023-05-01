@@ -2,6 +2,7 @@ fragment TimetableActivity on Activity {
   id
   type
   name
+  slug
 }
 
 fragment TimetableSlot on Slot {

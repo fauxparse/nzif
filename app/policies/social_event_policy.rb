@@ -1,0 +1,1 @@
+class SocialEventPolicy < ActivityPolicy; end

@@ -1,0 +1,1 @@
+class WorkshopPolicy < ActivityPolicy; end

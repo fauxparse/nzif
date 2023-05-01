@@ -30,8 +30,13 @@ type NewActivityProps = {
   activityType: ActivityType;
   defaultName?: string;
   onBack: () => void;
-  onCreate: (attributes: Pick<Activity, 'name' | 'slug'>) => void;
+  onCreate: (
+    activityType: ActivityType,
+    attributes: Pick<Activity, 'name' | 'slug'>
+  ) => Promise<Activity>;
 };
+
+const slugify = (name: string) => kebabCase(deburr(name)).substring(0, 32);
 
 export const NewActivity: React.FC<NewActivityProps> = ({
   activityType,
@@ -48,23 +53,27 @@ export const NewActivity: React.FC<NewActivityProps> = ({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     setValue,
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: defaultName,
+      slug: slugify(defaultName),
     },
   });
 
   const nameChanged = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (slugCustomised.current || !form.current) return;
     const { value } = e.currentTarget;
-    setValue('slug', kebabCase(deburr(value)).substring(0, 32));
+    setValue('slug', slugify(value));
   };
 
   const nameKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter') e.preventDefault();
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSubmit(handleCreate)();
+    }
   };
 
   const slugChanged = () => {
@@ -78,6 +87,10 @@ export const NewActivity: React.FC<NewActivityProps> = ({
     return () => clearTimeout(timeout);
   }, []);
 
+  const handleCreate = (attributes: FormSchemaType) => {
+    onCreate(activityType, attributes).then(() => setOpen(false));
+  };
+
   return (
     <>
       <header className="activity-picker__header">
@@ -85,7 +98,7 @@ export const NewActivity: React.FC<NewActivityProps> = ({
         <h3 className="popover__title">New {activityTypeLabel(activityType)}</h3>
         <Popover.Close />
       </header>
-      <form ref={form} onSubmit={handleSubmit(onCreate)}>
+      <form ref={form} onSubmit={handleSubmit(handleCreate)}>
         <fieldset>
           <div className="validated-field">
             <InputGroup>
@@ -121,7 +134,13 @@ export const NewActivity: React.FC<NewActivityProps> = ({
           </InputGroup>
           <div className="buttons">
             <Button ghost text="Cancel" onClick={() => setOpen(false)} />
-            <Button primary icon="check" text="Save" type="submit" />
+            <Button
+              primary
+              icon="check"
+              text="Save"
+              type="submit"
+              disabled={!isValid || undefined}
+            />
           </div>
         </fieldset>
       </form>

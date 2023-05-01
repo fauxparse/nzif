@@ -1,0 +1,35 @@
+query ActivitySearch($query: String!, $activityType: ActivityType!) {
+  search(query: $query, activityType: $activityType, only: [Activity]) {
+    id
+    title
+    description
+    url
+
+    ... on ActivityResult {
+      activity {
+        ...TimetableActivity
+      }
+    }
+  }
+}
+
+mutation CreateActivity(
+  $festivalId: ID!
+  $activityType: ActivityType!
+  $attributes: ActivityAttributes!
+  $slotId: ID
+) {
+  createActivity(
+    festivalId: $festivalId
+    type: $activityType
+    attributes: $attributes
+    slotId: $slotId
+  ) {
+    activity {
+      ...TimetableActivity
+    }
+    slot {
+      ...TimetableSlot
+    }
+  }
+}

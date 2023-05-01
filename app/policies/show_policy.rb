@@ -1,0 +1,1 @@
+class ShowPolicy < ActivityPolicy; end

@@ -1,6 +1,8 @@
 class ApplicationInteractor
   include Interactor
 
+  include ActiveModel::Validations
+
   include ActionPolicy::Behaviour
   include ActionPolicy::Behaviours::ThreadMemoized
   include ActionPolicy::Behaviours::Memoized

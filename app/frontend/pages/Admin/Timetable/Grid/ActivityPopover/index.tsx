@@ -1,11 +1,17 @@
 import { useCallback } from 'react';
+import { uniqueId } from 'lodash-es';
 
+import { useTimetableContext } from '../../Context';
 import {
+  Activity,
+  ActivityAttributes,
   ActivitySearchQuery,
+  ActivityType,
   Maybe,
   TimetableActivityFragment,
   TimetableSlotFragment,
   useActivitySearchLazyQuery,
+  useCreateActivityMutation,
 } from '@/graphql/types';
 import Popover, { PopoverProps } from '@/molecules/Popover';
 import ActivityPicker from '@/organisms/ActivityPicker';
@@ -27,6 +33,8 @@ const isActivityResult = (
 ): result is ActivityResult => result?.__typename === 'ActivityResult';
 
 const ActivityPopover: React.FC<ActivityPopoverProps> = ({ activity, slot, ...props }) => {
+  const { festival } = useTimetableContext();
+
   const [search] = useActivitySearchLazyQuery({});
 
   const { activityType } = slot;
@@ -37,6 +45,51 @@ const ActivityPopover: React.FC<ActivityPopoverProps> = ({ activity, slot, ...pr
         (result.data?.search || []).filter(isActivityResult)
       ),
     [activityType, search]
+  );
+
+  const [create] = useCreateActivityMutation();
+
+  const handleCreate = useCallback(
+    (activityType: ActivityType, attributes: Partial<ActivityAttributes>) =>
+      new Promise<Activity>((resolve, reject) => {
+        if (!festival) return reject();
+
+        create({
+          variables: {
+            festivalId: festival.id,
+            activityType,
+            attributes: attributes as ActivityAttributes,
+            slotId: slot.id,
+          },
+          optimisticResponse: {
+            __typename: 'Mutation',
+            createActivity: {
+              __typename: 'CreateActivityPayload',
+              activity: {
+                __typename: activityType,
+                id: uniqueId(),
+                type: activityType as ActivityType,
+                name: attributes.name || '',
+                slug: attributes.slug || '',
+              },
+              slot: {
+                ...slot,
+                activity: {
+                  __typename: activityType,
+                  id: uniqueId(),
+                  type: activityType as ActivityType,
+                  name: attributes.name || '',
+                  slug: attributes.slug || '',
+                },
+              },
+            },
+          },
+        }).then(({ data }) => {
+          if (!data?.createActivity?.activity) return reject();
+          resolve(data.createActivity.activity);
+        });
+      }),
+    [festival, create, slot]
   );
 
   return (
@@ -52,7 +105,7 @@ const ActivityPopover: React.FC<ActivityPopoverProps> = ({ activity, slot, ...pr
       ) : (
         <ActivityPicker
           activityType={activityType}
-          onCreate={console.log}
+          onCreate={handleCreate}
           onSearch={handleSearch}
         />
       )}

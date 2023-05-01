@@ -2,6 +2,14 @@ class Festival < ApplicationRecord
   has_many :activities, dependent: :destroy
   has_many :slots, dependent: :destroy
 
+  Activity.descendants.each do |activity_type|
+    has_many :"#{activity_type.name.underscore.pluralize}",
+      -> { by_type(activity_type) },
+      class_name: activity_type.name.to_s,
+      dependent: :destroy,
+      inverse_of: :festival
+  end
+
   validates :start_date, presence: true
   validates :end_date, presence: true, date: { after: :start_date, same_year: :start_date }
   validates :year, uniqueness: { conditions: -> { with_year } }
