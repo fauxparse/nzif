@@ -3,29 +3,30 @@ import { useApolloClient } from '@apollo/client';
 
 import { saveAuthenticationInfo } from '@/graphql/authentication';
 import {
+  AuthenticatedUserFragment,
   LogInMutationVariables,
   ResetPasswordMutationVariables,
   SignUpMutationVariables,
   useCurrentUserQuery,
   useLogInMutation,
   useLogOutMutation,
-  User,
   useResetPasswordMutation,
   useSignUpMutation,
 } from '@/graphql/types';
 
-export type AuthenticatedUser = Pick<User, 'id' | 'name'>;
-
 type AuthenticationContextShape = {
   loading: boolean;
-  user: AuthenticatedUser | null;
-  logIn: (variables: { email: string; password: string }) => Promise<{ user: AuthenticatedUser }>;
+  user: AuthenticatedUserFragment | null;
+  logIn: (variables: {
+    email: string;
+    password: string;
+  }) => Promise<{ user: AuthenticatedUserFragment }>;
   logOut: () => Promise<boolean>;
   signUp: (variables: {
     name: string;
     email: string;
     password: string;
-  }) => Promise<{ user: AuthenticatedUser }>;
+  }) => Promise<{ user: AuthenticatedUserFragment }>;
   resetPassword: (variables: { email: string }) => Promise<boolean>;
 };
 
@@ -67,7 +68,7 @@ const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const logIn = (variables: LogInMutationVariables) =>
     doLogIn({ variables }).then(
       ({ data }) =>
-        new Promise<{ user: AuthenticatedUser }>((resolve, reject) => {
+        new Promise<{ user: AuthenticatedUserFragment }>((resolve, reject) => {
           const { user, credentials } = data?.userLogin || {};
           if (user && credentials) {
             resolve({ user });
@@ -80,7 +81,7 @@ const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const signUp = (variables: SignUpMutationVariables) =>
     doSignUp({ variables }).then(
       ({ data }) =>
-        new Promise<{ user: AuthenticatedUser }>((resolve, reject) => {
+        new Promise<{ user: AuthenticatedUserFragment }>((resolve, reject) => {
           const { user, credentials } = data?.userRegister || {};
           if (user && credentials) {
             resolve({ user });

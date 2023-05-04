@@ -448,6 +448,51 @@ input PreferenceValue {
   string: String
 }
 
+"""
+A profile that may or may not be connected to a user
+"""
+type Profile {
+  """
+  Unique ID
+  """
+  id: ID!
+
+  """
+  Name
+  """
+  name: String!
+
+  """
+  Profile picture
+  """
+  picture: ProfilePicture
+}
+
+"""
+A profile picture
+"""
+type ProfilePicture {
+  """
+  Unique ID
+  """
+  id: ID!
+
+  """
+  256x256
+  """
+  large: String!
+
+  """
+  128x128
+  """
+  medium: String!
+
+  """
+  64x64
+  """
+  small: String!
+}
+
 type Query {
   """
   Find a festival by year
@@ -783,6 +828,11 @@ type User {
   Name
   """
   name: String!
+
+  """
+  Profile information
+  """
+  profile: Profile
 
   """
   Authorized roles

@@ -10,8 +10,4 @@ class ProfilePictureUploader < Shrine
       small: magick.resize_to_fill!(64, 64),
     }
   end
-
-  # Attacher.validate do
-  #   validate_mime_type %w[image/jpeg image/png image/webp]
-  # end
 end

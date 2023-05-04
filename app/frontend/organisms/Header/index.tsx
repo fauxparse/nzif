@@ -4,6 +4,7 @@ import { useCycle } from 'framer-motion';
 import { DateTime } from 'luxon';
 
 import { useAuthentication } from '../Authentication/AuthenticationProvider';
+import Avatar from '@/atoms/Avatar';
 import Button from '@/atoms/Button';
 import Logo from '@/atoms/Logo';
 import Placename from '@/atoms/Placename/Placename';
@@ -55,13 +56,10 @@ const Header: React.FC = () => {
       <div className="header__user">
         <HeaderSearch container={container} />
         {!loading && (
-          <Button
-            ghost
-            className="user-button"
-            icon="user"
-            text={user?.name || 'Log in'}
-            onClick={() => toggleOverlay()}
-          />
+          <Button ghost className="user-button" onClick={() => toggleOverlay()}>
+            <Avatar url={user?.profile?.picture?.small} name={user?.name || ''} />
+            <span className="button__text">{user?.name || 'Log in'}</span>
+          </Button>
         )}
         <ThemeSwitcher />
       </div>

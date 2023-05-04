@@ -318,6 +318,30 @@ export type PreferenceValue = {
   string: InputMaybe<Scalars['String']>;
 };
 
+/** A profile that may or may not be connected to a user */
+export type Profile = {
+  __typename: 'Profile';
+  /** Unique ID */
+  id: Scalars['ID'];
+  /** Name */
+  name: Scalars['String'];
+  /** Profile picture */
+  picture: Maybe<ProfilePicture>;
+};
+
+/** A profile picture */
+export type ProfilePicture = {
+  __typename: 'ProfilePicture';
+  /** Unique ID */
+  id: Scalars['ID'];
+  /** 256x256 */
+  large: Scalars['String'];
+  /** 128x128 */
+  medium: Scalars['String'];
+  /** 64x64 */
+  small: Scalars['String'];
+};
+
 export type Query = {
   __typename: 'Query';
   /** Find a festival by year */
@@ -500,6 +524,8 @@ export type User = {
   id: Scalars['ID'];
   /** Name */
   name: Scalars['String'];
+  /** Profile information */
+  profile: Maybe<Profile>;
   /** Authorized roles */
   roles: Array<Role>;
 };
@@ -649,10 +675,12 @@ type PreferenceValueFragment_StringPreference_Fragment = { __typename: 'StringPr
 
 export type PreferenceValueFragmentFragment = PreferenceValueFragment_BooleanPreference_Fragment | PreferenceValueFragment_StringPreference_Fragment;
 
+export type AuthenticatedUserFragment = { __typename: 'User', id: string, name: string, profile: { __typename: 'Profile', picture: { __typename: 'ProfilePicture', small: string } | null } | null };
+
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename: 'Query', user: { __typename: 'User', id: string, name: string } | null };
+export type CurrentUserQuery = { __typename: 'Query', user: { __typename: 'User', id: string, name: string, profile: { __typename: 'Profile', picture: { __typename: 'ProfilePicture', small: string } | null } | null } | null };
 
 export type LogInMutationVariables = Exact<{
   email: Scalars['String'];
@@ -660,7 +688,7 @@ export type LogInMutationVariables = Exact<{
 }>;
 
 
-export type LogInMutation = { __typename: 'Mutation', userLogin: { __typename: 'UserLoginPayload', user: { __typename: 'User', id: string, name: string }, credentials: { __typename: 'Credential', accessToken: string, client: string, uid: string } } | null };
+export type LogInMutation = { __typename: 'Mutation', userLogin: { __typename: 'UserLoginPayload', user: { __typename: 'User', id: string, name: string, profile: { __typename: 'Profile', picture: { __typename: 'ProfilePicture', small: string } | null } | null }, credentials: { __typename: 'Credential', accessToken: string, client: string, uid: string } } | null };
 
 export type LogOutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -674,7 +702,7 @@ export type SignUpMutationVariables = Exact<{
 }>;
 
 
-export type SignUpMutation = { __typename: 'Mutation', userRegister: { __typename: 'UserRegisterPayload', user: { __typename: 'User', id: string, name: string }, credentials: { __typename: 'Credential', accessToken: string, client: string, uid: string } | null } | null };
+export type SignUpMutation = { __typename: 'Mutation', userRegister: { __typename: 'UserRegisterPayload', user: { __typename: 'User', id: string, name: string, profile: { __typename: 'Profile', picture: { __typename: 'ProfilePicture', small: string } | null } | null }, credentials: { __typename: 'Credential', accessToken: string, client: string, uid: string } | null } | null };
 
 export type ResetPasswordMutationVariables = Exact<{
   email: Scalars['String'];
@@ -777,6 +805,17 @@ export const PreferenceValueFragmentFragmentDoc = gql`
   }
   ... on BooleanPreference {
     valueAsBoolean: value
+  }
+}
+    `;
+export const AuthenticatedUserFragmentDoc = gql`
+    fragment AuthenticatedUser on User {
+  id
+  name
+  profile {
+    picture {
+      small
+    }
   }
 }
     `;
@@ -887,11 +926,10 @@ export type UpdatePreferenceMutationOptions = Apollo.BaseMutationOptions<UpdateP
 export const CurrentUserDocument = gql`
     query CurrentUser {
   user {
-    id
-    name
+    ...AuthenticatedUser
   }
 }
-    `;
+    ${AuthenticatedUserFragmentDoc}`;
 
 /**
  * __useCurrentUserQuery__
@@ -923,8 +961,7 @@ export const LogInDocument = gql`
     mutation LogIn($email: String!, $password: String!) {
   userLogin(email: $email, password: $password) {
     user: authenticatable {
-      id
-      name
+      ...AuthenticatedUser
     }
     credentials {
       accessToken
@@ -933,7 +970,7 @@ export const LogInDocument = gql`
     }
   }
 }
-    `;
+    ${AuthenticatedUserFragmentDoc}`;
 export type LogInMutationFn = Apollo.MutationFunction<LogInMutation, LogInMutationVariables>;
 
 /**
@@ -1004,8 +1041,7 @@ export const SignUpDocument = gql`
     passwordConfirmation: $password
   ) {
     user: authenticatable {
-      id
-      name
+      ...AuthenticatedUser
     }
     credentials {
       accessToken
@@ -1014,7 +1050,7 @@ export const SignUpDocument = gql`
     }
   }
 }
-    `;
+    ${AuthenticatedUserFragmentDoc}`;
 export type SignUpMutationFn = Apollo.MutationFunction<SignUpMutation, SignUpMutationVariables>;
 
 /**

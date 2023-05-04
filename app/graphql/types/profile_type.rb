@@ -4,5 +4,10 @@ module Types
 
     field :id, ID, null: false, description: 'Unique ID'
     field :name, String, null: false, description: 'Name'
+    field :picture, Types::ProfilePictureType, null: true, description: 'Profile picture'
+
+    def picture
+      object
+    end
   end
 end

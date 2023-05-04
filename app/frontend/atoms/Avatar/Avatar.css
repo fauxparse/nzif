@@ -1,0 +1,33 @@
+:root {
+  --avatar-size-small: 1.5rem;
+  --avatar-size-medium: 2.5rem;
+  --avatar-size-large: 3.5rem;
+}
+
+:where(.avatar) {
+  display: grid;
+  grid-template: 1fr / 1fr;
+  place-items: stretch;
+  overflow: hidden;
+  border-radius: 50%;
+  color: var(--text-subtle);
+  aspect-ratio: 1;
+
+  > .icon,
+  > img {
+    width: 100%;
+    height: auto;
+  }
+
+  &:where([data-size="small"]) {
+    width: var(--avatar-size-small);
+  }
+
+  &:where([data-size="medium"]) {
+    width: var(--avatar-size-medium);
+  }
+
+  &:where([data-size="large"]) {
+    width: var(--avatar-size-large);
+  }
+}
