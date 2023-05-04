@@ -5,10 +5,17 @@ module Types
     field :email, String, null: false, description: 'Email address'
     field :id, ID, null: false, description: 'Unique ID'
     field :name, String, null: false, description: 'Name'
+    field :profile, ProfileType, null: true, description: 'Profile information'
     field :roles, [RoleType], null: false, description: 'Authorized roles'
 
     def roles
       object.roles.map(&:name)
+    end
+
+    def profile
+      dataloader
+        .with(Sources::UserProfile, context:)
+        .load(object.id)
     end
   end
 end

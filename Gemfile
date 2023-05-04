@@ -64,6 +64,9 @@ gem 'action_policy-graphql', '~> 0.5.3'
 
 gem 'acts_as_list', '~> 1.1.0'
 
+gem 'image_processing', '~> 1.8'
+gem 'shrine', '~> 3.0'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
@@ -94,6 +97,9 @@ group :development do
 end
 
 group :test do
+  gem 'rspec-collection_matchers', require: false
+  gem 'rspec-its', require: false
+  gem 'shoulda-matchers', require: false
   gem 'simplecov', require: false
   gem 'simplecov-summary', require: false
 end

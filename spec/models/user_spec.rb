@@ -72,6 +72,14 @@ RSpec.describe User do
     end
   end
 
+  describe '#profile' do
+    subject(:profile) { user.profile }
+
+    before { user.save! }
+
+    it { is_expected.to be_present }
+  end
+
   describe '.search' do
     before do
       create(:user, name: 'Thom Yorke', email: 'bungeye@head.radio')

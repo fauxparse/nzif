@@ -11,6 +11,9 @@ require 'rspec/rails'
 
 require 'action_policy/rspec/dsl'
 require 'support/factory_bot'
+require 'rspec/its'
+require 'rspec/collection_matchers'
+require 'shoulda-matchers'
 
 require 'support/interactor_helper'
 require 'support/mutation_helper'
@@ -86,4 +89,11 @@ RSpec.configure do |config|
       },
     ],
   )
+end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
 end

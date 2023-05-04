@@ -173,6 +173,44 @@ ALTER SEQUENCE public.festivals_id_seq OWNED BY public.festivals.id;
 
 
 --
+-- Name: profiles; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.profiles (
+    id bigint NOT NULL,
+    user_id bigint,
+    pronouns character varying,
+    name character varying,
+    city character varying,
+    country character varying,
+    bio text,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    searchable tsvector GENERATED ALWAYS AS (setweight(to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char")) STORED,
+    picture_data jsonb
+);
+
+
+--
+-- Name: profiles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.profiles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: profiles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.profiles_id_seq OWNED BY public.profiles.id;
+
+
+--
 -- Name: roles; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -347,6 +385,13 @@ ALTER TABLE ONLY public.festivals ALTER COLUMN id SET DEFAULT nextval('public.fe
 
 
 --
+-- Name: profiles id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.profiles ALTER COLUMN id SET DEFAULT nextval('public.profiles_id_seq'::regclass);
+
+
+--
 -- Name: roles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -396,6 +441,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 ALTER TABLE ONLY public.festivals
     ADD CONSTRAINT festivals_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: profiles profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.profiles
+    ADD CONSTRAINT profiles_pkey PRIMARY KEY (id);
 
 
 --
@@ -457,6 +510,13 @@ CREATE UNIQUE INDEX index_activities_on_festival_id_and_type_and_slug ON public.
 --
 
 CREATE INDEX index_activities_on_searchable ON public.activities USING gin (searchable);
+
+
+--
+-- Name: index_profiles_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_profiles_on_user_id ON public.profiles USING btree (user_id);
 
 
 --
@@ -575,6 +635,14 @@ ALTER TABLE ONLY public.roles
 
 
 --
+-- Name: profiles fk_rails_e424190865; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.profiles
+    ADD CONSTRAINT fk_rails_e424190865 FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: slots fk_rails_f482cd28c7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -607,6 +675,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230429104442'),
 ('20230429110004'),
 ('20230429111227'),
-('20230429195143');
+('20230429195143'),
+('20230504010958'),
+('20230504035331');
 
 
