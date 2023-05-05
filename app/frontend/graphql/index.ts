@@ -22,7 +22,7 @@ export const client = new ApolloClient({
     possibleTypes: {
       Activity: ['Show', 'Workshop', 'SocialEvent'],
       Preference: ['BooleanPreference', 'StringPreference'],
-      SearchResult: ['ActivityResult', 'UserResult', 'VenueResult', 'PageResult'],
+      SearchResult: ['ActivityResult', 'PersonResult', 'VenueResult', 'PageResult'],
     },
     typePolicies: {
       ...scalarTypePolicies,

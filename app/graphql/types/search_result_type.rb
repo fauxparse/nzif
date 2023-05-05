@@ -12,7 +12,7 @@ module Types
     definition_methods do
       def resolve_type(object, _context)
         if object.activity? then ActivityResultType
-        elsif object.user? then UserResultType
+        elsif object.person? then PersonResultType
         elsif object.venue? then VenueResultType
         elsif object.slug? then PageResultType
         else
@@ -24,7 +24,7 @@ module Types
     orphan_types(
       ActivityResultType,
       PageResultType,
-      UserResultType,
+      PersonResultType,
       VenueResultType,
     )
   end

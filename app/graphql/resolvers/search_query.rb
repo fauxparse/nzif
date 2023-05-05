@@ -7,7 +7,8 @@ module Resolvers
     argument :activity_type, Types::ActivityTypeType, required: false,
       description: 'Type of activity to return'
     argument :limit, Integer, required: false, description: 'Maximum number of results to return'
-    argument :only, [Types::SearchTypeType], required: false, default_value: %i[activity user venue page],
+    argument :only, [Types::SearchTypeType], required: false,
+      default_value: %i[activity person venue page],
       description: 'Type of object to search for'
     argument :query, String, required: true, description: 'Text to search for'
 
@@ -31,11 +32,11 @@ module Resolvers
       end
     end
 
-    def user_matches(query:, limit:)
-      return [] unless allowed_to?(:index?, User)
+    def person_matches(query:, limit:)
+      return [] unless allowed_to?(:index?, Profile)
 
-      authorized_scope(User, type: :relation).search(query).limit(limit).map do |user|
-        Hashie::Mash.new(user:)
+      authorized_scope(Profile, type: :relation).search(query).limit(limit).map do |person|
+        Hashie::Mash.new(person:)
       end
     end
 

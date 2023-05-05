@@ -17,11 +17,15 @@ query Search($query: String!) {
       }
     }
 
-    ... on UserResult {
-      user {
+    ... on PersonResult {
+      person {
         id
         name
-        email
+
+        profilePicture {
+          id
+          small
+        }
       }
     }
 

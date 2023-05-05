@@ -9,6 +9,7 @@ export interface SearchResult {
   description: Maybe<string>;
   url: string;
   icon?: IconName;
+  image?: string;
 }
 
 export type SearchFunction = (query: string) => Promise<SearchResult[]>;

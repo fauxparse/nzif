@@ -4,7 +4,7 @@ module Types
 
     value 'Activity', 'Activity', value: :activity
     value 'Page', 'Page', value: :page
-    value 'User', 'User', value: :user
+    value 'Person', 'Person', value: :person
     value 'Venue', 'Venue', value: :venue
   end
 end

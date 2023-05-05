@@ -1723,6 +1723,172 @@
           "enumValues": null
         },
         {
+          "kind": "OBJECT",
+          "name": "Person",
+          "description": "A profile that may or may not be connected to a user",
+          "interfaces": [
+
+          ],
+          "possibleTypes": null,
+          "fields": [
+            {
+              "name": "id",
+              "description": "Unique ID",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "name",
+              "description": "Name",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "profilePicture",
+              "description": "Profile picture",
+              "type": {
+                "kind": "OBJECT",
+                "name": "ProfilePicture",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            }
+          ],
+          "inputFields": null,
+          "enumValues": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "PersonResult",
+          "description": "A search result from a person",
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "SearchResult",
+              "ofType": null
+            }
+          ],
+          "possibleTypes": null,
+          "fields": [
+            {
+              "name": "description",
+              "description": "Supporting description",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "id",
+              "description": "Unique ID",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "person",
+              "description": "Person",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Person",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "title",
+              "description": "Title of result page",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "url",
+              "description": "Link to result page",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            }
+          ],
+          "inputFields": null,
+          "enumValues": null
+        },
+        {
           "kind": "INTERFACE",
           "name": "Preference",
           "description": "A user preference",
@@ -2095,7 +2261,7 @@
                       }
                     }
                   },
-                  "defaultValue": "[Activity, User, Venue, Page]",
+                  "defaultValue": "[Activity, Person, Venue, Page]",
                   "isDeprecated": false,
                   "deprecationReason": null
                 },
@@ -2189,7 +2355,7 @@
             },
             {
               "kind": "OBJECT",
-              "name": "UserResult",
+              "name": "PersonResult",
               "ofType": null
             },
             {
@@ -2293,8 +2459,8 @@
               "deprecationReason": null
             },
             {
-              "name": "User",
-              "description": "User",
+              "name": "Person",
+              "description": "Person",
               "isDeprecated": false,
               "deprecationReason": null
             },
@@ -3292,109 +3458,6 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null,
-              "args": [
-
-              ]
-            }
-          ],
-          "inputFields": null,
-          "enumValues": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "UserResult",
-          "description": "A search result from a user",
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "SearchResult",
-              "ofType": null
-            }
-          ],
-          "possibleTypes": null,
-          "fields": [
-            {
-              "name": "description",
-              "description": "Supporting description",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null,
-              "args": [
-
-              ]
-            },
-            {
-              "name": "id",
-              "description": "Unique ID",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null,
-              "args": [
-
-              ]
-            },
-            {
-              "name": "title",
-              "description": "Title of result page",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null,
-              "args": [
-
-              ]
-            },
-            {
-              "name": "url",
-              "description": "Link to result page",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null,
-              "args": [
-
-              ]
-            },
-            {
-              "name": "user",
-              "description": "User",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "User",
                   "ofType": null
                 }
               },

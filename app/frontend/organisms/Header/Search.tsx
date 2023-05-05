@@ -6,8 +6,8 @@ import { IconName } from '@/atoms/Icon';
 import {
   ActivityResult,
   PageResult,
+  PersonResult,
   SearchResult as BaseSearchResult,
-  UserResult,
   useSearchLazyQuery,
 } from '@/graphql/types';
 import Search from '@/molecules/Search';
@@ -26,8 +26,9 @@ const isActivityResult = (
   result: BaseSearchResult & { __typename: string }
 ): result is ActivityResult => result.__typename === 'ActivityResult';
 
-const isUserResult = (result: BaseSearchResult & { __typename: string }): result is UserResult =>
-  result.__typename === 'UserResult';
+const isPersonResult = (
+  result: BaseSearchResult & { __typename: string }
+): result is PersonResult => result.__typename === 'PersonResult';
 
 const HeaderSearch: React.FC<HeaderSearchProps> = ({ container }) => {
   const [search] = useSearchLazyQuery();
@@ -72,9 +73,10 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ container }) => {
               if (isActivityResult(result)) {
                 searchResult.icon = camelCase(result.activity.type) as IconName;
               }
-              if (isUserResult(result)) {
+              if (isPersonResult(result)) {
                 searchResult.icon = 'user';
-                searchResult.description = result.user.email;
+                searchResult.description = '';
+                searchResult.image = result.person.profilePicture?.small;
               }
               return searchResult;
             }) || []

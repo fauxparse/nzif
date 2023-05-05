@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
 import { HTMLMotionProps, motion } from 'framer-motion';
 
+import Avatar from '@/atoms/Avatar';
 import Icon from '@/atoms/Icon';
 
 import { SearchResult } from './Search.types';
@@ -21,6 +22,7 @@ const Result = forwardRef<HTMLDivElement, ResultProps>(({ active, ...props }: Re
     description = null,
     loading = false,
     icon = undefined,
+    image = undefined,
     ...resultProps
   } = props as ResultProps & Partial<SearchResult>;
 
@@ -33,7 +35,13 @@ const Result = forwardRef<HTMLDivElement, ResultProps>(({ active, ...props }: Re
       aria-busy={loading}
       {...resultProps}
     >
-      {loading ? <span className="icon--skeleton" /> : <Icon name={icon} />}
+      {loading ? (
+        <span className="icon--skeleton" />
+      ) : icon === 'user' ? (
+        <Avatar name={title} url={image} />
+      ) : (
+        <Icon name={icon} />
+      )}
       <div className="search__result__text">
         <div className="search__result__title">{!loading && title}</div>
         <div className="search__result__description">{!loading && description}</div>
