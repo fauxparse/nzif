@@ -21,7 +21,7 @@ module Mutations
         )
         raise GraphQL::ExecutionError, 'Could not update the preference' unless result.success?
 
-        preference.to_graphql_object_for(current_user)
+        { preference: preference.to_graphql_object_for(current_user) }
       end
     end
   end

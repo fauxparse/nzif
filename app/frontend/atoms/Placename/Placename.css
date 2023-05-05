@@ -21,4 +21,28 @@
       fill-rule: evenodd;
     }
   }
+
+  &__popover {
+    max-width: 20rem;
+    white-space: normal;
+
+    .popover__body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--small);
+      align-items: stretch;
+      min-width: 0;
+      padding: var(--spacing);
+    }
+
+    p {
+      min-width: 0;
+      margin: 0 0 var(--small);
+      text-align: left;
+    }
+
+    .button {
+      width: auto;
+    }
+  }
 }

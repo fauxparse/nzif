@@ -84,15 +84,6 @@ export const Popover: React.FC<PopoverProps> = ({
     refs.setReference(reference);
   }, [refs, reference]);
 
-  // useEffect(() => {
-  //   if (open) {
-  //     document.getElementById('root')?.setAttribute('inert', 'true');
-  //     return () => document.getElementById('root')?.removeAttribute('inert');
-  //   } else {
-  //     document.getElementById('root')?.removeAttribute('inert');
-  //   }
-  // }, [open]);
-
   return (
     <PopoverContext.Provider value={{ open, setOpen: onOpenChange }}>
       <AnimatePresence>

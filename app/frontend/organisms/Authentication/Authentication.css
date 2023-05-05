@@ -6,7 +6,7 @@
   min-height: 100vh;
   min-height: 100dvh;
   min-height: 100svh;
-  background: linear-gradient(45deg, var(--accent9), var(--orange8));
+  background: linear-gradient(45deg, var(--accent6), var(--accent9));
   color: var(--text);
 
   &__form {

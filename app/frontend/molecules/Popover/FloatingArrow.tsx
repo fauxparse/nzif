@@ -38,6 +38,8 @@ export const FloatingArrow = React.forwardRef(function FloatingArrow(
     right: 'rotate(0deg)',
   }[side];
 
+  const sideOffset = side === 'top' || side === 'bottom' ? 9 : 7;
+
   return (
     <svg
       className={clsx('popover__arrow', className)}
@@ -53,7 +55,7 @@ export const FloatingArrow = React.forwardRef(function FloatingArrow(
         pointerEvents: 'none',
         [xOffsetProp]: arrowX,
         [yOffsetProp]: arrowY,
-        [side]: `calc(100% - ${7}px)`,
+        [side]: `calc(100% - ${sideOffset}px)`,
         transform: `${rotation}${style?.transform ? ` ${style.transform}` : ''}`,
       }}
     >

@@ -53,7 +53,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ container }) => {
     const header = container.current;
     if (!el || !header) return { left: 0, right: 0 };
 
-    if (header.clientWidth <= 1024) {
+    if (header.clientWidth <= 768) {
       const padding = parseFloat(getComputedStyle(header).paddingLeft || '0');
       const left = padding - el.getBoundingClientRect().left;
       const right = el.getBoundingClientRect().right - (header.clientWidth - padding);
