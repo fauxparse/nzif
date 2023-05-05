@@ -10,21 +10,21 @@ import { PlacenameContext } from './PlacenameProvider';
 import './Placename.css';
 
 const Placename: PlacenameComponent = forwardRef(
-  ({ as, className, name, indigenousName, showIndigenousNameByDefault, ...props }, ref) => {
+  ({ as, className, name, traditionalName, showTraditionalNameByDefault, ...props }, ref) => {
     const Component = (as || 'span') as ElementType;
 
-    const { showIndigenousNameByDefault: defaultSetting } = useContext(PlacenameContext);
+    const { showTraditionalNameByDefault: defaultSetting } = useContext(PlacenameContext);
 
-    const indigenousByDefault = showIndigenousNameByDefault ?? defaultSetting;
+    const traditionalByDefault = showTraditionalNameByDefault ?? defaultSetting;
 
-    if (indigenousName) {
+    if (traditionalName) {
       return (
-        <Tooltip content={indigenousByDefault ? name : indigenousName}>
+        <Tooltip content={traditionalByDefault ? name : traditionalName}>
           <Placename
             ref={ref}
             as={as}
             className={className}
-            name={indigenousByDefault ? indigenousName : name}
+            name={traditionalByDefault ? traditionalName : name}
             {...props}
           />
         </Tooltip>

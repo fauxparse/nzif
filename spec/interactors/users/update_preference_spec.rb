@@ -9,19 +9,19 @@ describe Users::UpdatePreference, type: :interactor do
     subject(:call) { described_class.call(user:, id:, value:, current_user:) }
 
     context 'with a valid preference' do
-      let(:id) { :show_indigenous_names }
+      let(:id) { :show_traditional_names }
       let(:value) { false }
 
       it 'stores the new value' do
-        expect { call }.to change(user, :show_indigenous_names).from(true).to(false)
+        expect { call }.to change(user, :show_traditional_names).from(true).to(false)
       end
 
       context 'when the user has an existing setting' do
-        let(:user) { create(:user, show_indigenous_names: false) }
+        let(:user) { create(:user, show_traditional_names: false) }
         let(:value) { true }
 
         it 'stores the new value' do
-          expect { call }.to change(user, :show_indigenous_names).from(false).to(true)
+          expect { call }.to change(user, :show_traditional_names).from(false).to(true)
         end
       end
     end

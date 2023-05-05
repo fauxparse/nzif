@@ -1732,6 +1732,34 @@
           "possibleTypes": null,
           "fields": [
             {
+              "name": "city",
+              "description": "City",
+              "type": {
+                "kind": "OBJECT",
+                "name": "PlaceName",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "country",
+              "description": "Country",
+              "type": {
+                "kind": "OBJECT",
+                "name": "PlaceName",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
               "name": "id",
               "description": "Unique ID",
               "type": {
@@ -1768,7 +1796,7 @@
               ]
             },
             {
-              "name": "profilePicture",
+              "name": "picture",
               "description": "Profile picture",
               "type": {
                 "kind": "OBJECT",
@@ -1889,6 +1917,69 @@
           "enumValues": null
         },
         {
+          "kind": "OBJECT",
+          "name": "PlaceName",
+          "description": "A place name",
+          "interfaces": [
+
+          ],
+          "possibleTypes": null,
+          "fields": [
+            {
+              "name": "id",
+              "description": "Unique ID",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "name",
+              "description": "English name",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "traditionalName",
+              "description": "traditional name",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            }
+          ],
+          "inputFields": null,
+          "enumValues": null
+        },
+        {
           "kind": "INTERFACE",
           "name": "Preference",
           "description": "A user preference",
@@ -1981,69 +2072,6 @@
               "deprecationReason": null
             }
           ],
-          "enumValues": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "Profile",
-          "description": "A profile that may or may not be connected to a user",
-          "interfaces": [
-
-          ],
-          "possibleTypes": null,
-          "fields": [
-            {
-              "name": "id",
-              "description": "Unique ID",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null,
-              "args": [
-
-              ]
-            },
-            {
-              "name": "name",
-              "description": "Name",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null,
-              "args": [
-
-              ]
-            },
-            {
-              "name": "picture",
-              "description": "Profile picture",
-              "type": {
-                "kind": "OBJECT",
-                "name": "ProfilePicture",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null,
-              "args": [
-
-              ]
-            }
-          ],
-          "inputFields": null,
           "enumValues": null
         },
         {
@@ -3176,7 +3204,7 @@
               "description": "Profile information",
               "type": {
                 "kind": "OBJECT",
-                "name": "Profile",
+                "name": "Person",
                 "ofType": null
               },
               "isDeprecated": false,

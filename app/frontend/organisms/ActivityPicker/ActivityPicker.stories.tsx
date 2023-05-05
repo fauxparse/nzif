@@ -2,9 +2,10 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { kebabCase, uniqueId } from 'lodash-es';
 
-import { ActivityResult, ActivityType } from '@/graphql/types';
+import { ActivityType } from '@/graphql/types';
 
 import { ActivityPicker } from './ActivityPicker';
+import { ActivityResult } from './ActivityPicker.types';
 
 type Story = StoryObj<typeof ActivityPicker>;
 
@@ -50,6 +51,7 @@ const WORKSHOPS = [
     description: 'Workshop',
     url: '',
     activity: {
+      __typename: 'Workshop',
       id: uniqueId(),
       name,
       slug: kebabCase(name),

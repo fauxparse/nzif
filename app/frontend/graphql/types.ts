@@ -305,12 +305,16 @@ export type PageResult = SearchResult & {
 /** A profile that may or may not be connected to a user */
 export type Person = {
   __typename: 'Person';
+  /** City */
+  city: Maybe<PlaceName>;
+  /** Country */
+  country: Maybe<PlaceName>;
   /** Unique ID */
   id: Scalars['ID'];
   /** Name */
   name: Scalars['String'];
   /** Profile picture */
-  profilePicture: Maybe<ProfilePicture>;
+  picture: Maybe<ProfilePicture>;
 };
 
 /** A search result from a person */
@@ -328,6 +332,17 @@ export type PersonResult = SearchResult & {
   url: Scalars['String'];
 };
 
+/** A place name */
+export type PlaceName = {
+  __typename: 'PlaceName';
+  /** Unique ID */
+  id: Scalars['ID'];
+  /** English name */
+  name: Scalars['String'];
+  /** traditional name */
+  traditionalName: Maybe<Scalars['String']>;
+};
+
 /** A user preference */
 export type Preference = {
   /** Preference description */
@@ -342,17 +357,6 @@ export type PreferenceValue = {
   boolean: InputMaybe<Scalars['Boolean']>;
   /** The new value for the preference as a string */
   string: InputMaybe<Scalars['String']>;
-};
-
-/** A profile that may or may not be connected to a user */
-export type Profile = {
-  __typename: 'Profile';
-  /** Unique ID */
-  id: Scalars['ID'];
-  /** Name */
-  name: Scalars['String'];
-  /** Profile picture */
-  picture: Maybe<ProfilePicture>;
 };
 
 /** A profile picture */
@@ -551,7 +555,7 @@ export type User = {
   /** Name */
   name: Scalars['String'];
   /** Profile information */
-  profile: Maybe<Profile>;
+  profile: Maybe<Person>;
   /** Authorized roles */
   roles: Array<Role>;
 };
@@ -686,12 +690,12 @@ type PreferenceValueFragment_StringPreference_Fragment = { __typename: 'StringPr
 
 export type PreferenceValueFragmentFragment = PreferenceValueFragment_BooleanPreference_Fragment | PreferenceValueFragment_StringPreference_Fragment;
 
-export type AuthenticatedUserFragment = { __typename: 'User', id: string, name: string, profile: { __typename: 'Profile', picture: { __typename: 'ProfilePicture', small: string } | null } | null };
+export type AuthenticatedUserFragment = { __typename: 'User', id: string, name: string, profile: { __typename: 'Person', picture: { __typename: 'ProfilePicture', small: string } | null } | null };
 
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename: 'Query', user: { __typename: 'User', id: string, name: string, profile: { __typename: 'Profile', picture: { __typename: 'ProfilePicture', small: string } | null } | null } | null };
+export type CurrentUserQuery = { __typename: 'Query', user: { __typename: 'User', id: string, name: string, profile: { __typename: 'Person', picture: { __typename: 'ProfilePicture', small: string } | null } | null } | null };
 
 export type LogInMutationVariables = Exact<{
   email: Scalars['String'];
@@ -699,7 +703,7 @@ export type LogInMutationVariables = Exact<{
 }>;
 
 
-export type LogInMutation = { __typename: 'Mutation', userLogin: { __typename: 'UserLoginPayload', user: { __typename: 'User', id: string, name: string, profile: { __typename: 'Profile', picture: { __typename: 'ProfilePicture', small: string } | null } | null }, credentials: { __typename: 'Credential', accessToken: string, client: string, uid: string } } | null };
+export type LogInMutation = { __typename: 'Mutation', userLogin: { __typename: 'UserLoginPayload', user: { __typename: 'User', id: string, name: string, profile: { __typename: 'Person', picture: { __typename: 'ProfilePicture', small: string } | null } | null }, credentials: { __typename: 'Credential', accessToken: string, client: string, uid: string } } | null };
 
 export type LogOutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -713,7 +717,7 @@ export type SignUpMutationVariables = Exact<{
 }>;
 
 
-export type SignUpMutation = { __typename: 'Mutation', userRegister: { __typename: 'UserRegisterPayload', user: { __typename: 'User', id: string, name: string, profile: { __typename: 'Profile', picture: { __typename: 'ProfilePicture', small: string } | null } | null }, credentials: { __typename: 'Credential', accessToken: string, client: string, uid: string } | null } | null };
+export type SignUpMutation = { __typename: 'Mutation', userRegister: { __typename: 'UserRegisterPayload', user: { __typename: 'User', id: string, name: string, profile: { __typename: 'Person', picture: { __typename: 'ProfilePicture', small: string } | null } | null }, credentials: { __typename: 'Credential', accessToken: string, client: string, uid: string } | null } | null };
 
 export type ResetPasswordMutationVariables = Exact<{
   email: Scalars['String'];
@@ -732,7 +736,7 @@ export type SearchQueryVariables = Exact<{
 }>;
 
 
-export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'ActivityResult', id: string, title: string, description: string | null, url: string, activity: { __typename: 'Show', id: string, name: string, type: ActivityType } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType } | { __typename: 'Workshop', id: string, name: string, type: ActivityType } } | { __typename: 'PageResult', lede: string | null, id: string, title: string, description: string | null, url: string } | { __typename: 'PersonResult', id: string, title: string, description: string | null, url: string, person: { __typename: 'Person', id: string, name: string, profilePicture: { __typename: 'ProfilePicture', id: string, small: string } | null } } | { __typename: 'VenueResult', id: string, title: string, description: string | null, url: string, venue: { __typename: 'Venue', id: string, room: string | null, building: string, address: string } }> };
+export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'ActivityResult', id: string, title: string, description: string | null, url: string, activity: { __typename: 'Show', id: string, name: string, type: ActivityType } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType } | { __typename: 'Workshop', id: string, name: string, type: ActivityType } } | { __typename: 'PageResult', id: string, title: string, description: string | null, url: string } | { __typename: 'PersonResult', id: string, title: string, description: string | null, url: string, person: { __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string } | null } } | { __typename: 'VenueResult', id: string, title: string, description: string | null, url: string, venue: { __typename: 'Venue', id: string, room: string | null, building: string, address: string } }> };
 
 export type ActivitySearchQueryVariables = Exact<{
   query: Scalars['String'];
@@ -1166,9 +1170,6 @@ export const SearchDocument = gql`
     title
     description
     url
-    ... on PageResult {
-      lede
-    }
     ... on ActivityResult {
       activity {
         id
@@ -1180,7 +1181,15 @@ export const SearchDocument = gql`
       person {
         id
         name
-        profilePicture {
+        city {
+          name
+          traditionalName
+        }
+        country {
+          name
+          traditionalName
+        }
+        picture {
           id
           small
         }

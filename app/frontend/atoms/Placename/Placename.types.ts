@@ -4,8 +4,8 @@ import { Polymorphic, WithDisplayName } from '@/types/polymorphic.types';
 
 export type BasePlacenameProps = {
   name: string;
-  indigenousName?: string;
-  showIndigenousNameByDefault?: boolean;
+  traditionalName?: string;
+  showTraditionalNameByDefault?: boolean;
 };
 
 export type PlacenameProps<C extends ElementType = 'span'> = Polymorphic<C, BasePlacenameProps>;

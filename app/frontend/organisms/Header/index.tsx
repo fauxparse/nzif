@@ -40,7 +40,7 @@ const Header: React.FC = () => {
     return (
       <>
         {dateRange(festival.startDate, festival.endDate)} in{' '}
-        <Placename name="Wellington" indigenousName="Te Whanganui-a-Tara" />
+        <Placename name="Wellington" traditionalName="Te Whanganui-a-Tara" />
       </>
     );
   }, [festival]);

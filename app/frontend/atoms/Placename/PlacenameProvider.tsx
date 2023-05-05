@@ -3,23 +3,23 @@ import React, { createContext, PropsWithChildren } from 'react';
 import usePreference from '@/hooks/usePreference';
 
 export const PlacenameContext = createContext({
-  showIndigenousNameByDefault: true,
-  setShowIndigenousNameByDefault: () => void 0,
+  showTraditionalNameByDefault: true,
+  setShowTraditionalNameByDefault: () => void 0,
 } as {
-  showIndigenousNameByDefault: boolean;
-  setShowIndigenousNameByDefault: (value: boolean) => void;
+  showTraditionalNameByDefault: boolean;
+  setShowTraditionalNameByDefault: (value: boolean) => void;
 });
 
 const PlacenameProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [showIndigenousNameByDefault, setShowIndigenousNameByDefault] = usePreference<boolean>(
-    'showIndigenousNames',
+  const [showTraditionalNameByDefault, setShowTraditionalNameByDefault] = usePreference<boolean>(
+    'showTraditionalNames',
     true
   );
   return (
     <PlacenameContext.Provider
       value={{
-        showIndigenousNameByDefault: showIndigenousNameByDefault ?? true,
-        setShowIndigenousNameByDefault,
+        showTraditionalNameByDefault: showTraditionalNameByDefault ?? true,
+        setShowTraditionalNameByDefault,
       }}
     >
       {children}

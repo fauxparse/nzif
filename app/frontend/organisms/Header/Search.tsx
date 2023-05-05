@@ -10,6 +10,7 @@ import {
   SearchResult as BaseSearchResult,
   useSearchLazyQuery,
 } from '@/graphql/types';
+import usePreference from '@/hooks/usePreference';
 import Search from '@/molecules/Search';
 import { SearchResult } from '@/molecules/Search/Search.types';
 
@@ -34,6 +35,19 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ container }) => {
   const [search] = useSearchLazyQuery();
 
   const navigate = useNavigate();
+
+  const [showTraditionalNameByDefault] = usePreference<boolean>('showTraditionalNames', true);
+
+  const location = useCallback(
+    ({ person }: PersonResult) => {
+      const key = showTraditionalNameByDefault ? 'traditionalName' : 'name';
+      return [person.city, person.country]
+        .map((place) => place?.[key])
+        .filter(Boolean)
+        .join(', ');
+    },
+    [showTraditionalNameByDefault]
+  );
 
   const measureSearch = (el: HTMLDivElement) => {
     const header = container.current;
@@ -75,15 +89,15 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ container }) => {
               }
               if (isPersonResult(result)) {
                 searchResult.icon = 'user';
-                searchResult.description = '';
-                searchResult.image = result.person.profilePicture?.small;
+                searchResult.description = location(result);
+                searchResult.image = result.person.picture?.small;
               }
               return searchResult;
             }) || []
           )
         )
       ),
-    [search]
+    [search, location]
   );
 
   const searchResultClicked = (result: SearchResult) => navigate(result.url);

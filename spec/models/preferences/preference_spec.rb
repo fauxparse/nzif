@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Preferences::Preference do
   subject(:preference) { User.preferences[name] }
 
-  let(:name) { :show_indigenous_names }
+  let(:name) { :show_traditional_names }
   let(:user) { create(:user) }
 
   describe '#read_from' do

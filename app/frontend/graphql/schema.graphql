@@ -423,6 +423,16 @@ A profile that may or may not be connected to a user
 """
 type Person {
   """
+  City
+  """
+  city: PlaceName
+
+  """
+  Country
+  """
+  country: PlaceName
+
+  """
   Unique ID
   """
   id: ID!
@@ -435,7 +445,7 @@ type Person {
   """
   Profile picture
   """
-  profilePicture: ProfilePicture
+  picture: ProfilePicture
 }
 
 """
@@ -469,6 +479,26 @@ type PersonResult implements SearchResult {
 }
 
 """
+A place name
+"""
+type PlaceName {
+  """
+  Unique ID
+  """
+  id: ID!
+
+  """
+  English name
+  """
+  name: String!
+
+  """
+  traditional name
+  """
+  traditionalName: String
+}
+
+"""
 A user preference
 """
 interface Preference {
@@ -496,26 +526,6 @@ input PreferenceValue {
   The new value for the preference as a string
   """
   string: String
-}
-
-"""
-A profile that may or may not be connected to a user
-"""
-type Profile {
-  """
-  Unique ID
-  """
-  id: ID!
-
-  """
-  Name
-  """
-  name: String!
-
-  """
-  Profile picture
-  """
-  picture: ProfilePicture
 }
 
 """
@@ -882,7 +892,7 @@ type User {
   """
   Profile information
   """
-  profile: Profile
+  profile: Person
 
   """
   Authorized roles

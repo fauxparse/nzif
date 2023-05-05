@@ -288,6 +288,41 @@ ALTER SEQUENCE public.slots_id_seq OWNED BY public.slots.id;
 
 
 --
+-- Name: translations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.translations (
+    id bigint NOT NULL,
+    locale character varying,
+    key character varying,
+    value text,
+    interpolations text,
+    is_proc boolean DEFAULT false NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: translations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.translations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: translations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.translations_id_seq OWNED BY public.translations.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -406,6 +441,13 @@ ALTER TABLE ONLY public.slots ALTER COLUMN id SET DEFAULT nextval('public.slots_
 
 
 --
+-- Name: translations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.translations ALTER COLUMN id SET DEFAULT nextval('public.translations_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -473,6 +515,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.slots
     ADD CONSTRAINT slots_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: translations translations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.translations
+    ADD CONSTRAINT translations_pkey PRIMARY KEY (id);
 
 
 --
@@ -677,6 +727,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230429111227'),
 ('20230429195143'),
 ('20230504010958'),
-('20230504035331');
+('20230504035331'),
+('20230505181302');
 
 

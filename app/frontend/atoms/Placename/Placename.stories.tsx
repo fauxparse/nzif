@@ -11,8 +11,8 @@ export default {
   argTypes: {},
   args: {
     name: 'Wellington',
-    indigenousName: 'Te Whanganui-a-Tara',
-    showIndigenousNameByDefault: true,
+    traditionalName: 'Te Whanganui-a-Tara',
+    showTraditionalNameByDefault: true,
   },
   render: (args) => <Placename {...args} />,
 } satisfies Meta<typeof Placename>;

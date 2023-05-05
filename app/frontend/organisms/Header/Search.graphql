@@ -5,10 +5,6 @@ query Search($query: String!) {
     description
     url
 
-    ... on PageResult {
-      lede
-    }
-
     ... on ActivityResult {
       activity {
         id
@@ -21,8 +17,16 @@ query Search($query: String!) {
       person {
         id
         name
+        city {
+          name
+          traditionalName
+        }
+        country {
+          name
+          traditionalName
+        }
 
-        profilePicture {
+        picture {
           id
           small
         }

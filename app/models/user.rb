@@ -11,8 +11,8 @@ class User < ApplicationRecord
 
   before_validation :populate_profile
 
-  preference :show_indigenous_names, type: :boolean, default: true,
-    description: 'Show indigenous placenames'
+  preference :show_traditional_names, type: :boolean, default: true,
+    description: 'Show traditional placenames'
 
   validates :name,
     presence: true,
