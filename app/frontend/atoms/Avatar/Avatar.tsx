@@ -11,12 +11,25 @@ import './Avatar.css';
 const useCustomAvatar = <T extends AvatarVariants>(props: T): T =>
   extractVariants(AVATAR_VARIANTS, props);
 
+const initialize = (name: string) =>
+  name
+    .split(/\s+/)
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase();
+
 export const Avatar: React.FC<AvatarProps> = ({ className, url, name, children, ...props }) => {
   const { size, ...avatarProps } = useCustomAvatar(props);
 
   return (
     <div className={clsx('avatar', className)} data-size={size} {...avatarProps}>
-      {url ? <img src={url} alt={name} /> : <Icon name="user" />}
+      {url && name ? (
+        <img src={url} alt={name} />
+      ) : name ? (
+        <span className="avatar__initials">{initialize(name)}</span>
+      ) : (
+        <Icon name="user" />
+      )}
     </div>
   );
 };

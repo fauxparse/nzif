@@ -1,0 +1,75 @@
+.person-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  align-items: center;
+  padding: 3px;
+  font: inherit;
+  cursor: text;
+
+  &__person {
+    display: flex;
+    gap: var(--small);
+    align-items: center;
+    padding: 0 7px;
+    border: var(--border-width-standard) solid var(--neutral6);
+    border-radius: var(--border-radius-standard);
+    background: var(--background);
+    line-height: 1.875;
+    cursor: pointer;
+
+    &[data-active] {
+      border-color: var(--accent8);
+      background: var(--accent3);
+    }
+  }
+
+  &__name {
+    font: inherit;
+  }
+
+  &__delete {
+    --icon-size: 1rem;
+
+    color: var(--text-subtle);
+
+    path {
+      stroke-width: 2;
+    }
+  }
+
+  &__input {
+    height: 2rem;
+    padding: 0 var(--small);
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    outline: none;
+    font: inherit;
+    appearance: none;
+  }
+
+  &__menu {
+    z-index: var(--z-index-search);
+  }
+
+  .input-group {
+    align-items: center;
+    min-width: 0;
+    padding: 0 var(--small);
+
+    &:first-child {
+      padding-left: var(--tiny);
+    }
+
+    &__icon {
+      flex: 0 0 auto;
+      margin: 0;
+      opacity: 0.5;
+    }
+
+    input {
+      line-height: 1.875;
+    }
+  }
+}

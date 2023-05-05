@@ -53,7 +53,7 @@
     border-color: var(--input-hover);
   }
 
-  &:where(:focus) {
+  &:where(:focus,:focus-within) {
     border-color: var(--input-focus);
     outline-width: var(--focus-width);
   }

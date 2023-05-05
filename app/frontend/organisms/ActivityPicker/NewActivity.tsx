@@ -11,6 +11,7 @@ import Input from '@/atoms/Input';
 import { Activity, ActivityType } from '@/graphql/types';
 import AutoResize from '@/helpers/AutoResize';
 import InputGroup from '@/molecules/InputGroup';
+import PersonPicker from '@/molecules/PersonPicker';
 import Popover, { usePopoverContext } from '@/molecules/Popover';
 import activityTypeLabel from '@/util/activityTypeLabel';
 
@@ -37,6 +38,12 @@ type NewActivityProps = {
 };
 
 const slugify = (name: string) => kebabCase(deburr(name)).substring(0, 32);
+
+const PRESENTER_LABELS: { [key in ActivityType]: string } = {
+  Show: 'Director',
+  Workshop: 'Tutor',
+  SocialEvent: 'Organiser',
+};
 
 export const NewActivity: React.FC<NewActivityProps> = ({
   activityType,
@@ -91,6 +98,12 @@ export const NewActivity: React.FC<NewActivityProps> = ({
     onCreate(activityType, attributes).then(() => setOpen(false));
   };
 
+  const presenters = [] as { id: string; name: string }[];
+  const handleSearchPresenters = () => Promise.resolve([]);
+  const handleChangePresenters = () => void 0;
+  const handleCreatePresenter = (presenter: { id: string; name: string }) =>
+    Promise.resolve(presenter);
+
   return (
     <>
       <header className="activity-picker__header">
@@ -128,10 +141,13 @@ export const NewActivity: React.FC<NewActivityProps> = ({
             </InputGroup>
             <FormError errors={errors} field="slug" />
           </div>
-          <InputGroup disabled>
-            <InputGroup.Icon name="user" />
-            <Input placeholder="Tutor" />
-          </InputGroup>
+          <PersonPicker
+            placeholder={PRESENTER_LABELS[activityType]}
+            value={presenters}
+            onSearch={handleSearchPresenters}
+            onChange={handleChangePresenters}
+            onCreate={handleCreatePresenter}
+          />
           <div className="buttons">
             <Button ghost text="Cancel" onClick={() => setOpen(false)} />
             <Button

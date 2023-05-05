@@ -20,6 +20,6 @@ export type AvatarVariants = PropsWithVariants<typeof AVATAR_VARIANTS>;
 
 export type AvatarProps = Omit<ComponentPropsWithoutRef<'div'>, 'size'> &
   AvatarVariants & {
-    url: Maybe<string>;
-    name: string;
+    url?: Maybe<string>;
+    name?: Maybe<string>;
   };

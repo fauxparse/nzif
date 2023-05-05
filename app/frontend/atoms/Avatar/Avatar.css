@@ -7,7 +7,7 @@
 :where(.avatar) {
   display: grid;
   grid-template: 1fr / 1fr;
-  place-items: stretch;
+  place-items: center;
   overflow: hidden;
   border-radius: 50%;
   color: var(--text-subtle);
@@ -17,6 +17,21 @@
   > img {
     width: 100%;
     height: auto;
+  }
+
+  :where(.avatar__initials) {
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background-color: var(--text-subtle);
+    color: var(--background);
+    font-weight: var(--font-weight-medium);
+    font-size: 0.75rem;
+    line-height: 1;
+    letter-spacing: 0.1em;
   }
 
   &:where([data-size="small"]) {

@@ -33,8 +33,15 @@ export const Default: Story = {
   args: {},
 };
 
+export const Initials: Story = {
+  args: {
+    name: 'Lauren Ipsum',
+  },
+};
+
 export const Image: Story = {
   args: {
+    name: 'Lauren Ipsum',
     url: 'https://doodleipsum.com/128x128/avatar',
   },
 };
