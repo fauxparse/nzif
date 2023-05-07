@@ -1,8 +1,8 @@
-class Person < ApplicationRecord
+class Cast < ApplicationRecord
   belongs_to :activity, polymorphic: true
   belongs_to :profile
 
-  validates :role, presence: true
+  validates :role, :activity_id, presence: true
   validate :valid_role, if: :role?
 
   acts_as_list scope: %i[activity_id role], top_of_list: 0
@@ -16,7 +16,7 @@ class Person < ApplicationRecord
   private
 
   def valid_role
-    return if !activity || activity.class.roles.include?(role.to_sym)
+    return if !activity || activity.valid_cast_roles.include?(role.to_sym)
 
     errors.add(:role, "is not valid for a #{activity.class.humanize}")
   end

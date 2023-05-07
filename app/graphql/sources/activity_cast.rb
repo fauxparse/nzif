@@ -8,7 +8,7 @@ module Sources
     end
 
     def fetch(activity_ids)
-      records = Person.where(activity_id: activity_ids).includes(profile: :user)
+      records = Cast.where(activity_id: activity_ids).includes(profile: :user)
       records = records.where(role:) if role
       activity_ids.map { |id| records.select { |r| r.activity_id == id } }
     end

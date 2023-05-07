@@ -141,6 +141,41 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: cast; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."cast" (
+    id bigint NOT NULL,
+    activity_type character varying NOT NULL,
+    activity_id bigint NOT NULL,
+    profile_id bigint NOT NULL,
+    role character varying NOT NULL,
+    "position" integer DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: cast_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cast_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cast_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.cast_id_seq OWNED BY public."cast".id;
+
+
+--
 -- Name: festivals; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -170,41 +205,6 @@ CREATE SEQUENCE public.festivals_id_seq
 --
 
 ALTER SEQUENCE public.festivals_id_seq OWNED BY public.festivals.id;
-
-
---
--- Name: people; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.people (
-    id bigint NOT NULL,
-    activity_type character varying NOT NULL,
-    activity_id bigint NOT NULL,
-    profile_id bigint NOT NULL,
-    role character varying NOT NULL,
-    "position" integer DEFAULT 0 NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
--- Name: people_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.people_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: people_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.people_id_seq OWNED BY public.people.id;
 
 
 --
@@ -243,38 +243,6 @@ CREATE SEQUENCE public.profiles_id_seq
 --
 
 ALTER SEQUENCE public.profiles_id_seq OWNED BY public.profiles.id;
-
-
---
--- Name: roles; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.roles (
-    id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    name public.role_name,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
--- Name: roles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.roles_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.roles_id_seq OWNED BY public.roles.id;
 
 
 --
@@ -380,7 +348,8 @@ CREATE TABLE public.users (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     preferences public.hstore DEFAULT ''::public.hstore NOT NULL,
-    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('english'::regconfig, public.my_concat(' '::text, regexp_split_to_array((COALESCE(email, ''::character varying))::text, '[.@]'::text))), 'B'::"char"))) STORED
+    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('english'::regconfig, public.my_concat(' '::text, regexp_split_to_array((COALESCE(email, ''::character varying))::text, '[.@]'::text))), 'B'::"char"))) STORED,
+    roles public.role_name[] DEFAULT '{}'::public.role_name[]
 );
 
 
@@ -448,6 +417,13 @@ ALTER TABLE ONLY public.activities ALTER COLUMN id SET DEFAULT nextval('public.a
 
 
 --
+-- Name: cast id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."cast" ALTER COLUMN id SET DEFAULT nextval('public.cast_id_seq'::regclass);
+
+
+--
 -- Name: festivals id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -455,24 +431,10 @@ ALTER TABLE ONLY public.festivals ALTER COLUMN id SET DEFAULT nextval('public.fe
 
 
 --
--- Name: people id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.people ALTER COLUMN id SET DEFAULT nextval('public.people_id_seq'::regclass);
-
-
---
 -- Name: profiles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.profiles ALTER COLUMN id SET DEFAULT nextval('public.profiles_id_seq'::regclass);
-
-
---
--- Name: roles id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.roles ALTER COLUMN id SET DEFAULT nextval('public.roles_id_seq'::regclass);
 
 
 --
@@ -520,6 +482,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
+-- Name: cast cast_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."cast"
+    ADD CONSTRAINT cast_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: festivals festivals_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -528,27 +498,11 @@ ALTER TABLE ONLY public.festivals
 
 
 --
--- Name: people people_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.people
-    ADD CONSTRAINT people_pkey PRIMARY KEY (id);
-
-
---
 -- Name: profiles profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.profiles
     ADD CONSTRAINT profiles_pkey PRIMARY KEY (id);
-
-
---
--- Name: roles roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.roles
-    ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
 
 
 --
@@ -613,24 +567,24 @@ CREATE INDEX index_activities_on_searchable ON public.activities USING gin (sear
 
 
 --
+-- Name: index_cast_on_profile_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cast_on_profile_id ON public."cast" USING btree (profile_id);
+
+
+--
 -- Name: index_people; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_people ON public.people USING btree (activity_id, activity_type, role, profile_id);
+CREATE UNIQUE INDEX index_people ON public."cast" USING btree (activity_id, activity_type, role, profile_id);
 
 
 --
 -- Name: index_people_on_activity; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_people_on_activity ON public.people USING btree (activity_type, activity_id);
-
-
---
--- Name: index_people_on_profile_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_people_on_profile_id ON public.people USING btree (profile_id);
+CREATE INDEX index_people_on_activity ON public."cast" USING btree (activity_type, activity_id);
 
 
 --
@@ -638,27 +592,6 @@ CREATE INDEX index_people_on_profile_id ON public.people USING btree (profile_id
 --
 
 CREATE INDEX index_profiles_on_user_id ON public.profiles USING btree (user_id);
-
-
---
--- Name: index_roles_on_name; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_roles_on_name ON public.roles USING btree (name);
-
-
---
--- Name: index_roles_on_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_roles_on_user_id ON public.roles USING btree (user_id);
-
-
---
--- Name: index_roles_on_user_id_and_name; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_roles_on_user_id_and_name ON public.roles USING btree (user_id, name);
 
 
 --
@@ -732,10 +665,10 @@ CREATE INDEX index_venues_on_latitude_and_longitude ON public.venues USING btree
 
 
 --
--- Name: people fk_rails_0cfc4c6b7a; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: cast fk_rails_0cfc4c6b7a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.people
+ALTER TABLE ONLY public."cast"
     ADD CONSTRAINT fk_rails_0cfc4c6b7a FOREIGN KEY (profile_id) REFERENCES public.profiles(id) ON DELETE RESTRICT;
 
 
@@ -753,14 +686,6 @@ ALTER TABLE ONLY public.slots
 
 ALTER TABLE ONLY public.slots
     ADD CONSTRAINT fk_rails_7ac879864b FOREIGN KEY (festival_id) REFERENCES public.festivals(id) ON DELETE CASCADE;
-
-
---
--- Name: roles fk_rails_ab35d699f0; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.roles
-    ADD CONSTRAINT fk_rails_ab35d699f0 FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
 
 
 --
@@ -808,6 +733,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230504010958'),
 ('20230504035331'),
 ('20230505181302'),
-('20230505234432');
+('20230505234432'),
+('20230507021310'),
+('20230507031607');
 
 

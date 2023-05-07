@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Users::MatchProfiles, type: :interactor do
-  let(:admin) { create(:user, :admin) }
+  let(:admin) { create(:admin) }
 
   describe '.call' do
     subject(:result) { described_class.call(user: admin) }

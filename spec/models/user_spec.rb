@@ -21,52 +21,47 @@ RSpec.describe User do
     it { is_expected.to be_empty }
 
     context 'for an admin user' do
-      let(:user) { create(:user, :admin) }
+      let(:user) { build_stubbed(:admin) }
 
       it { is_expected.not_to be_empty }
 
       it 'has the admin role' do
-        expect(roles).to include an_object_having_attributes(name: :admin)
+        expect(roles).to include(:admin)
       end
     end
 
     it 'allows << with a symbol' do
       user.roles << :admin
-      expect(user.role_names).to include(:admin)
+      expect(user.roles).to include(:admin)
     end
 
     it 'allows << with a string' do
       user.roles << 'admin'
-      expect(user.role_names).to include(:admin)
-    end
-
-    it 'allows << with a role' do
-      user.roles << Role.new(name: 'admin')
-      expect(user.role_names).to include(:admin)
+      expect(user.roles).to include(:admin)
     end
   end
 
   describe '#roles=' do
-    let(:user) { create(:user, :admin) }
+    let(:user) { create(:admin) }
 
     it 'can add roles' do
       user.roles = %i[admin participant_liaison]
-      expect(user.role_names).to include(:admin).and include(:participant_liaison)
+      expect(user.roles).to include(:admin).and include(:participant_liaison)
     end
 
     it 'can remove roles' do
       user.update!(roles: [])
-      expect(user.role_names).to be_empty
+      expect(user.roles).to be_empty
     end
   end
 
   describe '#admin?' do
-    subject(:admin?) { user.admin? }
+    subject(:admin?) { user.role?(:admin) }
 
     it { is_expected.to be false }
 
     context 'for an admin user' do
-      let(:user) { create(:user, :admin) }
+      let(:user) { build_stubbed(:admin) }
 
       it { is_expected.to be true }
     end

@@ -1,21 +1,35 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe SlotPolicy, type: :policy do
-  # See https://actionpolicy.evilmartians.io/#/testing?id=rspec-dsl
-  #
-  # let(:user) { build_stubbed :user }
-  # let(:record) { build_stubbed :post, draft: false }
-  # let(:context) { {user: user} }
+  let(:user) { build_stubbed(:user) }
 
-  describe_rule :index? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
+  let(:admin) { build_stubbed(:admin) }
+
+  let(:record) { build_stubbed(:workshop) }
+
+  let(:context) { { user: nil } }
 
   describe_rule :create? do
-    pending "add some examples to (or delete) #{__FILE__}"
+    failed 'when user is not logged in'
+
+    failed 'when the user is not an admin' do
+      let(:context) { { user: } }
+    end
+
+    succeed 'when the user is an admin' do
+      let(:context) { { user: admin } }
+    end
   end
 
   describe_rule :manage? do
-    pending "add some examples to (or delete) #{__FILE__}"
+    failed 'when user is not logged in'
+
+    failed 'when the user is not an admin' do
+      let(:context) { { user: } }
+    end
+
+    succeed 'when the user is an admin' do
+      let(:context) { { user: admin } }
+    end
   end
 end

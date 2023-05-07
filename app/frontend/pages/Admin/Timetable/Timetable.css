@@ -132,6 +132,10 @@
       white-space: nowrap;
     }
 
+    &__title {
+      font-weight: var(--font-weight-medium);
+    }
+
     .grid[data-selecting] & {
       pointer-events: none;
     }

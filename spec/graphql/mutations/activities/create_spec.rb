@@ -36,7 +36,7 @@ RSpec.describe Mutations::Activities::Create, type: :mutation do
   end
 
   context 'when logged in as admin' do
-    let(:current_user) { create(:user, :admin) }
+    let(:current_user) { create(:admin) }
 
     it 'creates an activity' do
       expect { result }.to change(Activity, :count).by(1)

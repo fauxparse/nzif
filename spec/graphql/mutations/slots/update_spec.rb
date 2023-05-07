@@ -28,7 +28,7 @@ RSpec.describe Mutations::Slots::Update, type: :mutation do
   end
 
   context 'when logged in as admin' do
-    let(:current_user) { create(:user, :admin) }
+    let(:current_user) { create(:admin) }
 
     it 'updates the slot' do
       expect { result }.to change { slot.reload.starts_at }.by(-1.hour)

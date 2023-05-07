@@ -3,45 +3,45 @@ require 'rails_helper'
 RSpec.describe ActivityPolicy, type: :policy do
   let(:user) { build_stubbed(:user) }
 
-  let(:admin) { create(:user, :admin) }
+  let(:admin) { build_stubbed(:admin) }
 
-  let(:workshop) { build_stubbed(:workshop) }
+  let(:record) { build_stubbed(:workshop) }
 
   let(:context) { { user: nil } }
 
   describe_rule :index? do
-    subject(:allowed) { policy.apply(:index?) }
+    succeed 'when user is not logged in'
 
-    it { is_expected.to be_truthy }
+    succeed 'when user is logged in' do
+      let(:context) { { user: } }
+    end
 
-    context 'when the user is an admin' do
+    succeed 'when user is logged in as admin' do
       let(:context) { { user: admin } }
-
-      it { is_expected.to be_truthy }
     end
   end
 
   describe_rule :create? do
-    subject(:allowed) { policy.apply(:create?) }
+    failed 'when user is not logged in'
 
-    it { is_expected.to be_falsy }
+    failed 'when the user is not an admin' do
+      let(:context) { { user: } }
+    end
 
-    context 'when the user is an admin' do
+    succeed 'when the user is an admin' do
       let(:context) { { user: admin } }
-
-      it { is_expected.to be_truthy }
     end
   end
 
   describe_rule :manage? do
-    subject(:allowed) { policy.apply(:manage?) }
+    failed 'when user is not logged in'
 
-    it { is_expected.to be false }
+    failed 'when the user is not an admin' do
+      let(:context) { { user: } }
+    end
 
-    context 'when the user is an admin' do
+    succeed 'when the user is an admin' do
       let(:context) { { user: admin } }
-
-      it { is_expected.to be true }
     end
   end
 end

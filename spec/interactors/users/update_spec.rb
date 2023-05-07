@@ -6,7 +6,7 @@ RSpec.describe Users::Update, type: :interactor do
 
     let(:user) { create(:user) }
 
-    let(:current_user) { create(:user, :admin) }
+    let(:current_user) { create(:admin) }
 
     context 'with valid attributes' do
       let(:attributes) { { name: 'Spicy Beef' } }
@@ -23,14 +23,14 @@ RSpec.describe Users::Update, type: :interactor do
     end
 
     context 'when a user is updating themself' do
-      let(:user) { create(:user, :admin) }
+      let(:user) { create(:admin) }
 
       let(:current_user) { user }
 
       let(:attributes) { { roles: [] } }
 
       it 'ignores changes to roles' do
-        expect { result }.not_to(change { user.reload.role_names })
+        expect { result }.not_to(change { user.reload.roles })
       end
     end
 

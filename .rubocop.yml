@@ -66,6 +66,10 @@ RSpec/ContextWording:
     - with
     - without
 
+RSpec/EmptyExampleGroup:
+  Exclude:
+    - 'spec/policies/**/*'
+
 RSpec/ExampleLength:
   Max: 10
 
@@ -77,6 +81,9 @@ RSpec/MultipleSubjects:
 
 RSpec/NestedGroups:
   Max: 5
+
+RSpec/RepeatedExample:
+  Enabled: false
 
 Style/BlockComments:
   Exclude:

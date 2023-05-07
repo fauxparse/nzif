@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Users::UpdatePreference, type: :interactor do
   let(:user) { create(:user) }
 
-  let(:current_user) { create(:user, :admin) }
+  let(:current_user) { create(:admin) }
 
   describe '.call' do
     subject(:call) { described_class.call(user:, id:, value:, current_user:) }

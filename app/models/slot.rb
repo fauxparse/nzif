@@ -1,4 +1,6 @@
 class Slot < ApplicationRecord
+  include Castable
+
   belongs_to :festival
   belongs_to :venue, optional: true
   belongs_to :activity, optional: true
@@ -25,6 +27,14 @@ class Slot < ApplicationRecord
 
   def activity_type=(value)
     super value.to_s
+  end
+
+  def self.role_type
+    :slot
+  end
+
+  def valid_cast_roles
+    Castable.roles_from_config[activity_type.to_s.underscore.to_sym][:slot]&.map(&:to_sym) || []
   end
 
   private

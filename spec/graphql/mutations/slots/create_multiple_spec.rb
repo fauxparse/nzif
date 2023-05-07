@@ -43,7 +43,7 @@ RSpec.describe Mutations::Slots::CreateMultiple, type: :mutation do
   end
 
   context 'when logged in as admin' do
-    let(:current_user) { create(:user, :admin) }
+    let(:current_user) { create(:admin) }
 
     it 'creates multiple slots' do
       expect { result }.to change(Slot, :count).by(2)

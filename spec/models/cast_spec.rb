@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe Person do
+RSpec.describe Cast do
   describe 'director' do
-    subject(:person) { build(:director, activity:) }
+    subject(:cast) { build(:director, activity:) }
 
     let(:activity) { create(:show) }
 

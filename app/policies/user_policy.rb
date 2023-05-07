@@ -7,6 +7,10 @@ class UserPolicy < ApplicationPolicy
     user.admin? || (user.id == record.id)
   end
 
+  def show?
+    user.admin? || (user.id == record.id)
+  end
+
   scope_for :relation do |relation|
     next relation if user.admin?
 

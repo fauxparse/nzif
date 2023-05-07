@@ -8,7 +8,6 @@ class Activity < ApplicationRecord
   sluggable scope: %i[festival_id type]
 
   belongs_to :festival
-  has_many :people, dependent: :destroy, autosave: true, inverse_of: :activity
 
   searchable_on :name, :description
 
@@ -25,5 +24,9 @@ class Activity < ApplicationRecord
 
   def self.humanize
     name.demodulize.underscore.humanize.downcase
+  end
+
+  def valid_cast_roles
+    self.class.valid_cast_roles(self.class)
   end
 end

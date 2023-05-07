@@ -4,8 +4,8 @@ class Profile < ApplicationRecord
   include Localizable
 
   belongs_to :user, optional: true, inverse_of: :profile
-  has_many :castings, class_name: 'Person', dependent: :destroy, inverse_of: :profile
-  has_many :activities, through: :castings, source: :activity
+  has_many :cast, dependent: :destroy, inverse_of: :profile
+  has_many :activities, through: :cast, source: :activity
 
   validates :name, presence: true
 
