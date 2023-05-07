@@ -21,6 +21,7 @@
     "@graphql-codegen/typescript": "^3.0.4",
     "@graphql-codegen/typescript-operations": "^3.0.4",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
+    "@modyfi/vite-plugin-yaml": "^1.0.4",
     "@ngneat/falso": "^6.4.0",
     "@storybook/addon-essentials": "^7.0.5",
     "@storybook/addon-interactions": "^7.0.5",

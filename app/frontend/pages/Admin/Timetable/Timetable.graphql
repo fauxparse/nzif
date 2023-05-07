@@ -3,6 +3,32 @@ fragment TimetableActivity on Activity {
   type
   name
   slug
+
+  ... on Workshop {
+    tutors {
+      ...TimetableCast
+    }
+  }
+
+  ... on Show {
+    directors {
+      ...TimetableCast
+    }
+  }
+
+  ... on SocialEvent {
+    organisers {
+      ...TimetableCast
+    }
+  }
+}
+
+fragment TimetableCast on Person {
+  id
+  name
+  picture {
+    small
+  }
 }
 
 fragment TimetableSlot on Slot {

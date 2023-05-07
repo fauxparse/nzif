@@ -1,0 +1,18 @@
+roles:
+  activities:
+    show:
+      activity:
+        - director
+      slot:
+        - host
+        - performer
+        - muso
+        - operator
+        - scorekeeper
+    workshop:
+      activity:
+        - tutor
+        - muso
+    social_event:
+      activity:
+        - organiser

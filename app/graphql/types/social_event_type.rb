@@ -1,5 +1,5 @@
 module Types
-  class SocialEventType < Types::BaseObject
+  class SocialEventType < Types::BaseActivity
     implements Types::ActivityType
 
     description 'A social event'

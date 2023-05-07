@@ -1,6 +1,6 @@
+import yaml from '@modyfi/vite-plugin-yaml';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import fonts from 'vite-plugin-fonts';
 import ruby from 'vite-plugin-ruby';
 import { configDefaults, defineConfig } from 'vitest/config';
 
@@ -10,21 +10,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, './app/frontend'),
     },
   },
-  plugins: [
-    ...(process.env.STORYBOOK ? [] : [ruby()]),
-    react(),
-    fonts({
-      custom: {
-        families: [
-          {
-            name: 'CooperStd',
-            local: 'Cooper Std',
-            src: './app/assets/fonts/*.otf',
-          },
-        ],
-      },
-    }),
-  ],
+  plugins: [...(process.env.STORYBOOK ? [] : [ruby()]), react(), yaml()],
   test: {
     globals: true,
     css: true,

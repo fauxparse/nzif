@@ -1,5 +1,5 @@
 module Types
-  class WorkshopType < Types::BaseObject
+  class WorkshopType < Types::BaseActivity
     implements Types::ActivityType
 
     description 'A workshop'

@@ -7,7 +7,7 @@ import App from '../App';
 import { client } from '../graphql';
 
 import './application.css';
-import 'virtual:fonts.css';
+// import 'virtual:fonts.css';
 
 // Example: Load Rails libraries in Vite.
 //

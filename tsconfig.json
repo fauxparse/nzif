@@ -17,8 +17,9 @@
     "jsx": "react-jsx",
     "paths": {
       "@/*": ["./app/frontend/*"]
-    }
+    },
+    "types": ["@modyfi/vite-plugin-yaml/modules"]
   },
-  "include": ["./app/frontend"],
+  "include": ["./app/frontend", "./config/roles.yml"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -12,7 +12,7 @@ module Resolvers
       description: 'Type of object to search for'
     argument :query, String, required: true, description: 'Text to search for'
 
-    def resolve(query:, only:, activity_type: nil, limit: 5)
+    def resolve(query:, only:, activity_type: nil, limit: 10)
       @activity_type = activity_type
 
       only.flat_map do |type|
@@ -25,11 +25,26 @@ module Resolvers
     attr_reader :activity_type
 
     def activity_matches(query:, limit:)
+      (
+        activity_scope.search(query).limit(limit) +
+        people_activity_matches(query:, limit:)
+      ).uniq.map { |activity| Hashie::Mash.new(activity:) }
+    end
+
+    def people_activity_matches(query:, limit:)
+      profile_ids = Profile.search(query).pluck(:id)
+      return [] if profile_ids.empty?
+
+      activity_scope
+        .joins(:people).references(:people)
+        .where(people: { profile_id: profile_ids })
+        .limit(limit)
+    end
+
+    def activity_scope
       scope = authorized_scope(Activity, type: :relation)
       scope = scope.by_type(activity_type) if activity_type.present?
-      scope.search(query).includes(:festival).limit(limit).map do |activity|
-        Hashie::Mash.new(activity:)
-      end
+      scope
     end
 
     def person_matches(query:, limit:)

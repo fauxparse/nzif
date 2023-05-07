@@ -1,5 +1,5 @@
 module Types
-  class ShowType < Types::BaseObject
+  class ShowType < Types::BaseActivity
     implements Types::ActivityType
 
     description 'A show'
