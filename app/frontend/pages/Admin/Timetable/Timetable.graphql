@@ -91,3 +91,11 @@ mutation UpdateSlot($id: ID!, $attributes: SlotAttributes!) {
     }
   }
 }
+
+mutation CreateProfile($attributes: ProfileAttributes!) {
+  createProfile(attributes: $attributes) {
+    profile {
+      ...TimetableCast
+    }
+  }
+}

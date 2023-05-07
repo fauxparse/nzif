@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { camelCase, deburr, kebabCase } from 'lodash-es';
@@ -8,10 +8,18 @@ import Button from '@/atoms/Button';
 import FormError from '@/atoms/FormError';
 import { IconName } from '@/atoms/Icon';
 import Input from '@/atoms/Input';
-import { Activity, ActivityType } from '@/graphql/types';
+import {
+  Activity,
+  ActivityAttributes,
+  ActivityType,
+  ProfileAttributes,
+  useCreateProfileMutation,
+  usePersonSearchLazyQuery,
+} from '@/graphql/types';
 import AutoResize from '@/helpers/AutoResize';
 import InputGroup from '@/molecules/InputGroup';
 import PersonPicker from '@/molecules/PersonPicker';
+import { Profile } from '@/molecules/PersonPicker/PersonPicker.types';
 import Popover, { usePopoverContext } from '@/molecules/Popover';
 import activityTypeLabel from '@/util/activityTypeLabel';
 
@@ -31,10 +39,7 @@ type NewActivityProps = {
   activityType: ActivityType;
   defaultName?: string;
   onBack: () => void;
-  onCreate: (
-    activityType: ActivityType,
-    attributes: Pick<Activity, 'name' | 'slug'>
-  ) => Promise<Activity>;
+  onCreate: (activityType: ActivityType, attributes: ActivityAttributes) => Promise<Activity>;
 };
 
 const slugify = (name: string) => kebabCase(deburr(name)).substring(0, 32);
@@ -94,15 +99,38 @@ export const NewActivity: React.FC<NewActivityProps> = ({
     return () => clearTimeout(timeout);
   }, []);
 
-  const handleCreate = (attributes: FormSchemaType) => {
-    onCreate(activityType, attributes).then(() => setOpen(false));
-  };
+  const [presenters, setPresenters] = useState<Profile[]>([]);
 
-  const presenters = [] as { id: string; name: string }[];
-  const handleSearchPresenters = () => Promise.resolve([]);
-  const handleChangePresenters = () => void 0;
-  const handleCreatePresenter = (presenter: { id: string; name: string }) =>
-    Promise.resolve(presenter);
+  const [createPresenter] = useCreateProfileMutation();
+
+  const [searchPresenters] = usePersonSearchLazyQuery();
+
+  const handleSearchPresenters = (query: string) =>
+    searchPresenters({ variables: { query } }).then(({ data }) =>
+      (data?.search || []).flatMap((result) => ('person' in result ? [result.person] : []))
+    );
+
+  const handleChangePresenters = setPresenters;
+  const handleCreatePresenter = ({ id, name, ...rest }: Profile) =>
+    new Promise<Profile>((resolve) => {
+      createPresenter({
+        variables: {
+          attributes: { name } as ProfileAttributes,
+        },
+      }).then(({ data }) => {
+        if (data?.createProfile?.profile) {
+          const profile = { ...data.createProfile.profile, ...rest } as Profile;
+          resolve(profile);
+          setPresenters((current) => [...current, profile]);
+        }
+      });
+    });
+
+  const handleCreate = (attributes: FormSchemaType) => {
+    onCreate(activityType, { ...attributes, profileIds: presenters.map((p) => p.id) }).then(() =>
+      setOpen(false)
+    );
+  };
 
   return (
     <>

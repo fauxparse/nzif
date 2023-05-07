@@ -22,11 +22,11 @@ module Authorizable
   end
 
   included do
-    serialize :roles, RoleSet, default: RoleSet.new
-
     roles.each do |name|
       define_method(:"#{name}?") { role?(name) }
     end
+
+    serialize :roles, RoleSet
   end
 
   def role?(name)

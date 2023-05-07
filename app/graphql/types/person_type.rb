@@ -9,7 +9,7 @@ module Types
     field :picture, Types::ProfilePictureType, null: true, description: 'Profile picture'
 
     def picture
-      object
+      object.picture && object
     end
 
     def city
@@ -17,7 +17,7 @@ module Types
     end
 
     def country
-      Hashie::Mash.new(name: object.country, locale: object.locale) if object.country?
+      Hashie::Mash.new(name: object.country.common_name, locale: object.locale) if object.country?
     end
   end
 end

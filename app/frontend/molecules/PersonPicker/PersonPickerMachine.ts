@@ -352,7 +352,9 @@ const PersonPickerMachine = createMachine(
           const ids = new Set(people.map(({ id }) => id));
           return [
             ...data.filter(({ id }) => !ids.has(id)),
-            { id: NEW_PERSON, name: currentSearch, temp: uniqueId() },
+            ...(currentSearch.match(/[^\s]\s+[^\s]/)
+              ? [{ id: NEW_PERSON, name: currentSearch, temp: uniqueId() }]
+              : []),
           ];
         },
       }),

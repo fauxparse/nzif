@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { uniqueId } from 'lodash-es';
 
 import { useTimetableContext } from '../../Context';
 import {
@@ -61,29 +60,30 @@ const ActivityPopover: React.FC<ActivityPopoverProps> = ({ activity, slot, ...pr
             attributes: attributes as ActivityAttributes,
             slotId: slot.id,
           },
-          optimisticResponse: {
-            __typename: 'Mutation',
-            createActivity: {
-              __typename: 'CreateActivityPayload',
-              activity: {
-                __typename: activityType,
-                id: uniqueId(),
-                type: activityType as ActivityType,
-                name: attributes.name || '',
-                slug: attributes.slug || '',
-              },
-              slot: {
-                ...slot,
-                activity: {
-                  __typename: activityType,
-                  id: uniqueId(),
-                  type: activityType as ActivityType,
-                  name: attributes.name || '',
-                  slug: attributes.slug || '',
-                },
-              },
-            },
-          },
+          // optimisticResponse: {
+          //   __typename: 'Mutation',
+          //   createActivity: {
+          //     __typename: 'CreateActivityPayload',
+          //     activity: {
+          //       __typename: activityType,
+          //       id: uniqueId(),
+          //       type: activityType as ActivityType,
+          //       name: attributes.name || '',
+          //       slug: attributes.slug || '',
+          //     },
+          //     slot: {
+          //       ...slot,
+          //       activity: {
+          //         __typename: activityType,
+          //         id: uniqueId(),
+          //         type: activityType as ActivityType,
+          //         name: attributes.name || '',
+          //         slug: attributes.slug || '',
+          //         tutors: [],
+          //       },
+          //     },
+          //   },
+          // },
         }).then(({ data }) => {
           if (!data?.createActivity?.activity) return reject();
           resolve(data.createActivity.activity);

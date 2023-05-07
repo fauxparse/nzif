@@ -120,6 +120,12 @@ export const PersonPicker = forwardRef(
       machine.send('COLLAPSE');
     };
 
+    const keyDown = (e: React.KeyboardEvent) => {
+      e.stopPropagation();
+      if (e.key === 'Enter') e.preventDefault();
+      machine.send({ type: 'KEY_PRESS', key: e.key });
+    };
+
     return (
       <PersonPickerContext.Provider value={{ machine, uniqueId }}>
         <Input
@@ -133,7 +139,7 @@ export const PersonPicker = forwardRef(
           onClick={() => inputRef.current?.focus()}
           {...getReferenceProps({
             ref: mergeRefs([ref, refs.setReference]),
-            onKeyDown: ({ key }: React.KeyboardEvent) => machine.send({ type: 'KEY_PRESS', key }),
+            onKeyDown: keyDown,
             onFocus: () => inputRef.current?.select(),
           })}
           {...props}
@@ -166,6 +172,7 @@ export const PersonPicker = forwardRef(
                 },
               })}
             >
+              {results.length === 0 && <Menu.Empty>(no results)</Menu.Empty>}
               {results.map((person, index) => (
                 <Menu.Item
                   key={person.id}

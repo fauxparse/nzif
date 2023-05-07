@@ -2,7 +2,7 @@ class Cast < ApplicationRecord
   belongs_to :activity, polymorphic: true
   belongs_to :profile
 
-  validates :role, :activity_id, presence: true
+  validates :role, presence: true
   validate :valid_role, if: :role?
 
   acts_as_list scope: %i[activity_id role], top_of_list: 0

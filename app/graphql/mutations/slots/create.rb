@@ -15,7 +15,7 @@ module Mutations
       def resolve(festival_id:, attributes:)
         festival = ::Festival.find(festival_id)
 
-        { slot: perform(::Slots::Create, festival:, attributes:).slot }
+        perform(::Slots::Create, festival:, attributes:)
       end
     end
   end

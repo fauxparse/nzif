@@ -18,6 +18,12 @@
   }
 }
 
+:where(.menu__empty) {
+  padding: var(--large);
+  color: var(--text-subtle);
+  text-align: center;
+}
+
 :where(.menu__item) {
   display: grid;
   grid-template-columns: var(--icon-size) 1fr auto;

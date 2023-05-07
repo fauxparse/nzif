@@ -5,6 +5,8 @@ module Types
     field :update_preference, mutation: Mutations::Users::UpdatePreference
     field :update_user, mutation: Mutations::Users::Update
 
+    field :create_profile, mutation: Mutations::Profiles::Create
+
     field :create_activity, mutation: Mutations::Activities::Create
 
     field :create_slot, mutation: Mutations::Slots::Create

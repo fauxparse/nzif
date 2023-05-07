@@ -574,20 +574,6 @@ CREATE INDEX index_cast_on_profile_id ON public."cast" USING btree (profile_id);
 
 
 --
--- Name: index_people; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_people ON public."cast" USING btree (activity_id, activity_type, role, profile_id);
-
-
---
--- Name: index_people_on_activity; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_people_on_activity ON public."cast" USING btree (activity_type, activity_id);
-
-
---
 -- Name: index_profiles_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -735,6 +721,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230505181302'),
 ('20230505234432'),
 ('20230507021310'),
-('20230507031607');
+('20230507031607'),
+('20230507224337');
 
 

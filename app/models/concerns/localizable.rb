@@ -7,20 +7,23 @@ module Localizable
     'Australia' => 'en-AU',
   }.freeze
 
-  def country=(value)
-    super(find_country(value))
-  end
-
   def locale
     return I18n.locale unless country?
 
-    @locale ||= LOCALES.fetch(find_country(country), I18n.locale)
+    @locale ||= LOCALES.fetch(country.common_name, I18n.locale)
   end
 
-  private
+  class << ISO3166::Country
+    def load(code)
+      self[code]
+    end
 
-  def find_country(country)
-    match = Amatch::JaroWinkler.new(country)
-    LOCALES.keys.find { |c| match.match(c) > 0.9 } || country
+    def dump(country)
+      country.alpha2
+    end
+  end
+
+  included do
+    serialize :country, ISO3166::Country
   end
 end

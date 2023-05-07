@@ -36,8 +36,8 @@ module Resolvers
       return [] if profile_ids.empty?
 
       activity_scope
-        .joins(:people).references(:people)
-        .where(people: { profile_id: profile_ids })
+        .joins(:cast).references(:cast)
+        .where(cast: { profile_id: profile_ids })
         .limit(limit)
     end
 

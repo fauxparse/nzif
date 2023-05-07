@@ -3,6 +3,11 @@ class ProfilePolicy < ApplicationPolicy
     user.admin?
   end
 
+  def create?
+    # user.admin?
+    true
+  end
+
   def update?
     user.admin? || (user.id == record.user_id)
   end

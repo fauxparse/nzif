@@ -3,7 +3,7 @@ FactoryBot.define do
     user { nil }
     name { 'Lauren Ipsum' }
     city { 'Wellington' }
-    country { 'New Zealand' }
+    country { ISO3166::Country['NZ'] }
     bio do
       <<~BIO
         Now this quiet courtyard, Sunday afternoon, this girl with a luminous digital display wired

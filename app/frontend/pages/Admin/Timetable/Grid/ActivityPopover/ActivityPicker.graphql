@@ -13,6 +13,18 @@ query ActivitySearch($query: String!, $activityType: ActivityType!) {
   }
 }
 
+query PersonSearch($query: String!) {
+  search(query: $query, only: [Person]) {
+    id
+
+    ... on PersonResult {
+      person {
+        ...TimetableCast
+      }
+    }
+  }
+}
+
 mutation CreateActivity(
   $festivalId: ID!
   $activityType: ActivityType!
