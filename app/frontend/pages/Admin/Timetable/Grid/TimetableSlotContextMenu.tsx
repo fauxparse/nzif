@@ -49,6 +49,8 @@ const TimetableSlotContextMenu: React.FC = () => {
 
   return (
     <ContextMenu id="slot">
+      {slot?.activity && <Menu.Item icon="edit" label="Activity details" />}
+      <Menu.Separator />
       {slot?.activity && <Menu.Item icon="close" label="Clear activity" onClick={handleClear} />}
       <Menu.Item icon="trash" label="Delete" onClick={handleDelete} />
     </ContextMenu>

@@ -22,6 +22,8 @@ export const Default: Story = {
   render: (args) => (
     <Menu {...args}>
       <Menu.Item icon="check" label="Menu item" />
+      <Menu.Separator />
+      <Menu.Item disabled label="Disabled" />
     </Menu>
   ),
 };

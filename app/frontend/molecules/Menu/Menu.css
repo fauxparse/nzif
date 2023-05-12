@@ -7,7 +7,8 @@
   flex-direction: column;
   gap: 1px;
   width: var(--menu-width);
-  padding: calc(var(--tiny) - var(--border-width-standard));
+  padding: calc(var(--small) - var(--border-width-standard))
+    calc(var(--tiny) - var(--border-width-standard));
   border: var(--border-width-standard) solid var(--popup-border);
   border-radius: var(--border-radius-large);
   background-color: var(--background-subtle);
@@ -68,4 +69,10 @@
     opacity: var(--disabled-opacity);
     cursor: not-allowed;
   }
+}
+
+:where(.menu__separator) {
+  margin: var(--small) var(--spacing) var(--small) var(--huge);
+  border: 0;
+  border-top: var(--border-width-standard) solid var(--border-subtle);
 }

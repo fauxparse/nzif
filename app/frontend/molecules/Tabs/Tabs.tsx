@@ -7,14 +7,16 @@ import { TabsComponent } from './Tabs.types';
 
 import './Tabs.css';
 
-const TabsContainer: TabsComponent = forwardRef(({ as, className, ...props }, ref) => {
+const TabsContainer: TabsComponent = forwardRef(({ as, className, children, ...props }, ref) => {
   const Component = (as || 'div') as ElementType;
 
   const layoutGroupId = useId();
 
   return (
     <LayoutGroup id={layoutGroupId}>
-      <Component ref={ref} className={clsx('tabs', className)} role="tablist" {...props} />
+      <Component ref={ref} className={clsx('tabs', className)} role="tablist" {...props}>
+        {children}
+      </Component>
     </LayoutGroup>
   );
 });

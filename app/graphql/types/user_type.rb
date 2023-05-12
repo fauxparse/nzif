@@ -8,10 +8,6 @@ module Types
     field :profile, PersonType, null: true, description: 'Profile information'
     field :roles, [RoleType], null: false, description: 'Authorized roles'
 
-    def roles
-      object.roles.map(&:name)
-    end
-
     def profile
       dataloader
         .with(Sources::UserProfile, context:)
