@@ -8,6 +8,7 @@ module Types
     field :name, String, null: false, description: 'Activity name'
     field :slug, String, null: false, description: 'For use in URL generation'
     field :type, ActivityTypeType, null: false, description: 'Type of activity'
+    field :slots, [SlotType], null: false, description: 'Slots for this activity'
 
     definition_methods do
       def resolve_type(object, _context)
@@ -23,6 +24,12 @@ module Types
 
     def type
       object.class
+    end
+
+    def slots
+      dataloader
+        .with(Sources::SlotsByActivity, context:)
+        .load(object.id)
     end
 
     orphan_types(

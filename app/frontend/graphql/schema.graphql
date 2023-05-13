@@ -13,6 +13,11 @@ interface Activity {
   name: String!
 
   """
+  Slots for this activity
+  """
+  slots: [Slot!]!
+
+  """
   For use in URL generation
   """
   slug: String!
@@ -750,6 +755,11 @@ type Show implements Activity {
   name: String!
 
   """
+  Slots for this activity
+  """
+  slots: [Slot!]!
+
+  """
   For use in URL generation
   """
   slug: String!
@@ -843,6 +853,11 @@ type SocialEvent implements Activity {
   Organisers
   """
   organisers: [Person!]!
+
+  """
+  Slots for this activity
+  """
+  slots: [Slot!]!
 
   """
   For use in URL generation
@@ -1139,6 +1154,11 @@ type Workshop implements Activity {
   Activity name
   """
   name: String!
+
+  """
+  Slots for this activity
+  """
+  slots: [Slot!]!
 
   """
   For use in URL generation

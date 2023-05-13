@@ -29,6 +29,8 @@ export type Activity = {
   id: Scalars['ID'];
   /** Activity name */
   name: Scalars['String'];
+  /** Slots for this activity */
+  slots: Array<Slot>;
   /** For use in URL generation */
   slug: Scalars['String'];
   /** Type of activity */
@@ -479,6 +481,8 @@ export type Show = Activity & {
   id: Scalars['ID'];
   /** Activity name */
   name: Scalars['String'];
+  /** Slots for this activity */
+  slots: Array<Slot>;
   /** For use in URL generation */
   slug: Scalars['String'];
   /** Type of activity */
@@ -525,6 +529,8 @@ export type SocialEvent = Activity & {
   name: Scalars['String'];
   /** Organisers */
   organisers: Array<Person>;
+  /** Slots for this activity */
+  slots: Array<Slot>;
   /** For use in URL generation */
   slug: Scalars['String'];
   /** Type of activity */
@@ -700,6 +706,8 @@ export type Workshop = Activity & {
   musos: Array<Person>;
   /** Activity name */
   name: Scalars['String'];
+  /** Slots for this activity */
+  slots: Array<Slot>;
   /** For use in URL generation */
   slug: Scalars['String'];
   /** Tutors */
@@ -776,6 +784,40 @@ export type SearchQueryVariables = Exact<{
 
 
 export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'ActivityResult', id: string, title: string, description: string | null, url: string, activity: { __typename: 'Show', id: string, name: string, type: ActivityType } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType } | { __typename: 'Workshop', id: string, name: string, type: ActivityType } } | { __typename: 'PageResult', id: string, title: string, description: string | null, url: string } | { __typename: 'PersonResult', id: string, title: string, description: string | null, url: string, person: { __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string } | null } } | { __typename: 'VenueResult', id: string, title: string, description: string | null, url: string, venue: { __typename: 'Venue', id: string, room: string | null, building: string, address: string } }> };
+
+export type ActivityListQueryVariables = Exact<{
+  year: Scalars['String'];
+  type: InputMaybe<ActivityType>;
+}>;
+
+
+export type ActivityListQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, activities: Array<{ __typename: 'Show', id: string, name: string, type: ActivityType, slug: string, directors: Array<{ __typename: 'Person', id: string, name: string }>, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, organisers: Array<{ __typename: 'Person', id: string, name: string }>, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | { __typename: 'Workshop', id: string, name: string, type: ActivityType, slug: string, tutors: Array<{ __typename: 'Person', id: string, name: string }>, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> }> } };
+
+export type ActivityDetailsQueryVariables = Exact<{
+  year: Scalars['String'];
+  type: ActivityType;
+  slug: Scalars['String'];
+}>;
+
+
+export type ActivityDetailsQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, activity: { __typename: 'Show', id: string, name: string, directors: Array<{ __typename: 'Person', id: string, name: string }>, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | { __typename: 'SocialEvent', id: string, name: string, organisers: Array<{ __typename: 'Person', id: string, name: string }>, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | { __typename: 'Workshop', id: string, name: string, tutors: Array<{ __typename: 'Person', id: string, name: string }>, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | null } };
+
+type ActivityListActivity_Show_Fragment = { __typename: 'Show', id: string, name: string, type: ActivityType, slug: string, directors: Array<{ __typename: 'Person', id: string, name: string }>, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> };
+
+type ActivityListActivity_SocialEvent_Fragment = { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, organisers: Array<{ __typename: 'Person', id: string, name: string }>, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> };
+
+type ActivityListActivity_Workshop_Fragment = { __typename: 'Workshop', id: string, name: string, type: ActivityType, slug: string, tutors: Array<{ __typename: 'Person', id: string, name: string }>, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> };
+
+export type ActivityListActivityFragment = ActivityListActivity_Show_Fragment | ActivityListActivity_SocialEvent_Fragment | ActivityListActivity_Workshop_Fragment;
+
+export type ActivityPresenterFragment = { __typename: 'Person', id: string, name: string };
+
+export type FestivalQueryVariables = Exact<{
+  year: Scalars['String'];
+}>;
+
+
+export type FestivalQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string } };
 
 export type ActivitySearchQueryVariables = Exact<{
   query: Scalars['String'];
@@ -889,6 +931,45 @@ export const AuthenticatedUserFragmentDoc = gql`
   }
 }
     `;
+export const ActivityPresenterFragmentDoc = gql`
+    fragment ActivityPresenter on Person {
+  id
+  name
+}
+    `;
+export const ActivityListActivityFragmentDoc = gql`
+    fragment ActivityListActivity on Activity {
+  id
+  name
+  type
+  slug
+  slots {
+    id
+    startsAt
+    endsAt
+    venue {
+      id
+      room
+      building
+    }
+  }
+  ... on Show {
+    directors {
+      ...ActivityPresenter
+    }
+  }
+  ... on Workshop {
+    tutors {
+      ...ActivityPresenter
+    }
+  }
+  ... on SocialEvent {
+    organisers {
+      ...ActivityPresenter
+    }
+  }
+}
+    ${ActivityPresenterFragmentDoc}`;
 export const TimetableCastFragmentDoc = gql`
     fragment TimetableCast on Person {
   id
@@ -1313,6 +1394,146 @@ export function useSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Sea
 export type SearchQueryHookResult = ReturnType<typeof useSearchQuery>;
 export type SearchLazyQueryHookResult = ReturnType<typeof useSearchLazyQuery>;
 export type SearchQueryResult = Apollo.QueryResult<SearchQuery, SearchQueryVariables>;
+export const ActivityListDocument = gql`
+    query ActivityList($year: String!, $type: ActivityType) {
+  festival(year: $year) {
+    id
+    activities(type: $type) {
+      ...ActivityListActivity
+    }
+  }
+}
+    ${ActivityListActivityFragmentDoc}`;
+
+/**
+ * __useActivityListQuery__
+ *
+ * To run a query within a React component, call `useActivityListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useActivityListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useActivityListQuery({
+ *   variables: {
+ *      year: // value for 'year'
+ *      type: // value for 'type'
+ *   },
+ * });
+ */
+export function useActivityListQuery(baseOptions: Apollo.QueryHookOptions<ActivityListQuery, ActivityListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ActivityListQuery, ActivityListQueryVariables>(ActivityListDocument, options);
+      }
+export function useActivityListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ActivityListQuery, ActivityListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ActivityListQuery, ActivityListQueryVariables>(ActivityListDocument, options);
+        }
+export type ActivityListQueryHookResult = ReturnType<typeof useActivityListQuery>;
+export type ActivityListLazyQueryHookResult = ReturnType<typeof useActivityListLazyQuery>;
+export type ActivityListQueryResult = Apollo.QueryResult<ActivityListQuery, ActivityListQueryVariables>;
+export const ActivityDetailsDocument = gql`
+    query ActivityDetails($year: String!, $type: ActivityType!, $slug: String!) {
+  festival(year: $year) {
+    id
+    activity(type: $type, slug: $slug) {
+      id
+      name
+      ... on Show {
+        directors {
+          ...ActivityPresenter
+        }
+      }
+      ... on Workshop {
+        tutors {
+          ...ActivityPresenter
+        }
+      }
+      ... on SocialEvent {
+        organisers {
+          ...ActivityPresenter
+        }
+      }
+      slots {
+        id
+        startsAt
+        endsAt
+        venue {
+          id
+          room
+          building
+        }
+      }
+    }
+  }
+}
+    ${ActivityPresenterFragmentDoc}`;
+
+/**
+ * __useActivityDetailsQuery__
+ *
+ * To run a query within a React component, call `useActivityDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useActivityDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useActivityDetailsQuery({
+ *   variables: {
+ *      year: // value for 'year'
+ *      type: // value for 'type'
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useActivityDetailsQuery(baseOptions: Apollo.QueryHookOptions<ActivityDetailsQuery, ActivityDetailsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ActivityDetailsQuery, ActivityDetailsQueryVariables>(ActivityDetailsDocument, options);
+      }
+export function useActivityDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ActivityDetailsQuery, ActivityDetailsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ActivityDetailsQuery, ActivityDetailsQueryVariables>(ActivityDetailsDocument, options);
+        }
+export type ActivityDetailsQueryHookResult = ReturnType<typeof useActivityDetailsQuery>;
+export type ActivityDetailsLazyQueryHookResult = ReturnType<typeof useActivityDetailsLazyQuery>;
+export type ActivityDetailsQueryResult = Apollo.QueryResult<ActivityDetailsQuery, ActivityDetailsQueryVariables>;
+export const FestivalDocument = gql`
+    query Festival($year: String!) {
+  festival(year: $year) {
+    id
+  }
+}
+    `;
+
+/**
+ * __useFestivalQuery__
+ *
+ * To run a query within a React component, call `useFestivalQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFestivalQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFestivalQuery({
+ *   variables: {
+ *      year: // value for 'year'
+ *   },
+ * });
+ */
+export function useFestivalQuery(baseOptions: Apollo.QueryHookOptions<FestivalQuery, FestivalQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FestivalQuery, FestivalQueryVariables>(FestivalDocument, options);
+      }
+export function useFestivalLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FestivalQuery, FestivalQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FestivalQuery, FestivalQueryVariables>(FestivalDocument, options);
+        }
+export type FestivalQueryHookResult = ReturnType<typeof useFestivalQuery>;
+export type FestivalLazyQueryHookResult = ReturnType<typeof useFestivalLazyQuery>;
+export type FestivalQueryResult = Apollo.QueryResult<FestivalQuery, FestivalQueryVariables>;
 export const ActivitySearchDocument = gql`
     query ActivitySearch($query: String!, $activityType: ActivityType!) {
   search(query: $query, activityType: $activityType, only: [Activity]) {

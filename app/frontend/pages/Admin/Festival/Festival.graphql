@@ -1,0 +1,5 @@
+query Festival($year: String!) {
+  festival(year: $year) {
+    id
+  }
+}

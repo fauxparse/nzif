@@ -1,0 +1,92 @@
+query ActivityList($year: String!, $type: ActivityType) {
+  festival(year: $year) {
+    id
+
+    activities(type: $type) {
+      ...ActivityListActivity
+    }
+  }
+}
+
+query ActivityDetails($year: String!, $type: ActivityType!, $slug: String!) {
+  festival(year: $year) {
+    id
+
+    activity(type: $type, slug: $slug) {
+      id
+      name
+
+      ... on Show {
+        directors {
+          ...ActivityPresenter
+        }
+      }
+
+      ... on Workshop {
+        tutors {
+          ...ActivityPresenter
+        }
+      }
+
+      ... on SocialEvent {
+        organisers {
+          ...ActivityPresenter
+        }
+      }
+
+      slots {
+        id
+        startsAt
+        endsAt
+
+        venue {
+          id
+          room
+          building
+        }
+      }
+    }
+  }
+}
+
+fragment ActivityListActivity on Activity {
+  id
+  name
+  type
+  slug
+
+  slots {
+    id
+    startsAt
+    endsAt
+
+    venue {
+      id
+      room
+      building
+    }
+  }
+
+  ... on Show {
+    directors {
+      ...ActivityPresenter
+    }
+  }
+
+  ... on Workshop {
+    tutors {
+      ...ActivityPresenter
+    }
+  }
+
+  ... on SocialEvent {
+    organisers {
+      ...ActivityPresenter
+    }
+  }
+}
+
+fragment ActivityPresenter on Person {
+  id
+  name
+}

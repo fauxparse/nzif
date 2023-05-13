@@ -4,7 +4,6 @@ import { DateTime } from 'luxon';
 
 import { useTimetableQuery } from '@/graphql/types';
 import Breadcrumbs from '@/molecules/Breadcrumbs';
-import BreadcrumbProvider from '@/molecules/Breadcrumbs/BreadcrumbProvider';
 
 import Context from './Context';
 import Grid from './Grid';
@@ -46,17 +45,15 @@ const Timetable: React.FC = () => {
         festival,
       }}
     >
-      <BreadcrumbProvider label="Timetable" path="timetable">
-        <div className="timetable">
-          <header className="page__header">
-            <Breadcrumbs />
-            <h1>Timetable</h1>
-          </header>
-          <div className="timetable__grid">
-            <Grid slots={slots} />
-          </div>
+      <div className="timetable">
+        <header className="page__header">
+          <Breadcrumbs />
+          <h1>Timetable</h1>
+        </header>
+        <div className="timetable__grid">
+          <Grid slots={slots} />
         </div>
-      </BreadcrumbProvider>
+      </div>
     </Context.Provider>
   );
 };

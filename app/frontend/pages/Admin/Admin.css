@@ -13,46 +13,29 @@
 
     .tabs {
       margin-bottom: calc(var(--border-width-standard) * -1);
+
+      &::after {
+        content: "";
+        flex: 1;
+      }
+
+      .button {
+        align-self: center;
+        order: 1;
+
+        @media (width <= 768px) {
+          display: none;
+        }
+      }
     }
   }
 
   h1 {
-    margin: 0
-  }
-}
+    margin: 0;
 
-.two-columns {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: var(--large) 6rem;
-
-  > header {
-    grid-column: 1 / -1;
-    padding: var(--large) 0;
-
-    h1 {
-      margin: var(--small) 0;
+    .in-place-edit__wrapper {
+      font-size: inherit;
+      line-height: inherit;
     }
-  }
-
-  aside {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    padding-top: var(--huge);
-  }
-}
-
-.form {
-  fieldset {
-    padding-block: var(--huge);
-  }
-
-  &__footer {
-    display: flex;
-    gap: var(--spacing);
-    justify-content: flex-end;
-    padding: var(--large) 0 var(--huge);
-    border-top: var(--border-width-standard) solid var(--border-subtle);
   }
 }

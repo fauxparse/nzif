@@ -1,0 +1,29 @@
+.in-place-edit {
+  margin: calc(var(--input-padding-block) * -1) calc(var(--input-padding-inline) * -1);
+  font: inherit;
+
+  &__wrapper {
+    display: flex;
+    gap: var(--spacing);
+    align-items: center;
+    font-size: var(--font-size-medium);
+    line-height: var(--line-height-medium);
+
+    &:hover {
+      .in-place-edit__toggle {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__toggle {
+    margin: calc(var(--button-padding-block) * -1);
+    opacity: 0;
+    transition: opacity var(--transition-duration) ease-in-out;
+    margin-inline-end: -100%;
+
+    &:focus {
+      opacity: 1;
+    }
+  }
+}

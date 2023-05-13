@@ -49,7 +49,7 @@ const UserOverview: React.FC = () => {
   const basePath = location.pathname.split('/').slice(0, 4).join('/');
 
   return (
-    <BreadcrumbProvider label={'Users'} path="users">
+    <BreadcrumbProvider label={'People'} path="people">
       <div className="page">
         <header className="page__header">
           <Breadcrumbs />
