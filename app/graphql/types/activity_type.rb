@@ -9,6 +9,9 @@ module Types
     field :slug, String, null: false, description: 'For use in URL generation'
     field :type, ActivityTypeType, null: false, description: 'Type of activity'
     field :slots, [SlotType], null: false, description: 'Slots for this activity'
+    field :presenters, [PersonType], null: false,
+      description: 'People responsible for putting on this activity'
+    field :description, String, null: true, description: 'Description of the activity'
 
     definition_methods do
       def resolve_type(object, _context)

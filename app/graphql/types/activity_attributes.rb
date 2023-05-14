@@ -2,6 +2,8 @@ module Types
   class ActivityAttributes < BaseInputObject
     description 'Attributes for adding or updating an activity'
 
+    argument :description, String, required: false,
+      description: 'The description of the activity'
     argument :name, String, required: false,
       description: 'The name of the activity'
     argument :profile_ids, [ID], required: false,

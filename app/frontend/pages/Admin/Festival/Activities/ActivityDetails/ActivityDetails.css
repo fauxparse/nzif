@@ -1,0 +1,23 @@
+.activity-details-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--small);
+  align-items: flex-start;
+  padding-block: var(--large);
+
+  @media (width >= 769px) {
+    grid-template-columns: 1fr 3fr;
+    row-gap: var(--large);
+  }
+
+  label {
+    margin-block: var(--small);
+  }
+
+  #activity-description {
+    min-height: 10rem;
+    max-height: calc(75vh - 4rem);
+    max-height: calc(75dvh - 4rem);
+    max-height: calc(75svh - 4rem);
+  }
+}

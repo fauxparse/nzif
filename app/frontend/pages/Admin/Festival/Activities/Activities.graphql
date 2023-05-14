@@ -15,23 +15,12 @@ query ActivityDetails($year: String!, $type: ActivityType!, $slug: String!) {
     activity(type: $type, slug: $slug) {
       id
       name
+      type
+      slug
+      description
 
-      ... on Show {
-        directors {
-          ...ActivityPresenter
-        }
-      }
-
-      ... on Workshop {
-        tutors {
-          ...ActivityPresenter
-        }
-      }
-
-      ... on SocialEvent {
-        organisers {
-          ...ActivityPresenter
-        }
+      presenters {
+        ...ActivityPresenter
       }
 
       slots {
@@ -67,26 +56,63 @@ fragment ActivityListActivity on Activity {
     }
   }
 
-  ... on Show {
-    directors {
-      ...ActivityPresenter
-    }
-  }
-
-  ... on Workshop {
-    tutors {
-      ...ActivityPresenter
-    }
-  }
-
-  ... on SocialEvent {
-    organisers {
-      ...ActivityPresenter
-    }
+  presenters {
+    ...ActivityPresenter
   }
 }
 
 fragment ActivityPresenter on Person {
   id
   name
+
+  picture {
+    id
+    small
+  }
+}
+
+mutation RenameActivity($id: ID!, $name: String!) {
+  renameActivity(id: $id, name: $name) {
+    activity {
+      id
+      name
+      type
+      slug
+    }
+  }
+}
+
+mutation MoveActivity($id: ID!, $slug: String!) {
+  moveActivity(id: $id, slug: $slug) {
+    activity {
+      id
+      name
+      type
+      slug
+    }
+  }
+}
+
+mutation UpdateActivity($id: ID!, $attributes: ActivityAttributes!) {
+  updateActivity(id: $id, attributes: $attributes) {
+    activity {
+      id
+      name
+      type
+      slug
+
+      presenters {
+        ...ActivityPresenter
+      }
+    }
+  }
+}
+
+mutation UpdateActivityDescription($id: ID!, $description: String!) {
+  updateActivity(id: $id, attributes: { description: $description }) {
+    activity {
+      id
+      description
+    }
+  }
 }

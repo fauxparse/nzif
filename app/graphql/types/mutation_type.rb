@@ -8,6 +8,9 @@ module Types
     field :create_profile, mutation: Mutations::Profiles::Create
 
     field :create_activity, mutation: Mutations::Activities::Create
+    field :move_activity, mutation: Mutations::Activities::Move
+    field :rename_activity, mutation: Mutations::Activities::Rename
+    field :update_activity, mutation: Mutations::Activities::Update
 
     field :create_slot, mutation: Mutations::Slots::Create
     field :create_slots, mutation: Mutations::Slots::CreateMultiple

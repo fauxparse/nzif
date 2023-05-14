@@ -3,5 +3,9 @@ module Types
     implements Types::ActivityType
 
     description 'A show'
+
+    def presenters
+      directors
+    end
   end
 end

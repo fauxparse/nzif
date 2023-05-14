@@ -1,5 +1,8 @@
 .in-place-edit {
+  --input-padding-inline: var(--input-padding-block);
+
   margin: calc(var(--input-padding-block) * -1) calc(var(--input-padding-inline) * -1);
+  background-color: var(--neutralA3);
   font: inherit;
 
   &__wrapper {
@@ -25,5 +28,10 @@
     &:focus {
       opacity: 1;
     }
+  }
+
+  &[data-saving] {
+    opacity: 0.5;
+    pointer-events: none;
   }
 }

@@ -1,4 +1,4 @@
-import React, { forwardRef, useId, useRef } from 'react';
+import React, { forwardRef, useEffect, useId, useRef } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 import {
   autoUpdate,
@@ -14,6 +14,7 @@ import {
 } from '@floating-ui/react';
 import { useInterpret, useSelector } from '@xstate/react';
 import clsx from 'clsx';
+import { isEqual, map } from 'lodash-es';
 
 import InputGroup from '../InputGroup';
 import Menu from '../Menu';
@@ -65,6 +66,19 @@ export const PersonPicker = forwardRef(
     const state = useSelector(machine, (state) => state);
 
     const { people, activeIndex, menuIndex, results } = state.context as Context<T>;
+
+    const valueRef = useRef(value);
+
+    valueRef.current = value;
+
+    useEffect(() => {
+      if (
+        !isEqual(map(valueRef.current, 'id'), map(people, 'id')) &&
+        !people.find((p) => 'temp' in p)
+      ) {
+        onChange(people);
+      }
+    }, [people, onChange]);
 
     const isExpanded = state.matches('menu.expanded');
 
@@ -148,7 +162,7 @@ export const PersonPicker = forwardRef(
             <Chip key={person.id} person={person} active={activeIndex === index} />
           ))}
           <InputGroup>
-            <InputGroup.Icon name="user" />
+            <InputGroup.Icon name="userAdd" />
             <AutoResize>
               <input
                 ref={inputRef}

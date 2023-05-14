@@ -27,6 +27,7 @@ fragment TimetableCast on Person {
   id
   name
   picture {
+    id
     small
   }
 }

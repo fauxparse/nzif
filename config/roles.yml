@@ -12,6 +12,7 @@ roles:
     workshop:
       activity:
         - tutor
+      slot:
         - muso
     social_event:
       activity:

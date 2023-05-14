@@ -59,7 +59,11 @@ export const InPlaceEdit: InPlaceEditComponent = forwardRef(
     };
 
     return (
-      <div className="in-place-edit__wrapper">
+      <div
+        className="in-place-edit__wrapper"
+        data-editing={editing || undefined}
+        data-saving={state.matches('confirming') || undefined}
+      >
         {editing ? (
           <AutoResize>
             <Input
@@ -86,6 +90,7 @@ export const InPlaceEdit: InPlaceEditComponent = forwardRef(
               icon="edit"
               className="in-place-edit__toggle"
               onClick={() => machine.send('EDIT')}
+              aria-label="Edit"
             />
           </>
         )}

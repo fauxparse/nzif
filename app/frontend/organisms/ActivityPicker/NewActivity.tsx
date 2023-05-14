@@ -8,15 +8,9 @@ import Button from '@/atoms/Button';
 import FormError from '@/atoms/FormError';
 import { IconName } from '@/atoms/Icon';
 import Input from '@/atoms/Input';
-import {
-  Activity,
-  ActivityAttributes,
-  ActivityType,
-  ProfileAttributes,
-  useCreateProfileMutation,
-  usePersonSearchLazyQuery,
-} from '@/graphql/types';
+import { Activity, ActivityAttributes, ActivityType } from '@/graphql/types';
 import AutoResize from '@/helpers/AutoResize';
+import usePresenters from '@/hooks/usePresenters';
 import InputGroup from '@/molecules/InputGroup';
 import PersonPicker from '@/molecules/PersonPicker';
 import { Profile } from '@/molecules/PersonPicker/PersonPicker.types';
@@ -101,29 +95,14 @@ export const NewActivity: React.FC<NewActivityProps> = ({
 
   const [presenters, setPresenters] = useState<Profile[]>([]);
 
-  const [createPresenter] = useCreateProfileMutation();
-
-  const [searchPresenters] = usePersonSearchLazyQuery();
-
-  const handleSearchPresenters = (query: string) =>
-    searchPresenters({ variables: { query } }).then(({ data }) =>
-      (data?.search || []).flatMap((result) => ('person' in result ? [result.person] : []))
-    );
+  const { handleSearchPresenters, handleCreatePresenter: createPresenter } = usePresenters();
 
   const handleChangePresenters = setPresenters;
-  const handleCreatePresenter = ({ id, name, ...rest }: Profile) =>
-    new Promise<Profile>((resolve) => {
-      createPresenter({
-        variables: {
-          attributes: { name } as ProfileAttributes,
-        },
-      }).then(({ data }) => {
-        if (data?.createProfile?.profile) {
-          const profile = { ...data.createProfile.profile, ...rest } as Profile;
-          resolve(profile);
-          setPresenters((current) => [...current, profile]);
-        }
-      });
+
+  const handleCreatePresenter = (profile: Profile) =>
+    createPresenter(profile).then((profile: Profile) => {
+      setPresenters((current) => [...current, profile]);
+      return profile;
     });
 
   const handleCreate = (attributes: FormSchemaType) => {

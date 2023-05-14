@@ -3,5 +3,9 @@ module Types
     implements Types::ActivityType
 
     description 'A social event'
+
+    def presenters
+      organisers
+    end
   end
 end

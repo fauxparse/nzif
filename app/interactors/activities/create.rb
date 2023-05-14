@@ -1,7 +1,5 @@
 module Activities
   class Create < ApplicationInteractor
-    include Interactor
-
     delegate :activity_type, :festival, :slot, to: :context
 
     validates :activity_type, inclusion: { in: Activity.descendants }

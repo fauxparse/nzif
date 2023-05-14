@@ -26,6 +26,13 @@ export const client = new ApolloClient({
     },
     typePolicies: {
       ...scalarTypePolicies,
+      Activity: {
+        fields: {
+          presenters: {
+            merge: (_, incoming) => incoming,
+          },
+        },
+      },
     },
   }),
 });

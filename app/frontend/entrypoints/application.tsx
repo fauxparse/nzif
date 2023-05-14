@@ -5,6 +5,7 @@ import { Settings } from 'luxon';
 
 import App from '../App';
 import { client } from '../graphql';
+import Toaster from '@/molecules/Toaster';
 
 import './application.css';
 // import 'virtual:fonts.css';
@@ -22,7 +23,9 @@ Settings.defaultZone = 'Pacific/Auckland';
 createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <App />
+      <Toaster>
+        <App />
+      </Toaster>
     </ApolloProvider>
   </React.StrictMode>
 );

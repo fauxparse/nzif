@@ -4,7 +4,7 @@ import { Maybe, Scalars } from '@/graphql/types';
 export interface Profile {
   id: Scalars['ID'];
   name: string;
-  picture?: Maybe<{ small: string }>;
+  picture: Maybe<{ __typename: 'ProfilePicture'; id: string; small: string }>;
 }
 
 export type PersonPickerProps<T extends Profile = Profile> = Omit<
