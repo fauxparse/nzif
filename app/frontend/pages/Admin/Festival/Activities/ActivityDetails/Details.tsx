@@ -1,9 +1,9 @@
 import { Fragment, useRef } from 'react';
 import { useApolloClient } from '@apollo/client';
+import ROLES from '@config/roles.yml';
 import { capitalize, map, snakeCase } from 'lodash-es';
 import pluralize from 'pluralize';
 
-import ROLES from '../../../../../../../config/roles.yml';
 import Input from '@/atoms/Input';
 import {
   ActivityAttributes,

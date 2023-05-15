@@ -376,6 +376,10 @@ export type Person = {
   name: Scalars['String'];
   /** Profile picture */
   picture: Maybe<ProfilePicture>;
+  /** Candidate user profile */
+  possibleUser: Maybe<User>;
+  /** User */
+  user: Maybe<User>;
 };
 
 /** A search result from a person */
@@ -449,6 +453,8 @@ export type Query = {
   __typename: 'Query';
   /** Find a festival by year */
   festival: Festival;
+  /** Everybody everybody */
+  people: Maybe<Array<Person>>;
   /** User preference (if set) */
   preference: Maybe<Preference>;
   /** Search for content */
@@ -988,6 +994,13 @@ export type CreateProfileMutationVariables = Exact<{
 
 export type CreateProfileMutation = { __typename: 'Mutation', createProfile: { __typename: 'CreatePayload', profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null } } | null };
 
+export type PersonDetailsFragment = { __typename: 'Person', id: string, name: string, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null, possibleUser: { __typename: 'User', id: string, name: string, email: string } | null };
+
+export type PeopleQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PeopleQuery = { __typename: 'Query', people: Array<{ __typename: 'Person', id: string, name: string, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null, possibleUser: { __typename: 'User', id: string, name: string, email: string } | null }> | null };
+
 export type EditableUserFragment = { __typename: 'User', id: string, name: string, email: string, roles: Array<Role> };
 
 export type EditUserQueryVariables = Exact<{
@@ -1108,6 +1121,36 @@ export const TimetableSlotFragmentDoc = gql`
   }
 }
     ${TimetableActivityFragmentDoc}`;
+export const PersonDetailsFragmentDoc = gql`
+    fragment PersonDetails on Person {
+  id
+  name
+  user {
+    id
+    email
+  }
+  city {
+    id
+    name
+    traditionalName
+  }
+  country {
+    id
+    name
+    traditionalName
+  }
+  picture {
+    id
+    small
+    large
+  }
+  possibleUser {
+    id
+    name
+    email
+  }
+}
+    `;
 export const EditableUserFragmentDoc = gql`
     fragment EditableUser on User {
   id
@@ -2088,6 +2131,40 @@ export function useCreateProfileMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateProfileMutationHookResult = ReturnType<typeof useCreateProfileMutation>;
 export type CreateProfileMutationResult = Apollo.MutationResult<CreateProfileMutation>;
 export type CreateProfileMutationOptions = Apollo.BaseMutationOptions<CreateProfileMutation, CreateProfileMutationVariables>;
+export const PeopleDocument = gql`
+    query People {
+  people {
+    ...PersonDetails
+  }
+}
+    ${PersonDetailsFragmentDoc}`;
+
+/**
+ * __usePeopleQuery__
+ *
+ * To run a query within a React component, call `usePeopleQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePeopleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePeopleQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePeopleQuery(baseOptions?: Apollo.QueryHookOptions<PeopleQuery, PeopleQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PeopleQuery, PeopleQueryVariables>(PeopleDocument, options);
+      }
+export function usePeopleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PeopleQuery, PeopleQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PeopleQuery, PeopleQueryVariables>(PeopleDocument, options);
+        }
+export type PeopleQueryHookResult = ReturnType<typeof usePeopleQuery>;
+export type PeopleLazyQueryHookResult = ReturnType<typeof usePeopleLazyQuery>;
+export type PeopleQueryResult = Apollo.QueryResult<PeopleQuery, PeopleQueryVariables>;
 export const EditUserDocument = gql`
     query EditUser($id: ID!) {
   user(id: $id) {

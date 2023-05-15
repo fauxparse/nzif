@@ -7,6 +7,8 @@ module Types
     field :id, ID, null: false, description: 'Unique ID'
     field :name, String, null: false, description: 'Name'
     field :picture, Types::ProfilePictureType, null: true, description: 'Profile picture'
+    field :possible_user, Types::UserType, null: true, description: 'Candidate user profile'
+    field :user, Types::UserType, null: true, description: 'User'
 
     def picture
       object.picture && object
@@ -18,6 +20,16 @@ module Types
 
     def country
       Hashie::Mash.new(name: object.country.common_name, locale: object.locale) if object.country?
+    end
+
+    def user
+      object.user_id && dataloader.with(Sources::ProfileUser, context:).load(object.user_id)
+    end
+
+    def possible_user
+      return nil if object.user_id
+
+      User.search(object.name).first
     end
   end
 end

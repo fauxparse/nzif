@@ -98,19 +98,6 @@ const columns = [
   ),
 ];
 
-const activityPresenters = (
-  activity: ActivityListActivityFragment
-): ActivityPresenterFragment[] => {
-  if ('tutors' in activity) {
-    return activity.tutors;
-  } else if ('directors' in activity) {
-    return activity.directors;
-  } else if ('organisers' in activity) {
-    return activity.organisers;
-  }
-  return [];
-};
-
 const ActivityTable: React.FC<ActivityTableProps> = ({ type }) => {
   const { id: year } = useFestival();
   const { data } = useActivityListQuery({ variables: { year, type } });
@@ -118,9 +105,9 @@ const ActivityTable: React.FC<ActivityTableProps> = ({ type }) => {
 
   const rows = useMemo<ActivityRow[]>(
     () =>
-      (data?.festival?.activities || [])
-        .map((a) => ({ ...a, presenters: activityPresenters(a) }))
-        .flatMap((a) => (a.slots.length ? a.slots : [null]).map((slot) => ({ ...a, slot }))),
+      (data?.festival?.activities || []).flatMap((a) =>
+        (a.slots.length ? a.slots : [null]).map((slot) => ({ ...a, slot }))
+      ),
     [data]
   );
 

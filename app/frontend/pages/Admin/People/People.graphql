@@ -1,0 +1,39 @@
+fragment PersonDetails on Person {
+  id
+  name
+
+  user {
+    id
+    email
+  }
+
+  city {
+    id
+    name
+    traditionalName
+  }
+
+  country {
+    id
+    name
+    traditionalName
+  }
+
+  picture {
+    id
+    small
+    large
+  }
+
+  possibleUser {
+    id
+    name
+    email
+  }
+}
+
+query People {
+  people {
+    ...PersonDetails
+  }
+}

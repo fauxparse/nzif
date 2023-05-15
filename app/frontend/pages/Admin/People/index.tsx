@@ -1,7 +1,16 @@
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-import AnimatedOutlet from '@/pages/AnimatedOutlet';
+import PeopleList from './PeopleList';
 
-const Users: React.FC = () => <AnimatedOutlet />;
+import './People.css';
 
-export default Users;
+const Activities: React.FC = () => {
+  return (
+    <Routes>
+      <Route path="" element={<PeopleList />} />
+    </Routes>
+  );
+};
+
+export default Activities;

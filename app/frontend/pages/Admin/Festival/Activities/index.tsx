@@ -1,12 +1,8 @@
 import React from 'react';
-import { Link, Route, Routes, useParams } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
-import Button from '@/atoms/Button';
 import { ActivityType } from '@/graphql/types';
-import Breadcrumbs from '@/molecules/Breadcrumbs';
-import Tabs from '@/molecules/Tabs';
 
-import ActivityTab from './ActivityList/ActivityTab';
 import ActivityDetails from './ActivityDetails';
 import ActivityList from './ActivityList';
 

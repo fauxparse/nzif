@@ -21,6 +21,8 @@ module Types
 
     field :search, resolver: Resolvers::SearchQuery, description: 'Search for content'
 
+    field :people, [PersonType], description: 'Everybody everybody'
+
     def festival(year: nil)
       if year
         Festival.by_year(year).first!
@@ -40,6 +42,10 @@ module Types
     def preference(id:)
       pref = User.preferences[id.underscore.to_sym]
       pref.to_graphql_object_for(user)
+    end
+
+    def people
+      authorized_scope(Profile, type: :relation).all
     end
   end
 end

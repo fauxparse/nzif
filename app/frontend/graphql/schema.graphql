@@ -551,6 +551,16 @@ type Person {
   Profile picture
   """
   picture: ProfilePicture
+
+  """
+  Candidate user profile
+  """
+  possibleUser: User
+
+  """
+  User
+  """
+  user: User
 }
 
 """
@@ -693,6 +703,11 @@ type Query {
     """
     year: String
   ): Festival!
+
+  """
+  Everybody everybody
+  """
+  people: [Person!]
 
   """
   User preference (if set)
