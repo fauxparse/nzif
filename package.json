@@ -87,6 +87,7 @@
     "@georgedoescode/spline": "^1.0.1",
     "@hookform/resolvers": "^3.1.0",
     "@radix-ui/colors": "^0.1.8",
+    "@radix-ui/react-dialog": "^1.0.3",
     "@radix-ui/react-toggle-group": "^1.0.3",
     "@tanstack/react-table": "^8.9.1",
     "@vitejs/plugin-react": "^3.1.0",
