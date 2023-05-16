@@ -1,6 +1,7 @@
 fragment PersonDetails on Person {
   id
   name
+  pronouns
 
   user {
     id
@@ -24,16 +25,18 @@ fragment PersonDetails on Person {
     small
     large
   }
-
-  possibleUser {
-    id
-    name
-    email
-  }
 }
 
 query People {
   people {
     ...PersonDetails
+  }
+}
+
+mutation MergeProfiles($profileIds: [ID!]!, $attributes: ProfileMergeAttributes!) {
+  mergeProfiles(profileIds: $profileIds, attributes: $attributes) {
+    profile {
+      ...PersonDetails
+    }
   }
 }

@@ -1,4 +1,6 @@
 class Cast < ApplicationRecord
+  has_paper_trail
+
   belongs_to :activity, polymorphic: true
   belongs_to :profile
 

@@ -6,6 +6,7 @@ module Types
     field :update_user, mutation: Mutations::Users::Update
 
     field :create_profile, mutation: Mutations::Profiles::Create
+    field :merge_profiles, mutation: Mutations::Profiles::Merge
 
     field :create_activity, mutation: Mutations::Activities::Create
     field :move_activity, mutation: Mutations::Activities::Move

@@ -9,7 +9,7 @@
 
 .dialog {
   --dialog-border: var(--neutral6);
-  --dialog-width: min(32rem, calc(100vw - var(--min-horizontal-padding) * 2));
+  --dialog-width: 32rem;
 
   position: fixed;
   inset: 0;
@@ -24,7 +24,7 @@
   }
 
   &__content {
-    width: var(--dialog-width);
+    width:  min(var(--dialog-width), calc(100vw - var(--min-horizontal-padding) * 2));
     border-radius: var(--border-radius-large);
     background: var(--background);
     box-shadow: var(--shadow-6), inset 0 0 0 var(--border-width-standard) var(--dialog-border);
@@ -74,16 +74,15 @@
 
   &__body {
     --scrollable-edge-color: hsl(var(--shadow-hsl) / 9%);
+
+    padding-inline: var(--large);
   }
 
   &__footer {
     display: flex;
     flex-wrap: wrap;
     gap: var(--small) var(--spacing);
+    justify-content: flex-end;
     padding: var(--large);
-
-    .button {
-      flex: 1;
-    }
   }
 }

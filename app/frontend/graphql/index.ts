@@ -33,6 +33,13 @@ export const client = new ApolloClient({
           },
         },
       },
+      Query: {
+        fields: {
+          people: {
+            merge: (_, incoming) => incoming,
+          },
+        },
+      },
     },
   }),
 });

@@ -7,7 +7,7 @@ module Types
     field :id, ID, null: false, description: 'Unique ID'
     field :name, String, null: false, description: 'Name'
     field :picture, Types::ProfilePictureType, null: true, description: 'Profile picture'
-    field :possible_user, Types::UserType, null: true, description: 'Candidate user profile'
+    field :pronouns, String, null: true, description: 'Pronouns'
     field :user, Types::UserType, null: true, description: 'User'
 
     def picture
@@ -24,12 +24,6 @@ module Types
 
     def user
       object.user_id && dataloader.with(Sources::ProfileUser, context:).load(object.user_id)
-    end
-
-    def possible_user
-      return nil if object.user_id
-
-      User.search(object.name).first
     end
   end
 end

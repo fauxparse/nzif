@@ -13,6 +13,10 @@ module Localizable
     @locale ||= LOCALES.fetch(country.common_name, I18n.locale)
   end
 
+  def country=(value)
+    super(value.respond_to?(:alpha2) ? value : ISO3166::Country[value])
+  end
+
   class << ISO3166::Country
     def load(code)
       self[code]

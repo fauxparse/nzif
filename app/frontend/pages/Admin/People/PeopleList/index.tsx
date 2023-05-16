@@ -10,6 +10,7 @@ import {
   Table,
   useReactTable,
 } from '@tanstack/react-table';
+import { motion } from 'framer-motion';
 
 import Avatar from '@/atoms/Avatar';
 import Button from '@/atoms/Button';
@@ -18,6 +19,8 @@ import Icon from '@/atoms/Icon';
 import Placename from '@/atoms/Placename';
 import { PersonDetailsFragment, usePeopleQuery } from '@/graphql/types';
 import Breadcrumbs from '@/molecules/Breadcrumbs';
+
+import MergeDialog from './MergeDialog';
 
 const columnHelper = createColumnHelper<PersonDetailsFragment>();
 
@@ -71,6 +74,16 @@ const columns = [
   }),
 ];
 
+const withSelectedVariants = {
+  out: {
+    y: '150%',
+  },
+  in: {
+    y: 0,
+    transition: { type: 'spring', bounce: 0.2 },
+  },
+};
+
 const People: React.FC = () => {
   const { data } = usePeopleQuery();
 
@@ -87,10 +100,20 @@ const People: React.FC = () => {
     onSortingChange: setSorting,
   });
 
+  const [merging, setMerging] = useState(false);
+
+  const handleMergingOpenChange = (value: boolean) => {
+    if (!value) table.resetRowSelection();
+
+    setMerging(value);
+  };
+
   const selectedRows = table.getSelectedRowModel().rows;
 
+  const selectedPeople = selectedRows.map((row) => row.original);
+
   return (
-    <div className="page">
+    <div className="page admin-people">
       <header className="page__header">
         <Breadcrumbs />
         <h1>People</h1>
@@ -145,10 +168,20 @@ const People: React.FC = () => {
             </tbody>
           </table>
         </div>
-        <div className="with-selected">
-          <Button icon="merge" text="Merge profiles" disabled={selectedRows.length !== 2} />
-        </div>
       </div>
+      <motion.div
+        className="with-selected"
+        variants={withSelectedVariants}
+        animate={selectedRows.length === 2 ? 'in' : 'out'}
+      >
+        <Button
+          icon="merge"
+          text="Merge profiles"
+          disabled={selectedRows.length !== 2}
+          onClick={() => setMerging(true)}
+        />
+      </motion.div>
+      <MergeDialog people={selectedPeople} open={merging} onOpenChange={handleMergingOpenChange} />
     </div>
   );
 };
