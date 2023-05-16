@@ -1,7 +1,5 @@
 module Types
   class ISODate < BaseScalar
-    description 'A date in ISO8601 format'
-
     def self.coerce_input(input_value, _context)
       Date.parse(input_value)
     rescue ArgumentError

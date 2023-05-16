@@ -2,9 +2,7 @@ module Types
   class ActivityResultType < Types::BaseObject
     implements Types::SearchResultType
 
-    description 'A search result from an activity'
-
-    field :activity, ActivityType, null: false, description: 'Activity'
+    field :activity, ActivityType, null: false
 
     def id
       "activity[#{activity.to_param}]"

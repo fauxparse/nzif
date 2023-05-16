@@ -12,7 +12,7 @@
         {
           "kind": "INTERFACE",
           "name": "Activity",
-          "description": "An activity that may be scheduled during the Festival",
+          "description": null,
           "interfaces": [
 
           ],
@@ -36,7 +36,7 @@
           "fields": [
             {
               "name": "description",
-              "description": "Description of the activity",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -50,7 +50,7 @@
             },
             {
               "name": "id",
-              "description": "Unique ID",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -68,7 +68,7 @@
             },
             {
               "name": "name",
-              "description": "Activity name",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -86,7 +86,7 @@
             },
             {
               "name": "presenters",
-              "description": "People responsible for putting on this activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -112,7 +112,7 @@
             },
             {
               "name": "slots",
-              "description": "Slots for this activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -138,7 +138,7 @@
             },
             {
               "name": "slug",
-              "description": "For use in URL generation",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -156,7 +156,7 @@
             },
             {
               "name": "type",
-              "description": "Type of activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -179,14 +179,14 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "ActivityAttributes",
-          "description": "Attributes for adding or updating an activity",
+          "description": null,
           "interfaces": null,
           "possibleTypes": null,
           "fields": null,
           "inputFields": [
             {
               "name": "description",
-              "description": "The description of the activity",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -198,7 +198,7 @@
             },
             {
               "name": "name",
-              "description": "The name of the activity",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -210,7 +210,7 @@
             },
             {
               "name": "profileIds",
-              "description": "The IDs of the profiles associated with the activity",
+              "description": null,
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -230,7 +230,7 @@
             },
             {
               "name": "slug",
-              "description": "The short name of the activity, used in the URL",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -246,7 +246,7 @@
         {
           "kind": "OBJECT",
           "name": "ActivityResult",
-          "description": "A search result from an activity",
+          "description": null,
           "interfaces": [
             {
               "kind": "INTERFACE",
@@ -258,7 +258,7 @@
           "fields": [
             {
               "name": "activity",
-              "description": "Activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -276,7 +276,7 @@
             },
             {
               "name": "description",
-              "description": "Supporting description",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -290,7 +290,7 @@
             },
             {
               "name": "id",
-              "description": "Unique ID",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -308,7 +308,7 @@
             },
             {
               "name": "title",
-              "description": "Title of result page",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -326,7 +326,7 @@
             },
             {
               "name": "url",
-              "description": "Link to result page",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -349,7 +349,7 @@
         {
           "kind": "ENUM",
           "name": "ActivityType",
-          "description": "The state of a festival",
+          "description": null,
           "interfaces": null,
           "possibleTypes": null,
           "fields": null,
@@ -388,7 +388,7 @@
         {
           "kind": "OBJECT",
           "name": "BooleanPreference",
-          "description": "A boolean user preference",
+          "description": null,
           "interfaces": [
             {
               "kind": "INTERFACE",
@@ -400,7 +400,7 @@
           "fields": [
             {
               "name": "description",
-              "description": "Preference description",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -418,7 +418,7 @@
             },
             {
               "name": "id",
-              "description": "Preference ID",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -436,7 +436,7 @@
             },
             {
               "name": "value",
-              "description": "Preference value",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -459,7 +459,7 @@
         {
           "kind": "SCALAR",
           "name": "Country",
-          "description": "A country",
+          "description": null,
           "interfaces": null,
           "possibleTypes": null,
           "fields": null,
@@ -477,7 +477,7 @@
           "fields": [
             {
               "name": "activity",
-              "description": "The newly created activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -495,7 +495,7 @@
             },
             {
               "name": "slot",
-              "description": "The programmed slot, if any",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "Slot",
@@ -522,7 +522,7 @@
           "fields": [
             {
               "name": "slots",
-              "description": "The newly created slots",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -561,7 +561,7 @@
           "fields": [
             {
               "name": "profile",
-              "description": "The newly created profile",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -592,7 +592,7 @@
           "fields": [
             {
               "name": "slot",
-              "description": "The newly created slot",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -718,7 +718,7 @@
         {
           "kind": "OBJECT",
           "name": "Festival",
-          "description": "A festival",
+          "description": null,
           "interfaces": [
 
           ],
@@ -726,7 +726,7 @@
           "fields": [
             {
               "name": "activities",
-              "description": "Activities (including unscheduled ones)",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -749,7 +749,7 @@
               "args": [
                 {
                   "name": "type",
-                  "description": "Activity type",
+                  "description": null,
                   "type": {
                     "kind": "ENUM",
                     "name": "ActivityType",
@@ -763,7 +763,7 @@
             },
             {
               "name": "activity",
-              "description": "Retrieve an activity by its type and slug",
+              "description": null,
               "type": {
                 "kind": "INTERFACE",
                 "name": "Activity",
@@ -774,7 +774,7 @@
               "args": [
                 {
                   "name": "slug",
-                  "description": "URL segment",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -790,7 +790,7 @@
                 },
                 {
                   "name": "type",
-                  "description": "Activity type",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -808,7 +808,7 @@
             },
             {
               "name": "endDate",
-              "description": "The last day of the festival",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -826,7 +826,7 @@
             },
             {
               "name": "id",
-              "description": "Year of the festival",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -844,7 +844,7 @@
             },
             {
               "name": "startDate",
-              "description": "The first day of the festival",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -862,7 +862,7 @@
             },
             {
               "name": "state",
-              "description": "State of the festival",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -880,7 +880,7 @@
             },
             {
               "name": "timetable",
-              "description": "The timetable for the festival",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -898,7 +898,7 @@
             },
             {
               "name": "venues",
-              "description": "Venues",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -929,7 +929,7 @@
         {
           "kind": "ENUM",
           "name": "FestivalState",
-          "description": "The state of a festival",
+          "description": null,
           "interfaces": null,
           "possibleTypes": null,
           "fields": null,
@@ -988,7 +988,7 @@
         {
           "kind": "SCALAR",
           "name": "ISODate",
-          "description": "A date in ISO8601 format",
+          "description": null,
           "interfaces": null,
           "possibleTypes": null,
           "fields": null,
@@ -1016,7 +1016,7 @@
           "fields": [
             {
               "name": "profile",
-              "description": "The merged profile",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1047,7 +1047,7 @@
           "fields": [
             {
               "name": "activity",
-              "description": "Moved activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1070,14 +1070,14 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "MultipleSlotAttributes",
-          "description": "Attributes for adding or updating an activity slot",
+          "description": null,
           "interfaces": null,
           "possibleTypes": null,
           "fields": null,
           "inputFields": [
             {
               "name": "activityType",
-              "description": "The type of activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1093,7 +1093,7 @@
             },
             {
               "name": "festivalId",
-              "description": "The ID of the festival to which the slots belong",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1109,7 +1109,7 @@
             },
             {
               "name": "timeRanges",
-              "description": "Time slots",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1133,7 +1133,7 @@
             },
             {
               "name": "venueIds",
-              "description": "The ID(s) of the venue(s)",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1161,7 +1161,7 @@
         {
           "kind": "OBJECT",
           "name": "Mutation",
-          "description": "Top-level mutation interface",
+          "description": null,
           "interfaces": [
 
           ],
@@ -1169,7 +1169,7 @@
           "fields": [
             {
               "name": "createActivity",
-              "description": "Create a new activity",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "CreateActivityPayload",
@@ -1180,7 +1180,7 @@
               "args": [
                 {
                   "name": "attributes",
-                  "description": "Attributes for the new activity",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1196,7 +1196,7 @@
                 },
                 {
                   "name": "festivalId",
-                  "description": "ID of the festival to which the activity belongs",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1212,7 +1212,7 @@
                 },
                 {
                   "name": "slotId",
-                  "description": "Immediately program this activity into the given slot",
+                  "description": null,
                   "type": {
                     "kind": "SCALAR",
                     "name": "ID",
@@ -1224,7 +1224,7 @@
                 },
                 {
                   "name": "type",
-                  "description": "Type of activity to create",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1242,7 +1242,7 @@
             },
             {
               "name": "createProfile",
-              "description": "Create a user profile",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "CreatePayload",
@@ -1253,7 +1253,7 @@
               "args": [
                 {
                   "name": "attributes",
-                  "description": "Attributes for the new profile",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1271,7 +1271,7 @@
             },
             {
               "name": "createSlot",
-              "description": "Create an activity slot",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "CreateSlotPayload",
@@ -1282,7 +1282,7 @@
               "args": [
                 {
                   "name": "attributes",
-                  "description": "The attributes for the slot",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1298,7 +1298,7 @@
                 },
                 {
                   "name": "festivalId",
-                  "description": "The ID of the festival to which the slot belongs",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1316,7 +1316,7 @@
             },
             {
               "name": "createSlots",
-              "description": "Create multiple activity slots at once",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "CreateMultipleSlotsPayload",
@@ -1327,7 +1327,7 @@
               "args": [
                 {
                   "name": "attributes",
-                  "description": "The attributes for the slots",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1345,7 +1345,7 @@
             },
             {
               "name": "destroySlot",
-              "description": "Removes a slot from the timetable",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "Boolean",
@@ -1356,7 +1356,7 @@
               "args": [
                 {
                   "name": "id",
-                  "description": "Slot ID",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1374,7 +1374,7 @@
             },
             {
               "name": "mergeProfiles",
-              "description": "Merge multiple profiles into one",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "MergeProfilesPayload",
@@ -1385,7 +1385,7 @@
               "args": [
                 {
                   "name": "attributes",
-                  "description": "Hash of attribute names and IDs to select the values from",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1401,7 +1401,7 @@
                 },
                 {
                   "name": "profileIds",
-                  "description": "IDs of the profiles to merge",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1427,7 +1427,7 @@
             },
             {
               "name": "moveActivity",
-              "description": "Move an activity",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "MoveActivityPayload",
@@ -1438,7 +1438,7 @@
               "args": [
                 {
                   "name": "id",
-                  "description": "ID of activity to move",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1454,7 +1454,7 @@
                 },
                 {
                   "name": "slug",
-                  "description": "New slug",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1472,7 +1472,7 @@
             },
             {
               "name": "renameActivity",
-              "description": "Rename an activity",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "RenameActivityPayload",
@@ -1483,7 +1483,7 @@
               "args": [
                 {
                   "name": "id",
-                  "description": "ID of activity to rename",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1499,7 +1499,7 @@
                 },
                 {
                   "name": "name",
-                  "description": "New name",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1517,7 +1517,7 @@
             },
             {
               "name": "updateActivity",
-              "description": "Update an activity",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "UpdateActivityPayload",
@@ -1528,7 +1528,7 @@
               "args": [
                 {
                   "name": "attributes",
-                  "description": "Attributes for the new activity",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1544,7 +1544,7 @@
                 },
                 {
                   "name": "id",
-                  "description": "ID of the activity to update",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1562,7 +1562,7 @@
             },
             {
               "name": "updatePreference",
-              "description": "Updates a user’s preference",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "UpdatePreferencePayload",
@@ -1573,7 +1573,7 @@
               "args": [
                 {
                   "name": "id",
-                  "description": "The ID of the preference to update",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1589,7 +1589,7 @@
                 },
                 {
                   "name": "value",
-                  "description": "The new value for the preference as a boolean",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1607,7 +1607,7 @@
             },
             {
               "name": "updateSlot",
-              "description": "Update an activity slot",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "UpdateSlotPayload",
@@ -1618,7 +1618,7 @@
               "args": [
                 {
                   "name": "attributes",
-                  "description": "The attributes for the slot",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1634,7 +1634,7 @@
                 },
                 {
                   "name": "id",
-                  "description": "The ID of the slot to update",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1652,7 +1652,7 @@
             },
             {
               "name": "updateUser",
-              "description": "Update a user",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "UpdateUserPayload",
@@ -1663,7 +1663,7 @@
               "args": [
                 {
                   "name": "attributes",
-                  "description": "Attributes to update",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1679,7 +1679,7 @@
                 },
                 {
                   "name": "id",
-                  "description": "The ID of the user to update",
+                  "description": null,
                   "type": {
                     "kind": "SCALAR",
                     "name": "ID",
@@ -2026,7 +2026,7 @@
         {
           "kind": "OBJECT",
           "name": "PageResult",
-          "description": "A search result from a content page",
+          "description": null,
           "interfaces": [
             {
               "kind": "INTERFACE",
@@ -2038,7 +2038,7 @@
           "fields": [
             {
               "name": "description",
-              "description": "Supporting description",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2052,7 +2052,7 @@
             },
             {
               "name": "id",
-              "description": "Unique ID",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2070,7 +2070,7 @@
             },
             {
               "name": "lede",
-              "description": "Lede of the page",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2084,7 +2084,7 @@
             },
             {
               "name": "slug",
-              "description": "Slug of the page",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2102,7 +2102,7 @@
             },
             {
               "name": "title",
-              "description": "Title of the page",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2120,7 +2120,7 @@
             },
             {
               "name": "url",
-              "description": "Link to result page",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2143,7 +2143,7 @@
         {
           "kind": "OBJECT",
           "name": "Person",
-          "description": "A profile that may or may not be connected to a user",
+          "description": null,
           "interfaces": [
 
           ],
@@ -2151,7 +2151,7 @@
           "fields": [
             {
               "name": "city",
-              "description": "City",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "PlaceName",
@@ -2165,7 +2165,7 @@
             },
             {
               "name": "country",
-              "description": "Country",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "PlaceName",
@@ -2179,7 +2179,7 @@
             },
             {
               "name": "id",
-              "description": "Unique ID",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2197,7 +2197,7 @@
             },
             {
               "name": "name",
-              "description": "Name",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2215,7 +2215,7 @@
             },
             {
               "name": "picture",
-              "description": "Profile picture",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "ProfilePicture",
@@ -2229,7 +2229,7 @@
             },
             {
               "name": "pronouns",
-              "description": "Pronouns",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2243,7 +2243,7 @@
             },
             {
               "name": "user",
-              "description": "User",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "User",
@@ -2262,7 +2262,7 @@
         {
           "kind": "OBJECT",
           "name": "PersonResult",
-          "description": "A search result from a person",
+          "description": null,
           "interfaces": [
             {
               "kind": "INTERFACE",
@@ -2274,7 +2274,7 @@
           "fields": [
             {
               "name": "description",
-              "description": "Supporting description",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2288,7 +2288,7 @@
             },
             {
               "name": "id",
-              "description": "Unique ID",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2306,7 +2306,7 @@
             },
             {
               "name": "person",
-              "description": "Person",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2324,7 +2324,7 @@
             },
             {
               "name": "title",
-              "description": "Title of result page",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2342,7 +2342,7 @@
             },
             {
               "name": "url",
-              "description": "Link to result page",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2365,7 +2365,7 @@
         {
           "kind": "OBJECT",
           "name": "PlaceName",
-          "description": "A place name",
+          "description": null,
           "interfaces": [
 
           ],
@@ -2373,7 +2373,7 @@
           "fields": [
             {
               "name": "id",
-              "description": "Unique ID",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2391,7 +2391,7 @@
             },
             {
               "name": "name",
-              "description": "English name",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2409,7 +2409,7 @@
             },
             {
               "name": "traditionalName",
-              "description": "traditional name",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2428,7 +2428,7 @@
         {
           "kind": "INTERFACE",
           "name": "Preference",
-          "description": "A user preference",
+          "description": null,
           "interfaces": [
 
           ],
@@ -2447,7 +2447,7 @@
           "fields": [
             {
               "name": "description",
-              "description": "Preference description",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2465,7 +2465,7 @@
             },
             {
               "name": "id",
-              "description": "Preference ID",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2488,14 +2488,14 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "PreferenceValue",
-          "description": "Value for a user preference",
+          "description": null,
           "interfaces": null,
           "possibleTypes": null,
           "fields": null,
           "inputFields": [
             {
               "name": "boolean",
-              "description": "The new value for the preference as a boolean",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "Boolean",
@@ -2507,7 +2507,7 @@
             },
             {
               "name": "string",
-              "description": "The new value for the preference as a string",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2523,14 +2523,14 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "ProfileAttributes",
-          "description": "Attributes for adding or updating a user’s profile",
+          "description": null,
           "interfaces": null,
           "possibleTypes": null,
           "fields": null,
           "inputFields": [
             {
               "name": "bio",
-              "description": "A short bio",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2542,7 +2542,7 @@
             },
             {
               "name": "city",
-              "description": "The person’s home city",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2554,7 +2554,7 @@
             },
             {
               "name": "country",
-              "description": "The person’s home country",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "Country",
@@ -2566,7 +2566,19 @@
             },
             {
               "name": "name",
-              "description": "The name of the person",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pronouns",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2582,7 +2594,7 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "ProfileMergeAttributes",
-          "description": "Attributes for merging profiles",
+          "description": null,
           "interfaces": null,
           "possibleTypes": null,
           "fields": null,
@@ -2641,7 +2653,7 @@
         {
           "kind": "OBJECT",
           "name": "ProfilePicture",
-          "description": "A profile picture",
+          "description": null,
           "interfaces": [
 
           ],
@@ -2649,7 +2661,7 @@
           "fields": [
             {
               "name": "id",
-              "description": "Unique ID",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2734,7 +2746,7 @@
           "fields": [
             {
               "name": "festival",
-              "description": "Find a festival by year",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2749,7 +2761,7 @@
               "args": [
                 {
                   "name": "year",
-                  "description": "The year of the festival",
+                  "description": null,
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
@@ -2763,7 +2775,7 @@
             },
             {
               "name": "people",
-              "description": "Everybody everybody",
+              "description": null,
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2784,8 +2796,37 @@
               ]
             },
             {
+              "name": "person",
+              "description": null,
+              "type": {
+                "kind": "OBJECT",
+                "name": "Person",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+                {
+                  "name": "id",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ]
+            },
+            {
               "name": "preference",
-              "description": "User preference (if set)",
+              "description": null,
               "type": {
                 "kind": "INTERFACE",
                 "name": "Preference",
@@ -2796,7 +2837,7 @@
               "args": [
                 {
                   "name": "id",
-                  "description": "The ID of the preference to retrieve",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -2814,7 +2855,7 @@
             },
             {
               "name": "search",
-              "description": "Search for content",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2837,7 +2878,7 @@
               "args": [
                 {
                   "name": "activityType",
-                  "description": "Type of activity to return",
+                  "description": null,
                   "type": {
                     "kind": "ENUM",
                     "name": "ActivityType",
@@ -2849,7 +2890,7 @@
                 },
                 {
                   "name": "limit",
-                  "description": "Maximum number of results to return",
+                  "description": null,
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -2861,7 +2902,7 @@
                 },
                 {
                   "name": "only",
-                  "description": "Type of object to search for",
+                  "description": null,
                   "type": {
                     "kind": "LIST",
                     "name": null,
@@ -2881,7 +2922,7 @@
                 },
                 {
                   "name": "query",
-                  "description": "Text to search for",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -2899,7 +2940,7 @@
             },
             {
               "name": "user",
-              "description": "Current user",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "User",
@@ -2910,7 +2951,7 @@
               "args": [
                 {
                   "name": "id",
-                  "description": "The ID of the user to retrieve (defaults to current user)",
+                  "description": null,
                   "type": {
                     "kind": "SCALAR",
                     "name": "ID",
@@ -2937,7 +2978,7 @@
           "fields": [
             {
               "name": "activity",
-              "description": "Renamed activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2960,7 +3001,7 @@
         {
           "kind": "ENUM",
           "name": "Role",
-          "description": "User authorization roles",
+          "description": null,
           "interfaces": null,
           "possibleTypes": null,
           "fields": null,
@@ -2983,7 +3024,7 @@
         {
           "kind": "INTERFACE",
           "name": "SearchResult",
-          "description": "An individual search result",
+          "description": null,
           "interfaces": [
 
           ],
@@ -3012,7 +3053,7 @@
           "fields": [
             {
               "name": "description",
-              "description": "Supporting description",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3026,7 +3067,7 @@
             },
             {
               "name": "id",
-              "description": "Unique ID",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3044,7 +3085,7 @@
             },
             {
               "name": "title",
-              "description": "Title of result page",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3062,7 +3103,7 @@
             },
             {
               "name": "url",
-              "description": "Link to result page",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3085,7 +3126,7 @@
         {
           "kind": "ENUM",
           "name": "SearchType",
-          "description": "Type of object to search for",
+          "description": null,
           "interfaces": null,
           "possibleTypes": null,
           "fields": null,
@@ -3120,7 +3161,7 @@
         {
           "kind": "OBJECT",
           "name": "Show",
-          "description": "A show",
+          "description": null,
           "interfaces": [
             {
               "kind": "INTERFACE",
@@ -3132,7 +3173,7 @@
           "fields": [
             {
               "name": "description",
-              "description": "Description of the activity",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3172,7 +3213,7 @@
             },
             {
               "name": "id",
-              "description": "Unique ID",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3190,7 +3231,7 @@
             },
             {
               "name": "name",
-              "description": "Activity name",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3208,7 +3249,7 @@
             },
             {
               "name": "presenters",
-              "description": "People responsible for putting on this activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3234,7 +3275,7 @@
             },
             {
               "name": "slots",
-              "description": "Slots for this activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3260,7 +3301,7 @@
             },
             {
               "name": "slug",
-              "description": "For use in URL generation",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3278,7 +3319,7 @@
             },
             {
               "name": "type",
-              "description": "Type of activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3301,7 +3342,7 @@
         {
           "kind": "OBJECT",
           "name": "Slot",
-          "description": "A slot in the Festival schedule",
+          "description": null,
           "interfaces": [
 
           ],
@@ -3309,7 +3350,7 @@
           "fields": [
             {
               "name": "activity",
-              "description": "The activity that will take place during this slot",
+              "description": null,
               "type": {
                 "kind": "INTERFACE",
                 "name": "Activity",
@@ -3323,7 +3364,7 @@
             },
             {
               "name": "activityType",
-              "description": "The type of activity that will take place during this slot",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3341,7 +3382,7 @@
             },
             {
               "name": "endsAt",
-              "description": "The time at which the slot ends",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3359,7 +3400,7 @@
             },
             {
               "name": "id",
-              "description": "The ID of the slot",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3377,7 +3418,7 @@
             },
             {
               "name": "startsAt",
-              "description": "The time at which the slot starts",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3395,7 +3436,7 @@
             },
             {
               "name": "venue",
-              "description": "The venue where the slot will take place",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "Venue",
@@ -3414,14 +3455,14 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "SlotAttributes",
-          "description": "Attributes for adding or updating an activity slot",
+          "description": null,
           "interfaces": null,
           "possibleTypes": null,
           "fields": null,
           "inputFields": [
             {
               "name": "activityId",
-              "description": "Scheduled activity",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -3433,7 +3474,7 @@
             },
             {
               "name": "activityType",
-              "description": "The type of activity",
+              "description": null,
               "type": {
                 "kind": "ENUM",
                 "name": "ActivityType",
@@ -3445,7 +3486,7 @@
             },
             {
               "name": "endsAt",
-              "description": "The time at which the slot ends",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "ISO8601DateTime",
@@ -3457,7 +3498,7 @@
             },
             {
               "name": "startsAt",
-              "description": "The time at which the slot starts",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "ISO8601DateTime",
@@ -3469,7 +3510,7 @@
             },
             {
               "name": "venueId",
-              "description": "The ID of the venue",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -3485,7 +3526,7 @@
         {
           "kind": "OBJECT",
           "name": "SocialEvent",
-          "description": "A social event",
+          "description": null,
           "interfaces": [
             {
               "kind": "INTERFACE",
@@ -3497,7 +3538,7 @@
           "fields": [
             {
               "name": "description",
-              "description": "Description of the activity",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3511,7 +3552,7 @@
             },
             {
               "name": "id",
-              "description": "Unique ID",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3529,7 +3570,7 @@
             },
             {
               "name": "name",
-              "description": "Activity name",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3573,7 +3614,7 @@
             },
             {
               "name": "presenters",
-              "description": "People responsible for putting on this activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3599,7 +3640,7 @@
             },
             {
               "name": "slots",
-              "description": "Slots for this activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3625,7 +3666,7 @@
             },
             {
               "name": "slug",
-              "description": "For use in URL generation",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3643,7 +3684,7 @@
             },
             {
               "name": "type",
-              "description": "Type of activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3676,7 +3717,7 @@
         {
           "kind": "OBJECT",
           "name": "StringPreference",
-          "description": "A string user preference",
+          "description": null,
           "interfaces": [
             {
               "kind": "INTERFACE",
@@ -3688,7 +3729,7 @@
           "fields": [
             {
               "name": "description",
-              "description": "Preference description",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3706,7 +3747,7 @@
             },
             {
               "name": "id",
-              "description": "Preference ID",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3724,7 +3765,7 @@
             },
             {
               "name": "value",
-              "description": "Preference value",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3747,14 +3788,14 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "TimeRangeAttributes",
-          "description": "A start and end time",
+          "description": null,
           "interfaces": null,
           "possibleTypes": null,
           "fields": null,
           "inputFields": [
             {
               "name": "endsAt",
-              "description": "The time at which the slot ends",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3770,7 +3811,7 @@
             },
             {
               "name": "startsAt",
-              "description": "The time at which the slot starts",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3790,7 +3831,7 @@
         {
           "kind": "OBJECT",
           "name": "Timetable",
-          "description": "A timetable for a Festival",
+          "description": null,
           "interfaces": [
 
           ],
@@ -3798,7 +3839,7 @@
           "fields": [
             {
               "name": "id",
-              "description": "The ID of the timetable",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3816,7 +3857,7 @@
             },
             {
               "name": "slots",
-              "description": "The slots in the timetable",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3855,7 +3896,7 @@
           "fields": [
             {
               "name": "activity",
-              "description": "The newly updated activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3886,7 +3927,7 @@
           "fields": [
             {
               "name": "preference",
-              "description": "The updated preference",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3917,7 +3958,7 @@
           "fields": [
             {
               "name": "slot",
-              "description": "The updated slot",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3948,7 +3989,7 @@
           "fields": [
             {
               "name": "user",
-              "description": "The updated user",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3971,7 +4012,7 @@
         {
           "kind": "OBJECT",
           "name": "User",
-          "description": "A user",
+          "description": null,
           "interfaces": [
 
           ],
@@ -3979,7 +4020,7 @@
           "fields": [
             {
               "name": "email",
-              "description": "Email address",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3997,7 +4038,7 @@
             },
             {
               "name": "id",
-              "description": "Unique ID",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4015,7 +4056,7 @@
             },
             {
               "name": "name",
-              "description": "Name",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4033,7 +4074,7 @@
             },
             {
               "name": "profile",
-              "description": "Profile information",
+              "description": null,
               "type": {
                 "kind": "OBJECT",
                 "name": "Person",
@@ -4047,7 +4088,7 @@
             },
             {
               "name": "roles",
-              "description": "Authorized roles",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4078,14 +4119,14 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "UserAttributes",
-          "description": "Attributes for updating a user",
+          "description": null,
           "interfaces": null,
           "possibleTypes": null,
           "fields": null,
           "inputFields": [
             {
               "name": "email",
-              "description": "The new email address for the user",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4097,7 +4138,7 @@
             },
             {
               "name": "name",
-              "description": "The new name for the user",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4109,7 +4150,7 @@
             },
             {
               "name": "roles",
-              "description": "The user’s roles",
+              "description": null,
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -4410,7 +4451,7 @@
         {
           "kind": "OBJECT",
           "name": "Venue",
-          "description": "A venue",
+          "description": null,
           "interfaces": [
 
           ],
@@ -4418,7 +4459,7 @@
           "fields": [
             {
               "name": "address",
-              "description": "Address",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4436,7 +4477,7 @@
             },
             {
               "name": "building",
-              "description": "Building",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4454,7 +4495,7 @@
             },
             {
               "name": "id",
-              "description": "Unique ID",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4472,7 +4513,7 @@
             },
             {
               "name": "latitude",
-              "description": "Latitude",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4490,7 +4531,7 @@
             },
             {
               "name": "longitude",
-              "description": "Longitude",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4508,7 +4549,7 @@
             },
             {
               "name": "position",
-              "description": "Sort position",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4526,7 +4567,7 @@
             },
             {
               "name": "room",
-              "description": "Room",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4545,7 +4586,7 @@
         {
           "kind": "OBJECT",
           "name": "VenueResult",
-          "description": "A search result from a venue",
+          "description": null,
           "interfaces": [
             {
               "kind": "INTERFACE",
@@ -4557,7 +4598,7 @@
           "fields": [
             {
               "name": "description",
-              "description": "Supporting description",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4571,7 +4612,7 @@
             },
             {
               "name": "id",
-              "description": "Unique ID",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4589,7 +4630,7 @@
             },
             {
               "name": "title",
-              "description": "Title of result page",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4607,7 +4648,7 @@
             },
             {
               "name": "url",
-              "description": "Link to result page",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4625,7 +4666,7 @@
             },
             {
               "name": "venue",
-              "description": "Venue",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4648,7 +4689,7 @@
         {
           "kind": "OBJECT",
           "name": "Workshop",
-          "description": "A workshop",
+          "description": null,
           "interfaces": [
             {
               "kind": "INTERFACE",
@@ -4660,7 +4701,7 @@
           "fields": [
             {
               "name": "description",
-              "description": "Description of the activity",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4674,7 +4715,7 @@
             },
             {
               "name": "id",
-              "description": "Unique ID",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4692,7 +4733,7 @@
             },
             {
               "name": "name",
-              "description": "Activity name",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4710,7 +4751,7 @@
             },
             {
               "name": "presenters",
-              "description": "People responsible for putting on this activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4736,7 +4777,7 @@
             },
             {
               "name": "slots",
-              "description": "Slots for this activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4762,7 +4803,7 @@
             },
             {
               "name": "slug",
-              "description": "For use in URL generation",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4806,7 +4847,7 @@
             },
             {
               "name": "type",
-              "description": "Type of activity",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,

@@ -2,15 +2,11 @@ module Resolvers
   class SearchQuery < Resolvers::BaseResolver
     type [Types::SearchResultType], null: false
 
-    description 'Search for content across the app'
-
-    argument :activity_type, Types::ActivityTypeType, required: false,
-      description: 'Type of activity to return'
-    argument :limit, Integer, required: false, description: 'Maximum number of results to return'
+    argument :activity_type, Types::ActivityTypeType, required: false
+    argument :limit, Integer, required: false
     argument :only, [Types::SearchTypeType], required: false,
-      default_value: %i[activity person venue page],
-      description: 'Type of object to search for'
-    argument :query, String, required: true, description: 'Text to search for'
+      default_value: %i[activity person venue page]
+    argument :query, String, required: true
 
     def resolve(query:, only:, activity_type: nil, limit: 10)
       @activity_type = activity_type

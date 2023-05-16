@@ -1,17 +1,12 @@
 module Mutations
   module Activities
     class Update < BaseMutation
-      description 'Update an activity'
-
       graphql_name 'UpdateActivity'
 
-      field :activity, Types::ActivityType, null: false,
-        description: 'The newly updated activity'
+      field :activity, Types::ActivityType, null: false
 
-      argument :attributes, Types::ActivityAttributes, required: true,
-        description: 'Attributes for the new activity'
-      argument :id, GraphQL::Types::ID, required: true,
-        description: 'ID of the activity to update'
+      argument :attributes, Types::ActivityAttributes, required: true
+      argument :id, GraphQL::Types::ID, required: true
 
       def resolve(id:, attributes:)
         activity = Activity.find(id)

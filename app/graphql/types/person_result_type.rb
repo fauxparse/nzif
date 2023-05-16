@@ -2,9 +2,7 @@ module Types
   class PersonResultType < Types::BaseObject
     implements Types::SearchResultType
 
-    description 'A search result from a person'
-
-    field :person, PersonType, null: false, description: 'Person'
+    field :person, PersonType, null: false
 
     def id
       "person[#{person.to_param}]"

@@ -2,9 +2,7 @@ module Types
   class VenueResultType < Types::BaseObject
     implements Types::SearchResultType
 
-    description 'A search result from a venue'
-
-    field :venue, VenueType, null: false, description: 'Venue'
+    field :venue, VenueType, null: false
 
     def id
       "venue[#{venue.to_param}]"

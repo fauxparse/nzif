@@ -3,23 +3,15 @@
 module Mutations
   module Activities
     class Create < BaseMutation
-      description 'Create a new activity'
-
       graphql_name 'CreateActivity'
 
-      field :activity, Types::ActivityType, null: false,
-        description: 'The newly created activity'
-      field :slot, Types::SlotType, null: true,
-        description: 'The programmed slot, if any'
+      field :activity, Types::ActivityType, null: false
+      field :slot, Types::SlotType, null: true
 
-      argument :attributes, Types::ActivityAttributes, required: true,
-        description: 'Attributes for the new activity'
-      argument :festival_id, GraphQL::Types::ID, required: true,
-        description: 'ID of the festival to which the activity belongs'
-      argument :slot_id, GraphQL::Types::ID, required: false,
-        description: 'Immediately program this activity into the given slot'
-      argument :type, Types::ActivityTypeType, required: true,
-        description: 'Type of activity to create'
+      argument :attributes, Types::ActivityAttributes, required: true
+      argument :festival_id, GraphQL::Types::ID, required: true
+      argument :slot_id, GraphQL::Types::ID, required: false
+      argument :type, Types::ActivityTypeType, required: true
 
       def resolve(festival_id:, type:, attributes:, slot_id:)
         festival = ::Festival.find(festival_id)

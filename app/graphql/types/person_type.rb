@@ -1,14 +1,12 @@
 module Types
   class PersonType < Types::BaseObject
-    description 'A profile that may or may not be connected to a user'
-
-    field :city, Types::PlaceNameType, null: true, description: 'City'
-    field :country, Types::PlaceNameType, null: true, description: 'Country'
-    field :id, ID, null: false, description: 'Unique ID'
-    field :name, String, null: false, description: 'Name'
-    field :picture, Types::ProfilePictureType, null: true, description: 'Profile picture'
-    field :pronouns, String, null: true, description: 'Pronouns'
-    field :user, Types::UserType, null: true, description: 'User'
+    field :city, Types::PlaceNameType, null: true
+    field :country, Types::PlaceNameType, null: true
+    field :id, ID, null: false
+    field :name, String, null: false
+    field :picture, Types::ProfilePictureType, null: true
+    field :pronouns, String, null: true
+    field :user, Types::UserType, null: true
 
     def picture
       object.picture && object

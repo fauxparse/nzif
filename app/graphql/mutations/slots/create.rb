@@ -1,16 +1,12 @@
 module Mutations
   module Slots
     class Create < BaseMutation
-      description 'Create an activity slot'
-
       graphql_name 'CreateSlot'
 
-      argument :attributes, Types::SlotAttributes, required: true,
-        description: 'The attributes for the slot'
-      argument :festival_id, ID, required: true,
-        description: 'The ID of the festival to which the slot belongs'
+      argument :attributes, Types::SlotAttributes, required: true
+      argument :festival_id, ID, required: true
 
-      field :slot, Types::SlotType, null: false, description: 'The newly created slot'
+      field :slot, Types::SlotType, null: false
 
       def resolve(festival_id:, attributes:)
         festival = ::Festival.find(festival_id)

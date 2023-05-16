@@ -2,16 +2,13 @@ module Types
   module ActivityType
     include BaseInterface
 
-    description 'An activity that may be scheduled during the Festival'
-
-    field :id, ID, null: false, description: 'Unique ID'
-    field :name, String, null: false, description: 'Activity name'
-    field :slug, String, null: false, description: 'For use in URL generation'
-    field :type, ActivityTypeType, null: false, description: 'Type of activity'
-    field :slots, [SlotType], null: false, description: 'Slots for this activity'
-    field :presenters, [PersonType], null: false,
-      description: 'People responsible for putting on this activity'
-    field :description, String, null: true, description: 'Description of the activity'
+    field :id, ID, null: false
+    field :name, String, null: false
+    field :slug, String, null: false
+    field :type, ActivityTypeType, null: false
+    field :slots, [SlotType], null: false
+    field :presenters, [PersonType], null: false
+    field :description, String, null: true
 
     definition_methods do
       def resolve_type(object, _context)

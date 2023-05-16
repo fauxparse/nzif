@@ -2,13 +2,11 @@ module Mutations
   module Profiles
     class Merge < BaseMutation
       graphql_name 'MergeProfiles'
-      description 'Merge multiple profiles into one'
 
-      field :profile, Types::PersonType, null: false, description: 'The merged profile'
+      field :profile, Types::PersonType, null: false
 
-      argument :attributes, Types::ProfileMergeAttributes, required: true,
-        description: 'Hash of attribute names and IDs to select the values from'
-      argument :profile_ids, [ID], required: true, description: 'IDs of the profiles to merge'
+      argument :attributes, Types::ProfileMergeAttributes, required: true
+      argument :profile_ids, [ID], required: true
 
       def resolve(profile_ids:, attributes:)
         perform(

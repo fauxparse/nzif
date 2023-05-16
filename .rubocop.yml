@@ -10,6 +10,9 @@ AllCops:
     - 'bin/*'
     - 'db/schema.rb'
 
+GraphQL/ArgumentDescription:
+  Enabled: false
+
 GraphQL/ExtractType:
   Exclude:
     - 'app/graphql/**/base_*.rb'
@@ -17,17 +20,10 @@ GraphQL/ExtractType:
     - 'app/graphql/types/query_type.rb'
 
 GraphQL/FieldDescription:
-  Exclude:
-    - 'app/graphql/**/base_*.rb'
-    - 'app/graphql/types/mutation_type.rb'
-    - 'app/graphql/types/query_type.rb'
+  Enabled: false
 
 GraphQL/ObjectDescription:
-  Exclude:
-    - 'app/graphql/nzif_schema.rb'
-    - 'app/graphql/sources/**/*'
-    - 'app/graphql/**/base_*'
-    - 'app/graphql/types/query_type.rb'
+  Enabled: false
 
 Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation

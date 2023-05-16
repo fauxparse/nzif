@@ -3,25 +3,24 @@ module Types
     include Authorization
 
     field :festival, FestivalType, null: false do
-      description 'Find a festival by year'
-      argument :year, String, required: false, description: 'The year of the festival'
+      argument :year, String, required: false
     end
 
     field :user, UserType, null: true do
-      description 'Current user'
-
-      argument :id, ID, required: false,
-        description: 'The ID of the user to retrieve (defaults to current user)'
+      argument :id, ID, required: false
     end
 
     field :preference, PreferenceType, null: true do
-      description 'User preference (if set)'
-      argument :id, String, required: true, description: 'The ID of the preference to retrieve'
+      argument :id, String, required: true
     end
 
-    field :search, resolver: Resolvers::SearchQuery, description: 'Search for content'
+    field :search, resolver: Resolvers::SearchQuery
 
-    field :people, [PersonType], description: 'Everybody everybody'
+    field :people, [PersonType]
+
+    field :person, PersonType do
+      argument :id, ID, required: true
+    end
 
     def festival(year: nil)
       if year

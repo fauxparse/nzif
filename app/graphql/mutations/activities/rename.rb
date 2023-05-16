@@ -1,14 +1,12 @@
 module Mutations
   module Activities
     class Rename < BaseMutation
-      description 'Rename an activity'
-
       graphql_name 'RenameActivity'
 
-      field :activity, Types::ActivityType, null: false, description: 'Renamed activity'
+      field :activity, Types::ActivityType, null: false
 
-      argument :id, GraphQL::Types::ID, required: true, description: 'ID of activity to rename'
-      argument :name, String, required: true, description: 'New name'
+      argument :id, GraphQL::Types::ID, required: true
+      argument :name, String, required: true
 
       def resolve(id:, name:)
         activity = Activity.find(id)

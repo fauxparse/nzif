@@ -1,10 +1,8 @@
 module Types
   class PlaceNameType < Types::BaseObject
-    description 'A place name'
-
-    field :id, ID, null: false, description: 'Unique ID'
-    field :name, String, null: false, description: 'English name'
-    field :traditional_name, String, null: true, description: 'traditional name'
+    field :id, ID, null: false
+    field :name, String, null: false
+    field :traditional_name, String, null: true
 
     def name
       I18n.t(deburr(object.name), locale: :en, default: object.name)

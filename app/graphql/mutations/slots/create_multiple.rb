@@ -1,14 +1,11 @@
 module Mutations
   module Slots
     class CreateMultiple < BaseMutation
-      description 'Create multiple activity slots at once'
-
       graphql_name 'CreateMultipleSlots'
 
-      argument :attributes, Types::MultipleSlotAttributes, required: true,
-        description: 'The attributes for the slots'
+      argument :attributes, Types::MultipleSlotAttributes, required: true
 
-      field :slots, [Types::SlotType], null: false, description: 'The newly created slots'
+      field :slots, [Types::SlotType], null: false
 
       def resolve(attributes:)
         festival = ::Festival.find(attributes[:festival_id])

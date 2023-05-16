@@ -1,17 +1,12 @@
 module Mutations
   module Users
     class Update < BaseMutation
-      description 'Update a user'
-
       graphql_name 'UpdateUser'
 
-      field :user, Types::UserType, null: false,
-        description: 'The updated user'
+      field :user, Types::UserType, null: false
 
-      argument :attributes, Types::UserAttributes, required: true,
-        description: 'Attributes to update'
-      argument :id, ID, required: false,
-        description: 'The ID of the user to update'
+      argument :attributes, Types::UserAttributes, required: true
+      argument :id, ID, required: false
 
       def resolve(attributes:, id: current_user&.id)
         user = User.find(id)

@@ -1,12 +1,10 @@
 module Types
   class UserType < Types::BaseObject
-    description 'A user'
-
-    field :email, String, null: false, description: 'Email address'
-    field :id, ID, null: false, description: 'Unique ID'
-    field :name, String, null: false, description: 'Name'
-    field :profile, PersonType, null: true, description: 'Profile information'
-    field :roles, [RoleType], null: false, description: 'Authorized roles'
+    field :email, String, null: false
+    field :id, ID, null: false
+    field :name, String, null: false
+    field :profile, PersonType, null: true
+    field :roles, [RoleType], null: false
 
     def profile
       dataloader

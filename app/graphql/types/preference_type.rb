@@ -2,10 +2,8 @@ module Types
   module PreferenceType
     include BaseInterface
 
-    description 'A user preference'
-
-    field :id, String, null: false, description: 'Preference ID'
-    field :description, String, null: false, description: 'Preference description'
+    field :id, String, null: false
+    field :description, String, null: false
 
     definition_methods do
       def resolve_type(object, _context)

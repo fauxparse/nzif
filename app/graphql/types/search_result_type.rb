@@ -2,12 +2,10 @@ module Types
   module SearchResultType
     include BaseInterface
 
-    description 'An individual search result'
-
-    field :id, ID, null: false, description: 'Unique ID'
-    field :title, String, null: false, description: 'Title of result page'
-    field :description, String, null: true, description: 'Supporting description'
-    field :url, String, null: false, description: 'Link to result page'
+    field :id, ID, null: false
+    field :title, String, null: false
+    field :description, String, null: true
+    field :url, String, null: false
 
     definition_methods do
       def resolve_type(object, _context)

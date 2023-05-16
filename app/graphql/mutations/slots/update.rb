@@ -1,16 +1,12 @@
 module Mutations
   module Slots
     class Update < BaseMutation
-      description 'Update an activity slot'
-
       graphql_name 'UpdateSlot'
 
-      argument :attributes, Types::SlotAttributes, required: true,
-        description: 'The attributes for the slot'
-      argument :id, ID, required: true,
-        description: 'The ID of the slot to update'
+      argument :attributes, Types::SlotAttributes, required: true
+      argument :id, ID, required: true
 
-      field :slot, Types::SlotType, null: false, description: 'The updated slot'
+      field :slot, Types::SlotType, null: false
 
       def resolve(id:, attributes:)
         slot = ::Slot.find(id)

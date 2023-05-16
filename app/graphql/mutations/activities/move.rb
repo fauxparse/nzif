@@ -1,14 +1,12 @@
 module Mutations
   module Activities
     class Move < BaseMutation
-      description 'Move an activity'
-
       graphql_name 'MoveActivity'
 
-      field :activity, Types::ActivityType, null: false, description: 'Moved activity'
+      field :activity, Types::ActivityType, null: false
 
-      argument :id, GraphQL::Types::ID, required: true, description: 'ID of activity to move'
-      argument :slug, String, required: true, description: 'New slug'
+      argument :id, GraphQL::Types::ID, required: true
+      argument :slug, String, required: true
 
       def resolve(id:, slug:)
         activity = Activity.find(id)

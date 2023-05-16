@@ -1,14 +1,10 @@
 module Mutations
   module Users
     class UpdatePreference < Mutations::BaseMutation
-      description 'Updates a user’s preference'
+      field :preference, Types::PreferenceType, null: false
 
-      field :preference, Types::PreferenceType, null: false,
-        description: 'The updated preference'
-
-      argument :id, String, required: true, description: 'The ID of the preference to update'
-      argument :value, Types::PreferenceValue, required: true,
-        description: 'The new value for the preference as a boolean'
+      argument :id, String, required: true
+      argument :value, Types::PreferenceValue, required: true
 
       def resolve(id:, value:)
         preference = User.preferences[id.underscore.to_sym]
