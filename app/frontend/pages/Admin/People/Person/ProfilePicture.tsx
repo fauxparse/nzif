@@ -1,0 +1,53 @@
+import { useRef } from 'react';
+
+import Icon from '@/atoms/Icon';
+import {
+  Maybe,
+  PersonDetailsFragment,
+  ProfileAttributes,
+  useUpdateProfileMutation,
+} from '@/graphql/types';
+
+type ProfilePictureProps = {
+  profile: Maybe<PersonDetailsFragment>;
+};
+
+const ProfilePicture: React.FC<ProfilePictureProps> = ({ profile }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const imageRef = useRef<HTMLImageElement>(null);
+
+  const [update] = useUpdateProfileMutation();
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (!file || !profile) return;
+
+    const fr = new FileReader();
+    fr.onload = function () {
+      if (!imageRef.current) return;
+      imageRef.current.src = fr.result as string;
+
+      update({
+        variables: {
+          id: profile.id,
+          attributes: {
+            picture: file,
+          } as ProfileAttributes,
+        },
+      });
+    };
+    fr.readAsDataURL(file);
+  };
+
+  return (
+    <div className="profile-picture">
+      <Icon name="uploadImage" />
+      <img ref={imageRef} src={profile?.picture?.large} alt="Profile picture" />
+      <input ref={inputRef} type="file" accept="image/*" onChange={handleChange} />
+    </div>
+  );
+};
+
+export default ProfilePicture;

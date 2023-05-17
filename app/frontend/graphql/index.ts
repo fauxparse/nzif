@@ -1,11 +1,10 @@
 import { ApolloClient, from, HttpLink, InMemoryCache, split } from '@apollo/client';
+import { createUploadLink } from 'apollo-upload-client';
 
 import authentication from './authentication';
 import { scalarTypePolicies } from './types';
 
-const http = new HttpLink({
-  uri: '/graphql',
-});
+const http = createUploadLink({ uri: '/graphql' });
 
 const local = from([authentication, http]);
 

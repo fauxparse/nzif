@@ -33,10 +33,27 @@ query People {
   }
 }
 
+query Person($id: ID!) {
+  person(id: $id) {
+    ...PersonDetails
+    bio
+  }
+}
+
+mutation UpdateProfile($id: ID!, $attributes: ProfileAttributes!) {
+  updateProfile(id: $id, attributes: $attributes) {
+    profile {
+      ...PersonDetails
+      bio
+    }
+  }
+}
+
 mutation MergeProfiles($profileIds: [ID!]!, $attributes: ProfileMergeAttributes!) {
   mergeProfiles(profileIds: $profileIds, attributes: $attributes) {
     profile {
       ...PersonDetails
+      bio
     }
   }
 }

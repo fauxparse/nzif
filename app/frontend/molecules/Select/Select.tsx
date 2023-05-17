@@ -50,9 +50,14 @@ export const Select = forwardRef(
     const Trigger = (as || DefaultTrigger) as ElementType;
 
     const [open, setOpen] = useState(false);
+
     const [selectedIndex, setSelectedIndex] = useState<number | null>(() =>
       options.findIndex((o) => o.value === value)
     );
+    useEffect(() => {
+      setSelectedIndex(options.findIndex((o) => o.value === value));
+    }, [options, value]);
+
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
     const [innerOffset, setInnerOffset] = useState(0);
     const [touch, setTouch] = useState(false);
@@ -197,7 +202,7 @@ export const Select = forwardRef(
     return (
       <SelectContext.Provider value={{ open, label, placeholder }}>
         <Trigger
-          className={clsx('select', className)}
+          className={clsx('select', 'input', className)}
           {...getReferenceProps({
             ref: triggerRef,
             onTouchStart() {

@@ -57,8 +57,8 @@ const Header: React.FC = () => {
         <HeaderSearch container={container} />
         {!loading && (
           <Button ghost className="user-button" onClick={() => toggleOverlay()}>
-            <Avatar url={user?.profile?.picture?.small} name={user?.name || ''} />
-            <span className="button__text">{user?.name || 'Log in'}</span>
+            <Avatar url={user?.profile?.picture?.small} name={user?.profile?.name || ''} />
+            <span className="button__text">{user?.profile?.name || 'Log in'}</span>
           </Button>
         )}
         <ThemeSwitcher />

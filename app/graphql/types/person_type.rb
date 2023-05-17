@@ -1,5 +1,6 @@
 module Types
   class PersonType < Types::BaseObject
+    field :bio, String, null: false
     field :city, Types::PlaceNameType, null: true
     field :country, Types::PlaceNameType, null: true
     field :id, ID, null: false
@@ -13,11 +14,21 @@ module Types
     end
 
     def city
-      Hashie::Mash.new(name: object.city, locale: object.locale) if object.city?
+      Hashie::Mash.new(id: object.city, name: object.city, locale: object.locale) if object.city?
     end
 
     def country
-      Hashie::Mash.new(name: object.country.common_name, locale: object.locale) if object.country?
+      return unless object.country?
+
+      Hashie::Mash.new(
+        id: object.country.alpha2,
+        name: object.country.common_name,
+        locale: object.locale,
+      )
+    end
+
+    def bio
+      object.bio.presence || ''
     end
 
     def user

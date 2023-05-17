@@ -4,6 +4,8 @@ module Types
     field :name, String, null: false
     field :traditional_name, String, null: true
 
+    delegate :id, to: :object
+
     def name
       I18n.t(deburr(object.name), locale: :en, default: object.name)
     end

@@ -1,4 +1,6 @@
 .select {
+  --input-padding-inline: var(--small);
+
   width: unset;
 
   .button__text {
@@ -22,6 +24,13 @@
 
     &::-webkit-scrollbar {
       display: none;
+    }
+
+    .menu__item__label {
+      overflow: hidden;
+      min-width: 0;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 

@@ -1,0 +1,67 @@
+.person-form {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: var(--large);
+  align-items: flex-start;
+  padding-block: var(--large);
+
+  label {
+    padding: var(--small) 0;
+  }
+
+  .select,
+  input.input {
+    max-width: 24rem;
+  }
+
+  #bio {
+    min-height: 10rem;
+    max-height: 50vh;
+  }
+
+  .profile-picture {
+    grid-column: 2;
+  }
+}
+
+.profile-picture {
+  --profile-picture-size: 8rem;
+
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  place-items: center;
+  overflow: hidden;
+  width: var(--profile-picture-size);
+  height: var(--profile-picture-size);
+  border: var(--border-width-standard) solid var(--border-element);
+  border-radius: 50%;
+  background-color: var(--background-element);
+  cursor: pointer;
+
+  > * {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    transition: opacity var(--timing-standard) var(--ease-standard);
+  }
+
+  input {
+    align-self: stretch;
+    justify-self: stretch;
+    border-radius: 50%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  &:hover {
+    img {
+      opacity: 0.25;
+    }
+  }
+}

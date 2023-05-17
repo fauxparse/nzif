@@ -90,6 +90,9 @@ GEM
     amatch (0.4.1)
       mize
       tins (~> 1.0)
+    apollo_upload_server (2.1.0)
+      actionpack (>= 4.2)
+      graphql (>= 1.8)
     ast (2.4.2)
     auto_strip_attributes (2.6.0)
       activerecord (>= 4.0)
@@ -392,6 +395,7 @@ DEPENDENCIES
   activerecord-postgres_enum
   acts_as_list (~> 1.1.0)
   amatch (~> 0.4.1)
+  apollo_upload_server (= 2.1)
   auto_strip_attributes (~> 2.6)
   bootsnap
   contentful (~> 2.16)

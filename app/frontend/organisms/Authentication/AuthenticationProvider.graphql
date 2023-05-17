@@ -1,8 +1,10 @@
 fragment AuthenticatedUser on User {
   id
-  name
 
   profile {
+    id
+    name
+
     picture {
       small
     }

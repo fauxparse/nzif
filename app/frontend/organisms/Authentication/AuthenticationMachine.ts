@@ -13,8 +13,10 @@ type Action = LogInAction | LogOutAction | SignUpAction | ResetPasswordAction | 
 
 export type User = {
   id: string;
-  name: string;
   email?: string;
+  profile: {
+    name: string;
+  } | null;
 };
 
 export type Context = {
