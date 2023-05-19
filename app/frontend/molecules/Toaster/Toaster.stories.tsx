@@ -19,6 +19,7 @@ export default {
   component: Toaster,
   argTypes: {},
   args: {},
+  parameters: { layout: 'centered' },
   render: (args) => (
     <Toaster {...args}>
       <NotifyButton />

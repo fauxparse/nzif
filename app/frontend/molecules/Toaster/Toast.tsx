@@ -6,6 +6,7 @@ import Button from '@/atoms/Button';
 import { Notification } from './Toaster.types';
 
 type NotificationProps = Notification & {
+  index: number;
   onDismiss: (id: string) => void;
 };
 
@@ -13,13 +14,13 @@ const DRAG_THRESHOLD = 40;
 
 const toastVariants: Variants = {
   initial: { x: 0, y: 100, opacity: 0, scale: 1 },
-  animate: { x: 0, y: 0, opacity: 1, scale: 1, transition: { type: 'spring', bounce: 0.2 } },
+  animate: { x: 0, y: 0, opacity: 1, scale: 1, transition: { type: 'spring', bounce: 0.5 } },
   exit: ({ throwing }: { throwing: boolean }) =>
     throwing ? {} : { x: 384, y: 0, opacity: 0, scale: 0.5, transition: { duration: 0.3 } },
 };
 
 const Toast = forwardRef<HTMLDivElement, NotificationProps>(
-  ({ id, content, options, onDismiss }, ref) => {
+  ({ id, content, options, index, onDismiss }, ref) => {
     const [throwing, setThrowing] = useState(false);
 
     const [dragAxis, setDragAxis] = useState<'x' | 'y'>('y');
@@ -35,8 +36,7 @@ const Toast = forwardRef<HTMLDivElement, NotificationProps>(
       <motion.div
         ref={ref}
         key={id}
-        className="toast"
-        layout="position"
+        className="toast-wrapper"
         drag
         dragDirectionLock
         dragConstraints={{ top: 0, left: 0 }}
@@ -49,16 +49,22 @@ const Toast = forwardRef<HTMLDivElement, NotificationProps>(
         onDragEnd={dragEnd}
         onDirectionLock={setDragAxis}
       >
-        <div className="toast__content">{content}</div>
-        {options.dismissable && onDismiss && (
-          <Button
-            className="toast__dismiss"
-            ghost
-            icon="close"
-            aria-label="Dismiss"
-            onClick={() => onDismiss(id)}
-          />
-        )}
+        <motion.div
+          layout="position"
+          className="toast"
+          transition={{ layout: { type: 'spring', bounce: 0.5, delay: index * 0.025 } }}
+        >
+          <div className="toast__content">{content}</div>
+          {options.dismissable && onDismiss && (
+            <Button
+              className="toast__dismiss"
+              ghost
+              icon="close"
+              aria-label="Dismiss"
+              onClick={() => onDismiss(id)}
+            />
+          )}
+        </motion.div>
       </motion.div>
     );
   }

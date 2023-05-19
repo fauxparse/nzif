@@ -12,10 +12,9 @@
 
 :where(.toaster) {
   position: fixed;
-  right: var(--spacing);
-  bottom: var(--spacing);
+  inset: var(--spacing);
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   gap: var(--spacing);
   justify-content: flex-end;
   align-items: flex-end;

@@ -12,10 +12,8 @@ type Action =
   | { type: 'ADD'; id: string; content: ToastContent; options: NotificationOptions }
   | { type: 'REMOVE'; id: string };
 
-const TIMEOUT = 5000;
-
 const DEFAULT_OPTIONS: NotificationOptions = {
-  timeout: 5000,
+  timeout: 3000,
   dismissable: true,
 };
 
@@ -33,7 +31,7 @@ export const Toaster: React.FC<ToasterProps> = ({ children }) => {
               (action.options.timeout &&
                 setTimeout(() => {
                   dispatch({ type: 'REMOVE', id: action.id });
-                }, TIMEOUT)) ||
+                }, action.options.timeout)) ||
               null,
             options: action.options,
           });
@@ -79,9 +77,10 @@ export const Toaster: React.FC<ToasterProps> = ({ children }) => {
       <Context.Provider value={{ notifications, notify }}>{children}</Context.Provider>
       <motion.div className="toaster" aria-live="polite" role="region">
         <AnimatePresence initial={false}>
-          {[...notifications.values()].reverse().map((notification) => (
+          {[...notifications.values()].map((notification, index) => (
             <Toast
               key={notification.id}
+              index={notifications.size - index}
               {...notification}
               onDismiss={() => dismiss(notification.id)}
             />
