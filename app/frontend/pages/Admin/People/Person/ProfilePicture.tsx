@@ -28,6 +28,7 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({ profile }) => {
     fr.onload = function () {
       if (!imageRef.current) return;
       imageRef.current.src = fr.result as string;
+      imageRef.current.style.opacity = '1';
 
       update({
         variables: {
@@ -44,7 +45,12 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({ profile }) => {
   return (
     <div className="profile-picture">
       <Icon name="uploadImage" />
-      <img ref={imageRef} src={profile?.picture?.large} alt="Profile picture" />
+      <img
+        ref={imageRef}
+        src={profile?.picture?.large}
+        alt="Profile picture"
+        style={{ opacity: profile?.picture ? 1 : 0 }}
+      />
       <input ref={inputRef} type="file" accept="image/*" onChange={handleChange} />
     </div>
   );

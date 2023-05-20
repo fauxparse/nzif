@@ -27,6 +27,12 @@ fragment PersonDetails on Person {
   }
 }
 
+fragment PersonUser on User {
+  id
+  email
+  roles
+}
+
 query People {
   people {
     ...PersonDetails
@@ -37,6 +43,10 @@ query Person($id: ID!) {
   person(id: $id) {
     ...PersonDetails
     bio
+
+    user {
+      ...PersonUser
+    }
   }
 }
 

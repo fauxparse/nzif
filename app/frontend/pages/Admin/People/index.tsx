@@ -9,7 +9,7 @@ import './People.css';
 const Activities: React.FC = () => {
   return (
     <Routes>
-      <Route path=":id" element={<Person />} />
+      <Route path=":id/*" element={<Person />} />
       <Route path="" element={<PeopleList />} />
     </Routes>
   );

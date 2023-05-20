@@ -835,6 +835,8 @@ export type CreateProfileMutation = { __typename: 'Mutation', createProfile: { _
 
 export type PersonDetailsFragment = { __typename: 'Person', id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null };
 
+export type PersonUserFragment = { __typename: 'User', id: string, email: string, roles: Array<Role> };
+
 export type PeopleQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -845,7 +847,7 @@ export type PersonQueryVariables = Exact<{
 }>;
 
 
-export type PersonQuery = { __typename: 'Query', person: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } | null };
+export type PersonQuery = { __typename: 'Query', person: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string, roles: Array<Role> } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } | null };
 
 export type UpdateProfileMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -862,23 +864,6 @@ export type MergeProfilesMutationVariables = Exact<{
 
 
 export type MergeProfilesMutation = { __typename: 'Mutation', mergeProfiles: { __typename: 'MergeProfilesPayload', profile: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } } | null };
-
-export type EditableUserFragment = { __typename: 'User', id: string, name: string, email: string, roles: Array<Role> };
-
-export type EditUserQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type EditUserQuery = { __typename: 'Query', user: { __typename: 'User', id: string, name: string, email: string, roles: Array<Role> } | null };
-
-export type UpdateUserMutationVariables = Exact<{
-  id: Scalars['ID'];
-  attributes: UserAttributes;
-}>;
-
-
-export type UpdateUserMutation = { __typename: 'Mutation', updateUser: { __typename: 'UpdateUserPayload', user: { __typename: 'User', id: string, name: string, email: string, roles: Array<Role> } } | null };
 
 export const PreferenceValueFragmentFragmentDoc = gql`
     fragment PreferenceValueFragment on Preference {
@@ -1010,10 +995,9 @@ export const PersonDetailsFragmentDoc = gql`
   }
 }
     `;
-export const EditableUserFragmentDoc = gql`
-    fragment EditableUser on User {
+export const PersonUserFragmentDoc = gql`
+    fragment PersonUser on User {
   id
-  name
   email
   roles
 }
@@ -2029,9 +2013,13 @@ export const PersonDocument = gql`
   person(id: $id) {
     ...PersonDetails
     bio
+    user {
+      ...PersonUser
+    }
   }
 }
-    ${PersonDetailsFragmentDoc}`;
+    ${PersonDetailsFragmentDoc}
+${PersonUserFragmentDoc}`;
 
 /**
  * __usePersonQuery__
@@ -2134,77 +2122,6 @@ export function useMergeProfilesMutation(baseOptions?: Apollo.MutationHookOption
 export type MergeProfilesMutationHookResult = ReturnType<typeof useMergeProfilesMutation>;
 export type MergeProfilesMutationResult = Apollo.MutationResult<MergeProfilesMutation>;
 export type MergeProfilesMutationOptions = Apollo.BaseMutationOptions<MergeProfilesMutation, MergeProfilesMutationVariables>;
-export const EditUserDocument = gql`
-    query EditUser($id: ID!) {
-  user(id: $id) {
-    ...EditableUser
-  }
-}
-    ${EditableUserFragmentDoc}`;
-
-/**
- * __useEditUserQuery__
- *
- * To run a query within a React component, call `useEditUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useEditUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useEditUserQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useEditUserQuery(baseOptions: Apollo.QueryHookOptions<EditUserQuery, EditUserQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<EditUserQuery, EditUserQueryVariables>(EditUserDocument, options);
-      }
-export function useEditUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EditUserQuery, EditUserQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<EditUserQuery, EditUserQueryVariables>(EditUserDocument, options);
-        }
-export type EditUserQueryHookResult = ReturnType<typeof useEditUserQuery>;
-export type EditUserLazyQueryHookResult = ReturnType<typeof useEditUserLazyQuery>;
-export type EditUserQueryResult = Apollo.QueryResult<EditUserQuery, EditUserQueryVariables>;
-export const UpdateUserDocument = gql`
-    mutation UpdateUser($id: ID!, $attributes: UserAttributes!) {
-  updateUser(id: $id, attributes: $attributes) {
-    user {
-      ...EditableUser
-    }
-  }
-}
-    ${EditableUserFragmentDoc}`;
-export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
-
-/**
- * __useUpdateUserMutation__
- *
- * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
- *   variables: {
- *      id: // value for 'id'
- *      attributes: // value for 'attributes'
- *   },
- * });
- */
-export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserMutation, UpdateUserMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, options);
-      }
-export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
-export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
-export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
 import { datePolicy, dateTimePolicy } from './policies/dateTimePolicy';
 
 export const scalarTypePolicies = {
