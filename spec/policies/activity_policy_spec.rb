@@ -43,5 +43,15 @@ RSpec.describe ActivityPolicy, type: :policy do
     succeed 'when the user is an admin' do
       let(:context) { { user: admin } }
     end
+
+    succeed 'when the user is a tutor of the workshop' do
+      let(:profile) { create(:profile, :with_user) }
+
+      let(:context) { { user: profile.user } }
+
+      before do
+        record.cast.create!(profile:, role: :tutor)
+      end
+    end
   end
 end

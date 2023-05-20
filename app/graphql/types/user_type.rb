@@ -3,8 +3,8 @@ module Types
     field :email, String, null: false
     field :id, ID, null: false
     field :name, String, null: false
+    field :permissions, [PermissionType], null: false
     field :profile, PersonType, null: true
-    field :roles, [RoleType], null: false
 
     def profile
       dataloader

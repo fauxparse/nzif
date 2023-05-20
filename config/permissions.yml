@@ -1,0 +1,20 @@
+admin:
+  description: Administrator
+  implies:
+    people:
+      description: Manage people
+    permissions:
+      description: Manage permissions
+    activities:
+      description: Manage activities
+      implies:
+        shows:
+          description: Manage shows
+        workshops:
+          description: Manage workshops
+        social_events:
+          description: Manage social events
+    registrations:
+      description: Manage registrations
+    content:
+      description: Manage content

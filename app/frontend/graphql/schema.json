@@ -2186,6 +2186,71 @@
           "enumValues": null
         },
         {
+          "kind": "ENUM",
+          "name": "Permission",
+          "description": null,
+          "interfaces": null,
+          "possibleTypes": null,
+          "fields": null,
+          "inputFields": null,
+          "enumValues": [
+            {
+              "name": "People",
+              "description": "Manage people",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "Permissions",
+              "description": "Manage permissions",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "Shows",
+              "description": "Manage shows",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "Workshops",
+              "description": "Manage workshops",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SocialEvents",
+              "description": "Manage social events",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "Activities",
+              "description": "Manage activities",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "Registrations",
+              "description": "Manage registrations",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "Content",
+              "description": "Manage content",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "Admin",
+              "description": "Administrator",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ]
+        },
+        {
           "kind": "OBJECT",
           "name": "Person",
           "description": null,
@@ -3072,29 +3137,6 @@
           ],
           "inputFields": null,
           "enumValues": null
-        },
-        {
-          "kind": "ENUM",
-          "name": "Role",
-          "description": null,
-          "interfaces": null,
-          "possibleTypes": null,
-          "fields": null,
-          "inputFields": null,
-          "enumValues": [
-            {
-              "name": "Admin",
-              "description": "Admin",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "ParticipantLiaison",
-              "description": "Participant liaison",
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ]
         },
         {
           "kind": "INTERFACE",
@@ -4189,21 +4231,7 @@
               ]
             },
             {
-              "name": "profile",
-              "description": null,
-              "type": {
-                "kind": "OBJECT",
-                "name": "Person",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null,
-              "args": [
-
-              ]
-            },
-            {
-              "name": "roles",
+              "name": "permissions",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -4216,11 +4244,25 @@
                     "name": null,
                     "ofType": {
                       "kind": "ENUM",
-                      "name": "Role",
+                      "name": "Permission",
                       "ofType": null
                     }
                   }
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "profile",
+              "description": null,
+              "type": {
+                "kind": "OBJECT",
+                "name": "Person",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null,
@@ -4265,7 +4307,7 @@
               "deprecationReason": null
             },
             {
-              "name": "roles",
+              "name": "permissions",
               "description": null,
               "type": {
                 "kind": "LIST",
@@ -4275,7 +4317,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "ENUM",
-                    "name": "Role",
+                    "name": "Permission",
                     "ofType": null
                   }
                 }

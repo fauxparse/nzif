@@ -6,7 +6,7 @@ FactoryBot.define do
     password { 'P4$$w0rd' }
 
     factory :admin do
-      roles { [:admin] }
+      permissions { [:admin] }
     end
   end
 end

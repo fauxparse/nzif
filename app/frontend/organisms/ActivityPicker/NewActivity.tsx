@@ -8,7 +8,7 @@ import Button from '@/atoms/Button';
 import FormError from '@/atoms/FormError';
 import { IconName } from '@/atoms/Icon';
 import Input from '@/atoms/Input';
-import { Activity, ActivityAttributes, ActivityType } from '@/graphql/types';
+import { ActivityAttributes, ActivityType, TimetableActivityFragment } from '@/graphql/types';
 import AutoResize from '@/helpers/AutoResize';
 import usePresenters from '@/hooks/usePresenters';
 import InputGroup from '@/molecules/InputGroup';
@@ -33,7 +33,10 @@ type NewActivityProps = {
   activityType: ActivityType;
   defaultName?: string;
   onBack: () => void;
-  onCreate: (activityType: ActivityType, attributes: ActivityAttributes) => Promise<Activity>;
+  onCreate: (
+    activityType: ActivityType,
+    attributes: ActivityAttributes
+  ) => Promise<TimetableActivityFragment>;
 };
 
 const slugify = (name: string) => kebabCase(deburr(name)).substring(0, 32);
@@ -106,9 +109,10 @@ export const NewActivity: React.FC<NewActivityProps> = ({
     });
 
   const handleCreate = (attributes: FormSchemaType) => {
-    onCreate(activityType, { ...attributes, profileIds: presenters.map((p) => p.id) }).then(() =>
-      setOpen(false)
-    );
+    onCreate(activityType, {
+      ...attributes,
+      profileIds: presenters.map((p) => p.id),
+    } as ActivityAttributes).then(() => setOpen(false));
   };
 
   return (

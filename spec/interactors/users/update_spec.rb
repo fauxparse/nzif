@@ -29,8 +29,8 @@ RSpec.describe Users::Update, type: :interactor do
 
       let(:attributes) { { roles: [] } }
 
-      it 'ignores changes to roles' do
-        expect { result }.not_to(change { user.reload.roles })
+      it 'ignores changes to permissions' do
+        expect { result }.not_to(change { user.reload.permissions })
       end
     end
 

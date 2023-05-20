@@ -16,8 +16,10 @@ type Story = StoryObj<typeof meta>;
 
 const user: User = {
   id: '1',
-  name: 'Lauren Ipsum',
   email: 'lauren@example.com',
+  profile: {
+    name: 'Lauren Ipsum',
+  },
 };
 
 export const Primary: Story = {

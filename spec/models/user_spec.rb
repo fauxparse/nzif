@@ -15,8 +15,8 @@ RSpec.describe User do
     end
   end
 
-  describe '#roles' do
-    subject(:roles) { user.roles }
+  describe '#permissions' do
+    subject(:permissions) { user.permissions }
 
     it { is_expected.to be_empty }
 
@@ -26,37 +26,37 @@ RSpec.describe User do
       it { is_expected.not_to be_empty }
 
       it 'has the admin role' do
-        expect(roles).to include(:admin)
+        expect(permissions).to include(:admin)
       end
     end
 
     it 'allows << with a symbol' do
-      user.roles << :admin
-      expect(user.roles).to include(:admin)
+      user.permissions << :admin
+      expect(user.permissions).to include(:admin)
     end
 
     it 'allows << with a string' do
-      user.roles << 'admin'
-      expect(user.roles).to include(:admin)
+      user.permissions << 'admin'
+      expect(user.permissions).to include(:admin)
     end
   end
 
-  describe '#roles=' do
+  describe '#permissions=' do
     let(:user) { create(:admin) }
 
-    it 'can add roles' do
-      user.roles = %i[admin participant_liaison]
-      expect(user.roles).to include(:admin).and include(:participant_liaison)
+    it 'can add permissions' do
+      user.permissions = %i[admin workshops]
+      expect(user.permissions).to include(:admin).and include(:workshops)
     end
 
-    it 'can remove roles' do
-      user.update!(roles: [])
-      expect(user.roles).to be_empty
+    it 'can remove permissions' do
+      user.update!(permissions: [])
+      expect(user.permissions).to be_empty
     end
   end
 
   describe '#admin?' do
-    subject(:admin?) { user.role?(:admin) }
+    subject(:admin?) { user.permission?(:admin) }
 
     it { is_expected.to be false }
 

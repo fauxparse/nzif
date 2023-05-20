@@ -30,7 +30,7 @@ fragment PersonDetails on Person {
 fragment PersonUser on User {
   id
   email
-  roles
+  permissions
 }
 
 query People {

@@ -56,6 +56,7 @@ const WORKSHOPS = [
       name,
       slug: kebabCase(name),
       type: ActivityType.Workshop,
+      tutors: [],
     },
   })
 );

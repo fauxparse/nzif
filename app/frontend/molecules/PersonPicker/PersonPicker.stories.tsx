@@ -11,7 +11,7 @@ type Story = StoryObj<typeof PersonPicker>;
 const PersonPickerDemo = () => {
   const [people, setPeople] = React.useState<Profile[]>(() =>
     sortBy(
-      range(100).map(() => ({ id: uniqueId(), name: randFullName() })),
+      range(100).map(() => ({ id: uniqueId(), name: randFullName(), picture: null })),
       'name'
     )
   );

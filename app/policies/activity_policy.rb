@@ -4,11 +4,11 @@ class ActivityPolicy < ApplicationPolicy
   end
 
   def create?
-    user.admin?
+    user.activities?
   end
 
   def manage?
-    user.admin?
+    user.activities? || record.cast.joins(profile: :user).exists?(users: { id: user.id })
   end
 
   scope_for(:relation, &:itself)

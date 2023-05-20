@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 
 import { useTimetableContext } from '../../Context';
 import {
-  Activity,
   ActivityAttributes,
   ActivitySearchQuery,
   ActivityType,
@@ -50,7 +49,7 @@ const ActivityPopover: React.FC<ActivityPopoverProps> = ({ activity, slot, ...pr
 
   const handleCreate = useCallback(
     (activityType: ActivityType, attributes: Partial<ActivityAttributes>) =>
-      new Promise<Activity>((resolve, reject) => {
+      new Promise<TimetableActivityFragment>((resolve, reject) => {
         if (!festival) return reject();
 
         create({

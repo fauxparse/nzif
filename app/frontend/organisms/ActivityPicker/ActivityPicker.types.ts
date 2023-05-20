@@ -1,4 +1,9 @@
-import { Activity, ActivityAttributes, ActivitySearchQuery, ActivityType } from '@/graphql/types';
+import {
+  ActivityAttributes,
+  ActivitySearchQuery,
+  ActivityType,
+  TimetableActivityFragment,
+} from '@/graphql/types';
 
 export type ActivityResult = Extract<
   ActivitySearchQuery['search'][number],
@@ -11,5 +16,5 @@ export type ActivityPickerProps = {
   onCreate: (
     activityType: ActivityType,
     attributes: Partial<ActivityAttributes>
-  ) => Promise<Activity>;
+  ) => Promise<TimetableActivityFragment>;
 };
