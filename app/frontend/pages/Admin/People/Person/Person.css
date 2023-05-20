@@ -58,6 +58,20 @@
   .profile-picture {
     grid-column: 2;
   }
+
+  .permission {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--small);
+
+    &__label {
+      display: contents;
+    }
+
+    &__children {
+      grid-column: 2;
+    }
+  }
 }
 
 .profile-picture {

@@ -2,7 +2,7 @@ module Sources
   class ProfileUser < BaseSource
     def fetch(profile_ids)
       records = User
-        .includes(:profile)
+        .joins(:profile)
         .where(profiles: { id: profile_ids })
         .select('users.*, profiles.id AS profile_id')
         .index_by(&:profile_id)

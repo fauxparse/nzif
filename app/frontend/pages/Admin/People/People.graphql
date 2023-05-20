@@ -39,6 +39,11 @@ query People {
   }
 }
 
+fragment PermissionDefinitionFields on PermissionDefinition {
+  id
+  label
+}
+
 query Person($id: ID!) {
   person(id: $id) {
     ...PersonDetails
@@ -46,6 +51,20 @@ query Person($id: ID!) {
 
     user {
       ...PersonUser
+      permissions
+    }
+  }
+
+  permissions {
+    ...PermissionDefinitionFields
+    children {
+      ...PermissionDefinitionFields
+      children {
+        ...PermissionDefinitionFields
+        children {
+          ...PermissionDefinitionFields
+        }
+      }
     }
   }
 }
@@ -64,6 +83,15 @@ mutation MergeProfiles($profileIds: [ID!]!, $attributes: ProfileMergeAttributes!
     profile {
       ...PersonDetails
       bio
+    }
+  }
+}
+
+mutation UpdatePermissions($id: ID!, $permissions: [Permission!]!) {
+  updateUser(id: $id, attributes: { permissions: $permissions }) {
+    user {
+      id
+      permissions
     }
   }
 }

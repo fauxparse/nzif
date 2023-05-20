@@ -2195,60 +2195,131 @@
           "inputFields": null,
           "enumValues": [
             {
-              "name": "People",
-              "description": "Manage people",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "Permissions",
+              "name": "permissions",
               "description": "Manage permissions",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "Shows",
+              "name": "people",
+              "description": "Manage people",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "shows",
               "description": "Manage shows",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "Workshops",
+              "name": "workshops",
               "description": "Manage workshops",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "SocialEvents",
+              "name": "social_events",
               "description": "Manage social events",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "Activities",
+              "name": "activities",
               "description": "Manage activities",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "Registrations",
+              "name": "registrations",
               "description": "Manage registrations",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "Content",
+              "name": "content",
               "description": "Manage content",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "Admin",
+              "name": "admin",
               "description": "Administrator",
               "isDeprecated": false,
               "deprecationReason": null
             }
           ]
+        },
+        {
+          "kind": "OBJECT",
+          "name": "PermissionDefinition",
+          "description": null,
+          "interfaces": [
+
+          ],
+          "possibleTypes": null,
+          "fields": [
+            {
+              "name": "children",
+              "description": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "PermissionDefinition",
+                    "ofType": null
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "Permission",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "label",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            }
+          ],
+          "inputFields": null,
+          "enumValues": null
         },
         {
           "kind": "OBJECT",
@@ -2926,6 +2997,32 @@
                     "kind": "OBJECT",
                     "name": "Person",
                     "ofType": null
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "permissions",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "PermissionDefinition",
+                      "ofType": null
+                    }
                   }
                 }
               },

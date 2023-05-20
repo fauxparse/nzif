@@ -32,7 +32,7 @@ module Types
     end
 
     def user
-      object.user_id && dataloader.with(Sources::ProfileUser, context:).load(object.user_id)
+      object.user_id && dataloader.with(Sources::ProfileUser, context:).load(object.id)
     end
   end
 end

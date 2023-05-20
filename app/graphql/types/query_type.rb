@@ -22,6 +22,8 @@ module Types
       argument :id, ID, required: true
     end
 
+    field :permissions, [PermissionDefinitionType], null: false
+
     def festival(year: nil)
       if year
         Festival.by_year(year).first!
@@ -48,7 +50,12 @@ module Types
     end
 
     def person(id:)
-      authorized_scope(Profile, type: :relation).find(id)
+      # authorized_scope(Profile, type: :relation).find(id)
+      Profile.find(id)
+    end
+
+    def permissions
+      Permission.all.select { |p| p.parent.nil? }
     end
   end
 end

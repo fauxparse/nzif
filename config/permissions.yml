@@ -3,8 +3,9 @@ admin:
   implies:
     people:
       description: Manage people
-    permissions:
-      description: Manage permissions
+      implies:
+        permissions:
+          description: Manage permissions
     activities:
       description: Manage activities
       implies:

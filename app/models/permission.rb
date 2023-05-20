@@ -9,6 +9,10 @@ class Permission
       @permissions
     end
 
+    def all
+      permissions.values
+    end
+
     delegate :each, :[], to: :permissions
 
     private

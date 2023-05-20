@@ -177,47 +177,53 @@ enum Permission {
   """
   Manage activities
   """
-  Activities
+  activities
 
   """
   Administrator
   """
-  Admin
+  admin
 
   """
   Manage content
   """
-  Content
+  content
 
   """
   Manage people
   """
-  People
+  people
 
   """
   Manage permissions
   """
-  Permissions
+  permissions
 
   """
   Manage registrations
   """
-  Registrations
+  registrations
 
   """
   Manage shows
   """
-  Shows
+  shows
 
   """
   Manage social events
   """
-  SocialEvents
+  social_events
 
   """
   Manage workshops
   """
-  Workshops
+  workshops
+}
+
+type PermissionDefinition {
+  children: [PermissionDefinition!]
+  id: Permission!
+  label: String!
 }
 
 type Person {
@@ -293,6 +299,7 @@ type ProfilePicture {
 type Query {
   festival(year: String): Festival!
   people: [Person!]
+  permissions: [PermissionDefinition!]!
   person(id: ID!): Person
   preference(id: String!): Preference
   search(activityType: ActivityType, limit: Int, only: [SearchType!] = [Activity, Person, Venue, Page], query: String!): [SearchResult!]!

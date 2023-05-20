@@ -9,6 +9,7 @@ import CountryPicker, { useCountries } from '@/molecules/CountryPicker';
 import { CountryPickerOption } from '@/molecules/CountryPicker/CountryPicker.types';
 import { useToaster } from '@/molecules/Toaster';
 
+import Permissions from './Permissions';
 import { PersonDetails } from './Person.types';
 import ProfilePicture from './ProfilePicture';
 
@@ -198,6 +199,7 @@ const Profile: React.FC<ProfileProps> = ({ person }) => {
             <CountryPicker id="country" value={person?.country?.id} onChange={handleCountry} />
           </div>
         </section>
+        {person?.user && <Permissions />}
       </form>
     </div>
   );

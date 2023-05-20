@@ -1,5 +1,6 @@
 fragment AuthenticatedUser on User {
   id
+  permissions
 
   profile {
     id

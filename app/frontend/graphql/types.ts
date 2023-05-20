@@ -301,24 +301,31 @@ export type PageResult = SearchResult & {
 
 export enum Permission {
   /** Manage activities */
-  Activities = 'Activities',
+  Activities = 'activities',
   /** Administrator */
-  Admin = 'Admin',
+  Admin = 'admin',
   /** Manage content */
-  Content = 'Content',
+  Content = 'content',
   /** Manage people */
-  People = 'People',
+  People = 'people',
   /** Manage permissions */
-  Permissions = 'Permissions',
+  Permissions = 'permissions',
   /** Manage registrations */
-  Registrations = 'Registrations',
+  Registrations = 'registrations',
   /** Manage shows */
-  Shows = 'Shows',
+  Shows = 'shows',
   /** Manage social events */
-  SocialEvents = 'SocialEvents',
+  SocialEvents = 'social_events',
   /** Manage workshops */
-  Workshops = 'Workshops'
+  Workshops = 'workshops'
 }
+
+export type PermissionDefinition = {
+  __typename: 'PermissionDefinition';
+  children: Maybe<Array<PermissionDefinition>>;
+  id: Permission;
+  label: Scalars['String'];
+};
 
 export type Person = {
   __typename: 'Person';
@@ -389,6 +396,7 @@ export type Query = {
   __typename: 'Query';
   festival: Festival;
   people: Maybe<Array<Person>>;
+  permissions: Array<PermissionDefinition>;
   person: Maybe<Person>;
   preference: Maybe<Preference>;
   search: Array<SearchResult>;
@@ -660,12 +668,12 @@ type PreferenceValueFragment_StringPreference_Fragment = { __typename: 'StringPr
 
 export type PreferenceValueFragmentFragment = PreferenceValueFragment_BooleanPreference_Fragment | PreferenceValueFragment_StringPreference_Fragment;
 
-export type AuthenticatedUserFragment = { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null };
+export type AuthenticatedUserFragment = { __typename: 'User', id: string, permissions: Array<Permission>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null };
 
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename: 'Query', user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null } | null };
+export type CurrentUserQuery = { __typename: 'Query', user: { __typename: 'User', id: string, permissions: Array<Permission>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null } | null };
 
 export type LogInMutationVariables = Exact<{
   email: Scalars['String'];
@@ -673,7 +681,7 @@ export type LogInMutationVariables = Exact<{
 }>;
 
 
-export type LogInMutation = { __typename: 'Mutation', userLogin: { __typename: 'UserLoginPayload', user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null }, credentials: { __typename: 'Credential', accessToken: string, client: string, uid: string } } | null };
+export type LogInMutation = { __typename: 'Mutation', userLogin: { __typename: 'UserLoginPayload', user: { __typename: 'User', id: string, permissions: Array<Permission>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null }, credentials: { __typename: 'Credential', accessToken: string, client: string, uid: string } } | null };
 
 export type LogOutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -687,7 +695,7 @@ export type SignUpMutationVariables = Exact<{
 }>;
 
 
-export type SignUpMutation = { __typename: 'Mutation', userRegister: { __typename: 'UserRegisterPayload', user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null }, credentials: { __typename: 'Credential', accessToken: string, client: string, uid: string } | null } | null };
+export type SignUpMutation = { __typename: 'Mutation', userRegister: { __typename: 'UserRegisterPayload', user: { __typename: 'User', id: string, permissions: Array<Permission>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null }, credentials: { __typename: 'Credential', accessToken: string, client: string, uid: string } | null } | null };
 
 export type ResetPasswordMutationVariables = Exact<{
   email: Scalars['String'];
@@ -856,12 +864,14 @@ export type PeopleQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type PeopleQuery = { __typename: 'Query', people: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null }> | null };
 
+export type PermissionDefinitionFieldsFragment = { __typename: 'PermissionDefinition', id: Permission, label: string };
+
 export type PersonQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type PersonQuery = { __typename: 'Query', person: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } | null };
+export type PersonQuery = { __typename: 'Query', person: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, user: { __typename: 'User', permissions: Array<Permission>, id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } | null, permissions: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string, children: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string, children: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string, children: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string }> | null }> | null }> | null }> };
 
 export type UpdateProfileMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -879,6 +889,14 @@ export type MergeProfilesMutationVariables = Exact<{
 
 export type MergeProfilesMutation = { __typename: 'Mutation', mergeProfiles: { __typename: 'MergeProfilesPayload', profile: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } } | null };
 
+export type UpdatePermissionsMutationVariables = Exact<{
+  id: Scalars['ID'];
+  permissions: Array<Permission> | Permission;
+}>;
+
+
+export type UpdatePermissionsMutation = { __typename: 'Mutation', updateUser: { __typename: 'UpdateUserPayload', user: { __typename: 'User', id: string, permissions: Array<Permission> } } | null };
+
 export const PreferenceValueFragmentFragmentDoc = gql`
     fragment PreferenceValueFragment on Preference {
   id
@@ -893,6 +911,7 @@ export const PreferenceValueFragmentFragmentDoc = gql`
 export const AuthenticatedUserFragmentDoc = gql`
     fragment AuthenticatedUser on User {
   id
+  permissions
   profile {
     id
     name
@@ -1014,6 +1033,12 @@ export const PersonUserFragmentDoc = gql`
   id
   email
   permissions
+}
+    `;
+export const PermissionDefinitionFieldsFragmentDoc = gql`
+    fragment PermissionDefinitionFields on PermissionDefinition {
+  id
+  label
 }
     `;
 export const GetPreferenceDocument = gql`
@@ -2029,11 +2054,25 @@ export const PersonDocument = gql`
     bio
     user {
       ...PersonUser
+      permissions
+    }
+  }
+  permissions {
+    ...PermissionDefinitionFields
+    children {
+      ...PermissionDefinitionFields
+      children {
+        ...PermissionDefinitionFields
+        children {
+          ...PermissionDefinitionFields
+        }
+      }
     }
   }
 }
     ${PersonDetailsFragmentDoc}
-${PersonUserFragmentDoc}`;
+${PersonUserFragmentDoc}
+${PermissionDefinitionFieldsFragmentDoc}`;
 
 /**
  * __usePersonQuery__
@@ -2136,6 +2175,43 @@ export function useMergeProfilesMutation(baseOptions?: Apollo.MutationHookOption
 export type MergeProfilesMutationHookResult = ReturnType<typeof useMergeProfilesMutation>;
 export type MergeProfilesMutationResult = Apollo.MutationResult<MergeProfilesMutation>;
 export type MergeProfilesMutationOptions = Apollo.BaseMutationOptions<MergeProfilesMutation, MergeProfilesMutationVariables>;
+export const UpdatePermissionsDocument = gql`
+    mutation UpdatePermissions($id: ID!, $permissions: [Permission!]!) {
+  updateUser(id: $id, attributes: {permissions: $permissions}) {
+    user {
+      id
+      permissions
+    }
+  }
+}
+    `;
+export type UpdatePermissionsMutationFn = Apollo.MutationFunction<UpdatePermissionsMutation, UpdatePermissionsMutationVariables>;
+
+/**
+ * __useUpdatePermissionsMutation__
+ *
+ * To run a mutation, you first call `useUpdatePermissionsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePermissionsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePermissionsMutation, { data, loading, error }] = useUpdatePermissionsMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      permissions: // value for 'permissions'
+ *   },
+ * });
+ */
+export function useUpdatePermissionsMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePermissionsMutation, UpdatePermissionsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePermissionsMutation, UpdatePermissionsMutationVariables>(UpdatePermissionsDocument, options);
+      }
+export type UpdatePermissionsMutationHookResult = ReturnType<typeof useUpdatePermissionsMutation>;
+export type UpdatePermissionsMutationResult = Apollo.MutationResult<UpdatePermissionsMutation>;
+export type UpdatePermissionsMutationOptions = Apollo.BaseMutationOptions<UpdatePermissionsMutation, UpdatePermissionsMutationVariables>;
 import { datePolicy, dateTimePolicy } from './policies/dateTimePolicy';
 
 export const scalarTypePolicies = {

@@ -11,5 +11,9 @@ module Types
         .with(Sources::UserProfile, context:)
         .load(object.id)
     end
+
+    def permissions
+      object.permissions.map(&:name)
+    end
   end
 end
