@@ -47,6 +47,7 @@ export const Tooltip: TooltipComponent = forwardRef(
       content,
       placement: preferredPlacement = 'top',
       open,
+      enabled = true,
       trigger = ['hover', 'focus', 'manual'],
       children,
     }: TooltipProps<T>,
@@ -95,9 +96,9 @@ export const Tooltip: TooltipComponent = forwardRef(
 
     useDelayGroup(context, { id: delayGroupId });
 
-    const hover = useHover(context, { delay, enabled: triggers.has('hover') });
-    const click = useClick(context, { enabled: triggers.has('click') });
-    const focus = useFocus(context, { enabled: triggers.has('focus') });
+    const hover = useHover(context, { delay, enabled: enabled && triggers.has('hover') });
+    const click = useClick(context, { enabled: enabled && triggers.has('click') });
+    const focus = useFocus(context, { enabled: enabled && triggers.has('focus') });
     const dismiss = useDismiss(context);
     const role = useRole(context, { role: 'tooltip' });
 
@@ -109,6 +110,10 @@ export const Tooltip: TooltipComponent = forwardRef(
       role,
     ]);
     const { x: arrowX, y: arrowY } = middlewareData.arrow || {};
+
+    useEffect(() => {
+      if (enabled === false) setIsOpen(false);
+    }, [enabled]);
 
     useImperativeHandle(ref, () => ({ update }));
 

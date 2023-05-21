@@ -14,6 +14,7 @@ export type TooltipProps<C extends ElementType> = {
   placement?: Placement;
   open?: boolean;
   trigger?: TooltipTrigger | TooltipTrigger[];
+  enabled?: boolean;
   content: ReactNode;
   children: ReactElement<C>;
 };

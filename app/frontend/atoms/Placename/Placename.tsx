@@ -6,6 +6,7 @@ import clsx from 'clsx';
 
 import Button from '../Button';
 import Icon from '../Icon';
+import Tooltip from '@/helpers/Tooltip';
 import Popover from '@/molecules/Popover';
 
 import { PlacenameComponent } from './Placename.types';
@@ -32,6 +33,8 @@ const Placename: PlacenameComponent = forwardRef(
 
     const displayName = translated && showTraditional ? traditionalName : name;
 
+    const otherName = showTraditional ? name : traditionalName;
+
     const [reference, setReference] = React.useState<HTMLElement | null>(null);
 
     const [popupOpen, setPopupOpen] = React.useState(false);
@@ -50,7 +53,13 @@ const Placename: PlacenameComponent = forwardRef(
           {...props}
         >
           <Icon name="location" className="placename__icon" />
-          <span className="placename__name">{displayName}</span>
+          {translated ? (
+            <Tooltip content={`${otherName} (click for more)`} enabled={!popupOpen}>
+              <span className="placename__name">{displayName}</span>
+            </Tooltip>
+          ) : (
+            <span className="placename__name">{displayName}</span>
+          )}
         </Component>
         <FloatingPortal>
           {reference && translated && (
