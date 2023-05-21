@@ -9,7 +9,6 @@ import Tabs from '@/molecules/Tabs';
 import { PersonContext } from './Context';
 import { PersonDetails } from './Person.types';
 import Profile from './Profile';
-import Settings from './Settings';
 
 import './Person.css';
 
@@ -66,18 +65,11 @@ const Person: React.FC = () => {
                 text="Profile"
                 selected={location.pathname === resolvePath('')}
               />
-              <Tabs.Tab
-                as={Link}
-                to="settings"
-                text="Settings"
-                selected={location.pathname === resolvePath('settings')}
-              />
             </Tabs>
           </header>
           {!loading && !!person && (
             <Routes>
               <Route path="" element={<Profile person={person} />} />
-              <Route path="settings" element={<Settings person={person} />} />
             </Routes>
           )}
         </div>

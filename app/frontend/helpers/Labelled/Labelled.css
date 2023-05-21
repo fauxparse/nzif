@@ -1,0 +1,6 @@
+.labelled {
+  display: flex;
+  flex-direction: column;
+  gap: var(--small);
+  align-items: stretch;
+}

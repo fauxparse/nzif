@@ -765,15 +765,7 @@ export type UpdateActivityMutationVariables = Exact<{
 }>;
 
 
-export type UpdateActivityMutation = { __typename: 'Mutation', updateActivity: { __typename: 'UpdateActivityPayload', activity: { __typename: 'Show', id: string, name: string, type: ActivityType, slug: string, presenters: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, presenters: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } | { __typename: 'Workshop', id: string, name: string, type: ActivityType, slug: string, presenters: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } } | null };
-
-export type UpdateActivityDescriptionMutationVariables = Exact<{
-  id: Scalars['ID'];
-  description: Scalars['String'];
-}>;
-
-
-export type UpdateActivityDescriptionMutation = { __typename: 'Mutation', updateActivity: { __typename: 'UpdateActivityPayload', activity: { __typename: 'Show', id: string, description: string | null } | { __typename: 'SocialEvent', id: string, description: string | null } | { __typename: 'Workshop', id: string, description: string | null } } | null };
+export type UpdateActivityMutation = { __typename: 'Mutation', updateActivity: { __typename: 'UpdateActivityPayload', activity: { __typename: 'Show', id: string, name: string, type: ActivityType, slug: string, description: string | null, presenters: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, description: string | null, presenters: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } | { __typename: 'Workshop', id: string, name: string, type: ActivityType, slug: string, description: string | null, presenters: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } } | null };
 
 export type FestivalQueryVariables = Exact<{
   year: Scalars['String'];
@@ -1590,6 +1582,7 @@ export const UpdateActivityDocument = gql`
       name
       type
       slug
+      description
       presenters {
         ...ActivityPresenter
       }
@@ -1624,43 +1617,6 @@ export function useUpdateActivityMutation(baseOptions?: Apollo.MutationHookOptio
 export type UpdateActivityMutationHookResult = ReturnType<typeof useUpdateActivityMutation>;
 export type UpdateActivityMutationResult = Apollo.MutationResult<UpdateActivityMutation>;
 export type UpdateActivityMutationOptions = Apollo.BaseMutationOptions<UpdateActivityMutation, UpdateActivityMutationVariables>;
-export const UpdateActivityDescriptionDocument = gql`
-    mutation UpdateActivityDescription($id: ID!, $description: String!) {
-  updateActivity(id: $id, attributes: {description: $description}) {
-    activity {
-      id
-      description
-    }
-  }
-}
-    `;
-export type UpdateActivityDescriptionMutationFn = Apollo.MutationFunction<UpdateActivityDescriptionMutation, UpdateActivityDescriptionMutationVariables>;
-
-/**
- * __useUpdateActivityDescriptionMutation__
- *
- * To run a mutation, you first call `useUpdateActivityDescriptionMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateActivityDescriptionMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateActivityDescriptionMutation, { data, loading, error }] = useUpdateActivityDescriptionMutation({
- *   variables: {
- *      id: // value for 'id'
- *      description: // value for 'description'
- *   },
- * });
- */
-export function useUpdateActivityDescriptionMutation(baseOptions?: Apollo.MutationHookOptions<UpdateActivityDescriptionMutation, UpdateActivityDescriptionMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateActivityDescriptionMutation, UpdateActivityDescriptionMutationVariables>(UpdateActivityDescriptionDocument, options);
-      }
-export type UpdateActivityDescriptionMutationHookResult = ReturnType<typeof useUpdateActivityDescriptionMutation>;
-export type UpdateActivityDescriptionMutationResult = Apollo.MutationResult<UpdateActivityDescriptionMutation>;
-export type UpdateActivityDescriptionMutationOptions = Apollo.BaseMutationOptions<UpdateActivityDescriptionMutation, UpdateActivityDescriptionMutationVariables>;
 export const FestivalDocument = gql`
     query Festival($year: String!) {
   festival(year: $year) {

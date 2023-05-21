@@ -100,19 +100,11 @@ mutation UpdateActivity($id: ID!, $attributes: ActivityAttributes!) {
       name
       type
       slug
+      description
 
       presenters {
         ...ActivityPresenter
       }
-    }
-  }
-}
-
-mutation UpdateActivityDescription($id: ID!, $description: String!) {
-  updateActivity(id: $id, attributes: { description: $description }) {
-    activity {
-      id
-      description
     }
   }
 }
