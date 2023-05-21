@@ -41,3 +41,31 @@
     }
   }
 }
+
+.preferences {
+  .labelled {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--small) var(--spacing);
+
+    .labelled__field {
+      display: contents;
+    }
+
+    .switch {
+      grid-row: 1;
+      grid-column: 2;
+      align-self: center;
+    }
+
+    label,
+    p {
+      grid-column: 1;
+      margin: 0;
+    }
+
+    label {
+      grid-row: 1;
+    }
+  }
+}

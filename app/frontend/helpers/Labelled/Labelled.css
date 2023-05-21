@@ -3,4 +3,21 @@
   flex-direction: column;
   gap: var(--small);
   align-items: stretch;
+  align-self: stretch;
+  line-height: var(--line-height-medium);
+
+  p {
+    margin: 0;
+  }
+
+  &__hint {
+    color: var(--text-subtle);
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    align-self: stretch;
+  }
 }

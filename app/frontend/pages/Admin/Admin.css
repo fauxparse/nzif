@@ -44,6 +44,20 @@
   padding-block: var(--large);
   transition: opacity var(--timing-standard) var(--ease-standard);
 
+  @media (width > 640px) {
+    section {
+      grid-template-columns: 1fr 2fr;
+
+      header {
+        grid-column: 1;
+      }
+
+      > * {
+        grid-column: 2;
+      }
+    }
+  }
+
   &[aria-busy] {
     opacity: var(--disabled-opacity);
     pointer-events: none;
@@ -51,20 +65,15 @@
 
   section {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr;
     gap: var(--large);
     align-items: flex-start;
     padding: var(--large) 0;
 
-    > * {
-      grid-column: 2;
-    }
-
     header {
-      grid-column: 1;
-
       h3 {
         margin: 0;
+        line-height: var(--line-height-medium);
       }
 
       p {
@@ -78,28 +87,6 @@
     }
   }
 
-  .labelled {
-    flex-direction: column;
-    gap: var(--small);
-    align-items: stretch;
-    align-self: stretch;
-
-    p {
-      margin: 0;
-    }
-
-    &__hint {
-      color: var(--text-subtle);
-    }
-
-    &__field {
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      align-self: stretch;
-    }
-  }
-
   .select,
   input.input {
     max-width: 24rem;
@@ -108,10 +95,6 @@
   textarea {
     min-height: 10rem;
     max-height: 50vh;
-  }
-
-  .profile-picture {
-    grid-column: 2;
   }
 
   .permission {

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj, Meta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import Labelled from '.';
 
@@ -9,9 +9,7 @@ export default {
   title: 'Helpers/Labelled',
   component: Labelled,
   argTypes: {},
-  args: {
-    text: 'Labelled',
-  },
+  args: {},
   render: (args) => <Labelled {...args} />,
 } satisfies Meta<typeof Labelled>;
 

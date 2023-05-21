@@ -553,6 +553,7 @@ export type User = {
   id: Scalars['ID'];
   name: Scalars['String'];
   permissions: Array<Permission>;
+  preferences: Array<Preference>;
   profile: Maybe<Person>;
 };
 
@@ -774,6 +775,55 @@ export type FestivalQueryVariables = Exact<{
 
 export type FestivalQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string } };
 
+export type PersonDetailsFragment = { __typename: 'Person', id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null };
+
+export type PersonUserFragment = { __typename: 'User', id: string, email: string, permissions: Array<Permission> };
+
+export type PeopleQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PeopleQuery = { __typename: 'Query', people: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null }> | null };
+
+export type PermissionDefinitionFieldsFragment = { __typename: 'PermissionDefinition', id: Permission, label: string };
+
+export type PersonQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type PersonQuery = { __typename: 'Query', person: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, user: { __typename: 'User', permissions: Array<Permission>, id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } | null, permissions: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string, children: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string, children: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string, children: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string }> | null }> | null }> | null }> };
+
+export type UpdatePersonMutationVariables = Exact<{
+  id: Scalars['ID'];
+  attributes: PersonAttributes;
+}>;
+
+
+export type UpdatePersonMutation = { __typename: 'Mutation', updatePerson: { __typename: 'UpdatePersonPayload', profile: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } } | null };
+
+export type MergePeopleMutationVariables = Exact<{
+  profileIds: Array<Scalars['ID']> | Scalars['ID'];
+  attributes: ProfileMergeAttributes;
+}>;
+
+
+export type MergePeopleMutation = { __typename: 'Mutation', mergePeople: { __typename: 'MergePeoplePayload', profile: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } } | null };
+
+export type UpdatePermissionsMutationVariables = Exact<{
+  id: Scalars['ID'];
+  permissions: Array<Permission> | Permission;
+}>;
+
+
+export type UpdatePermissionsMutation = { __typename: 'Mutation', updateUser: { __typename: 'UpdateUserPayload', user: { __typename: 'User', id: string, permissions: Array<Permission> } } | null };
+
+export type PreferencesQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type PreferencesQuery = { __typename: 'Query', user: { __typename: 'User', id: string, preferences: Array<{ __typename: 'BooleanPreference', id: string, valueAsBoolean: boolean } | { __typename: 'StringPreference', id: string, valueAsString: string }> } | null };
+
 export type ActivitySearchQueryVariables = Exact<{
   query: Scalars['String'];
   activityType: ActivityType;
@@ -847,48 +897,6 @@ export type CreatePersonMutationVariables = Exact<{
 
 export type CreatePersonMutation = { __typename: 'Mutation', createPerson: { __typename: 'CreatePayload', profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null } } | null };
 
-export type PersonDetailsFragment = { __typename: 'Person', id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null };
-
-export type PersonUserFragment = { __typename: 'User', id: string, email: string, permissions: Array<Permission> };
-
-export type PeopleQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PeopleQuery = { __typename: 'Query', people: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null }> | null };
-
-export type PermissionDefinitionFieldsFragment = { __typename: 'PermissionDefinition', id: Permission, label: string };
-
-export type PersonQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type PersonQuery = { __typename: 'Query', person: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, user: { __typename: 'User', permissions: Array<Permission>, id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } | null, permissions: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string, children: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string, children: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string, children: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string }> | null }> | null }> | null }> };
-
-export type UpdatePersonMutationVariables = Exact<{
-  id: Scalars['ID'];
-  attributes: PersonAttributes;
-}>;
-
-
-export type UpdatePersonMutation = { __typename: 'Mutation', updatePerson: { __typename: 'UpdatePersonPayload', profile: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } } | null };
-
-export type MergePeopleMutationVariables = Exact<{
-  profileIds: Array<Scalars['ID']> | Scalars['ID'];
-  attributes: ProfileMergeAttributes;
-}>;
-
-
-export type MergePeopleMutation = { __typename: 'Mutation', mergePeople: { __typename: 'MergePeoplePayload', profile: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } } | null };
-
-export type UpdatePermissionsMutationVariables = Exact<{
-  id: Scalars['ID'];
-  permissions: Array<Permission> | Permission;
-}>;
-
-
-export type UpdatePermissionsMutation = { __typename: 'Mutation', updateUser: { __typename: 'UpdateUserPayload', user: { __typename: 'User', id: string, permissions: Array<Permission> } } | null };
-
 export const PreferenceValueFragmentFragmentDoc = gql`
     fragment PreferenceValueFragment on Preference {
   id
@@ -944,6 +952,45 @@ export const ActivityListActivityFragmentDoc = gql`
   }
 }
     ${ActivityPresenterFragmentDoc}`;
+export const PersonDetailsFragmentDoc = gql`
+    fragment PersonDetails on Person {
+  id
+  name
+  pronouns
+  user {
+    id
+    email
+  }
+  city {
+    id
+    name
+    traditionalName
+  }
+  country {
+    id
+    name
+    traditionalName
+  }
+  picture {
+    id
+    small
+    large
+  }
+}
+    `;
+export const PersonUserFragmentDoc = gql`
+    fragment PersonUser on User {
+  id
+  email
+  permissions
+}
+    `;
+export const PermissionDefinitionFieldsFragmentDoc = gql`
+    fragment PermissionDefinitionFields on PermissionDefinition {
+  id
+  label
+}
+    `;
 export const TimetableCastFragmentDoc = gql`
     fragment TimetableCast on Person {
   id
@@ -994,45 +1041,6 @@ export const TimetableSlotFragmentDoc = gql`
   }
 }
     ${TimetableActivityFragmentDoc}`;
-export const PersonDetailsFragmentDoc = gql`
-    fragment PersonDetails on Person {
-  id
-  name
-  pronouns
-  user {
-    id
-    email
-  }
-  city {
-    id
-    name
-    traditionalName
-  }
-  country {
-    id
-    name
-    traditionalName
-  }
-  picture {
-    id
-    small
-    large
-  }
-}
-    `;
-export const PersonUserFragmentDoc = gql`
-    fragment PersonUser on User {
-  id
-  email
-  permissions
-}
-    `;
-export const PermissionDefinitionFieldsFragmentDoc = gql`
-    fragment PermissionDefinitionFields on PermissionDefinition {
-  id
-  label
-}
-    `;
 export const GetPreferenceDocument = gql`
     query GetPreference($id: String!) {
   preference(id: $id) {
@@ -1652,6 +1660,243 @@ export function useFestivalLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<F
 export type FestivalQueryHookResult = ReturnType<typeof useFestivalQuery>;
 export type FestivalLazyQueryHookResult = ReturnType<typeof useFestivalLazyQuery>;
 export type FestivalQueryResult = Apollo.QueryResult<FestivalQuery, FestivalQueryVariables>;
+export const PeopleDocument = gql`
+    query People {
+  people {
+    ...PersonDetails
+  }
+}
+    ${PersonDetailsFragmentDoc}`;
+
+/**
+ * __usePeopleQuery__
+ *
+ * To run a query within a React component, call `usePeopleQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePeopleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePeopleQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePeopleQuery(baseOptions?: Apollo.QueryHookOptions<PeopleQuery, PeopleQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PeopleQuery, PeopleQueryVariables>(PeopleDocument, options);
+      }
+export function usePeopleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PeopleQuery, PeopleQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PeopleQuery, PeopleQueryVariables>(PeopleDocument, options);
+        }
+export type PeopleQueryHookResult = ReturnType<typeof usePeopleQuery>;
+export type PeopleLazyQueryHookResult = ReturnType<typeof usePeopleLazyQuery>;
+export type PeopleQueryResult = Apollo.QueryResult<PeopleQuery, PeopleQueryVariables>;
+export const PersonDocument = gql`
+    query Person($id: ID!) {
+  person(id: $id) {
+    ...PersonDetails
+    bio
+    user {
+      ...PersonUser
+      permissions
+    }
+  }
+  permissions {
+    ...PermissionDefinitionFields
+    children {
+      ...PermissionDefinitionFields
+      children {
+        ...PermissionDefinitionFields
+        children {
+          ...PermissionDefinitionFields
+        }
+      }
+    }
+  }
+}
+    ${PersonDetailsFragmentDoc}
+${PersonUserFragmentDoc}
+${PermissionDefinitionFieldsFragmentDoc}`;
+
+/**
+ * __usePersonQuery__
+ *
+ * To run a query within a React component, call `usePersonQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePersonQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePersonQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePersonQuery(baseOptions: Apollo.QueryHookOptions<PersonQuery, PersonQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PersonQuery, PersonQueryVariables>(PersonDocument, options);
+      }
+export function usePersonLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PersonQuery, PersonQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PersonQuery, PersonQueryVariables>(PersonDocument, options);
+        }
+export type PersonQueryHookResult = ReturnType<typeof usePersonQuery>;
+export type PersonLazyQueryHookResult = ReturnType<typeof usePersonLazyQuery>;
+export type PersonQueryResult = Apollo.QueryResult<PersonQuery, PersonQueryVariables>;
+export const UpdatePersonDocument = gql`
+    mutation UpdatePerson($id: ID!, $attributes: PersonAttributes!) {
+  updatePerson(id: $id, attributes: $attributes) {
+    profile {
+      ...PersonDetails
+      bio
+    }
+  }
+}
+    ${PersonDetailsFragmentDoc}`;
+export type UpdatePersonMutationFn = Apollo.MutationFunction<UpdatePersonMutation, UpdatePersonMutationVariables>;
+
+/**
+ * __useUpdatePersonMutation__
+ *
+ * To run a mutation, you first call `useUpdatePersonMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePersonMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePersonMutation, { data, loading, error }] = useUpdatePersonMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      attributes: // value for 'attributes'
+ *   },
+ * });
+ */
+export function useUpdatePersonMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePersonMutation, UpdatePersonMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePersonMutation, UpdatePersonMutationVariables>(UpdatePersonDocument, options);
+      }
+export type UpdatePersonMutationHookResult = ReturnType<typeof useUpdatePersonMutation>;
+export type UpdatePersonMutationResult = Apollo.MutationResult<UpdatePersonMutation>;
+export type UpdatePersonMutationOptions = Apollo.BaseMutationOptions<UpdatePersonMutation, UpdatePersonMutationVariables>;
+export const MergePeopleDocument = gql`
+    mutation MergePeople($profileIds: [ID!]!, $attributes: ProfileMergeAttributes!) {
+  mergePeople(profileIds: $profileIds, attributes: $attributes) {
+    profile {
+      ...PersonDetails
+      bio
+    }
+  }
+}
+    ${PersonDetailsFragmentDoc}`;
+export type MergePeopleMutationFn = Apollo.MutationFunction<MergePeopleMutation, MergePeopleMutationVariables>;
+
+/**
+ * __useMergePeopleMutation__
+ *
+ * To run a mutation, you first call `useMergePeopleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMergePeopleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [mergePeopleMutation, { data, loading, error }] = useMergePeopleMutation({
+ *   variables: {
+ *      profileIds: // value for 'profileIds'
+ *      attributes: // value for 'attributes'
+ *   },
+ * });
+ */
+export function useMergePeopleMutation(baseOptions?: Apollo.MutationHookOptions<MergePeopleMutation, MergePeopleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MergePeopleMutation, MergePeopleMutationVariables>(MergePeopleDocument, options);
+      }
+export type MergePeopleMutationHookResult = ReturnType<typeof useMergePeopleMutation>;
+export type MergePeopleMutationResult = Apollo.MutationResult<MergePeopleMutation>;
+export type MergePeopleMutationOptions = Apollo.BaseMutationOptions<MergePeopleMutation, MergePeopleMutationVariables>;
+export const UpdatePermissionsDocument = gql`
+    mutation UpdatePermissions($id: ID!, $permissions: [Permission!]!) {
+  updateUser(id: $id, attributes: {permissions: $permissions}) {
+    user {
+      id
+      permissions
+    }
+  }
+}
+    `;
+export type UpdatePermissionsMutationFn = Apollo.MutationFunction<UpdatePermissionsMutation, UpdatePermissionsMutationVariables>;
+
+/**
+ * __useUpdatePermissionsMutation__
+ *
+ * To run a mutation, you first call `useUpdatePermissionsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePermissionsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePermissionsMutation, { data, loading, error }] = useUpdatePermissionsMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      permissions: // value for 'permissions'
+ *   },
+ * });
+ */
+export function useUpdatePermissionsMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePermissionsMutation, UpdatePermissionsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePermissionsMutation, UpdatePermissionsMutationVariables>(UpdatePermissionsDocument, options);
+      }
+export type UpdatePermissionsMutationHookResult = ReturnType<typeof useUpdatePermissionsMutation>;
+export type UpdatePermissionsMutationResult = Apollo.MutationResult<UpdatePermissionsMutation>;
+export type UpdatePermissionsMutationOptions = Apollo.BaseMutationOptions<UpdatePermissionsMutation, UpdatePermissionsMutationVariables>;
+export const PreferencesDocument = gql`
+    query Preferences($id: ID!) {
+  user(id: $id) {
+    id
+    preferences {
+      ...PreferenceValueFragment
+    }
+  }
+}
+    ${PreferenceValueFragmentFragmentDoc}`;
+
+/**
+ * __usePreferencesQuery__
+ *
+ * To run a query within a React component, call `usePreferencesQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePreferencesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePreferencesQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePreferencesQuery(baseOptions: Apollo.QueryHookOptions<PreferencesQuery, PreferencesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PreferencesQuery, PreferencesQueryVariables>(PreferencesDocument, options);
+      }
+export function usePreferencesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PreferencesQuery, PreferencesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PreferencesQuery, PreferencesQueryVariables>(PreferencesDocument, options);
+        }
+export type PreferencesQueryHookResult = ReturnType<typeof usePreferencesQuery>;
+export type PreferencesLazyQueryHookResult = ReturnType<typeof usePreferencesLazyQuery>;
+export type PreferencesQueryResult = Apollo.QueryResult<PreferencesQuery, PreferencesQueryVariables>;
 export const ActivitySearchDocument = gql`
     query ActivitySearch($query: String!, $activityType: ActivityType!) {
   search(query: $query, activityType: $activityType, only: [Activity]) {
@@ -1969,205 +2214,6 @@ export function useCreatePersonMutation(baseOptions?: Apollo.MutationHookOptions
 export type CreatePersonMutationHookResult = ReturnType<typeof useCreatePersonMutation>;
 export type CreatePersonMutationResult = Apollo.MutationResult<CreatePersonMutation>;
 export type CreatePersonMutationOptions = Apollo.BaseMutationOptions<CreatePersonMutation, CreatePersonMutationVariables>;
-export const PeopleDocument = gql`
-    query People {
-  people {
-    ...PersonDetails
-  }
-}
-    ${PersonDetailsFragmentDoc}`;
-
-/**
- * __usePeopleQuery__
- *
- * To run a query within a React component, call `usePeopleQuery` and pass it any options that fit your needs.
- * When your component renders, `usePeopleQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePeopleQuery({
- *   variables: {
- *   },
- * });
- */
-export function usePeopleQuery(baseOptions?: Apollo.QueryHookOptions<PeopleQuery, PeopleQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PeopleQuery, PeopleQueryVariables>(PeopleDocument, options);
-      }
-export function usePeopleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PeopleQuery, PeopleQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PeopleQuery, PeopleQueryVariables>(PeopleDocument, options);
-        }
-export type PeopleQueryHookResult = ReturnType<typeof usePeopleQuery>;
-export type PeopleLazyQueryHookResult = ReturnType<typeof usePeopleLazyQuery>;
-export type PeopleQueryResult = Apollo.QueryResult<PeopleQuery, PeopleQueryVariables>;
-export const PersonDocument = gql`
-    query Person($id: ID!) {
-  person(id: $id) {
-    ...PersonDetails
-    bio
-    user {
-      ...PersonUser
-      permissions
-    }
-  }
-  permissions {
-    ...PermissionDefinitionFields
-    children {
-      ...PermissionDefinitionFields
-      children {
-        ...PermissionDefinitionFields
-        children {
-          ...PermissionDefinitionFields
-        }
-      }
-    }
-  }
-}
-    ${PersonDetailsFragmentDoc}
-${PersonUserFragmentDoc}
-${PermissionDefinitionFieldsFragmentDoc}`;
-
-/**
- * __usePersonQuery__
- *
- * To run a query within a React component, call `usePersonQuery` and pass it any options that fit your needs.
- * When your component renders, `usePersonQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePersonQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function usePersonQuery(baseOptions: Apollo.QueryHookOptions<PersonQuery, PersonQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PersonQuery, PersonQueryVariables>(PersonDocument, options);
-      }
-export function usePersonLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PersonQuery, PersonQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PersonQuery, PersonQueryVariables>(PersonDocument, options);
-        }
-export type PersonQueryHookResult = ReturnType<typeof usePersonQuery>;
-export type PersonLazyQueryHookResult = ReturnType<typeof usePersonLazyQuery>;
-export type PersonQueryResult = Apollo.QueryResult<PersonQuery, PersonQueryVariables>;
-export const UpdatePersonDocument = gql`
-    mutation UpdatePerson($id: ID!, $attributes: PersonAttributes!) {
-  updatePerson(id: $id, attributes: $attributes) {
-    profile {
-      ...PersonDetails
-      bio
-    }
-  }
-}
-    ${PersonDetailsFragmentDoc}`;
-export type UpdatePersonMutationFn = Apollo.MutationFunction<UpdatePersonMutation, UpdatePersonMutationVariables>;
-
-/**
- * __useUpdatePersonMutation__
- *
- * To run a mutation, you first call `useUpdatePersonMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdatePersonMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updatePersonMutation, { data, loading, error }] = useUpdatePersonMutation({
- *   variables: {
- *      id: // value for 'id'
- *      attributes: // value for 'attributes'
- *   },
- * });
- */
-export function useUpdatePersonMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePersonMutation, UpdatePersonMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdatePersonMutation, UpdatePersonMutationVariables>(UpdatePersonDocument, options);
-      }
-export type UpdatePersonMutationHookResult = ReturnType<typeof useUpdatePersonMutation>;
-export type UpdatePersonMutationResult = Apollo.MutationResult<UpdatePersonMutation>;
-export type UpdatePersonMutationOptions = Apollo.BaseMutationOptions<UpdatePersonMutation, UpdatePersonMutationVariables>;
-export const MergePeopleDocument = gql`
-    mutation MergePeople($profileIds: [ID!]!, $attributes: ProfileMergeAttributes!) {
-  mergePeople(profileIds: $profileIds, attributes: $attributes) {
-    profile {
-      ...PersonDetails
-      bio
-    }
-  }
-}
-    ${PersonDetailsFragmentDoc}`;
-export type MergePeopleMutationFn = Apollo.MutationFunction<MergePeopleMutation, MergePeopleMutationVariables>;
-
-/**
- * __useMergePeopleMutation__
- *
- * To run a mutation, you first call `useMergePeopleMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useMergePeopleMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [mergePeopleMutation, { data, loading, error }] = useMergePeopleMutation({
- *   variables: {
- *      profileIds: // value for 'profileIds'
- *      attributes: // value for 'attributes'
- *   },
- * });
- */
-export function useMergePeopleMutation(baseOptions?: Apollo.MutationHookOptions<MergePeopleMutation, MergePeopleMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<MergePeopleMutation, MergePeopleMutationVariables>(MergePeopleDocument, options);
-      }
-export type MergePeopleMutationHookResult = ReturnType<typeof useMergePeopleMutation>;
-export type MergePeopleMutationResult = Apollo.MutationResult<MergePeopleMutation>;
-export type MergePeopleMutationOptions = Apollo.BaseMutationOptions<MergePeopleMutation, MergePeopleMutationVariables>;
-export const UpdatePermissionsDocument = gql`
-    mutation UpdatePermissions($id: ID!, $permissions: [Permission!]!) {
-  updateUser(id: $id, attributes: {permissions: $permissions}) {
-    user {
-      id
-      permissions
-    }
-  }
-}
-    `;
-export type UpdatePermissionsMutationFn = Apollo.MutationFunction<UpdatePermissionsMutation, UpdatePermissionsMutationVariables>;
-
-/**
- * __useUpdatePermissionsMutation__
- *
- * To run a mutation, you first call `useUpdatePermissionsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdatePermissionsMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updatePermissionsMutation, { data, loading, error }] = useUpdatePermissionsMutation({
- *   variables: {
- *      id: // value for 'id'
- *      permissions: // value for 'permissions'
- *   },
- * });
- */
-export function useUpdatePermissionsMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePermissionsMutation, UpdatePermissionsMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdatePermissionsMutation, UpdatePermissionsMutationVariables>(UpdatePermissionsDocument, options);
-      }
-export type UpdatePermissionsMutationHookResult = ReturnType<typeof useUpdatePermissionsMutation>;
-export type UpdatePermissionsMutationResult = Apollo.MutationResult<UpdatePermissionsMutation>;
-export type UpdatePermissionsMutationOptions = Apollo.BaseMutationOptions<UpdatePermissionsMutation, UpdatePermissionsMutationVariables>;
 import { datePolicy, dateTimePolicy } from './policies/dateTimePolicy';
 
 export const scalarTypePolicies = {

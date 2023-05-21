@@ -21,7 +21,8 @@ type ProfileProps = {
 };
 
 const formSchema = z.object({
-  name: z.string(),
+  name: z.string().regex(/^[^\s]+(\s+[^\s]+)+$/, 'We need your full (first and last) name'),
+  email: z.string().email('This doesn’t look like an email address'),
   pronouns: z.string(),
   bio: z.string(),
   city: z.string(),
@@ -44,6 +45,7 @@ const Profile: React.FC<ProfileProps> = ({ person }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: person?.name || '',
+      email: person?.user?.email || '',
       pronouns: person?.pronouns || '',
       bio: person?.bio || '',
       city: person?.city?.name || '',
@@ -89,7 +91,7 @@ const Profile: React.FC<ProfileProps> = ({ person }) => {
             errors={errors}
             hint={!person?.user ? 'This person has never logged in.' : undefined}
           >
-            {person?.user && <Input id="email" type="email" name="email" readOnly />}
+            {person?.user && <Input id="email" type="email" {...register('email')} />}
           </Labelled>
           <Labelled
             name="pronouns"

@@ -1,0 +1,9 @@
+query Preferences($id: ID!) {
+  user(id: $id) {
+    id
+
+    preferences {
+      ...PreferenceValueFragment
+    }
+  }
+}

@@ -447,6 +447,7 @@ type User {
   id: ID!
   name: String!
   permissions: [Permission!]!
+  preferences: [Preference!]!
   profile: Person
 }
 

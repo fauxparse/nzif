@@ -8,6 +8,7 @@ import { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 
 import Activities from './Activities';
 import FestivalContext from './FestivalContext';
+import People from './People';
 import Timetable from './Timetable';
 
 const Festival: React.FC = () => {
@@ -28,6 +29,7 @@ const Festival: React.FC = () => {
               element={<Activities type={value} />}
             />
           ))}
+          <Route path="people/*" element={<People />} />
           <Route path="timetable" element={<Timetable />} />
         </Routes>
       </FestivalContext.Provider>

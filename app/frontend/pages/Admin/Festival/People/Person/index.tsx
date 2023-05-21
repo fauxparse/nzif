@@ -8,9 +8,21 @@ import Tabs from '@/molecules/Tabs';
 
 import { PersonContext } from './Context';
 import { PersonDetails } from './Person.types';
+import Preferences, { PreferencesProps } from './Preferences';
 import Profile from './Profile';
 
 import './Person.css';
+
+type Tab = {
+  label: string;
+  path: string;
+  enabled?: (person: PersonDetails | null) => boolean;
+};
+
+const TABS: Tab[] = [
+  { label: 'Profile', path: '' },
+  { label: 'Preferences', path: 'preferences', enabled: (person) => !!person?.user },
+];
 
 const Person: React.FC = () => {
   const { id } = useParams<{ id: string }>() as { id: string };
@@ -59,17 +71,26 @@ const Person: React.FC = () => {
               )}
             </h1>
             <Tabs>
-              <Tabs.Tab
-                as={Link}
-                to=""
-                text="Profile"
-                selected={location.pathname === resolvePath('')}
-              />
+              {TABS.map(
+                ({ label, path, enabled }) =>
+                  (!enabled || enabled(person)) && (
+                    <Tabs.Tab
+                      key={path}
+                      as={Link}
+                      to={path}
+                      text={label}
+                      selected={location.pathname === resolvePath(path)}
+                    />
+                  )
+              )}
             </Tabs>
           </header>
           {!loading && !!person && (
             <Routes>
               <Route path="" element={<Profile person={person} />} />
+              {person?.user && (
+                <Route path="preferences" element={<Preferences user={person.user} />} />
+              )}
             </Routes>
           )}
         </div>

@@ -34,6 +34,7 @@
     "@storybook/theming": "^7.0.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
     "@thx/graphql-typescript-scalar-type-policies": "^2.0.0",
     "@types/lodash-es": "^4.17.7",
     "@types/luxon": "^3.2.0",
@@ -82,6 +83,7 @@
   "dependencies": {
     "@apollo/client": "^3.7.11",
     "@contentful/rich-text-react-renderer": "^15.16.3",
+    "@ctrl/tinycolor": "^3.6.0",
     "@floating-ui/react": "^0.22.3",
     "@georgedoescode/spline": "^1.0.1",
     "@hookform/resolvers": "^3.1.0",

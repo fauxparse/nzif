@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { isEqual } from 'lodash-es';
 
-import { Permission, useUpdatePermissionsMutation } from '@/graphql/types';
+import { Permission, PermissionDefinition, useUpdatePermissionsMutation } from '@/graphql/types';
 import { useAuthentication } from '@/organisms/Authentication/AuthenticationProvider';
 
 import { usePermissions, usePerson } from './Context';
@@ -20,7 +20,11 @@ const Permissions: React.FC = () => {
     add,
     remove,
     enabled,
-  } = usePermissionTree(person?.user?.permissions || [], permissions, user);
+  } = usePermissionTree(
+    person?.user?.permissions || [],
+    permissions as PermissionDefinition[],
+    user
+  );
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = e.target;

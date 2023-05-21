@@ -13,6 +13,12 @@ import { PlacenameContext } from './PlacenameProvider';
 
 import './Placename.css';
 
+export const ABOUT_TRADITIONAL_PLACENAMES = `
+Where possible, we are committed to honouring the traditional names of the land on
+which we live and work. We recognise that these names may not be familiar to some
+people.
+`.replace(/\n/g, ' ');
+
 const Placename: PlacenameComponent = forwardRef(
   ({ as, className, name, traditionalName, showTraditionalNameByDefault, ...props }, ref) => {
     const Component = (as || 'span') as ElementType;
@@ -60,11 +66,7 @@ const Placename: PlacenameComponent = forwardRef(
                   <b>{traditionalName}</b> is the traditional name for the area also known as {name}
                   .
                 </p>
-                <p>
-                  Where possible, we are committed to honouring the traditional names of the land on
-                  which we live and work. We recognise that these names may not be familiar to some
-                  people.
-                </p>
+                <p>{ABOUT_TRADITIONAL_PLACENAMES}</p>
                 <Button
                   secondary
                   onClick={changeSetting}
