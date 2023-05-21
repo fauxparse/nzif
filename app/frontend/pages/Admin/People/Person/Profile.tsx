@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 import Button from '@/atoms/Button';
 import Input from '@/atoms/Input';
-import { ProfileAttributes, useUpdateProfileMutation } from '@/graphql/types';
+import { PersonAttributes, useUpdatePersonMutation } from '@/graphql/types';
 import AutoResize from '@/helpers/AutoResize';
 import Labelled from '@/helpers/Labelled';
 import CountryPicker from '@/molecules/CountryPicker';
@@ -32,7 +32,7 @@ const formSchema = z.object({
 type FormSchemaType = z.infer<typeof formSchema>;
 
 const Profile: React.FC<ProfileProps> = ({ person }) => {
-  const [updateProfile, { loading: saving }] = useUpdateProfileMutation();
+  const [updatePerson, { loading: saving }] = useUpdatePersonMutation();
 
   const {
     register,
@@ -54,8 +54,8 @@ const Profile: React.FC<ProfileProps> = ({ person }) => {
   const { notify } = useToaster();
 
   const onSubmit = async (allAttributes: FormSchemaType) => {
-    const attributes = pick(allAttributes, Object.keys(dirtyFields)) as ProfileAttributes;
-    await updateProfile({
+    const attributes = pick(allAttributes, Object.keys(dirtyFields)) as PersonAttributes;
+    await updatePerson({
       variables: {
         id: person.id,
         attributes,

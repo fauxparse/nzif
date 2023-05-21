@@ -1,7 +1,7 @@
 module Mutations
-  module Profiles
+  module People
     class Create < BaseMutation
-      argument :attributes, Types::ProfileAttributes, required: true
+      argument :attributes, Types::PersonAttributes, required: true
 
       field :profile, Types::PersonType, null: false
 

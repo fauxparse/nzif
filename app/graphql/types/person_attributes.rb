@@ -1,5 +1,5 @@
 module Types
-  class ProfileAttributes < BaseInputObject
+  class PersonAttributes < BaseInputObject
     argument :bio, String, required: false
     argument :city, String, required: false
     argument :country, Country, required: false

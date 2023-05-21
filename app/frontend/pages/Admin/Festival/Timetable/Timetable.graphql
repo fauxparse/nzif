@@ -93,8 +93,8 @@ mutation UpdateSlot($id: ID!, $attributes: SlotAttributes!) {
   }
 }
 
-mutation CreateProfile($attributes: ProfileAttributes!) {
-  createProfile(attributes: $attributes) {
+mutation CreatePerson($attributes: PersonAttributes!) {
+  createPerson(attributes: $attributes) {
     profile {
       ...TimetableCast
     }

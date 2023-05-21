@@ -4,7 +4,7 @@ import { map, maxBy, startCase } from 'lodash-es';
 import Button from '@/atoms/Button';
 import Icon from '@/atoms/Icon';
 import Placename from '@/atoms/Placename';
-import { PeopleDocument, PersonDetailsFragment, useMergeProfilesMutation } from '@/graphql/types';
+import { PeopleDocument, PersonDetailsFragment, useMergePeopleMutation } from '@/graphql/types';
 import Dialog from '@/organisms/Dialog';
 
 type MergeDialogProps = {
@@ -99,21 +99,21 @@ const MergeDialog: React.FC<MergeDialogProps> = ({ open, people: peopleProp, onO
 
   useEffect(() => dispatch({ type: 'reset' }), [mostComplete]);
 
-  const [mergeProfiles] = useMergeProfilesMutation();
+  const [mergePeople] = useMergePeopleMutation();
 
   const [saving, setSaving] = useState(false);
 
   const handleSubmit = async () => {
     if (!people) return;
     setSaving(true);
-    await mergeProfiles({
+    await mergePeople({
       variables: {
         profileIds: map(people, 'id'),
         attributes: choices,
       },
       update: (cache, { data }) => {
-        if (!data?.mergeProfiles?.profile) return;
-        const { profile } = data.mergeProfiles;
+        if (!data?.mergePeople?.profile) return;
+        const { profile } = data.mergePeople;
         const oldIds = new Set(map(people, 'id'));
         cache.updateQuery({ query: PeopleDocument }, (data) => ({
           ...data,

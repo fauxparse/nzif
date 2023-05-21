@@ -69,8 +69,8 @@ query Person($id: ID!) {
   }
 }
 
-mutation UpdateProfile($id: ID!, $attributes: ProfileAttributes!) {
-  updateProfile(id: $id, attributes: $attributes) {
+mutation UpdatePerson($id: ID!, $attributes: PersonAttributes!) {
+  updatePerson(id: $id, attributes: $attributes) {
     profile {
       ...PersonDetails
       bio
@@ -78,8 +78,8 @@ mutation UpdateProfile($id: ID!, $attributes: ProfileAttributes!) {
   }
 }
 
-mutation MergeProfiles($profileIds: [ID!]!, $attributes: ProfileMergeAttributes!) {
-  mergeProfiles(profileIds: $profileIds, attributes: $attributes) {
+mutation MergePeople($profileIds: [ID!]!, $attributes: ProfileMergeAttributes!) {
+  mergePeople(profileIds: $profileIds, attributes: $attributes) {
     profile {
       ...PersonDetails
       bio

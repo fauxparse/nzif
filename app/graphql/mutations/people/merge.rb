@@ -1,7 +1,7 @@
 module Mutations
-  module Profiles
+  module People
     class Merge < BaseMutation
-      graphql_name 'MergeProfiles'
+      graphql_name 'MergePeople'
 
       field :profile, Types::PersonType, null: false
 

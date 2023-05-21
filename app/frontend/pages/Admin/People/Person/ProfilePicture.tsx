@@ -4,8 +4,8 @@ import Icon from '@/atoms/Icon';
 import {
   Maybe,
   PersonDetailsFragment,
-  ProfileAttributes,
-  useUpdateProfileMutation,
+  PersonAttributes,
+  useUpdatePersonMutation,
 } from '@/graphql/types';
 
 type ProfilePictureProps = {
@@ -17,7 +17,7 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({ profile }) => {
 
   const imageRef = useRef<HTMLImageElement>(null);
 
-  const [update] = useUpdateProfileMutation();
+  const [update] = useUpdatePersonMutation();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -35,7 +35,7 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({ profile }) => {
           id: profile.id,
           attributes: {
             picture: file,
-          } as ProfileAttributes,
+          } as PersonAttributes,
         },
       });
     };

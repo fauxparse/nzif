@@ -3,9 +3,9 @@ module Types
     field :update_preference, mutation: Mutations::Users::UpdatePreference
     field :update_user, mutation: Mutations::Users::Update
 
-    field :create_profile, mutation: Mutations::Profiles::Create
-    field :merge_profiles, mutation: Mutations::Profiles::Merge
-    field :update_profile, mutation: Mutations::Profiles::Update
+    field :create_person, mutation: Mutations::People::Create
+    field :merge_people, mutation: Mutations::People::Merge
+    field :update_person, mutation: Mutations::People::Update
 
     field :create_activity, mutation: Mutations::Activities::Create
     field :move_activity, mutation: Mutations::Activities::Move

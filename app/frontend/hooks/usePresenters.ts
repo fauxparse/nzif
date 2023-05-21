@@ -1,12 +1,12 @@
 import {
-  ProfileAttributes,
-  useCreateProfileMutation,
+  PersonAttributes,
+  useCreatePersonMutation,
   usePersonSearchLazyQuery,
 } from '@/graphql/types';
 import { Profile } from '@/molecules/PersonPicker/PersonPicker.types';
 
 const usePresenters = () => {
-  const [createPresenter] = useCreateProfileMutation();
+  const [createPresenter] = useCreatePersonMutation();
 
   const [searchPresenters] = usePersonSearchLazyQuery();
 
@@ -19,11 +19,11 @@ const usePresenters = () => {
     new Promise<Profile>((resolve) => {
       createPresenter({
         variables: {
-          attributes: { name } as ProfileAttributes,
+          attributes: { name } as PersonAttributes,
         },
       }).then(({ data }) => {
-        if (data?.createProfile?.profile) {
-          const profile = { ...data.createProfile.profile, ...rest } as Profile;
+        if (data?.createPerson?.profile) {
+          const profile = { ...data.createPerson.profile, ...rest } as Profile;
           resolve(profile);
         }
       });

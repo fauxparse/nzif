@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, Route, Routes, useLocation, useParams, useResolvedPath } from 'react-router-dom';
 
-import { ProfileAttributes, usePersonQuery, useUpdateProfileMutation } from '@/graphql/types';
+import { PersonAttributes, usePersonQuery, useUpdatePersonMutation } from '@/graphql/types';
 import Breadcrumbs, { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 import InPlaceEdit from '@/molecules/InPlaceEdit';
 import Tabs from '@/molecules/Tabs';
@@ -21,7 +21,7 @@ const Person: React.FC = () => {
 
   const permissions = data?.permissions || [];
 
-  const [updateProfile] = useUpdateProfileMutation();
+  const [updatePerson] = useUpdatePersonMutation();
 
   const location = useLocation();
   const resolvedPath = useResolvedPath(`{PATH}`).pathname;
@@ -30,12 +30,12 @@ const Person: React.FC = () => {
 
   const handleRename = (name: string) => {
     if (!person) return;
-    updateProfile({
-      variables: { id: person.id, attributes: { name } as ProfileAttributes },
+    updatePerson({
+      variables: { id: person.id, attributes: { name } as PersonAttributes },
       optimisticResponse: {
         __typename: 'Mutation',
-        updateProfile: {
-          __typename: 'UpdateProfilePayload',
+        updatePerson: {
+          __typename: 'UpdatePersonPayload',
           profile: {
             ...person,
             name,
