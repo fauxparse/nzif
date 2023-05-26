@@ -2,7 +2,12 @@ import React, { useMemo } from 'react';
 
 import { ABOUT_TRADITIONAL_PLACENAMES } from '@/atoms/Placename';
 import Switch from '@/atoms/Switch';
-import { PreferenceValueFragmentFragment, usePreferencesQuery } from '@/graphql/types';
+import {
+  PreferenceValue,
+  PreferenceValueFragmentFragment,
+  usePreferencesQuery,
+  useUpdatePreferenceMutation,
+} from '@/graphql/types';
 import Labelled from '@/helpers/Labelled';
 
 import { PersonDetails } from './Person.types';
@@ -29,6 +34,13 @@ const Preferences: React.FC<PreferencesProps> = ({ user }) => {
     [data]
   );
 
+  const [updatePreference] = useUpdatePreferenceMutation();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, checked } = e.currentTarget;
+    updatePreference({ variables: { id, value: { boolean: checked } as PreferenceValue } });
+  };
+
   return (
     <div className="inset">
       <form className="details-form">
@@ -46,7 +58,9 @@ const Preferences: React.FC<PreferencesProps> = ({ user }) => {
             >
               <Switch
                 id="showTraditionalNames"
+                name="showTraditionalNames"
                 defaultChecked={preferences.get('showTraditionalNames') || false}
+                onChange={handleChange}
               />
             </Labelled>
           </section>

@@ -5,8 +5,8 @@ import clsx from 'clsx';
 import { extractVariants } from '@/types/variants';
 
 import { Orientation, SWITCH_VARIANTS, SwitchProps } from './Switch.types';
-import useDragInteraction from './useDragInteraction';
 
+// import useDragInteraction from './useDragInteraction';
 import './Switch.css';
 
 export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
@@ -18,7 +18,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       props
     );
 
-    useDragInteraction(ownRef);
+    // useDragInteraction(ownRef);
 
     useEffect(() => {
       if (ownRef.current && indeterminate !== undefined) {
