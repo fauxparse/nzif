@@ -7,6 +7,7 @@ import { ActivityType, useFestivalQuery } from '@/graphql/types';
 import { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 
 import Activities from './Activities';
+import Dashboard from './Dashboard';
 import FestivalContext from './FestivalContext';
 import People from './People';
 import Timetable from './Timetable';
@@ -31,6 +32,7 @@ const Festival: React.FC = () => {
           ))}
           <Route path="people/*" element={<People />} />
           <Route path="timetable" element={<Timetable />} />
+          <Route path="" element={<Dashboard />} />
         </Routes>
       </FestivalContext.Provider>
     </BreadcrumbProvider>

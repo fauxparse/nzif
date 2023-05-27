@@ -34,9 +34,11 @@
   border: 0;
   border-radius: var(--border-radius-standard);
   background-color: transparent;
+  color: inherit;
   font: inherit;
   line-height: var(--line-height-medium);
   text-align: left;
+  text-decoration: none;
   cursor: pointer;
   appearance: none;
 

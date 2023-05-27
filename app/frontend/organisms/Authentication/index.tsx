@@ -10,6 +10,7 @@ import AuthenticationMachine, {
   SignUpAction,
   User,
 } from './AuthenticationMachine';
+import { useAuthentication } from './AuthenticationProvider';
 import Forgot from './Forgot';
 import LoggedIn from './LoggedIn';
 import Login from './Login';
@@ -68,3 +69,5 @@ const Authentication = forwardRef<HTMLDivElement, AuthenticationProps>(
 Authentication.displayName = 'Authentication';
 
 export default Authentication;
+
+export { useAuthentication };

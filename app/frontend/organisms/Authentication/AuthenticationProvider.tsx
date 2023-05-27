@@ -1,10 +1,12 @@
-import React, { createContext, PropsWithChildren, useContext } from 'react';
+import React, { createContext, PropsWithChildren, useContext, useMemo } from 'react';
 import { useApolloClient } from '@apollo/client';
+import PERMISSIONS from '@config/permissions.yml';
 
 import { saveAuthenticationInfo } from '@/graphql/authentication';
 import {
   AuthenticatedUserFragment,
   LogInMutationVariables,
+  Permission,
   ResetPasswordMutationVariables,
   SignUpMutationVariables,
   useCurrentUserQuery,
@@ -28,11 +30,31 @@ type AuthenticationContextShape = {
     password: string;
   }) => Promise<{ user: AuthenticatedUserFragment }>;
   resetPassword: (variables: { email: string }) => Promise<boolean>;
+  hasPermission: (permission: Permission) => boolean;
 };
 
 const AuthenticationContext = createContext({} as AuthenticationContextShape);
 
 export const useAuthentication = () => useContext(AuthenticationContext);
+
+const descendants = (() => {
+  const buildDescendants = (config: typeof PERMISSIONS, map: Map<Permission, Set<Permission>>) => {
+    Object.entries(config).forEach(([key, value]) => {
+      const permission = key as Permission;
+      const children = (value.implies || {}) as Record<Permission, typeof PERMISSIONS>;
+      buildDescendants(children, map);
+      map.set(
+        permission,
+        new Set([
+          permission,
+          ...Object.keys(children).flatMap((k) => [...(map.get(k as Permission) || [])]),
+        ])
+      );
+    });
+    return map;
+  };
+  return buildDescendants(PERMISSIONS, new Map<Permission, Set<Permission>>());
+})();
 
 const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const { data, loading } = useCurrentUserQuery();
@@ -100,8 +122,22 @@ const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const resetPassword = (variables: ResetPasswordMutationVariables) =>
     doResetPassword({ variables }).then(() => true);
 
+  const permissions = useMemo<Set<Permission>>(() => {
+    const set = new Set<Permission>();
+    if (user?.permissions) {
+      return new Set(user.permissions.flatMap((p) => [...(descendants.get(p) || [])]));
+    }
+    return set;
+  }, [user?.permissions]);
+
+  const hasPermission = (permission: Permission) => {
+    return permissions.has(permission);
+  };
+
   return (
-    <AuthenticationContext.Provider value={{ loading, user, logIn, logOut, signUp, resetPassword }}>
+    <AuthenticationContext.Provider
+      value={{ loading, user, logIn, logOut, signUp, resetPassword, hasPermission }}
+    >
       {children}
     </AuthenticationContext.Provider>
   );
