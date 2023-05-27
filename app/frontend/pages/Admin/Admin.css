@@ -44,19 +44,6 @@
   padding-block: var(--large);
   transition: opacity var(--timing-standard) var(--ease-standard);
 
-  @media (width > 640px) {
-    section {
-      grid-template-columns: 1fr 2fr;
-
-      header {
-        grid-column: 1;
-      }
-
-      > * {
-        grid-column: 2;
-      }
-    }
-  }
 
   &[aria-busy] {
     opacity: var(--disabled-opacity);
@@ -108,6 +95,24 @@
 
     &__children {
       grid-column: 2;
+    }
+  }
+}
+
+@media (width > 640px) {
+  .page {
+    .details-form {
+      section {
+        grid-template-columns: 1fr 2fr;
+
+        header {
+          grid-column: 1;
+        }
+
+        > * {
+          grid-column: 2;
+        }
+      }
     }
   }
 }
