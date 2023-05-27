@@ -1,5 +1,5 @@
 module Types
-  module PreferenceType
+  module SettingType
     include BaseInterface
 
     field :id, String, null: false
@@ -8,10 +8,10 @@ module Types
     definition_methods do
       def resolve_type(object, _context)
         case object[:type]
-        when :boolean then Types::BooleanPreferenceType
-        when :string then Types::StringPreferenceType
+        when :boolean then Types::BooleanSettingType
+        when :string then Types::StringSettingType
         else
-          raise "Unexpected Preference: #{object[:type]}"
+          raise "Unexpected Setting: #{object[:type]}"
         end
       end
     end
@@ -21,8 +21,8 @@ module Types
     end
 
     orphan_types(
-      BooleanPreferenceType,
-      StringPreferenceType,
+      BooleanSettingType,
+      StringSettingType,
     )
   end
 end

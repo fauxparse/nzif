@@ -8,7 +8,7 @@ import Tabs from '@/molecules/Tabs';
 
 import { PersonContext } from './Context';
 import { PersonDetails } from './Person.types';
-import Preferences, { PreferencesProps } from './Preferences';
+import Settings, { SettingsProps } from './Settings';
 import Profile from './Profile';
 
 import './Person.css';
@@ -21,7 +21,7 @@ type Tab = {
 
 const TABS: Tab[] = [
   { label: 'Profile', path: '' },
-  { label: 'Preferences', path: 'preferences', enabled: (person) => !!person?.user },
+  { label: 'Settings', path: 'settings', enabled: (person) => !!person?.user },
 ];
 
 const Person: React.FC = () => {
@@ -88,9 +88,7 @@ const Person: React.FC = () => {
           {!loading && !!person && (
             <Routes>
               <Route path="" element={<Profile person={person} />} />
-              {person?.user && (
-                <Route path="preferences" element={<Preferences user={person.user} />} />
-              )}
+              {person?.user && <Route path="settings" element={<Settings user={person.user} />} />}
             </Routes>
           )}
         </div>

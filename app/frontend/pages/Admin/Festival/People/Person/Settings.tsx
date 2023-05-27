@@ -3,10 +3,10 @@ import React, { useMemo } from 'react';
 import { ABOUT_TRADITIONAL_PLACENAMES } from '@/atoms/Placename';
 import Switch from '@/atoms/Switch';
 import {
-  PreferenceValue,
-  PreferenceValueFragmentFragment,
-  usePreferencesQuery,
-  useUpdatePreferenceMutation,
+  SettingValue,
+  SettingValueFragmentFragment,
+  useSettingsQuery,
+  useUpdateSettingMutation,
 } from '@/graphql/types';
 import Labelled from '@/helpers/Labelled';
 
@@ -14,38 +14,38 @@ import { PersonDetails } from './Person.types';
 
 type User = NonNullable<PersonDetails['user']>;
 
-export type PreferencesProps = {
+export type SettingsProps = {
   user: User;
 };
 
-const isBooleanPreference = <T extends PreferenceValueFragmentFragment>(
-  preference: T
-): preference is Extract<T, { __typename: 'BooleanPreference' }> =>
-  preference.__typename === 'BooleanPreference';
+const isBooleanSetting = <T extends SettingValueFragmentFragment>(
+  setting: T
+): setting is Extract<T, { __typename: 'BooleanSetting' }> =>
+  setting.__typename === 'BooleanSetting';
 
-const Preferences: React.FC<PreferencesProps> = ({ user }) => {
-  const { data } = usePreferencesQuery({ variables: { id: user.id } });
+const Settings: React.FC<SettingsProps> = ({ user }) => {
+  const { data } = useSettingsQuery({ variables: { id: user.id } });
 
-  const preferences = useMemo<Map<string, boolean>>(
+  const settings = useMemo<Map<string, boolean>>(
     () =>
-      (data?.user?.preferences || []).filter(isBooleanPreference).reduce((map, { id }) => {
+      (data?.user?.settings || []).filter(isBooleanSetting).reduce((map, { id }) => {
         return map.set(id, true);
       }, new Map<string, boolean>()),
     [data]
   );
 
-  const [updatePreference] = useUpdatePreferenceMutation();
+  const [updateSetting] = useUpdateSettingMutation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = e.currentTarget;
-    updatePreference({ variables: { id, value: { boolean: checked } as PreferenceValue } });
+    updateSetting({ variables: { id, value: { boolean: checked } as SettingValue } });
   };
 
   return (
     <div className="inset">
       <form className="details-form">
-        {!!data?.user?.preferences?.length && (
-          <section className="preferences">
+        {!!data?.user?.settings?.length && (
+          <section className="settings">
             <header>
               <h3>Appearance</h3>
             </header>
@@ -59,7 +59,7 @@ const Preferences: React.FC<PreferencesProps> = ({ user }) => {
               <Switch
                 id="showTraditionalNames"
                 name="showTraditionalNames"
-                defaultChecked={preferences.get('showTraditionalNames') || false}
+                defaultChecked={settings.get('showTraditionalNames') || false}
                 onChange={handleChange}
               />
             </Labelled>
@@ -70,4 +70,4 @@ const Preferences: React.FC<PreferencesProps> = ({ user }) => {
   );
 };
 
-export default Preferences;
+export default Settings;

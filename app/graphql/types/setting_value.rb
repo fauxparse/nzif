@@ -1,5 +1,5 @@
 module Types
-  class PreferenceValue < BaseInputObject
+  class SettingValue < BaseInputObject
     argument :boolean, Boolean, required: false
     argument :string, String, required: false
   end

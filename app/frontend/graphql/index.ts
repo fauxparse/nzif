@@ -20,7 +20,7 @@ export const client = new ApolloClient({
   cache: new InMemoryCache({
     possibleTypes: {
       Activity: ['Show', 'Workshop', 'SocialEvent'],
-      Preference: ['BooleanPreference', 'StringPreference'],
+      Setting: ['BooleanSetting', 'StringSetting'],
       SearchResult: ['ActivityResult', 'PersonResult', 'VenueResult', 'PageResult'],
     },
     typePolicies: {

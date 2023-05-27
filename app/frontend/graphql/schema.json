@@ -387,12 +387,12 @@
         },
         {
           "kind": "OBJECT",
-          "name": "BooleanPreference",
+          "name": "BooleanSetting",
           "description": null,
           "interfaces": [
             {
               "kind": "INTERFACE",
-              "name": "Preference",
+              "name": "Setting",
               "ofType": null
             }
           ],
@@ -1606,11 +1606,11 @@
               ]
             },
             {
-              "name": "updatePreference",
+              "name": "updateSetting",
               "description": null,
               "type": {
                 "kind": "OBJECT",
-                "name": "UpdatePreferencePayload",
+                "name": "UpdateSettingPayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1640,7 +1640,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "PreferenceValue",
+                      "name": "SettingValue",
                       "ofType": null
                     }
                   },
@@ -2708,101 +2708,6 @@
           "enumValues": null
         },
         {
-          "kind": "INTERFACE",
-          "name": "Preference",
-          "description": null,
-          "interfaces": [
-
-          ],
-          "possibleTypes": [
-            {
-              "kind": "OBJECT",
-              "name": "BooleanPreference",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "StringPreference",
-              "ofType": null
-            }
-          ],
-          "fields": [
-            {
-              "name": "description",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null,
-              "args": [
-
-              ]
-            },
-            {
-              "name": "id",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null,
-              "args": [
-
-              ]
-            }
-          ],
-          "inputFields": null,
-          "enumValues": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "PreferenceValue",
-          "description": null,
-          "interfaces": null,
-          "possibleTypes": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "boolean",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "string",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "enumValues": null
-        },
-        {
           "kind": "INPUT_OBJECT",
           "name": "ProfileMergeAttributes",
           "description": null,
@@ -3062,35 +2967,6 @@
               ]
             },
             {
-              "name": "preference",
-              "description": null,
-              "type": {
-                "kind": "INTERFACE",
-                "name": "Preference",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null,
-              "args": [
-                {
-                  "name": "id",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null,
-                  "isDeprecated": false,
-                  "deprecationReason": null
-                }
-              ]
-            },
-            {
               "name": "search",
               "description": null,
               "type": {
@@ -3159,6 +3035,35 @@
                 },
                 {
                   "name": "query",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ]
+            },
+            {
+              "name": "setting",
+              "description": null,
+              "type": {
+                "kind": "INTERFACE",
+                "name": "Setting",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+                {
+                  "name": "id",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
@@ -3371,6 +3276,101 @@
               "deprecationReason": null
             }
           ]
+        },
+        {
+          "kind": "INTERFACE",
+          "name": "Setting",
+          "description": null,
+          "interfaces": [
+
+          ],
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "BooleanSetting",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "StringSetting",
+              "ofType": null
+            }
+          ],
+          "fields": [
+            {
+              "name": "description",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            }
+          ],
+          "inputFields": null,
+          "enumValues": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "SettingValue",
+          "description": null,
+          "interfaces": null,
+          "possibleTypes": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "boolean",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "string",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "enumValues": null
         },
         {
           "kind": "OBJECT",
@@ -3930,12 +3930,12 @@
         },
         {
           "kind": "OBJECT",
-          "name": "StringPreference",
+          "name": "StringSetting",
           "description": null,
           "interfaces": [
             {
               "kind": "INTERFACE",
-              "name": "Preference",
+              "name": "Setting",
               "ofType": null
             }
           ],
@@ -4163,22 +4163,22 @@
         },
         {
           "kind": "OBJECT",
-          "name": "UpdatePreferencePayload",
-          "description": "Autogenerated return type of UpdatePreference.",
+          "name": "UpdateSettingPayload",
+          "description": "Autogenerated return type of UpdateSetting.",
           "interfaces": [
 
           ],
           "possibleTypes": null,
           "fields": [
             {
-              "name": "preference",
+              "name": "setting",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "INTERFACE",
-                  "name": "Preference",
+                  "name": "Setting",
                   "ofType": null
                 }
               },
@@ -4354,7 +4354,21 @@
               ]
             },
             {
-              "name": "preferences",
+              "name": "profile",
+              "description": null,
+              "type": {
+                "kind": "OBJECT",
+                "name": "Person",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "settings",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -4367,25 +4381,11 @@
                     "name": null,
                     "ofType": {
                       "kind": "INTERFACE",
-                      "name": "Preference",
+                      "name": "Setting",
                       "ofType": null
                     }
                   }
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null,
-              "args": [
-
-              ]
-            },
-            {
-              "name": "profile",
-              "description": null,
-              "type": {
-                "kind": "OBJECT",
-                "name": "Person",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null,

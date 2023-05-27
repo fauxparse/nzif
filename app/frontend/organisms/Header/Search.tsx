@@ -10,7 +10,7 @@ import {
   SearchResult as BaseSearchResult,
   useSearchLazyQuery,
 } from '@/graphql/types';
-import usePreference from '@/hooks/usePreference';
+import useSetting from '@/hooks/useSetting';
 import Search from '@/molecules/Search';
 import { SearchResult } from '@/molecules/Search/Search.types';
 
@@ -36,7 +36,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ container }) => {
 
   const navigate = useNavigate();
 
-  const [showTraditionalNameByDefault] = usePreference<boolean>('showTraditionalNames', true);
+  const [showTraditionalNameByDefault] = useSetting<boolean>('showTraditionalNames', true);
 
   const location = useCallback(
     ({ person }: PersonResult) => {

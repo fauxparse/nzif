@@ -1,5 +1,5 @@
 module Users
-  class UpdatePreference < ApplicationInteractor
+  class UpdateSetting < ApplicationInteractor
     delegate :user, :id, :value, to: :context
 
     def call

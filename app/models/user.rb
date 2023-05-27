@@ -3,7 +3,7 @@ class User < ApplicationRecord
     :recoverable, :rememberable, :validatable
 
   include GraphqlDevise::Authenticatable
-  include Preferences
+  include Settings
   include Authorizable
   include Searchable
 
@@ -11,7 +11,7 @@ class User < ApplicationRecord
 
   before_validation :populate_profile
 
-  preference :show_traditional_names, type: :boolean, default: true,
+  setting :show_traditional_names, type: :boolean, default: true,
     description: 'Show traditional placenames'
 
   validates :name,

@@ -1,0 +1,25 @@
+query GetSetting($id: String!) {
+  setting(id: $id) {
+    ...SettingValueFragment
+  }
+}
+
+mutation UpdateSetting($id: String!, $value: SettingValue!) {
+  updateSetting(id: $id, value: $value) {
+    setting {
+      ...SettingValueFragment
+    }
+  }
+}
+
+fragment SettingValueFragment on Setting {
+  id
+
+  ... on StringSetting {
+    valueAsString: value
+  }
+
+  ... on BooleanSetting {
+    valueAsBoolean: value
+  }
+}

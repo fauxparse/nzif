@@ -1,6 +1,6 @@
 module Types
   class MutationType < Types::BaseObject
-    field :update_preference, mutation: Mutations::Users::UpdatePreference
+    field :update_setting, mutation: Mutations::Users::UpdateSetting
     field :update_user, mutation: Mutations::Users::Update
 
     field :create_person, mutation: Mutations::People::Create

@@ -42,7 +42,7 @@
   }
 }
 
-.preferences {
+.settings {
   .labelled {
     display: grid;
     grid-template-columns: auto 1fr;

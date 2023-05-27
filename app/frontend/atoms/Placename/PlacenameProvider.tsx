@@ -1,6 +1,6 @@
 import React, { createContext, PropsWithChildren } from 'react';
 
-import usePreference from '@/hooks/usePreference';
+import useSetting from '@/hooks/useSetting';
 
 export const PlacenameContext = createContext({
   showTraditionalNameByDefault: true,
@@ -11,7 +11,7 @@ export const PlacenameContext = createContext({
 });
 
 const PlacenameProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [showTraditionalNameByDefault, setShowTraditionalNameByDefault] = usePreference<boolean>(
+  const [showTraditionalNameByDefault, setShowTraditionalNameByDefault] = useSetting<boolean>(
     'showTraditionalNames',
     true
   );

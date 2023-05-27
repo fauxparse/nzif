@@ -337,7 +337,7 @@ CREATE TABLE public.users (
     tokens json,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    preferences public.hstore DEFAULT ''::public.hstore NOT NULL,
+    settings public.hstore DEFAULT ''::public.hstore NOT NULL,
     searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('english'::regconfig, public.my_concat(' '::text, regexp_split_to_array((COALESCE(email, ''::character varying))::text, '[.@]'::text))), 'B'::"char"))) STORED,
     permissions character varying[]
 );
@@ -785,6 +785,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230507224337'),
 ('20230514033249'),
 ('20230516013458'),
-('20230520020008');
+('20230520020008'),
+('20230527193722');
 
 

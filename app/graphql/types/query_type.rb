@@ -10,7 +10,7 @@ module Types
       argument :id, ID, required: false
     end
 
-    field :preference, PreferenceType, null: true do
+    field :setting, SettingType, null: true do
       argument :id, String, required: true
     end
 
@@ -40,8 +40,8 @@ module Types
       end
     end
 
-    def preference(id:)
-      pref = User.preferences[id.underscore.to_sym]
+    def setting(id:)
+      pref = User.settings[id.underscore.to_sym]
       pref.to_graphql_object_for(user)
     end
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Users::UpdatePreference, type: :interactor do
+describe Users::UpdateSetting, type: :interactor do
   let(:user) { create(:user) }
 
   let(:current_user) { create(:admin) }
@@ -8,7 +8,7 @@ describe Users::UpdatePreference, type: :interactor do
   describe '.call' do
     subject(:call) { described_class.call(user:, id:, value:, current_user:) }
 
-    context 'with a valid preference' do
+    context 'with a valid setting' do
       let(:id) { :show_traditional_names }
       let(:value) { false }
 
@@ -26,8 +26,8 @@ describe Users::UpdatePreference, type: :interactor do
       end
     end
 
-    context 'with a non-existent preference' do
-      let(:id) { :non_existent_preference }
+    context 'with a non-existent setting' do
+      let(:id) { :non_existent_setting }
       let(:value) { 'some value' }
 
       it 'fails' do
