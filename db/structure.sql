@@ -655,6 +655,13 @@ CREATE INDEX index_slots_on_venue_id ON public.slots USING btree (venue_id);
 
 
 --
+-- Name: index_translations_on_key_and_locale; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_translations_on_key_and_locale ON public.translations USING btree (key, locale);
+
+
+--
 -- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -786,6 +793,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230514033249'),
 ('20230516013458'),
 ('20230520020008'),
-('20230527193722');
+('20230527193722'),
+('20230528202819');
 
 

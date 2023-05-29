@@ -13,6 +13,9 @@ AllCops:
 GraphQL/ArgumentDescription:
   Enabled: false
 
+GraphQL/ExtractInputType:
+  Enabled: false
+
 GraphQL/ExtractType:
   Exclude:
     - 'app/graphql/**/base_*.rb'

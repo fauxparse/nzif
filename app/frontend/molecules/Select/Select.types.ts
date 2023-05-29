@@ -3,11 +3,18 @@ import { ElementType, ReactElement } from 'react';
 import Button from '@/atoms/Button';
 import { Polymorphic, WithDisplayName } from '@/types/polymorphic.types';
 
-export interface SelectOption<T = string> {
-  label: string;
-  value: T;
-  disabled?: boolean;
-}
+export const SelectOptionSeparator = {
+  value: Symbol('---'),
+  label: '',
+};
+
+export type SelectOption<T = string> =
+  | {
+      label: string;
+      value: T;
+      disabled?: boolean;
+    }
+  | typeof SelectOptionSeparator;
 
 export type BaseSelectProps<V = string, T extends SelectOption<V> = SelectOption<V>> = {
   options: T[];
@@ -27,3 +34,7 @@ export type SelectComponent<
   T extends SelectOption<V> = SelectOption<V>,
   C extends ElementType = typeof Button
 > = WithDisplayName<(props: SelectProps<V, T, C>) => ReactElement | null>;
+
+export const isSeparator = <T>(
+  option: SelectOption<T> | null | undefined
+): option is typeof SelectOptionSeparator => option === SelectOptionSeparator;

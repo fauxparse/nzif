@@ -11,6 +11,7 @@ import Dashboard from './Dashboard';
 import FestivalContext from './FestivalContext';
 import People from './People';
 import Timetable from './Timetable';
+import Translations from './Translations';
 
 const Festival: React.FC = () => {
   const { year } = useParams<{ year: string }>() as { year: string };
@@ -32,6 +33,7 @@ const Festival: React.FC = () => {
           ))}
           <Route path="people/*" element={<People />} />
           <Route path="timetable" element={<Timetable />} />
+          <Route path="translations" element={<Translations />} />
           <Route path="" element={<Dashboard />} />
         </Routes>
       </FestivalContext.Provider>

@@ -29,7 +29,7 @@ import { PolymorphicRef } from '@/types/polymorphic.types';
 
 import SelectContext from './Context';
 import ScrollArrow from './ScrollArrow';
-import { SelectOption, SelectProps } from './Select.types';
+import { isSeparator, SelectOption, SelectProps } from './Select.types';
 import DefaultTrigger from './Trigger';
 
 import './Select.css';
@@ -52,10 +52,10 @@ export const Select = forwardRef(
     const [open, setOpen] = useState(false);
 
     const [selectedIndex, setSelectedIndex] = useState<number | null>(() =>
-      options.findIndex((o) => o.value === value)
+      options.findIndex((o) => !isSeparator(o) && o.value === value)
     );
     useEffect(() => {
-      setSelectedIndex(options.findIndex((o) => o.value === value));
+      setSelectedIndex(options.findIndex((o) => !isSeparator(o) && o.value === value));
     }, [options, value]);
 
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -74,9 +74,11 @@ export const Select = forwardRef(
 
     const hasIcon = !!(props as Record<string, unknown>)['icon'];
 
-    const label =
-      (selectedIndex !== undefined && selectedIndex !== null && options[selectedIndex]?.label) ||
-      undefined;
+    const selectedItem =
+      selectedIndex !== undefined && selectedIndex !== null && !isSeparator(options[selectedIndex])
+        ? options[selectedIndex]
+        : null;
+    const label = (!isSeparator(selectedItem) && selectedItem?.label) || undefined;
 
     if (!open) {
       if (innerOffset !== 0) setInnerOffset(0);
@@ -169,7 +171,7 @@ export const Select = forwardRef(
     const triggerRef = mergeRefs([ref, refs.setReference]);
 
     const select = (value: V) => {
-      const index = options.findIndex((option) => option.value === value);
+      const index = options.findIndex((option) => !isSeparator(option) && option.value === value);
       if (index > -1) {
         setSelectedIndex(index);
         onChange(value);
@@ -243,53 +245,57 @@ export const Select = forwardRef(
                       },
                     })}
                   >
-                    {options.map((option, i) => (
-                      <Menu.Item
-                        className="select__option"
-                        icon={value === option.value ? 'check' : undefined}
-                        key={String(option.value)}
-                        label={option.label}
-                        disabled={option.disabled || blockSelection || undefined}
-                        selected={value === option.value}
-                        role="option"
-                        tabIndex={activeIndex === i ? 0 : -1}
-                        onClick={() => setOpen(false)}
-                        ref={(node) => {
-                          listRef.current[i] = node;
-                          listContentRef.current[i] = option.label;
-                        }}
-                        {...getItemProps({
-                          onTouchStart() {
-                            allowSelectRef.current = true;
-                            allowMouseUpRef.current = false;
-                          },
-                          onKeyDown() {
-                            allowSelectRef.current = true;
-                          },
-                          onClick() {
-                            if (allowSelectRef.current) {
-                              select(option.value);
-                            }
-                          },
-                          onMouseUp() {
-                            if (!allowMouseUpRef.current) {
-                              return;
-                            }
-
-                            if (allowSelectRef.current) {
-                              select(option.value);
-                            }
-
-                            // On touch devices, prevent the element from
-                            // immediately closing `onClick` by deferring it
-                            clearTimeout(selectTimeoutRef.current);
-                            selectTimeoutRef.current = window.setTimeout(() => {
+                    {options.map((option, i) =>
+                      isSeparator(option) ? (
+                        <Menu.Separator key={i} />
+                      ) : (
+                        <Menu.Item
+                          className="select__option"
+                          icon={value === option.value ? 'check' : undefined}
+                          key={String(option.value)}
+                          label={option.label}
+                          disabled={option.disabled || blockSelection || undefined}
+                          selected={value === option.value}
+                          role="option"
+                          tabIndex={activeIndex === i ? 0 : -1}
+                          onClick={() => setOpen(false)}
+                          ref={(node) => {
+                            listRef.current[i] = node;
+                            listContentRef.current[i] = option.label;
+                          }}
+                          {...getItemProps({
+                            onTouchStart() {
                               allowSelectRef.current = true;
-                            });
-                          },
-                        })}
-                      />
-                    ))}
+                              allowMouseUpRef.current = false;
+                            },
+                            onKeyDown() {
+                              allowSelectRef.current = true;
+                            },
+                            onClick() {
+                              if (allowSelectRef.current) {
+                                select(option.value);
+                              }
+                            },
+                            onMouseUp() {
+                              if (!allowMouseUpRef.current) {
+                                return;
+                              }
+
+                              if (allowSelectRef.current) {
+                                select(option.value);
+                              }
+
+                              // On touch devices, prevent the element from
+                              // immediately closing `onClick` by deferring it
+                              clearTimeout(selectTimeoutRef.current);
+                              selectTimeoutRef.current = window.setTimeout(() => {
+                                allowSelectRef.current = true;
+                              });
+                            },
+                          })}
+                        />
+                      )
+                    )}
                   </Menu>
                   {(['up', 'down'] as const).map((dir) => (
                     <ScrollArrow

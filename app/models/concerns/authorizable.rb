@@ -16,6 +16,6 @@ module Authorizable
   end
 
   def permissions=(permissions)
-    super(Permission::Set.new(permissions))
+    super(Permission::Set.load(permissions))
   end
 end

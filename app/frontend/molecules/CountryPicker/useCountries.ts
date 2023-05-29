@@ -1,4 +1,7 @@
+import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
+
+import { isSeparator, SelectOptionSeparator } from '../Select/Select.types';
 
 import { CountryPickerOption } from './CountryPicker.types';
 
@@ -10,7 +13,18 @@ const useCountries = () => {
     staleTime: Infinity,
   });
 
-  return { loading: result.isLoading, countries: result.data || [] };
+  const countries = useMemo(() => {
+    if (!result.data) return [];
+    const countries = [...result.data];
+    countries.splice(
+      countries.findIndex((c) => !isSeparator(c) && !c.priority),
+      0,
+      SelectOptionSeparator
+    );
+    return countries;
+  }, [result]);
+
+  return { loading: result.isLoading, countries };
 };
 
 export default useCountries;

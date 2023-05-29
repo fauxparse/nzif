@@ -24,6 +24,8 @@ module Types
 
     field :permissions, [PermissionDefinitionType], null: false
 
+    field :translations, resolver: Resolvers::Translations
+
     def festival(year: nil)
       if year
         Festival.by_year(year).first!

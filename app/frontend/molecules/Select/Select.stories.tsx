@@ -3,7 +3,7 @@ import { randFullName } from '@ngneat/falso';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Select } from './Select';
-import { SelectOption, SelectProps } from './Select.types';
+import { isSeparator, SelectOption, SelectOptionSeparator, SelectProps } from './Select.types';
 
 type Story = StoryObj<typeof Select>;
 
@@ -16,6 +16,7 @@ export default {
     options: [
       { value: 'red', label: 'Red' },
       { value: 'orange', label: 'Orange' },
+      SelectOptionSeparator,
       { value: 'yellow', label: 'Yellow' },
       { value: 'green', label: 'Green' },
       { value: 'blue', label: 'Blue' },
@@ -38,7 +39,9 @@ const SelectDemo = ({
   const [selected, setSelected] = React.useState<string | undefined>();
 
   const label = useMemo(
-    () => options.find((option) => option.value === selected)?.label || placeholder,
+    () =>
+      options.find((option) => !isSeparator(option) && option.value === selected)?.label ||
+      placeholder,
     [options, placeholder, selected]
   );
 

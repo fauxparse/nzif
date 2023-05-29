@@ -16,5 +16,9 @@ module Types
     field :create_slots, mutation: Mutations::Slots::CreateMultiple
     field :destroy_slot, mutation: Mutations::Slots::Destroy
     field :update_slot, mutation: Mutations::Slots::Update
+
+    field :create_translation, mutation: Mutations::Translations::Create
+    field :destroy_translation, mutation: Mutations::Translations::Destroy
+    field :update_translation, mutation: Mutations::Translations::Update
   end
 end

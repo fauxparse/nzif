@@ -73,6 +73,7 @@
 
   &::placeholder {
     color: var(--input-placeholder);
+    font-weight: var(--font-weight-normal);
     opacity: var(--placeholder-opacity);
   }
 }

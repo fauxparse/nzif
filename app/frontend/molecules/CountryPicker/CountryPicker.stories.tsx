@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+
+import { SelectOptionSeparator } from '../Select/Select.types';
 
 import COUNTRIES from './countries.json';
 import CountryPicker, { CountryPickerProps } from '.';
@@ -9,7 +11,13 @@ type Story = StoryObj<typeof CountryPicker>;
 const CountryPickerDemo = (args: Omit<Partial<CountryPickerProps>, 'ref'>) => {
   const [value, setValue] = useState<string | undefined>(undefined);
 
-  return <CountryPicker {...args} value={value} onChange={setValue} />;
+  const useCountries = useCallback(() => {
+    const countries: ((typeof COUNTRIES)[number] | typeof SelectOptionSeparator)[] = [...COUNTRIES];
+    countries.splice(2, 0, SelectOptionSeparator);
+    return { loading: false, countries };
+  }, []);
+
+  return <CountryPicker useCountries={useCountries} {...args} value={value} onChange={setValue} />;
 };
 
 export default {
@@ -17,7 +25,6 @@ export default {
   component: CountryPicker,
   argTypes: {},
   args: {
-    useCountries: () => ({ loading: false, countries: COUNTRIES }),
     style: { width: '24rem' },
   },
   parameters: {
@@ -26,8 +33,4 @@ export default {
   render: (args) => <CountryPickerDemo {...args} />,
 } satisfies Meta<typeof CountryPicker>;
 
-export const Default: Story = {
-  args: {
-    //
-  },
-};
+export const Default: Story = {};

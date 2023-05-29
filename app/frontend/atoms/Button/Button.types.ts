@@ -42,7 +42,7 @@ export type BaseButtonProps = AllButtonVariants & {
    * Icon to render inside the button
    * @type ReactNode
    */
-  icon?: IconName | ReactNode;
+  icon?: IconName | ReactElement;
   stretch?: boolean;
 };
 
