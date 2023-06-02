@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useCycle } from 'framer-motion';
 import { DateTime } from 'luxon';
 
@@ -25,11 +25,13 @@ const dateRange = (start: DateTime, end: DateTime) => {
 };
 
 const Header: React.FC = () => {
+  const { year = null } = useParams<{ year?: string }>();
+
   const container = useRef<HTMLElement>(null);
 
   const [open, toggleOverlay] = useCycle(false, true);
 
-  const { data } = useHeaderQuery();
+  const { data } = useHeaderQuery({ variables: { year } });
 
   const { festival } = data || {};
 

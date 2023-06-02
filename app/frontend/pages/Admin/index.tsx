@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 import Header from '@/organisms/Header';
 
+import CurrentFestivalRedirect from './CurrentFestivalRedirect';
 import Festival from './Festival';
 
 import './Admin.css';
@@ -15,6 +16,7 @@ const Admin: React.FC = () => {
         <Header />
         <Routes>
           <Route path=":year/*" element={<Festival />} />
+          <Route index element={<CurrentFestivalRedirect />} />
         </Routes>
       </div>
     </BreadcrumbProvider>

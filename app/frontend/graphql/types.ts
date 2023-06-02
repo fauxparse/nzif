@@ -749,7 +749,9 @@ export type ResetPasswordMutationVariables = Exact<{
 
 export type ResetPasswordMutation = { __typename: 'Mutation', userSendPasswordResetWithToken: { __typename: 'UserSendPasswordResetWithTokenPayload', message: string } | null };
 
-export type HeaderQueryVariables = Exact<{ [key: string]: never; }>;
+export type HeaderQueryVariables = Exact<{
+  year: InputMaybe<Scalars['String']>;
+}>;
 
 
 export type HeaderQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime } };
@@ -818,6 +820,11 @@ export type FestivalQueryVariables = Exact<{
 
 
 export type FestivalQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string } };
+
+export type CurrentFestivalQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentFestivalQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime } };
 
 export type PersonDetailsFragment = { __typename: 'Person', id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null };
 
@@ -1387,8 +1394,8 @@ export type ResetPasswordMutationHookResult = ReturnType<typeof useResetPassword
 export type ResetPasswordMutationResult = Apollo.MutationResult<ResetPasswordMutation>;
 export type ResetPasswordMutationOptions = Apollo.BaseMutationOptions<ResetPasswordMutation, ResetPasswordMutationVariables>;
 export const HeaderDocument = gql`
-    query Header {
-  festival(year: "2023") {
+    query Header($year: String) {
+  festival(year: $year) {
     id
     startDate
     endDate
@@ -1408,6 +1415,7 @@ export const HeaderDocument = gql`
  * @example
  * const { data, loading, error } = useHeaderQuery({
  *   variables: {
+ *      year: // value for 'year'
  *   },
  * });
  */
@@ -1745,6 +1753,42 @@ export function useFestivalLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<F
 export type FestivalQueryHookResult = ReturnType<typeof useFestivalQuery>;
 export type FestivalLazyQueryHookResult = ReturnType<typeof useFestivalLazyQuery>;
 export type FestivalQueryResult = Apollo.QueryResult<FestivalQuery, FestivalQueryVariables>;
+export const CurrentFestivalDocument = gql`
+    query CurrentFestival {
+  festival {
+    id
+    startDate
+    endDate
+  }
+}
+    `;
+
+/**
+ * __useCurrentFestivalQuery__
+ *
+ * To run a query within a React component, call `useCurrentFestivalQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCurrentFestivalQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCurrentFestivalQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCurrentFestivalQuery(baseOptions?: Apollo.QueryHookOptions<CurrentFestivalQuery, CurrentFestivalQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CurrentFestivalQuery, CurrentFestivalQueryVariables>(CurrentFestivalDocument, options);
+      }
+export function useCurrentFestivalLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CurrentFestivalQuery, CurrentFestivalQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CurrentFestivalQuery, CurrentFestivalQueryVariables>(CurrentFestivalDocument, options);
+        }
+export type CurrentFestivalQueryHookResult = ReturnType<typeof useCurrentFestivalQuery>;
+export type CurrentFestivalLazyQueryHookResult = ReturnType<typeof useCurrentFestivalLazyQuery>;
+export type CurrentFestivalQueryResult = Apollo.QueryResult<CurrentFestivalQuery, CurrentFestivalQueryVariables>;
 export const PeopleDocument = gql`
     query People {
   people {

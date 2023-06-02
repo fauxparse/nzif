@@ -1,5 +1,5 @@
-query Header {
-  festival(year: "2023") {
+query Header($year: String) {
+  festival(year: $year) {
     id
     startDate
     endDate

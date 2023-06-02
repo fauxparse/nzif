@@ -34,7 +34,7 @@ const Festival: React.FC = () => {
           <Route path="people/*" element={<People />} />
           <Route path="timetable" element={<Timetable />} />
           <Route path="translations" element={<Translations />} />
-          <Route path="" element={<Dashboard />} />
+          <Route index element={<Dashboard />} />
         </Routes>
       </FestivalContext.Provider>
     </BreadcrumbProvider>

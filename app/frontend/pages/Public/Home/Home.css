@@ -1,0 +1,50 @@
+.hero {
+  --hero-font-size: 4.5rem;
+
+  padding-block: var(--huge);
+  text-align: center;
+
+  @media (width <= 480px) {
+    --hero-font-size: 2.5rem;
+
+    .hero__buttons {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+
+      .button {
+        width: auto;
+      }
+    }
+  }
+
+
+  h1 {
+    max-width: 40rem;
+    margin: 0 auto;
+    font-size: var(--hero-font-size);
+    line-height: 1.25;
+
+    small {
+      display: block;
+      color: var(--text-subtle);
+      font-weight: var(--font-weight-normal);
+      font-size: var(--font-size-huge);
+      line-height: var(--line-height-huge);
+    }
+  }
+
+  p {
+    max-width: 40rem;
+    margin: var(--spacing) auto;
+    font-size: var(--font-size-large);
+    line-height: var(--line-height-large);
+  }
+
+  &__buttons {
+    display: flex;
+    gap: var(--spacing);
+    justify-content: center;
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,29 @@
+.dashboard {
+  &__links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: var(--large);
+
+    h3 {
+      color: var(--text-subtle);
+      font-weight: var(--font-size-normal);
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-normal);
+      letter-spacing: 0.1rem;
+      text-transform: uppercase;
+    }
+
+    .menu__item {
+      &:hover {
+        background-color: transparent;
+        color: var(--text-accent);
+      }
+
+      &[href^="https://"] {
+        .menu__item__label::after {
+          content: "boop"
+        }
+      }
+    }
+  }
+}

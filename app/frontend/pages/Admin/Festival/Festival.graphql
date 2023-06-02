@@ -3,3 +3,11 @@ query Festival($year: String!) {
     id
   }
 }
+
+query CurrentFestival {
+  festival {
+    id
+    startDate
+    endDate
+  }
+}

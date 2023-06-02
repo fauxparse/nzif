@@ -7,6 +7,8 @@ import { deburr, kebabCase } from 'lodash-es';
 
 import Spinner from '@/atoms/Spinner';
 import { useContentPageQuery } from '@/contentful/types';
+import Footer from '@/organisms/Footer';
+import Header from '@/organisms/Header';
 
 import TableOfContents from './TableOfContents';
 
@@ -39,28 +41,34 @@ const Contentful: React.FC = () => {
   const document: Document | undefined = page?.body?.json;
 
   return (
-    <div className="content-page">
-      <section>
-        {document ? (
-          <>
-            <header className="content-page__header">
-              <Balanced as="h1">{page?.title}</Balanced>
-              {page?.lede && (
-                <Balanced className="content-page__lede">
-                  {documentToReactComponents(page.lede.json)}
-                </Balanced>
-              )}
-            </header>
-            {document && <TableOfContents document={document} />}
-            <div className="content-page__content">
-              {documentToReactComponents(document, renderOptions)}
-            </div>
-          </>
-        ) : (
-          <Spinner large />
-        )}
-      </section>
-    </div>
+    <>
+      <Header />
+      <main>
+        <div className="content-page">
+          <section>
+            {document ? (
+              <>
+                <header className="content-page__header">
+                  <Balanced as="h1">{page?.title}</Balanced>
+                  {page?.lede && (
+                    <Balanced className="content-page__lede">
+                      {documentToReactComponents(page.lede.json)}
+                    </Balanced>
+                  )}
+                </header>
+                {document && <TableOfContents document={document} />}
+                <div className="content-page__content">
+                  {documentToReactComponents(document, renderOptions)}
+                </div>
+              </>
+            ) : (
+              <Spinner large />
+            )}
+          </section>
+        </div>
+      </main>
+      <Footer />
+    </>
   );
 };
 

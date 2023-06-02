@@ -5,6 +5,7 @@ import LocationContext from '../LocationContext';
 
 import usePrevious from './hooks/usePrevious';
 import Public from './pages/Public';
+import CurrentFestivalRedirect from './pages/Public/CurrentFestivalRedirect';
 
 const Admin = lazy(() => import('./pages/Admin'));
 const Contentful = lazy(() => import('./pages/Contentful'));
@@ -35,10 +36,11 @@ const Routing: React.FC = () => {
     <LocationContext.Provider value={{ location, previousLocation }}>
       <Routes location={location} key={locationKey}>
         <Route path="admin/*" element={suspend(Admin)} />
-        <Route path="" element={<Public />}>
-          <Route path="" element={suspend(Home)} />
-          <Route path=":slug" element={suspend(Contentful)} />
+        <Route path="2023" element={<Public />}>
+          <Route index element={suspend(Home)} />
         </Route>
+        <Route path=":slug" element={suspend(Contentful)} />
+        <Route index element={<CurrentFestivalRedirect />} />
       </Routes>
     </LocationContext.Provider>
   );
