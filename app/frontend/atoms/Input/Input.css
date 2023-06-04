@@ -6,9 +6,9 @@
   --input-border-radius: var(--border-radius-standard);
   --input-padding-block: var(--small);
   --input-padding-inline: var(--spacing);
-  --input-background: var(--background-element);
+  --input-background: var(--background);
   --input-foreground: var(--text);
-  --input-read-only-background: transparent;
+  --input-read-only-background: var(--element);
   --input-read-only-foreground: var(--text-subtle);
   --input-placeholder: var(--text-subtle);
   --input-hover: var(--border-hover);
@@ -61,7 +61,7 @@
   &:where(:disabled) {
     --input-hover: var(--border-element);
 
-    background-color: var(--background);
+    background-color: var(--input-read-only-background);
     opacity: var(--disabled-opacity);
   }
 
