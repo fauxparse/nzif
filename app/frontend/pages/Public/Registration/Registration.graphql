@@ -1,0 +1,43 @@
+fragment RegistrationWorkshop on Workshop {
+  id
+  type
+  name
+  slug
+
+  tutors {
+    ...RegistrationTutor
+  }
+}
+
+fragment RegistrationTutor on Person {
+  id
+  name
+  city {
+    id
+    name
+    traditionalName
+  }
+  country {
+    id
+    name
+    traditionalName
+  }
+}
+
+query Registration {
+  festival {
+    id
+    startDate
+    endDate
+
+    workshopSlots {
+      id
+      startsAt
+      endsAt
+
+      workshops {
+        ...RegistrationWorkshop
+      }
+    }
+  }
+}

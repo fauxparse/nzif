@@ -114,6 +114,7 @@ export type Festival = {
   state: FestivalState;
   timetable: Timetable;
   venues: Array<Venue>;
+  workshopSlots: Array<WorkshopSlot>;
 };
 
 
@@ -692,6 +693,14 @@ export type Workshop = Activity & {
   type: ActivityType;
 };
 
+export type WorkshopSlot = {
+  __typename: 'WorkshopSlot';
+  endsAt: Scalars['ISO8601DateTime'];
+  id: Scalars['ID'];
+  startsAt: Scalars['ISO8601DateTime'];
+  workshops: Array<Workshop>;
+};
+
 export type GetSettingQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -981,6 +990,15 @@ export type DestroyTranslationMutationVariables = Exact<{
 
 export type DestroyTranslationMutation = { __typename: 'Mutation', destroyTranslation: boolean | null };
 
+export type RegistrationWorkshopFragment = { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null }> };
+
+export type RegistrationTutorFragment = { __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null };
+
+export type RegistrationQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RegistrationQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, workshopSlots: Array<{ __typename: 'WorkshopSlot', id: string, startsAt: DateTime, endsAt: DateTime, workshops: Array<{ __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null }> }> }> } };
+
 export const SettingValueFragmentFragmentDoc = gql`
     fragment SettingValueFragment on Setting {
   id
@@ -1133,6 +1151,33 @@ export const TranslationDetailsFragmentDoc = gql`
   country
 }
     `;
+export const RegistrationTutorFragmentDoc = gql`
+    fragment RegistrationTutor on Person {
+  id
+  name
+  city {
+    id
+    name
+    traditionalName
+  }
+  country {
+    id
+    name
+    traditionalName
+  }
+}
+    `;
+export const RegistrationWorkshopFragmentDoc = gql`
+    fragment RegistrationWorkshop on Workshop {
+  id
+  type
+  name
+  slug
+  tutors {
+    ...RegistrationTutor
+  }
+}
+    ${RegistrationTutorFragmentDoc}`;
 export const GetSettingDocument = gql`
     query GetSetting($id: String!) {
   setting(id: $id) {
@@ -2492,9 +2537,54 @@ export function useDestroyTranslationMutation(baseOptions?: Apollo.MutationHookO
 export type DestroyTranslationMutationHookResult = ReturnType<typeof useDestroyTranslationMutation>;
 export type DestroyTranslationMutationResult = Apollo.MutationResult<DestroyTranslationMutation>;
 export type DestroyTranslationMutationOptions = Apollo.BaseMutationOptions<DestroyTranslationMutation, DestroyTranslationMutationVariables>;
+export const RegistrationDocument = gql`
+    query Registration {
+  festival {
+    id
+    startDate
+    endDate
+    workshopSlots {
+      id
+      startsAt
+      endsAt
+      workshops {
+        ...RegistrationWorkshop
+      }
+    }
+  }
+}
+    ${RegistrationWorkshopFragmentDoc}`;
+
+/**
+ * __useRegistrationQuery__
+ *
+ * To run a query within a React component, call `useRegistrationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRegistrationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRegistrationQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRegistrationQuery(baseOptions?: Apollo.QueryHookOptions<RegistrationQuery, RegistrationQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RegistrationQuery, RegistrationQueryVariables>(RegistrationDocument, options);
+      }
+export function useRegistrationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RegistrationQuery, RegistrationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RegistrationQuery, RegistrationQueryVariables>(RegistrationDocument, options);
+        }
+export type RegistrationQueryHookResult = ReturnType<typeof useRegistrationQuery>;
+export type RegistrationLazyQueryHookResult = ReturnType<typeof useRegistrationLazyQuery>;
+export type RegistrationQueryResult = Apollo.QueryResult<RegistrationQuery, RegistrationQueryVariables>;
 import { datePolicy, dateTimePolicy } from './policies/dateTimePolicy';
 
 export const scalarTypePolicies = {
   Festival: { fields: { endDate: datePolicy, startDate: datePolicy } },
   Slot: { fields: { endsAt: dateTimePolicy, startsAt: dateTimePolicy } },
+  WorkshopSlot: { fields: { endsAt: dateTimePolicy, startsAt: dateTimePolicy } },
 };

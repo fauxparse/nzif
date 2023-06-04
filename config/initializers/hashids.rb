@@ -1,6 +1,6 @@
 Hashid::Rails.configure do |config|
   # The salt to use for generating hashid. Prepended with pepper (table name).
-  config.salt = '487b0c4956eb0658092a50cd92e5280b'
+  config.salt = ''
   # config.pepper = table_name
 
   # The minimum length of generated hashids
@@ -18,5 +18,5 @@ Hashid::Rails.configure do |config|
   config.override_to_param = true
 
   # Whether to sign hashids to prevent conflicts with regular IDs (see https://github.com/jcypret/hashid-rails/issues/30)
-  config.sign_hashids = true
+  config.sign_hashids = false
 end

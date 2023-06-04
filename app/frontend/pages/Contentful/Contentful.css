@@ -166,18 +166,6 @@
     font-size: var(--font-size-small);
     line-height: 2rem;
 
-    @media (--two-columns) {
-      position: sticky;
-      top: 0;
-      grid-column: 2;
-      overflow-y: auto;
-      max-height: 100vh;
-      max-height: 100dvh;
-      max-height: 100svh;
-      padding-block: 2rem;
-      padding-inline-end: 2rem;
-    }
-
     [type="checkbox"] {
       display: none;
 
@@ -202,16 +190,16 @@
       font-weight: var(--font-weight-bold);
       cursor: pointer;
 
+      .icon {
+        transition: transform 0.5s var(--ease-squish-4);
+      }
+
       @media (--two-columns) {
         display: none;
 
         ~ ul {
           display: block;
         }
-      }
-
-      .icon {
-        transition: transform 0.5s var(--ease-squish-4);
       }
     }
 
@@ -250,6 +238,18 @@
       &:hover {
         color: var(--accent);
       }
+    }
+
+    @media (--two-columns) {
+      position: sticky;
+      top: 0;
+      grid-column: 2;
+      overflow-y: auto;
+      max-height: 100vh;
+      max-height: 100dvh;
+      max-height: 100svh;
+      padding-block: 2rem;
+      padding-inline-end: 2rem;
     }
   }
 }

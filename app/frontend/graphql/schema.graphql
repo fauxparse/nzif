@@ -101,6 +101,7 @@ type Festival {
   state: FestivalState!
   timetable: Timetable!
   venues: [Venue!]!
+  workshopSlots: [WorkshopSlot!]!
 }
 
 enum FestivalState {
@@ -579,4 +580,11 @@ type Workshop implements Activity {
   """
   tutors: [Person!]!
   type: ActivityType!
+}
+
+type WorkshopSlot {
+  endsAt: ISO8601DateTime!
+  id: ID!
+  startsAt: ISO8601DateTime!
+  workshops: [Workshop!]!
 }

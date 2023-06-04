@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useRef } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 import clsx from 'clsx';
 
@@ -16,9 +16,13 @@ const CheckboxIcon = () => (
   </Icon>
 );
 
+const SUPPORTS_HAS_SELECTOR = CSS.supports('selector(:has(*))');
+
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   ({ className, indeterminate, children = <CheckboxIcon />, ...props }, ref) => {
     const ownRef = useRef<HTMLInputElement>(null);
+
+    const [checked, setChecked] = useState(false);
 
     useEffect(() => {
       if (ownRef.current && indeterminate !== undefined) {
@@ -26,11 +30,23 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       }
     }, [indeterminate]);
 
+    useEffect(() => {
+      const el = ownRef.current;
+      if (!el || SUPPORTS_HAS_SELECTOR) return;
+      setChecked(el.checked);
+      const changed = (e: Event) => {
+        setChecked((e.target as HTMLInputElement).checked);
+      };
+      el.addEventListener('change', changed);
+      return () => el.removeEventListener('change', changed);
+    }, []);
+
     return (
       <Radio
         ref={mergeRefs([ref, ownRef])}
         type="checkbox"
         className={clsx('checkbox', className)}
+        data-checked={SUPPORTS_HAS_SELECTOR || !checked ? undefined : true}
         {...props}
       >
         {children}

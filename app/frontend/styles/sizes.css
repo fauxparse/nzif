@@ -3,6 +3,7 @@
   --small: 0.5rem;
   --half: 0.75rem;
   --spacing: 1rem;
+  --medium: 1rem;
   --large: 1.5rem;
   --huge: 2.5rem;
   --icon-size: 1.5rem;
@@ -13,6 +14,7 @@
   --button-size-large: 3.5rem;
   --focus-width: 0.25rem;
   --border-width-standard: 1px;
+  --border-width-thick: 2px;
 
   /* White space */
   --max-width: 64rem;

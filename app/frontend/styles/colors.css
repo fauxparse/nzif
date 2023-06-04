@@ -75,6 +75,18 @@
   --accentA10: var(--crimsonA10);
   --accentA11: var(--crimsonA11);
   --accentA12: var(--crimsonA12);
+  --info1: var(--amber1);
+  --info2: var(--amber2);
+  --info3: var(--amber3);
+  --info4: var(--amber4);
+  --info5: var(--amber5);
+  --info6: var(--amber6);
+  --info7: var(--amber7);
+  --info8: var(--amber8);
+  --info9: var(--amber9);
+  --info10: var(--amber10);
+  --info11: var(--amber11);
+  --info12: var(--amber12);
 
   /* Color aliases */
   --background: var(--neutral1);

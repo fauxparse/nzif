@@ -10,6 +10,7 @@ import CurrentFestivalRedirect from './pages/Public/CurrentFestivalRedirect';
 const Admin = lazy(() => import('./pages/Admin'));
 const Contentful = lazy(() => import('./pages/Contentful'));
 const Home = lazy(() => import('./pages/Public/Home'));
+const Registration = lazy(() => import('./pages/Public/Registration'));
 
 const suspend = (Component: React.FC) => (
   <Suspense>
@@ -37,6 +38,7 @@ const Routing: React.FC = () => {
       <Routes location={location} key={locationKey}>
         <Route path="admin/*" element={suspend(Admin)} />
         <Route path="2023" element={<Public />}>
+          <Route path="register/*" element={suspend(Registration)} />
           <Route index element={suspend(Home)} />
         </Route>
         <Route path=":slug" element={suspend(Contentful)} />

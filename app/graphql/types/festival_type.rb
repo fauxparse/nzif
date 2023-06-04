@@ -14,6 +14,7 @@ module Types
     field :state, Types::FestivalStateType, null: false
     field :timetable, Types::TimetableType, null: false
     field :venues, [Types::VenueType], null: false
+    field :workshop_slots, [Types::WorkshopSlotType], null: false
 
     def id
       object.start_date.year.to_s
@@ -39,6 +40,19 @@ module Types
       dataloader
         .with(Sources::VenuesByFestival, context:)
         .load(object.id)
+    end
+
+    def workshop_slots
+      object.slots.includes(:activity)
+        .where(activity_type: 'Workshop').where.not(activity_id: nil)
+        .order(:starts_at).group_by(&:starts_at).map do |starts_at, group|
+          Hashie::Mash.new(
+            id: starts_at.iso8601,
+            starts_at:,
+            ends_at: group.map(&:ends_at).max,
+            workshops: group.map(&:activity),
+          )
+        end
     end
   end
 end
