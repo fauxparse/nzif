@@ -318,58 +318,16 @@
     }
   }
 
-  .card {
-    --card-border: var(--border-subtle);
-
-    position: relative;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    border-radius: var(--border-radius-large);
-    box-shadow: var(--shadow-2), inset 0 0 0 var(--border-width-standard) var(--card-border);
-
-    &__details {
-      display: grid;
-      gap: var(--tiny);
-      place-content: start;
-      padding: var(--medium);
-    }
-
-    &__title {
-      margin: 0;
-      font-weight: var(--font-weight-normal);
-      font-size: var(--font-size-legible);
-      line-height: var(--line-height-medium);
-    }
-
-    &__image {
-      overflow: hidden;
-      border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
-
-      img {
-        display: block;
-        object-fit: cover;
-        width: 100%;
-        aspect-ratio: 16 / 9;
-      }
-    }
-
-    &__footer {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--small);
-      padding: var(--medium);
-
-      .button {
-        width: auto;
-      }
-    }
-  }
-
   .workshop {
     grid-template-rows: auto auto;
     grid-template-columns: auto 1fr;
     gap: var(--small) var(--medium);
+    width: unset;
     padding: var(--medium);
+
+    .card__image {
+      display: none;
+    }
 
     .card__details,
     .card__footer {
@@ -426,10 +384,6 @@
       }
     }
 
-    .card__image {
-      display: none;
-    }
-
     @media (width >= 768px) {
       grid-template-rows: auto 1fr auto;
       grid-template-columns: 1fr;
@@ -446,12 +400,50 @@
 
       .card__image {
         display: block;
+        overflow: hidden;
+        aspect-ratio: 16 / 9;
       }
 
       .card__details,
       .card__footer {
         padding: var(--medium);
       }
+
+      .blurrable-image {
+        overflow: hidden;
+        width: 100%;
+        border-radius: inherit;
+        background: red;
+        aspect-ratio: 16 / 9;
+
+        &__blurred {
+          position: relative;
+
+          canvas {
+            position: absolute;
+            inset: 0;
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        &__image {
+          position: absolute;
+          inset: 0;
+          object-fit: cover;
+          object-position: center;
+          border-radius: inherit;
+          opacity: 0;
+          transition: opacity 0.5s var(--ease-standard);
+
+          &--loaded {
+            opacity: 1;
+          }
+        }
+      }
+
     }
   }
 }

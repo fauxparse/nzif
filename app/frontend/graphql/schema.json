@@ -85,6 +85,20 @@
               ]
             },
             {
+              "name": "picture",
+              "description": null,
+              "type": {
+                "kind": "OBJECT",
+                "name": "ActivityPicture",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
               "name": "presenters",
               "description": null,
               "type": {
@@ -241,6 +255,127 @@
               "deprecationReason": null
             }
           ],
+          "enumValues": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "ActivityPicture",
+          "description": null,
+          "interfaces": [
+
+          ],
+          "possibleTypes": null,
+          "fields": [
+            {
+              "name": "blurhash",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "large",
+              "description": "1920x1080",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "medium",
+              "description": "1280x720",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "small",
+              "description": "480x270",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "tiny",
+              "description": "48x27",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            }
+          ],
+          "inputFields": null,
           "enumValues": null
         },
         {
@@ -3712,6 +3847,20 @@
               ]
             },
             {
+              "name": "picture",
+              "description": null,
+              "type": {
+                "kind": "OBJECT",
+                "name": "ActivityPicture",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
               "name": "presenters",
               "description": null,
               "type": {
@@ -4069,6 +4218,20 @@
                     }
                   }
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "picture",
+              "description": null,
+              "type": {
+                "kind": "OBJECT",
+                "name": "ActivityPicture",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null,
@@ -5389,6 +5552,20 @@
                   "name": "String",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "picture",
+              "description": null,
+              "type": {
+                "kind": "OBJECT",
+                "name": "ActivityPicture",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null,

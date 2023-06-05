@@ -4,6 +4,12 @@ fragment RegistrationWorkshop on Workshop {
   name
   slug
 
+  picture {
+    id
+    medium
+    blurhash
+  }
+
   tutors {
     ...RegistrationTutor
   }

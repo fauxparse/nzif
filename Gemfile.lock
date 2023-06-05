@@ -98,6 +98,7 @@ GEM
       activerecord (>= 4.0)
     bcrypt (3.1.18)
     bindex (0.8.1)
+    blurhash (0.1.7)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
     builder (3.2.4)
@@ -397,6 +398,7 @@ DEPENDENCIES
   amatch (~> 0.4.1)
   apollo_upload_server (= 2.1)
   auto_strip_attributes (~> 2.6)
+  blurhash (~> 0.1.7)
   bootsnap
   contentful (~> 2.16)
   countries (~> 5.4)

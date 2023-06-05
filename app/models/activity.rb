@@ -1,4 +1,5 @@
 class Activity < ApplicationRecord
+  include ActivityPictureUploader::Attachment(:picture)
   include Sluggable
   include Searchable
   include Castable
@@ -14,6 +15,18 @@ class Activity < ApplicationRecord
   searchable_on :name, :description
 
   scope :by_type, ->(type) { where(type: type.to_s) }
+
+  after_save do
+    next unless saved_change_to_picture_data?
+
+    picture(:tiny)&.open do |io|
+      image = MiniMagick::Image.open(io)
+      width, height = image.dimensions
+      pixels = image.get_pixels.flatten(1)
+        .map { |r, g, b| (r * 65_536) + (g * 256) + b }
+      update_attribute(:blurhash, Blurhash.encode(width, height, pixels)) # rubocop:disable Rails/SkipsModelValidations
+    end
+  end
 
   def self.to_param
     name.demodulize.underscore.dasherize.pluralize

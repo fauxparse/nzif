@@ -2,6 +2,7 @@ interface Activity {
   description: String
   id: ID!
   name: String!
+  picture: ActivityPicture
   presenters: [Person!]!
   slots: [Slot!]!
   slug: String!
@@ -13,6 +14,31 @@ input ActivityAttributes {
   name: String
   profileIds: [ID!]
   slug: String
+}
+
+type ActivityPicture {
+  blurhash: String!
+  id: ID!
+
+  """
+  1920x1080
+  """
+  large: String!
+
+  """
+  1280x720
+  """
+  medium: String!
+
+  """
+  480x270
+  """
+  small: String!
+
+  """
+  48x27
+  """
+  tiny: String!
 }
 
 type ActivityResult implements SearchResult {
@@ -363,6 +389,7 @@ type Show implements Activity {
   directors: [Person!]!
   id: ID!
   name: String!
+  picture: ActivityPicture
   presenters: [Person!]!
   slots: [Slot!]!
   slug: String!
@@ -395,6 +422,7 @@ type SocialEvent implements Activity {
   Organisers
   """
   organisers: [Person!]!
+  picture: ActivityPicture
   presenters: [Person!]!
   slots: [Slot!]!
   slug: String!
@@ -571,6 +599,7 @@ type Workshop implements Activity {
   description: String
   id: ID!
   name: String!
+  picture: ActivityPicture
   presenters: [Person!]!
   slots: [Slot!]!
   slug: String!

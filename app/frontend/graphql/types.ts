@@ -26,6 +26,7 @@ export type Activity = {
   description: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name: Scalars['String'];
+  picture: Maybe<ActivityPicture>;
   presenters: Array<Person>;
   slots: Array<Slot>;
   slug: Scalars['String'];
@@ -37,6 +38,20 @@ export type ActivityAttributes = {
   name: InputMaybe<Scalars['String']>;
   profileIds: InputMaybe<Array<Scalars['ID']>>;
   slug: InputMaybe<Scalars['String']>;
+};
+
+export type ActivityPicture = {
+  __typename: 'ActivityPicture';
+  blurhash: Scalars['String'];
+  id: Scalars['ID'];
+  /** 1920x1080 */
+  large: Scalars['String'];
+  /** 1280x720 */
+  medium: Scalars['String'];
+  /** 480x270 */
+  small: Scalars['String'];
+  /** 48x27 */
+  tiny: Scalars['String'];
 };
 
 export type ActivityResult = SearchResult & {
@@ -493,6 +508,7 @@ export type Show = Activity & {
   directors: Array<Person>;
   id: Scalars['ID'];
   name: Scalars['String'];
+  picture: Maybe<ActivityPicture>;
   presenters: Array<Person>;
   slots: Array<Slot>;
   slug: Scalars['String'];
@@ -524,6 +540,7 @@ export type SocialEvent = Activity & {
   name: Scalars['String'];
   /** Organisers */
   organisers: Array<Person>;
+  picture: Maybe<ActivityPicture>;
   presenters: Array<Person>;
   slots: Array<Slot>;
   slug: Scalars['String'];
@@ -685,6 +702,7 @@ export type Workshop = Activity & {
   description: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name: Scalars['String'];
+  picture: Maybe<ActivityPicture>;
   presenters: Array<Person>;
   slots: Array<Slot>;
   slug: Scalars['String'];
@@ -990,14 +1008,14 @@ export type DestroyTranslationMutationVariables = Exact<{
 
 export type DestroyTranslationMutation = { __typename: 'Mutation', destroyTranslation: boolean | null };
 
-export type RegistrationWorkshopFragment = { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null }> };
+export type RegistrationWorkshopFragment = { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null }> };
 
 export type RegistrationTutorFragment = { __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null };
 
 export type RegistrationQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RegistrationQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, workshopSlots: Array<{ __typename: 'WorkshopSlot', id: string, startsAt: DateTime, endsAt: DateTime, workshops: Array<{ __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null }> }> }> } };
+export type RegistrationQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, workshopSlots: Array<{ __typename: 'WorkshopSlot', id: string, startsAt: DateTime, endsAt: DateTime, workshops: Array<{ __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null }> }> }> } };
 
 export const SettingValueFragmentFragmentDoc = gql`
     fragment SettingValueFragment on Setting {
@@ -1173,6 +1191,11 @@ export const RegistrationWorkshopFragmentDoc = gql`
   type
   name
   slug
+  picture {
+    id
+    medium
+    blurhash
+  }
   tutors {
     ...RegistrationTutor
   }

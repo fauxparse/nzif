@@ -9,6 +9,7 @@ module Types
     field :slots, [SlotType], null: false
     field :presenters, [PersonType], null: false
     field :description, String, null: true
+    field :picture, Types::ActivityPictureType, null: true
 
     definition_methods do
       def resolve_type(object, _context)
@@ -30,6 +31,10 @@ module Types
       dataloader
         .with(Sources::SlotsByActivity, context:)
         .load(object.id)
+    end
+
+    def picture
+      object.picture && object
     end
 
     orphan_types(

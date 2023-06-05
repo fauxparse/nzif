@@ -1,11 +1,15 @@
 import { useMemo } from 'react';
+import { Blurhash } from 'react-blurhash';
 import { map, sortBy, uniqBy } from 'lodash-es';
 
 import Button from '@/atoms/Button';
 import Checkbox from '@/atoms/Checkbox';
 import Placename from '@/atoms/Placename';
 import { PlaceName, RegistrationWorkshopFragment } from '@/graphql/types';
+import Card from '@/organisms/Card';
 import sentence from '@/util/sentence';
+
+import BlurrableImage from './BlurrableImage';
 
 type WorkshopCardProps = {
   workshop: RegistrationWorkshopFragment;
@@ -25,12 +29,16 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop }) => {
     [tutors]
   );
 
-  const image = useMemo(() => `https://picsum.photos/seed/${workshop.id}/640/360`, [workshop.id]);
-
   return (
-    <article className="workshop card">
+    <Card className="workshop">
       <div className="card__image">
-        <img src={image} alt={workshop.name} aria-hidden />
+        {workshop.picture && (
+          <BlurrableImage
+            className="workshop__image"
+            src={workshop.picture.medium}
+            blurhash={workshop.picture.blurhash}
+          />
+        )}
       </div>
       <div className="card__details">
         <h4 className="card__title workshop__name">{workshop.name}</h4>
@@ -50,7 +58,7 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop }) => {
         <Button small text="More info" />
         <Button small primary text="First choice" />
       </div>
-    </article>
+    </Card>
   );
 };
 

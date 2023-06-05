@@ -95,7 +95,9 @@ CREATE TABLE public.activities (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     description text,
-    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('english'::regconfig, COALESCE(description, ''::text)), 'B'::"char"))) STORED
+    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('english'::regconfig, COALESCE(description, ''::text)), 'B'::"char"))) STORED,
+    picture_data jsonb,
+    blurhash character varying
 );
 
 
@@ -794,6 +796,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230516013458'),
 ('20230520020008'),
 ('20230527193722'),
-('20230528202819');
+('20230528202819'),
+('20230604231515');
 
 
