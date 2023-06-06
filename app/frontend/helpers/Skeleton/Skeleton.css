@@ -1,0 +1,71 @@
+:root,
+:where([data-theme="light"]) {
+  --skeleton-background: var(--neutralA4);
+  --skeleton-highlight: hsl(210deg 0% 95% / 75%);
+}
+
+:where([data-theme="dark"]) {
+  --skeleton-background: var(--neutralA3);
+  --skeleton-highlight: hsl(210deg 98.8% 95% / 3.75%);
+}
+
+:where(.skeleton) {
+  @keyframes skeleton-waves {
+    0% {
+      transform: translateX(-100%);
+    }
+
+    50% {
+      transform: translateX(100%);
+    }
+
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: var(--skeleton-background);
+  color: transparent;
+  pointer-events: none;
+
+  > * {
+    opacity: 0;
+  }
+
+  &:where([data-shape="text"]) {
+    border-radius: 0.25em / 0.417em;
+    transform: scale(1, 0.60);
+    transform-origin: 0 55%;
+  }
+
+  &:where([data-shape="rounded"]) {
+    border-radius: var(--border-radius-standard);
+  }
+
+  &:where([data-shape="circular"]) {
+    border-radius: 50%;
+    aspect-ratio: 1;
+  }
+
+  &:not(:empty) {
+    max-width: fit-content;
+    max-height: fit-content;
+  }
+
+  &:empty {
+    &::before {
+      content: "\00a0";
+    }
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent, var(--skeleton-highlight), transparent);
+    animation: skeleton-waves 1.6s linear 0.5s infinite;
+  }
+}

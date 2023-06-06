@@ -1012,10 +1012,21 @@ export type RegistrationWorkshopFragment = { __typename: 'Workshop', id: string,
 
 export type RegistrationTutorFragment = { __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null };
 
+export type RegistrationWorkshopSlotFragment = { __typename: 'WorkshopSlot', id: string, startsAt: DateTime, endsAt: DateTime, workshops: Array<{ __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null }> }> };
+
 export type RegistrationQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type RegistrationQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, workshopSlots: Array<{ __typename: 'WorkshopSlot', id: string, startsAt: DateTime, endsAt: DateTime, workshops: Array<{ __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null }> }> }> } };
+
+export type WorkshopDetailsFragment = { __typename: 'Workshop', id: string, type: ActivityType, description: string | null, picture: { __typename: 'ActivityPicture', id: string, large: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, bio: string }>, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string, address: string } | null }> };
+
+export type WorkshopDetailsQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type WorkshopDetailsQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, activity: { __typename: 'Show', id: string, type: ActivityType } | { __typename: 'SocialEvent', id: string, type: ActivityType } | { __typename: 'Workshop', id: string, type: ActivityType, description: string | null, picture: { __typename: 'ActivityPicture', id: string, large: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, bio: string }>, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string, address: string } | null }> } | null } };
 
 export const SettingValueFragmentFragmentDoc = gql`
     fragment SettingValueFragment on Setting {
@@ -1201,6 +1212,42 @@ export const RegistrationWorkshopFragmentDoc = gql`
   }
 }
     ${RegistrationTutorFragmentDoc}`;
+export const RegistrationWorkshopSlotFragmentDoc = gql`
+    fragment RegistrationWorkshopSlot on WorkshopSlot {
+  id
+  startsAt
+  endsAt
+  workshops {
+    ...RegistrationWorkshop
+  }
+}
+    ${RegistrationWorkshopFragmentDoc}`;
+export const WorkshopDetailsFragmentDoc = gql`
+    fragment WorkshopDetails on Workshop {
+  id
+  type
+  description
+  picture {
+    id
+    large
+  }
+  tutors {
+    id
+    name
+    bio
+  }
+  slots {
+    id
+    startsAt
+    venue {
+      id
+      room
+      building
+      address
+    }
+  }
+}
+    `;
 export const GetSettingDocument = gql`
     query GetSetting($id: String!) {
   setting(id: $id) {
@@ -2567,16 +2614,11 @@ export const RegistrationDocument = gql`
     startDate
     endDate
     workshopSlots {
-      id
-      startsAt
-      endsAt
-      workshops {
-        ...RegistrationWorkshop
-      }
+      ...RegistrationWorkshopSlot
     }
   }
 }
-    ${RegistrationWorkshopFragmentDoc}`;
+    ${RegistrationWorkshopSlotFragmentDoc}`;
 
 /**
  * __useRegistrationQuery__
@@ -2604,6 +2646,46 @@ export function useRegistrationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type RegistrationQueryHookResult = ReturnType<typeof useRegistrationQuery>;
 export type RegistrationLazyQueryHookResult = ReturnType<typeof useRegistrationLazyQuery>;
 export type RegistrationQueryResult = Apollo.QueryResult<RegistrationQuery, RegistrationQueryVariables>;
+export const WorkshopDetailsDocument = gql`
+    query WorkshopDetails($slug: String!) {
+  festival {
+    id
+    activity(type: Workshop, slug: $slug) {
+      id
+      type
+      ...WorkshopDetails
+    }
+  }
+}
+    ${WorkshopDetailsFragmentDoc}`;
+
+/**
+ * __useWorkshopDetailsQuery__
+ *
+ * To run a query within a React component, call `useWorkshopDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWorkshopDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWorkshopDetailsQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useWorkshopDetailsQuery(baseOptions: Apollo.QueryHookOptions<WorkshopDetailsQuery, WorkshopDetailsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<WorkshopDetailsQuery, WorkshopDetailsQueryVariables>(WorkshopDetailsDocument, options);
+      }
+export function useWorkshopDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WorkshopDetailsQuery, WorkshopDetailsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<WorkshopDetailsQuery, WorkshopDetailsQueryVariables>(WorkshopDetailsDocument, options);
+        }
+export type WorkshopDetailsQueryHookResult = ReturnType<typeof useWorkshopDetailsQuery>;
+export type WorkshopDetailsLazyQueryHookResult = ReturnType<typeof useWorkshopDetailsLazyQuery>;
+export type WorkshopDetailsQueryResult = Apollo.QueryResult<WorkshopDetailsQuery, WorkshopDetailsQueryVariables>;
 import { datePolicy, dateTimePolicy } from './policies/dateTimePolicy';
 
 export const scalarTypePolicies = {

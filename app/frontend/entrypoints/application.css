@@ -10,7 +10,8 @@
   --z-index-overlay-toggle: 11;
   --z-index-popover: 20;
   --z-index-search: 20;
-  --z-index-select-content: 30;
+  --z-index-dialog: 30;
+  --z-index-select-content: 40;
   --ltr: 1;
 
   color-scheme: light dark;

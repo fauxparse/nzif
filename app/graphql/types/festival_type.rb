@@ -47,7 +47,6 @@ module Types
         .where(activity_type: 'Workshop').where.not(activity_id: nil)
         .order(:starts_at).group_by(&:starts_at).map do |starts_at, group|
           Hashie::Mash.new(
-            id: starts_at.iso8601,
             starts_at:,
             ends_at: group.map(&:ends_at).max,
             workshops: group.map(&:activity),

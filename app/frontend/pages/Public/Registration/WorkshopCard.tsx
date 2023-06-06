@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Blurhash } from 'react-blurhash';
+import { motion } from 'framer-motion';
 import { map, sortBy, uniqBy } from 'lodash-es';
 
 import Button from '@/atoms/Button';
@@ -13,9 +13,10 @@ import BlurrableImage from './BlurrableImage';
 
 type WorkshopCardProps = {
   workshop: RegistrationWorkshopFragment;
+  onMoreInfoClick: (workshop: RegistrationWorkshopFragment) => void;
 };
 
-const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop }) => {
+const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, onMoreInfoClick }) => {
   const tutors = useMemo(() => sortBy(workshop.tutors, 'name'), [workshop.tutors]);
 
   const places = useMemo(
@@ -30,8 +31,8 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop }) => {
   );
 
   return (
-    <Card className="workshop">
-      <div className="card__image">
+    <Card as={motion.div} className="workshop" layoutId={workshop.id}>
+      <motion.div className="card__image" layoutId={`${workshop.id}-image`}>
         {workshop.picture && (
           <BlurrableImage
             className="workshop__image"
@@ -39,11 +40,13 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop }) => {
             blurhash={workshop.picture.blurhash}
           />
         )}
-      </div>
+      </motion.div>
       <div className="card__details">
         <h4 className="card__title workshop__name">{workshop.name}</h4>
-        <div className="workshop__tutors">{sentence(sortBy(map(workshop.tutors, 'name')))}</div>
-        <div className="workshop__placenames">
+        <motion.div className="workshop__tutors" layoutId={`${workshop.id}-tutors`}>
+          {sentence(sortBy(map(workshop.tutors, 'name')))}
+        </motion.div>
+        <motion.div className="workshop__placenames" layoutId={`${workshop.id}-placenames`}>
           {places.map((place) => (
             <Placename
               key={place.id}
@@ -51,11 +54,11 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop }) => {
               traditionalName={place.traditionalName ?? undefined}
             />
           ))}
-        </div>
+        </motion.div>
       </div>
       <Checkbox className="workshop__checkbox" />
       <div className="card__footer">
-        <Button small text="More info" />
+        <Button small text="More info" onClick={() => onMoreInfoClick(workshop)} />
         <Button small primary text="First choice" />
       </div>
     </Card>

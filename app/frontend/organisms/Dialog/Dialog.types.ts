@@ -1,6 +1,6 @@
-import { ComponentPropsWithoutRef } from 'react';
+import { HTMLMotionProps } from 'framer-motion';
 
-export type DialogProps = ComponentPropsWithoutRef<'div'> & {
+export type DialogProps = HTMLMotionProps<'div'> & {
   open: boolean;
   modal?: boolean;
   onOpenChange: (open: boolean) => void;

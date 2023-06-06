@@ -1,7 +1,15 @@
-import { useRegistrationQuery } from '@/graphql/types';
+import { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
+
+import {
+  RegistrationWorkshopFragment,
+  RegistrationWorkshopSlotFragment,
+  useRegistrationQuery,
+} from '@/graphql/types';
 
 import HowWorkshopsWork from './HowWorkshopsWork';
 import WorkshopCard from './WorkshopCard';
+import WorkshopDetails from './WorkshopDetails';
 
 const WorkshopSelection: React.FC = () => {
   const { data } = useRegistrationQuery();
@@ -9,6 +17,11 @@ const WorkshopSelection: React.FC = () => {
   const { festival } = data || {};
 
   const { workshopSlots = [] } = festival || {};
+
+  const [selected, setSelected] = useState<{
+    workshop: RegistrationWorkshopFragment;
+    slot: RegistrationWorkshopSlotFragment;
+  } | null>(null);
 
   return (
     <form className="workshop-selection">
@@ -23,11 +36,18 @@ const WorkshopSelection: React.FC = () => {
           </header>
           <div className="workshop-selection__workshops">
             {slot.workshops.map((workshop) => (
-              <WorkshopCard key={workshop.id} workshop={workshop} />
+              <WorkshopCard
+                key={workshop.id}
+                workshop={workshop}
+                onMoreInfoClick={() => setSelected({ workshop, slot })}
+              />
             ))}
           </div>
         </section>
       ))}
+      <AnimatePresence>
+        {selected && <WorkshopDetails {...selected} onOpenChange={() => setSelected(null)} />}
+      </AnimatePresence>
     </form>
   );
 };

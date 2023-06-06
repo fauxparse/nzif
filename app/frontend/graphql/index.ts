@@ -1,6 +1,8 @@
 import { ApolloClient, from, HttpLink, InMemoryCache, split } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
 
+import { ActivityPicker } from '@/organisms/ActivityPicker';
+
 import authentication from './authentication';
 import { scalarTypePolicies } from './types';
 
@@ -38,6 +40,9 @@ export const client = new ApolloClient({
             merge: (_, incoming) => incoming,
           },
         },
+      },
+      ActivityPicture: {
+        merge: true,
       },
     },
   }),

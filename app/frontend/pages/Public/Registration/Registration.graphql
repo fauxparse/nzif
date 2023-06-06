@@ -30,6 +30,16 @@ fragment RegistrationTutor on Person {
   }
 }
 
+fragment RegistrationWorkshopSlot on WorkshopSlot {
+  id
+  startsAt
+  endsAt
+
+  workshops {
+    ...RegistrationWorkshop
+  }
+}
+
 query Registration {
   festival {
     id
@@ -37,13 +47,48 @@ query Registration {
     endDate
 
     workshopSlots {
-      id
-      startsAt
-      endsAt
+      ...RegistrationWorkshopSlot
+    }
+  }
+}
 
-      workshops {
-        ...RegistrationWorkshop
-      }
+fragment WorkshopDetails on Workshop {
+  id
+  type
+  description
+
+  picture {
+    id
+    large
+  }
+
+  tutors {
+    id
+    name
+    bio
+  }
+
+  slots {
+    id
+    startsAt
+
+    venue {
+      id
+      room
+      building
+      address
+    }
+  }
+}
+
+query WorkshopDetails($slug: String!) {
+  festival {
+    id
+
+    activity(type: Workshop, slug: $slug) {
+      id
+      type
+      ...WorkshopDetails
     }
   }
 }

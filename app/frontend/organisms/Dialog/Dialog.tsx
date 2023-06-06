@@ -10,7 +10,7 @@ import './Dialog.css';
 
 type DialogState = 'closed' | 'opening' | 'open' | 'closing';
 
-const overlayVariants: Variants = {
+export const overlayVariants: Variants = {
   closed: {
     opacity: 0,
   },
@@ -104,9 +104,9 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
               onAnimationComplete={handleAnimationComplete}
             >
               <RadixDialog.Content asChild>
-                <div className="dialog__content" {...props} ref={ref}>
+                <motion.div className="dialog__content" {...props} ref={ref}>
                   {children}
-                </div>
+                </motion.div>
               </RadixDialog.Content>
             </motion.div>
           </RadixDialog.Portal>
