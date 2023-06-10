@@ -28,15 +28,17 @@ const BlurrableImage: React.FC<BlurrableImageProps> = ({ className, blurhash, sr
 
   return (
     <div className={clsx('blurrable-image', className)} ref={container}>
-      <Blurhash
-        className="blurrable-image__blurred"
-        hash={blurhash}
-        width="100%"
-        height="100%"
-        resolutionX={240}
-        resolutionY={135}
-        punch={1}
-      />
+      {blurhash && (
+        <Blurhash
+          className="blurrable-image__blurred"
+          hash={blurhash}
+          width="100%"
+          height="100%"
+          resolutionX={240}
+          resolutionY={135}
+          punch={1}
+        />
+      )}
       {visible && (
         <img ref={addLoadHandler} className="blurrable-image__image" src={src} {...props} />
       )}

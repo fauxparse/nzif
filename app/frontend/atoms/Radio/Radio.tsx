@@ -15,8 +15,11 @@ const RadioIcon = () => (
 );
 
 const Radio = forwardRef<HTMLInputElement, RadioProps>(
-  ({ className, type = 'radio', children = <RadioIcon />, ...props }, ref) => (
-    <span className={clsx(type === 'radio' && 'radio', className)}>
+  ({ className, type = 'radio', preference, children = <RadioIcon />, ...props }, ref) => (
+    <span
+      className={clsx(type === 'radio' && 'radio', className)}
+      data-preference={preference || undefined}
+    >
       <input type={type} ref={ref} {...props} />
       {children}
     </span>

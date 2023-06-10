@@ -1,12 +1,31 @@
-import { Outlet } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 
 import Button from '@/atoms/Button';
 import { useRegistrationQuery } from '@/graphql/types';
 
-import Steps from './Steps';
+import Steps, { REGISTRATION_STEPS } from './Steps';
 
 const RegistrationLayout: React.FC = () => {
   const { loading, data } = useRegistrationQuery();
+
+  const { pathname } = useLocation();
+
+  const { previous, current, next } = useMemo(() => {
+    const currentIndex = REGISTRATION_STEPS.findIndex(({ path }) => pathname.endsWith(path));
+
+    return {
+      previous: currentIndex > 0 ? REGISTRATION_STEPS[currentIndex - 1] : null,
+      current: REGISTRATION_STEPS[currentIndex],
+      next:
+        currentIndex < REGISTRATION_STEPS.length - 1
+          ? REGISTRATION_STEPS[currentIndex + 1]
+          : {
+              label: 'Finalise registration',
+              path: '/thanks',
+            },
+    };
+  }, [pathname]);
 
   const { festival } = data || {};
 
@@ -18,18 +37,35 @@ const RegistrationLayout: React.FC = () => {
       <Outlet />
 
       <footer className="registration__footer">
-        <Button
-          className="registration__button"
-          icon="chevronRight"
-          data-action="next"
-          type="submit"
-          text={
-            <>
-              <small>Next</small>
-              <span>Workshop selection</span>
-            </>
-          }
-        />
+        {previous && (
+          <Button
+            as={Link}
+            to={festival ? `/${festival.id}${previous.path}` : '/'}
+            className="registration__button"
+            icon="chevronLeft"
+            data-action="previous"
+            text={
+              <>
+                <small>Previous</small>
+                <span>{previous.label}</span>
+              </>
+            }
+          />
+        )}
+        {next && (
+          <Button
+            className="registration__button"
+            icon="chevronRight"
+            data-action="next"
+            type="submit"
+            text={
+              <>
+                <small>Next</small>
+                <span>{next.label}</span>
+              </>
+            }
+          />
+        )}
       </footer>
     </div>
   );

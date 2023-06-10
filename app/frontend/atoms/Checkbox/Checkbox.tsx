@@ -19,7 +19,7 @@ const CheckboxIcon = () => (
 const SUPPORTS_HAS_SELECTOR = CSS.supports('selector(:has(*))');
 
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ className, indeterminate, children = <CheckboxIcon />, ...props }, ref) => {
+  ({ className, indeterminate, children = <CheckboxIcon />, preference, ...props }, ref) => {
     const ownRef = useRef<HTMLInputElement>(null);
 
     const [checked, setChecked] = useState(false);
@@ -47,6 +47,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         type="checkbox"
         className={clsx('checkbox', className)}
         data-checked={SUPPORTS_HAS_SELECTOR || !checked ? undefined : true}
+        preference={preference || undefined}
         {...props}
       >
         {children}

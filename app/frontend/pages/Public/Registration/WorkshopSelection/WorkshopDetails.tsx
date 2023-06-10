@@ -17,20 +17,34 @@ import Markdown from '@/helpers/Markdown';
 import Scrollable from '@/helpers/Scrollable';
 import Skeleton from '@/helpers/Skeleton';
 import Dialog, { overlayVariants } from '@/organisms/Dialog';
+import ordinalize from '@/util/ordinalize';
 import sentence from '@/util/sentence';
+
+import { useWorkshopSelectionContext } from './WorkshopSelectionContext';
 
 type WorkshopDetailsProps = {
   workshop: RegistrationWorkshopFragment;
   slot: RegistrationWorkshopSlotFragment;
-  onOpenChange: (open: boolean) => void;
 };
 
 const isWorkshop = (
   workshop: WorkshopDetailsQuery['festival']['activity'] | null | undefined
 ): workshop is WorkshopDetailsFragment => workshop?.type === 'Workshop';
 
-const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({ workshop, slot, onOpenChange }) => {
+const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({ workshop, slot }) => {
   const open = useIsPresent();
+
+  const { moreInfo, selected, add, remove } = useWorkshopSelectionContext();
+
+  const preference = useMemo(
+    () => (selected.get(slot.startsAt) || []).findIndex((w) => w.id === workshop.id) + 1,
+    [workshop, slot, selected]
+  );
+
+  const nextAvailable = useMemo(
+    () => (selected.get(slot.startsAt) || []).length + 1,
+    [selected, slot]
+  );
 
   const { loading, data } = useWorkshopDetailsQuery({
     variables: { slug: workshop.slug },
@@ -69,6 +83,18 @@ const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({ workshop, slot, onOpe
     (isWorkshop(workshopDetails) && workshopDetails.tutors) ||
     workshop.tutors.map((t) => ({ ...t, bio: '' }));
 
+  const close = () => moreInfo(null);
+
+  const addToRegistration = () => {
+    add({ workshop, slot });
+    close();
+  };
+
+  const removeFromRegistration = () => {
+    remove({ workshop, slot });
+    close();
+  };
+
   return (
     <motion.div className="workshop-details">
       <motion.div
@@ -83,15 +109,10 @@ const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({ workshop, slot, onOpe
               <img src={workshop.picture.medium} alt={workshop.name} aria-hidden />
             </motion.div>
           )}
-          <h3 className="workshop-details__title" onClick={() => onOpenChange(false)}>
+          <h3 className="workshop-details__title" onClick={close}>
             {workshop.name}
           </h3>
-          <Button
-            className="workshop-details__close"
-            ghost
-            icon="close"
-            onClick={() => onOpenChange(false)}
-          />
+          <Button className="workshop-details__close" ghost icon="close" onClick={close} />
         </header>
         <Scrollable>
           <Dialog.Body className="workshop-details__body">
@@ -146,7 +167,15 @@ const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({ workshop, slot, onOpe
           </Dialog.Body>
         </Scrollable>
         <Dialog.Footer className="workshop-details__footer">
-          <Button primary text="Add as first choice" />
+          {preference ? (
+            <Button text="Remove" onClick={removeFromRegistration} />
+          ) : (
+            <Button
+              primary
+              text={`Add as ${ordinalize(nextAvailable)} choice`}
+              onClick={addToRegistration}
+            />
+          )}
         </Dialog.Footer>
       </motion.div>
     </motion.div>

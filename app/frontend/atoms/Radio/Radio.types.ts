@@ -25,4 +25,6 @@ export type UnwantedInputProps =
   | 'step'
   | 'width';
 
-export type RadioProps = Omit<ComponentPropsWithoutRef<'input'>, UnwantedInputProps>;
+export type RadioProps = Omit<ComponentPropsWithoutRef<'input'>, UnwantedInputProps> & {
+  preference?: number;
+};
