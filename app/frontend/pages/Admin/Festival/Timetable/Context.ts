@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 import { DateTime } from 'luxon';
 
-import { TimetableQuery, TimetableSlotFragment } from '@/graphql/types';
+import { TimetableQuery, TimetableSessionFragment } from '@/graphql/types';
 
 const TimetableContext = createContext(
   {} as {
@@ -13,7 +13,7 @@ const TimetableContext = createContext(
     endDate: DateTime;
     festival: TimetableQuery['festival'] | null;
     venues: TimetableQuery['festival']['venues'];
-    slots: TimetableSlotFragment[];
+    sessions: TimetableSessionFragment[];
   }
 );
 

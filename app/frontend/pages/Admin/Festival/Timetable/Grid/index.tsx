@@ -3,7 +3,7 @@ import { useInterpret, useSelector } from '@xstate/react';
 import { AnimatePresence } from 'framer-motion';
 import { isEqual, sortBy } from 'lodash-es';
 
-import { TimetableSlotFragment } from '@/graphql/types';
+import { TimetableSessionFragment } from '@/graphql/types';
 import ContextMenu from '@/molecules/ContextMenu';
 import BaseGrid from '@/molecules/Grid';
 import { Region } from '@/molecules/Grid/Grid.types';
@@ -16,49 +16,49 @@ import ColumnHeader from './ColumnHeader';
 import { GridContext } from './Context';
 import DragMachine from './DragMachine';
 import Ghost from './Ghost';
-import NewSlot from './NewSlot';
+import NewSession from './NewSession';
 import RowHeader from './RowHeader';
 import { Selection } from './Selection';
-import TimetableSlot from './TimetableSlot';
-import TimetableSlotContextMenu from './TimetableSlotContextMenu';
+import TimetableSession from './TimetableSession';
+import TimetableSessionContextMenu from './TimetableSessionContextMenu';
 import useTimetable, { Block } from './useTimetable';
 
-type Slot = TimetableSlotFragment;
+type Session = TimetableSessionFragment;
 
 type GridProps = {
   startHour?: number;
   endHour?: number;
   granularity?: number;
-  slots: Slot[];
+  sessions: Session[];
 };
 
-const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granularity = 4 }) => {
-  const sortedSlots = sortBy(slots, [(s) => s.venue?.position ?? Infinity]);
+const Grid: React.FC<GridProps> = ({ sessions, startHour = 9, endHour = 26, granularity = 4 }) => {
+  const sortedSessions = sortBy(sessions, [(s) => s.venue?.position ?? Infinity]);
 
   const columns = (endHour - startHour) * granularity;
 
-  const { dates, rows, selectionHeight, cellToTime, timeToCell, moveSlot } =
-    useTimetable<Slot>(sortedSlots);
+  const { dates, rows, selectionHeight, cellToTime, timeToCell, moveSession } =
+    useTimetable<Session>(sortedSessions);
 
   const [selection, updateSelection] = useState<Region | null>(null);
 
   const setSelection = (selection: Region | null) => {
     updateSelection(selection);
 
-    setNewSlotOpen(!!selection);
+    setNewSessionOpen(!!selection);
   };
 
-  const [newSlotOpen, setNewSlotOpen] = useState(false);
+  const [newSessionOpen, setNewSessionOpen] = useState(false);
 
   useEffect(() => {
-    if (!newSlotOpen) {
+    if (!newSessionOpen) {
       setSelection(null);
     }
-  }, [newSlotOpen]);
+  }, [newSessionOpen]);
 
   const [selectionElement, setSelectionElement] = useState<HTMLDivElement | null>(null);
 
-  const [clickedSlot, setClickedSlot] = useState<HTMLElement | null>(null);
+  const [clickedSession, setClickedSession] = useState<HTMLElement | null>(null);
 
   const machine = useInterpret(DragMachine, {});
 
@@ -66,12 +66,12 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
 
   const ghostRef = useRef<HTMLDivElement | null>(null);
 
-  const slot = useRef<TimetableSlotFragment | null>(null);
+  const session = useRef<TimetableSessionFragment | null>(null);
 
-  const blockFromSlot = (slot: Slot | null): Block<Slot> | null => {
-    if (!slot) return null;
+  const blockFromSession = (session: Session | null): Block<Session> | null => {
+    if (!session) return null;
 
-    return rows.flatMap((r) => r.blocks).find((b) => b.data.id === slot.id) || null;
+    return rows.flatMap((r) => r.blocks).find((b) => b.data.id === session.id) || null;
   };
 
   const [dragOffset, setDragOffset] = useState<{
@@ -91,15 +91,15 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
 
     const { clientX, clientY, pointerType } = event;
     const elements = document.elementsFromPoint(clientX, clientY);
-    const slotElement = elements.find((el) =>
-      el.classList.contains('timetable__slot')
+    const sessionElement = elements.find((el) =>
+      el.classList.contains('timetable__session')
     ) as HTMLElement;
     const cell = elements.find((el) => el.classList.contains('grid__cell')) as HTMLElement;
-    const parent = slotElement && scrollParent(slotElement);
-    if (!slotElement || !cell || !parent) return;
+    const parent = sessionElement && scrollParent(sessionElement);
+    if (!sessionElement || !cell || !parent) return;
 
-    const slot = slots.find((s) => s.id === slotElement.dataset.id) || null;
-    const block = blockFromSlot(slot);
+    const session = sessions.find((s) => s.id === sessionElement.dataset.id) || null;
+    const block = blockFromSession(session);
 
     if (!block) return;
 
@@ -115,7 +115,7 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
       type: 'POINTER_DOWN',
       block,
       origin,
-      element: slotElement as HTMLElement,
+      element: sessionElement as HTMLElement,
       pointerType,
     });
 
@@ -156,8 +156,8 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
 
   useEffect(() => {
     if (dragState.matches('clicked')) {
-      setClickedSlot(dragState.context.element);
-      slot.current = dragState.context.block?.data || null;
+      setClickedSession(dragState.context.element);
+      session.current = dragState.context.block?.data || null;
     }
   }, [dragState]);
 
@@ -189,13 +189,13 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
           >
             {rows.map((row, i) => (
               <Fragment key={i}>
-                {row.blocks.map((slot) => (
-                  <TimetableSlot
-                    key={slot.data.id}
-                    slot={slot}
+                {row.blocks.map((session) => (
+                  <TimetableSession
+                    key={session.data.id}
+                    session={session}
                     hidden={
                       dragState.matches('lifted') &&
-                      dragState.context.block?.data?.id === slot.data.id
+                      dragState.context.block?.data?.id === session.data.id
                     }
                   />
                 ))}
@@ -204,30 +204,34 @@ const Grid: React.FC<GridProps> = ({ slots, startHour = 9, endHour = 26, granula
             <AnimatePresence>
               {dragState.matches('lifted') && (
                 <>
-                  <Ghost ref={ghostRef} offset={dragOffset} onMove={moveSlot} />
+                  <Ghost ref={ghostRef} offset={dragOffset} onMove={moveSession} />
                 </>
               )}
             </AnimatePresence>
           </BaseGrid>
           {selectionElement && selection && (
-            <Popover reference={selectionElement} open={newSlotOpen} onOpenChange={setNewSlotOpen}>
-              <NewSlot selection={selection} onClose={() => setNewSlotOpen(false)} />
+            <Popover
+              reference={selectionElement}
+              open={newSessionOpen}
+              onOpenChange={setNewSessionOpen}
+            >
+              <NewSession selection={selection} onClose={() => setNewSessionOpen(false)} />
             </Popover>
           )}
-          {clickedSlot && slot.current && (
+          {clickedSession && session.current && (
             <ActivityPopover
-              slot={slot.current}
-              activity={slot.current.activity}
-              reference={clickedSlot}
+              session={session.current}
+              activity={session.current.activity}
+              reference={clickedSession}
               open
               onOpenChange={(open) => {
-                if (!open) setClickedSlot(null);
+                if (!open) setClickedSession(null);
               }}
             />
           )}
         </GridContext.Provider>
       </div>
-      <TimetableSlotContextMenu />
+      <TimetableSessionContextMenu />
     </ContextMenu.Root>
   );
 };

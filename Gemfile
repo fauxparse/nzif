@@ -56,6 +56,7 @@ gem 'interactor-rails', github: 'fauxparse/interactor-rails'
 gem 'contentful', '~> 2.16'
 
 gem 'activerecord-postgres_enum'
+gem 'activerecord_views', '~> 0.1.5'
 gem 'geocoder', '~> 1.8'
 gem 'geokit-rails', '~> 2.5'
 gem 'pg_search', '~> 2.3'

@@ -13,7 +13,7 @@
     &[data-resizing="true"] {
       cursor: ew-resize;
 
-      .timetable__slot {
+      .timetable__session {
         pointer-events: none;
       }
 
@@ -108,7 +108,7 @@
     }
   }
 
-  &__slot {
+  &__session {
     position: relative;
     z-index: 0;
     display: flex;
@@ -181,7 +181,7 @@
   }
 }
 
-.new-slot {
+.new-session {
   width: 24rem;
   height: 24rem;
 

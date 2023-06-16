@@ -18,7 +18,7 @@ const Timetable: React.FC = () => {
   const endHour = 26;
 
   const festival = data?.festival || null;
-  const slots = festival?.timetable?.slots || [];
+  const sessions = festival?.timetable?.sessions || [];
   const venues = festival?.venues || [];
 
   const dates = useMemo(() => {
@@ -41,7 +41,7 @@ const Timetable: React.FC = () => {
         endDate: last(dates) as DateTime,
         dates,
         venues,
-        slots,
+        sessions,
         festival,
       }}
     >
@@ -51,7 +51,7 @@ const Timetable: React.FC = () => {
           <h1>Timetable</h1>
         </header>
         <div className="timetable__grid">
-          <Grid slots={slots} />
+          <Grid sessions={sessions} />
         </div>
       </div>
     </Context.Provider>

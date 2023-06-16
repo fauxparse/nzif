@@ -206,7 +206,7 @@ ALTER SEQUENCE public.festivals_id_seq OWNED BY public.festivals.id;
 CREATE TABLE public.preferences (
     id bigint NOT NULL,
     registration_id bigint NOT NULL,
-    slot_id bigint NOT NULL,
+    session_id bigint NOT NULL,
     starts_at timestamp without time zone,
     "position" integer,
     created_at timestamp(6) without time zone NOT NULL,
@@ -315,10 +315,10 @@ CREATE TABLE public.schema_migrations (
 
 
 --
--- Name: slots; Type: TABLE; Schema: public; Owner: -
+-- Name: sessions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.slots (
+CREATE TABLE public.sessions (
     id bigint NOT NULL,
     festival_id bigint NOT NULL,
     venue_id bigint,
@@ -332,10 +332,10 @@ CREATE TABLE public.slots (
 
 
 --
--- Name: slots_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.slots_id_seq
+CREATE SEQUENCE public.sessions_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -344,10 +344,10 @@ CREATE SEQUENCE public.slots_id_seq
 
 
 --
--- Name: slots_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.slots_id_seq OWNED BY public.slots.id;
+ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
 
 
 --
@@ -546,10 +546,10 @@ ALTER TABLE ONLY public.registrations ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
--- Name: slots id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: sessions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.slots ALTER COLUMN id SET DEFAULT nextval('public.slots_id_seq'::regclass);
+ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.sessions_id_seq'::regclass);
 
 
 --
@@ -645,11 +645,11 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
--- Name: slots slots_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: sessions sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.slots
-    ADD CONSTRAINT slots_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
 
 
 --
@@ -734,10 +734,10 @@ CREATE UNIQUE INDEX index_preferences_on_registration_id_and_starts_at_and_posit
 
 
 --
--- Name: index_preferences_on_slot_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_preferences_on_session_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_preferences_on_slot_id ON public.preferences USING btree (slot_id);
+CREATE INDEX index_preferences_on_session_id ON public.preferences USING btree (session_id);
 
 
 --
@@ -769,31 +769,31 @@ CREATE UNIQUE INDEX index_registrations_on_user_id_and_festival_id ON public.reg
 
 
 --
--- Name: index_slots_on_activity_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_sessions_on_activity_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_slots_on_activity_id ON public.slots USING btree (activity_id);
+CREATE INDEX index_sessions_on_activity_id ON public.sessions USING btree (activity_id);
+
+
+--
+-- Name: index_sessions_on_festival_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_on_festival_id ON public.sessions USING btree (festival_id);
+
+
+--
+-- Name: index_sessions_on_venue_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_on_venue_id ON public.sessions USING btree (venue_id);
 
 
 --
 -- Name: index_slots_on_everything; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_slots_on_everything ON public.slots USING btree (festival_id, venue_id, starts_at, ends_at);
-
-
---
--- Name: index_slots_on_festival_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_slots_on_festival_id ON public.slots USING btree (festival_id);
-
-
---
--- Name: index_slots_on_venue_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_slots_on_venue_id ON public.slots USING btree (venue_id);
+CREATE INDEX index_slots_on_everything ON public.sessions USING btree (festival_id, venue_id, starts_at, ends_at);
 
 
 --
@@ -864,7 +864,7 @@ CREATE INDEX index_versions_on_item_type_and_item_id ON public.versions USING bt
 --
 
 ALTER TABLE ONLY public.preferences
-    ADD CONSTRAINT fk_rails_0c78ab364f FOREIGN KEY (slot_id) REFERENCES public.slots(id);
+    ADD CONSTRAINT fk_rails_0c78ab364f FOREIGN KEY (session_id) REFERENCES public.sessions(id);
 
 
 --
@@ -892,18 +892,18 @@ ALTER TABLE ONLY public.registrations
 
 
 --
--- Name: slots fk_rails_634f411c00; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: sessions fk_rails_634f411c00; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.slots
+ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT fk_rails_634f411c00 FOREIGN KEY (activity_id) REFERENCES public.activities(id) ON DELETE SET NULL;
 
 
 --
--- Name: slots fk_rails_7ac879864b; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: sessions fk_rails_7ac879864b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.slots
+ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT fk_rails_7ac879864b FOREIGN KEY (festival_id) REFERENCES public.festivals(id) ON DELETE CASCADE;
 
 
@@ -924,10 +924,10 @@ ALTER TABLE ONLY public.preferences
 
 
 --
--- Name: slots fk_rails_f482cd28c7; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: sessions fk_rails_f482cd28c7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.slots
+ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT fk_rails_f482cd28c7 FOREIGN KEY (venue_id) REFERENCES public.venues(id) ON DELETE SET NULL;
 
 
@@ -972,6 +972,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230604231515'),
 ('20230611001108'),
 ('20230611001452'),
-('20230611010539');
+('20230611010539'),
+('20230616221312');
 
 

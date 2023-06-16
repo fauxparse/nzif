@@ -15,10 +15,6 @@ class User < ApplicationRecord
   setting :show_traditional_names, type: :boolean, default: true,
     description: 'Show traditional placenames'
 
-  validates :name,
-    presence: true,
-    format: { with: /[^\s]+\s[^\s]+/ }
-
   searchable_on :name, :email
 
   private

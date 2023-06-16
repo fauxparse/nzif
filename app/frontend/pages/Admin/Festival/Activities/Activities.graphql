@@ -23,7 +23,7 @@ query ActivityDetails($year: String!, $type: ActivityType!, $slug: String!) {
         ...ActivityPresenter
       }
 
-      slots {
+      sessions {
         id
         startsAt
         endsAt
@@ -44,7 +44,7 @@ fragment ActivityListActivity on Activity {
   type
   slug
 
-  slots {
+  sessions {
     id
     startsAt
     endsAt

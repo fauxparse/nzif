@@ -187,7 +187,6 @@
         overflow: hidden;
         width: 100%;
         border-radius: inherit;
-        background: red;
         aspect-ratio: 16 / 9;
 
         &__blurred {
@@ -390,6 +389,7 @@
 
 .workshop-details {
   --dialog-border: var(--neutralA6);
+  --dialog-width: 64rem;
 
   position: fixed;
   inset: 0;

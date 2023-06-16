@@ -71,6 +71,8 @@ GEM
     activerecord-postgres_enum (2.0.1)
       activerecord (>= 5.2)
       pg
+    activerecord_views (0.1.5)
+      activerecord (>= 5.2, < 7.1)
     activestorage (7.0.4.3)
       actionpack (= 7.0.4.3)
       activejob (= 7.0.4.3)
@@ -394,6 +396,7 @@ DEPENDENCIES
   action_policy (~> 0.6.5)
   action_policy-graphql (~> 0.5.3)
   activerecord-postgres_enum
+  activerecord_views (~> 0.1.5)
   acts_as_list (~> 1.1.0)
   amatch (~> 0.4.1)
   apollo_upload_server (= 2.1)

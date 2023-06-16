@@ -30,7 +30,7 @@ fragment RegistrationTutor on Person {
   }
 }
 
-fragment RegistrationWorkshopSlot on WorkshopSlot {
+fragment RegistrationSlot on Slot {
   id
   startsAt
   endsAt
@@ -56,7 +56,7 @@ fragment WorkshopDetails on Workshop {
     bio
   }
 
-  slots {
+  sessions {
     id
     startsAt
 
@@ -121,8 +121,8 @@ query Registration {
     startDate
     endDate
 
-    workshopSlots {
-      ...RegistrationWorkshopSlot
+    slots(type: Workshop) {
+      ...RegistrationSlot
     }
   }
 }

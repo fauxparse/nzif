@@ -1,7 +1,7 @@
 class Preference < ApplicationRecord
   belongs_to :registration
-  belongs_to :slot
-  has_one :workshop, through: :slot, source: :activity
+  belongs_to :session
+  has_one :workshop, through: :session, source: :activity
 
   acts_as_list scope: %w[registration_id starts_at]
 
@@ -12,6 +12,6 @@ class Preference < ApplicationRecord
   private
 
   def set_starts_at
-    self.starts_at = slot.starts_at
+    self.starts_at = session.starts_at
   end
 end

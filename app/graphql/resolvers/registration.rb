@@ -6,7 +6,7 @@ module Resolvers
 
     def resolve(year: nil)
       (current_user&.registrations || ::Registration)
-        .includes(user: :profile, preferences: { slot: :activity })
+        .includes(user: :profile, preferences: { session: :activity })
         .find_or_initialize_by(festival: festival(year:))
     end
 

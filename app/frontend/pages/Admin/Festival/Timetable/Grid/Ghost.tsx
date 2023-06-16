@@ -7,22 +7,22 @@ import { clamp, kebabCase } from 'lodash-es';
 import { DateTime } from 'luxon';
 
 import { useTimetableContext } from '../Context';
-import { TimetableSlotFragment } from '@/graphql/types';
+import { TimetableSessionFragment } from '@/graphql/types';
 import { Cell } from '@/molecules/Grid/Grid.types';
 
 import { useGridContext } from './Context';
 
-type Slot = TimetableSlotFragment;
+type Session = TimetableSessionFragment;
 
 type GhostProps = PropsWithChildren<{
   offset: Cell & { x: number; y: number };
-  onMove: (params: { slot: Slot; startsAt: DateTime }) => void;
+  onMove: (params: { session: Session; startsAt: DateTime }) => void;
 }>;
 
 const Ghost = forwardRef<HTMLDivElement, GhostProps>(({ offset, onMove }, ref) => {
   const { machine, selectionHeight, columns, cellToTime } = useGridContext();
 
-  const { slots } = useTimetableContext();
+  const { sessions } = useTimetableContext();
 
   const ghost = useRef<HTMLDivElement>(null);
 
@@ -65,15 +65,15 @@ const Ghost = forwardRef<HTMLDivElement, GhostProps>(({ offset, onMove }, ref) =
 
     const b = block.current;
     return b
-      ? slots.filter(
-          (slot) =>
-            slot.startsAt < endsAt &&
-            slot.endsAt > startsAt &&
-            slot.id !== b.data.id &&
-            slot.venue?.id === b.data.venue?.id
+      ? sessions.filter(
+          (session) =>
+            session.startsAt < endsAt &&
+            session.endsAt > startsAt &&
+            session.id !== b.data.id &&
+            session.venue?.id === b.data.venue?.id
         )
       : [];
-  }, [block, position, slots, cellToTime]);
+  }, [block, position, sessions, cellToTime]);
 
   useEffect(() => {
     if (!dragState.context.element || !ghost.current) return;
@@ -88,7 +88,7 @@ const Ghost = forwardRef<HTMLDivElement, GhostProps>(({ offset, onMove }, ref) =
 
   useEffect(() => {
     if (!dragState.matches('dropped') || !block.current?.data) return;
-    if (!clashes.length) onMove({ slot: block.current.data, startsAt: cellToTime(position) });
+    if (!clashes.length) onMove({ session: block.current.data, startsAt: cellToTime(position) });
   }, [dragState, clashes, onMove, cellToTime, position]);
 
   const data = block.current?.data;
@@ -97,7 +97,7 @@ const Ghost = forwardRef<HTMLDivElement, GhostProps>(({ offset, onMove }, ref) =
     <>
       <motion.div
         ref={mergeRefs([ref, ghost])}
-        className={clsx('ghost', 'timetable__slot', data?.activity && 'timetable__activity')}
+        className={clsx('ghost', 'timetable__session', data?.activity && 'timetable__activity')}
         data-activity-type={kebabCase(data?.activityType || 'activity')}
         style={{
           transform: `translate3d(${offset.x}px, ${offset.y}px, 0)`,
@@ -105,8 +105,12 @@ const Ghost = forwardRef<HTMLDivElement, GhostProps>(({ offset, onMove }, ref) =
         }}
         exit={{ opacity: 0 }}
       >
-        <span className="timetable__slot__title">{data?.activity?.name || data?.activityType}</span>
-        <span className="timetable__slot__venue">{data?.venue?.room || data?.venue?.building}</span>
+        <span className="timetable__session__title">
+          {data?.activity?.name || data?.activityType}
+        </span>
+        <span className="timetable__session__venue">
+          {data?.venue?.room || data?.venue?.building}
+        </span>
       </motion.div>
       {dragState.matches('lifted') && (
         <div

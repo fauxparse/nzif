@@ -1,6 +1,6 @@
 module Activities
   class Create < ApplicationInteractor
-    delegate :activity_type, :festival, :slot, to: :context
+    delegate :activity_type, :festival, :session, to: :context
 
     validates :activity_type, inclusion: { in: Activity.descendants }
 
@@ -8,7 +8,7 @@ module Activities
       authorize! activity, to: :create?
       assign_cast
       activity.save!
-      slot&.update!(activity:)
+      session&.update!(activity:)
     end
 
     def activity

@@ -5,21 +5,21 @@ import { DateTime } from 'luxon';
 
 import {
   ActivityType,
+  RegistrationSlotFragment,
   RegistrationWorkshopFragment,
-  RegistrationWorkshopSlotFragment,
   useRegistrationQuery,
 } from '@/graphql/types';
 
 import HowWorkshopsWork from './HowWorkshopsWork';
+import Slot from './Slot';
 import { SelectedWorkshop } from './types';
 import WorkshopDetails from './WorkshopDetails';
 import WorkshopSelectionContext from './WorkshopSelectionContext';
-import WorkshopSlot from './WorkshopSlot';
 
 import './WorkshopSelection.css';
 
-const tempSlots: RegistrationWorkshopSlotFragment[] = range(5).map((days) => ({
-  __typename: 'WorkshopSlot',
+const tempSessions: RegistrationSlotFragment[] = range(5).map((days) => ({
+  __typename: 'Slot',
   id: `${days}`,
   startsAt: DateTime.now().plus({ days }),
   endsAt: DateTime.now().plus({ days, hours: 3 }),
@@ -66,7 +66,7 @@ const WorkshopSelection: React.FC = () => {
 
   const { festival } = data || {};
 
-  const { workshopSlots = tempSlots } = festival || {};
+  const { slots = tempSessions } = festival || {};
 
   const [zoomed, moreInfo] = useState<SelectedWorkshop | null>(null);
 
@@ -99,7 +99,7 @@ const WorkshopSelection: React.FC = () => {
     <WorkshopSelectionContext.Provider
       value={{
         loading,
-        workshopSlots,
+        slots,
         selected,
         registrationStage: 'earlybird',
         add,
@@ -109,8 +109,8 @@ const WorkshopSelection: React.FC = () => {
     >
       <form className="workshop-selection">
         <HowWorkshopsWork />
-        {workshopSlots.map((slot) => (
-          <WorkshopSlot slot={slot} key={slot.id} />
+        {slots.map((slot) => (
+          <Slot slot={slot} key={slot.id} />
         ))}
         <AnimatePresence>{zoomed && <WorkshopDetails {...zoomed} />}</AnimatePresence>
       </form>

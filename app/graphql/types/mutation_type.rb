@@ -12,10 +12,10 @@ module Types
     field :rename_activity, mutation: Mutations::Activities::Rename
     field :update_activity, mutation: Mutations::Activities::Update
 
-    field :create_slot, mutation: Mutations::Slots::Create
-    field :create_slots, mutation: Mutations::Slots::CreateMultiple
-    field :destroy_slot, mutation: Mutations::Slots::Destroy
-    field :update_slot, mutation: Mutations::Slots::Update
+    field :create_session, mutation: Mutations::Sessions::Create
+    field :create_sessions, mutation: Mutations::Sessions::CreateMultiple
+    field :destroy_session, mutation: Mutations::Sessions::Destroy
+    field :update_session, mutation: Mutations::Sessions::Update
 
     field :create_translation, mutation: Mutations::Translations::Create
     field :destroy_translation, mutation: Mutations::Translations::Destroy

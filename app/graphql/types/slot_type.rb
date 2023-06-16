@@ -1,10 +1,16 @@
 module Types
   class SlotType < Types::BaseObject
-    field :activity, ActivityType, null: true
-    field :activity_type, ActivityTypeType, null: false
     field :ends_at, GraphQL::Types::ISO8601DateTime, null: false
     field :id, ID, null: false
     field :starts_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :venue, VenueType, null: true
+    field :workshops, [Types::WorkshopType], null: false
+
+    def id
+      object.starts_at.iso8601
+    end
+
+    def workshops
+      object.activities.select { |a| a.type == 'Workshop' }
+    end
   end
 end

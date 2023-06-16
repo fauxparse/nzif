@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Mutations::Activities::Create, type: :mutation do
   let(:query) do
     <<~GRAPHQL.squish
-      mutation CreateActivity($festivalId: ID!, $type: ActivityType!, $attributes: ActivityAttributes!, $slotId: ID) {
-        createActivity(festivalId: $festivalId, type: $type, attributes: $attributes, slotId: $slotId) {
+      mutation CreateActivity($festivalId: ID!, $type: ActivityType!, $attributes: ActivityAttributes!, $sessionId: ID) {
+        createActivity(festivalId: $festivalId, type: $type, attributes: $attributes, sessionId: $sessionId) {
           activity {
             id
             name
@@ -12,7 +12,7 @@ RSpec.describe Mutations::Activities::Create, type: :mutation do
             type
           }
 
-          slot {
+          session {
             activity {
               id
             }
@@ -31,7 +31,7 @@ RSpec.describe Mutations::Activities::Create, type: :mutation do
       attributes: {
         name: 'Murder on a Boat',
       },
-      slot_id: nil,
+      session_id: nil,
     }
   end
 
@@ -50,8 +50,8 @@ RSpec.describe Mutations::Activities::Create, type: :mutation do
       )
     end
 
-    context 'with a slot given' do
-      let(:slot) { create(:slot, festival:, activity_type: Show) }
+    context 'with a session given' do
+      let(:session) { create(:session, festival:, activity_type: Show) }
 
       let(:variables) do
         {
@@ -60,20 +60,20 @@ RSpec.describe Mutations::Activities::Create, type: :mutation do
           attributes: {
             name: 'Murder on a Boat',
           },
-          slot_id: slot.to_param,
+          session_id: session.to_param,
         }
       end
 
-      it 'assigns the show to the slot' do
+      it 'assigns the show to the session' do
         result
 
-        expect(slot.reload.activity.name).to eq 'Murder on a Boat'
+        expect(session.reload.activity.name).to eq 'Murder on a Boat'
       end
 
-      it 'returns the new slot' do
+      it 'returns the new session' do
         id = data[:create_activity][:activity][:id]
 
-        expect(data[:create_activity][:slot][:activity][:id]).to eq id
+        expect(data[:create_activity][:session][:activity][:id]).to eq id
       end
     end
   end

@@ -7,8 +7,8 @@ import Icon from '@/atoms/Icon';
 import Placename from '@/atoms/Placename';
 import {
   PlaceName,
+  RegistrationSlotFragment,
   RegistrationWorkshopFragment,
-  RegistrationWorkshopSlotFragment,
   useWorkshopDetailsQuery,
   WorkshopDetailsFragment,
   WorkshopDetailsQuery,
@@ -24,7 +24,7 @@ import { useWorkshopSelectionContext } from './WorkshopSelectionContext';
 
 type WorkshopDetailsProps = {
   workshop: RegistrationWorkshopFragment;
-  slot: RegistrationWorkshopSlotFragment;
+  slot: RegistrationSlotFragment;
 };
 
 const isWorkshop = (
@@ -73,7 +73,7 @@ const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({ workshop, slot }) => 
   const slotDetails = useMemo(
     () =>
       isWorkshop(workshopDetails) &&
-      workshopDetails?.slots?.find((s) => s.startsAt.toMillis() === slot.startsAt.toMillis()),
+      workshopDetails?.sessions?.find((s) => s.startsAt.toMillis() === slot.startsAt.toMillis()),
     [workshopDetails, slot.startsAt]
   );
 

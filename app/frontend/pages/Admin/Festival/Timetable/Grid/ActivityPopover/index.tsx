@@ -7,7 +7,7 @@ import {
   ActivityType,
   Maybe,
   TimetableActivityFragment,
-  TimetableSlotFragment,
+  TimetableSessionFragment,
   useActivitySearchLazyQuery,
   useCreateActivityMutation,
 } from '@/graphql/types';
@@ -16,9 +16,9 @@ import ActivityPicker from '@/organisms/ActivityPicker';
 
 import CurrentActivity from './CurrentActivity';
 
-type ActivityPopoverProps = Omit<PopoverProps, 'slot'> & {
+type ActivityPopoverProps = Omit<PopoverProps, 'session'> & {
   activity: Maybe<TimetableActivityFragment>;
-  slot: TimetableSlotFragment;
+  session: TimetableSessionFragment;
 };
 
 type ActivityResult = Extract<
@@ -30,12 +30,12 @@ const isActivityResult = (
   result: ActivitySearchQuery['search'][number]
 ): result is ActivityResult => result?.__typename === 'ActivityResult';
 
-const ActivityPopover: React.FC<ActivityPopoverProps> = ({ activity, slot, ...props }) => {
+const ActivityPopover: React.FC<ActivityPopoverProps> = ({ activity, session, ...props }) => {
   const { festival } = useTimetableContext();
 
   const [search] = useActivitySearchLazyQuery({});
 
-  const { activityType } = slot;
+  const { activityType } = session;
 
   const handleSearch = useCallback(
     async (query: string): Promise<ActivityResult[]> =>
@@ -57,7 +57,7 @@ const ActivityPopover: React.FC<ActivityPopoverProps> = ({ activity, slot, ...pr
             festivalId: festival.id,
             activityType,
             attributes: attributes as ActivityAttributes,
-            slotId: slot.id,
+            sessionId: session.id,
           },
           // optimisticResponse: {
           //   __typename: 'Mutation',
@@ -70,8 +70,8 @@ const ActivityPopover: React.FC<ActivityPopoverProps> = ({ activity, slot, ...pr
           //       name: attributes.name || '',
           //       slug: attributes.slug || '',
           //     },
-          //     slot: {
-          //       ...slot,
+          //     session: {
+          //       ...session,
           //       activity: {
           //         __typename: activityType,
           //         id: uniqueId(),
@@ -88,7 +88,7 @@ const ActivityPopover: React.FC<ActivityPopoverProps> = ({ activity, slot, ...pr
           resolve(data.createActivity.activity);
         });
       }),
-    [festival, create, slot]
+    [festival, create, session]
   );
 
   return (
@@ -100,7 +100,7 @@ const ActivityPopover: React.FC<ActivityPopoverProps> = ({ activity, slot, ...pr
       {...props}
     >
       {activity ? (
-        <CurrentActivity activity={activity} slot={slot} />
+        <CurrentActivity activity={activity} session={session} />
       ) : (
         <ActivityPicker
           activityType={activityType}

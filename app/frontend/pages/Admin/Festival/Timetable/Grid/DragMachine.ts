@@ -1,23 +1,23 @@
 import { assign, createMachine } from 'xstate';
 
-import { TimetableSlotFragment } from '@/graphql/types';
+import { TimetableSessionFragment } from '@/graphql/types';
 import { Cell } from '@/molecules/Grid/Grid.types';
 
 import { Block } from './useTimetable';
 
 type PointerType = PointerEvent['pointerType'];
-type Slot = TimetableSlotFragment;
+type Session = TimetableSessionFragment;
 
 type Context = {
   element: HTMLElement | null;
-  block: Block<Slot> | null;
+  block: Block<Session> | null;
   origin: Cell;
   pointerType: PointerType | null;
 };
 
 type PointerDownEvent = {
   type: 'POINTER_DOWN';
-  block: Block<Slot>;
+  block: Block<Session>;
   element: HTMLElement;
   origin: Cell;
   pointerType: PointerType;

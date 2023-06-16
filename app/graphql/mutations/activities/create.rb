@@ -6,19 +6,19 @@ module Mutations
       graphql_name 'CreateActivity'
 
       field :activity, Types::ActivityType, null: false
-      field :slot, Types::SlotType, null: true
+      field :session, Types::SessionType, null: true
 
       argument :attributes, Types::ActivityAttributes, required: true
       argument :festival_id, GraphQL::Types::ID, required: true
-      argument :slot_id, GraphQL::Types::ID, required: false
+      argument :session_id, GraphQL::Types::ID, required: false
       argument :type, Types::ActivityTypeType, required: true
 
-      def resolve(festival_id:, type:, attributes:, slot_id:)
+      def resolve(festival_id:, type:, attributes:, session_id:)
         festival = ::Festival.find(festival_id)
-        slot = festival.slots.find(slot_id) if slot_id.present?
+        session = festival.sessions.find(session_id) if session_id.present?
 
         perform(
-          ::Activities::Create, festival:, activity_type: type, attributes:, slot:
+          ::Activities::Create, festival:, activity_type: type, attributes:, session:
         )
       end
     end

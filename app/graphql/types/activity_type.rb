@@ -6,7 +6,7 @@ module Types
     field :name, String, null: false
     field :slug, String, null: false
     field :type, ActivityTypeType, null: false
-    field :slots, [SlotType], null: false
+    field :sessions, [SessionType], null: false
     field :presenters, [PersonType], null: false
     field :description, String, null: true
     field :picture, Types::ActivityPictureType, null: true
@@ -27,9 +27,9 @@ module Types
       object.class
     end
 
-    def slots
+    def sessions
       dataloader
-        .with(Sources::SlotsByActivity, context:)
+        .with(Sources::SessionsByActivity, context:)
         .load(object.id)
     end
 

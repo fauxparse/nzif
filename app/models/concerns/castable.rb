@@ -24,8 +24,8 @@ module Castable
     end
 
     def valid_cast_roles(klass)
-      if klass.ancestors.include?(Slot)
-        Castable.roles_from_config.values.flat_map { |c| c[:slot] || [] }.map(&:to_sym)
+      if klass.ancestors.include?(Session)
+        Castable.roles_from_config.values.flat_map { |c| c[:session] || [] }.map(&:to_sym)
       else
         Castable.roles_from_config[klass.name.demodulize.underscore.to_sym][:activity].map(&:to_sym)
       end

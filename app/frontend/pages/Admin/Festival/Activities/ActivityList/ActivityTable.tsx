@@ -26,8 +26,8 @@ type ActivityTableProps = {
   type: ActivityType;
 };
 
-type ActivityRow = Omit<ActivityListActivityFragment, 'slots' | 'presenters'> & {
-  slot: ActivityListActivityFragment['slots'][number] | null;
+type ActivityRow = Omit<ActivityListActivityFragment, 'sessions' | 'presenters'> & {
+  session: ActivityListActivityFragment['sessions'][number] | null;
   presenters: ActivityPresenterFragment[];
 };
 
@@ -65,7 +65,7 @@ const columns = [
   columnHelper.group({
     id: 'startsAt',
     columns: [
-      columnHelper.accessor((row) => row.slot?.startsAt, {
+      columnHelper.accessor((row) => row.session?.startsAt, {
         id: 'time',
         header: 'Time',
         size: 100,
@@ -73,7 +73,7 @@ const columns = [
         enableSorting: false,
         cell: (date) => date.getValue()?.toLocaleString(DateTime.TIME_SIMPLE),
       }),
-      columnHelper.accessor((row) => row.slot?.startsAt?.toJSDate(), {
+      columnHelper.accessor((row) => row.session?.startsAt?.toJSDate(), {
         id: 'date',
         header: 'Date',
         sortingFn: 'datetime',
@@ -86,8 +86,8 @@ const columns = [
     ],
   }),
   columnHelper.accessor(
-    ({ slot }) => {
-      const v = slot?.venue;
+    ({ session }) => {
+      const v = session?.venue;
       return first([v?.room, v?.building]);
     },
     {
@@ -106,7 +106,7 @@ const ActivityTable: React.FC<ActivityTableProps> = ({ type }) => {
   const rows = useMemo<ActivityRow[]>(
     () =>
       (data?.festival?.activities || []).flatMap((a) =>
-        (a.slots.length ? a.slots : [null]).map((slot) => ({ ...a, slot }))
+        (a.sessions.length ? a.sessions : [null]).map((session) => ({ ...a, session }))
       ),
     [data]
   );

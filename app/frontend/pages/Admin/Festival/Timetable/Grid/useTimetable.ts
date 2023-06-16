@@ -3,10 +3,14 @@ import { map, memoize, partition, range } from 'lodash-es';
 import { DateTime } from 'luxon';
 
 import Context from '../Context';
-import { SlotAttributes, TimetableSlotFragment, useUpdateSlotMutation } from '@/graphql/types';
+import {
+  SessionAttributes,
+  TimetableSessionFragment,
+  useUpdateSessionMutation,
+} from '@/graphql/types';
 import { Cell } from '@/molecules/Grid/Grid.types';
 
-export type Schedule = TimetableSlotFragment;
+export type Schedule = TimetableSessionFragment;
 
 export interface Block<T extends Schedule = Schedule> {
   row: number;
@@ -149,22 +153,22 @@ const useTimetable = <T extends Schedule = Schedule>(schedules: T[]) => {
     [groupHeights]
   );
 
-  const [updateSlot] = useUpdateSlotMutation();
+  const [updateSession] = useUpdateSessionMutation();
 
-  const moveSlot = useCallback(
-    ({ slot, startsAt }: { slot: T; startsAt: DateTime }) => {
-      const endsAt = startsAt.plus(slot.endsAt.diff(slot.startsAt));
-      updateSlot({
+  const moveSession = useCallback(
+    ({ session, startsAt }: { session: T; startsAt: DateTime }) => {
+      const endsAt = startsAt.plus(session.endsAt.diff(session.startsAt));
+      updateSession({
         variables: {
-          id: slot.id,
-          attributes: { startsAt, endsAt } as SlotAttributes,
+          id: session.id,
+          attributes: { startsAt, endsAt } as SessionAttributes,
         },
         optimisticResponse: {
           __typename: 'Mutation',
-          updateSlot: {
-            __typename: 'UpdateSlotPayload',
-            slot: {
-              ...slot,
+          updateSession: {
+            __typename: 'UpdateSessionPayload',
+            session: {
+              ...session,
               startsAt,
               endsAt,
             },
@@ -172,10 +176,10 @@ const useTimetable = <T extends Schedule = Schedule>(schedules: T[]) => {
         },
       });
     },
-    [updateSlot]
+    [updateSession]
   );
 
-  return { dates, rows, groupHeights, selectionHeight, cellToTime, timeToCell, moveSlot };
+  return { dates, rows, groupHeights, selectionHeight, cellToTime, timeToCell, moveSession };
 };
 
 export default useTimetable;

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :preference do
     registration
-    slot
+    session
   end
 end

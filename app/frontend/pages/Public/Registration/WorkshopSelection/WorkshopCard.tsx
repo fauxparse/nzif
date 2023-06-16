@@ -4,11 +4,7 @@ import { capitalize, map, sortBy, uniqBy } from 'lodash-es';
 
 import Button from '@/atoms/Button';
 import Placename from '@/atoms/Placename';
-import {
-  PlaceName,
-  RegistrationWorkshopFragment,
-  RegistrationWorkshopSlotFragment,
-} from '@/graphql/types';
+import { PlaceName, RegistrationSlotFragment, RegistrationWorkshopFragment } from '@/graphql/types';
 import Skeleton from '@/helpers/Skeleton';
 import Card from '@/organisms/Card';
 import ordinalize from '@/util/ordinalize';
@@ -20,7 +16,7 @@ import { useWorkshopSelectionContext } from './WorkshopSelectionContext';
 
 type WorkshopCardProps = {
   workshop: RegistrationWorkshopFragment;
-  slot: RegistrationWorkshopSlotFragment;
+  slot: RegistrationSlotFragment;
 };
 
 const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot }) => {

@@ -32,7 +32,7 @@ fragment TimetableCast on Person {
   }
 }
 
-fragment TimetableSlot on Slot {
+fragment TimetableSession on Session {
   id
   startsAt
   endsAt
@@ -59,8 +59,8 @@ query Timetable($year: String) {
     timetable {
       id
 
-      slots {
-        ...TimetableSlot
+      sessions {
+        ...TimetableSession
       }
     }
 
@@ -73,22 +73,22 @@ query Timetable($year: String) {
   }
 }
 
-mutation CreateSlots($attributes: MultipleSlotAttributes!) {
-  createSlots(attributes: $attributes) {
-    slots {
-      ...TimetableSlot
+mutation CreateSessions($attributes: MultipleSessionAttributes!) {
+  createSessions(attributes: $attributes) {
+    sessions {
+      ...TimetableSession
     }
   }
 }
 
-mutation DestroySlot($id: ID!) {
-  destroySlot(id: $id)
+mutation DestroySession($id: ID!) {
+  destroySession(id: $id)
 }
 
-mutation UpdateSlot($id: ID!, $attributes: SlotAttributes!) {
-  updateSlot(id: $id, attributes: $attributes) {
-    slot {
-      ...TimetableSlot
+mutation UpdateSession($id: ID!, $attributes: SessionAttributes!) {
+  updateSession(id: $id, attributes: $attributes) {
+    session {
+      ...TimetableSession
     }
   }
 }

@@ -10,11 +10,13 @@ module Types
       argument :type, Types::ActivityTypeType, required: true
     end
     field :end_date, Types::ISODate, null: false
+    field :slots, [Types::SlotType], null: false do
+      argument :type, Types::ActivityTypeType, required: false
+    end
     field :start_date, Types::ISODate, null: false
     field :state, Types::FestivalStateType, null: false
     field :timetable, Types::TimetableType, null: false
     field :venues, [Types::VenueType], null: false
-    field :workshop_slots, [Types::WorkshopSlotType], null: false
 
     def id
       object.start_date.year.to_s
@@ -42,16 +44,10 @@ module Types
         .load(object.id)
     end
 
-    def workshop_slots
-      object.slots.includes(:activity)
-        .where(activity_type: 'Workshop').where.not(activity_id: nil)
-        .order(:starts_at).group_by(&:starts_at).map do |starts_at, group|
-          Hashie::Mash.new(
-            starts_at:,
-            ends_at: group.map(&:ends_at).max,
-            workshops: group.map(&:activity),
-          )
-        end
+    def slots(type: nil)
+      scope = object.slots.includes(:activities)
+      scope = scope.where(activity_type: type.to_s) if type
+      scope
     end
   end
 end

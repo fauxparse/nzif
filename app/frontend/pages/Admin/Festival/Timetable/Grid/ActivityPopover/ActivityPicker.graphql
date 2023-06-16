@@ -29,19 +29,19 @@ mutation CreateActivity(
   $festivalId: ID!
   $activityType: ActivityType!
   $attributes: ActivityAttributes!
-  $slotId: ID
+  $sessionId: ID
 ) {
   createActivity(
     festivalId: $festivalId
     type: $activityType
     attributes: $attributes
-    slotId: $slotId
+    sessionId: $sessionId
   ) {
     activity {
       ...TimetableActivity
     }
-    slot {
-      ...TimetableSlot
+    session {
+      ...TimetableSession
     }
   }
 }

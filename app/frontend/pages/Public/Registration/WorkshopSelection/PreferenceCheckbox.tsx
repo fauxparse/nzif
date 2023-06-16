@@ -1,12 +1,12 @@
 import Checkbox from '@/atoms/Checkbox';
-import { RegistrationWorkshopFragment, RegistrationWorkshopSlotFragment } from '@/graphql/types';
+import { RegistrationWorkshopFragment, RegistrationSlotFragment } from '@/graphql/types';
 
 import { useWorkshopSelectionContext } from './WorkshopSelectionContext';
 
 type PreferenceCheckboxProps = {
   preference: number | null;
   workshop: RegistrationWorkshopFragment;
-  slot: RegistrationWorkshopSlotFragment;
+  slot: RegistrationSlotFragment;
 };
 
 const PreferenceCheckbox: React.FC<PreferenceCheckboxProps> = ({ workshop, slot, preference }) => {

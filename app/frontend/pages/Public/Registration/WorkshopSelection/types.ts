@@ -1,6 +1,6 @@
-import { RegistrationWorkshopFragment, RegistrationWorkshopSlotFragment } from '@/graphql/types';
+import { RegistrationWorkshopFragment, RegistrationSlotFragment } from '@/graphql/types';
 
 export type SelectedWorkshop = {
-  slot: RegistrationWorkshopSlotFragment;
+  slot: RegistrationSlotFragment;
   workshop: RegistrationWorkshopFragment;
 };

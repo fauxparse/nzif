@@ -16,7 +16,7 @@ import { useToaster } from '@/molecules/Toaster';
 import activityTypeLabel from '@/util/activityTypeLabel';
 
 import Details from './Details';
-import Slot from './Slot';
+import Session from './Session';
 
 import './ActivityDetails.css';
 
@@ -140,24 +140,24 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ type }) => {
           {activity && (
             <Tabs>
               <Tabs.Tab as={Link} to="." text="Details" selected={!date} />
-              {activity?.slots?.map((slot) => (
+              {activity?.sessions?.map((session) => (
                 <Tabs.Tab
-                  key={slot.id}
+                  key={session.id}
                   as={Link}
-                  to={slot.startsAt.toISODate() || ''}
-                  text={slot.startsAt.plus(0).toFormat('cccc d')}
-                  selected={date === slot.startsAt.toISODate()}
+                  to={session.startsAt.toISODate() || ''}
+                  text={session.startsAt.plus(0).toFormat('cccc d')}
+                  selected={date === session.startsAt.toISODate()}
                 />
               ))}
             </Tabs>
           )}
         </header>
         <Routes>
-          {activity?.slots?.map((slot) => (
+          {activity?.sessions?.map((session) => (
             <Route
-              key={slot.id}
-              path={slot.startsAt.toISODate() || ''}
-              element={<Slot activity={activity} />}
+              key={session.id}
+              path={session.startsAt.toISODate() || ''}
+              element={<Session activity={activity} />}
             />
           ))}
           <Route path="" element={activity ? <Details activity={activity} /> : null} />

@@ -8,7 +8,7 @@ module Types
     field :id, ID, null: false
     field :person, PersonType, null: false
     field :phone, String, null: true
-    field :preferences, [WorkshopSlotType], null: false
+    field :preferences, [SlotType], null: false
     field :pronouns, String, null: true
     field :user, UserType, null: false
 
