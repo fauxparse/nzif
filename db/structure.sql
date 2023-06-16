@@ -200,6 +200,40 @@ ALTER SEQUENCE public.festivals_id_seq OWNED BY public.festivals.id;
 
 
 --
+-- Name: preferences; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.preferences (
+    id bigint NOT NULL,
+    registration_id bigint NOT NULL,
+    slot_id bigint NOT NULL,
+    starts_at timestamp without time zone,
+    "position" integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: preferences_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.preferences_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: preferences_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.preferences_id_seq OWNED BY public.preferences.id;
+
+
+--
 -- Name: profiles; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -214,7 +248,8 @@ CREATE TABLE public.profiles (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     searchable tsvector GENERATED ALWAYS AS (setweight(to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char")) STORED,
-    picture_data jsonb
+    picture_data jsonb,
+    phone character varying(32)
 );
 
 
@@ -235,6 +270,39 @@ CREATE SEQUENCE public.profiles_id_seq
 --
 
 ALTER SEQUENCE public.profiles_id_seq OWNED BY public.profiles.id;
+
+
+--
+-- Name: registrations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.registrations (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    festival_id bigint NOT NULL,
+    code_of_conduct_accepted_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: registrations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.registrations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: registrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.registrations_id_seq OWNED BY public.registrations.id;
 
 
 --
@@ -334,14 +402,14 @@ CREATE TABLE public.users (
     confirmed_at timestamp(6) without time zone,
     confirmation_sent_at timestamp(6) without time zone,
     unconfirmed_email character varying,
-    name character varying,
     email character varying,
     tokens json,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     settings public.hstore DEFAULT ''::public.hstore NOT NULL,
-    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('english'::regconfig, public.my_concat(' '::text, regexp_split_to_array((COALESCE(email, ''::character varying))::text, '[.@]'::text))), 'B'::"char"))) STORED,
-    permissions character varying[]
+    permissions character varying[],
+    name character varying,
+    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('english'::regconfig, public.my_concat(' '::text, regexp_split_to_array((COALESCE(email, ''::character varying))::text, '[.@]'::text))), 'B'::"char"))) STORED
 );
 
 
@@ -457,10 +525,24 @@ ALTER TABLE ONLY public.festivals ALTER COLUMN id SET DEFAULT nextval('public.fe
 
 
 --
+-- Name: preferences id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.preferences ALTER COLUMN id SET DEFAULT nextval('public.preferences_id_seq'::regclass);
+
+
+--
 -- Name: profiles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.profiles ALTER COLUMN id SET DEFAULT nextval('public.profiles_id_seq'::regclass);
+
+
+--
+-- Name: registrations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.registrations ALTER COLUMN id SET DEFAULT nextval('public.registrations_id_seq'::regclass);
 
 
 --
@@ -531,11 +613,27 @@ ALTER TABLE ONLY public.festivals
 
 
 --
+-- Name: preferences preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.preferences
+    ADD CONSTRAINT preferences_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: profiles profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.profiles
     ADD CONSTRAINT profiles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: registrations registrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.registrations
+    ADD CONSTRAINT registrations_pkey PRIMARY KEY (id);
 
 
 --
@@ -622,10 +720,52 @@ CREATE UNIQUE INDEX index_cast_uniquely ON public."cast" USING btree (activity_t
 
 
 --
+-- Name: index_preferences_on_registration_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_preferences_on_registration_id ON public.preferences USING btree (registration_id);
+
+
+--
+-- Name: index_preferences_on_registration_id_and_starts_at_and_position; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_preferences_on_registration_id_and_starts_at_and_position ON public.preferences USING btree (registration_id, starts_at, "position");
+
+
+--
+-- Name: index_preferences_on_slot_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_preferences_on_slot_id ON public.preferences USING btree (slot_id);
+
+
+--
 -- Name: index_profiles_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_profiles_on_user_id ON public.profiles USING btree (user_id);
+
+
+--
+-- Name: index_registrations_on_festival_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_registrations_on_festival_id ON public.registrations USING btree (festival_id);
+
+
+--
+-- Name: index_registrations_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_registrations_on_user_id ON public.registrations USING btree (user_id);
+
+
+--
+-- Name: index_registrations_on_user_id_and_festival_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_registrations_on_user_id_and_festival_id ON public.registrations USING btree (user_id, festival_id);
 
 
 --
@@ -720,11 +860,35 @@ CREATE INDEX index_versions_on_item_type_and_item_id ON public.versions USING bt
 
 
 --
+-- Name: preferences fk_rails_0c78ab364f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.preferences
+    ADD CONSTRAINT fk_rails_0c78ab364f FOREIGN KEY (slot_id) REFERENCES public.slots(id);
+
+
+--
 -- Name: cast fk_rails_0cfc4c6b7a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."cast"
     ADD CONSTRAINT fk_rails_0cfc4c6b7a FOREIGN KEY (profile_id) REFERENCES public.profiles(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: registrations fk_rails_2e0658f554; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.registrations
+    ADD CONSTRAINT fk_rails_2e0658f554 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: registrations fk_rails_4604f69f81; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.registrations
+    ADD CONSTRAINT fk_rails_4604f69f81 FOREIGN KEY (festival_id) REFERENCES public.festivals(id);
 
 
 --
@@ -749,6 +913,14 @@ ALTER TABLE ONLY public.slots
 
 ALTER TABLE ONLY public.profiles
     ADD CONSTRAINT fk_rails_e424190865 FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: preferences fk_rails_e71b272656; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.preferences
+    ADD CONSTRAINT fk_rails_e71b272656 FOREIGN KEY (registration_id) REFERENCES public.registrations(id);
 
 
 --
@@ -797,6 +969,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230520020008'),
 ('20230527193722'),
 ('20230528202819'),
-('20230604231515');
+('20230604231515'),
+('20230611001108'),
+('20230611001452'),
+('20230611010539');
 
 

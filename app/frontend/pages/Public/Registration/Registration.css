@@ -87,6 +87,11 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--medium);
+
+    .skeleton {
+      flex: 1;
+      max-width: none;
+    }
   }
 
   &__aside {
@@ -109,38 +114,6 @@
 
     > :last-child {
       margin-block-end: 0;
-    }
-  }
-
-  .read-to-end {
-    overflow-y: auto;
-    max-height: 75vh;
-    max-height: 75dvh;
-    max-height: 75svh;
-    padding: var(--large);
-    border: var(--border-width-standard) solid var(--border-subtle);
-    border-radius: var(--border-radius-large);
-    background-color: var(--background-subtle);
-
-    + label {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: var(--spacing);
-      padding: calc(var(--spacing) - var(--border-width-standard));
-      border: var(--border-width-standard) solid var(--info6);
-      border-radius: var(--border-radius-large);
-      background: var(--info2);
-      color: var(--info12);
-      font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-medium);
-      line-height: var(--line-height-medium);
-
-      .checkbox {
-        --input-outline: var(--info7);
-        --input-active: var(--info9);
-        --input-inactive: var(--info7);
-        --background: var(--info1);
-      }
     }
   }
 

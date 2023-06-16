@@ -8,6 +8,7 @@ class User < ApplicationRecord
   include Searchable
 
   has_one :profile, dependent: :nullify, inverse_of: :user, autosave: true
+  has_many :registrations, dependent: :restrict_with_exception, inverse_of: :user
 
   before_validation :populate_profile
 

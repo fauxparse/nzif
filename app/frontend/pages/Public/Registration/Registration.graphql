@@ -40,18 +40,6 @@ fragment RegistrationWorkshopSlot on WorkshopSlot {
   }
 }
 
-query Registration {
-  festival {
-    id
-    startDate
-    endDate
-
-    workshopSlots {
-      ...RegistrationWorkshopSlot
-    }
-  }
-}
-
 fragment WorkshopDetails on Workshop {
   id
   type
@@ -89,6 +77,52 @@ query WorkshopDetails($slug: String!) {
       id
       type
       ...WorkshopDetails
+    }
+  }
+}
+
+query Registration {
+  registration {
+    id
+    user {
+      id
+      email
+    }
+    person {
+      id
+      name
+      pronouns
+      phone
+      city {
+        id
+        name
+        traditionalName
+      }
+      country {
+        id
+        name
+        traditionalName
+      }
+    }
+    codeOfConductAcceptedAt
+    preferences {
+      id
+      startsAt
+      endsAt
+      workshops {
+        id
+        name
+      }
+    }
+  }
+
+  festival {
+    id
+    startDate
+    endDate
+
+    workshopSlots {
+      ...RegistrationWorkshopSlot
     }
   }
 }

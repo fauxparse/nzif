@@ -26,6 +26,8 @@ module Types
 
     field :translations, resolver: Resolvers::Translations
 
+    field :registration, resolver: Resolvers::Registration
+
     def festival(year: nil)
       if year
         Festival.by_year(year).first!

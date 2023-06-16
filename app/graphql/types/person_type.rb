@@ -5,9 +5,14 @@ module Types
     field :country, Types::PlaceNameType, null: true
     field :id, ID, null: false
     field :name, String, null: false
+    field :phone, String, null: true
     field :picture, Types::ProfilePictureType, null: true
     field :pronouns, String, null: true
     field :user, Types::UserType, null: true
+
+    def id
+      super || 'new'
+    end
 
     def picture
       object.picture && object

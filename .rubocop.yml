@@ -53,6 +53,7 @@ Metrics/AbcSize:
     - 'db/migrate/*'
 
 Metrics/MethodLength:
+  Max: 16
   Exclude:
     - 'db/migrate/*'
 

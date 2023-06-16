@@ -269,6 +269,7 @@ type Person {
   country: PlaceName
   id: ID!
   name: String!
+  phone: String
   picture: ProfilePicture
   pronouns: String
   user: User
@@ -328,10 +329,23 @@ type Query {
   people: [Person!]
   permissions: [PermissionDefinition!]!
   person(id: ID!): Person
+  registration(year: ID): Registration!
   search(activityType: ActivityType, limit: Int, only: [SearchType!] = [Activity, Person, Venue, Page], query: String!): [SearchResult!]!
   setting(id: String!): Setting
   translations: [Translation!]!
   user(id: ID): User
+}
+
+type Registration {
+  city: PlaceName
+  codeOfConductAcceptedAt: ISO8601DateTime
+  country: PlaceName
+  id: ID!
+  person: Person!
+  phone: String
+  preferences: [WorkshopSlot!]!
+  pronouns: String
+  user: User!
 }
 
 """

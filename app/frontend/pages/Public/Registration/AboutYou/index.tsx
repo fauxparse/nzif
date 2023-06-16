@@ -1,27 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
+import Section from '../Section';
 import Checkbox from '@/atoms/Checkbox';
 import Input from '@/atoms/Input';
 import { useRegistrationQuery } from '@/graphql/types';
 import Labelled from '@/helpers/Labelled';
+import Skeleton from '@/helpers/Skeleton';
 import CountryPicker from '@/molecules/CountryPicker';
 
 import ReadToEnd from './ReadToEnd';
-import Section from './Section';
+
+import './AboutYou.css';
 
 const formSchema = z.object({
   name: z.string().regex(/^[^\s]+(\s+[^\s]+)+$/, 'We need your full (first and last) name'),
   email: z.string().email('This doesn’t look like an email address'),
-  password: z.string().min(1, 'You need to enter a password'),
+  password: z.string(),
   pronouns: z.string().optional(),
   city: z.string().min(1, 'Please tell us where you’re from'),
   country: z.string().min(1, 'Please tell us where you’re from'),
   phone: z
     .string()
-    .regex(/^\+?\d+([.\-\s]\s+)*$/, 'This doesn’t look like a phone number')
+    .regex(/^(\+?\d+([.\-\s]\s+)*)?$/, 'This doesn’t look like a phone number')
     .optional(),
   codeOfConductAccepted: z.boolean().refine((v) => v, 'You must accept the Code of Conduct'),
 });
@@ -29,9 +32,9 @@ const formSchema = z.object({
 type FormSchemaType = z.infer<typeof formSchema>;
 
 const AboutYou: React.FC = () => {
-  const { data } = useRegistrationQuery();
+  const { loading, data } = useRegistrationQuery();
 
-  const { festival } = data || {};
+  const { festival, registration } = data || {};
 
   const [codeOfConductRead, setCodeOfConductRead] = useState(false);
 
@@ -49,18 +52,35 @@ const AboutYou: React.FC = () => {
     },
   });
 
-  const onSubmit = console.log;
+  useEffect(() => {
+    if (!registration) return;
+    setValue('name', registration.person?.name || '');
+    if (registration.user) setValue('password', '');
+    setValue('pronouns', registration.person?.pronouns || '');
+    setValue('phone', registration.person?.phone || '');
+    setValue('country', registration.person?.country?.id || 'NZ');
+    setValue('email', registration.user?.email || '');
+    setValue('codeOfConductAccepted', !!registration.codeOfConductAcceptedAt);
+  }, [registration, setValue]);
+
+  const onSubmit = () => console.log(getValues());
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Section title="Login and security" description="Let’s get you set up with an account">
-        <Labelled label="Your email address" name="email" required errors={errors}>
-          <Input type="email" autoComplete="email" {...register('email')} />
-        </Labelled>
-        <Labelled label="Choose a password" name="password" required errors={errors}>
-          <Input type="password" {...register('password')} />
-        </Labelled>
-      </Section>
+      {!registration?.user && (
+        <Section title="Login and security" description="Let’s get you set up with an account">
+          <Labelled label="Your email address" name="email" required errors={errors}>
+            <Skeleton rounded loading={loading}>
+              <Input type="email" autoComplete="email" {...register('email')} />
+            </Skeleton>
+          </Labelled>
+          <Labelled label="Choose a password" name="password" required errors={errors}>
+            <Skeleton rounded loading={loading}>
+              <Input type="password" {...register('password')} />
+            </Skeleton>
+          </Labelled>
+        </Section>
+      )}
       <Section
         title="About you"
         description={
@@ -84,25 +104,40 @@ const AboutYou: React.FC = () => {
         }
       >
         <Labelled label="Your name" name="name" errors={errors}>
-          <Input type="text" autoComplete="name" {...register('name')} />
+          <Skeleton rounded loading={loading}>
+            <Input type="text" autoComplete="name" {...register('name')} />
+          </Skeleton>
         </Labelled>
+        {registration?.person && (
+          <Labelled label="Your email address" name="email" errors={errors}>
+            <Skeleton rounded loading={loading}>
+              <Input type="email" autoComplete="email" {...register('email')} />
+            </Skeleton>
+          </Labelled>
+        )}
         <Labelled
           label="Your pronouns"
           name="pronouns"
           hint="e.g. she/her, he/him, they/them"
           errors={errors}
         >
-          <Input type="text" {...register('pronouns')} />
+          <Skeleton rounded loading={loading}>
+            <Input type="text" {...register('pronouns')} />
+          </Skeleton>
         </Labelled>
         <Labelled label="City" name="city" errors={errors}>
-          <Input type="text" autoComplete="address-level2" {...register('city')} />
+          <Skeleton rounded loading={loading}>
+            <Input type="text" autoComplete="address-level2" {...register('city')} />
+          </Skeleton>
         </Labelled>
         <Labelled label="Country" name="country" errors={errors}>
           <input type="hidden" {...register('country')} />
-          <CountryPicker
-            value={getValues('country')}
-            onChange={(country) => setValue('country', country)}
-          />
+          <Skeleton rounded loading={loading}>
+            <CountryPicker
+              value={getValues('country')}
+              onChange={(country) => setValue('country', country)}
+            />
+          </Skeleton>
         </Labelled>
         <Labelled
           label="NZ phone number (optional)"
@@ -110,7 +145,9 @@ const AboutYou: React.FC = () => {
           hint="So we can get in touch during the Festival"
           errors={errors}
         >
-          <Input type="tel" name="phone" autoComplete="tel" />
+          <Skeleton rounded loading={loading}>
+            <Input type="tel" name="phone" autoComplete="tel" />
+          </Skeleton>
         </Labelled>
       </Section>
       <Section
@@ -144,6 +181,8 @@ const AboutYou: React.FC = () => {
           </span>
         </label>
       </Section>
+
+      <button type="submit">Submit</button>
     </form>
   );
 };

@@ -1,0 +1,53 @@
+.read-to-end {
+  overflow-y: auto;
+  max-height: 75vh;
+  max-height: 75dvh;
+  max-height: 75svh;
+  border: var(--border-width-standard) solid var(--info6);
+  border-radius: var(--border-radius-large);
+  background-color: var(--background-subtle);
+
+  .end-of-page {
+    display: block;
+    height: 1rem;
+    margin-top: -1rem;
+    pointer-events: none;
+  }
+
+  + label {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--spacing);
+    padding: calc(var(--spacing) - var(--border-width-standard));
+    border: var(--border-width-standard) solid var(--info6);
+    border-radius: var(--border-radius-large);
+    background: var(--info2);
+    color: var(--info12);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-medium);
+    line-height: var(--line-height-medium);
+
+    .checkbox {
+      --input-outline: var(--info7);
+      --input-active: var(--info9);
+      --input-inactive: var(--info7);
+      --background: var(--info1);
+    }
+  }
+
+  .content-page__content {
+    padding: var(--large);
+  }
+
+  &__instructions {
+    position: sticky;
+    bottom: 0;
+    padding: var(--medium) var(--large);
+    border-top: var(--border-width-standard) solid var(--info6);
+    background: var(--info1);
+
+    p {
+      margin: 0;
+    }
+  }
+}

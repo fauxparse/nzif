@@ -10,6 +10,7 @@ class Profile < ApplicationRecord
   has_many :activities, through: :cast, source: :activity
 
   validates :name, presence: true
+  validates :phone, length: { in: 0..32 }, allow_blank: true
 
   searchable_on :name
 

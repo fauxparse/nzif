@@ -7,6 +7,14 @@ module Types
     field :profile, PersonType, null: true
     field :settings, [SettingType], null: false
 
+    def id
+      super || 'new'
+    end
+
+    def email
+      object.email || ''
+    end
+
     def profile
       dataloader
         .with(Sources::UserProfile, context:)
