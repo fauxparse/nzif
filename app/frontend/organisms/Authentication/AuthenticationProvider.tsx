@@ -2,7 +2,7 @@ import React, { createContext, PropsWithChildren, useContext, useMemo } from 're
 import { useApolloClient } from '@apollo/client';
 import PERMISSIONS from '@config/permissions.yml';
 
-import { saveAuthenticationInfo } from '@/graphql/authentication';
+import { clearAuthenticationInfo, saveAuthenticationInfo } from '@/graphql/authentication';
 import {
   AuthenticatedUserFragment,
   LogInMutationVariables,
@@ -73,7 +73,7 @@ const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }) => {
     },
   });
 
-  const [doLogOut] = useLogOutMutation();
+  const [doLogOut] = useLogOutMutation({});
 
   const [doSignUp] = useSignUpMutation({
     update: (_, { data }) => {
@@ -116,6 +116,7 @@ const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const logOut = () =>
     doLogOut().then(() => {
       client.resetStore();
+      clearAuthenticationInfo();
       return true;
     });
 

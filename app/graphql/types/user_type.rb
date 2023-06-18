@@ -8,7 +8,7 @@ module Types
     field :settings, [SettingType], null: false
 
     def id
-      super || 'new'
+      super || ''
     end
 
     def email

@@ -81,37 +81,38 @@ query WorkshopDetails($slug: String!) {
   }
 }
 
-query Registration {
+query RegistrationStatus {
   registration {
     id
     user {
       id
       email
-    }
-    person {
-      id
-      name
-      pronouns
-      phone
-      city {
+      profile {
         id
         name
-        traditionalName
-      }
-      country {
-        id
-        name
-        traditionalName
+        pronouns
+        phone
+        city {
+          id
+          name
+          traditionalName
+        }
+        country {
+          id
+          name
+          traditionalName
+        }
       }
     }
     codeOfConductAcceptedAt
     preferences {
       id
-      startsAt
-      endsAt
-      workshops {
+      position
+      slot {
         id
-        name
+      }
+      workshop {
+        id
       }
     }
   }

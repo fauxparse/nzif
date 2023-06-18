@@ -26,6 +26,10 @@ export const saveAuthenticationInfo = (info: AuthenticationInfo) => {
   localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(info));
 };
 
+export const clearAuthenticationInfo = () => {
+  localStorage.removeItem(LOCALSTORAGE_KEY);
+};
+
 const authentication = new ApolloLink((operation, forward) => {
   const headers: Record<string, string> = {};
 

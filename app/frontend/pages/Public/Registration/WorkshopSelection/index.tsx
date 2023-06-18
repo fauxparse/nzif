@@ -7,7 +7,7 @@ import {
   ActivityType,
   RegistrationSlotFragment,
   RegistrationWorkshopFragment,
-  useRegistrationQuery,
+  useRegistrationStatusQuery,
 } from '@/graphql/types';
 
 import HowWorkshopsWork from './HowWorkshopsWork';
@@ -62,7 +62,7 @@ const tempSessions: RegistrationSlotFragment[] = range(5).map((days) => ({
 type Action = { type: 'add' | 'remove' } & SelectedWorkshop;
 
 const WorkshopSelection: React.FC = () => {
-  const { data, loading } = useRegistrationQuery();
+  const { data, loading } = useRegistrationStatusQuery();
 
   const { festival } = data || {};
 

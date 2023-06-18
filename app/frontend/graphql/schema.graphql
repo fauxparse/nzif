@@ -298,6 +298,13 @@ type PlaceName {
   traditionalName: String
 }
 
+type Preference {
+  id: ID!
+  position: Int
+  slot: Slot!
+  workshop: Workshop!
+}
+
 input ProfileMergeAttributes {
   city: ID
   country: ID
@@ -337,15 +344,10 @@ type Query {
 }
 
 type Registration {
-  city: PlaceName
   codeOfConductAcceptedAt: ISO8601DateTime
-  country: PlaceName
   id: ID!
-  person: Person!
-  phone: String
-  preferences: [Slot!]!
-  pronouns: String
-  user: User!
+  preferences: [Preference!]!
+  user: User
 }
 
 """

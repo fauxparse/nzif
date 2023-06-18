@@ -1,8 +1,8 @@
-import { ApolloClient, from, HttpLink, InMemoryCache, split } from '@apollo/client';
+import { ApolloClient, from, HttpLink, split } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
 
 import authentication from './authentication';
-import { scalarTypePolicies } from './types';
+import cache from './cache';
 
 const http = createUploadLink({ uri: '/graphql' });
 
@@ -17,31 +17,5 @@ const contentful = new HttpLink({
 
 export const client = new ApolloClient({
   link: split((operation) => operation.getContext().clientName === 'contentful', contentful, local),
-  cache: new InMemoryCache({
-    possibleTypes: {
-      Activity: ['Show', 'Workshop', 'SocialEvent'],
-      Setting: ['BooleanSetting', 'StringSetting'],
-      SearchResult: ['ActivityResult', 'PersonResult', 'VenueResult', 'PageResult'],
-    },
-    typePolicies: {
-      ...scalarTypePolicies,
-      Activity: {
-        fields: {
-          presenters: {
-            merge: (_, incoming) => incoming,
-          },
-        },
-      },
-      Query: {
-        fields: {
-          people: {
-            merge: (_, incoming) => incoming,
-          },
-        },
-      },
-      ActivityPicture: {
-        merge: true,
-      },
-    },
-  }),
+  cache: cache(),
 });

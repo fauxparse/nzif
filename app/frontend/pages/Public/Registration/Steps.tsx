@@ -26,6 +26,9 @@ const Steps: React.FC = () => {
 
   const { pathname } = useLocation();
 
+  const current =
+    REGISTRATION_STEPS.find(({ path }) => pathname.endsWith(path)) || REGISTRATION_STEPS[0];
+
   return (
     <div className="registration__steps" style={{ '--step-count': length } as CSSProperties}>
       {REGISTRATION_STEPS.map(({ label, path }) => (
@@ -33,7 +36,7 @@ const Steps: React.FC = () => {
           key={path}
           className="registration__step"
           data-step-count={length}
-          aria-selected={pathname.endsWith(path)}
+          aria-selected={path === current.path}
         >
           <b>{label}</b>
         </div>

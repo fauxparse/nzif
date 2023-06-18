@@ -2,12 +2,12 @@ import { useMemo } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
 import Button from '@/atoms/Button';
-import { useRegistrationQuery } from '@/graphql/types';
+import { useRegistrationStatusQuery } from '@/graphql/types';
 
 import Steps, { REGISTRATION_STEPS } from './Steps';
 
 const RegistrationLayout: React.FC = () => {
-  const { loading, data } = useRegistrationQuery();
+  const { loading, data } = useRegistrationStatusQuery();
 
   const { pathname } = useLocation();
 
@@ -27,7 +27,7 @@ const RegistrationLayout: React.FC = () => {
     };
   }, [pathname]);
 
-  const { festival } = data || {};
+  const { festival, registration } = data || {};
 
   return (
     <div className="registration">
@@ -36,37 +36,40 @@ const RegistrationLayout: React.FC = () => {
 
       <Outlet />
 
-      <footer className="registration__footer">
-        {previous && (
-          <Button
-            as={Link}
-            to={festival ? `/${festival.id}${previous.path}` : '/'}
-            className="registration__button"
-            icon="chevronLeft"
-            data-action="previous"
-            text={
-              <>
-                <small>Previous</small>
-                <span>{previous.label}</span>
-              </>
-            }
-          />
-        )}
-        {next && (
-          <Button
-            className="registration__button"
-            icon="chevronRight"
-            data-action="next"
-            type="submit"
-            text={
-              <>
-                <small>Next</small>
-                <span>{next.label}</span>
-              </>
-            }
-          />
-        )}
-      </footer>
+      {registration?.user && (
+        <footer className="registration__footer">
+          {previous && (
+            <Button
+              as={Link}
+              to={festival ? `/${festival.id}${previous.path}` : '/'}
+              className="registration__button"
+              icon="chevronLeft"
+              data-action="previous"
+              text={
+                <>
+                  <small>Previous</small>
+                  <span>{previous.label}</span>
+                </>
+              }
+            />
+          )}
+          {next && (
+            <Button
+              className="registration__button"
+              icon="chevronRight"
+              data-action="next"
+              type="submit"
+              form="registration-form"
+              text={
+                <>
+                  <small>Next</small>
+                  <span>{next.label}</span>
+                </>
+              }
+            />
+          )}
+        </footer>
+      )}
     </div>
   );
 };

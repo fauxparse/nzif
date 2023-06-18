@@ -11,7 +11,11 @@ module Types
     field :user, Types::UserType, null: true
 
     def id
-      super || 'new'
+      super || ''
+    end
+
+    def name
+      object.name || ''
     end
 
     def picture

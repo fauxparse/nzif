@@ -7,8 +7,8 @@ expect.extend(matchers);
 
 global.CSS = {
   supports: () => false,
-  escape: (value) => value,
-};
+  escape: (value: string) => value,
+} as unknown as typeof CSS;
 
 // runs a cleanup after each test case (e.g. clearing jsdom)
 afterEach(cleanup);
@@ -27,3 +27,5 @@ Object.defineProperties(MouseEvent.prototype, {
 });
 
 global.ResizeObserver = require('resize-observer-polyfill');
+
+require('intersection-observer');
