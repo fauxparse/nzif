@@ -16,6 +16,7 @@
     font-size: var(--font-size-medium);
     line-height: var(--line-height-medium);
     counter-increment: step;
+    text-decoration: none;
 
     b {
       display: none;
@@ -57,6 +58,7 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--medium);
+    align-items: flex-start;
     margin: 0;
     padding: var(--large) 0;
     border: 0;
@@ -80,6 +82,15 @@
         color: var(--text-subtle);
         text-decoration: underline;
       }
+    }
+  }
+
+  &__form {
+    transition: opacity var(--timing-standard) var(--ease-standard);
+
+    &[aria-busy] {
+      opacity: var(--disabled-opacity);
+      pointer-events: none;
     }
   }
 

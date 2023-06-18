@@ -1,12 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { mapValues, omit } from 'lodash-es';
+import { DateTime } from 'luxon';
 import { z } from 'zod';
 
+import { ContinueHandler } from '../Registration.types';
 import Section from '../Section';
 import Checkbox from '@/atoms/Checkbox';
 import Input from '@/atoms/Input';
-import { useRegistrationStatusQuery } from '@/graphql/types';
+import {
+  CurrentUserDocument,
+  UserDetailsAttributes,
+  useRegistrationStatusQuery,
+  useUpdateRegistrationUserDetailsMutation,
+} from '@/graphql/types';
 import Labelled from '@/helpers/Labelled';
 import Skeleton from '@/helpers/Skeleton';
 import CountryPicker from '@/molecules/CountryPicker';
@@ -28,7 +36,11 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const PersonalDetailsForm: React.FC = () => {
+type PersonalDetailsFormProps = {
+  onContinue: ContinueHandler;
+};
+
+const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ onContinue }) => {
   const { loading, data } = useRegistrationStatusQuery();
 
   const { festival, registration } = data || {};
@@ -55,15 +67,33 @@ const PersonalDetailsForm: React.FC = () => {
     setValue('name', profile?.name || '');
     setValue('pronouns', profile?.pronouns || '');
     setValue('phone', profile?.phone || '');
+    setValue('city', profile?.city?.name || '');
     setValue('country', profile?.country?.id || 'NZ');
     setValue('email', user?.email || '');
     setValue('codeOfConductAccepted', !!codeOfConductAcceptedAt);
   }, [profile, user, codeOfConductAcceptedAt, setValue]);
 
-  const onSubmit = () => console.log(getValues());
+  const [updateRegistrationUserDetails, { loading: saving }] =
+    useUpdateRegistrationUserDetailsMutation({
+      refetchQueries: [{ query: CurrentUserDocument }],
+    });
+
+  const onSubmit = async () => {
+    updateRegistrationUserDetails({
+      variables: {
+        attributes: {
+          ...(mapValues(omit(getValues(), 'codeOfConductAccepted'), (v) => v ?? '') as Omit<
+            UserDetailsAttributes,
+            'codeOfConductAcceptedAt'
+          >),
+          codeOfConductAcceptedAt: DateTime.now(),
+        },
+      },
+    }).then(onContinue);
+  };
 
   return (
-    <form id="registration-form" onSubmit={handleSubmit(onSubmit)}>
+    <form id="registration-form" onSubmit={handleSubmit(onSubmit)} aria-busy={saving || undefined}>
       <Section
         title="About you"
         description={
@@ -149,10 +179,12 @@ const PersonalDetailsForm: React.FC = () => {
           </>
         }
       >
-        <ReadToEnd onRead={() => setCodeOfConductRead(true)} />
+        {!registration?.codeOfConductAcceptedAt && (
+          <ReadToEnd onRead={() => setCodeOfConductRead(true)} />
+        )}
         <label className="code-of-conduct__read">
           <Checkbox
-            disabled={!codeOfConductRead || undefined}
+            disabled={!codeOfConductRead || !!registration?.codeOfConductAcceptedAt || undefined}
             {...register('codeOfConductAccepted')}
           />
           <span>

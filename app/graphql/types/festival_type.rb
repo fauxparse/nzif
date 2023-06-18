@@ -45,7 +45,7 @@ module Types
     end
 
     def slots(type: nil)
-      scope = object.slots.includes(:activities)
+      scope = object.slots.includes(:activities).order(starts_at: :asc)
       scope = scope.references(:activities).where(activities: { type: type.to_s }) if type
       scope
     end

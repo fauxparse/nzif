@@ -1,10 +1,8 @@
 import { CSSProperties } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-export type Step = {
-  label: string;
-  path: string;
-};
+import { Step } from './Registration.types';
+import { useRegistrationContext } from './RegistrationContext';
 
 export const REGISTRATION_STEPS: Step[] = [
   {
@@ -13,11 +11,11 @@ export const REGISTRATION_STEPS: Step[] = [
   },
   {
     label: 'Workshop selection',
-    path: '/workshops',
+    path: '/register/workshops',
   },
   {
     label: 'Payment',
-    path: '/payment',
+    path: '/register/payment',
   },
 ];
 
@@ -26,21 +24,32 @@ const Steps: React.FC = () => {
 
   const { pathname } = useLocation();
 
-  const current =
-    REGISTRATION_STEPS.find(({ path }) => pathname.endsWith(path)) || REGISTRATION_STEPS[0];
+  const currentIndex = Math.max(
+    REGISTRATION_STEPS.findIndex(({ path }) => pathname.endsWith(path)),
+    0
+  );
+
+  const current = REGISTRATION_STEPS[currentIndex];
+
+  const { festival } = useRegistrationContext();
 
   return (
     <div className="registration__steps" style={{ '--step-count': length } as CSSProperties}>
-      {REGISTRATION_STEPS.map(({ label, path }) => (
-        <div
-          key={path}
-          className="registration__step"
-          data-step-count={length}
-          aria-selected={path === current.path}
-        >
-          <b>{label}</b>
-        </div>
-      ))}
+      {REGISTRATION_STEPS.map(({ label, path }, index) => {
+        const attrs = {
+          key: path,
+          className: 'registration__step',
+          'data-step-count': length,
+          'aria-selected': path === current.path,
+          children: <b>{label}</b>,
+        };
+
+        return index < currentIndex ? (
+          <Link to={`/${festival?.id}${path}`} {...attrs} />
+        ) : (
+          <div {...attrs} />
+        );
+      })}
     </div>
   );
 };

@@ -15,6 +15,7 @@ require 'rspec/its'
 require 'rspec/collection_matchers'
 require 'shoulda-matchers'
 
+require 'support/authorization_matchers'
 require 'support/interactor_helper'
 require 'support/mutation_helper'
 
@@ -72,6 +73,7 @@ RSpec.configure do |config|
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
 
+  config.include AuthorizationMatchers
   config.include InteractorHelper, type: :interactor
   config.include MutationHelper, type: :mutation
 

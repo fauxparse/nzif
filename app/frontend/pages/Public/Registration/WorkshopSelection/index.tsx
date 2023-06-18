@@ -1,13 +1,18 @@
-import { useReducer, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import { Reference } from '@apollo/client';
 import { AnimatePresence } from 'framer-motion';
-import { range } from 'lodash-es';
+import { range, uniqueId } from 'lodash-es';
 import { DateTime } from 'luxon';
 
 import {
   ActivityType,
+  RegistrationPreferenceFragmentDoc,
   RegistrationSlotFragment,
   RegistrationWorkshopFragment,
+  useAddPreferenceMutation,
   useRegistrationStatusQuery,
+  useRemovePreferenceMutation,
 } from '@/graphql/types';
 
 import HowWorkshopsWork from './HowWorkshopsWork';
@@ -55,45 +60,117 @@ const tempSessions: RegistrationSlotFragment[] = range(5).map((days) => ({
         blurhash: '',
         medium: '',
       },
+      sessions: [],
     })
   ),
 }));
 
-type Action = { type: 'add' | 'remove' } & SelectedWorkshop;
-
 const WorkshopSelection: React.FC = () => {
   const { data, loading } = useRegistrationStatusQuery();
 
-  const { festival } = data || {};
+  const { festival, registration } = data || {};
 
   const { slots = tempSessions } = festival || {};
 
   const [zoomed, moreInfo] = useState<SelectedWorkshop | null>(null);
 
-  const [selected, dispatch] = useReducer(
-    (state: Map<DateTime, RegistrationWorkshopFragment[]>, action: Action) => {
-      switch (action.type) {
-        case 'add':
-          return new Map(state).set(action.slot.startsAt, [
-            ...(state.get(action.slot.startsAt) || []),
-            action.workshop,
-          ]);
-        case 'remove':
-          return new Map(state).set(
-            action.slot.startsAt,
-            (state.get(action.slot.startsAt) || []).filter((w) => w.id !== action.workshop.id)
-          );
-        default:
-          return state;
-      }
-    },
-    undefined,
-    () => new Map<DateTime, RegistrationWorkshopFragment[]>()
+  const selected = useMemo<Map<DateTime, RegistrationWorkshopFragment[]>>(
+    () =>
+      (registration?.preferences || []).reduce(
+        (acc, p) => acc.set(p.slot.startsAt, [...(acc.get(p.slot.startsAt) || []), p.workshop]),
+        new Map<DateTime, RegistrationWorkshopFragment[]>()
+      ),
+    [registration]
   );
 
-  const add = (workshop: SelectedWorkshop) => dispatch({ type: 'add', ...workshop });
+  const [addPreference] = useAddPreferenceMutation({});
 
-  const remove = (workshop: SelectedWorkshop) => dispatch({ type: 'remove', ...workshop });
+  const [removePreference] = useRemovePreferenceMutation({});
+
+  const add = ({ workshop, slot }: SelectedWorkshop) => {
+    const session = workshop.sessions.find((s) => s.startsAt.equals(slot.startsAt));
+    if (!session) return;
+
+    addPreference({
+      variables: {
+        registrationId: registration?.id || null,
+        sessionId: session.id,
+      },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        addPreference: {
+          __typename: 'AddPreferencePayload',
+          preference: {
+            __typename: 'Preference',
+            id: uniqueId(),
+            workshop,
+            slot,
+            position: selected.get(slot.startsAt)?.length || 0,
+          },
+        },
+      },
+      update: (cache, { data }) => {
+        const { preference } = data?.addPreference || {};
+        if (!preference || !registration) return;
+
+        const ref = cache.writeFragment({
+          fragment: RegistrationPreferenceFragmentDoc,
+          fragmentName: 'RegistrationPreference',
+          data: preference,
+        });
+        cache.modify({
+          id: cache.identify(registration),
+          fields: {
+            preferences: (existing) => [...existing, ref],
+          },
+        });
+      },
+    });
+  };
+
+  const remove = ({ workshop, slot }: SelectedWorkshop) => {
+    const session = workshop.sessions.find((s) => s.startsAt.equals(slot.startsAt));
+    if (!session || !registration) return;
+
+    const preference = registration.preferences.find((p) => p.workshop.id === workshop.id);
+    if (!preference) return;
+
+    removePreference({
+      variables: {
+        registrationId: registration?.id || null,
+        sessionId: session.id,
+      },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        removePreference: true,
+      },
+      update: (cache, { data }) => {
+        if (!data?.removePreference) return;
+
+        cache.modify({
+          id: cache.identify(registration),
+          fields: {
+            preferences: (existing: Reference[], { readField }) =>
+              existing.filter((p) => readField<string>('id', p) !== preference.id),
+          },
+        });
+        registration.preferences.forEach((p) => {
+          if (p.slot.id === slot.id && p.position > preference.position) {
+            cache.modify({
+              id: cache.identify(p),
+              fields: {
+                position: (current) => current - 1,
+              },
+            });
+          }
+        });
+      },
+    });
+  };
+
+  if (registration && !registration?.id) {
+    return <Navigate to={festival ? `/${festival.id}/register` : '/'} />;
+  }
 
   return (
     <WorkshopSelectionContext.Provider

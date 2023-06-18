@@ -1,3 +1,4 @@
+import { useRegistrationContext } from '../RegistrationContext';
 import { useRegistrationStatusQuery } from '@/graphql/types';
 
 import LogInForm from './LogInForm';
@@ -10,7 +11,9 @@ const AboutYou: React.FC = () => {
 
   const { registration } = data || {};
 
-  return !registration?.user ? <LogInForm /> : <PersonalDetailsForm />;
+  const { next } = useRegistrationContext();
+
+  return !registration?.user ? <LogInForm /> : <PersonalDetailsForm onContinue={next} />;
 };
 
 export default AboutYou;

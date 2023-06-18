@@ -85,6 +85,30 @@ fragment WorkshopDetails on Workshop {
   }
 }
 
+fragment RegistrationUserDetails on Registration {
+  user {
+    id
+    email
+    profile {
+      id
+      name
+      pronouns
+      phone
+      city {
+        id
+        name
+        traditionalName
+      }
+      country {
+        id
+        name
+        traditionalName
+      }
+    }
+  }
+  codeOfConductAcceptedAt
+}
+
 query WorkshopDetails($slug: String!) {
   festival {
     id
@@ -100,27 +124,7 @@ query WorkshopDetails($slug: String!) {
 query RegistrationStatus {
   registration {
     id
-    user {
-      id
-      email
-      profile {
-        id
-        name
-        pronouns
-        phone
-        city {
-          id
-          name
-          traditionalName
-        }
-        country {
-          id
-          name
-          traditionalName
-        }
-      }
-    }
-    codeOfConductAcceptedAt
+    ...RegistrationUserDetails
     preferences {
       ...RegistrationPreference
     }
@@ -133,6 +137,15 @@ query RegistrationStatus {
 
     slots(type: Workshop) {
       ...RegistrationSlot
+    }
+  }
+}
+
+mutation UpdateRegistrationUserDetails($attributes: UserDetailsAttributes!) {
+  updateRegistrationUserDetails(attributes: $attributes) {
+    registration {
+      id
+      ...RegistrationUserDetails
     }
   }
 }
