@@ -5,5 +5,9 @@ FactoryBot.define do
     ends_at { '2023-10-09 13:00:00' }
     venue
     activity_type { Workshop }
+
+    trait :with_workshop do
+      activity { create(:workshop, festival:) }
+    end
   end
 end

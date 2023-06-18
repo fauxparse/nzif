@@ -15,7 +15,7 @@ RSpec.describe Users::Update, type: :interactor do
     end
 
     context 'with invalid attributes' do
-      let(:attributes) { { name: 'Shakira' } }
+      let(:attributes) { { email: 'dud' } }
 
       it 'raises an error' do
         expect { result }.to raise_error(ActiveRecord::RecordInvalid)

@@ -12,6 +12,10 @@ class User < ApplicationRecord
 
   before_validation :populate_profile
 
+  validates :name,
+    presence: true,
+    format: { with: /[^\s]+\s[^\s]+/ }
+
   setting :show_traditional_names, type: :boolean, default: true,
     description: 'Show traditional placenames'
 

@@ -46,7 +46,7 @@ module Types
 
     def slots(type: nil)
       scope = object.slots.includes(:activities)
-      scope = scope.where(activity_type: type.to_s) if type
+      scope = scope.references(:activities).where(activities: { type: type.to_s }) if type
       scope
     end
   end

@@ -11,7 +11,7 @@ class Activity < ApplicationRecord
   sluggable scope: %i[festival_id type]
 
   belongs_to :festival
-  has_many :sessions, inverse_of: :activity, dependent: :destroy
+  has_many :sessions, inverse_of: :activity, dependent: :nullify
   has_many :slots, through: :sessions
 
   searchable_on :name, :description

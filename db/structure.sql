@@ -83,6 +83,19 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: active_record_views; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.active_record_views (
+    name text NOT NULL,
+    class_name text NOT NULL,
+    checksum text NOT NULL,
+    options json DEFAULT '{}'::json NOT NULL,
+    refreshed_at timestamp without time zone
+);
+
+
+--
 -- Name: activities; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -207,7 +220,7 @@ CREATE TABLE public.preferences (
     id bigint NOT NULL,
     registration_id bigint NOT NULL,
     session_id bigint NOT NULL,
-    starts_at timestamp without time zone,
+    slot_id timestamp without time zone NOT NULL,
     "position" integer,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
@@ -348,6 +361,43 @@ CREATE SEQUENCE public.sessions_id_seq
 --
 
 ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
+
+
+--
+-- Name: slot_activities; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.slot_activities AS
+ SELECT sessions.starts_at,
+    sessions.activity_id,
+    sessions.id AS session_id
+   FROM public.sessions
+  WHERE (sessions.activity_id IS NOT NULL);
+
+
+--
+-- Name: slot_sessions; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.slot_sessions AS
+ SELECT sessions.starts_at,
+    sessions.id AS session_id
+   FROM public.sessions
+  WHERE (sessions.activity_id IS NOT NULL);
+
+
+--
+-- Name: slots; Type: MATERIALIZED VIEW; Schema: public; Owner: -
+--
+
+CREATE MATERIALIZED VIEW public.slots AS
+ SELECT sessions.festival_id,
+    sessions.starts_at,
+    sessions.ends_at
+   FROM public.sessions
+  GROUP BY sessions.festival_id, sessions.starts_at, sessions.ends_at
+  ORDER BY sessions.starts_at
+  WITH NO DATA;
 
 
 --
@@ -581,6 +631,22 @@ ALTER TABLE ONLY public.versions ALTER COLUMN id SET DEFAULT nextval('public.ver
 
 
 --
+-- Name: active_record_views active_record_views_class_name_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.active_record_views
+    ADD CONSTRAINT active_record_views_class_name_key UNIQUE (class_name);
+
+
+--
+-- Name: active_record_views active_record_views_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.active_record_views
+    ADD CONSTRAINT active_record_views_pkey PRIMARY KEY (name);
+
+
+--
 -- Name: activities activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -727,10 +793,10 @@ CREATE INDEX index_preferences_on_registration_id ON public.preferences USING bt
 
 
 --
--- Name: index_preferences_on_registration_id_and_starts_at_and_position; Type: INDEX; Schema: public; Owner: -
+-- Name: index_preferences_on_registration_id_and_slot_id_and_position; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_preferences_on_registration_id_and_starts_at_and_position ON public.preferences USING btree (registration_id, starts_at, "position");
+CREATE UNIQUE INDEX index_preferences_on_registration_id_and_slot_id_and_position ON public.preferences USING btree (registration_id, slot_id, "position");
 
 
 --
@@ -738,6 +804,13 @@ CREATE UNIQUE INDEX index_preferences_on_registration_id_and_starts_at_and_posit
 --
 
 CREATE INDEX index_preferences_on_session_id ON public.preferences USING btree (session_id);
+
+
+--
+-- Name: index_preferences_on_slot_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_preferences_on_slot_id ON public.preferences USING btree (slot_id);
 
 
 --
@@ -860,14 +933,6 @@ CREATE INDEX index_versions_on_item_type_and_item_id ON public.versions USING bt
 
 
 --
--- Name: preferences fk_rails_0c78ab364f; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.preferences
-    ADD CONSTRAINT fk_rails_0c78ab364f FOREIGN KEY (session_id) REFERENCES public.sessions(id);
-
-
---
 -- Name: cast fk_rails_0cfc4c6b7a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -881,6 +946,14 @@ ALTER TABLE ONLY public."cast"
 
 ALTER TABLE ONLY public.registrations
     ADD CONSTRAINT fk_rails_2e0658f554 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: preferences fk_rails_3f86686605; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.preferences
+    ADD CONSTRAINT fk_rails_3f86686605 FOREIGN KEY (session_id) REFERENCES public.sessions(id) ON DELETE CASCADE;
 
 
 --
@@ -973,6 +1046,33 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230611001108'),
 ('20230611001452'),
 ('20230611010539'),
-('20230616221312');
+('20230616221312'),
+('20230618075348');
 
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Data for Name: active_record_views; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.active_record_views (name, class_name, checksum, options, refreshed_at) FROM stdin;
+slot_activities	SlotActivity	717b988a5900ecc4d9842325e50563404a15d71b	{"dependencies":[]}	\N
+slot_sessions	SlotSession	6ab18ab7d8faec08af36bec11b736b3e84e21cca	{"dependencies":[]}	\N
+slots	Slot	d66acce70040a0dab5163f0966147d4fa78977c3	{"materialized":true,"dependencies":[]}	\N
+\.
+
+
+--
+-- PostgreSQL database dump complete
+--
 

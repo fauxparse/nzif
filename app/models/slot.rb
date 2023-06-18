@@ -3,13 +3,13 @@
 class Slot < ActiveRecord::Base
   is_view
 
-  self.primary_key = :id
+  self.primary_key = :starts_at
 
   belongs_to :festival, inverse_of: :slots
 
-  has_many :slot_activities
+  has_many :slot_activities, inverse_of: :slot, foreign_key: :starts_at
   has_many :activities, through: :slot_activities
-  has_many :slot_sessions
+  has_many :slot_sessions, inverse_of: :slot, foreign_key: :starts_at
   has_many :sessions, through: :slot_sessions
 end
 

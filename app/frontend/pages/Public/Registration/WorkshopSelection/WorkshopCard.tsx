@@ -4,7 +4,13 @@ import { capitalize, map, sortBy, uniqBy } from 'lodash-es';
 
 import Button from '@/atoms/Button';
 import Placename from '@/atoms/Placename';
-import { PlaceName, RegistrationSlotFragment, RegistrationWorkshopFragment } from '@/graphql/types';
+import {
+  PlaceName,
+  RegistrationSlotFragment,
+  RegistrationWorkshopFragment,
+  useAddPreferenceMutation,
+  useRemovePreferenceMutation,
+} from '@/graphql/types';
 import Skeleton from '@/helpers/Skeleton';
 import Card from '@/organisms/Card';
 import ordinalize from '@/util/ordinalize';
@@ -21,6 +27,26 @@ type WorkshopCardProps = {
 
 const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot }) => {
   const { selected, loading, moreInfo, add, remove } = useWorkshopSelectionContext();
+
+  const sessionId = useMemo(
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    () => workshop.sessions.find((s) => s.startsAt.equals(slot.startsAt))!.id,
+    [slot.startsAt, workshop.sessions]
+  );
+
+  const [addPreference] = useAddPreferenceMutation({
+    variables: {
+      registrationId: null,
+      sessionId,
+    },
+  });
+
+  const [removePreference] = useRemovePreferenceMutation({
+    variables: {
+      registrationId: null,
+      sessionId,
+    },
+  });
 
   const preference = useMemo(
     () => (selected.get(slot.startsAt) || []).findIndex((w) => w.id === workshop.id) + 1,

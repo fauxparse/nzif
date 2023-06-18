@@ -20,5 +20,8 @@ module Types
     field :create_translation, mutation: Mutations::Translations::Create
     field :destroy_translation, mutation: Mutations::Translations::Destroy
     field :update_translation, mutation: Mutations::Translations::Update
+
+    field :add_preference, mutation: Mutations::Preferences::Add
+    field :remove_preference, mutation: Mutations::Preferences::Remove
   end
 end
