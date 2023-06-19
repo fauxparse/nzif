@@ -1,12 +1,15 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Button from '@/atoms/Button';
 
+import Cart from './Cart';
 import { useRegistrationContext } from './RegistrationContext';
 import { REGISTRATION_STEPS } from './Steps';
 
 const Footer: React.FC = () => {
+  const [container, setContainer] = useState<HTMLElement | null>(null);
+
   const { step, festival } = useRegistrationContext();
 
   const { previous, next } = useMemo(() => {
@@ -25,8 +28,26 @@ const Footer: React.FC = () => {
     };
   }, [step]);
 
+  useEffect(() => {
+    if (!container) return;
+
+    const intersectionObserver = new IntersectionObserver(
+      ([entry]: IntersectionObserverEntry[]) => {
+        if (entry.intersectionRatio >= 1) {
+          container.removeAttribute('data-stuck');
+        } else {
+          container.setAttribute('data-stuck', 'true');
+        }
+      },
+      { threshold: [1] }
+    );
+    intersectionObserver.observe(container);
+    return () => intersectionObserver.disconnect();
+  }, [container]);
+
   return (
-    <footer className="registration__footer">
+    <footer ref={setContainer} className="registration__footer">
+      <Cart />
       {previous && (
         <Button
           as={Link}

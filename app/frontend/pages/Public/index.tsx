@@ -6,7 +6,7 @@ import Footer from '@/organisms/Footer';
 import Header from '@/organisms/Header';
 import AnimatedOutlet from '@/pages/AnimatedOutlet';
 
-const CONTAINERS: RegExp[] = [/^(\/admin\/users\/[^/]+)/];
+const CONTAINERS: RegExp[] = [/^(\/admin\/users\/[^/]+)/, /^(\/\d{4}\/register\/)/];
 
 const pageVariants: Variants = {
   from: (direction = -1) => ({

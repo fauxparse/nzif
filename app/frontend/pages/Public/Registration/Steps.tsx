@@ -7,7 +7,7 @@ import { useRegistrationContext } from './RegistrationContext';
 export const REGISTRATION_STEPS: Step[] = [
   {
     label: 'Your details',
-    path: '/register',
+    path: '/register/about-you',
   },
   {
     label: 'Workshop selection',

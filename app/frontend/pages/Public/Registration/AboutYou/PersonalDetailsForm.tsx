@@ -90,6 +90,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ onContinue })
         },
       },
     }).then(onContinue);
+    onContinue();
   };
 
   return (

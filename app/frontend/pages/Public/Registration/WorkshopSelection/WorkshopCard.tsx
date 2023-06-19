@@ -45,16 +45,24 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot }) => {
     [tutors]
   );
 
+  const Component = loading ? 'div' : motion.div;
+
   return (
     <Card
-      as={motion.div}
+      as={Component}
       className="workshop"
-      layoutId={workshop.id}
+      {...(loading ? {} : { layoutId: workshop.id })}
       aria-hidden={loading || undefined}
       data-loading={loading || undefined}
     >
-      <motion.div className="card__image" layoutId={`${workshop.id}-image`}>
-        <Skeleton loading={loading}>
+      {loading ? (
+        <div className="card__image">
+          <Skeleton loading={loading} className="workshop__image">
+            <img />
+          </Skeleton>
+        </div>
+      ) : (
+        <motion.div className="card__image" layoutId={`${workshop.id}-image`}>
           {workshop.picture && (
             <BlurrableImage
               className="workshop__image"
@@ -62,27 +70,42 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot }) => {
               blurhash={workshop.picture.blurhash}
             />
           )}
-        </Skeleton>
-      </motion.div>
-      <div className="card__details">
+        </motion.div>
+      )}
+      <motion.div className="card__details">
         <h4 className="card__title workshop__name">
           <Skeleton text loading={loading}>
             {workshop.name}
           </Skeleton>
         </h4>
-        <motion.div className="workshop__tutors" layoutId={`${workshop.id}-tutors`}>
-          <Skeleton text loading={loading}>
-            {sentence(sortBy(map(workshop.tutors, 'name')))}
-          </Skeleton>
-        </motion.div>
-        <motion.div className="workshop__placenames" layoutId={`${workshop.id}-placenames`}>
-          {places.map((place) => (
-            <Skeleton rounded loading={loading} key={place.id}>
-              <Placename name={place.name} traditionalName={place.traditionalName ?? undefined} />
-            </Skeleton>
-          ))}
-        </motion.div>
-      </div>
+        {loading ? (
+          <>
+            <div className="workshop__tutors">
+              <Skeleton paragraph lines={1}></Skeleton>
+            </div>
+            <div className="workshop__placenames">
+              <Skeleton rounded>
+                <Placename name="Wellington" />
+              </Skeleton>
+            </div>
+          </>
+        ) : (
+          <>
+            <motion.div className="workshop__tutors" layoutId={`${workshop.id}-tutors`}>
+              {sentence(sortBy(map(workshop.tutors, 'name')))}
+            </motion.div>
+            <motion.div className="workshop__placenames" layoutId={`${workshop.id}-placenames`}>
+              {places.map((place) => (
+                <Placename
+                  key={place.id}
+                  name={place.name}
+                  traditionalName={place.traditionalName ?? undefined}
+                />
+              ))}
+            </motion.div>
+          </>
+        )}
+      </motion.div>
       <PreferenceCheckbox workshop={workshop} slot={slot} preference={preference || null} />
       <div className="card__footer">
         <Skeleton rounded loading={loading}>

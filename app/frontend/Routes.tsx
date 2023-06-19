@@ -18,7 +18,7 @@ const suspend = (Component: React.FC) => (
   </Suspense>
 );
 
-const CONTAINERS: RegExp[] = [/^(\/admin)/];
+const CONTAINERS: RegExp[] = [/^(\/admin)/, /^(\/\d{4}\/register)/];
 
 const Routing: React.FC = () => {
   const location = useLocation();

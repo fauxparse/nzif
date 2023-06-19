@@ -41,4 +41,10 @@
   --inner-shadow-2: inset 0 1px 4px 0 hsl(var(--shadow-hsl) / calc(var(--shadow-strength) + 9%));
   --inner-shadow-3: inset 0 2px 8px 0 hsl(var(--shadow-hsl) / calc(var(--shadow-strength) + 9%));
   --inner-shadow-4: inset 0 2px 14px 0 hsl(var(--shadow-hsl) / calc(var(--shadow-strength) + 9%));
+  --shadow-footer: 0 1px 2px 0 hsl(var(--shadow-hsl) / calc(var(--shadow-strength) + 2%)),
+    0 -2px 1px -2px hsl(var(--shadow-hsl) / calc(var(--shadow-strength) + 3%)),
+    0 -5px 5px -2px hsl(var(--shadow-hsl) / calc(var(--shadow-strength) + 3%)),
+    0 -10px 10px -2px hsl(var(--shadow-hsl) / calc(var(--shadow-strength) + 4%)),
+    0 -20px 20px -2px hsl(var(--shadow-hsl) / calc(var(--shadow-strength) + 5%)),
+    0 -40px 40px -2px hsl(var(--shadow-hsl) / calc(var(--shadow-strength) + 7%));
 }
