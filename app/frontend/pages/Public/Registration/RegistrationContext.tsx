@@ -31,10 +31,11 @@ export const RegistrationContextProvider: React.FC<RegistrationContextProviderPr
   const navigate = useNavigate();
 
   const next = useCallback(() => {
-    const nextStep = REGISTRATION_STEPS[REGISTRATION_STEPS.indexOf(step) + 1];
-    if (nextStep) {
-      navigate(`/${festival.id}${nextStep.path}`);
-    }
+    const nextStep = REGISTRATION_STEPS[REGISTRATION_STEPS.indexOf(step) + 1] || {
+      label: 'Thanks',
+      path: '/register/thanks',
+    };
+    navigate(`/${festival.id}${nextStep.path}`);
   }, [step, navigate, festival.id]);
 
   const back = useCallback(() => {

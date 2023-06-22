@@ -1,5 +1,5 @@
 .registration {
-  > h1 {
+  &__header {
     padding-inline: var(--horizontal-padding);
   }
 
@@ -9,7 +9,6 @@
     display: grid;
     grid-template-columns: 1fr 3rem 3rem;
     align-items: flex-end;
-    padding-inline: var(--horizontal-padding);
     counter-reset: step;
   }
 
@@ -244,6 +243,15 @@
     }
   }
 
+  &[data-complete="true"] {
+    .registration__header,
+    .registration__footer {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--timing-standard) var(--ease-standard);
+    }
+  }
+
   .cart {
     display: grid;
     grid: "icon count" auto "icon price" auto / auto 1fr;
@@ -289,6 +297,24 @@
       font-weight: var(--font-weight-normal);
       font-size: var(--font-size-medium);
       text-decoration: none;
+    }
+  }
+
+  &__thanks {
+    position: relative;
+    max-width: 32rem;
+    margin: 0 auto;
+    text-align: center;
+
+    p {
+      font-size: var(--font-size-legible);
+      line-height: var(--line-height-large);
+    }
+
+    [class^="confetti"] {
+      position: absolute;
+      top: 0;
+      left: 50%;
     }
   }
 

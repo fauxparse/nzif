@@ -5,6 +5,7 @@ import { AnimatePresence } from 'framer-motion';
 import { range, uniqueId } from 'lodash-es';
 import { DateTime } from 'luxon';
 
+import { useRegistrationContext } from '../RegistrationContext';
 import {
   ActivityType,
   RegistrationPreferenceFragmentDoc,
@@ -67,6 +68,8 @@ const tempSessions: RegistrationSlotFragment[] = range(5).map((days) => ({
 
 const WorkshopSelection: React.FC = () => {
   const { data, loading } = useRegistrationStatusQuery();
+
+  const { next } = useRegistrationContext();
 
   const { festival, registration } = data || {};
 
@@ -168,6 +171,11 @@ const WorkshopSelection: React.FC = () => {
     });
   };
 
+  const submit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    next();
+  };
+
   if (registration && !registration?.id) {
     return <Navigate to={festival ? `/${festival.id}/register` : '/'} />;
   }
@@ -184,7 +192,7 @@ const WorkshopSelection: React.FC = () => {
         moreInfo,
       }}
     >
-      <form className="workshop-selection">
+      <form id="registration-form" className="workshop-selection" onSubmit={submit}>
         <HowWorkshopsWork />
         {slots.map((slot) => (
           <Slot slot={slot} key={slot.id} />

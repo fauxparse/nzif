@@ -1,0 +1,61 @@
+.registration__payment {
+  padding-bottom: 3.5rem;
+  line-height: var(--line-height-large);
+
+  h2, h3 {
+    margin: var(--large) 0;
+    line-height: var(--line-height-huge);
+  }
+
+  h2 {
+    font-size: var(--font-size-huge);
+  }
+
+  &__earlybird {
+    p {
+      color: var(--text-subtle);
+
+      &:first-of-type {
+        color: inherit;
+      }
+    }
+  }
+
+  &__summary {
+    dl {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--small) var(--large);
+      align-items: flex-end;
+      margin: 0;
+      padding: 0;
+    }
+
+    dt {
+      margin: 0;
+      padding: 0 0 0 var(--large);
+      text-indent: calc(var(--large) * -1);
+    }
+
+    dd {
+      margin: 0;
+      padding: 0;
+      text-align: right;
+    }
+  }
+
+  @media (width > 768px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--large);
+
+    &__earlybird {
+      grid-column: 1 / span 2;
+      padding-right: var(--large);
+    }
+
+    &__summary {
+      padding-inline: var(--medium);
+    }
+  }
+}

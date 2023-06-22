@@ -149,6 +149,32 @@
         transition: transform var(--timing-standard) var(--ease-standard);
         transform: scale(0.9);
       }
+
+      .checkbox__burst {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 8rem;
+        height: 8rem;
+        opacity: 0;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+
+        circle {
+          fill: var(--accent9);
+          stroke: none;
+        }
+      }
+    }
+
+    input:checked ~ .checkbox__burst {
+      opacity: 0.75;
+
+      circle {
+        transition: translate 0.6s var(--ease-out-5), scale 0.7s var(--ease-in-4);
+        translate: 2.5rem 0;
+        scale: 0;
+      }
     }
 
     &[data-loading] {

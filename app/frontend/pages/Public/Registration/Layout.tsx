@@ -82,9 +82,14 @@ const RegistrationLayout: React.FC = () => {
 
   return (
     <RegistrationContextProvider step={current} festival={festival} registration={registration}>
-      <div className="registration">
-        <h1>Register for NZIF {festival?.id}</h1>
-        <Steps />
+      <div
+        className="registration"
+        data-complete={currentIndex === REGISTRATION_STEPS.length - 1 || undefined}
+      >
+        <header className="registration__header">
+          <h1>Register for NZIF {festival?.id}</h1>
+          <Steps />
+        </header>
 
         <div className="registration__content">
           <AnimatePresence initial={false} custom={direction}>

@@ -1,25 +1,11 @@
-import { useMemo } from 'react';
-import { uniq } from 'lodash-es';
 import pluralize from 'pluralize';
 
 import Icon from '@/atoms/Icon';
 
-import { useRegistrationContext } from './RegistrationContext';
-
-const BASE_PRICE = 60;
-const DISCOUNT = 5;
+import useCartCalculator from './useCartCalculator';
 
 const Cart: React.FC = () => {
-  const { registration } = useRegistrationContext();
-
-  const count = useMemo(
-    () => uniq(registration.preferences.map((p) => p.slot.id)).length,
-    [registration]
-  );
-
-  const value = count * BASE_PRICE;
-  const discount = ((count * (count - 1)) / 2) * DISCOUNT;
-  const total = value - discount;
+  const { count, value, discount, total } = useCartCalculator();
 
   return (
     <div className="cart">

@@ -17,6 +17,10 @@ export const REGISTRATION_STEPS: Step[] = [
     label: 'Payment',
     path: '/register/payment',
   },
+  {
+    label: 'Finalise registration',
+    path: '/register/thanks',
+  },
 ];
 
 const Steps: React.FC = () => {
@@ -34,8 +38,8 @@ const Steps: React.FC = () => {
   const { festival } = useRegistrationContext();
 
   return (
-    <div className="registration__steps" style={{ '--step-count': length } as CSSProperties}>
-      {REGISTRATION_STEPS.map(({ label, path }, index) => {
+    <div className="registration__steps" style={{ '--step-count': length - 1 } as CSSProperties}>
+      {REGISTRATION_STEPS.slice(0, -1).map(({ label, path }, index) => {
         const attrs = {
           key: path,
           className: 'registration__step',
