@@ -10,13 +10,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: public; Type: SCHEMA; Schema: -; Owner: -
---
-
--- *not* creating schema, since initdb creates it
-
-
---
 -- Name: hstore; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -364,6 +357,38 @@ ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
 
 
 --
+-- Name: show_workshops; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.show_workshops (
+    id bigint NOT NULL,
+    show_id bigint NOT NULL,
+    workshop_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: show_workshops_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.show_workshops_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: show_workshops_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.show_workshops_id_seq OWNED BY public.show_workshops.id;
+
+
+--
 -- Name: slot_activities; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -387,17 +412,16 @@ CREATE VIEW public.slot_sessions AS
 
 
 --
--- Name: slots; Type: MATERIALIZED VIEW; Schema: public; Owner: -
+-- Name: slots; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE MATERIALIZED VIEW public.slots AS
+CREATE VIEW public.slots AS
  SELECT sessions.festival_id,
     sessions.starts_at,
     sessions.ends_at
    FROM public.sessions
   GROUP BY sessions.festival_id, sessions.starts_at, sessions.ends_at
-  ORDER BY sessions.starts_at
-  WITH NO DATA;
+  ORDER BY sessions.starts_at;
 
 
 --
@@ -603,6 +627,13 @@ ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.ses
 
 
 --
+-- Name: show_workshops id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.show_workshops ALTER COLUMN id SET DEFAULT nextval('public.show_workshops_id_seq'::regclass);
+
+
+--
 -- Name: translations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -716,6 +747,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: show_workshops show_workshops_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.show_workshops
+    ADD CONSTRAINT show_workshops_pkey PRIMARY KEY (id);
 
 
 --
@@ -863,6 +902,27 @@ CREATE INDEX index_sessions_on_venue_id ON public.sessions USING btree (venue_id
 
 
 --
+-- Name: index_show_workshops_on_show_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_show_workshops_on_show_id ON public.show_workshops USING btree (show_id);
+
+
+--
+-- Name: index_show_workshops_on_show_id_and_workshop_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_show_workshops_on_show_id_and_workshop_id ON public.show_workshops USING btree (show_id, workshop_id);
+
+
+--
+-- Name: index_show_workshops_on_workshop_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_show_workshops_on_workshop_id ON public.show_workshops USING btree (workshop_id);
+
+
+--
 -- Name: index_slots_on_everything; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -949,6 +1009,14 @@ ALTER TABLE ONLY public.registrations
 
 
 --
+-- Name: show_workshops fk_rails_34bf9d8260; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.show_workshops
+    ADD CONSTRAINT fk_rails_34bf9d8260 FOREIGN KEY (workshop_id) REFERENCES public.activities(id) ON DELETE CASCADE;
+
+
+--
 -- Name: preferences fk_rails_3f86686605; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -978,6 +1046,14 @@ ALTER TABLE ONLY public.sessions
 
 ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT fk_rails_7ac879864b FOREIGN KEY (festival_id) REFERENCES public.festivals(id) ON DELETE CASCADE;
+
+
+--
+-- Name: show_workshops fk_rails_8a74cfc29e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.show_workshops
+    ADD CONSTRAINT fk_rails_8a74cfc29e FOREIGN KEY (show_id) REFERENCES public.activities(id);
 
 
 --
@@ -1047,7 +1123,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230611001452'),
 ('20230611010539'),
 ('20230616221312'),
-('20230618075348');
+('20230618075348'),
+('20230703004444');
 
 
 SET statement_timeout = 0;
@@ -1068,7 +1145,7 @@ SET row_security = off;
 COPY public.active_record_views (name, class_name, checksum, options, refreshed_at) FROM stdin;
 slot_activities	SlotActivity	717b988a5900ecc4d9842325e50563404a15d71b	{"dependencies":[]}	\N
 slot_sessions	SlotSession	6ab18ab7d8faec08af36bec11b736b3e84e21cca	{"dependencies":[]}	\N
-slots	Slot	d66acce70040a0dab5163f0966147d4fa78977c3	{"materialized":true,"dependencies":[]}	\N
+slots	Slot	d66acce70040a0dab5163f0966147d4fa78977c3	{"dependencies":[]}	\N
 \.
 
 

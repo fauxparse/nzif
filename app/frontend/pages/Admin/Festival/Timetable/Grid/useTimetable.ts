@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo } from 'react';
-import { map, memoize, partition, range } from 'lodash-es';
+import { map, memoize, partition, range, tap } from 'lodash-es';
 import { DateTime } from 'luxon';
 
 import Context from '../Context';
@@ -32,9 +32,13 @@ export type Row<T extends Schedule> = {
 const overlaps = (a: Block, b: Block) =>
   a.row === b.row && a.column < b.column + b.width && b.column < a.column + a.width;
 
-const gcd: (x: number, y: number) => number = memoize((x: number, y: number) =>
-  !y ? x : gcd(y, x % y)
-);
+const gcd = (
+  (map: Map<number, Map<number, number>>) =>
+  (x: number, y: number): number => {
+    const xs = map.get(x) ?? tap(new Map(), (m) => map.set(x, m));
+    return xs.get(y) ?? tap(!y ? x : gcd(y, x % y), (result) => xs.set(y, result));
+  }
+)(new Map());
 
 const lcm = (...arr: number[]) => arr.reduce((a, b) => (a * b) / gcd(a, b));
 
