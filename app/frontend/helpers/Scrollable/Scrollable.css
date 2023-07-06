@@ -7,7 +7,12 @@
   --end-edge: 0;
 
   position: relative;
-  overflow: hidden;
+  display: grid;
+  place-content: stretch;
+
+  :where(.scrollable__content) {
+    overflow-y: auto;
+  }
 
   :where(.scrollable__edge) {
     opacity: 0;
@@ -25,7 +30,7 @@
       transparent
     );
     pointer-events: none;
-    transition: opacity var(--timing-standard) var(--easing-standard);
+    transition: opacity var(--timing-standard) var(--ease-standard);
   }
 
   &::before {
@@ -114,13 +119,11 @@
 }
 
 :where(.scrollable__content) {
-  position: absolute;
-  inset: 0;
   display: flex;
   align-items: stretch;
   padding: 0.001rem;
-}
 
-:where(.scrollable__edge) {
-  flex: 0 0 var(--scrollable-edge-size);
+  :where(.scrollable__edge) {
+    flex: 0 0 var(--scrollable-edge-size);
+  }
 }

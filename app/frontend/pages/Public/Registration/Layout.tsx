@@ -1,6 +1,7 @@
-import { useMemo } from 'react';
+import { forwardRef, useMemo, useRef } from 'react';
+import { mergeRefs } from 'react-merge-refs';
 import { useLocation } from 'react-router-dom';
-import { AnimatePresence, motion, Variants } from 'framer-motion';
+import { AnimatePresence, HTMLMotionProps, motion, Variants } from 'framer-motion';
 import { DateTime } from 'luxon';
 
 import { useRegistrationStatusQuery } from '@/graphql/types';
@@ -93,7 +94,7 @@ const RegistrationLayout: React.FC = () => {
 
         <div className="registration__content">
           <AnimatePresence initial={false} custom={direction}>
-            <motion.div
+            <Page
               key={pathname}
               variants={variants}
               initial="entering"
@@ -102,7 +103,7 @@ const RegistrationLayout: React.FC = () => {
               custom={direction}
             >
               <AnimatedOutlet />
-            </motion.div>
+            </Page>
           </AnimatePresence>
         </div>
 
@@ -111,5 +112,27 @@ const RegistrationLayout: React.FC = () => {
     </RegistrationContextProvider>
   );
 };
+
+const Page = forwardRef<HTMLDivElement, HTMLMotionProps<'div'>>(({ children, ...props }, ref) => {
+  const ownRef = useRef<HTMLDivElement>(null);
+
+  const animationComplete = () => {
+    setTimeout(() => ownRef.current?.style?.removeProperty('transform'), 100);
+  };
+
+  return (
+    <motion.div
+      ref={mergeRefs([ownRef, ref])}
+      className="registration__page"
+      onAnimationComplete={animationComplete}
+      {...props}
+      onTransitionEnd={animationComplete}
+    >
+      {children}
+    </motion.div>
+  );
+});
+
+Page.displayName = 'Registration.Page';
 
 export default RegistrationLayout;

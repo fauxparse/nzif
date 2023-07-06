@@ -53,6 +53,7 @@
     gap: var(--small) var(--medium);
     width: unset;
     padding: var(--medium);
+    background: var(--background);
 
     .card__image {
       display: none;
@@ -434,12 +435,13 @@
   &__dialog {
     position: relative;
     display: grid;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: 30vh minmax(0, 1fr) auto;
     height: 100vh;
     height: 100dvh;
     height: 100svh;
 
     @media (width > 480px) {
+      height: auto;
       max-height: calc(100vh - var(--large) * 4);
     }
   }
@@ -447,10 +449,11 @@
   &__header {
     position: relative;
     display: grid;
+    grid-template-columns: 1fr;
     justify-content: flex-start;
     align-items: flex-end;
     overflow: hidden;
-    padding: 0;
+    width: 100%;
 
     &::after {
       content: '';
@@ -466,23 +469,24 @@
   }
 
   &__image {
-    grid-row: 1;
-    grid-column: 1;
-    max-height: 25vh;
+    position: relative;
+    grid-row: 1 / span 1;
+    grid-column: 1 / span 1;
+    width: 100%;
 
     img {
       display: block;
       object-fit: cover;
       width: 100%;
-      height: 100%;
+      height: 30vh;
     }
   }
 
   &__title {
     position: relative;
     z-index: 1;
-    grid-row: 1;
-    grid-column: 1;
+    grid-row: 1 / span 1;
+    grid-column: 1 / span 1;
     margin: 0;
     padding: var(--medium) var(--large);
     color: var(--neutral1);

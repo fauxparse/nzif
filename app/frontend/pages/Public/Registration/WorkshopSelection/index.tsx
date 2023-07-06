@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Reference } from '@apollo/client';
-import { AnimatePresence } from 'framer-motion';
+import { MotionContext } from 'framer-motion';
 import { range, uniqueId } from 'lodash-es';
 import { DateTime } from 'luxon';
 
@@ -67,6 +67,8 @@ const tempSessions: RegistrationSlotFragment[] = range(5).map((days) => ({
 }));
 
 const WorkshopSelection: React.FC = () => {
+  const form = useRef<HTMLFormElement>(null);
+
   const { data, loading } = useRegistrationStatusQuery();
 
   const { next } = useRegistrationContext();
@@ -75,7 +77,11 @@ const WorkshopSelection: React.FC = () => {
 
   const { slots = tempSessions } = festival || {};
 
-  const [zoomed, moreInfo] = useState<SelectedWorkshop | null>(null);
+  const [zoomed, setZoomed] = useState<SelectedWorkshop | null>(null);
+
+  const moreInfo = useCallback((w: SelectedWorkshop | null) => {
+    setZoomed(w);
+  }, []);
 
   const selected = useMemo<Map<DateTime, RegistrationWorkshopFragment[]>>(
     () =>
@@ -187,17 +193,20 @@ const WorkshopSelection: React.FC = () => {
         slots,
         selected,
         registrationStage: 'earlybird',
+        zoomed,
         add,
         remove,
         moreInfo,
       }}
     >
-      <form id="registration-form" className="workshop-selection" onSubmit={submit}>
+      <form ref={form} id="registration-form" className="workshop-selection" onSubmit={submit}>
         <HowWorkshopsWork />
-        {slots.map((slot) => (
-          <Slot slot={slot} key={slot.id} />
-        ))}
-        <AnimatePresence>{zoomed && <WorkshopDetails {...zoomed} />}</AnimatePresence>
+        <MotionContext.Provider value={{}}>
+          {slots.map((slot) => (
+            <Slot slot={slot} key={slot.id} />
+          ))}
+          {zoomed && <WorkshopDetails {...zoomed} />}
+        </MotionContext.Provider>
       </form>
     </WorkshopSelectionContext.Provider>
   );

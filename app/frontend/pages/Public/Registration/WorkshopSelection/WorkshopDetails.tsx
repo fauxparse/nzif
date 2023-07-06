@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { motion, useIsPresent } from 'framer-motion';
+import { RemoveScroll } from 'react-remove-scroll';
+import { motion, MotionConfig, useIsPresent } from 'framer-motion';
 import { map, sortBy, uniqBy } from 'lodash-es';
 
 import Button from '@/atoms/Button';
@@ -96,89 +97,92 @@ const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({ workshop, slot }) => 
   };
 
   return (
-    <motion.div className="workshop-details">
-      <motion.div
-        className="workshop-details__overlay"
-        variants={overlayVariants}
-        animate={open ? 'open' : 'closed'}
-      />
-      <motion.div className="dialog__content workshop-details__dialog" layoutId={workshop.id}>
-        <header className="workshop-details__header">
-          {workshop.picture && (
-            <motion.div className="workshop-details__image" layoutId={`${workshop.id}-image`}>
-              <img src={workshop.picture.medium} alt={workshop.name} aria-hidden />
-            </motion.div>
-          )}
-          <h3 className="workshop-details__title" onClick={close}>
-            {workshop.name}
-          </h3>
-          <Button className="workshop-details__close" ghost icon="close" onClick={close} />
-        </header>
-        <Scrollable>
-          <Dialog.Body className="workshop-details__body">
-            <motion.div className="workshop-details__tutors" layoutId={`${workshop.id}-tutors`}>
-              {sentence(sortBy(map(workshop.tutors, 'name')))}
-            </motion.div>
-            <motion.div
-              className="workshop-details__placenames"
-              layoutId={`${workshop.id}-placenames`}
-            >
-              {places.map((place) => (
-                <Placename
-                  key={place.id}
-                  name={place.name}
-                  traditionalName={place.traditionalName ?? undefined}
-                />
-              ))}
-            </motion.div>
-            <aside className="workshop-details__at-a-glance">
-              <dl>
-                <dt>
-                  <Icon name="calendar" aria-label="Date and time" />
-                </dt>
-                <dd>{dateAndTime}</dd>
-                <dt>
-                  <Icon name="location" aria-label="Location" />
-                </dt>
-                <dd>
-                  <Skeleton text loading={loading}>
-                    {venue ? [venue.room, venue.building].filter(Boolean).join(' at ') : 'TBC'}
-                  </Skeleton>
-                </dd>
-              </dl>
-            </aside>
-            <motion.div className="workshop-details__description">
-              <Skeleton paragraph loading={loading} lines={5}>
-                {isWorkshop(workshopDetails) && <Markdown>{workshopDetails.description}</Markdown>}
-              </Skeleton>
-              {tutorDetails.map((tutor) => (
-                <div key={tutor.id} className="workshop-details__bio">
-                  <h4>
-                    <Skeleton text loading={loading}>
-                      {tutor.name}
-                    </Skeleton>
-                  </h4>
-                  <Skeleton paragraph lines={3} loading={loading}>
-                    {tutor.bio}
-                  </Skeleton>
+    <MotionConfig transition={{ type: 'spring', bounce: 0.2 }}>
+      <RemoveScroll enabled={open}>
+        <motion.div className="workshop-details">
+          <motion.div
+            className="workshop-details__overlay"
+            variants={overlayVariants}
+            animate={open ? 'open' : 'closed'}
+          />
+          <motion.div className="dialog__content workshop-details__dialog" layoutId={workshop.id}>
+            <header className="workshop-details__header">
+              {workshop.picture && (
+                <motion.div className="workshop-details__image" layoutId={`${workshop.id}-image`}>
+                  <img src={workshop.picture.medium} alt={workshop.name} aria-hidden />
+                </motion.div>
+              )}
+              <h3 className="workshop-details__title" onClick={close}>
+                {workshop.name}
+              </h3>
+              <Button className="workshop-details__close" ghost icon="close" onClick={close} />
+            </header>
+            <Scrollable>
+              <Dialog.Body className="workshop-details__body">
+                <div className="workshop-details__tutors">
+                  {sentence(sortBy(map(workshop.tutors, 'name')))}
                 </div>
-              ))}
-            </motion.div>
-          </Dialog.Body>
-        </Scrollable>
-        <Dialog.Footer className="workshop-details__footer">
-          {preference ? (
-            <Button text="Remove" onClick={removeFromRegistration} />
-          ) : (
-            <Button
-              primary
-              text={`Add as ${ordinalize(nextAvailable)} choice`}
-              onClick={addToRegistration}
-            />
-          )}
-        </Dialog.Footer>
-      </motion.div>
-    </motion.div>
+                <div className="workshop-details__placenames">
+                  {places.map((place) => (
+                    <Placename
+                      key={place.id}
+                      name={place.name}
+                      traditionalName={place.traditionalName ?? undefined}
+                    />
+                  ))}
+                </div>
+                <aside className="workshop-details__at-a-glance">
+                  <dl>
+                    <dt>
+                      <Icon name="calendar" aria-label="Date and time" />
+                    </dt>
+                    <dd>{dateAndTime}</dd>
+                    <dt>
+                      <Icon name="location" aria-label="Location" />
+                    </dt>
+                    <dd>
+                      <Skeleton text loading={loading}>
+                        {venue ? [venue.room, venue.building].filter(Boolean).join(' at ') : 'TBC'}
+                      </Skeleton>
+                    </dd>
+                  </dl>
+                </aside>
+                <motion.div className="workshop-details__description">
+                  <Skeleton paragraph loading={loading} lines={5}>
+                    {isWorkshop(workshopDetails) && (
+                      <Markdown>{workshopDetails.description}</Markdown>
+                    )}
+                  </Skeleton>
+                  {tutorDetails.map((tutor) => (
+                    <div key={tutor.id} className="workshop-details__bio">
+                      <h4>
+                        <Skeleton text loading={loading}>
+                          {tutor.name}
+                        </Skeleton>
+                      </h4>
+                      <Skeleton paragraph lines={3} loading={loading}>
+                        <Markdown>{tutor.bio}</Markdown>
+                      </Skeleton>
+                    </div>
+                  ))}
+                </motion.div>
+              </Dialog.Body>
+            </Scrollable>
+            <Dialog.Footer className="workshop-details__footer">
+              {preference ? (
+                <Button text="Remove" onClick={removeFromRegistration} />
+              ) : (
+                <Button
+                  primary
+                  text={`Add as ${ordinalize(nextAvailable)} choice`}
+                  onClick={addToRegistration}
+                />
+              )}
+            </Dialog.Footer>
+          </motion.div>
+        </motion.div>
+      </RemoveScroll>
+    </MotionConfig>
   );
 };
 

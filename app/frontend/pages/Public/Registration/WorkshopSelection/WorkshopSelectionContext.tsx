@@ -10,6 +10,7 @@ type WorkshopSelectionContextType = {
   registrationStage: 'earlybird' | 'regular';
   slots: RegistrationSlotFragment[];
   selected: Map<DateTime, RegistrationWorkshopFragment[]>;
+  zoomed: SelectedWorkshop | null;
   add: (workshop: SelectedWorkshop) => void;
   remove: (workshop: SelectedWorkshop) => void;
   moreInfo: (workshop: SelectedWorkshop | null) => void;
