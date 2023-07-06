@@ -48,6 +48,8 @@
   }
 
   .workshop {
+    --checkbox-size: 1.5rem;
+
     grid-template-rows: auto auto;
     grid-template-columns: auto 1fr;
     gap: var(--small) var(--medium);
@@ -91,11 +93,32 @@
       }
     }
 
-    &__checkbox {
-      --checkbox-size: 1.5rem;
+    &__to-show {
+      --icon-size: 1rem;
 
       position: relative;
-      grid-row: 1 / -1;
+      grid-row: 2;
+      grid-column: 1;
+      align-self: center;
+      order: -1;
+      width: var(--checkbox-size);
+      height: var(--checkbox-size);
+      padding: calc((var(--checkbox-size) - var(--icon-size)) / 2);
+      border-radius: 50%;
+      background: var(--accent9);
+      color: var(--accent1);
+
+      .icon {
+        path {
+          fill: currentcolor;
+          stroke: var(--accent10);
+        }
+      }
+    }
+
+    &__checkbox {
+      position: relative;
+      grid-row: 1;
       order: -1;
       width: var(--checkbox-size);
       height: var(--checkbox-size);
@@ -146,7 +169,7 @@
         }
       }
 
-      &:active {
+      &:active:not([data-disabled]) {
         transition: transform var(--timing-standard) var(--ease-standard);
         transform: scale(0.9);
       }
@@ -186,17 +209,26 @@
     }
 
     @media (width >= 768px) {
+      --checkbox-size: 2rem;
+
       grid-template-rows: auto 1fr auto;
       grid-template-columns: 1fr;
       gap: 0;
       padding: 0;
 
       &__checkbox {
-        --checkbox-size: 2rem;
-
         position: absolute;
         top: var(--medium);
         left: var(--medium);
+      }
+
+      &__to-show {
+        --icon-size: 1.5rem;
+
+        position: absolute;
+        top: var(--medium);
+        right: var(--medium);
+        grid-row: 1;
       }
 
       .card__image {
@@ -517,7 +549,7 @@
     padding: var(--medium) var(--large);
 
     @media (width > 768px) {
-      grid-template-columns: 1fr 15rem;
+      grid-template-columns: 1fr 16rem;
       gap: var(--medium) var(--large);
     }
   }
@@ -570,11 +602,23 @@
     grid-column: 1;
     line-height: var(--line-height-large);
 
-    p {
+    > .markdown p {
       &:first-child {
         margin-top: 0;
         font-size: var(--font-size-legible);
       }
+    }
+  }
+
+  &__associated-show {
+    padding: var(--small) var(--medium);
+    border: var(--border-width-standard) solid var(--border-info);
+    border-radius: var(--border-radius-standard);
+    background: var(--background-info);
+    color: var(--text-info);
+
+    p {
+      margin: 0;
     }
   }
 

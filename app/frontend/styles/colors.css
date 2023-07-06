@@ -122,6 +122,9 @@
   --input-outline: var(--neutral7);
   --input-active: var(--accent9);
   --input-inactive: var(--neutral7);
+  --border-info: var(--info6);
+  --background-info: var(--info1);
+  --text-info: var(--info11);
 
   /* Activity colors */
   --show-1: var(--cyan1);

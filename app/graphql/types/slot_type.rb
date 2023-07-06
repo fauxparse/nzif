@@ -10,7 +10,7 @@ module Types
     end
 
     def workshops
-      object.activities.select { |a| a.type == 'Workshop' }
+      object.activities.select { |a| a.type == 'Workshop' }.sort_by(&:name)
     end
   end
 end

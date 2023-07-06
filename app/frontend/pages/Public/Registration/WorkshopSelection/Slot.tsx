@@ -1,5 +1,8 @@
+import { useMemo } from 'react';
+
 import { RegistrationSlotFragment } from '@/graphql/types';
 import Skeleton from '@/helpers/Skeleton';
+import { useAuthentication } from '@/organisms/Authentication';
 
 import WorkshopCard from './WorkshopCard';
 import { useWorkshopSelectionContext } from './WorkshopSelectionContext';
@@ -10,6 +13,13 @@ type SlotProps = {
 
 const Slot: React.FC<SlotProps> = ({ slot }) => {
   const { loading } = useWorkshopSelectionContext();
+
+  const { user } = useAuthentication();
+
+  const busy = useMemo(
+    () => !!user && slot.workshops.some((w) => w.tutors.some((t) => t.id === user.profile?.id)),
+    [slot, user]
+  );
 
   return (
     <section className="workshop-selection__slot">
@@ -27,7 +37,7 @@ const Slot: React.FC<SlotProps> = ({ slot }) => {
       </header>
       <div className="workshop-selection__workshops">
         {slot.workshops.map((workshop) => (
-          <WorkshopCard key={workshop.id} workshop={workshop} slot={slot} />
+          <WorkshopCard disabled={busy} key={workshop.id} workshop={workshop} slot={slot} />
         ))}
       </div>
     </section>

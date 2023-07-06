@@ -18,6 +18,12 @@ fragment RegistrationWorkshop on Workshop {
     id
     startsAt
   }
+
+  show {
+    id
+    name
+    slug
+  }
 }
 
 fragment RegistrationTutor on Person {
@@ -81,6 +87,17 @@ fragment WorkshopDetails on Workshop {
       room
       building
       address
+    }
+  }
+
+  show {
+    id
+    name
+    slug
+
+    sessions {
+      id
+      startsAt
     }
   }
 }

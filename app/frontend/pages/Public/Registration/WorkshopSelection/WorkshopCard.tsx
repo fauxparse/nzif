@@ -1,11 +1,13 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { motion, MotionConfig } from 'framer-motion';
 import { capitalize, map, sortBy, uniqBy } from 'lodash-es';
 
 import Button from '@/atoms/Button';
+import Icon from '@/atoms/Icon';
 import Placename from '@/atoms/Placename';
 import { PlaceName, RegistrationSlotFragment, RegistrationWorkshopFragment } from '@/graphql/types';
 import Skeleton from '@/helpers/Skeleton';
+import Tooltip from '@/helpers/Tooltip';
 import Card from '@/organisms/Card';
 import ordinalize from '@/util/ordinalize';
 import sentence from '@/util/sentence';
@@ -17,9 +19,12 @@ import { useWorkshopSelectionContext } from './WorkshopSelectionContext';
 type WorkshopCardProps = {
   workshop: RegistrationWorkshopFragment;
   slot: RegistrationSlotFragment;
+  disabled?: boolean;
 };
 
-const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot }) => {
+const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot, disabled = false }) => {
+  const ref = useRef<HTMLDivElement>(null);
+
   const { selected, loading, zoomed, moreInfo, add, remove } = useWorkshopSelectionContext();
 
   const preference = useMemo(
@@ -47,13 +52,14 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot }) => {
 
   const Component = loading ? 'div' : motion.div;
 
-  const [zIndex, setZIndex] = useState<number | undefined>(undefined);
-
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
     if (zoomed?.workshop?.id === workshop.id) {
-      setZIndex(1);
+      el.style.setProperty('z-index', '1');
     } else {
-      const timeout = setTimeout(() => setZIndex(undefined), 300);
+      const timeout = setTimeout(() => el.style.removeProperty('z-index'), 1000);
       return () => clearTimeout(timeout);
     }
   }, [zoomed, workshop.id]);
@@ -61,12 +67,12 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot }) => {
   return (
     <MotionConfig transition={{ duration: 0.3, ease: 'circOut' }}>
       <Card
+        ref={ref}
         as={Component}
         className="workshop"
         {...(loading ? {} : { layoutId: workshop.id })}
         aria-hidden={loading || undefined}
         data-loading={loading || undefined}
-        style={{ zIndex }}
       >
         {loading ? (
           <div className="card__image">
@@ -85,7 +91,7 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot }) => {
             )}
           </motion.div>
         )}
-        <motion.div className="card__details">
+        <div className="card__details">
           <h4 className="card__title workshop__name">
             <Skeleton text loading={loading}>
               {workshop.name}
@@ -118,8 +124,20 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot }) => {
               </div>
             </>
           )}
-        </motion.div>
-        <PreferenceCheckbox workshop={workshop} slot={slot} preference={preference || null} />
+        </div>
+        <PreferenceCheckbox
+          workshop={workshop}
+          slot={slot}
+          preference={preference || null}
+          disabled={disabled || undefined}
+        />
+        {workshop.show && (
+          <Tooltip content="This workshop has an accompanying show">
+            <div className="workshop__to-show">
+              <Icon name="show" aria-label="This workshop has an accompanying show" />
+            </div>
+          </Tooltip>
+        )}
         <div className="card__footer">
           <Skeleton rounded loading={loading}>
             <Button small text="More info" onClick={() => moreInfo({ workshop, slot })} />
@@ -132,6 +150,7 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot }) => {
                 small
                 primary
                 text={capitalize(`${ordinalize(nextAvailable)} choice`)}
+                disabled={disabled || undefined}
                 onClick={() => add({ workshop, slot })}
               />
             )}

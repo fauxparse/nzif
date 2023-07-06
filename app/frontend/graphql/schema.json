@@ -4475,6 +4475,20 @@
               ]
             },
             {
+              "name": "show",
+              "description": null,
+              "type": {
+                "kind": "OBJECT",
+                "name": "Show",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
               "name": "slug",
               "description": null,
               "type": {
@@ -6215,6 +6229,20 @@
                     }
                   }
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "show",
+              "description": null,
+              "type": {
+                "kind": "OBJECT",
+                "name": "Show",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null,

@@ -44,7 +44,7 @@ const HowWorkshopsWork = () => {
           <dd>
             <b>Final registrations</b>
             <p>
-              Any remaining workshop places are available on a first-come, first served basis.
+              Any remaining workshop places are available on a first-come, first-served basis.
               Anyone can register for these places, or join waitlists for workshops that have
               already sold out.
             </p>

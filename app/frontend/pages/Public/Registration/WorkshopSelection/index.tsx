@@ -62,6 +62,7 @@ const tempSessions: RegistrationSlotFragment[] = range(5).map((days) => ({
         medium: '',
       },
       sessions: [],
+      show: null,
     })
   ),
 }));

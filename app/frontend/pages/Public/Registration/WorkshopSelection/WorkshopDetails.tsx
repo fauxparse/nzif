@@ -97,7 +97,7 @@ const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({ workshop, slot }) => 
   };
 
   return (
-    <MotionConfig transition={{ type: 'spring', bounce: 0.2 }}>
+    <MotionConfig transition={{ duration: 0.3, ease: 'circOut' }}>
       <RemoveScroll enabled={open}>
         <motion.div className="workshop-details">
           <motion.div
@@ -112,9 +112,7 @@ const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({ workshop, slot }) => 
                   <img src={workshop.picture.medium} alt={workshop.name} aria-hidden />
                 </motion.div>
               )}
-              <h3 className="workshop-details__title" onClick={close}>
-                {workshop.name}
-              </h3>
+              <h3 className="workshop-details__title">{workshop.name}</h3>
               <Button className="workshop-details__close" ghost icon="close" onClick={close} />
             </header>
             <Scrollable>
@@ -153,6 +151,15 @@ const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({ workshop, slot }) => 
                       <Markdown>{workshopDetails.description}</Markdown>
                     )}
                   </Skeleton>
+                  {workshop.show && (
+                    <div className="workshop-details__associated-show">
+                      <p>
+                        Participants from this workshop may be invited to perform in the show on
+                        Saturday 14 October. Please note that any such casting is at the discretion
+                        of the show’s director and is not guaranteed.
+                      </p>
+                    </div>
+                  )}
                   {tutorDetails.map((tutor) => (
                     <div key={tutor.id} className="workshop-details__bio">
                       <h4>

@@ -9,9 +9,15 @@ type PreferenceCheckboxProps = {
   preference: number | null;
   workshop: RegistrationWorkshopFragment;
   slot: RegistrationSlotFragment;
+  disabled?: boolean;
 };
 
-const PreferenceCheckbox: React.FC<PreferenceCheckboxProps> = ({ workshop, slot, preference }) => {
+const PreferenceCheckbox: React.FC<PreferenceCheckboxProps> = ({
+  workshop,
+  slot,
+  preference,
+  disabled,
+}) => {
   const { registrationStage, add, remove } = useWorkshopSelectionContext();
 
   const changed = () => {
@@ -26,6 +32,7 @@ const PreferenceCheckbox: React.FC<PreferenceCheckboxProps> = ({ workshop, slot,
       className="workshop__checkbox"
       checked={!!preference}
       preference={(registrationStage === 'earlybird' && preference) || undefined}
+      disabled={disabled || undefined}
       onChange={changed}
     >
       <svg className="checkbox__burst" viewBox="-64 -64 128 128">
