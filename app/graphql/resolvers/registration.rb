@@ -7,7 +7,7 @@ module Resolvers
     def resolve(year: nil)
       (current_user&.registrations || ::Registration)
         .includes(user: :profile, preferences: { session: :activity })
-        .find_or_initialize_by(festival: festival(year:))
+        .find_or_initialize_by(festival: festival(year:), user: current_user)
     end
 
     private

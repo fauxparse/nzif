@@ -98,7 +98,7 @@ const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({ workshop, slot }) => 
 
   return (
     <MotionConfig transition={{ duration: 0.3, ease: 'circOut' }}>
-      <RemoveScroll enabled={open}>
+      <RemoveScroll forwardProps enabled={open}>
         <motion.div className="workshop-details">
           <motion.div
             className="workshop-details__overlay"

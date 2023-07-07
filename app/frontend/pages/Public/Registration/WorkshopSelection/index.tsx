@@ -1,5 +1,5 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Reference } from '@apollo/client';
 import { MotionContext } from 'framer-motion';
 import { range, uniqueId } from 'lodash-es';
@@ -183,9 +183,13 @@ const WorkshopSelection: React.FC = () => {
     next();
   };
 
-  if (registration && !registration?.id) {
-    return <Navigate to={festival ? `/${festival.id}/register` : '/'} />;
-  }
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && !registration?.id) {
+      navigate(festival ? `/${festival.id}/register` : '/');
+    }
+  }, [loading, registration, festival, navigate]);
 
   return (
     <WorkshopSelectionContext.Provider

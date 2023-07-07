@@ -121,7 +121,6 @@ const LogInForm: React.FC = () => {
             <Input
               type="text"
               autoComplete="name"
-              autoFocus
               {...register('name')}
               disabled={loggingIn || signingUp || undefined}
             />
@@ -132,7 +131,6 @@ const LogInForm: React.FC = () => {
             <Input
               type="email"
               autoComplete="email"
-              autoFocus
               {...register('email')}
               disabled={loggingIn || signingUp || undefined}
             />
