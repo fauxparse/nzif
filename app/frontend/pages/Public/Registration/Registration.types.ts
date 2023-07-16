@@ -7,4 +7,5 @@ export interface RegistrationStepProps {
 export interface Step {
   label: string;
   path: string;
+  component: React.FC;
 }

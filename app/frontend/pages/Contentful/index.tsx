@@ -29,7 +29,7 @@ const renderOptions: Options = {
   },
 };
 
-const Contentful: React.FC = () => {
+export const Component: React.FC = () => {
   const { slug = '' } = useParams<{ slug: string }>();
   const { data } = useContentPageQuery({
     variables: { slug },
@@ -72,4 +72,6 @@ const Contentful: React.FC = () => {
   );
 };
 
-export default Contentful;
+Component.displayName = 'Contentful';
+
+export default Component;

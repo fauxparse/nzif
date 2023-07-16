@@ -6,12 +6,15 @@ import { IconName } from '@/atoms/Icon';
 import { ActivityType, Permission } from '@/graphql/types';
 import Menu from '@/molecules/Menu';
 import { useAuthentication } from '@/organisms/Authentication';
+import { ROUTES } from '@/Routes';
 import activityTypeLabel from '@/util/activityTypeLabel';
 
 import './Dashboard.css';
 
-const Dashboard: React.FC = () => {
+export const Component: React.FC = () => {
   const { hasPermission } = useAuthentication();
+
+  const year = String(new Date().getFullYear());
 
   return (
     <div className="dashboard inset">
@@ -20,7 +23,7 @@ const Dashboard: React.FC = () => {
         {hasPermission(Permission.People) && (
           <section>
             <h3>People</h3>
-            <Menu.Item as={Link} to="people" icon="user" label="Manage people" />
+            <Menu.Item as={Link} to={ROUTES.ADMIN.PEOPLE.path} icon="user" label="Manage people" />
           </section>
         )}
         {hasPermission(Permission.Activities) && (
@@ -30,18 +33,28 @@ const Dashboard: React.FC = () => {
               <Menu.Item
                 as={Link}
                 key={key}
-                to={pluralize(kebabCase(key))}
+                to={`./${pluralize(kebabCase(key))}`}
                 icon={camelCase(value) as IconName}
                 label={pluralize(activityTypeLabel(value))}
               />
             ))}
-            <Menu.Item as={Link} to="timetable" icon="calendar" label="Timetable" />
+            <Menu.Item
+              as={Link}
+              to={ROUTES.ADMIN.FESTIVAL.TIMETABLE.buildPath({ year })}
+              icon="calendar"
+              label="Timetable"
+            />
           </section>
         )}
         {hasPermission(Permission.Content) && (
           <section>
             <h3>Content</h3>
-            <Menu.Item as={Link} to="translations" icon="country" label="Translations" />
+            <Menu.Item
+              as={Link}
+              to={ROUTES.ADMIN.TRANSLATIONS.path}
+              icon="country"
+              label="Translations"
+            />
             <Menu.Item
               as="a"
               href="https://app.contentful.com/spaces/4hh9rxfdoza6/entries"
@@ -57,4 +70,6 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+Component.displayName = 'Dashboard';
+
+export default Component;

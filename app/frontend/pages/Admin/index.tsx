@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 import { useAuthentication } from '@/organisms/Authentication';
@@ -10,7 +10,7 @@ import Festival from './Festival';
 
 import './Admin.css';
 
-const Admin: React.FC = () => {
+export const Component: React.FC = () => {
   const { loading, user } = useAuthentication();
 
   if (!loading && !user?.permissions.length) {
@@ -21,13 +21,12 @@ const Admin: React.FC = () => {
     <BreadcrumbProvider label="Admin" path="admin">
       <div>
         <Header />
-        <Routes>
-          <Route path=":year/*" element={<Festival />} />
-          <Route index element={<CurrentFestivalRedirect />} />
-        </Routes>
+        <Outlet />
       </div>
     </BreadcrumbProvider>
   );
 };
 
-export default Admin;
+Component.displayName = 'Admin';
+
+export default Component;

@@ -2,44 +2,6 @@
   margin-inline: var(--horizontal-padding);
 }
 
-.page__header {
-  display: grid;
-  gap: var(--small);
-  padding: var(--large) var(--horizontal-padding);
-
-  &:has(.tabs) {
-    padding-bottom: 0;
-    border-bottom: var(--border-width-standard) solid var(--border-subtle);
-
-    .tabs {
-      margin-bottom: calc(var(--border-width-standard) * -1);
-
-      &::after {
-        content: "";
-        flex: 1;
-      }
-
-      .button {
-        align-self: center;
-        order: 1;
-
-        @media (width <= 768px) {
-          display: none;
-        }
-      }
-    }
-  }
-
-  h1 {
-    margin: 0;
-
-    .in-place-edit__wrapper {
-      font-size: inherit;
-      line-height: inherit;
-    }
-  }
-}
-
 .details-form {
   padding-block: var(--large);
   transition: opacity var(--timing-standard) var(--ease-standard);

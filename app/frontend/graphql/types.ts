@@ -584,9 +584,9 @@ export type Show = Activity & {
   picture: Maybe<ActivityPicture>;
   presenters: Array<Person>;
   sessions: Array<Session>;
-  show: Maybe<Show>;
   slug: Scalars['String'];
   type: ActivityType;
+  workshop: Maybe<Workshop>;
 };
 
 export type Slot = {
@@ -1081,6 +1081,22 @@ export type DestroyTranslationMutationVariables = Exact<{
 
 export type DestroyTranslationMutation = { __typename: 'Mutation', destroyTranslation: boolean | null };
 
+type AssociatedActivity_Show_Fragment = { __typename: 'Show', id: string, name: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> };
+
+type AssociatedActivity_SocialEvent_Fragment = { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> };
+
+type AssociatedActivity_Workshop_Fragment = { __typename: 'Workshop', id: string, name: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> };
+
+export type AssociatedActivityFragment = AssociatedActivity_Show_Fragment | AssociatedActivity_SocialEvent_Fragment | AssociatedActivity_Workshop_Fragment;
+
+export type ProgrammeQueryVariables = Exact<{
+  year: Scalars['String'];
+  type: ActivityType;
+}>;
+
+
+export type ProgrammeQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, activities: Array<{ __typename: 'Show', id: string, name: string, type: ActivityType, slug: string, workshop: { __typename: 'Workshop', id: string, name: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, presenters: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, presenters: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> } | { __typename: 'Workshop', id: string, name: string, type: ActivityType, slug: string, show: { __typename: 'Show', id: string, name: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, presenters: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> }> } };
+
 export type RegistrationWorkshopFragment = { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }>, show: { __typename: 'Show', id: string, name: string, slug: string } | null };
 
 export type RegistrationTutorFragment = { __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null };
@@ -1278,6 +1294,18 @@ export const TranslationDetailsFragmentDoc = gql`
   name
   traditionalName
   country
+}
+    `;
+export const AssociatedActivityFragmentDoc = gql`
+    fragment AssociatedActivity on Activity {
+  id
+  name
+  type
+  sessions {
+    id
+    startsAt
+    endsAt
+  }
 }
     `;
 export const RegistrationTutorFragmentDoc = gql`
@@ -2763,6 +2791,82 @@ export function useDestroyTranslationMutation(baseOptions?: Apollo.MutationHookO
 export type DestroyTranslationMutationHookResult = ReturnType<typeof useDestroyTranslationMutation>;
 export type DestroyTranslationMutationResult = Apollo.MutationResult<DestroyTranslationMutation>;
 export type DestroyTranslationMutationOptions = Apollo.BaseMutationOptions<DestroyTranslationMutation, DestroyTranslationMutationVariables>;
+export const ProgrammeDocument = gql`
+    query Programme($year: String!, $type: ActivityType!) {
+  festival(year: $year) {
+    id
+    activities(type: $type) {
+      id
+      name
+      type
+      slug
+      picture {
+        id
+        medium
+        blurhash
+      }
+      presenters {
+        id
+        name
+        city {
+          id
+          name
+          traditionalName
+        }
+        country {
+          id
+          name
+          traditionalName
+        }
+      }
+      ... on Workshop {
+        show {
+          ...AssociatedActivity
+        }
+      }
+      ... on Show {
+        workshop {
+          ...AssociatedActivity
+        }
+      }
+      sessions {
+        id
+        startsAt
+        endsAt
+      }
+    }
+  }
+}
+    ${AssociatedActivityFragmentDoc}`;
+
+/**
+ * __useProgrammeQuery__
+ *
+ * To run a query within a React component, call `useProgrammeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProgrammeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProgrammeQuery({
+ *   variables: {
+ *      year: // value for 'year'
+ *      type: // value for 'type'
+ *   },
+ * });
+ */
+export function useProgrammeQuery(baseOptions: Apollo.QueryHookOptions<ProgrammeQuery, ProgrammeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProgrammeQuery, ProgrammeQueryVariables>(ProgrammeDocument, options);
+      }
+export function useProgrammeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProgrammeQuery, ProgrammeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProgrammeQuery, ProgrammeQueryVariables>(ProgrammeDocument, options);
+        }
+export type ProgrammeQueryHookResult = ReturnType<typeof useProgrammeQuery>;
+export type ProgrammeLazyQueryHookResult = ReturnType<typeof useProgrammeLazyQuery>;
+export type ProgrammeQueryResult = Apollo.QueryResult<ProgrammeQuery, ProgrammeQueryVariables>;
 export const WorkshopDetailsDocument = gql`
     query WorkshopDetails($slug: String!) {
   festival {

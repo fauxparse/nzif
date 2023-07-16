@@ -4,13 +4,14 @@ import { DateTime } from 'luxon';
 
 import { useTimetableQuery } from '@/graphql/types';
 import Breadcrumbs from '@/molecules/Breadcrumbs';
+import PageHeader from '@/molecules/PageHeader';
 
 import Context from './Context';
 import Grid from './Grid';
 
 import './Timetable.css';
 
-const Timetable: React.FC = () => {
+export const Component: React.FC = () => {
   const { data } = useTimetableQuery();
 
   const granularity = 4;
@@ -46,10 +47,10 @@ const Timetable: React.FC = () => {
       }}
     >
       <div className="timetable">
-        <header className="page__header">
+        <PageHeader>
           <Breadcrumbs />
           <h1>Timetable</h1>
-        </header>
+        </PageHeader>
         <div className="timetable__grid">
           <Grid sessions={sessions} />
         </div>
@@ -58,4 +59,6 @@ const Timetable: React.FC = () => {
   );
 };
 
-export default Timetable;
+Component.displayName = 'Timetable';
+
+export default Component;

@@ -11,7 +11,6 @@ import {
 import { first } from 'lodash-es';
 import { DateTime } from 'luxon';
 
-import { useFestival } from '../../FestivalContext';
 import Avatar from '@/atoms/Avatar';
 import Button from '@/atoms/Button';
 import Icon from '@/atoms/Icon';
@@ -23,6 +22,7 @@ import {
 } from '@/graphql/types';
 
 type ActivityTableProps = {
+  year: string;
   type: ActivityType;
 };
 
@@ -98,8 +98,7 @@ const columns = [
   ),
 ];
 
-const ActivityTable: React.FC<ActivityTableProps> = ({ type }) => {
-  const { id: year } = useFestival();
+const ActivityTable: React.FC<ActivityTableProps> = ({ year, type }) => {
   const { data } = useActivityListQuery({ variables: { year, type } });
   const [sorting, setSorting] = useState<SortingState>([]);
 

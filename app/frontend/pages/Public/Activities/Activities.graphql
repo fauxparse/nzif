@@ -1,0 +1,62 @@
+fragment AssociatedActivity on Activity {
+  id
+  name
+  type
+
+  sessions {
+    id
+    startsAt
+    endsAt
+  }
+}
+
+query Programme($year: String!, $type: ActivityType!) {
+  festival(year: $year) {
+    id
+    activities(type: $type) {
+      id
+      name
+      type
+      slug
+
+      picture {
+        id
+        medium
+        blurhash
+      }
+
+      presenters {
+        id
+        name
+        city {
+          id
+          name
+          traditionalName
+        }
+        country {
+          id
+          name
+          traditionalName
+        }
+      }
+
+      ... on Workshop {
+        show {
+          ...AssociatedActivity
+        }
+      }
+
+      ... on Show {
+        workshop {
+          ...AssociatedActivity
+        }
+      }
+
+      sessions {
+        id
+        startsAt
+        endsAt
+      }
+    }
+  }
+}

@@ -67,7 +67,7 @@ const tempSessions: RegistrationSlotFragment[] = range(5).map((days) => ({
   ),
 }));
 
-const WorkshopSelection: React.FC = () => {
+export const Component: React.FC = () => {
   const form = useRef<HTMLFormElement>(null);
 
   const { data, loading } = useRegistrationStatusQuery();
@@ -217,4 +217,6 @@ const WorkshopSelection: React.FC = () => {
   );
 };
 
-export default WorkshopSelection;
+Component.displayName = 'WorkshopSelection';
+
+export default Component;

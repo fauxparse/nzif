@@ -1,25 +1,33 @@
 import { CSSProperties } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+import AboutYou from './AboutYou';
+import Payment from './Payment';
 import { Step } from './Registration.types';
 import { useRegistrationContext } from './RegistrationContext';
+import Thanks from './Thanks';
+import WorkshopSelection from './WorkshopSelection';
 
 export const REGISTRATION_STEPS: Step[] = [
   {
     label: 'Your details',
     path: '/register/about-you',
+    component: AboutYou,
   },
   {
     label: 'Workshop selection',
     path: '/register/workshops',
+    component: WorkshopSelection,
   },
   {
     label: 'Payment',
     path: '/register/payment',
+    component: Payment,
   },
   {
     label: 'Finalise registration',
     path: '/register/thanks',
+    component: Thanks,
   },
 ];
 

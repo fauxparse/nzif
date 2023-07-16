@@ -435,9 +435,9 @@ type Show implements Activity {
   picture: ActivityPicture
   presenters: [Person!]!
   sessions: [Session!]!
-  show: Show
   slug: String!
   type: ActivityType!
+  workshop: Workshop
 }
 
 type Slot {

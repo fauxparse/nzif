@@ -5,10 +5,11 @@ import pluralize from 'pluralize';
 
 import Button from '@/atoms/Button';
 import { useCurrentFestivalQuery } from '@/graphql/types';
+import { ROUTES } from '@/Routes';
 
 import './Home.css';
 
-const Home: React.FC = () => {
+export const Component: React.FC = () => {
   const { data, loading } = useCurrentFestivalQuery();
 
   const festival = data?.festival;
@@ -26,12 +27,30 @@ const Home: React.FC = () => {
         </h1>
         <Balanced as="p">{pluralize('day', days, true)} of shows, workshops, and events.</Balanced>
         <div className="hero__buttons">
-          <Button large primary as={Link} to="register" text="Register now" icon="new" />
-          <Button large as={Link} to="workshops" text="Programme" icon="calendar" />
+          <Button
+            large
+            primary
+            as={Link}
+            to={ROUTES.REGISTRATION.buildPath({ year: festival.id })}
+            text="Register now"
+            icon="new"
+          />
+          <Button
+            large
+            as={Link}
+            to={ROUTES.FESTIVAL.ACTIVITIES.buildPath({
+              year: festival.id,
+              type: 'workshops',
+            })}
+            text="Programme"
+            icon="calendar"
+          />
         </div>
       </section>
     </div>
   );
 };
 
-export default Home;
+Component.displayName = 'Home';
+
+export default Component;

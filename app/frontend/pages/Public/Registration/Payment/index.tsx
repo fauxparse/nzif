@@ -5,7 +5,7 @@ import useCartCalculator from '../useCartCalculator';
 
 import './Payment.css';
 
-const Payment: React.FC = () => {
+export const Component: React.FC = () => {
   const { base, count, value, discount, total } = useCartCalculator();
 
   const { next } = useRegistrationContext();
@@ -55,4 +55,6 @@ const Payment: React.FC = () => {
   );
 };
 
-export default Payment;
+Component.displayName = 'Payment';
+
+export default Component;

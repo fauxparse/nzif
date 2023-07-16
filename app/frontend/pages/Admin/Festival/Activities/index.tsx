@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
 
 import { ActivityType } from '@/graphql/types';
 
@@ -13,12 +13,7 @@ type ActivitiesProps = {
 };
 
 const Activities: React.FC<ActivitiesProps> = ({ type }) => {
-  return (
-    <Routes>
-      <Route path=":slug/*" element={<ActivityDetails type={type} />} />
-      <Route path="" element={<ActivityList type={type} />} />
-    </Routes>
-  );
+  return <Outlet />;
 };
 
 export default Activities;

@@ -14,9 +14,7 @@ const App: React.FC = () => (
     <PortalManager>
       <AuthenticationProvider>
         <PlacenameProvider>
-          <BrowserRouter>
-            <Routes />
-          </BrowserRouter>
+          <Routes />
         </PlacenameProvider>
       </AuthenticationProvider>
     </PortalManager>

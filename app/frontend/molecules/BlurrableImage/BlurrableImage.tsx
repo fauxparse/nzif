@@ -3,6 +3,8 @@ import { Blurhash } from 'react-blurhash';
 import clsx from 'clsx';
 import { useIntersectionObserver } from 'usehooks-ts';
 
+import './BlurrableImage.css';
+
 type BlurrableImageProps = ComponentPropsWithoutRef<'img'> & {
   blurhash: string;
 };

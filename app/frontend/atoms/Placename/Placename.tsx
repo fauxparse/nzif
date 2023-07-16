@@ -8,6 +8,7 @@ import Button from '../Button';
 import Icon from '../Icon';
 import Tooltip from '@/helpers/Tooltip';
 import Popover from '@/molecules/Popover';
+import { ROUTES } from '@/Routes';
 
 import { PlacenameComponent } from './Placename.types';
 import { PlacenameContext } from './PlacenameProvider';
@@ -81,7 +82,7 @@ const Placename: PlacenameComponent = forwardRef(
                   onClick={changeSetting}
                   text={`Show ${showTraditional ? 'English' : 'traditional'} names by default`}
                 />
-                <Button as={Link} to="/acknowledgements" ghost>
+                <Button as={Link} to={ROUTES.CONTENT.buildPath({ slug: 'acknowledgements' })} ghost>
                   Learn more
                 </Button>
               </Popover.Body>

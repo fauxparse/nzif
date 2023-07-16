@@ -19,6 +19,7 @@ import Icon from '@/atoms/Icon';
 import Placename from '@/atoms/Placename';
 import { PersonDetailsFragment, usePeopleQuery } from '@/graphql/types';
 import Breadcrumbs from '@/molecules/Breadcrumbs';
+import PageHeader from '@/molecules/PageHeader';
 
 import MergeDialog from './MergeDialog';
 
@@ -84,7 +85,7 @@ const withSelectedVariants = {
   },
 };
 
-const People: React.FC = () => {
+export const Component: React.FC = () => {
   const { data } = usePeopleQuery();
 
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -114,10 +115,10 @@ const People: React.FC = () => {
 
   return (
     <div className="page admin-people">
-      <header className="page__header">
+      <PageHeader>
         <Breadcrumbs />
         <h1>People</h1>
-      </header>
+      </PageHeader>
       <div className="inset">
         <div className="data-table__container">
           <table className="data-table">
@@ -186,4 +187,6 @@ const People: React.FC = () => {
   );
 };
 
-export default People;
+Component.displayName = 'PeopleList';
+
+export default Component;

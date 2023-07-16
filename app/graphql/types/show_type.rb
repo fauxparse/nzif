@@ -2,7 +2,7 @@ module Types
   class ShowType < Types::BaseActivity
     implements Types::ActivityType
 
-    field :show, ShowType, null: true
+    field :workshop, WorkshopType, null: true
 
     def presenters
       directors

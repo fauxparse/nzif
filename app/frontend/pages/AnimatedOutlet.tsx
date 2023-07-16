@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { useOutlet } from 'react-router-dom';
+import { useIsPresent } from 'framer-motion';
+
+import usePrevious from '@/hooks/usePrevious';
 
 const AnimatedOutlet: React.FC = () => {
-  const o = useOutlet();
-  const [outlet] = useState(o);
+  const outlet = useOutlet();
 
-  return <>{outlet}</>;
+  const isPresent = useIsPresent();
+
+  const ref = useRef<typeof outlet | null>(null);
+
+  const previousOutlet = usePrevious(outlet) ?? outlet;
+
+  if (!isPresent && !ref.current) {
+    ref.current = previousOutlet;
+  }
+
+  return <>{ref.current || outlet}</>;
 };
 
 export default AnimatedOutlet;

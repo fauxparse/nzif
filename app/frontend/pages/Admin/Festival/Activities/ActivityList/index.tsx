@@ -1,26 +1,27 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useTypedParams } from 'react-router-typesafe-routes/dom';
 
 import Button from '@/atoms/Button';
 import { ActivityType } from '@/graphql/types';
 import Breadcrumbs from '@/molecules/Breadcrumbs';
+import PageHeader from '@/molecules/PageHeader';
 import Tabs from '@/molecules/Tabs';
+import { ROUTES } from '@/Routes';
 
 import ActivityTab from './ActivityTab';
 import ActivityTable from './ActivityTable';
 
-type ActivitiesProps = {
-  type: ActivityType;
-};
+export const Component: React.FC = () => {
+  const { year, type: pluralizedType } = useTypedParams(ROUTES.ADMIN.FESTIVAL.ACTIVITIES);
 
-const Activities: React.FC<ActivitiesProps> = ({ type }) => {
-  const { year } = useParams<{ year: string }>() as { year: string };
+  const type = pluralizedType.slice(0, -1) as ActivityType;
 
   if (!year || !year.match(/^\d{4}$/)) return null;
 
   return (
     <div className="page">
-      <header className="page__header">
+      <PageHeader>
         <Breadcrumbs />
         <h1>Activities</h1>
         <Tabs>
@@ -29,10 +30,12 @@ const Activities: React.FC<ActivitiesProps> = ({ type }) => {
           ))}
           <Button ghost as={Link} to={`../timetable`} icon="calendar" text="Timetable" />
         </Tabs>
-      </header>
-      <ActivityTable type={type} />
+      </PageHeader>
+      <ActivityTable year={year} type={type} />
     </div>
   );
 };
 
-export default Activities;
+Component.displayName = 'Activities';
+
+export default Component;

@@ -1,0 +1,18 @@
+.error-page {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-items: center;
+  min-height: 100vh;
+
+  main {
+    padding: var(--huge) var(--horizontal-padding);
+    font-size: var(--font-size-large);
+    line-height: 2;
+  }
+
+  h1 {
+    margin-bottom: var(--medium);
+    font-weight: var(--font-weight-bold);
+    font-size: clamp(1.25rem, 1rem + 3.5vw, 4rem);
+  }
+}

@@ -1,18 +1,15 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
 
 import PeopleList from './PeopleList';
 import Person from './Person';
 
 import './People.css';
 
-const Activities: React.FC = () => {
-  return (
-    <Routes>
-      <Route path=":id/*" element={<Person />} />
-      <Route path="" element={<PeopleList />} />
-    </Routes>
-  );
+export const Component: React.FC = () => {
+  return <Outlet />;
 };
 
-export default Activities;
+Component.displayName = 'People';
+
+export default Component;

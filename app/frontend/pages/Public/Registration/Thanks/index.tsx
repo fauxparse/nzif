@@ -4,7 +4,7 @@ import { crimson, cyan, yellow } from '@radix-ui/colors';
 
 import { useRegistrationContext } from '../RegistrationContext';
 
-const Thanks: React.FC = () => {
+export const Component: React.FC = () => {
   const { festival } = useRegistrationContext();
 
   const [confetti, setConfetti] = useState(false);
@@ -39,4 +39,6 @@ const Thanks: React.FC = () => {
   );
 };
 
-export default Thanks;
+Component.displayName = 'Thanks';
+
+export default Component;

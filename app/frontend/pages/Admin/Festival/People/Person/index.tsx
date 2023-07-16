@@ -4,12 +4,13 @@ import { Link, Route, Routes, useLocation, useParams, useResolvedPath } from 're
 import { PersonAttributes, usePersonQuery, useUpdatePersonMutation } from '@/graphql/types';
 import Breadcrumbs, { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 import InPlaceEdit from '@/molecules/InPlaceEdit';
+import PageHeader from '@/molecules/PageHeader';
 import Tabs from '@/molecules/Tabs';
 
 import { PersonContext } from './Context';
 import { PersonDetails } from './Person.types';
-import Settings, { SettingsProps } from './Settings';
 import Profile from './Profile';
+import Settings from './Settings';
 
 import './Person.css';
 
@@ -24,7 +25,7 @@ const TABS: Tab[] = [
   { label: 'Settings', path: 'settings', enabled: (person) => !!person?.user },
 ];
 
-const Person: React.FC = () => {
+export const Component: React.FC = () => {
   const { id } = useParams<{ id: string }>() as { id: string };
 
   const { data, loading } = usePersonQuery({ variables: { id } });
@@ -61,7 +62,7 @@ const Person: React.FC = () => {
     <PersonContext.Provider value={{ person, permissions }}>
       <BreadcrumbProvider label="People" path="people">
         <div className="page">
-          <header className="page__header">
+          <PageHeader>
             <Breadcrumbs />
             <h1>
               {loading || !person ? (
@@ -84,7 +85,7 @@ const Person: React.FC = () => {
                   )
               )}
             </Tabs>
-          </header>
+          </PageHeader>
           {!loading && !!person && (
             <Routes>
               <Route path="" element={<Profile person={person} />} />
@@ -97,4 +98,6 @@ const Person: React.FC = () => {
   );
 };
 
-export default Person;
+Component.displayName = 'Person';
+
+export default Component;

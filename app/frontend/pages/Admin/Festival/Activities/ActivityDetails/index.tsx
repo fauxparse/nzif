@@ -11,6 +11,7 @@ import {
 } from '@/graphql/types';
 import Breadcrumbs, { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 import InPlaceEdit from '@/molecules/InPlaceEdit';
+import PageHeader from '@/molecules/PageHeader';
 import Tabs from '@/molecules/Tabs';
 import { useToaster } from '@/molecules/Toaster';
 import activityTypeLabel from '@/util/activityTypeLabel';
@@ -115,7 +116,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ type }) => {
       label={pluralize(activityTypeLabel(type))}
     >
       <div className="page">
-        <header className="page__header">
+        <PageHeader>
           <Breadcrumbs />
           <h1>
             {loading || !activity ? (
@@ -151,7 +152,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ type }) => {
               ))}
             </Tabs>
           )}
-        </header>
+        </PageHeader>
         <Routes>
           {activity?.sessions?.map((session) => (
             <Route

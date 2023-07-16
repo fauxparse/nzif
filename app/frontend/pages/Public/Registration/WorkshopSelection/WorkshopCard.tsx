@@ -8,11 +8,11 @@ import Placename from '@/atoms/Placename';
 import { PlaceName, RegistrationSlotFragment, RegistrationWorkshopFragment } from '@/graphql/types';
 import Skeleton from '@/helpers/Skeleton';
 import Tooltip from '@/helpers/Tooltip';
+import BlurrableImage from '@/molecules/BlurrableImage';
 import Card from '@/organisms/Card';
 import ordinalize from '@/util/ordinalize';
 import sentence from '@/util/sentence';
 
-import BlurrableImage from './BlurrableImage';
 import PreferenceCheckbox from './PreferenceCheckbox';
 import { useWorkshopSelectionContext } from './WorkshopSelectionContext';
 
