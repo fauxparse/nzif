@@ -21,7 +21,7 @@ const formSchema = z.object({
 type FormSchemaType = z.infer<typeof formSchema>;
 
 const LogInForm: React.FC = () => {
-  const { loading, data } = useRegistrationStatusQuery();
+  const { loading } = useRegistrationStatusQuery();
 
   const client = useApolloClient();
 
@@ -52,7 +52,7 @@ const LogInForm: React.FC = () => {
         saveAuthenticationInfo(credentials);
       }
     },
-    refetchQueries: ['CurrentUser', 'Registration'],
+    refetchQueries: ['CurrentUser', 'RegistrationStatus'],
   });
 
   const onSubmit = () => {
