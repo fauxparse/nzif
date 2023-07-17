@@ -77,6 +77,7 @@ export const ROUTES = {
   LOG_IN: route('log-in'),
   SIGN_UP: route('sign-up'),
   LOG_OUT: route('log-out'),
+  PASSWORD: route('password'),
 };
 
 const router = createBrowserRouter([

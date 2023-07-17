@@ -54,8 +54,8 @@ mutation SignUp($name: String!, $email: String!, $password: String!) {
   }
 }
 
-mutation ResetPassword($email: String!) {
-  userSendPasswordResetWithToken(email: $email, redirectUrl: "http://example.com") {
+mutation ResetPassword($email: String!, $redirect: String!) {
+  userSendPasswordResetWithToken(email: $email, redirectUrl: $redirect) {
     message
   }
 }

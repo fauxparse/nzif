@@ -49,6 +49,12 @@
 *::after {
   box-sizing: border-box;
   scroll-behavior: smooth;
+  accent-color: var(--accent11);
+}
+
+:link {
+  color: var(--accent11);
+  text-decoration-color: var(--accentA6);
 }
 
 .app {

@@ -1,12 +1,10 @@
 .authentication {
-  --text: var(--accent1);
-
   display: grid;
   place-items: center;
   min-height: 100vh;
   min-height: 100dvh;
   min-height: 100svh;
-  background: linear-gradient(45deg, var(--accent6), var(--accent9));
+  background: var(--accent2);
   color: var(--text);
 
   &__form {
@@ -22,9 +20,8 @@
     }
 
     h2 {
-      font-size: 3rem;
-      line-height: 1.25;
-      text-transform: lowercase;
+      font-size: var(--font-size-huge);
+      line-height: var(--line-height-huge);
     }
 
     .input,
@@ -40,25 +37,14 @@
 
     .button {
       &[data-variant="inline"] {
-        color: var(--text);
+        color: var(--accent11);
         text-decoration: underline;
+        text-decoration-color: var(--accentA6);
       }
 
       &:not([data-variant="inline"]) {
-        --button-text: var(--text);
-        --button-border-color: var(--text);
-        --button-hover-background: var(--text);
-
         text-transform: uppercase;
         font-variation-settings: var(--wide);
-      }
-
-      &[data-variant="primary"] {
-        --button-background: var(--text);
-        --button-text: var(--accent12);
-        --button-border-width: 0px;
-        --button-hover-background: var(--text);
-        --button-active-background: var(--text);
       }
     }
   }

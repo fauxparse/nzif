@@ -76,6 +76,8 @@ gem 'i18n-active_record', require: 'i18n/active_record'
 
 gem 'paper_trail', '~> 14.0'
 
+gem 'premailer-rails'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
@@ -103,6 +105,8 @@ group :development do
   gem 'graphiql-rails'
 
   gem 'seed-fu', '~> 2.3'
+
+  gem 'letter_opener'
 end
 
 group :test do

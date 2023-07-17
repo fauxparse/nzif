@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useWillChange, Variants } from 'framer-motion'
 import Authentication from '../Authentication';
 import { User } from '../Authentication/AuthenticationMachine';
 import { useAuthentication } from '../Authentication/AuthenticationProvider';
+import Button from '@/atoms/Button';
 import {
   LogInMutationVariables,
   ResetPasswordMutationVariables,
@@ -37,6 +38,20 @@ const overlay: Variants = {
   },
 };
 
+const button: Variants = {
+  open: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      delay: 0.3,
+    },
+  },
+  closed: {
+    scale: 0,
+    opacity: 0,
+  },
+};
+
 type OverlayProps = {
   open: boolean;
   user: User | null;
@@ -59,7 +74,7 @@ const Overlay: React.FC<OverlayProps> = ({ open, onToggle }) => {
 
   const onLogOut = () => logOut().then(close);
 
-  const onResetPassword = (variables: ResetPasswordMutationVariables) => resetPassword(variables);
+  const onResetPassword = (variables: { email: string }) => resetPassword(variables);
 
   useEffect(() => {
     const { style } = document.body;
@@ -81,6 +96,15 @@ const Overlay: React.FC<OverlayProps> = ({ open, onToggle }) => {
       aria-expanded={open || undefined}
       style={{ willChange }}
     >
+      <Button
+        ghost
+        as={motion.button}
+        className="header__close"
+        icon="close"
+        onClick={onToggle}
+        animate={open ? 'open' : 'closed'}
+        variants={button}
+      />
       <AnimatePresence mode="sync">
         {open && (
           <Authentication
@@ -90,6 +114,7 @@ const Overlay: React.FC<OverlayProps> = ({ open, onToggle }) => {
             onLogOut={onLogOut}
             onSignUp={onSignUp}
             onResetPassword={onResetPassword}
+            onClose={onToggle}
           />
         )}
       </AnimatePresence>

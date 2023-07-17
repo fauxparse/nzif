@@ -6,6 +6,7 @@ import { DateTime } from 'luxon';
 import { useAuthentication } from '../Authentication/AuthenticationProvider';
 import Avatar from '@/atoms/Avatar';
 import Button from '@/atoms/Button';
+import Icon from '@/atoms/Icon';
 import Logo from '@/atoms/Logo';
 import Placename from '@/atoms/Placename/Placename';
 import ThemeSwitcher from '@/atoms/ThemeSwitcher';
@@ -61,6 +62,7 @@ const Header: React.FC = () => {
           <Button ghost className="user-button" onClick={() => toggleOverlay()}>
             <Avatar url={user?.profile?.picture?.small} name={user?.profile?.name || ''} />
             <span className="button__text">{user?.profile?.name || 'Log in'}</span>
+            <Icon name="chevronDown" />
           </Button>
         )}
         <ThemeSwitcher />

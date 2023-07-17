@@ -11,11 +11,6 @@
   padding-block: var(--large);
   border-bottom: 1px solid var(--border-subtle);
 
-  @media screen and (width > 1024px) {
-    grid-template: "logo dates user" auto;
-    grid-template-columns: 1fr auto 1fr;
-  }
-
   .user-button {
     border-radius: var(--huge);
 
@@ -59,11 +54,6 @@
     gap: var(--small);
     align-items: center;
     justify-self: end;
-
-    .user-button {
-      z-index: var(--z-index-overlay-toggle);
-      flex-direction: row-reverse;
-    }
 
     .button {
       position: relative;
@@ -109,10 +99,6 @@
     pointer-events: none;
     clip-path: circle(1.25rem at var(--cx) var(--cy));
 
-    @media screen and (width > 1024px) {
-      --button-top: var(--large);
-    }
-
     &[aria-expanded] {
       pointer-events: auto;
 
@@ -126,5 +112,20 @@
         }
       }
     }
+
+    @media screen and (width > 1024px) {
+      --button-top: var(--large);
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: var(--medium);
+    right: var(--medium);
+  }
+
+  @media screen and (width > 1024px) {
+    grid-template: "logo dates user" auto;
+    grid-template-columns: 1fr auto 1fr;
   }
 }

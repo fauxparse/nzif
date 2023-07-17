@@ -844,6 +844,7 @@ export type SignUpMutation = { __typename: 'Mutation', userRegister: { __typenam
 
 export type ResetPasswordMutationVariables = Exact<{
   email: Scalars['String'];
+  redirect: Scalars['String'];
 }>;
 
 
@@ -1660,8 +1661,8 @@ export type SignUpMutationHookResult = ReturnType<typeof useSignUpMutation>;
 export type SignUpMutationResult = Apollo.MutationResult<SignUpMutation>;
 export type SignUpMutationOptions = Apollo.BaseMutationOptions<SignUpMutation, SignUpMutationVariables>;
 export const ResetPasswordDocument = gql`
-    mutation ResetPassword($email: String!) {
-  userSendPasswordResetWithToken(email: $email, redirectUrl: "http://example.com") {
+    mutation ResetPassword($email: String!, $redirect: String!) {
+  userSendPasswordResetWithToken(email: $email, redirectUrl: $redirect) {
     message
   }
 }
@@ -1682,6 +1683,7 @@ export type ResetPasswordMutationFn = Apollo.MutationFunction<ResetPasswordMutat
  * const [resetPasswordMutation, { data, loading, error }] = useResetPasswordMutation({
  *   variables: {
  *      email: // value for 'email'
+ *      redirect: // value for 'redirect'
  *   },
  * });
  */

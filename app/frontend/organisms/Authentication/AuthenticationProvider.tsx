@@ -15,6 +15,7 @@ import {
   useResetPasswordMutation,
   useSignUpMutation,
 } from '@/graphql/types';
+import { ROUTES } from '@/Routes';
 
 type AuthenticationContextShape = {
   loading: boolean;
@@ -120,8 +121,10 @@ const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }) => {
       return true;
     });
 
-  const resetPassword = (variables: ResetPasswordMutationVariables) =>
-    doResetPassword({ variables }).then(() => true);
+  const resetPassword = (variables: { email: string }) => {
+    const redirect = new URL(ROUTES.PASSWORD.path, window.location.origin).toString();
+    return doResetPassword({ variables: { ...variables, redirect } }).then(() => true);
+  };
 
   const permissions = useMemo<Set<Permission>>(() => {
     const set = new Set<Permission>();
