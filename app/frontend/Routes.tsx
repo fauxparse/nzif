@@ -8,7 +8,7 @@ import { client } from '@/graphql';
 import RegistrationRedirect from '@/pages/Public/Registration/Redirect';
 
 import { FestivalDocument } from './graphql/types';
-import NotFound from './pages/404';
+// import NotFound from './pages/404';
 
 const id = zod(z.string()).defined();
 
@@ -77,7 +77,11 @@ export const ROUTES = {
   LOG_IN: route('log-in'),
   SIGN_UP: route('sign-up'),
   LOG_OUT: route('log-out'),
-  PASSWORD: route('password'),
+  PASSWORD: route('password', {
+    searchParams: {
+      reset_password_token: zod(z.string()),
+    },
+  }),
 };
 
 const router = createBrowserRouter([
@@ -167,6 +171,10 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <Navigate to="/2023/register" />,
+      },
+      {
+        path: '/password',
+        lazy: () => import('./pages/Public/ResetPassword'),
       },
       {
         path: '/',

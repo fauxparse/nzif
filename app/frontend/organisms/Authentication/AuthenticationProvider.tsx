@@ -7,7 +7,6 @@ import {
   AuthenticatedUserFragment,
   LogInMutationVariables,
   Permission,
-  ResetPasswordMutationVariables,
   SignUpMutationVariables,
   useCurrentUserQuery,
   useLogInMutation,

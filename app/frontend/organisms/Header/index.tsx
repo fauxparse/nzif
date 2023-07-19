@@ -62,7 +62,7 @@ const Header: React.FC = () => {
           <Button ghost className="user-button" onClick={() => toggleOverlay()}>
             <Avatar url={user?.profile?.picture?.small} name={user?.profile?.name || ''} />
             <span className="button__text">{user?.profile?.name || 'Log in'}</span>
-            <Icon name="chevronDown" />
+            {user && <Icon name="chevronDown" />}
           </Button>
         )}
         <ThemeSwitcher />

@@ -1,5 +1,6 @@
 module Types
   class MutationType < Types::BaseObject
+    field :reset_password_and_log_in, mutation: Mutations::Users::ResetPasswordAndLogIn
     field :update_setting, mutation: Mutations::Users::UpdateSetting
     field :update_user, mutation: Mutations::Users::Update
 

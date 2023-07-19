@@ -5,7 +5,6 @@ import { AnimationDefinition, motion } from 'framer-motion';
 import Button from '@/atoms/Button';
 
 import { AuthenticationMachineContext } from './AuthenticationMachine';
-import Divider from './Divider';
 import Input from './InputRow';
 import { formItem, formPage } from './variants';
 
@@ -46,11 +45,6 @@ const Login = forwardRef<LoginForm>((_, ref) => {
       <Input type="email" name="email" required placeholder="Email address" icon="email" />
       <Input type="password" name="password" placeholder="Password" icon="password" />
       <Button as={motion.button} type="submit" primary stretch variants={formItem} text="Log in" />
-      <Divider />
-      <motion.div className="oauth" variants={formItem}>
-        <Button stretch text="Google" />
-        <Button stretch text="Facebook" />
-      </motion.div>
       <motion.p variants={formItem}>
         New here? You’ll need to{' '}
         <Button inline onClick={() => machine.send('SIGN_UP_CLICKED')} text="sign up" />.
