@@ -25,6 +25,7 @@ module Types
     field :add_preference, mutation: Mutations::Preferences::Add
     field :remove_preference, mutation: Mutations::Preferences::Remove
 
+    field :finalise_registration, mutation: Mutations::Registrations::Finalise
     field :update_registration_user_details, mutation: Mutations::Registrations::UpdateUserDetails
   end
 end

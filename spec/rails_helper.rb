@@ -10,9 +10,11 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 require 'action_policy/rspec/dsl'
-require 'support/factory_bot'
+require 'email_spec'
+require 'email_spec/rspec'
 require 'rspec/its'
 require 'rspec/collection_matchers'
+require 'support/factory_bot'
 require 'shoulda-matchers'
 
 require 'support/authorization_matchers'

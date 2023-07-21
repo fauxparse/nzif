@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useApolloClient } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { mapValues, omit } from 'lodash-es';
+import { mapValues, merge, omit } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { z } from 'zod';
 
@@ -11,6 +12,7 @@ import Checkbox from '@/atoms/Checkbox';
 import Input from '@/atoms/Input';
 import {
   CurrentUserDocument,
+  RegistrationStatusDocument,
   UserDetailsAttributes,
   useRegistrationStatusQuery,
   useUpdateRegistrationUserDetailsMutation,
@@ -89,8 +91,15 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ onContinue })
           codeOfConductAcceptedAt: DateTime.now(),
         },
       },
-    }).then(onContinue);
-    onContinue();
+      update: (cache, { data }) => {
+        const current = cache.readQuery({ query: RegistrationStatusDocument });
+        const registration = data?.updateRegistrationUserDetails?.registration || {};
+        const updated = merge({}, current, { registration });
+        cache.writeQuery({ query: RegistrationStatusDocument, data: updated });
+      },
+    }).then(() => {
+      onContinue();
+    });
   };
 
   return (
@@ -186,6 +195,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ onContinue })
         <label className="code-of-conduct__read">
           <Checkbox
             disabled={!codeOfConductRead || !!registration?.codeOfConductAcceptedAt || undefined}
+            id="codeOfConductAccepted"
             {...register('codeOfConductAccepted')}
           />
           <span>

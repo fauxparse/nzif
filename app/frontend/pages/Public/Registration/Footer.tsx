@@ -68,6 +68,7 @@ const Footer: React.FC = () => {
           className="registration__button"
           icon="chevronRight"
           data-action="next"
+          id="next"
           type="submit"
           form="registration-form"
           text={

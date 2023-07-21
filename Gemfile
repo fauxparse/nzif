@@ -110,9 +110,19 @@ group :development do
 end
 
 group :test do
+  gem 'capybara', '~> 3.39'
+  gem 'cucumber', '~> 8.0', require: false
+  gem 'cucumber-rails', '~> 2.6', require: false
+  gem 'cuprite', '~> 0.14.3'
+
   gem 'rspec-collection_matchers', require: false
   gem 'rspec-its', require: false
   gem 'shoulda-matchers', require: false
   gem 'simplecov', require: false
   gem 'simplecov-summary', require: false
+
+  gem 'database_cleaner', '~> 2.0'
+
+  gem 'action_mailer_cache_delivery', '~> 0.4.0'
+  gem 'email_spec', '~> 2.2'
 end

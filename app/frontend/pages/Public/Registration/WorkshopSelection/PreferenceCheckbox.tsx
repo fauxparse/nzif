@@ -33,6 +33,7 @@ const PreferenceCheckbox: React.FC<PreferenceCheckboxProps> = ({
       checked={!!preference}
       preference={(registrationStage === 'earlybird' && preference) || undefined}
       disabled={disabled || undefined}
+      value={workshop.id}
       onChange={changed}
     >
       <svg className="checkbox__burst" viewBox="-64 -64 128 128">

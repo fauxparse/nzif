@@ -121,6 +121,7 @@ const LogInForm: React.FC = () => {
             <Input
               type="text"
               autoComplete="name"
+              id="name"
               {...register('name')}
               disabled={loggingIn || signingUp || undefined}
             />
@@ -130,6 +131,7 @@ const LogInForm: React.FC = () => {
           <Skeleton rounded loading={loading}>
             <Input
               type="email"
+              id="email"
               autoComplete="email"
               {...register('email')}
               disabled={loggingIn || signingUp || undefined}
@@ -139,6 +141,7 @@ const LogInForm: React.FC = () => {
         <Labelled label="Choose a password" name="password" required errors={errors}>
           <Skeleton rounded loading={loading}>
             <Input
+              id="password"
               type="password"
               {...register('password')}
               disabled={loggingIn || signingUp || undefined}

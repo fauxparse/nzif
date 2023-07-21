@@ -178,3 +178,11 @@ mutation AddPreference($registrationId: ID, $sessionId: ID!) {
 mutation RemovePreference($registrationId: ID, $sessionId: ID!) {
   removePreference(registrationId: $registrationId, sessionId: $sessionId)
 }
+
+mutation FinaliseRegistration {
+  finaliseRegistration {
+    registration {
+      id
+    }
+  }
+}

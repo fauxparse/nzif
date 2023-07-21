@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :session do
     festival
-    starts_at { '2023-10-09 10:00:00' }
-    ends_at { '2023-10-09 13:00:00' }
+    starts_at { Time.zone.parse('2023-10-09 10:00:00') }
+    ends_at { starts_at + 3.hours }
     venue
     activity_type { Workshop }
 

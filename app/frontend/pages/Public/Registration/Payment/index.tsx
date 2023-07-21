@@ -2,6 +2,7 @@ import pluralize from 'pluralize';
 
 import { useRegistrationContext } from '../RegistrationContext';
 import useCartCalculator from '../useCartCalculator';
+import { useFinaliseRegistrationMutation } from '@/graphql/types';
 
 import './Payment.css';
 
@@ -10,9 +11,11 @@ export const Component: React.FC = () => {
 
   const { next } = useRegistrationContext();
 
+  const [finaliseRegistration] = useFinaliseRegistrationMutation();
+
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    next();
+    finaliseRegistration().then(() => next());
   };
 
   return (
