@@ -9,7 +9,9 @@ class Profile < ApplicationRecord
   has_many :cast, dependent: :destroy, inverse_of: :profile
   has_many :activities, through: :cast, source: :activity
 
-  validates :name, presence: true
+  validates :name,
+    presence: true,
+    format: { with: /\A(CB|([^\s]+(\s+[^\s]+)+))\z/i }
   validates :phone, length: { in: 0..32 }, allow_blank: true
 
   searchable_on :name

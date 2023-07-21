@@ -14,7 +14,7 @@ class User < ApplicationRecord
 
   validates :name,
     presence: true,
-    format: { with: /[^\s]+\s[^\s]+/ }
+    format: { with: /\A(CB|([^\s]+(\s+[^\s]+)+))\z/ }
 
   setting :show_traditional_names, type: :boolean, default: true,
     description: 'Show traditional placenames'

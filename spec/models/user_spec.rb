@@ -15,6 +15,12 @@ RSpec.describe User do
     end
   end
 
+  context 'when it’s CB though' do
+    subject(:user) { build(:user, name: 'CB') }
+
+    it { is_expected.to be_valid }
+  end
+
   describe '#permissions' do
     subject(:permissions) { user.permissions }
 
