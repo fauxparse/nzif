@@ -33,8 +33,7 @@ export const Component: React.FC = () => {
               <Menu.Item
                 as={Link}
                 key={key}
-                to={ROUTES.ADMIN.FESTIVAL.ACTIVITIES.buildPath({
-                  year,
+                to={ROUTES.ADMIN.ACTIVITIES.buildPath({
                   type: pluralize(kebabCase(key)),
                 })}
                 icon={camelCase(value) as IconName}
@@ -43,7 +42,7 @@ export const Component: React.FC = () => {
             ))}
             <Menu.Item
               as={Link}
-              to={ROUTES.ADMIN.FESTIVAL.TIMETABLE.buildPath({ year })}
+              to={ROUTES.ADMIN.TIMETABLE.buildPath({ year })}
               icon="calendar"
               label="Timetable"
             />

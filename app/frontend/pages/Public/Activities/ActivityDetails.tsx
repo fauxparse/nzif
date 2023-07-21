@@ -6,7 +6,7 @@ import PageHeader from '@/molecules/PageHeader';
 import { ROUTES } from '@/Routes';
 
 export const Component: React.FC = () => {
-  const { year, type: pluralizedType, slug } = useTypedParams(ROUTES.FESTIVAL.ACTIVITY);
+  const { type: pluralizedType, slug } = useTypedParams(ROUTES.ACTIVITY);
 
   return (
     <BreadcrumbProvider label={upperFirst(pluralizedType.replace(/-/g, ' '))} path={pluralizedType}>

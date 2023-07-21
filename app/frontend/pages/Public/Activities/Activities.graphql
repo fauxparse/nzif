@@ -10,8 +10,8 @@ fragment AssociatedActivity on Activity {
   }
 }
 
-query Programme($year: String!, $type: ActivityType!) {
-  festival(year: $year) {
+query Programme($type: ActivityType!) {
+  festival {
     id
     activities(type: $type) {
       id

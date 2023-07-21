@@ -13,6 +13,10 @@ module Types
     # define authorization context
     authorize :user, through: :current_user
 
+    def current_festival
+      context[:current_festival] ||= Festival.upcoming.first
+    end
+
     # add a method helper to get the current_user from the context
     def current_user
       context[:current_user]

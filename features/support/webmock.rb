@@ -16,7 +16,7 @@ Billy.configure do |config|
 end
 
 Before do
-  Capybara.current_driver = :cuprite_billy
+  Capybara.current_driver = :cuprite_billy unless ENV['HEADLESS'].in?(%w[n 0 no false])
 end
 
 After do

@@ -1,5 +1,5 @@
-query ActivityList($year: String!, $type: ActivityType) {
-  festival(year: $year) {
+query ActivityList($type: ActivityType) {
+  festival {
     id
 
     activities(type: $type) {
@@ -8,8 +8,8 @@ query ActivityList($year: String!, $type: ActivityType) {
   }
 }
 
-query ActivityDetails($year: String!, $type: ActivityType!, $slug: String!) {
-  festival(year: $year) {
+query ActivityDetails($type: ActivityType!, $slug: String!) {
+  festival {
     id
 
     activity(type: $type, slug: $slug) {

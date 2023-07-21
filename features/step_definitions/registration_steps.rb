@@ -22,7 +22,8 @@ ParameterType(
 )
 
 Given('I am on the registration page') do
-  visit "/#{festival.year}/register"
+  festival
+  visit '/register'
   sleep 1
 end
 

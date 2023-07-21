@@ -871,9 +871,7 @@ export type ResetPasswordMutationVariables = Exact<{
 
 export type ResetPasswordMutation = { __typename: 'Mutation', userSendPasswordResetWithToken: { __typename: 'UserSendPasswordResetWithTokenPayload', message: string } | null };
 
-export type HeaderQueryVariables = Exact<{
-  year: InputMaybe<Scalars['String']>;
-}>;
+export type HeaderQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type HeaderQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime } };
@@ -886,7 +884,6 @@ export type SearchQueryVariables = Exact<{
 export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'ActivityResult', id: string, title: string, description: string | null, url: string, activity: { __typename: 'Show', id: string, name: string, type: ActivityType } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType } | { __typename: 'Workshop', id: string, name: string, type: ActivityType } } | { __typename: 'PageResult', id: string, title: string, description: string | null, url: string } | { __typename: 'PersonResult', id: string, title: string, description: string | null, url: string, person: { __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string } | null } } | { __typename: 'VenueResult', id: string, title: string, description: string | null, url: string, venue: { __typename: 'Venue', id: string, room: string | null, building: string, address: string } }> };
 
 export type ActivityListQueryVariables = Exact<{
-  year: Scalars['String'];
   type: InputMaybe<ActivityType>;
 }>;
 
@@ -894,7 +891,6 @@ export type ActivityListQueryVariables = Exact<{
 export type ActivityListQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, activities: Array<{ __typename: 'Show', id: string, name: string, type: ActivityType, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }>, presenters: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }>, presenters: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } | { __typename: 'Workshop', id: string, name: string, type: ActivityType, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }>, presenters: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> }> } };
 
 export type ActivityDetailsQueryVariables = Exact<{
-  year: Scalars['String'];
   type: ActivityType;
   slug: Scalars['String'];
 }>;
@@ -936,9 +932,7 @@ export type UpdateActivityMutationVariables = Exact<{
 
 export type UpdateActivityMutation = { __typename: 'Mutation', updateActivity: { __typename: 'UpdateActivityPayload', activity: { __typename: 'Show', id: string, name: string, type: ActivityType, slug: string, description: string | null, presenters: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, description: string | null, presenters: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } | { __typename: 'Workshop', id: string, name: string, type: ActivityType, slug: string, description: string | null, presenters: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } } | null };
 
-export type FestivalQueryVariables = Exact<{
-  year: Scalars['String'];
-}>;
+export type FestivalQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FestivalQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string } };
@@ -985,9 +979,7 @@ export type TimetableCastFragment = { __typename: 'Person', id: string, name: st
 
 export type TimetableSessionFragment = { __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, activity: { __typename: 'Show', id: string, type: ActivityType, name: string, slug: string, directors: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } | { __typename: 'SocialEvent', id: string, type: ActivityType, name: string, slug: string, organisers: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } | { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, tutors: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } | null, venue: { __typename: 'Venue', id: string, room: string | null, building: string, position: number } | null };
 
-export type TimetableQueryVariables = Exact<{
-  year: InputMaybe<Scalars['String']>;
-}>;
+export type TimetableQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type TimetableQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, timetable: { __typename: 'Timetable', id: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, activityType: ActivityType, activity: { __typename: 'Show', id: string, type: ActivityType, name: string, slug: string, directors: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } | { __typename: 'SocialEvent', id: string, type: ActivityType, name: string, slug: string, organisers: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } | { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, tutors: Array<{ __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } | null, venue: { __typename: 'Venue', id: string, room: string | null, building: string, position: number } | null }> }, venues: Array<{ __typename: 'Venue', id: string, room: string | null, building: string, position: number }> } };
@@ -1110,7 +1102,6 @@ type AssociatedActivity_Workshop_Fragment = { __typename: 'Workshop', id: string
 export type AssociatedActivityFragment = AssociatedActivity_Show_Fragment | AssociatedActivity_SocialEvent_Fragment | AssociatedActivity_Workshop_Fragment;
 
 export type ProgrammeQueryVariables = Exact<{
-  year: Scalars['String'];
   type: ActivityType;
 }>;
 
@@ -1728,8 +1719,8 @@ export type ResetPasswordMutationHookResult = ReturnType<typeof useResetPassword
 export type ResetPasswordMutationResult = Apollo.MutationResult<ResetPasswordMutation>;
 export type ResetPasswordMutationOptions = Apollo.BaseMutationOptions<ResetPasswordMutation, ResetPasswordMutationVariables>;
 export const HeaderDocument = gql`
-    query Header($year: String) {
-  festival(year: $year) {
+    query Header {
+  festival {
     id
     startDate
     endDate
@@ -1749,7 +1740,6 @@ export const HeaderDocument = gql`
  * @example
  * const { data, loading, error } = useHeaderQuery({
  *   variables: {
- *      year: // value for 'year'
  *   },
  * });
  */
@@ -1836,8 +1826,8 @@ export type SearchQueryHookResult = ReturnType<typeof useSearchQuery>;
 export type SearchLazyQueryHookResult = ReturnType<typeof useSearchLazyQuery>;
 export type SearchQueryResult = Apollo.QueryResult<SearchQuery, SearchQueryVariables>;
 export const ActivityListDocument = gql`
-    query ActivityList($year: String!, $type: ActivityType) {
-  festival(year: $year) {
+    query ActivityList($type: ActivityType) {
+  festival {
     id
     activities(type: $type) {
       ...ActivityListActivity
@@ -1858,12 +1848,11 @@ export const ActivityListDocument = gql`
  * @example
  * const { data, loading, error } = useActivityListQuery({
  *   variables: {
- *      year: // value for 'year'
  *      type: // value for 'type'
  *   },
  * });
  */
-export function useActivityListQuery(baseOptions: Apollo.QueryHookOptions<ActivityListQuery, ActivityListQueryVariables>) {
+export function useActivityListQuery(baseOptions?: Apollo.QueryHookOptions<ActivityListQuery, ActivityListQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<ActivityListQuery, ActivityListQueryVariables>(ActivityListDocument, options);
       }
@@ -1875,8 +1864,8 @@ export type ActivityListQueryHookResult = ReturnType<typeof useActivityListQuery
 export type ActivityListLazyQueryHookResult = ReturnType<typeof useActivityListLazyQuery>;
 export type ActivityListQueryResult = Apollo.QueryResult<ActivityListQuery, ActivityListQueryVariables>;
 export const ActivityDetailsDocument = gql`
-    query ActivityDetails($year: String!, $type: ActivityType!, $slug: String!) {
-  festival(year: $year) {
+    query ActivityDetails($type: ActivityType!, $slug: String!) {
+  festival {
     id
     activity(type: $type, slug: $slug) {
       id
@@ -1914,7 +1903,6 @@ export const ActivityDetailsDocument = gql`
  * @example
  * const { data, loading, error } = useActivityDetailsQuery({
  *   variables: {
- *      year: // value for 'year'
  *      type: // value for 'type'
  *      slug: // value for 'slug'
  *   },
@@ -2053,8 +2041,8 @@ export type UpdateActivityMutationHookResult = ReturnType<typeof useUpdateActivi
 export type UpdateActivityMutationResult = Apollo.MutationResult<UpdateActivityMutation>;
 export type UpdateActivityMutationOptions = Apollo.BaseMutationOptions<UpdateActivityMutation, UpdateActivityMutationVariables>;
 export const FestivalDocument = gql`
-    query Festival($year: String!) {
-  festival(year: $year) {
+    query Festival {
+  festival {
     id
   }
 }
@@ -2072,11 +2060,10 @@ export const FestivalDocument = gql`
  * @example
  * const { data, loading, error } = useFestivalQuery({
  *   variables: {
- *      year: // value for 'year'
  *   },
  * });
  */
-export function useFestivalQuery(baseOptions: Apollo.QueryHookOptions<FestivalQuery, FestivalQueryVariables>) {
+export function useFestivalQuery(baseOptions?: Apollo.QueryHookOptions<FestivalQuery, FestivalQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<FestivalQuery, FestivalQueryVariables>(FestivalDocument, options);
       }
@@ -2255,8 +2242,8 @@ export type CreateActivityMutationHookResult = ReturnType<typeof useCreateActivi
 export type CreateActivityMutationResult = Apollo.MutationResult<CreateActivityMutation>;
 export type CreateActivityMutationOptions = Apollo.BaseMutationOptions<CreateActivityMutation, CreateActivityMutationVariables>;
 export const TimetableDocument = gql`
-    query Timetable($year: String) {
-  festival(year: $year) {
+    query Timetable {
+  festival {
     id
     startDate
     endDate
@@ -2288,7 +2275,6 @@ export const TimetableDocument = gql`
  * @example
  * const { data, loading, error } = useTimetableQuery({
  *   variables: {
- *      year: // value for 'year'
  *   },
  * });
  */
@@ -2816,8 +2802,8 @@ export type DestroyTranslationMutationHookResult = ReturnType<typeof useDestroyT
 export type DestroyTranslationMutationResult = Apollo.MutationResult<DestroyTranslationMutation>;
 export type DestroyTranslationMutationOptions = Apollo.BaseMutationOptions<DestroyTranslationMutation, DestroyTranslationMutationVariables>;
 export const ProgrammeDocument = gql`
-    query Programme($year: String!, $type: ActivityType!) {
-  festival(year: $year) {
+    query Programme($type: ActivityType!) {
+  festival {
     id
     activities(type: $type) {
       id
@@ -2875,7 +2861,6 @@ export const ProgrammeDocument = gql`
  * @example
  * const { data, loading, error } = useProgrammeQuery({
  *   variables: {
- *      year: // value for 'year'
  *      type: // value for 'type'
  *   },
  * });

@@ -22,7 +22,6 @@ import {
 } from '@/graphql/types';
 
 type ActivityTableProps = {
-  year: string;
   type: ActivityType;
 };
 
@@ -98,8 +97,8 @@ const columns = [
   ),
 ];
 
-const ActivityTable: React.FC<ActivityTableProps> = ({ year, type }) => {
-  const { data } = useActivityListQuery({ variables: { year, type } });
+const ActivityTable: React.FC<ActivityTableProps> = ({ type }) => {
+  const { data } = useActivityListQuery({ variables: { type } });
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const rows = useMemo<ActivityRow[]>(

@@ -14,11 +14,9 @@ import ActivityTab from './ActivityTab';
 import ActivityTable from './ActivityTable';
 
 export const Component: React.FC = () => {
-  const { year, type: pluralizedType } = useTypedParams(ROUTES.ADMIN.FESTIVAL.ACTIVITIES);
+  const { type: pluralizedType } = useTypedParams(ROUTES.ADMIN.ACTIVITIES);
 
   const type = activityTypeFromPluralized(pluralizedType as Pluralized);
-
-  if (!year || !year.match(/^\d{4}$/)) return null;
 
   return (
     <div className="page">
@@ -32,7 +30,7 @@ export const Component: React.FC = () => {
           <Button ghost as={Link} to={`../timetable`} icon="calendar" text="Timetable" />
         </Tabs>
       </PageHeader>
-      <ActivityTable year={year} type={type} />
+      <ActivityTable type={type} />
     </div>
   );
 };

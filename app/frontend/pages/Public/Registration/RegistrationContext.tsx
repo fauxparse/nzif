@@ -35,8 +35,8 @@ export const RegistrationContextProvider: React.FC<RegistrationContextProviderPr
       label: 'Thanks',
       path: '/register/thanks',
     };
-    navigate(`/${festival.id}${nextStep.path}`);
-  }, [step, navigate, festival.id]);
+    navigate(nextStep.path);
+  }, [step, navigate]);
 
   const back = useCallback(() => {
     const previousStep = REGISTRATION_STEPS[REGISTRATION_STEPS.indexOf(step) + 1];

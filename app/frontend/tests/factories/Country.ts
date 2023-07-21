@@ -12,6 +12,7 @@ class CountryFactory extends Factory<PlaceName> {
       id: 'AU',
       name: 'Australia',
       traditionalName: null,
+      raw: 'Australia',
     });
   }
 }
@@ -23,6 +24,7 @@ const countryFactory = CountryFactory.define(
       id: 'NZ',
       name: 'New Zealand',
       traditionalName: 'Aotearoa',
+      raw: 'New Zealand',
     } as const)
 );
 

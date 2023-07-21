@@ -26,12 +26,12 @@ const TABS: [ActivityType, string][] = [
 ];
 
 export const Component: React.FC = () => {
-  const { year, type: pluralizedType } = useTypedParams(ROUTES.FESTIVAL.ACTIVITIES);
+  const { type: pluralizedType } = useTypedParams(ROUTES.ACTIVITIES);
 
   const type = TABS.find(([, t]) => t === pluralizedType)?.[0] ?? ActivityType.Workshop;
 
   const { loading, data } = useProgrammeQuery({
-    variables: { year, type },
+    variables: { type },
   });
 
   const index = TABS.findIndex(([, t]) => pluralizedType === t);
@@ -71,10 +71,7 @@ export const Component: React.FC = () => {
             <Tabs.Tab
               key={type}
               as={Link}
-              to={ROUTES.FESTIVAL.ACTIVITIES.buildPath({
-                year,
-                type: slug,
-              })}
+              to={ROUTES.ACTIVITIES.buildPath({ type: slug })}
               text={pluralize(activityTypeLabel(type))}
               selected={pluralizedType === slug}
             />

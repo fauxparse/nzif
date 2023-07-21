@@ -12,6 +12,7 @@ class CityFactory extends Factory<PlaceName> {
       id: 'auckland',
       name: 'Auckland',
       traditionalName: 'Tāmaki Makaurau',
+      raw: 'Auckland',
     });
   }
 }
@@ -23,6 +24,7 @@ const cityFactory = CityFactory.define(
       id: 'wellington',
       name: 'Wellington',
       traditionalName: 'Te Whanganui-a-Tara',
+      raw: 'Wellington',
     } as const)
 );
 

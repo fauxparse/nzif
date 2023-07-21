@@ -2,12 +2,10 @@ module Resolvers
   class Registration < BaseResolver
     type Types::RegistrationType, null: false
 
-    argument :year, ID, required: false
-
-    def resolve(year: nil)
+    def resolve
       (current_user&.registrations || ::Registration)
         .includes(user: :profile, preferences: { session: :activity })
-        .find_or_initialize_by(festival: festival(year:), user: current_user)
+        .find_or_initialize_by(festival: current_festival, user: current_user)
     end
 
     private

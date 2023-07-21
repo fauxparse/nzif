@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { createBrowserRouter, LoaderFunction, Navigate, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, LoaderFunction, RouterProvider } from 'react-router-dom';
 import { route } from 'react-router-typesafe-routes/dom';
 import { zod } from 'react-router-typesafe-routes/zod';
 import { z } from 'zod';
@@ -16,12 +16,8 @@ const year = zod(z.string().regex(/^\d{4}$/)).defined();
 
 const activityType = zod(z.string().regex(/^(workshops|shows)$/)).defined();
 
-const loadFestival: LoaderFunction = async ({ params }) => {
-  if (!params.year?.match(/^\d{4}$/)) {
-    throw new Error('Invalid year');
-  }
-
-  await client.query({ query: FestivalDocument, variables: params });
+const loadFestival: LoaderFunction = async () => {
+  await client.query({ query: FestivalDocument });
   return null;
 };
 
@@ -30,18 +26,11 @@ export const ROUTES = {
     'admin',
     {},
     {
-      FESTIVAL: route(
-        ':year',
-        {
-          params: { year },
-        },
-        {
-          TIMETABLE: route('timetable'),
-          ACTIVITIES: route(':type', { params: { type: activityType } }),
-          SHOWS: route('shows'),
-          WORKSHOPS: route('workshops'),
-        }
-      ),
+      TIMETABLE: route('timetable'),
+      ACTIVITIES: route(':type', { params: { type: activityType } }),
+      SHOWS: route('shows'),
+      WORKSHOPS: route('workshops'),
+      SOCIAL_EVENTS: route('social-events'),
       PEOPLE: route('people'),
       PERSON: route('people/:id', {
         params: { id },
@@ -49,22 +38,14 @@ export const ROUTES = {
       TRANSLATIONS: route('translations'),
     }
   ),
-  FESTIVAL: route(
-    ':year',
-    {
-      params: { year },
-    },
-    {
-      ACTIVITIES: route(':type', {
-        params: { type: activityType },
-      }),
-      ACTIVITY: route(':type/:slug', {
-        params: { type: activityType, slug: id },
-      }),
-    }
-  ),
+  ACTIVITIES: route(':type', {
+    params: { type: activityType },
+  }),
+  ACTIVITY: route(':type/:slug', {
+    params: { type: activityType, slug: id },
+  }),
   REGISTRATION: route(
-    ':year/register',
+    'register',
     { params: { year } },
     {
       ABOUT_YOU: route('about-you'),
@@ -86,24 +67,19 @@ export const ROUTES = {
 
 const router = createBrowserRouter([
   {
+    loader: loadFestival,
     children: [
       {
         path: ROUTES.ADMIN.path,
         lazy: () => import('./pages/Admin'),
         children: [
           {
-            path: ROUTES.ADMIN.FESTIVAL.path,
-            lazy: () => import('./pages/Admin/Festival'),
-            children: [
-              {
-                path: ROUTES.ADMIN.FESTIVAL.TIMETABLE.path,
-                lazy: () => import('./pages/Admin/Festival/Timetable'),
-              },
-              {
-                path: ROUTES.ADMIN.FESTIVAL.ACTIVITIES.path,
-                lazy: () => import('./pages/Admin/Festival/Activities/ActivityList'),
-              },
-            ],
+            path: ROUTES.ADMIN.TIMETABLE.path,
+            lazy: () => import('./pages/Admin/Festival/Timetable'),
+          },
+          {
+            path: ROUTES.ADMIN.ACTIVITIES.path,
+            lazy: () => import('./pages/Admin/Festival/Activities/ActivityList'),
           },
           {
             path: ROUTES.ADMIN.PEOPLE.path,
@@ -124,8 +100,6 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: ':year',
-        loader: loadFestival,
         lazy: () => import('./pages/Public'),
         children: [
           {
@@ -155,34 +129,26 @@ const router = createBrowserRouter([
             ],
           },
           {
-            path: ROUTES.FESTIVAL.ACTIVITIES.path,
+            path: ROUTES.ACTIVITIES.path,
             lazy: () => import('./pages/Public/Activities'),
           },
           {
-            path: ROUTES.FESTIVAL.ACTIVITY.path,
+            path: ROUTES.ACTIVITY.path,
             lazy: () => import('./pages/Public/Activities/ActivityDetails'),
           },
           {
             index: true,
             lazy: () => import('./pages/Public/Home'),
           },
+          {
+            path: ROUTES.CONTENT.path,
+            lazy: () => import('./pages/Contentful'),
+          },
+          {
+            path: '/password',
+            lazy: () => import('./pages/Public/ResetPassword'),
+          },
         ],
-      },
-      {
-        path: ROUTES.CONTENT.path,
-        lazy: () => import('./pages/Contentful'),
-      },
-      {
-        path: '/register',
-        element: <Navigate to="/2023/register" />,
-      },
-      {
-        path: '/password',
-        lazy: () => import('./pages/Public/ResetPassword'),
-      },
-      {
-        path: '/',
-        element: <Navigate to="/2023" />,
       },
     ],
     // errorElement: <NotFound />,

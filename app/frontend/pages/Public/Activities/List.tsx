@@ -17,7 +17,7 @@ type ListProps = {
 };
 
 const List: React.FC<ListProps> = ({ loading, activities }) => {
-  const { year, type: pluralizedType } = useTypedParams(ROUTES.FESTIVAL.ACTIVITIES);
+  const { type: pluralizedType } = useTypedParams(ROUTES.ACTIVITIES);
 
   const slots = useMemo(
     () =>
@@ -73,8 +73,7 @@ const List: React.FC<ListProps> = ({ loading, activities }) => {
                     key={activity.id}
                     activity={activity}
                     loading={loading}
-                    path={ROUTES.FESTIVAL.ACTIVITY.buildPath({
-                      year,
+                    path={ROUTES.ACTIVITY.buildPath({
                       type: pluralizedType,
                       slug: activity.slug,
                     })}

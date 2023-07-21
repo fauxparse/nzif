@@ -2,6 +2,7 @@ module Mutations
   class BaseMutation < GraphQL::Schema::Mutation
     include Authorization
     include ResolverCallbacks
+    include GraphQLHelpers
 
     argument_class Types::BaseArgument
     field_class Types::BaseField

@@ -26,8 +26,7 @@ type ActivityDetailsProps = {
 };
 
 const ActivityDetails: React.FC<ActivityDetailsProps> = ({ type }) => {
-  const { year, slug } = useParams<{ year: string; slug: string }>() as {
-    year: string;
+  const { slug } = useParams<{ slug: string }>() as {
     slug: string;
   };
 
@@ -37,7 +36,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ type }) => {
 
   const navigate = useNavigate();
 
-  const { data, loading } = useActivityDetailsQuery({ variables: { year, type, slug } });
+  const { data, loading } = useActivityDetailsQuery({ variables: { type, slug } });
 
   const activity = data?.festival?.activity;
 

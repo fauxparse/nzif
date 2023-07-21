@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useTypedParams } from 'react-router-typesafe-routes/dom';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 
 import usePrevious from '@/hooks/usePrevious';
@@ -8,12 +7,11 @@ import { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 import Footer from '@/organisms/Footer';
 import Header from '@/organisms/Header';
 import AnimatedOutlet from '@/pages/AnimatedOutlet';
-import { ROUTES } from '@/Routes';
 
 const CONTAINERS: [RegExp, string][] = [
-  [/^(\/\d{4}\/register\/)/, 'register'],
-  [/^(\/\d{4}\/(shows|workshops)\/[^/]+)/, 'activity'],
-  [/^(\/\d{4}\/)(shows|workshops)$/, 'activities'],
+  [/^(\/register\/)/, 'register'],
+  [/^(\/(shows|workshops)\/[^/]+)/, 'activity'],
+  [/^(\/)(shows|workshops)$/, 'activities'],
 ];
 
 export const pageVariants: Variants = {
@@ -35,8 +33,6 @@ export const pageVariants: Variants = {
 };
 
 export const Component: React.FC = () => {
-  const { year } = useTypedParams(ROUTES.FESTIVAL);
-
   const location = useLocation();
 
   const locationKey = useMemo(() => {
@@ -52,7 +48,7 @@ export const Component: React.FC = () => {
   const direction = previousLocation && previousLocation?.pathname > location.pathname ? 1 : -1;
 
   return (
-    <BreadcrumbProvider label={year} path={year}>
+    <>
       <Header />
       <AnimatePresence mode="popLayout" custom={direction} initial={false}>
         <motion.main
@@ -67,7 +63,7 @@ export const Component: React.FC = () => {
         </motion.main>
       </AnimatePresence>
       <Footer />
-    </BreadcrumbProvider>
+    </>
   );
 };
 

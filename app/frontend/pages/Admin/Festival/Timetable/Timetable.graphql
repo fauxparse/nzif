@@ -50,8 +50,8 @@ fragment TimetableSession on Session {
   }
 }
 
-query Timetable($year: String) {
-  festival(year: $year) {
+query Timetable {
+  festival {
     id
     startDate
     endDate

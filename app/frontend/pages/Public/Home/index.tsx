@@ -31,17 +31,14 @@ export const Component: React.FC = () => {
             large
             primary
             as={Link}
-            to={ROUTES.REGISTRATION.buildPath({ year: festival.id })}
+            to={ROUTES.REGISTRATION.path}
             text="Register now"
             icon="new"
           />
           <Button
             large
             as={Link}
-            to={ROUTES.FESTIVAL.ACTIVITIES.buildPath({
-              year: festival.id,
-              type: 'workshops',
-            })}
+            to={ROUTES.ACTIVITIES.buildPath({ type: 'workshops' })}
             text="Programme"
             icon="calendar"
           />
