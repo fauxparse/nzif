@@ -16,6 +16,7 @@ require 'rspec/its'
 require 'rspec/collection_matchers'
 require 'support/factory_bot'
 require 'shoulda-matchers'
+require 'webmock/rspec'
 
 require 'support/authorization_matchers'
 require 'support/interactor_helper'

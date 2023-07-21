@@ -64,11 +64,7 @@ end
 
 When('I read the code of conduct') do
   expect(page).to have_field('codeOfConductAccepted', disabled: true)
-
-  # TODO: mock this
-  using_wait_time 10 do
-    expect(page).to have_content('What is the Code of Conduct?')
-  end
+  expect(page).to have_content('What is the Code of Conduct?')
 
   page.execute_script <<~JS
     document.querySelector('.end-of-page').scrollIntoView()

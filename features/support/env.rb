@@ -7,6 +7,7 @@
 require 'cucumber/rails'
 require 'email_spec'
 require 'email_spec/cucumber'
+require_relative './webmock'
 
 Capybara.default_max_wait_time = 5
 

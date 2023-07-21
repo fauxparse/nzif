@@ -125,4 +125,8 @@ group :test do
 
   gem 'action_mailer_cache_delivery', '~> 0.4.0'
   gem 'email_spec', '~> 2.2'
+
+  gem 'webmock', '~> 3.18'
 end
+
+gem "puffing-billy", "~> 3.1"
