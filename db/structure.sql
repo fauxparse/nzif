@@ -63,6 +63,26 @@ CREATE TYPE public.activity_type AS ENUM (
 
 
 --
+-- Name: immutable_unaccent(regdictionary, text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.immutable_unaccent(regdictionary, text) RETURNS text
+    LANGUAGE c IMMUTABLE STRICT PARALLEL SAFE
+    AS '$libdir/unaccent', 'unaccent_dict';
+
+
+--
+-- Name: f_unaccent(text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.f_unaccent(text) RETURNS text
+    LANGUAGE sql IMMUTABLE STRICT PARALLEL SAFE
+    BEGIN ATOMIC
+ SELECT public.immutable_unaccent('public.unaccent'::regdictionary, $1) AS immutable_unaccent;
+END;
+
+
+--
 -- Name: my_concat(text, text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -203,6 +223,39 @@ CREATE SEQUENCE public.festivals_id_seq
 --
 
 ALTER SEQUENCE public.festivals_id_seq OWNED BY public.festivals.id;
+
+
+--
+-- Name: placenames; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.placenames (
+    id bigint NOT NULL,
+    english character varying,
+    traditional character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, public.f_unaccent((COALESCE(english, ''::character varying))::text)), 'A'::"char") || setweight(to_tsvector('english'::regconfig, public.f_unaccent((COALESCE(traditional, ''::character varying))::text)), 'B'::"char"))) STORED
+);
+
+
+--
+-- Name: placenames_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.placenames_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: placenames_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.placenames_id_seq OWNED BY public.placenames.id;
 
 
 --
@@ -599,6 +652,13 @@ ALTER TABLE ONLY public.festivals ALTER COLUMN id SET DEFAULT nextval('public.fe
 
 
 --
+-- Name: placenames id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.placenames ALTER COLUMN id SET DEFAULT nextval('public.placenames_id_seq'::regclass);
+
+
+--
 -- Name: preferences id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -707,6 +767,14 @@ ALTER TABLE ONLY public."cast"
 
 ALTER TABLE ONLY public.festivals
     ADD CONSTRAINT festivals_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: placenames placenames_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.placenames
+    ADD CONSTRAINT placenames_pkey PRIMARY KEY (id);
 
 
 --
@@ -822,6 +890,20 @@ CREATE INDEX index_cast_on_profile_id ON public."cast" USING btree (profile_id);
 --
 
 CREATE UNIQUE INDEX index_cast_uniquely ON public."cast" USING btree (activity_type, activity_id, profile_id, role);
+
+
+--
+-- Name: index_placenames_on_english; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_placenames_on_english ON public.placenames USING btree (english);
+
+
+--
+-- Name: index_placenames_on_traditional; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_placenames_on_traditional ON public.placenames USING btree (traditional);
 
 
 --
@@ -1124,7 +1206,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230611010539'),
 ('20230616221312'),
 ('20230618075348'),
-('20230703004444');
+('20230703004444'),
+('20230721115845');
 
 
 SET statement_timeout = 0;

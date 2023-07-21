@@ -1,0 +1,31 @@
+fragment TranslationDetails on Translation {
+  id
+  name
+  traditionalName
+}
+
+query Translations {
+  translations {
+    ...TranslationDetails
+  }
+}
+
+mutation CreateTranslation($name: String!, $traditionalName: String!) {
+  createTranslation(name: $name, traditionalName: $traditionalName) {
+    translation {
+      ...TranslationDetails
+    }
+  }
+}
+
+mutation UpdateTranslation($id: ID!, $name: String!, $traditionalName: String!) {
+  updateTranslation(id: $id, name: $name, traditionalName: $traditionalName) {
+    translation {
+      ...TranslationDetails
+    }
+  }
+}
+
+mutation DestroyTranslation($id: ID!) {
+  destroyTranslation(id: $id)
+}

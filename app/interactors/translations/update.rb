@@ -1,23 +1,14 @@
 module Translations
   class Update < ApplicationInteractor
-    delegate :id, :name, :traditional_name, :country, to: :context
+    delegate :id, :name, :traditional_name, to: :context
 
     def call
-      update_translations
-
-      I18n.backend.backends.first.reload!
-
-      context[:translation] = Hashie::Mash.new({ id:, name:, traditional_name:, country: })
+      authorize! translation, to: :update?
+      translation.update!(english: name, traditional: traditional_name)
     end
 
-    def update_translations
-      PlaceNameTranslation.locales(country).each do |locale|
-        translation = PlaceNameTranslation.find_by(key: id, locale:)
-        next unless translation
-
-        authorize! translation, to: :create?
-        translation.update!(value: locale == 'en' ? name : traditional_name)
-      end
+    def translation
+      context[:translation] ||= Placename.find(id)
     end
   end
 end

@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe PlaceNameTranslationPolicy, type: :policy do
+RSpec.describe PlacenamePolicy, type: :policy do
   let(:user) { build_stubbed(:user) }
 
   let(:admin) { build_stubbed(:admin) }
 
   let(:content_manager) { build_stubbed(:user, permissions: [:content]) }
 
-  let(:record) { build_stubbed(:translation) }
+  let(:record) { build_stubbed(:placename) }
 
   let(:context) { { user: nil } }
 

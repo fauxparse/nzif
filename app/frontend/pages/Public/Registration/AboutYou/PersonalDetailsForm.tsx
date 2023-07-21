@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useApolloClient } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mapValues, merge, omit } from 'lodash-es';
 import { DateTime } from 'luxon';
@@ -69,7 +68,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ onContinue })
     setValue('name', profile?.name || '');
     setValue('pronouns', profile?.pronouns || '');
     setValue('phone', profile?.phone || '');
-    setValue('city', profile?.city?.name || '');
+    setValue('city', profile?.city?.raw || '');
     setValue('country', profile?.country?.id || 'NZ');
     setValue('email', user?.email || '');
     setValue('codeOfConductAccepted', !!codeOfConductAcceptedAt);

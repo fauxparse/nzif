@@ -1,4 +1,4 @@
-class PlaceNameTranslationPolicy < ApplicationPolicy
+class PlacenamePolicy < ApplicationPolicy
   def index?
     true
   end

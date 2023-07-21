@@ -115,6 +115,7 @@ fragment RegistrationUserDetails on Registration {
         id
         name
         traditionalName
+        raw
       }
       country {
         id

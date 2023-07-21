@@ -5,11 +5,11 @@ RSpec.describe Profiles::Merge, type: :interactor do
     let(:context) { { profiles:, attributes: } }
 
     let(:first) do
-      create(:profile, :with_user, name: 'First', country: 'NZ', city: 'wellington')
+      create(:profile, :with_user, name: 'First Profile', country: 'NZ', city: 'wellington')
     end
 
     let(:second) do
-      create(:profile, name: 'Second', city: 'Te Whanganui-a-Tara', pronouns: 'he/him')
+      create(:profile, name: 'Second Profile', city: 'Te Whanganui-a-Tara', pronouns: 'he/him')
     end
 
     let(:profiles) { [first, second] }

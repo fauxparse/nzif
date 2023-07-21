@@ -33,7 +33,10 @@ export const Component: React.FC = () => {
               <Menu.Item
                 as={Link}
                 key={key}
-                to={`./${pluralize(kebabCase(key))}`}
+                to={ROUTES.ADMIN.FESTIVAL.ACTIVITIES.buildPath({
+                  year,
+                  type: pluralize(kebabCase(key)),
+                })}
                 icon={camelCase(value) as IconName}
                 label={pluralize(activityTypeLabel(value))}
               />

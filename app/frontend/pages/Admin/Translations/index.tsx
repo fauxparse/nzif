@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ColumnDef,
   createColumnHelper,
@@ -10,7 +10,7 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
-import { isEqual, set, snakeCase } from 'lodash-es';
+import { isEqual } from 'lodash-es';
 
 import Button from '@/atoms/Button';
 import Icon from '@/atoms/Icon';
@@ -27,15 +27,13 @@ import {
   useUpdateTranslationMutation,
 } from '@/graphql/types';
 import Breadcrumbs from '@/molecules/Breadcrumbs';
-import { useCountries } from '@/molecules/CountryPicker';
-import Select, { SelectOption } from '@/molecules/Select';
+import PageHeader from '@/molecules/PageHeader';
 import { useToaster } from '@/molecules/Toaster';
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface TableMeta<TData extends RowData> {
     countries?: Map<string, string>;
-    countryOptions?: SelectOption[];
     createTranslation?: (variables: CreateTranslationMutationVariables) => void;
     updateTranslation?: (variables: UpdateTranslationMutationVariables) => void;
     destroyTranslation?: (variables: DestroyTranslationMutationVariables) => void;
@@ -111,25 +109,6 @@ type NewTranslationForm = HTMLFormElement & {
 };
 
 const columns = [
-  columnHelper.accessor('country', {
-    header: 'Country',
-    cell: ({ getValue, table }) =>
-      table.options.meta?.countries?.get(getValue() as string) ?? getValue(),
-    footer: ({ table }) => {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [country, setCountry] = useState<string>('NZ');
-      return (
-        <>
-          <input type="hidden" id="country" value={country} form="new-translation" />
-          <Select
-            options={table.options.meta?.countryOptions}
-            value={country}
-            onChange={setCountry}
-          />
-        </>
-      );
-    },
-  }),
   columnHelper.accessor('name', {
     header: 'English',
     meta: {
@@ -171,11 +150,10 @@ const columns = [
     footer: ({ table }) => {
       const submit = (e: React.FormEvent<NewTranslationForm>) => {
         e.preventDefault();
-        const { name, traditionalName, country } = e.currentTarget;
+        const { name, traditionalName } = e.currentTarget;
         table.options.meta?.createTranslation?.({
           name: name.value,
           traditionalName: traditionalName.value,
-          country: country.value,
         });
         name.value = '';
         traditionalName.value = '';
@@ -191,20 +169,10 @@ const columns = [
   }),
 ];
 
-const Translations: React.FC = () => {
+export const Component: React.FC = () => {
   const { data } = useTranslationsQuery();
 
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: 'country', desc: true },
-    { id: 'name', desc: false },
-  ]);
-
-  const { countries: countryList } = useCountries();
-
-  const countries = useMemo<Map<string, string>>(
-    () => countryList.reduce((map, country) => map.set(country.value, country.label), new Map()),
-    [countryList]
-  );
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'name', desc: false }]);
 
   const [createTranslation] = useCreateTranslationMutation();
 
@@ -274,17 +242,15 @@ const Translations: React.FC = () => {
           notify('Translation deleted');
         });
       },
-      countries,
-      countryOptions: countryList,
     },
   });
 
   return (
     <div>
-      <header className="page__header">
+      <PageHeader>
         <Breadcrumbs />
         <h1>Translations</h1>
-      </header>
+      </PageHeader>
       <div className="inset">
         <div className="data-table__container">
           <table className="data-table editable">
@@ -357,4 +323,4 @@ const Translations: React.FC = () => {
   );
 };
 
-export default Translations;
+Component.displayName = 'Translations';

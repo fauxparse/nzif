@@ -8,6 +8,7 @@ import Breadcrumbs from '@/molecules/Breadcrumbs';
 import PageHeader from '@/molecules/PageHeader';
 import Tabs from '@/molecules/Tabs';
 import { ROUTES } from '@/Routes';
+import { activityTypeFromPluralized, Pluralized } from '@/util/activityTypeLabel';
 
 import ActivityTab from './ActivityTab';
 import ActivityTable from './ActivityTable';
@@ -15,7 +16,7 @@ import ActivityTable from './ActivityTable';
 export const Component: React.FC = () => {
   const { year, type: pluralizedType } = useTypedParams(ROUTES.ADMIN.FESTIVAL.ACTIVITIES);
 
-  const type = pluralizedType.slice(0, -1) as ActivityType;
+  const type = activityTypeFromPluralized(pluralizedType as Pluralized);
 
   if (!year || !year.match(/^\d{4}$/)) return null;
 

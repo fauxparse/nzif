@@ -1,24 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Translations::Destroy, type: :interactor do
-  let(:context) do
-    {
-      id: 'wellington',
-    }
-  end
+  let!(:placename) { create(:placename) }
 
-  before do
-    Translations::Create.call(
-      current_user:,
-      name: 'Wellington',
-      traditional_name: 'Te Whanganui-a-Tara',
-      country: ISO3166::Country['NZ'],
-    )
-  end
+  let(:context) { { id: placename.id } }
 
   it { is_expected.to be_success }
 
-  it 'deletes translations' do
-    expect { result }.to change(Translation, :count).by(-2)
+  it 'deletes the placename' do
+    expect { result }.to change(Placename, :count).by(-1)
   end
 end

@@ -5,7 +5,6 @@ module Mutations
 
       field :translation, Types::TranslationType, null: false
 
-      argument :country, Types::Country, required: true
       argument :name, String, required: true
       argument :traditional_name, String, required: true
 

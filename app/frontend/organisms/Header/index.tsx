@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useCycle } from 'framer-motion';
 import { DateTime } from 'luxon';
@@ -10,7 +10,7 @@ import Icon from '@/atoms/Icon';
 import Logo from '@/atoms/Logo';
 import Placename from '@/atoms/Placename/Placename';
 import ThemeSwitcher from '@/atoms/ThemeSwitcher';
-import { useHeaderQuery } from '@/graphql/types';
+import { useHeaderLazyQuery } from '@/graphql/types';
 
 import Overlay from './Overlay';
 import HeaderSearch from './Search';
@@ -32,7 +32,11 @@ const Header: React.FC = () => {
 
   const [open, toggleOverlay] = useCycle(false, true);
 
-  const { data } = useHeaderQuery({ variables: { year } });
+  const [loadHeaderData, { data }] = useHeaderLazyQuery({ variables: { year } });
+
+  useEffect(() => {
+    if (year?.match(/^\d{4}$/)) loadHeaderData();
+  }, [year, loadHeaderData]);
 
   const { festival } = data || {};
 

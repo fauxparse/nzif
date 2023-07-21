@@ -188,7 +188,7 @@ type Mutation {
   createPerson(attributes: PersonAttributes!): CreatePersonPayload
   createSession(attributes: SessionAttributes!, festivalId: ID!): CreateSessionPayload
   createSessions(attributes: MultipleSessionAttributes!): CreateMultipleSessionsPayload
-  createTranslation(country: Country!, name: String!, traditionalName: String!): CreateTranslationPayload
+  createTranslation(name: String!, traditionalName: String!): CreateTranslationPayload
   destroySession(id: ID!): Boolean
   destroyTranslation(id: ID!): Boolean
   finaliseRegistration: finaliseRegistrationPayload
@@ -202,7 +202,7 @@ type Mutation {
   updateRegistrationUserDetails(attributes: UserDetailsAttributes!, registrationId: ID): UpdateUserDetailsPayload
   updateSession(attributes: SessionAttributes!, id: ID!): UpdateSessionPayload
   updateSetting(id: String!, value: SettingValue!): UpdateSettingPayload
-  updateTranslation(country: Country!, id: ID!, name: String!, traditionalName: String!): UpdateTranslationPayload
+  updateTranslation(id: ID!, name: String!, traditionalName: String!): UpdateTranslationPayload
   updateUser(attributes: UserAttributes!, id: ID): UpdateUserPayload
   userConfirmRegistrationWithToken(confirmationToken: String!): UserConfirmRegistrationWithTokenPayload
   userLogin(email: String!, password: String!): UserLoginPayload
@@ -307,6 +307,7 @@ type PersonResult implements SearchResult {
 type PlaceName {
   id: ID!
   name: String!
+  raw: String!
   traditionalName: String
 }
 
@@ -494,7 +495,6 @@ type Timetable {
 }
 
 type Translation {
-  country: Country!
   id: ID!
   name: String!
   traditionalName: String!

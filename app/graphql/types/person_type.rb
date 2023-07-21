@@ -22,18 +22,12 @@ module Types
       object.picture && object
     end
 
-    def city
-      Hashie::Mash.new(id: object.city, name: object.city, locale: object.locale) if object.city?
-    end
+    delegate :city, to: :object
 
     def country
       return unless object.country?
 
-      Hashie::Mash.new(
-        id: object.country.alpha2,
-        name: object.country.common_name,
-        locale: object.locale,
-      )
+      object.country.common_name
     end
 
     def bio

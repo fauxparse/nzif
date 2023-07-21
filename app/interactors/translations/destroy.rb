@@ -3,12 +3,12 @@ module Translations
     delegate :id, to: :context
 
     def call
-      PlaceNameTranslation.where(key: id).find_each do |translation|
-        authorize! translation, to: :destroy?
-        translation.destroy!
-      end
+      authorize! translation, to: :destroy?
+      translation.destroy!
+    end
 
-      I18n.backend.backends.first.reload!
+    def translation
+      context[:translation] ||= Placename.find(id)
     end
   end
 end

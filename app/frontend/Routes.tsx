@@ -103,19 +103,23 @@ const router = createBrowserRouter([
                 path: ROUTES.ADMIN.FESTIVAL.ACTIVITIES.path,
                 lazy: () => import('./pages/Admin/Festival/Activities/ActivityList'),
               },
-              {
-                index: true,
-                lazy: () => import('./pages/Admin/Festival/Dashboard'),
-              },
             ],
           },
           {
             path: ROUTES.ADMIN.PEOPLE.path,
-            lazy: () => import('./pages/Admin/Festival/People/PeopleList'),
+            lazy: () => import('./pages/Admin/People/PeopleList'),
           },
           {
-            path: ROUTES.ADMIN.PEOPLE.path,
-            lazy: () => import('./pages/Admin/Festival/People/Person'),
+            path: ROUTES.ADMIN.PERSON.path,
+            lazy: () => import('./pages/Admin/People/Person'),
+          },
+          {
+            path: ROUTES.ADMIN.TRANSLATIONS.path,
+            lazy: () => import('./pages/Admin/Translations'),
+          },
+          {
+            index: true,
+            lazy: () => import('./pages/Admin/Dashboard'),
           },
         ],
       },

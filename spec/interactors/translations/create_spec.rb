@@ -5,17 +5,15 @@ RSpec.describe Translations::Create, type: :interactor do
     {
       name:,
       traditional_name:,
-      country:,
     }
   end
 
   let(:name) { 'New Zealand' }
   let(:traditional_name) { 'Aotearoa' }
-  let(:country) { ISO3166::Country.new('NZ') }
 
   it { is_expected.to be_success }
 
-  it 'creates translations' do
-    expect { result }.to change(PlaceNameTranslation, :count).by(2)
+  it 'creates a placename' do
+    expect { result }.to change(Placename, :count).by(1)
   end
 end

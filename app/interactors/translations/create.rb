@@ -1,23 +1,17 @@
 module Translations
   class Create < ApplicationInteractor
-    delegate :name, :traditional_name, :country, to: :context
+    delegate :name, :traditional_name, to: :context
 
     def call
-      PlaceNameTranslation.locales(country).each do |locale|
-        PlaceNameTranslation.create!(
-          key:,
-          locale:,
-          value: locale == 'en' ? name : traditional_name,
-        ) do |translation|
-          authorize! translation, to: :create?
-        end
-      end
-
-      context[:translation] = Hashie::Mash.new({ id: key, name:, traditional_name:, country: })
+      authorize! translation, to: :create?
+      translation.save!
     end
 
-    def key
-      @key ||= PlaceNameTranslation.key_for(name)
+    def translation
+      context[:translation] ||= Placename.new(
+        english: name,
+        traditional: traditional_name,
+      )
     end
   end
 end
