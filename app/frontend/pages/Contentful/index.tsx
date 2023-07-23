@@ -7,8 +7,8 @@ import { deburr, kebabCase } from 'lodash-es';
 
 import Spinner from '@/atoms/Spinner';
 import { useContentPageQuery } from '@/contentful/types';
-import Footer from '@/organisms/Footer';
-import Header from '@/organisms/Header';
+import Skeleton from '@/helpers/Skeleton';
+import PageHeader from '@/molecules/PageHeader';
 
 import TableOfContents from './TableOfContents';
 
@@ -31,7 +31,7 @@ const renderOptions: Options = {
 
 export const Component: React.FC = () => {
   const { slug = '' } = useParams<{ slug: string }>();
-  const { data } = useContentPageQuery({
+  const { loading, data } = useContentPageQuery({
     variables: { slug },
     context: { clientName: 'contentful' },
   });
@@ -41,34 +41,39 @@ export const Component: React.FC = () => {
   const document: Document | undefined = page?.body?.json;
 
   return (
-    <>
-      <Header />
-      <main>
-        <div className="content-page">
-          <section>
-            {document ? (
-              <>
-                <header className="content-page__header">
-                  <Balanced as="h1">{page?.title}</Balanced>
-                  {page?.lede && (
-                    <Balanced className="content-page__lede">
-                      {documentToReactComponents(page.lede.json)}
-                    </Balanced>
-                  )}
-                </header>
-                {document && <TableOfContents document={document} />}
-                <div className="content-page__content">
-                  {documentToReactComponents(document, renderOptions)}
-                </div>
-              </>
-            ) : (
-              <Spinner large />
-            )}
-          </section>
-        </div>
-      </main>
-      <Footer />
-    </>
+    <main className="content-page">
+      <PageHeader>
+        <h1>
+          <Skeleton text loading={loading}>
+            <Balanced>{page?.title || 'About NZIF'}</Balanced>
+          </Skeleton>
+        </h1>
+        {loading ? (
+          <div className="content-page__lede">
+            <Skeleton text loading>
+              <Balanced>{page?.title || 'About NZIF'}</Balanced>
+            </Skeleton>
+          </div>
+        ) : (
+          page?.lede && (
+            <Balanced className="content-page__lede">
+              {documentToReactComponents(page.lede.json)}
+            </Balanced>
+          )
+        )}
+      </PageHeader>
+
+      <section>
+        {document && (
+          <>
+            <TableOfContents document={document} />
+            <div className="content-page__content">
+              {documentToReactComponents(document, renderOptions)}
+            </div>
+          </>
+        )}
+      </section>
+    </main>
   );
 };
 

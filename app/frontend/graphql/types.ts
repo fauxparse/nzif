@@ -500,11 +500,6 @@ export type QueryPersonArgs = {
 };
 
 
-export type QueryRegistrationArgs = {
-  year: InputMaybe<Scalars['ID']>;
-};
-
-
 export type QuerySearchArgs = {
   activityType: InputMaybe<ActivityType>;
   limit: InputMaybe<Scalars['Int']>;
@@ -834,12 +829,12 @@ type SettingValueFragment_StringSetting_Fragment = { __typename: 'StringSetting'
 
 export type SettingValueFragmentFragment = SettingValueFragment_BooleanSetting_Fragment | SettingValueFragment_StringSetting_Fragment;
 
-export type AuthenticatedUserFragment = { __typename: 'User', id: string, permissions: Array<Permission>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null };
+export type AuthenticatedUserFragment = { __typename: 'User', id: string, email: string, permissions: Array<Permission>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null };
 
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename: 'Query', user: { __typename: 'User', id: string, permissions: Array<Permission>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null } | null };
+export type CurrentUserQuery = { __typename: 'Query', user: { __typename: 'User', id: string, email: string, permissions: Array<Permission>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null } | null, registration: { __typename: 'Registration', id: string } };
 
 export type LogInMutationVariables = Exact<{
   email: Scalars['String'];
@@ -847,7 +842,7 @@ export type LogInMutationVariables = Exact<{
 }>;
 
 
-export type LogInMutation = { __typename: 'Mutation', userLogin: { __typename: 'UserLoginPayload', user: { __typename: 'User', id: string, permissions: Array<Permission>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null }, credentials: { __typename: 'Credential', accessToken: string, client: string, uid: string } } | null };
+export type LogInMutation = { __typename: 'Mutation', userLogin: { __typename: 'UserLoginPayload', user: { __typename: 'User', id: string, email: string, permissions: Array<Permission>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null }, credentials: { __typename: 'Credential', accessToken: string, client: string, uid: string } } | null };
 
 export type LogOutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -861,7 +856,7 @@ export type SignUpMutationVariables = Exact<{
 }>;
 
 
-export type SignUpMutation = { __typename: 'Mutation', userRegister: { __typename: 'UserRegisterPayload', user: { __typename: 'User', id: string, permissions: Array<Permission>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null }, credentials: { __typename: 'Credential', accessToken: string, client: string, uid: string } | null } | null };
+export type SignUpMutation = { __typename: 'Mutation', userRegister: { __typename: 'UserRegisterPayload', user: { __typename: 'User', id: string, email: string, permissions: Array<Permission>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null }, credentials: { __typename: 'Credential', accessToken: string, client: string, uid: string } | null } | null };
 
 export type ResetPasswordMutationVariables = Exact<{
   email: Scalars['String'];
@@ -1183,6 +1178,7 @@ export const SettingValueFragmentFragmentDoc = gql`
 export const AuthenticatedUserFragmentDoc = gql`
     fragment AuthenticatedUser on User {
   id
+  email
   permissions
   profile {
     id
@@ -1532,6 +1528,9 @@ export const CurrentUserDocument = gql`
     query CurrentUser {
   user {
     ...AuthenticatedUser
+  }
+  registration {
+    id
   }
 }
     ${AuthenticatedUserFragmentDoc}`;

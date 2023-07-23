@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCycle } from 'framer-motion';
 import { DateTime } from 'luxon';
@@ -14,6 +14,7 @@ import { useHeaderQuery } from '@/graphql/types';
 
 import Overlay from './Overlay';
 import HeaderSearch from './Search';
+import UserPopup from './UserPopup';
 
 import './Header.css';
 
@@ -30,11 +31,15 @@ const Header: React.FC = () => {
 
   const [open, toggleOverlay] = useCycle(false, true);
 
+  const [popupOpen, togglePopup] = useCycle(false, true);
+
   const { data } = useHeaderQuery();
 
   const { festival } = data || {};
 
   const { user, loading } = useAuthentication();
+
+  const [userButton, setUserButton] = useState<HTMLElement | null>(null);
 
   const dates = useMemo(() => {
     if (!festival) return '';
@@ -45,6 +50,14 @@ const Header: React.FC = () => {
       </>
     );
   }, [festival]);
+
+  const userButtonClicked = () => {
+    if (user) {
+      togglePopup();
+    } else {
+      toggleOverlay();
+    }
+  };
 
   return (
     <header ref={container} className="header">
@@ -57,11 +70,20 @@ const Header: React.FC = () => {
       <div className="header__user">
         <HeaderSearch container={container} />
         {!loading && (
-          <Button ghost className="user-button" onClick={() => toggleOverlay()}>
+          <Button
+            ref={setUserButton}
+            ghost
+            className="user-button"
+            aria-expanded={popupOpen || undefined}
+            onClick={userButtonClicked}
+          >
             <Avatar url={user?.profile?.picture?.small} name={user?.profile?.name || ''} />
             <span className="button__text">{user?.profile?.name || 'Log in'}</span>
             {user && <Icon name="chevronDown" />}
           </Button>
+        )}
+        {user && userButton && (
+          <UserPopup user={user} reference={userButton} open={popupOpen} onClose={togglePopup} />
         )}
         <ThemeSwitcher />
       </div>

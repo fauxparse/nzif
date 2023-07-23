@@ -349,7 +349,7 @@ type Query {
   people: [Person!]
   permissions: [PermissionDefinition!]!
   person(id: ID!): Person
-  registration(year: ID): Registration!
+  registration: Registration!
   search(activityType: ActivityType, limit: Int, only: [SearchType!] = [Activity, Person, Venue, Page], query: String!): [SearchResult!]!
   setting(id: String!): Setting
   translations: [Translation!]!

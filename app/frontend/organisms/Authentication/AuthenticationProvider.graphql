@@ -1,5 +1,6 @@
 fragment AuthenticatedUser on User {
   id
+  email
   permissions
 
   profile {
@@ -15,6 +16,10 @@ fragment AuthenticatedUser on User {
 query CurrentUser {
   user {
     ...AuthenticatedUser
+  }
+
+  registration {
+    id
   }
 }
 

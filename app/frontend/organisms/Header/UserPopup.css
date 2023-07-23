@@ -1,0 +1,87 @@
+.user-popup {
+  display: grid;
+  grid-template-rows: auto 1px auto;
+  gap: var(--medium);
+  padding: var(--medium);
+
+  &:focus {
+    outline: none;
+  }
+
+  &__user {
+    display: grid;
+    grid-template-rows: 1fr auto auto;
+    gap: var(--small);
+    width: 12rem;
+
+    .avatar {
+      align-self: flex-start;
+      justify-self: flex-start;
+    }
+  }
+
+  &__name {
+    font-size: var(--font-size-legible);
+    line-height: var(--line-height-medium);
+  }
+
+  &__email {
+    overflow: hidden;
+    color: var(--text-subtle);
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-medium);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__registration {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: var(--small);
+    justify-items: center;
+
+
+    p {
+      margin: 0;
+      text-align: center;
+
+      .skeleton {
+        margin: 0 auto;
+      }
+    }
+
+    &[data-registered="false"] {
+      .alert {
+        display: grid;
+        gap: var(--small);
+        place-content: center;
+
+        .icon {
+          --icon-size: var(--huge);
+
+          margin: 0 auto;
+          color: var(--text-subtle);
+        }
+      }
+    }
+  }
+
+  .button,
+  .skeleton[data-shape="rounded"] {
+    justify-self: stretch;
+    width: unset;
+    max-width: unset;
+  }
+
+  hr {
+    margin: 0;
+    border: 0;
+    background: var(--border-subtle);
+  }
+
+  @media (width >= 481px) {
+    grid-template-rows: 1fr;
+    grid-template-columns: 12rem 1px 12rem;
+    gap: var(--medium);
+  }
+}

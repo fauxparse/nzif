@@ -5,11 +5,7 @@ import Authentication from '../Authentication';
 import { User } from '../Authentication/AuthenticationMachine';
 import { useAuthentication } from '../Authentication/AuthenticationProvider';
 import Button from '@/atoms/Button';
-import {
-  LogInMutationVariables,
-  ResetPasswordMutationVariables,
-  SignUpMutationVariables,
-} from '@/graphql/types';
+import { LogInMutationVariables, SignUpMutationVariables } from '@/graphql/types';
 
 const overlay: Variants = {
   open: {

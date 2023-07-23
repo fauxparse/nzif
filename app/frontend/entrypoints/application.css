@@ -52,7 +52,7 @@
   accent-color: var(--accent11);
 }
 
-:link:not(.button) {
+:where(:link:not(.button)) {
   color: var(--accent11);
   text-decoration-color: var(--accentA6);
 }

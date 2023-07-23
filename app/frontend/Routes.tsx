@@ -63,6 +63,7 @@ export const ROUTES = {
       reset_password_token: zod(z.string()),
     },
   }),
+  PROFILE: route('profile'),
 };
 
 const router = createBrowserRouter([

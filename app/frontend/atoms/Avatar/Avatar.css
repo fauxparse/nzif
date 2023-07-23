@@ -23,26 +23,26 @@
     display: grid;
     place-items: center;
     overflow: hidden;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: var(--avatar-size);
+    height: var(--avatar-size);
     border-radius: 50%;
-    background-color: var(--text-subtle);
-    color: var(--background);
+    background-color: var(--cyanA6);
+    color: var(--cyan11);
     font-weight: var(--font-weight-medium);
-    font-size: 0.75rem;
+    font-size: calc(var(--avatar-size) / 3);
     line-height: 1;
     letter-spacing: 0.1em;
   }
 
   &:where([data-size="small"]) {
-    width: var(--avatar-size-small);
+    --avatar-size: var(--avatar-size-small);
   }
 
   &:where([data-size="medium"]) {
-    width: var(--avatar-size-medium);
+    --avatar-size: var(--avatar-size-medium);
   }
 
   &:where([data-size="large"]) {
-    width: var(--avatar-size-large);
+    --avatar-size: var(--avatar-size-large);
   }
 }

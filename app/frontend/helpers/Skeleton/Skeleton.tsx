@@ -1,4 +1,4 @@
-import React, { ElementType, forwardRef, useMemo } from 'react';
+import { ElementType, forwardRef, useMemo } from 'react';
 import clsx from 'clsx';
 
 import { extractVariants } from '@/types/variants';
@@ -33,7 +33,12 @@ export const Skeleton: SkeletonComponent = forwardRef(
       return (
         <>
           {lineLengths.map((length, i) => (
-            <Skeleton text key={i} {...skeletonProps} style={{ width: `${length}%` }} />
+            <Skeleton
+              data-shape="text"
+              key={i}
+              {...skeletonProps}
+              style={{ width: `${length}%` }}
+            />
           ))}
         </>
       );
