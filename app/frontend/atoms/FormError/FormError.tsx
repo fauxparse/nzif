@@ -1,5 +1,3 @@
-import React from 'react';
-import { FieldError } from 'react-hook-form';
 import clsx from 'clsx';
 
 import { FormErrorProps } from './FormError.types';

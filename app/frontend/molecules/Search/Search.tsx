@@ -42,6 +42,10 @@ export const Search = forwardRef<HTMLInputElement, SearchProps>(
     const [left, setLeft] = useState(0);
     const [right, setRight] = useState(0);
 
+    useEffect(() => {
+      if (expanded) setQuery('');
+    }, [expanded]);
+
     const resize = useCallback(() => {
       const el = ownRef.current;
       if (!el) return;

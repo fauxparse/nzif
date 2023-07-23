@@ -1103,6 +1103,11 @@ export type ProgrammeQueryVariables = Exact<{
 
 export type ProgrammeQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, activities: Array<{ __typename: 'Show', id: string, name: string, type: ActivityType, slug: string, workshop: { __typename: 'Workshop', id: string, name: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, presenters: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, presenters: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> } | { __typename: 'Workshop', id: string, name: string, type: ActivityType, slug: string, show: { __typename: 'Show', id: string, name: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, presenters: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> }> } };
 
+export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProfileQuery = { __typename: 'Query', user: { __typename: 'User', id: string, profile: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, name: string, permissions: Array<Permission>, email: string } | null, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } | null } | null };
+
 export type RegistrationWorkshopFragment = { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }>, show: { __typename: 'Show', id: string, name: string, slug: string } | null };
 
 export type RegistrationTutorFragment = { __typename: 'Person', id: string, name: string, city: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'PlaceName', id: string, name: string, traditionalName: string | null } | null };
@@ -2875,6 +2880,49 @@ export function useProgrammeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type ProgrammeQueryHookResult = ReturnType<typeof useProgrammeQuery>;
 export type ProgrammeLazyQueryHookResult = ReturnType<typeof useProgrammeLazyQuery>;
 export type ProgrammeQueryResult = Apollo.QueryResult<ProgrammeQuery, ProgrammeQueryVariables>;
+export const ProfileDocument = gql`
+    query Profile {
+  user {
+    id
+    profile {
+      ...PersonDetails
+      bio
+      user {
+        id
+        name
+        permissions
+      }
+    }
+  }
+}
+    ${PersonDetailsFragmentDoc}`;
+
+/**
+ * __useProfileQuery__
+ *
+ * To run a query within a React component, call `useProfileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProfileQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useProfileQuery(baseOptions?: Apollo.QueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
+      }
+export function useProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
+        }
+export type ProfileQueryHookResult = ReturnType<typeof useProfileQuery>;
+export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
+export type ProfileQueryResult = Apollo.QueryResult<ProfileQuery, ProfileQueryVariables>;
 export const WorkshopDetailsDocument = gql`
     query WorkshopDetails($slug: String!) {
   festival {

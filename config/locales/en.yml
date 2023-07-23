@@ -37,6 +37,10 @@ en:
           attributes:
             name:
               invalid: 'must be your full (first and last) name'
+        profile:
+          attributes:
+            name:
+              invalid: 'must be your full (first and last) name'
   i18n:
     plural:
       keys:

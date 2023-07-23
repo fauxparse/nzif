@@ -1,0 +1,15 @@
+query Profile {
+  user {
+    id
+    profile {
+      ...PersonDetails
+      bio
+
+      user {
+        id
+        name
+        permissions
+      }
+    }
+  }
+}

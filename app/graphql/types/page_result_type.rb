@@ -15,7 +15,7 @@ module Types
     end
 
     def url
-      "/#{object.slug}"
+      "/about/#{object.slug}"
     end
   end
 end

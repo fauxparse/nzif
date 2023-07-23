@@ -138,6 +138,10 @@ const router = createBrowserRouter([
             lazy: () => import('./pages/Public/Activities/ActivityDetails'),
           },
           {
+            path: ROUTES.PROFILE.path,
+            lazy: () => import('./pages/Public/Profile'),
+          },
+          {
             index: true,
             lazy: () => import('./pages/Public/Home'),
           },

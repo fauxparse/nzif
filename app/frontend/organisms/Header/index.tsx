@@ -77,7 +77,7 @@ const Header: React.FC = () => {
             aria-expanded={popupOpen || undefined}
             onClick={userButtonClicked}
           >
-            <Avatar url={user?.profile?.picture?.small} name={user?.profile?.name || ''} />
+            <Avatar small url={user?.profile?.picture?.small} name={user?.profile?.name || ''} />
             <span className="button__text">{user?.profile?.name || 'Log in'}</span>
             {user && <Icon name="chevronDown" />}
           </Button>

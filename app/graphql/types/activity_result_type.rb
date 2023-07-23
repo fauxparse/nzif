@@ -20,7 +20,7 @@ module Types
     end
 
     def url
-      "/#{activity.festival.to_param}/#{activity.class.to_param}/#{activity.to_param}"
+      "/#{activity.class.to_param}/#{activity.to_param}"
     end
 
     def cast

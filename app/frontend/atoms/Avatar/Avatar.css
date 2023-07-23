@@ -15,7 +15,7 @@
 
   > .icon,
   > img {
-    width: 100%;
+    width: var(--avatar-size);
     height: auto;
   }
 

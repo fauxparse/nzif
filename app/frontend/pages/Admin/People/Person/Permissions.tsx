@@ -22,7 +22,7 @@ const Permissions: React.FC = () => {
     enabled,
   } = usePermissionTree(
     person?.user?.permissions || [],
-    permissions as PermissionDefinition[],
+    (permissions || []) as PermissionDefinition[],
     user
   );
 

@@ -11,13 +11,17 @@ import AutoResize from '@/helpers/AutoResize';
 import Labelled from '@/helpers/Labelled';
 import CountryPicker from '@/molecules/CountryPicker';
 import { useToaster } from '@/molecules/Toaster';
+import { useAuthentication } from '@/organisms/Authentication';
 
 import Permissions from './Permissions';
 import { PersonDetails } from './Person.types';
 import ProfilePicture from './ProfilePicture';
 
+import './Person.css';
+
 type ProfileProps = {
   person: PersonDetails;
+  showPermissions?: boolean;
 };
 
 const formSchema = z.object({
@@ -32,8 +36,10 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const Profile: React.FC<ProfileProps> = ({ person }) => {
+const Profile: React.FC<ProfileProps> = ({ person, showPermissions = true }) => {
   const [updatePerson, { loading: saving }] = useUpdatePersonMutation();
+
+  const { user } = useAuthentication();
 
   const {
     register,
@@ -132,7 +138,7 @@ const Profile: React.FC<ProfileProps> = ({ person }) => {
             />
           </Labelled>
         </section>
-        {person?.user && <Permissions />}
+        {showPermissions && !!user?.permissions?.length && person?.user && <Permissions />}
 
         <section className="details-form__buttons">
           <Button primary type="submit" text="Save changes" disabled={!isDirty} />
