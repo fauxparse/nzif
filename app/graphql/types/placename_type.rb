@@ -1,17 +1,19 @@
 module Types
-  class PlaceNameType < Types::BaseObject
+  class PlacenameType < Types::BaseObject
     field :id, ID, null: false
     field :name, String, null: false
     field :raw, String, null: false
     field :traditional_name, String, null: true
 
     def id
-      placename.id || object
+      placename.to_param || placename.english
     end
 
     def placename
+      return object if object.is_a?(Placename)
+
       dataloader
-        .with(Sources::PlaceName, context:)
+        .with(Sources::Placenames, context:)
         .load(object)
     end
 

@@ -73,8 +73,7 @@ const Placename: PlacenameComponent = forwardRef(
             >
               <Popover.Body>
                 <p>
-                  <b>{traditionalName}</b> is the traditional name for the area also known as {name}
-                  .
+                  <b>{traditionalName}</b> is a traditional name for the area also known as {name}.
                 </p>
                 <p>{ABOUT_TRADITIONAL_PLACENAMES}</p>
                 <Button

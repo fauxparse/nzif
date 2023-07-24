@@ -1,8 +1,8 @@
 module Types
   class PersonType < Types::BaseObject
     field :bio, String, null: false
-    field :city, Types::PlaceNameType, null: true
-    field :country, Types::PlaceNameType, null: true
+    field :city, Types::PlacenameType, null: true
+    field :country, Types::PlacenameType, null: true
     field :id, ID, null: false
     field :name, String, null: false
     field :phone, String, null: true
@@ -27,7 +27,11 @@ module Types
     def country
       return unless object.country?
 
-      object.country.common_name
+      Placename.new(
+        id: object.country.alpha2,
+        english: object.country.common_name,
+        traditional: object.country.alpha2 == 'NZ' ? 'Aotearoa' : nil,
+      )
     end
 
     def bio

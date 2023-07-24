@@ -5,7 +5,11 @@ import { capitalize, map, sortBy, uniqBy } from 'lodash-es';
 import Button from '@/atoms/Button';
 import Icon from '@/atoms/Icon';
 import Placename from '@/atoms/Placename';
-import { PlaceName, RegistrationSlotFragment, RegistrationWorkshopFragment } from '@/graphql/types';
+import {
+  Placename as PlacenameType,
+  RegistrationSlotFragment,
+  RegistrationWorkshopFragment,
+} from '@/graphql/types';
 import Skeleton from '@/helpers/Skeleton';
 import Tooltip from '@/helpers/Tooltip';
 import BlurrableImage from '@/molecules/BlurrableImage';
@@ -44,7 +48,7 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot, disabled = 
       uniqBy(
         map(tutors, (t) =>
           t.country?.id === 'NZ' || t.country?.id === 'AU' ? t.city : t.country
-        ).filter(Boolean) as PlaceName[],
+        ).filter(Boolean) as PlacenameType[],
         'name'
       ),
     [tutors]

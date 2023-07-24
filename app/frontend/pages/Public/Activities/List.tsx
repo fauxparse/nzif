@@ -58,30 +58,32 @@ const List: React.FC<ListProps> = ({ loading, activities }) => {
               {date.plus(0).toFormat('EEEE d MMMM')}
             </Skeleton>
           </h2>
-          {slots.map(({ startsAt, endsAt, group }) => (
-            <div className="programme__slot" key={startsAt.valueOf()}>
-              <h3>
-                <Skeleton text loading={loading}>
-                  {startsAt.toLocaleString(DateTime.TIME_SIMPLE)} to{' '}
-                  {endsAt.toLocaleString(DateTime.TIME_SIMPLE)}
-                </Skeleton>
-              </h3>
+          <div className="programme__slots">
+            {slots.map(({ startsAt, endsAt, group }) => (
+              <div className="programme__slot" key={startsAt.valueOf()}>
+                <h3>
+                  <Skeleton text loading={loading}>
+                    {startsAt.toLocaleString(DateTime.TIME_SIMPLE)} to{' '}
+                    {endsAt.toLocaleString(DateTime.TIME_SIMPLE)}
+                  </Skeleton>
+                </h3>
 
-              <div className="programme__activities">
-                {group.map((activity) => (
-                  <ActivityCard
-                    key={activity.id}
-                    activity={activity}
-                    loading={loading}
-                    path={ROUTES.ACTIVITY.buildPath({
-                      type: pluralizedType,
-                      slug: activity.slug,
-                    })}
-                  />
-                ))}
+                <div className="programme__activities">
+                  {group.map((activity) => (
+                    <ActivityCard
+                      key={activity.id}
+                      activity={activity}
+                      loading={loading}
+                      path={ROUTES.ACTIVITY.buildPath({
+                        type: pluralizedType,
+                        slug: activity.slug,
+                      })}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       ))}
     </div>

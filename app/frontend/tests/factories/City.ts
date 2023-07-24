@@ -1,8 +1,8 @@
 import { Factory } from 'fishery';
 
-import { PlaceName } from '@/graphql/types';
+import { Placename } from '@/graphql/types';
 
-class CityFactory extends Factory<PlaceName> {
+class CityFactory extends Factory<Placename> {
   wellington() {
     return this.params({});
   }
@@ -20,7 +20,7 @@ class CityFactory extends Factory<PlaceName> {
 const cityFactory = CityFactory.define(
   () =>
     ({
-      __typename: 'PlaceName',
+      __typename: 'Placename',
       id: 'wellington',
       name: 'Wellington',
       traditionalName: 'Te Whanganui-a-Tara',

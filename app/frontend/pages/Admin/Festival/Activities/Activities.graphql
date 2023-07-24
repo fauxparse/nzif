@@ -65,6 +65,18 @@ fragment ActivityPresenter on Person {
   id
   name
 
+  city {
+    id
+    name
+    traditionalName
+  }
+
+  country {
+    id
+    name
+    traditionalName
+  }
+
   picture {
     id
     small

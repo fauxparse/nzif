@@ -2920,7 +2920,7 @@
               "description": null,
               "type": {
                 "kind": "OBJECT",
-                "name": "PlaceName",
+                "name": "Placename",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -2934,7 +2934,7 @@
               "description": null,
               "type": {
                 "kind": "OBJECT",
-                "name": "PlaceName",
+                "name": "Placename",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -3227,7 +3227,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "PlaceName",
+          "name": "Placename",
           "description": null,
           "interfaces": [
 

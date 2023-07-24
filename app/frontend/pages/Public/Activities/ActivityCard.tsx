@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { map, sortBy, uniqBy } from 'lodash-es';
 
 import Placename from '@/atoms/Placename';
-import { PlaceName, ProgrammeQuery } from '@/graphql/types';
+import { Placename as PlacenameType, ProgrammeQuery } from '@/graphql/types';
 import Skeleton from '@/helpers/Skeleton';
 import BlurrableImage from '@/molecules/BlurrableImage';
 import Card from '@/organisms/Card';
@@ -23,7 +23,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ loading = false, activity, 
       uniqBy(
         map(presenters, (t) =>
           t.country?.id === 'NZ' || t.country?.id === 'AU' ? t.city : t.country
-        ).filter(Boolean) as PlaceName[],
+        ).filter(Boolean) as PlacenameType[],
         'name'
       ),
     [presenters]

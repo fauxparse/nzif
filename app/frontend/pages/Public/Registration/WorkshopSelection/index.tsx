@@ -42,13 +42,13 @@ const tempSessions: RegistrationSlotFragment[] = range(5).map((days) => ({
           id: '1',
           name: 'Lauren Ipsum',
           city: {
-            __typename: 'PlaceName',
+            __typename: 'Placename',
             id: '1',
             name: 'Wellington',
             traditionalName: 'Poneke',
           },
           country: {
-            __typename: 'PlaceName',
+            __typename: 'Placename',
             id: 'NZ',
             name: 'New Zealand',
             traditionalName: 'Aotearoa',

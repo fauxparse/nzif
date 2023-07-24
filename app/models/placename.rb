@@ -7,11 +7,19 @@ class Placename < ApplicationRecord
   searchable_on :english, :traditional
 
   def self.[](name)
-    cache[name] ||= search(name) || new(english: name, traditional: nil)
+    cache[name] ||= search(name).presence || new(english: name, traditional: nil, id: name)
   end
 
   def self.cache
     @cache ||= {}
+  end
+
+  def to_param
+    @identifier || id
+  end
+
+  def id=(identifier)
+    @identifier = identifier
   end
 
   def self.load(placenames)

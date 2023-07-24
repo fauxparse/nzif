@@ -1,5 +1,5 @@
 module Sources
-  class PlaceName < BaseSource
+  class Placenames < BaseSource
     def fetch(placenames)
       Placename.load(placenames)
       placenames.map { |name| Placename[name] }

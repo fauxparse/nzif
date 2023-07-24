@@ -1,6 +1,6 @@
 .programme {
   &__list {
-    padding: 0 var(--horizontal-padding);
+    padding: 0 var(--horizontal-padding) var(--huge);
   }
 
   &__activities {
@@ -37,6 +37,19 @@
           }
         }
       }
+    }
+  }
+
+  &__list[data-type="shows"] &__slots {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: var(--medium);
+    align-items: stretch;
+
+    .programme__slot {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      grid-template-columns: 1fr;
     }
   }
 }

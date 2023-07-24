@@ -7,7 +7,7 @@ import Button from '@/atoms/Button';
 import Icon from '@/atoms/Icon';
 import Placename from '@/atoms/Placename';
 import {
-  PlaceName,
+  Placename as PlacenameType,
   RegistrationSlotFragment,
   RegistrationWorkshopFragment,
   useWorkshopDetailsQuery,
@@ -60,7 +60,7 @@ const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({ workshop, slot }) => 
       uniqBy(
         map(tutors, (t) =>
           t.country?.id === 'NZ' || t.country?.id === 'AU' ? t.city : t.country
-        ).filter(Boolean) as PlaceName[],
+        ).filter(Boolean) as PlacenameType[],
         'name'
       ),
     [tutors]
