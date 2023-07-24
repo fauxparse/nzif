@@ -23,6 +23,11 @@ fragment RegistrationWorkshop on Workshop {
     id
     name
     slug
+
+    sessions {
+      id
+      startsAt
+    }
   }
 }
 

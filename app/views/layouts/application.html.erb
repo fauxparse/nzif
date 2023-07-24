@@ -19,8 +19,31 @@
       Visit the guide for more information: https://vite-ruby.netlify.app/guide/rails
     -->
   </head>
-
   <body>
+    <svg style="display: none">
+      <filter id="duotone-light">
+        <feColorMatrix
+          type="matrix"
+          values=".33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 1 0"
+        />
+        <feComponentTransfer colorInterpolationFilters="sRGB">
+          <feFuncR type="table" tableValues=".914 .973"></feFuncR>
+          <feFuncG type="table" tableValues=".239 .903"></feFuncG>
+          <feFuncB type="table" tableValues=".509 .546"></feFuncB>
+        </feComponentTransfer>
+      </filter>
+      <filter id="duotone-dark">
+        <feColorMatrix
+          type="matrix"
+          values=".33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 1 0"
+        />
+        <feComponentTransfer colorInterpolationFilters="sRGB">
+          <feFuncR type="table" tableValues=".025 .439"></feFuncR>
+          <feFuncG type="table" tableValues=".219 .366"></feFuncG>
+          <feFuncB type="table" tableValues=".268 .003"></feFuncB>
+        </feComponentTransfer>
+      </filter>
+    </svg>
     <%= yield %>
     <div id="root" />
   </body>

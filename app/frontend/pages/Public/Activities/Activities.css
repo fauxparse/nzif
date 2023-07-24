@@ -53,3 +53,106 @@
     }
   }
 }
+
+:root,
+[data-theme="light"] {
+  --duotone-filter: url('#duotone-light');
+}
+
+[data-theme="dark"] {
+  --duotone-filter: url('#duotone-dark');
+}
+
+.activity-details {
+  --header-height: 14rem;
+
+  .page-header {
+    position: relative;
+    display: grid;
+    grid-template-rows: 1fr auto auto;
+    height: var(--header-height);
+
+    .breadcrumbs {
+      position: sticky;
+      top: var(--medium);
+
+      &__link {
+        padding: var(--tiny) var(--small);
+        border-radius: var(--border-radius-round);
+        background: var(--background-translucent);
+        color: var(--text);
+      }
+    }
+  }
+
+  &__presenters {
+    p {
+      margin: 0 0 var(--small);
+    }
+  }
+
+  &__picture {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: var(--header-height);
+    opacity: 0.5;
+    filter: var(--duotone-filter);
+  }
+
+  &__main {
+    display: grid;
+    grid-template-columns: 1fr 20rem;
+    gap: var(--huge);
+    align-items: start;
+    padding: var(--large) var(--horizontal-padding) var(--huge);
+    font-size: var(--font-size-legible);
+    line-height: var(--line-height-large);
+
+    p {
+      margin: 0 0 var(--medium);
+    }
+  }
+
+  &__attached {
+    padding: var(--medium);
+    border: var(--border-width-standard) solid var(--border-info);
+    border-radius: var(--border-radius-standard);
+    background: var(--background-info);
+    color: var(--text-info);
+  }
+
+  &__at-a-glance {
+    .icon {
+      display: block;
+    }
+
+    dl {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-auto-rows: var(--line-height-large);
+      gap: var(--small) var(--half);
+      align-items: center;
+      margin: 0;
+      padding: 0;
+      color: var(--text-subtle);
+      font-size: var(--font-size-small);
+
+      dt, dd {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    @media (width > 768px) {
+      position: sticky;
+      top: 24px;
+      grid-column: 2;
+      padding-left: var(--medium);
+      border-left: var(--border-width-standard) solid var(--border-subtle);
+    }
+  }
+}

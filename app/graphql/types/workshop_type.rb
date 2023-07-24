@@ -3,6 +3,7 @@ module Types
     implements Types::ActivityType
 
     field :show, ShowType, null: true
+    field :suitability, String, null: true
 
     def presenters
       tutors

@@ -155,8 +155,9 @@ const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({ workshop, slot }) => 
                     <div className="workshop-details__associated-show">
                       <p>
                         Participants from this workshop may be invited to perform in the show on
-                        Saturday 14 October. Please note that any such casting is at the discretion
-                        of the show’s director and is not guaranteed.
+                        {workshop.show.sessions[0].startsAt.toFormat('EEEE d MMMM')}. Please note
+                        that any such casting is at the discretion of the show’s director and is not
+                        guaranteed.
                       </p>
                     </div>
                   )}

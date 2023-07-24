@@ -16,6 +16,11 @@ class Activity < ApplicationRecord
 
   searchable_on :name, :description
 
+  validates :booking_link,
+    absence: { unless: :show? }
+  validates :suitability,
+    absence: { unless: :workshop? }
+
   scope :by_type, ->(type) { where(type: type.to_s) }
 
   after_save do

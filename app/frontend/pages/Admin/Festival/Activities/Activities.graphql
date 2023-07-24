@@ -19,6 +19,41 @@ query ActivityDetails($type: ActivityType!, $slug: String!) {
       slug
       description
 
+      picture {
+        id
+        large
+      }
+
+      ... on Show {
+        bookingLink
+
+        workshop {
+          id
+          name
+          slug
+
+          sessions {
+            id
+            startsAt
+          }
+        }
+      }
+
+      ... on Workshop {
+        suitability
+
+        show {
+          id
+          name
+          slug
+
+          sessions {
+            id
+            startsAt
+          }
+        }
+      }
+
       presenters {
         ...ActivityPresenter
       }

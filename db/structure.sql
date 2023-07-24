@@ -123,7 +123,9 @@ CREATE TABLE public.activities (
     description text,
     searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('english'::regconfig, COALESCE(description, ''::text)), 'B'::"char"))) STORED,
     picture_data jsonb,
-    blurhash character varying
+    blurhash character varying,
+    booking_link character varying,
+    suitability text
 );
 
 
@@ -1207,7 +1209,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230616221312'),
 ('20230618075348'),
 ('20230703004444'),
-('20230721115845');
+('20230721115845'),
+('20230724041043');
 
 
 SET statement_timeout = 0;

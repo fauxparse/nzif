@@ -107,6 +107,7 @@
   --background-element-accent: var(--accent3);
   --background-hover-accent: var(--accent4);
   --background-active-accent: var(--accent5);
+  --background-translucent: color-mix(in hsl, var(--background) 50%, transparent);
   --border-subtle-accent: var(--accent6);
   --border-element-accent: var(--accent7);
   --border-hover-accent: var(--accent8);
