@@ -204,7 +204,10 @@ CREATE TABLE public.festivals (
     start_date date,
     end_date date,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    earlybird_opens_at timestamp without time zone,
+    earlybird_closes_at timestamp without time zone,
+    general_opens_at timestamp without time zone
 );
 
 
@@ -225,6 +228,38 @@ CREATE SEQUENCE public.festivals_id_seq
 --
 
 ALTER SEQUENCE public.festivals_id_seq OWNED BY public.festivals.id;
+
+
+--
+-- Name: placements; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.placements (
+    id bigint NOT NULL,
+    registration_id bigint NOT NULL,
+    session_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: placements_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.placements_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: placements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.placements_id_seq OWNED BY public.placements.id;
 
 
 --
@@ -654,6 +689,13 @@ ALTER TABLE ONLY public.festivals ALTER COLUMN id SET DEFAULT nextval('public.fe
 
 
 --
+-- Name: placements id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.placements ALTER COLUMN id SET DEFAULT nextval('public.placements_id_seq'::regclass);
+
+
+--
 -- Name: placenames id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -769,6 +811,14 @@ ALTER TABLE ONLY public."cast"
 
 ALTER TABLE ONLY public.festivals
     ADD CONSTRAINT festivals_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: placements placements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.placements
+    ADD CONSTRAINT placements_pkey PRIMARY KEY (id);
 
 
 --
@@ -892,6 +942,20 @@ CREATE INDEX index_cast_on_profile_id ON public."cast" USING btree (profile_id);
 --
 
 CREATE UNIQUE INDEX index_cast_uniquely ON public."cast" USING btree (activity_type, activity_id, profile_id, role);
+
+
+--
+-- Name: index_placements_on_registration_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_placements_on_registration_id ON public.placements USING btree (registration_id);
+
+
+--
+-- Name: index_placements_on_session_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_placements_on_session_id ON public.placements USING btree (session_id);
 
 
 --
@@ -1141,6 +1205,22 @@ ALTER TABLE ONLY public.show_workshops
 
 
 --
+-- Name: placements fk_rails_9b0301b07e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.placements
+    ADD CONSTRAINT fk_rails_9b0301b07e FOREIGN KEY (registration_id) REFERENCES public.registrations(id);
+
+
+--
+-- Name: placements fk_rails_a3075eb6ce; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.placements
+    ADD CONSTRAINT fk_rails_a3075eb6ce FOREIGN KEY (session_id) REFERENCES public.sessions(id);
+
+
+--
 -- Name: profiles fk_rails_e424190865; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1210,7 +1290,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230618075348'),
 ('20230703004444'),
 ('20230721115845'),
-('20230724041043');
+('20230724041043'),
+('20230728005202'),
+('20230728012819');
 
 
 SET statement_timeout = 0;

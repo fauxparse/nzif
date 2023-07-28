@@ -32,9 +32,10 @@
     }
 
     dt {
+      display: flex;
+      gap: var(--tiny);
+      align-items: center;
       margin: 0;
-      padding: 0 0 0 var(--large);
-      text-indent: calc(var(--large) * -1);
     }
 
     dd {
@@ -57,5 +58,16 @@
     &__summary {
       padding-inline: var(--medium);
     }
+  }
+}
+
+.discounts-explained {
+  max-width: 16rem;
+  padding: var(--medium);
+  background: var(--background-info);
+  line-height: var(--line-height-medium);
+
+  p {
+    margin: 0;
   }
 }

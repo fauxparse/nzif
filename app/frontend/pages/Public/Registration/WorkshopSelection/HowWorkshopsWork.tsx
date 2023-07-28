@@ -1,9 +1,12 @@
 import { useState } from 'react';
 
+import { useRegistrationContext } from '../RegistrationContext';
 import Icon from '@/atoms/Icon';
 
 const HowWorkshopsWork = () => {
   const [expanded, setExpanded] = useState(true);
+
+  const { festival } = useRegistrationContext();
 
   return (
     <div className="collapsible how-workshops-work" aria-expanded={expanded}>
@@ -18,7 +21,9 @@ const HowWorkshopsWork = () => {
       <div className="collapsible__body">
         <dl className="timeline">
           <dt>
-            <time dateTime="2023-08-07">7 Aug</time>
+            <time dateTime={festival.earlybirdOpensAt?.toISODate() || undefined}>
+              {festival.earlybirdOpensAt?.toFormat('d MMM')}
+            </time>
           </dt>
           <dd>
             <b>Earlybird registration</b>
@@ -28,7 +33,9 @@ const HowWorkshopsWork = () => {
             </p>
           </dd>
           <dt>
-            <time dateTime="2023-09-01">1 Sep</time>
+            <time dateTime={festival.earlybirdClosesAt?.toISODate() || undefined}>
+              {festival.earlybirdClosesAt?.toFormat('d MMM')}
+            </time>
           </dt>
           <dd>
             <b>Earlybird registrations closed</b>
@@ -39,7 +46,9 @@ const HowWorkshopsWork = () => {
             </p>
           </dd>
           <dt>
-            <time dateTime="2023-09-08">8 Sep</time>
+            <time dateTime={festival.generalOpensAt?.toISODate() || undefined}>
+              {festival.generalOpensAt?.toFormat('d MMM')}
+            </time>
           </dt>
           <dd>
             <b>Final registrations</b>

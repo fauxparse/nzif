@@ -9,7 +9,11 @@ module Types
       argument :slug, String, required: true
       argument :type, Types::ActivityTypeType, required: true
     end
+    field :earlybird_closes_at, GraphQL::Types::ISO8601DateTime, null: true
+    field :earlybird_opens_at, GraphQL::Types::ISO8601DateTime, null: true
     field :end_date, Types::ISODate, null: false
+    field :general_opens_at, GraphQL::Types::ISO8601DateTime, null: true
+    field :registration_phase, Types::RegistrationPhaseType, null: false
     field :slots, [Types::SlotType], null: false do
       argument :type, Types::ActivityTypeType, required: false
     end

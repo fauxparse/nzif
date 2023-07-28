@@ -54,4 +54,13 @@ class Festival < ApplicationRecord
 
     :happening
   end
+
+  def registration_phase
+    return :pending if earlybird_opens_at&.future?
+    return :earlybird if earlybird_closes_at&.future?
+    return :paused if general_opens_at&.future?
+    return :general if (end_date + 1.day).future?
+
+    :closed
+  end
 end

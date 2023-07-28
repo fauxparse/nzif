@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import pluralize from 'pluralize';
 
 import { useRegistrationContext } from '../RegistrationContext';
 import useCartCalculator from '../useCartCalculator';
+import Button from '@/atoms/Button';
+import Money from '@/atoms/Money';
 import { useFinaliseRegistrationMutation } from '@/graphql/types';
+import Popover from '@/molecules/Popover';
 
 import './Payment.css';
 
@@ -17,6 +21,10 @@ export const Component: React.FC = () => {
     e.preventDefault();
     finaliseRegistration().then(() => next());
   };
+
+  const [discountHelp, setDiscountHelp] = useState<HTMLElement | null>(null);
+
+  const [discountHelpShowing, setDiscountHelpShowing] = useState<boolean>(false);
 
   return (
     <form id="registration-form" className="registration__payment" onSubmit={submit}>
@@ -39,19 +47,51 @@ export const Component: React.FC = () => {
       <div className="registration__payment__summary">
         <h3>Account summary</h3>
         <dl>
-          <dt>
+          <dt style={{ flexDirection: 'column', alignItems: 'start' }}>
             {pluralize('workshop', count, true)}
-            <br />@ ${base} NZD
+            <span style={{ marginLeft: 'var(--medium)' }}>
+              @ <Money cents={base} />
+            </span>
           </dt>
-          <dd>{`$${value}`}</dd>
+          <dd>
+            <Money cents={value} includeCurrency />
+          </dd>
           {discount > 0 && (
             <>
-              <dt>Discount</dt>
-              <dd>{`$${discount}`}</dd>
+              <dt>
+                <span>Discount</span>
+                <Button
+                  small
+                  ghost
+                  icon="help"
+                  aria-label="How do discounts work?"
+                  ref={setDiscountHelp}
+                  onClick={() => setDiscountHelpShowing((current) => !current)}
+                />
+                {discountHelp && (
+                  <Popover
+                    className="discounts-explained"
+                    reference={discountHelp}
+                    open={discountHelpShowing}
+                    placement="top"
+                    onOpenChange={setDiscountHelpShowing}
+                  >
+                    <p>
+                      Each workshop you buy after the first one is cheaper by a set amount. This
+                      discount is compounded, so the more workshops you buy, the more you save.
+                    </p>
+                  </Popover>
+                )}
+              </dt>
+              <dd>
+                <Money cents={-discount} includeCurrency />
+              </dd>
             </>
           )}
           <dt>Total amount due</dt>
-          <dd>{`$${total}`}</dd>
+          <dd>
+            <Money cents={total} includeCurrency />
+          </dd>
         </dl>
       </div>
     </form>

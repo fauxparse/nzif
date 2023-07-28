@@ -1,10 +1,12 @@
 import { useMemo } from 'react';
 import { uniq } from 'lodash-es';
 
+import CONFIG from '@/../../config/pricing.yml';
+
 import { useRegistrationContext } from './RegistrationContext';
 
-const BASE_PRICE = 60;
-const DISCOUNT = 5;
+const BASE_PRICE = CONFIG.pricing.base_workshop_price;
+const DISCOUNT = CONFIG.pricing.discount_per_additional_workshop;
 
 const useCartCalculator = () => {
   const { registration } = useRegistrationContext();

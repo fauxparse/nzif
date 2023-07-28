@@ -17,10 +17,6 @@ query CurrentUser {
   user {
     ...AuthenticatedUser
   }
-
-  registration {
-    id
-  }
 }
 
 mutation LogIn($email: String!, $password: String!) {

@@ -6,7 +6,7 @@
   &__activities {
     @media (width > 768px) {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+      grid-template-columns: repeat(auto-fill, var(--card-width));
       gap: var(--medium);
     }
   }
@@ -42,7 +42,7 @@
 
   &__list[data-type="shows"] &__slots {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    grid-template-columns: repeat(auto-fill, var(--card-width));
     gap: var(--medium);
     align-items: stretch;
 
@@ -115,14 +115,6 @@
     p {
       margin: 0 0 var(--medium);
     }
-  }
-
-  &__attached {
-    padding: var(--medium);
-    border: var(--border-width-standard) solid var(--border-info);
-    border-radius: var(--border-radius-standard);
-    background: var(--background-info);
-    color: var(--text-info);
   }
 
   &__at-a-glance {

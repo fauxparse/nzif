@@ -20,7 +20,7 @@ module Types
     end
 
     def url
-      "/#{activity.class.to_param}/#{activity.to_param}"
+      "/#{activity.class.to_param}/#{activity.slug}"
     end
 
     def cast

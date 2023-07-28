@@ -51,7 +51,7 @@ const Footer: React.FC = () => {
       {previous && (
         <Button
           as={Link}
-          to={festival ? `/${festival.id}${previous.path}` : '/'}
+          to={festival ? previous.path : '/'}
           className="registration__button"
           icon="chevronLeft"
           data-action="previous"

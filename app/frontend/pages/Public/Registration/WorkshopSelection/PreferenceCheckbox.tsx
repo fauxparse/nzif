@@ -1,7 +1,11 @@
 import { range } from 'lodash-es';
 
 import Checkbox from '@/atoms/Checkbox';
-import { RegistrationSlotFragment, RegistrationWorkshopFragment } from '@/graphql/types';
+import {
+  RegistrationPhase,
+  RegistrationSlotFragment,
+  RegistrationWorkshopFragment,
+} from '@/graphql/types';
 
 import { useWorkshopSelectionContext } from './WorkshopSelectionContext';
 
@@ -18,7 +22,7 @@ const PreferenceCheckbox: React.FC<PreferenceCheckboxProps> = ({
   preference,
   disabled,
 }) => {
-  const { registrationStage, add, remove } = useWorkshopSelectionContext();
+  const { registrationPhase, add, remove } = useWorkshopSelectionContext();
 
   const changed = () => {
     (preference ? remove : add)({
@@ -31,7 +35,7 @@ const PreferenceCheckbox: React.FC<PreferenceCheckboxProps> = ({
     <Checkbox
       className="workshop__checkbox"
       checked={!!preference}
-      preference={(registrationStage === 'earlybird' && preference) || undefined}
+      preference={(registrationPhase === RegistrationPhase.Earlybird && preference) || undefined}
       disabled={disabled || undefined}
       value={workshop.id}
       onChange={changed}

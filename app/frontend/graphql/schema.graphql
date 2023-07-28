@@ -79,6 +79,16 @@ type BooleanSetting implements Setting {
   value: Boolean!
 }
 
+type Cart {
+  discount: Int!
+  id: ID!
+  outstanding: Int!
+  paid: Int!
+  total: Int!
+  value: Int!
+  workshopsCount: Int!
+}
+
 scalar Country
 
 """
@@ -128,8 +138,12 @@ type Credential {
 type Festival {
   activities(type: ActivityType): [Activity!]!
   activity(slug: String!, type: ActivityType!): Activity
+  earlybirdClosesAt: ISO8601DateTime
+  earlybirdOpensAt: ISO8601DateTime
   endDate: ISODate!
+  generalOpensAt: ISO8601DateTime
   id: ID!
+  registrationPhase: RegistrationPhase!
   slots(type: ActivityType): [Slot!]!
   startDate: ISODate!
   state: FestivalState!
@@ -357,10 +371,39 @@ type Query {
 }
 
 type Registration {
+  cart: Cart!
   codeOfConductAcceptedAt: ISO8601DateTime
   id: ID!
   preferences: [Preference!]!
   user: User
+  workshopsCount: Int!
+}
+
+enum RegistrationPhase {
+  """
+  Closed
+  """
+  Closed
+
+  """
+  Earlybird
+  """
+  Earlybird
+
+  """
+  General
+  """
+  General
+
+  """
+  Paused
+  """
+  Paused
+
+  """
+  Pending
+  """
+  Pending
 }
 
 """

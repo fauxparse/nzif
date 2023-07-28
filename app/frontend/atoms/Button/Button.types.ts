@@ -50,4 +50,4 @@ export type ButtonProps<C extends ElementType = 'button'> = Polymorphic<C, BaseB
 
 export type ButtonComponent = WithDisplayName<
   <C extends ElementType = 'button'>(props: ButtonProps<C>) => ReactElement | null
->;
+> & { Text?: ReactElement };

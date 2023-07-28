@@ -1,6 +1,7 @@
 import pluralize from 'pluralize';
 
 import Icon from '@/atoms/Icon';
+import Money from '@/atoms/Money';
 
 import useCartCalculator from './useCartCalculator';
 
@@ -14,8 +15,10 @@ const Cart: React.FC = () => {
         {count ? pluralize('workshop', count, true) + ' selected' : 'No workshops selected'}
       </div>
       <div className="cart__price">
-        {discount > 0 && <span className="cart__value">${value}</span>}
-        <span className="cart__total">${total}</span> <abbr title="New Zealand dollars">NZD</abbr>
+        {discount > 0 && <Money className="cart__value" cents={value} />}
+        <Money className="cart__total" cents={total} includeCurrency>
+          ${total}
+        </Money>
       </div>
     </div>
   );

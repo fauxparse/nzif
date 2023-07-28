@@ -8,8 +8,10 @@ import { DateTime } from 'luxon';
 import { useRegistrationContext } from '../RegistrationContext';
 import {
   ActivityType,
+  RegistrationPhase,
   RegistrationPreferenceFragmentDoc,
   RegistrationSlotFragment,
+  RegistrationStatusQuery,
   RegistrationWorkshopFragment,
   useAddPreferenceMutation,
   useRegistrationStatusQuery,
@@ -93,9 +95,11 @@ export const Component: React.FC = () => {
     [registration]
   );
 
-  const [addPreference] = useAddPreferenceMutation({});
+  const [addPreference] = useAddPreferenceMutation({ refetchQueries: ['RegistrationSummary'] });
 
-  const [removePreference] = useRemovePreferenceMutation({});
+  const [removePreference] = useRemovePreferenceMutation({
+    refetchQueries: ['RegistrationSummary'],
+  });
 
   const add = ({ workshop, slot }: SelectedWorkshop) => {
     const session = workshop.sessions.find((s) => s.startsAt.equals(slot.startsAt));
@@ -197,7 +201,7 @@ export const Component: React.FC = () => {
         loading,
         slots,
         selected,
-        registrationStage: 'earlybird',
+        registrationPhase: festival?.registrationPhase || RegistrationPhase.Closed,
         zoomed,
         add,
         remove,

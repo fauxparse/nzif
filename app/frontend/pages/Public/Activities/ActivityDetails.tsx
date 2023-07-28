@@ -8,15 +8,14 @@ import Icon from '@/atoms/Icon';
 import Placename from '@/atoms/Placename';
 import {
   ActivityDetailsQuery,
-  ActivityType,
   Placename as PlacenameType,
   useActivityDetailsQuery,
 } from '@/graphql/types';
 import Markdown from '@/helpers/Markdown';
 import Skeleton from '@/helpers/Skeleton';
 import Breadcrumbs, { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
+import Callout from '@/molecules/Callout';
 import PageHeader from '@/molecules/PageHeader';
-import ActivityDetails from '@/pages/Admin/Festival/Activities/ActivityDetails';
 import { ROUTES } from '@/Routes';
 import { activityTypeFromPluralized, Pluralized } from '@/util/activityTypeLabel';
 import sentence from '@/util/sentence';
@@ -127,7 +126,7 @@ export const Component: React.FC = () => {
               </>
             )}
             {hasAttachedWorkshop(activity) && (
-              <div className="activity-details__attached">
+              <Callout className="activity-details__attached">
                 This show is cast at least in part from the accompanying workshop,{' '}
                 <Link
                   to={ROUTES.ACTIVITY.buildPath({
@@ -139,10 +138,10 @@ export const Component: React.FC = () => {
                 </Link>
                 . Please note that any such casting is at the discretion of the show’s director and
                 is not guaranteed.
-              </div>
+              </Callout>
             )}
             {hasAttachedShow(activity) && (
-              <div className="activity-details__attached">
+              <Callout className="activity-details__attached">
                 Participants from this workshop may be invited to perform in the show,{' '}
                 <Link
                   to={ROUTES.ACTIVITY.buildPath({
@@ -155,7 +154,7 @@ export const Component: React.FC = () => {
                 , on {activity.show.sessions[0].startsAt.plus(0).toFormat('EEEE d MMMM')}. Please
                 note that any such casting is at the discretion of the show’s director and is not
                 guaranteed.
-              </div>
+              </Callout>
             )}
           </div>
           <aside className="activity-details__at-a-glance">

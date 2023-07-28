@@ -36,10 +36,15 @@
 
   &__registration {
     display: grid;
-    grid-template-rows: 1fr auto;
+    grid-template-rows: auto 1fr auto;
     gap: var(--small);
     justify-items: center;
 
+    &-status {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 
     p {
       margin: 0;
@@ -47,6 +52,11 @@
 
       .skeleton {
         margin: 0 auto;
+      }
+
+      &:nth-child(2) {
+        font-weight: var(--font-weight-medium);
+        font-size: var(--font-size-legible);
       }
     }
 
@@ -79,9 +89,20 @@
     background: var(--border-subtle);
   }
 
+  .menu {
+    width: unset;
+    padding: 0;
+    box-shadow: none;
+  }
+
   @media (width >= 481px) {
     grid-template-rows: 1fr;
-    grid-template-columns: 12rem 1px 12rem;
+    grid-auto-columns: 12rem 1px;
+    grid-auto-flow: row;
     gap: var(--medium);
+
+    > :not(.popover__arrow) {
+      grid-row: 1;
+    }
   }
 }

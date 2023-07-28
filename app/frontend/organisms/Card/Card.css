@@ -1,5 +1,8 @@
-.card {
+:root {
   --card-width: 20rem;
+}
+
+.card {
   --card-border: var(--border-subtle);
 
   position: relative;

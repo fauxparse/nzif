@@ -157,6 +157,10 @@ query RegistrationStatus {
     id
     startDate
     endDate
+    earlybirdOpensAt
+    earlybirdClosesAt
+    generalOpensAt
+    registrationPhase
 
     slots(type: Workshop) {
       ...RegistrationSlot

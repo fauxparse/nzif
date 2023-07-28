@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { AnimatePresence, HTMLMotionProps, motion, Variants } from 'framer-motion';
 import { DateTime } from 'luxon';
 
-import { useRegistrationStatusQuery } from '@/graphql/types';
+import { RegistrationPhase, useRegistrationStatusQuery } from '@/graphql/types';
 import usePrevious from '@/hooks/usePrevious';
 
 import Footer from './Footer';
@@ -75,6 +75,10 @@ export const Component: React.FC = () => {
       startDate: DateTime.now(),
       endDate: DateTime.now(),
       slots: [],
+      earlybirdOpensAt: DateTime.now(),
+      earlybirdClosesAt: DateTime.now(),
+      generalOpensAt: DateTime.now(),
+      registrationPhase: RegistrationPhase.Earlybird,
     },
     registration = {
       __typename: 'Registration',

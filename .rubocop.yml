@@ -21,6 +21,7 @@ GraphQL/ExtractType:
     - 'app/graphql/**/base_*.rb'
     - 'app/graphql/types/mutation_type.rb'
     - 'app/graphql/types/query_type.rb'
+    - 'app/graphql/types/festival_type.rb'
 
 GraphQL/FieldDescription:
   Enabled: false
@@ -51,6 +52,9 @@ Layout/MultilineMethodCallIndentation:
 Metrics/AbcSize:
   Exclude:
     - 'db/migrate/*'
+
+Metrics/CyclomaticComplexity:
+  Max: 10
 
 Metrics/MethodLength:
   Max: 16

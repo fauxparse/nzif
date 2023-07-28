@@ -6,6 +6,7 @@ import { PolymorphicRef } from '@/types/polymorphic.types';
 import { extractVariants } from '@/types/variants';
 
 import { AllButtonVariants, BUTTON_VARIANTS, ButtonComponent, ButtonProps } from './Button.types';
+import Text from './Text';
 
 import './Button.css';
 
@@ -42,7 +43,7 @@ const Button: ButtonComponent = forwardRef(
         {...buttonProps}
       >
         {isIconName(icon) ? <Icon name={icon} /> : icon}
-        {!!text && <span className="button__text">{text}</span>}
+        {!!text && <Text>{text}</Text>}
         {buttonChildren}
       </Component>
     );
@@ -51,4 +52,4 @@ const Button: ButtonComponent = forwardRef(
 
 Button.displayName = 'Button';
 
-export default Button;
+export default Object.assign(Button, { Text }) as ButtonComponent & { Text: typeof Text };

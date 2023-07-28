@@ -60,7 +60,7 @@
       color: var(--neutralA11);
       pointer-events: all;
 
-      &__text {
+      .button__text {
         display: none;
 
         @media screen and (width > 768px) {
@@ -68,9 +68,21 @@
         }
       }
 
-      &:hover {
+      .icon {
+        transition: transform var(--timing-standard) var(--ease-standard);
+      }
+
+      &:hover,
+      &:active,
+      &[aria-expanded="true"] {
         background-color: var(--neutralA4);
         color: var(--neutralA12);
+      }
+
+      &[aria-expanded="true"] {
+        .icon {
+          transform: rotate(180deg);
+        }
       }
     }
   }

@@ -7,8 +7,12 @@ class RegistrationPolicy < ApplicationPolicy
     user&.persisted?
   end
 
-  def update?
+  def view?
     user.registrations? || record.new_record? || (user.id == record.user_id)
+  end
+
+  def update?
+    view?
   end
 
   def manage?

@@ -1,0 +1,19 @@
+query RegistrationSummary {
+  festival {
+    id
+    registrationPhase
+  }
+
+  registration {
+    id
+    cart {
+      id
+      value
+      discount
+      total
+      paid
+      outstanding
+      workshopsCount
+    }
+  }
+}
