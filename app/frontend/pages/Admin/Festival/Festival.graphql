@@ -9,5 +9,9 @@ query CurrentFestival {
     id
     startDate
     endDate
+    registrationPhase
+    earlybirdOpensAt
+    earlybirdClosesAt
+    generalOpensAt
   }
 }

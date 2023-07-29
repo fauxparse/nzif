@@ -866,7 +866,7 @@ export type AuthenticatedUserFragment = { __typename: 'User', id: string, email:
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename: 'Query', user: { __typename: 'User', id: string, email: string, permissions: Array<Permission>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null } | null, registration: { __typename: 'Registration', id: string, workshopsCount: number, cart: { __typename: 'Cart', id: string, value: number, discount: number, total: number, workshopsCount: number } } };
+export type CurrentUserQuery = { __typename: 'Query', user: { __typename: 'User', id: string, email: string, permissions: Array<Permission>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null } | null };
 
 export type LogInMutationVariables = Exact<{
   email: Scalars['String'];
@@ -972,7 +972,7 @@ export type FestivalQuery = { __typename: 'Query', festival: { __typename: 'Fest
 export type CurrentFestivalQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentFestivalQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime } };
+export type CurrentFestivalQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, registrationPhase: RegistrationPhase, earlybirdOpensAt: DateTime | null, earlybirdClosesAt: DateTime | null, generalOpensAt: DateTime | null } };
 
 export type ActivitySearchQueryVariables = Exact<{
   query: Scalars['String'];
@@ -1584,17 +1584,6 @@ export const CurrentUserDocument = gql`
     query CurrentUser {
   user {
     ...AuthenticatedUser
-  }
-  registration {
-    id
-    workshopsCount
-    cart {
-      id
-      value
-      discount
-      total
-      workshopsCount
-    }
   }
 }
     ${AuthenticatedUserFragmentDoc}`;
@@ -2218,6 +2207,10 @@ export const CurrentFestivalDocument = gql`
     id
     startDate
     endDate
+    registrationPhase
+    earlybirdOpensAt
+    earlybirdClosesAt
+    generalOpensAt
   }
 }
     `;

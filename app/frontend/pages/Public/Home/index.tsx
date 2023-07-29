@@ -7,6 +7,8 @@ import Button from '@/atoms/Button';
 import { useCurrentFestivalQuery } from '@/graphql/types';
 import { ROUTES } from '@/Routes';
 
+import FestivalCountdown from './FestivalCountdown';
+
 import './Home.css';
 
 export const Component: React.FC = () => {
@@ -43,6 +45,7 @@ export const Component: React.FC = () => {
             icon="calendar"
           />
         </div>
+        <FestivalCountdown />
       </section>
     </div>
   );

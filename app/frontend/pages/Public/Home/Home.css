@@ -4,21 +4,6 @@
   padding-block: var(--huge);
   text-align: center;
 
-  @media (width <= 480px) {
-    --hero-font-size: 2.5rem;
-
-    .hero__buttons {
-      flex-direction: column;
-      align-items: stretch;
-      width: 100%;
-
-      .button {
-        width: auto;
-      }
-    }
-  }
-
-
   h1 {
     max-width: 40rem;
     margin: 0 auto;
@@ -46,5 +31,23 @@
     gap: var(--spacing);
     justify-content: center;
     margin: 0 auto;
+  }
+
+  .countdown {
+    margin: var(--huge) auto;
+  }
+
+  @media (width <= 480px) {
+    --hero-font-size: 2.5rem;
+
+    .hero__buttons {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+
+      .button {
+        width: auto;
+      }
+    }
   }
 }
