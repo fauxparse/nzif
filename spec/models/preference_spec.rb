@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Preference do
   subject(:preference) { create(:preference, registration:, session:) }
 
-  let(:registration) { create(:registration, :with_user, festival:) }
+  let(:registration) { create(:registration, festival:) }
   let(:session) { create(:session, :with_workshop, festival:) }
   let(:festival) { create(:festival) }
 

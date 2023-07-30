@@ -62,7 +62,7 @@ end
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
 
-Capybara.default_max_wait_time = 2
+Capybara.default_max_wait_time = 5
 Capybara.default_normalize_ws = true
 Capybara.save_path = ENV.fetch('CAPYBARA_ARTIFACTS', './tmp/capybara')
 
@@ -110,4 +110,10 @@ module CupriteHelpers
   def debug(*args)
     page.driver.debug(*args)
   end
+end
+
+World(CupriteHelpers)
+
+After do
+  travel_back
 end

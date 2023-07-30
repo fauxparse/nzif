@@ -69,6 +69,7 @@ RSpec/ContextWording:
     - when
     - with
     - without
+    - during
 
 RSpec/EmptyExampleGroup:
   Exclude:

@@ -32,6 +32,7 @@ const Login = forwardRef<LoginForm>((_, ref) => {
 
   return (
     <motion.form
+      id="login-form"
       ref={mergedRefs}
       className="authentication__form login"
       initial="out"

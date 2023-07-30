@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Registrations::Finalise, type: :interactor do
-  let(:registration) { create(:registration, :with_user) }
+  let(:registration) { create(:registration, user: current_user) }
   let(:context) { { registration: } }
 
   describe '.call' do

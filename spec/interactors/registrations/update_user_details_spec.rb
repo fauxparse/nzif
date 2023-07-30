@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Registrations::UpdateUserDetails, type: :interactor do
   let(:context) { { registration:, attributes: } }
-  let(:registration) { create(:registration, :with_user) }
+  let(:registration) { create(:registration) }
   let(:profile) { registration.profile }
   let(:user) { registration.user }
   let(:attributes) do
@@ -32,6 +32,8 @@ RSpec.describe Registrations::UpdateUserDetails, type: :interactor do
 
   describe '.call' do
     context 'when not logged in' do
+      let(:registration) { create(:registration) }
+
       let(:current_user) { nil }
 
       it 'is unauthorized' do

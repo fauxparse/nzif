@@ -11,7 +11,9 @@ RSpec.describe Festival do
     before { festival.validate }
 
     context 'when before start_date' do
-      let(:festival) { build(:festival, start_date: '2023-10-07', end_date: '2023-10-06') }
+      let(:festival) do
+        build(:festival, start_date: Date.civil(2023, 10, 7), end_date: Date.civil(2023, 10, 6))
+      end
 
       it 'has an error' do
         expect(festival.errors[:end_date]).to include('must be after 2023-10-07')
@@ -19,7 +21,9 @@ RSpec.describe Festival do
     end
 
     context 'when in a different year from start_date' do
-      let(:festival) { build(:festival, start_date: '2023-10-07', end_date: '2024-10-14') }
+      let(:festival) do
+        build(:festival, start_date: Date.civil(2023, 10, 7), end_date: Date.civil(2024, 10, 14))
+      end
 
       it 'has an error' do
         expect(festival.errors[:end_date]).to include('must be the same year as 2023-10-07')
@@ -28,7 +32,9 @@ RSpec.describe Festival do
   end
 
   describe '#year' do
-    before { create(:festival, start_date: '2023-07-22', end_date: '2023-07-29') }
+    before do
+      create(:festival, start_date: Date.civil(2023, 7, 22), end_date: Date.civil(2023, 7, 29))
+    end
 
     it 'must be unique' do
       expect(festival).not_to be_valid

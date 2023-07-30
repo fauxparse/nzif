@@ -1,15 +1,18 @@
 class ProfilePolicy < ApplicationPolicy
   def index?
-    user.admin?
+    user.people?
+  end
+
+  def show?
+    user.people? || (user.id == record&.user_id)
   end
 
   def create?
-    # user.admin?
     true
   end
 
   def update?
-    user.admin? || (user.id == record.user_id)
+    user.people? || (user.id == record.user_id)
   end
 
   scope_for :relation do |relation|
@@ -20,7 +23,7 @@ class ProfilePolicy < ApplicationPolicy
   end
 
   scope_for :data, :attributes do |data, with_record: nil|
-    next data if user.admin? && user.id != with_record&.user_id
+    next data if user.people? && user.id != with_record&.user_id
 
     data.except(:roles)
   end

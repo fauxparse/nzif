@@ -1,5 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Placename, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe Placename do
+  subject(:placename) { create(:placename) }
+
+  it { is_expected.to be_valid }
 end

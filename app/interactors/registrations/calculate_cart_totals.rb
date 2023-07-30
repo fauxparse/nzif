@@ -23,7 +23,7 @@ module Registrations
         if registration.festival.registration_phase == :earlybird
           registration.requested_slots.count
         else
-          registration.workshops.count
+          registration.sessions.count
         end
     end
 

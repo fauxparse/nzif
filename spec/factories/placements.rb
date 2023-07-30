@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :placement do
-    registration { nil }
-    session { nil }
+    session
+    registration { create(:registration, festival: session.festival) }
   end
 end

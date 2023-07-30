@@ -10,6 +10,11 @@ module RegistrationHelpers
   def current_email_address
     user.email
   end
+
+  def registration
+    @registration ||=
+      FactoryBot.create(:registration, :code_of_conduct_accepted, user:, festival:)
+  end
 end
 
 World(RegistrationHelpers)
@@ -21,9 +26,17 @@ ParameterType(
   transformer: ->(s) { %w[zeroth first second third].index(s) },
 )
 
+Given('earlybird registration is open') do
+  travel_to festival.earlybird_opens_at + 1.day
+end
+
 Given('I am on the registration page') do
-  festival
   visit '/register'
+  sleep 1
+end
+
+Given('I am on the workshop selection page') do
+  visit '/register/workshops'
   sleep 1
 end
 
@@ -33,6 +46,28 @@ end
 
 Given('I am an existing user') do
   user
+end
+
+Given('I am teaching a workshop') do
+  festival.workshops.first.cast.create!(profile: user.profile, role: :tutor)
+end
+
+Given('I am logged in') do
+  festival
+  visit '/'
+  click_button 'Log in'
+  fill_in 'Email address', with: user.email
+  fill_in 'Password', with: 'P4$$w0rd'
+  sleep 1
+  within('#login-form') do
+    click_button 'Log in'
+  end
+  sleep 1
+  expect(page).not_to have_content('New here?')
+end
+
+Given('I am registered for the festival') do
+  registration
 end
 
 When('I fill in my name') do
@@ -99,4 +134,10 @@ Then('I should have my preferences recorded') do
   workshops = festival.workshops.all
   expect(registration.preferences.sort_by(&:position).map(&:workshop))
     .to eq([workshops.second, workshops.first])
+end
+
+Then('workshops in my slot should be disabled') do
+  within('.workshop-selection__slot:first-of-type') do
+    expect(page).to have_button('First choice', disabled: true)
+  end
 end

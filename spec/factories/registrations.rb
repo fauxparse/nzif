@@ -1,10 +1,10 @@
 FactoryBot.define do
   factory :registration do
-    user { nil }
+    user { create(:user, :with_profile) }
     festival
 
-    trait :with_user do
-      user { create(:user, :with_profile) }
+    trait :code_of_conduct_accepted do
+      code_of_conduct_accepted_at { Time.zone.now }
     end
   end
 end

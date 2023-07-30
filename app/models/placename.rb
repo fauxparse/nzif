@@ -19,6 +19,7 @@ class Placename < ApplicationRecord
   end
 
   def id=(identifier)
+    super
     @identifier = identifier
   end
 

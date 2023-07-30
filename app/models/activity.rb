@@ -51,4 +51,12 @@ class Activity < ApplicationRecord
   def valid_cast_roles
     self.class.valid_cast_roles(self.class)
   end
+
+  def show?
+    type == 'Show'
+  end
+
+  def workshop?
+    type == 'Workshop'
+  end
 end
