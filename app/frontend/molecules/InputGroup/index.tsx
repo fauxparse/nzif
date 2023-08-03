@@ -3,7 +3,7 @@ import InputGroupContext from './context';
 import Icon from './Icon';
 import InputGroup from './InputGroup';
 
-import './Inputgroup.css';
+import './InputGroup.css';
 
 export { InputGroupContext };
 
