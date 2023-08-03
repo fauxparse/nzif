@@ -63,23 +63,12 @@ CREATE TYPE public.activity_type AS ENUM (
 
 
 --
--- Name: immutable_unaccent(regdictionary, text); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION public.immutable_unaccent(regdictionary, text) RETURNS text
-    LANGUAGE c IMMUTABLE STRICT PARALLEL SAFE
-    AS '$libdir/unaccent', 'unaccent_dict';
-
-
---
 -- Name: f_unaccent(text); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.f_unaccent(text) RETURNS text
     LANGUAGE sql IMMUTABLE STRICT PARALLEL SAFE
-    BEGIN ATOMIC
- SELECT public.immutable_unaccent('public.unaccent'::regdictionary, $1) AS immutable_unaccent;
-END;
+    AS $_$SELECT public.unaccent('public.unaccent', $1)$_$;
 
 
 --

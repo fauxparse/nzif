@@ -10,16 +10,10 @@ class CreatePlacenames < ActiveRecord::Migration[7.0]
     end
 
     execute <<~SQL.squish
-      CREATE OR REPLACE FUNCTION public.immutable_unaccent(regdictionary, text)
-        RETURNS text
-        LANGUAGE c IMMUTABLE PARALLEL SAFE STRICT AS '$libdir/unaccent', 'unaccent_dict';
-
       CREATE OR REPLACE FUNCTION public.f_unaccent(text)
-        RETURNS text
-        LANGUAGE sql IMMUTABLE PARALLEL SAFE STRICT
-        BEGIN ATOMIC
-      SELECT public.immutable_unaccent(regdictionary 'public.unaccent', $1);
-      END;
+      RETURNS text
+      LANGUAGE sql IMMUTABLE PARALLEL SAFE STRICT
+      AS $_$SELECT public.unaccent('public.unaccent', $1)$_$;
 
       ALTER TABLE placenames
       ADD COLUMN searchable tsvector GENERATED ALWAYS AS (
