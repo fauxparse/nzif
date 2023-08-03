@@ -3,8 +3,9 @@ class AddSearchableColumnToUsers < ActiveRecord::Migration[7.0]
 
   def up
     execute <<~SQL.squish
-      CREATE OR REPLACE FUNCTION my_concat(text, text[])
-      RETURNS text AS 'text_concat_ws' LANGUAGE internal immutable;
+      CREATE OR REPLACE FUNCTION my_concat(text, VARIADIC text[])
+      RETURNS text
+      LANGUAGE sql IMMUTABLE PARALLEL SAFE AS 'SELECT array_to_string($2, $1)';
 
       ALTER TABLE users
       ADD COLUMN searchable tsvector GENERATED ALWAYS AS (
