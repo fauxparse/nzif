@@ -19,6 +19,9 @@ const SINGULARIZED = {
 export const activityTypeFromPluralized = (plural: Pluralized): ActivityType =>
   SINGULARIZED[plural];
 
+export const pluralizeActivityType = (activityType: ActivityType): Pluralized =>
+  PLURALIZED[activityType];
+
 const activityTypeLabel = (activityType: ActivityType): string =>
   capitalize(startCase(activityType));
 

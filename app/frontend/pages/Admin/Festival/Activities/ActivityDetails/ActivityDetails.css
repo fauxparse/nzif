@@ -99,3 +99,13 @@
     }
   }
 }
+
+.attached-activity {
+  display: grid;
+  gap: var(--small);
+  place-content: center;
+  align-items: center;
+  justify-items: center;
+  min-height: 50vh;
+  padding: var(--medium) var(--horizontal-padding);
+}

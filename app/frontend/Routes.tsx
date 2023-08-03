@@ -14,7 +14,7 @@ const id = zod(z.string()).defined();
 
 const year = zod(z.string().regex(/^\d{4}$/)).defined();
 
-const date = zod(z.string().regex(/^\d{4}-\d{2}-\d{2}$/)).defined();
+const date = zod(z.string().regex(/^\d{4}-\d{2}-\d{2}$/));
 
 const activityType = zod(z.string().regex(/^(workshops|shows)$/)).defined();
 
@@ -35,6 +35,8 @@ export const ROUTES = {
         { params: { type: activityType, slug: id } },
         {
           SESSION: route(':date', { params: { date } }),
+          SHOW: route('show'),
+          WORKSHOP: route('workshop'),
         }
       ),
       SHOWS: route('shows'),
@@ -98,6 +100,14 @@ const router = createBrowserRouter([
               {
                 path: ROUTES.ADMIN.ACTIVITY.SESSION.path,
                 lazy: () => import('./pages/Admin/Festival/Activities/ActivityDetails/Session'),
+              },
+              {
+                path: ROUTES.ADMIN.ACTIVITY.SHOW.path,
+                lazy: () => import('./pages/Admin/Festival/Activities/ActivityDetails/Attached'),
+              },
+              {
+                path: ROUTES.ADMIN.ACTIVITY.WORKSHOP.path,
+                lazy: () => import('./pages/Admin/Festival/Activities/ActivityDetails/Attached'),
               },
               {
                 index: true,

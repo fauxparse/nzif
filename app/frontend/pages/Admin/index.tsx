@@ -1,5 +1,6 @@
 import React from 'react';
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { Navigate, Outlet } from 'react-router-dom';
 
 import { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 import { useAuthentication } from '@/organisms/Authentication';
@@ -17,6 +18,9 @@ export const Component: React.FC = () => {
 
   return (
     <BreadcrumbProvider label="Admin" path="admin">
+      <Helmet>
+        <title>NZIF Admin</title>
+      </Helmet>
       <div>
         <Header />
         <Outlet />

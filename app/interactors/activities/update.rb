@@ -6,6 +6,9 @@ module Activities
       authorize! activity, to: :update?
       activity.transaction do
         assign_cast(attributes.delete(:profile_ids)) if attributes.key?(:profile_ids)
+        if attributes.key?(:attached_activity_id)
+          assign_attached_activity(attributes.delete(:attached_activity_id))
+        end
         activity.assign_attributes(attributes)
         activity.save!
       end
@@ -14,7 +17,9 @@ module Activities
     def attributes
       @attributes ||= ActionController::Parameters
         .new(context[:attributes].to_h)
-        .permit(:name, :slug, :description, :picture, profile_ids: [])
+        .permit(
+          :name, :slug, :description, :suitability, :picture, :attached_activity_id, profile_ids: []
+        )
     end
 
     private
@@ -34,6 +39,19 @@ module Activities
 
     def delete_old_cast(ids)
       activity.cast.where.not(profile_id: ids).destroy_all
+    end
+
+    def assign_attached_activity(id)
+      return unless activity.respond_to?(:show_workshop)
+
+      activity.show_workshop&.destroy
+
+      return if id.blank?
+
+      case activity
+      when Show then activity.create_show_workshop!(workshop: Workshop.find(id))
+      when Workshop then activity.create_show_workshop!(show: Show.find(id))
+      end
     end
   end
 end

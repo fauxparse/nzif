@@ -1,4 +1,4 @@
-import { Link, Outlet, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
 import { kebabCase } from 'lodash-es';
 import pluralize from 'pluralize';
@@ -26,11 +26,11 @@ import './ActivityDetails.css';
 export const Component: React.FC = () => {
   const { type: pluralizedType, slug } = useTypedParams(ROUTES.ADMIN.ACTIVITY);
 
+  const { date } = useTypedParams(ROUTES.ADMIN.ACTIVITY.SESSION);
+
   const type = activityTypeFromPluralized(pluralizedType as Pluralized);
 
   const location = useLocation();
-
-  const date = location.pathname.match(/\/(\d{4}-\d{2}-\d{2})($|\/)/)?.[1];
 
   const navigate = useNavigate();
 
@@ -65,7 +65,9 @@ export const Component: React.FC = () => {
       const renamed = data?.renameActivity?.activity;
       if (!renamed) return activity.name;
       if (slug !== renamed.slug && renamed.slug) {
-        navigate(`../${renamed.slug}`, { replace: true });
+        navigate(ROUTES.ADMIN.ACTIVITY.buildPath({ type: pluralizedType, slug: renamed.slug }), {
+          replace: true,
+        });
       }
       return renamed.name;
     });
@@ -93,7 +95,9 @@ export const Component: React.FC = () => {
       const moved = data?.moveActivity?.activity;
       if (!moved) return activity.slug;
       if (slug !== moved.slug && moved.slug) {
-        navigate(`../${moved.slug}`, { replace: true });
+        navigate(ROUTES.ADMIN.ACTIVITY.buildPath({ type: pluralizedType, slug: moved.slug }), {
+          replace: true,
+        });
       }
       return moved.slug;
     });
@@ -137,7 +141,12 @@ export const Component: React.FC = () => {
           )}
           {activity && (
             <Tabs>
-              <Tabs.Tab as={Link} to="." text="Details" selected={!date} />
+              <Tabs.Tab
+                as={Link}
+                to={ROUTES.ADMIN.ACTIVITY.buildPath({ type: pluralizedType, slug })}
+                text="Details"
+                selected={location.pathname.endsWith(slug)}
+              />
               {activity?.sessions?.map((session) => (
                 <Tabs.Tab
                   key={session.id}
@@ -147,6 +156,22 @@ export const Component: React.FC = () => {
                   selected={date === session.startsAt.toISODate()}
                 />
               ))}
+              {activity.__typename === 'Workshop' && (
+                <Tabs.Tab
+                  as={Link}
+                  to={ROUTES.ADMIN.ACTIVITY.SHOW.buildPath({ type: pluralizedType, slug })}
+                  text={activity.show ? 'Show' : 'No attached show'}
+                  selected={location.pathname.endsWith('/show')}
+                />
+              )}
+              {activity.__typename === 'Show' && (
+                <Tabs.Tab
+                  as={Link}
+                  to={ROUTES.ADMIN.ACTIVITY.WORKSHOP.buildPath({ type: pluralizedType, slug })}
+                  text={activity.workshop ? 'Workshop' : 'No attached workshop'}
+                  selected={location.pathname.endsWith('/workshop')}
+                />
+              )}
             </Tabs>
           )}
         </PageHeader>

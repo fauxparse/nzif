@@ -29,5 +29,14 @@ RSpec.describe Activities::Update, type: :interactor do
         expect { result }.to change { activity.tutors.count }.by(1)
       end
     end
+
+    context 'with a new attached activity' do
+      let(:show) { create(:show, festival: activity.festival) }
+      let(:attributes) { { attached_activity_id: show.to_param } }
+
+      it 'updates the activity' do
+        expect { result }.to change { activity.reload.show_workshop&.show }.from(nil).to(show)
+      end
+    end
   end
 end

@@ -10,11 +10,13 @@ interface Activity {
 }
 
 input ActivityAttributes {
+  attachedActivityId: ID
   description: String
   name: String
   picture: Upload
   profileIds: [ID!]
   slug: String
+  suitability: String
 }
 
 type ActivityPicture {

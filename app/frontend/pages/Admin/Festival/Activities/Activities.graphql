@@ -8,68 +8,74 @@ query ActivityList($type: ActivityType) {
   }
 }
 
+fragment AdminActivityDetails on Activity {
+  id
+  name
+  type
+  slug
+  description
+
+  picture {
+    id
+    medium
+    large
+  }
+
+  ... on Show {
+    bookingLink
+
+    workshop {
+      id
+      name
+      slug
+      type
+
+      sessions {
+        id
+        startsAt
+      }
+    }
+  }
+
+  ... on Workshop {
+    suitability
+
+    show {
+      id
+      name
+      slug
+      type
+
+      sessions {
+        id
+        startsAt
+      }
+    }
+  }
+
+  presenters {
+    ...ActivityPresenter
+  }
+
+  sessions {
+    id
+    startsAt
+    endsAt
+
+    venue {
+      id
+      room
+      building
+    }
+  }
+}
+
 query ActivityDetails($type: ActivityType!, $slug: String!) {
   festival {
     id
 
     activity(type: $type, slug: $slug) {
-      id
-      name
-      type
-      slug
-      description
-
-      picture {
-        id
-        medium
-        large
-      }
-
-      ... on Show {
-        bookingLink
-
-        workshop {
-          id
-          name
-          slug
-
-          sessions {
-            id
-            startsAt
-          }
-        }
-      }
-
-      ... on Workshop {
-        suitability
-
-        show {
-          id
-          name
-          slug
-
-          sessions {
-            id
-            startsAt
-          }
-        }
-      }
-
-      presenters {
-        ...ActivityPresenter
-      }
-
-      sessions {
-        id
-        startsAt
-        endsAt
-
-        venue {
-          id
-          room
-          building
-        }
-      }
+      ...AdminActivityDetails
     }
   }
 }
@@ -144,21 +150,7 @@ mutation MoveActivity($id: ID!, $slug: String!) {
 mutation UpdateActivity($id: ID!, $attributes: ActivityAttributes!) {
   updateActivity(id: $id, attributes: $attributes) {
     activity {
-      id
-      name
-      type
-      slug
-      description
-
-      presenters {
-        ...ActivityPresenter
-      }
-
-      picture {
-        id
-        medium
-        large
-      }
+      ...AdminActivityDetails
     }
   }
 }

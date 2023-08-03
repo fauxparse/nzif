@@ -12,6 +12,7 @@ import Input from '@/atoms/Input';
 import {
   ActivityAttributes,
   ActivityPresenterFragmentDoc,
+  ActivityType,
   useUpdateActivityMutation,
 } from '@/graphql/types';
 import AutoResize from '@/helpers/AutoResize';
@@ -27,6 +28,7 @@ import useActivity from './useActivity';
 const formSchema = z.object({
   name: z.string(),
   description: z.string(),
+  suitability: z.string(),
   presenters: z.array(z.object({ id: z.string(), name: z.string() })),
 });
 
@@ -50,6 +52,7 @@ export const Component: React.FC = () => {
     defaultValues: {
       name: activity?.name || '',
       description: activity?.description || '',
+      suitability: (activity && 'suitability' in activity && activity.suitability) || '',
       presenters: activity?.presenters || [],
     },
   });
@@ -59,6 +62,7 @@ export const Component: React.FC = () => {
 
     setValue('name', activity.name || '');
     setValue('description', activity.description || '');
+    if (activity.__typename === 'Workshop') setValue('suitability', activity.suitability || '');
   }, [activity, setValue]);
 
   const { cache } = useApolloClient();
@@ -94,6 +98,7 @@ export const Component: React.FC = () => {
       reset({
         name: saved.name || '',
         description: saved.description || '',
+        suitability: ('suitability' in saved && saved.suitability) || '',
         presenters: saved.presenters || [],
       });
     }
@@ -156,6 +161,19 @@ export const Component: React.FC = () => {
               />
             </AutoResize>
           </Labelled>
+
+          {activity?.type === ActivityType.Workshop && (
+            <Labelled name="suitability" label="Suitable for" errors={errors}>
+              <AutoResize>
+                <Input
+                  as="textarea"
+                  id="suitability"
+                  {...register('suitability')}
+                  disabled={loading || undefined}
+                />
+              </AutoResize>
+            </Labelled>
+          )}
         </section>
 
         {activity && (
