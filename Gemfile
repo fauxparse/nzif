@@ -78,6 +78,8 @@ gem 'paper_trail', '~> 14.0'
 
 gem 'premailer-rails'
 
+gem 'aws-sdk-s3', '~> 1.132.0'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
@@ -97,7 +99,7 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 
-  gem 'rubocop', '~> 1.48', require: false
+  gem 'rubocop', '~>1.52.1', require: false
   gem 'rubocop-graphql', '~> 1.1'
   gem 'rubocop-rails', '~> 2.18', require: false
   gem 'rubocop-rspec', '~> 2.19', require: false

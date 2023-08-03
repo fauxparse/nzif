@@ -1,10 +1,10 @@
-import { Link, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { useTypedParams } from 'react-router-typesafe-routes/dom';
 import { kebabCase } from 'lodash-es';
 import pluralize from 'pluralize';
 
 import Button from '@/atoms/Button';
 import {
-  ActivityType,
   useActivityDetailsQuery,
   useMoveActivityMutation,
   useRenameActivityMutation,
@@ -14,21 +14,21 @@ import InPlaceEdit from '@/molecules/InPlaceEdit';
 import PageHeader from '@/molecules/PageHeader';
 import Tabs from '@/molecules/Tabs';
 import { useToaster } from '@/molecules/Toaster';
-import activityTypeLabel from '@/util/activityTypeLabel';
+import { ROUTES } from '@/Routes';
+import activityTypeLabel, {
+  activityTypeFromPluralized,
+  Pluralized,
+} from '@/util/activityTypeLabel';
 
 import Details from './Details';
 import Session from './Session';
 
 import './ActivityDetails.css';
 
-type ActivityDetailsProps = {
-  type: ActivityType;
-};
+export const Component: React.FC = () => {
+  const { type: pluralizedType, slug } = useTypedParams(ROUTES.ADMIN.ACTIVITY);
 
-const ActivityDetails: React.FC<ActivityDetailsProps> = ({ type }) => {
-  const { slug } = useParams<{ slug: string }>() as {
-    slug: string;
-  };
+  const type = activityTypeFromPluralized(pluralizedType as Pluralized);
 
   const location = useLocation();
 
@@ -167,4 +167,4 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ type }) => {
   );
 };
 
-export default ActivityDetails;
+Component.displayName = 'ActivityDetails';

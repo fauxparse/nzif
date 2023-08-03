@@ -28,6 +28,7 @@ export const ROUTES = {
     {
       TIMETABLE: route('timetable'),
       ACTIVITIES: route(':type', { params: { type: activityType } }),
+      ACTIVITY: route(':type/:slug', { params: { type: activityType, slug: id } }),
       SHOWS: route('shows'),
       WORKSHOPS: route('workshops'),
       SOCIAL_EVENTS: route('social-events'),
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
           {
             path: ROUTES.ADMIN.ACTIVITIES.path,
             lazy: () => import('./pages/Admin/Festival/Activities/ActivityList'),
+          },
+          {
+            path: ROUTES.ADMIN.ACTIVITY.path,
+            lazy: () => import('./pages/Admin/Festival/Activities/ActivityDetails'),
           },
           {
             path: ROUTES.ADMIN.PEOPLE.path,
