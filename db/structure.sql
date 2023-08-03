@@ -86,7 +86,7 @@ END;
 -- Name: my_concat(text, text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION public.my_concat(text, VARIADIC text[]) RETURNS text
+CREATE FUNCTION public.my_concat(text, text[]) RETURNS text
     LANGUAGE sql IMMUTABLE PARALLEL SAFE
     AS $_$SELECT array_to_string($2, $1)$_$;
 
