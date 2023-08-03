@@ -14,6 +14,5 @@
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'NZIF'
   inflect.acronym 'ISO'
-  inflect.acronym 'GraphQL'
   inflect.uncountable 'cast'
 end
