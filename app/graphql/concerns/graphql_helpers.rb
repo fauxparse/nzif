@@ -1,4 +1,4 @@
-module GraphQLHelpers
+module GraphqlHelpers
   extend ActiveSupport::Concern
 
   def current_festival
