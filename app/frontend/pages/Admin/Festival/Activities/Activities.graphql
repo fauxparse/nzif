@@ -21,6 +21,7 @@ query ActivityDetails($type: ActivityType!, $slug: String!) {
 
       picture {
         id
+        medium
         large
       }
 
@@ -151,6 +152,12 @@ mutation UpdateActivity($id: ID!, $attributes: ActivityAttributes!) {
 
       presenters {
         ...ActivityPresenter
+      }
+
+      picture {
+        id
+        medium
+        large
       }
     }
   }

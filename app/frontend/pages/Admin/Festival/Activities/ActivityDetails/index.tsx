@@ -1,4 +1,4 @@
-import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Outlet, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
 import { kebabCase } from 'lodash-es';
 import pluralize from 'pluralize';
@@ -20,9 +20,7 @@ import activityTypeLabel, {
   Pluralized,
 } from '@/util/activityTypeLabel';
 
-import Details from './Details';
-import Session from './Session';
-
+import '../Activities.css';
 import './ActivityDetails.css';
 
 export const Component: React.FC = () => {
@@ -152,16 +150,7 @@ export const Component: React.FC = () => {
             </Tabs>
           )}
         </PageHeader>
-        <Routes>
-          {activity?.sessions?.map((session) => (
-            <Route
-              key={session.id}
-              path={session.startsAt.toISODate() || ''}
-              element={<Session activity={activity} />}
-            />
-          ))}
-          <Route path="" element={activity ? <Details activity={activity} /> : null} />
-        </Routes>
+        <Outlet />
       </div>
     </BreadcrumbProvider>
   );

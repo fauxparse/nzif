@@ -14,6 +14,8 @@ const id = zod(z.string()).defined();
 
 const year = zod(z.string().regex(/^\d{4}$/)).defined();
 
+const date = zod(z.string().regex(/^\d{4}-\d{2}-\d{2}$/)).defined();
+
 const activityType = zod(z.string().regex(/^(workshops|shows)$/)).defined();
 
 const loadFestival: LoaderFunction = async () => {
@@ -28,7 +30,13 @@ export const ROUTES = {
     {
       TIMETABLE: route('timetable'),
       ACTIVITIES: route(':type', { params: { type: activityType } }),
-      ACTIVITY: route(':type/:slug', { params: { type: activityType, slug: id } }),
+      ACTIVITY: route(
+        ':type/:slug',
+        { params: { type: activityType, slug: id } },
+        {
+          SESSION: route(':date', { params: { date } }),
+        }
+      ),
       SHOWS: route('shows'),
       WORKSHOPS: route('workshops'),
       SOCIAL_EVENTS: route('social-events'),
@@ -86,6 +94,16 @@ const router = createBrowserRouter([
           {
             path: ROUTES.ADMIN.ACTIVITY.path,
             lazy: () => import('./pages/Admin/Festival/Activities/ActivityDetails'),
+            children: [
+              {
+                path: ROUTES.ADMIN.ACTIVITY.SESSION.path,
+                lazy: () => import('./pages/Admin/Festival/Activities/ActivityDetails/Session'),
+              },
+              {
+                index: true,
+                lazy: () => import('./pages/Admin/Festival/Activities/ActivityDetails/Details'),
+              },
+            ],
           },
           {
             path: ROUTES.ADMIN.PEOPLE.path,
@@ -165,49 +183,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-const Routing: React.FC = () => {
-  return <RouterProvider router={router} />;
-
-  // return (
-  //   <LocationContext.Provider value={{ location, previousLocation }}>
-  //     <Routes location={location} key={locationKey}>
-  //       <Route path={ROUTES.ADMIN.path} element={suspend(Admin)}>
-  //         <Route path=":year" element={<Festival />}>
-  //           {Object.entries(ActivityType).map(([key, type]) => (
-  //             <Route
-  //               key={key}
-  //               path={`${kebabCase(pluralize(key))}/*`}
-  //               element={<AdminActivities type={type} />}
-  //             >
-  //               <Route path=":slug" element={<ActivityDetails type={type} />} />
-  //               <Route path="" element={<ActivityList type={type} />} />
-  //             </Route>
-  //           ))}
-  //           <Route path="people/*" element={<People />}>
-  //             <Route path=":id/*" element={<Person />} />
-  //             <Route path="" element={<PeopleList />} />
-  //           </Route>
-  //           <Route path="timetable" element={<Timetable />} />
-  //           <Route path="translations" element={<Translations />} />
-  //           <Route index element={<Dashboard />} />
-  //         </Route>
-  //         <Route index element={<CurrentFestivalRedirect />} />
-  //       </Route>
-  //       <Route path={ROUTES.FESTIVAL.path} element={<Public />}>
-  //         <Route path={ROUTES.REGISTRATION.path} element={suspend(Registration)}>
-  //           <Route path="about-you" element={<AboutYou />} />
-  //           <Route path="workshops" element={<WorkshopSelection />} />
-  //           <Route path="payment" element={<Payment />} />
-  //           <Route path="thanks" element={<Thanks />} />
-  //           <Route index element={<Navigate to="about-you" replace />} />
-  //         </Route>
-  //         <Route index element={suspend(Home)} />
-  //       </Route>
-  //       <Route path={ROUTES.CONTENT.path} element={suspend(Contentful)} />
-  //       <Route index element={<CurrentFestivalRedirect />} />
-  //     </Routes>
-  //   </LocationContext.Provider>
-  // );
-};
+const Routing: React.FC = () => <RouterProvider router={router} />;
 
 export default Routing;

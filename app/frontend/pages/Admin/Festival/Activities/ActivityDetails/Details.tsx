@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useApolloClient } from '@apollo/client';
 import ROLES from '@config/roles.yml';
@@ -11,7 +11,6 @@ import Button from '@/atoms/Button';
 import Input from '@/atoms/Input';
 import {
   ActivityAttributes,
-  ActivityDetailsQuery,
   ActivityPresenterFragmentDoc,
   useUpdateActivityMutation,
 } from '@/graphql/types';
@@ -22,9 +21,8 @@ import PersonPicker from '@/molecules/PersonPicker';
 import { Profile } from '@/molecules/PersonPicker/PersonPicker.types';
 import { useToaster } from '@/molecules/Toaster';
 
-type DetailsProps = {
-  activity: ActivityDetailsQuery['festival']['activity'];
-};
+import ActivityPicture from './ActivityPicture';
+import useActivity from './useActivity';
 
 const formSchema = z.object({
   name: z.string(),
@@ -34,7 +32,9 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const Details: React.FC<DetailsProps> = ({ activity }) => {
+export const Component: React.FC = () => {
+  const { loading, activity } = useActivity();
+
   const roles = ROLES.roles.activities[snakeCase(activity?.type || '')]?.activity || [];
 
   const {
@@ -53,6 +53,13 @@ const Details: React.FC<DetailsProps> = ({ activity }) => {
       presenters: activity?.presenters || [],
     },
   });
+
+  useEffect(() => {
+    if (!activity) return;
+
+    setValue('name', activity.name || '');
+    setValue('description', activity.description || '');
+  }, [activity, setValue]);
 
   const { cache } = useApolloClient();
 
@@ -141,10 +148,24 @@ const Details: React.FC<DetailsProps> = ({ activity }) => {
 
           <Labelled name="description" label="Description" errors={errors}>
             <AutoResize>
-              <Input as="textarea" id="description" {...register('description')} />
+              <Input
+                as="textarea"
+                id="description"
+                {...register('description')}
+                disabled={loading || undefined}
+              />
             </AutoResize>
           </Labelled>
         </section>
+
+        {activity && (
+          <section>
+            <header>
+              <h3>Image</h3>
+            </header>
+            <ActivityPicture activity={activity} />
+          </section>
+        )}
 
         <section className="details-form__buttons">
           <Button primary type="submit" text="Save changes" disabled={!isDirty} />
@@ -154,4 +175,4 @@ const Details: React.FC<DetailsProps> = ({ activity }) => {
   );
 };
 
-export default Details;
+export default Component;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { ApolloProvider } from '@apollo/client';
 import { Settings } from 'luxon';
 
@@ -22,10 +23,15 @@ Settings.defaultZone = 'Pacific/Auckland';
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ApolloProvider client={client}>
-      <Toaster>
-        <App />
-      </Toaster>
-    </ApolloProvider>
+    <HelmetProvider>
+      <Helmet>
+        <title>NZIF: New Zealand Improv Festival 2023</title>
+      </Helmet>
+      <ApolloProvider client={client}>
+        <Toaster>
+          <App />
+        </Toaster>
+      </ApolloProvider>
+    </HelmetProvider>
   </React.StrictMode>
 );

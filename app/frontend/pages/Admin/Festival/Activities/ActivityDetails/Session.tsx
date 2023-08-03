@@ -1,9 +1,5 @@
-import { ActivityDetailsQuery } from '@/graphql/types';
+export const Component: React.FC = () => <div className="inset"></div>;
 
-type DetailsProps = {
-  activity: ActivityDetailsQuery['festival']['activity'];
-};
+Component.displayName = 'Session';
 
-const Details: React.FC<DetailsProps> = () => <div className="inset"></div>;
-
-export default Details;
+export default Component;

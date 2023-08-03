@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
 import { uniqBy, upperFirst } from 'lodash-es';
@@ -76,6 +77,11 @@ export const Component: React.FC = () => {
   return (
     <BreadcrumbProvider label={upperFirst(pluralizedType.replace(/-/g, ' '))} path={pluralizedType}>
       <div className="activity-details page">
+        {activity && (
+          <Helmet>
+            <title>NZIF: {activity.name}</title>
+          </Helmet>
+        )}
         <PageHeader>
           {activity?.picture && (
             <>

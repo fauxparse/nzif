@@ -154,7 +154,7 @@ const UserPopup: React.FC<UserPopupProps> = ({ user, reference, open, onClose })
                 <>
                   <Menu.Item
                     as={Link}
-                    to={ROUTES.ADMIN.ACTIVITIES.path}
+                    to={ROUTES.ADMIN.ACTIVITIES.buildPath({ type: 'workshops' })}
                     icon="show"
                     label="Activities"
                   />

@@ -2,27 +2,26 @@ import { useRef } from 'react';
 
 import Icon from '@/atoms/Icon';
 import {
-  Maybe,
-  PersonAttributes,
-  PersonDetailsFragment,
-  useUpdatePersonMutation,
+  ActivityAttributes,
+  ActivityDetailsQuery,
+  useUpdateActivityMutation,
 } from '@/graphql/types';
 
-type ProfilePictureProps = {
-  profile: Maybe<PersonDetailsFragment>;
+type ActivityPictureProps = {
+  activity: ActivityDetailsQuery['festival']['activity'];
 };
 
-const ProfilePicture: React.FC<ProfilePictureProps> = ({ profile }) => {
+const ActivityPicture: React.FC<ActivityPictureProps> = ({ activity }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const imageRef = useRef<HTMLImageElement>(null);
 
-  const [update] = useUpdatePersonMutation();
+  const [update] = useUpdateActivityMutation();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
-    if (!file || !profile) return;
+    if (!file || !activity) return;
 
     const fr = new FileReader();
     fr.onload = function () {
@@ -32,10 +31,10 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({ profile }) => {
 
       update({
         variables: {
-          id: profile.id,
+          id: activity.id,
           attributes: {
             picture: file,
-          } as PersonAttributes,
+          } as ActivityAttributes,
         },
       });
     };
@@ -43,17 +42,17 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({ profile }) => {
   };
 
   return (
-    <div className="profile-picture">
+    <div className="activity-picture">
       <Icon name="uploadImage" />
       <img
         ref={imageRef}
-        src={profile?.picture?.large}
-        alt="Profile picture"
-        style={{ opacity: profile?.picture ? 1 : 0 }}
+        src={activity?.picture?.large}
+        alt="Activity picture"
+        style={{ opacity: activity?.picture ? 1 : 0 }}
       />
       <input ref={inputRef} type="file" accept="image/*" onChange={handleChange} />
     </div>
   );
 };
 
-export default ProfilePicture;
+export default ActivityPicture;

@@ -12,6 +12,7 @@ interface Activity {
 input ActivityAttributes {
   description: String
   name: String
+  picture: Upload
   profileIds: [ID!]
   slug: String
 }

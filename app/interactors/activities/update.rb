@@ -14,7 +14,7 @@ module Activities
     def attributes
       @attributes ||= ActionController::Parameters
         .new(context[:attributes].to_h)
-        .permit(:name, :slug, :description, profile_ids: [])
+        .permit(:name, :slug, :description, :picture, profile_ids: [])
     end
 
     private
