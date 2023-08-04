@@ -32,7 +32,7 @@ module Activities
     def assign_picture
       return unless context[:attributes].key?(:picture)
 
-      activity.picture = context[:attributes][:picture]
+      activity.picture = context[:attributes][:picture].to_s
     end
 
     def assign_cast(ids)
