@@ -33,7 +33,15 @@ type AuthenticationContextShape = {
   hasPermission: (permission: Permission) => boolean;
 };
 
-const AuthenticationContext = createContext({} as AuthenticationContextShape);
+const AuthenticationContext = createContext({
+  loading: true,
+  user: null,
+  logIn: () => Promise.reject(),
+  logOut: () => Promise.reject(),
+  signUp: () => Promise.reject(),
+  resetPassword: () => Promise.reject(),
+  hasPermission: () => false,
+} as AuthenticationContextShape);
 
 export const useAuthentication = () => useContext(AuthenticationContext);
 

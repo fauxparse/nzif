@@ -5,24 +5,35 @@ module Activities
     def call
       authorize! activity, to: :update?
       activity.transaction do
-        assign_cast(attributes.delete(:profile_ids)) if attributes.key?(:profile_ids)
-        if attributes.key?(:attached_activity_id)
-          assign_attached_activity(attributes.delete(:attached_activity_id))
-        end
-        activity.assign_attributes(attributes)
+        assign_attributes
+        assign_picture
         activity.save!
       end
     end
 
     def attributes
       @attributes ||= ActionController::Parameters
-        .new(context[:attributes].to_h)
+        .new(context[:attributes].to_h.except(:picture))
         .permit(
-          :name, :slug, :description, :suitability, :picture, :attached_activity_id, profile_ids: []
+          :name, :slug, :description, :suitability, :attached_activity_id, profile_ids: []
         )
     end
 
     private
+
+    def assign_attributes
+      assign_cast(attributes.delete(:profile_ids)) if attributes.key?(:profile_ids)
+      if attributes.key?(:attached_activity_id)
+        assign_attached_activity(attributes.delete(:attached_activity_id))
+      end
+      activity.assign_attributes(attributes)
+    end
+
+    def assign_picture
+      return unless context[:attributes].key?(:picture)
+
+      activity.picture = context[:attributes][:picture]
+    end
 
     def assign_cast(ids)
       ids = Profile.decode_id(ids, fallback: true)

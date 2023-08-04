@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 import { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 import { useAuthentication } from '@/organisms/Authentication';
@@ -11,20 +11,25 @@ import './Admin.css';
 export const Component: React.FC = () => {
   const { loading, user } = useAuthentication();
 
-  if (!loading && !user?.permissions.length) {
-    // TODO: Redirect to login page
-    return <Navigate to="/" />;
-  }
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && !user?.permissions.length) {
+      navigate('/');
+    }
+  }, [loading, user, navigate]);
 
   return (
     <BreadcrumbProvider label="Admin" path="admin">
       <Helmet>
         <title>NZIF Admin</title>
       </Helmet>
-      <div>
-        <Header />
-        <Outlet />
-      </div>
+      {!loading && user?.permissions?.length && (
+        <div>
+          <Header />
+          <Outlet />
+        </div>
+      )}
     </BreadcrumbProvider>
   );
 };

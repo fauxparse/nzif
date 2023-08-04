@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
 import { uniqBy, upperFirst } from 'lodash-es';
 
+import Avatar from '@/atoms/Avatar';
 import Button from '@/atoms/Button';
 import Icon from '@/atoms/Icon';
-import Placename from '@/atoms/Placename';
 import {
   ActivityDetailsQuery,
+  ActivityType,
+  Permission,
   Placename as PlacenameType,
   useActivityDetailsQuery,
 } from '@/graphql/types';
@@ -17,9 +19,16 @@ import Skeleton from '@/helpers/Skeleton';
 import Breadcrumbs, { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 import Callout from '@/molecules/Callout';
 import PageHeader from '@/molecules/PageHeader';
+import { useAuthentication } from '@/organisms/Authentication';
 import { ROUTES } from '@/Routes';
-import { activityTypeFromPluralized, Pluralized } from '@/util/activityTypeLabel';
+import {
+  activityTypeFromPluralized,
+  adminActivityLink,
+  Pluralized,
+} from '@/util/activityTypeLabel';
 import sentence from '@/util/sentence';
+
+import PresenterPlacename from './PresenterPlacename';
 
 import './Activities.css';
 
@@ -46,10 +55,18 @@ const hasAttachedWorkshop = (activity: Activity | null | undefined): activity is
 const hasAttachedShow = (activity: Activity | null | undefined): activity is WorkshopWithShow =>
   !!activity && 'show' in activity && !!activity.show;
 
+const hasSuitability = (activity: Activity | null | undefined): activity is Workshop =>
+  !!activity && 'suitability' in activity && !!activity.suitability;
+
 export const Component: React.FC = () => {
   const { type: pluralizedType, slug } = useTypedParams(ROUTES.ACTIVITY);
 
+  const { hasPermission } = useAuthentication();
+
   const type = activityTypeFromPluralized(pluralizedType as Pluralized);
+
+  const defaultVenue =
+    type === ActivityType.Workshop || type === ActivityType.Show ? 'BATS Theatre' : 'Venue TBC';
 
   const { loading, data } = useActivityDetailsQuery({ variables: { type, slug } });
 
@@ -95,6 +112,16 @@ export const Component: React.FC = () => {
           )}
           <div className="activity-details__breadcrumbs">
             <Breadcrumbs />
+            {activity && hasPermission(Permission.Activities) && (
+              <Button
+                small
+                primary
+                as={Link}
+                to={adminActivityLink(activity)}
+                icon="edit"
+                text="Edit"
+              />
+            )}
           </div>
           <h1>
             <Skeleton text loading={loading}>
@@ -104,31 +131,34 @@ export const Component: React.FC = () => {
           <div className="activity-details__presenters">
             <p>{sentence(presenters.map((p) => p.name))}</p>
             <div>
-              {places.map(({ city, country, local }) => (
-                <Placename
-                  key={city.id}
-                  name={local ? city.name : `${city.name}, ${country.name}`}
-                  traditionalName={
-                    city.traditionalName
-                      ? local
-                        ? city.traditionalName
-                        : `${city.traditionalName}, ${country.traditionalName || country.name}`
-                      : undefined
-                  }
-                />
+              {places.map(({ city, country }) => (
+                <PresenterPlacename key={city.id} city={city} country={country} />
               ))}
             </div>
           </div>
         </PageHeader>
         <div className="activity-details__main">
           <div className="activity-details__content">
-            {activity?.description && (
-              <Markdown className="activity-details__description">{activity.description}</Markdown>
-            )}
-            {loading && (
+            {loading ? (
               <>
                 <Skeleton paragraph loading />
                 <Skeleton paragraph loading />
+              </>
+            ) : (
+              <>
+                {activity?.description && (
+                  <Markdown className="activity-details__description">
+                    {activity.description}
+                  </Markdown>
+                )}
+                {hasSuitability(activity) && (
+                  <>
+                    <h4>Who’s it for?</h4>
+                    <Markdown className="activity-details__suitability">
+                      {activity.suitability}
+                    </Markdown>
+                  </>
+                )}
               </>
             )}
             {hasAttachedWorkshop(activity) && (
@@ -162,6 +192,18 @@ export const Component: React.FC = () => {
                 guaranteed.
               </Callout>
             )}
+
+            {activity?.presenters?.map((presenter) => (
+              <div key={presenter.id} className="activity-details__presenter">
+                <Avatar large name={presenter.name} url={presenter.picture?.large} />
+                <div>
+                  <h4>
+                    {presenter.name} <PresenterPlacename {...presenter} />
+                  </h4>
+                  {presenter.bio && <Markdown>{presenter.bio}</Markdown>}
+                </div>
+              </div>
+            ))}
           </div>
           <aside className="activity-details__at-a-glance">
             <dl>
@@ -180,22 +222,22 @@ export const Component: React.FC = () => {
                   Loading date and time…
                 </Skeleton>
               )}
-              {(loading || venue) && (
-                <>
-                  <dt>
-                    <Icon name="location" aria-label="Location" />
-                  </dt>
-                  <dd>
-                    {loading ? (
-                      <Skeleton text loading>
-                        Loading venue…
-                      </Skeleton>
-                    ) : (
-                      venue && [venue.room, venue.building].filter(Boolean).join(' at ')
-                    )}
-                  </dd>
-                </>
-              )}
+              <>
+                <dt>
+                  <Icon name="location" aria-label="Location" />
+                </dt>
+                <dd>
+                  {loading ? (
+                    <Skeleton text loading>
+                      Loading venue…
+                    </Skeleton>
+                  ) : venue ? (
+                    [venue.room, venue.building].filter(Boolean).join(' at ')
+                  ) : (
+                    defaultVenue
+                  )}
+                </dd>
+              </>
               {hasBookingLink(activity) && (
                 <>
                   <dt>
