@@ -13,6 +13,7 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
   activityType,
   onSearch,
   onCreate,
+  onSelect,
 }) => {
   const [mode, setMode] = useState<Mode>('search');
 
@@ -62,6 +63,7 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
                   activityType={activityType}
                   onSearch={onSearch}
                   onNewActivity={handleNewActivity}
+                  onSelect={onSelect}
                 />
               </motion.div>
             )}

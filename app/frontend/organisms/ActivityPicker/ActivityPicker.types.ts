@@ -17,4 +17,5 @@ export type ActivityPickerProps = {
     activityType: ActivityType,
     attributes: Partial<ActivityAttributes>
   ) => Promise<TimetableActivityFragment>;
+  onSelect: (activity: TimetableActivityFragment) => void;
 };

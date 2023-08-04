@@ -5,6 +5,7 @@ import { useDebounce } from 'usehooks-ts';
 
 import Icon, { IconName } from '@/atoms/Icon';
 import Input from '@/atoms/Input';
+import { TimetableActivityFragment } from '@/graphql/types';
 import Popover from '@/molecules/Popover';
 import Search from '@/molecules/Search';
 import activityTypeLabel from '@/util/activityTypeLabel';
@@ -13,12 +14,14 @@ import { ActivityPickerProps, ActivityResult } from './ActivityPicker.types';
 
 type ActivitySearchProps = Pick<ActivityPickerProps, 'activityType' | 'onSearch'> & {
   onNewActivity: (name: string) => void;
+  onSelect: (activity: TimetableActivityFragment) => void;
 };
 
 export const ActivitySearch: React.FC<ActivitySearchProps> = ({
   activityType,
   onSearch,
   onNewActivity,
+  onSelect,
 }) => {
   const searchBox = useRef<HTMLInputElement>(null);
 
@@ -66,7 +69,7 @@ export const ActivitySearch: React.FC<ActivitySearchProps> = ({
     if (result.id === 'new') {
       onNewActivity(result.title);
     } else {
-      //
+      onSelect(result.activity);
     }
   };
 
