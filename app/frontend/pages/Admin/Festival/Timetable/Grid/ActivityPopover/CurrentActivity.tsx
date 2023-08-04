@@ -4,7 +4,7 @@ import Button from '@/atoms/Button';
 import { TimetableActivityFragment, TimetableSessionFragment } from '@/graphql/types';
 import Popover from '@/molecules/Popover';
 import { ROUTES } from '@/Routes';
-import { pluralizeActivityType } from '@/util/activityTypeLabel';
+import { adminActivityLink, pluralizeActivityType } from '@/util/activityTypeLabel';
 
 type CurrentActivityProps = {
   activity: TimetableActivityFragment;
@@ -32,15 +32,7 @@ const CurrentActivity: React.FC<CurrentActivityProps> = ({ activity, session }) 
         <Popover.Close />
       </Popover.Header>
       <Popover.Footer>
-        <Button
-          as={Link}
-          to={ROUTES.ADMIN.ACTIVITY.buildPath({
-            type: pluralizeActivityType(activity.type),
-            slug: activity.slug,
-          })}
-          icon="edit"
-          text="Edit"
-        />
+        <Button as={Link} to={adminActivityLink(activity)} icon="edit" text="Edit" />
       </Popover.Footer>
     </>
   );

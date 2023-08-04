@@ -109,3 +109,27 @@
   min-height: 50vh;
   padding: var(--medium) var(--horizontal-padding);
 }
+
+.activity-tutors {
+  .inset {
+    margin: 0;
+
+    .details-form {
+      padding: 0;
+
+      section {
+        grid-template-columns: 1fr;
+        padding-top: 0;
+        border: 0;
+
+        header {
+          display: none;
+        }
+
+        > * {
+          grid-column: 1;
+        }
+      }
+    }
+  }
+}

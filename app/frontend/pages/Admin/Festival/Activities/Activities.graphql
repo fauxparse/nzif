@@ -55,6 +55,16 @@ fragment AdminActivityDetails on Activity {
 
   presenters {
     ...ActivityPresenter
+    bio
+    pronouns
+    picture {
+      large
+    }
+    user {
+      id
+      email
+      permissions
+    }
   }
 
   sessions {

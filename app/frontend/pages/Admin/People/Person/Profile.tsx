@@ -22,6 +22,7 @@ import './Person.css';
 type ProfileProps = {
   person: PersonDetails;
   showPermissions?: boolean;
+  saveLabel?: string;
 };
 
 const formSchema = z.object({
@@ -36,7 +37,11 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const Profile: React.FC<ProfileProps> = ({ person, showPermissions = true }) => {
+const Profile: React.FC<ProfileProps> = ({
+  person,
+  showPermissions = true,
+  saveLabel = 'Save changes',
+}) => {
   const [updatePerson, { loading: saving }] = useUpdatePersonMutation();
 
   const { user } = useAuthentication();
@@ -141,7 +146,7 @@ const Profile: React.FC<ProfileProps> = ({ person, showPermissions = true }) => 
         {showPermissions && !!user?.permissions?.length && person?.user && <Permissions />}
 
         <section className="details-form__buttons">
-          <Button primary type="submit" text="Save changes" disabled={!isDirty} />
+          <Button primary type="submit" text={saveLabel} disabled={!isDirty} />
         </section>
       </form>
     </div>

@@ -1,8 +1,12 @@
-import React, { ComponentPropsWithoutRef } from 'react';
+import React, { ComponentPropsWithoutRef, forwardRef } from 'react';
 import clsx from 'clsx';
 
-const Separator: React.FC<ComponentPropsWithoutRef<'hr'>> = ({ className, ...props }) => (
-  <hr className={clsx('menu__separator', className)} {...props} />
+const Separator = forwardRef<HTMLHRElement, ComponentPropsWithoutRef<'hr'>>(
+  ({ className, ...props }, ref) => (
+    <hr ref={ref} className={clsx('menu__separator', className)} {...props} />
+  )
 );
+
+Separator.displayName = 'Menu.Separator';
 
 export default Separator;

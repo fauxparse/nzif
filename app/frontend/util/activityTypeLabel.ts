@@ -1,6 +1,7 @@
 import { capitalize, startCase } from 'lodash-es';
 
 import { ActivityType } from '@/graphql/types';
+import { ROUTES } from '@/Routes';
 
 const PLURALIZED = {
   [ActivityType.Workshop]: 'workshops',
@@ -26,3 +27,9 @@ const activityTypeLabel = (activityType: ActivityType): string =>
   capitalize(startCase(activityType));
 
 export default activityTypeLabel;
+
+export const adminActivityLink = (activity: { type: ActivityType; slug: string }) =>
+  ROUTES.ADMIN.ACTIVITY.buildPath({
+    type: pluralizeActivityType(activity.type),
+    slug: activity.slug,
+  });
