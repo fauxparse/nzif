@@ -6,17 +6,12 @@ module Activities
       authorize! activity, to: :update?
       activity.transaction do
         assign_attributes
-        assign_picture
         activity.save!
       end
     end
 
     def attributes
-      @attributes ||= ActionController::Parameters
-        .new(context[:attributes].to_h.except(:picture))
-        .permit(
-          :name, :slug, :description, :suitability, :attached_activity_id, profile_ids: []
-        )
+      @attributes ||= context[:attributes].to_h
     end
 
     private
@@ -27,12 +22,6 @@ module Activities
         assign_attached_activity(attributes.delete(:attached_activity_id))
       end
       activity.assign_attributes(attributes)
-    end
-
-    def assign_picture
-      return unless context[:attributes].key?(:picture)
-
-      activity.picture = context[:attributes][:picture].to_s
     end
 
     def assign_cast(ids)
