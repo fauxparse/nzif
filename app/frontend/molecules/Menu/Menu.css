@@ -77,4 +77,8 @@
   margin: var(--small) var(--spacing) var(--small) var(--huge);
   border: 0;
   border-top: var(--border-width-standard) solid var(--border-subtle);
+
+  &:first-child {
+    display: none;
+  }
 }

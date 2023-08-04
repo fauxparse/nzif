@@ -11,9 +11,9 @@ import { useContextMenu } from '@/molecules/ContextMenu/Context';
 import Menu from '@/molecules/Menu';
 
 const TimetableSessionContextMenu: React.FC = () => {
-  const { currentTarget } = useContextMenu();
+  const { currentTarget, close } = useContextMenu();
 
-  const { sessions } = useTimetableContext();
+  const { sessions, venues } = useTimetableContext();
 
   const id = currentTarget?.getAttribute('data-id');
 
@@ -22,21 +22,34 @@ const TimetableSessionContextMenu: React.FC = () => {
   const [updateSession] = useUpdateSessionMutation();
   const [destroySession] = useDestroySessionMutation();
 
-  const handleClear = () => {
+  const update = (
+    attributes: Partial<SessionAttributes>,
+    optimistic: { activity: null } | { venue: (typeof venues)[number] | null }
+  ) => {
     if (!id || !session) return;
     updateSession({
-      variables: { id, attributes: { activityId: null } as SessionAttributes },
+      variables: { id, attributes: attributes as SessionAttributes },
       optimisticResponse: {
         __typename: 'Mutation',
         updateSession: {
           __typename: 'UpdateSessionPayload',
           session: {
             ...session,
-            activity: null,
+            ...optimistic,
           },
         },
       },
     });
+  };
+
+  const handleClear = () => {
+    update({ activityId: null }, { activity: null });
+    close();
+  };
+
+  const handleClearVenue = () => {
+    update({ venueId: null }, { venue: null });
+    close();
   };
 
   const handleDelete = () => {
@@ -49,12 +62,37 @@ const TimetableSessionContextMenu: React.FC = () => {
         destroySession: true,
       },
     });
+    close();
   };
+
+  const availableVenues = useMemo(() => {
+    if (!session) return venues;
+
+    const overlappingSessions = sessions.filter(
+      (s) => !!s.venue && s.endsAt > session.startsAt && s.startsAt < session.endsAt
+    );
+    const overlappingVenues = new Set(overlappingSessions.map((s) => s.venue?.id));
+    return venues.filter((v) => !overlappingVenues.has(v.id));
+  }, [session, sessions, venues]);
 
   return (
     <ContextMenu id="session">
       {session?.activity && <Menu.Item icon="edit" label="Activity details" />}
+      {!session?.venue && (
+        <>
+          <Menu.Separator />
+          {availableVenues.map((v) => (
+            <Menu.Item
+              key={v.id}
+              icon="location"
+              label={v.room || v.building}
+              onClick={() => update({ venueId: v.id }, { venue: v })}
+            />
+          ))}
+        </>
+      )}
       <Menu.Separator />
+      {session?.venue && <Menu.Item icon="close" label="Clear venue" onClick={handleClearVenue} />}
       {session?.activity && <Menu.Item icon="close" label="Clear activity" onClick={handleClear} />}
       <Menu.Item icon="trash" label="Delete" onClick={handleDelete} />
     </ContextMenu>

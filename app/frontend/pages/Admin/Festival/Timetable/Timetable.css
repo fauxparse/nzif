@@ -241,3 +241,16 @@
     gap: var(--small);
   }
 }
+
+.activity-popover {
+  .popover__header {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .popover__footer {
+    .button {
+      flex-grow: 0;
+    }
+  }
+}
