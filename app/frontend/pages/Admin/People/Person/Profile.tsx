@@ -1,5 +1,5 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { pick } from 'lodash-es';
 import { z } from 'zod';
@@ -50,7 +50,8 @@ const Profile: React.FC<ProfileProps> = ({
     register,
     handleSubmit,
     formState: { errors, isDirty, dirtyFields },
-    setValue,
+    reset,
+    control,
   } = useForm<FormSchemaType>({
     mode: 'onChange',
     resolver: zodResolver(formSchema),
@@ -76,6 +77,18 @@ const Profile: React.FC<ProfileProps> = ({
     });
     notify('Changes saved');
   };
+
+  useEffect(() => {
+    if (!person) return;
+    reset({
+      name: person.name,
+      email: person.user?.email,
+      pronouns: person.pronouns || '',
+      bio: person.bio || '',
+      city: person.city?.name || '',
+      country: person.country?.id || 'NZ',
+    });
+  }, [person, reset]);
 
   return (
     <div className="inset">
@@ -136,10 +149,10 @@ const Profile: React.FC<ProfileProps> = ({
             <Input id="city" {...register('city')} />
           </Labelled>
           <Labelled label="Country" name="country" errors={errors}>
-            <CountryPicker
-              id="country"
-              value={person?.country?.id}
-              onChange={(value) => setValue('country', value)}
+            <Controller
+              name="country"
+              control={control}
+              render={({ field }) => <CountryPicker id="country" {...field} />}
             />
           </Labelled>
         </section>
