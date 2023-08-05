@@ -113,9 +113,8 @@
 
   &__main {
     display: grid;
-    grid-template-columns: 1fr 20rem;
+    grid-template-columns: 1fr;
     gap: var(--huge);
-    align-items: start;
     padding: var(--large) var(--horizontal-padding) var(--huge);
     font-size: var(--font-size-legible);
     line-height: var(--line-height-large);
@@ -127,6 +126,19 @@
     h4 {
       margin: var(--large) 0 var(--small);
     }
+
+    @media (width > 768px) {
+      grid-template-columns: 1fr 20rem;
+      align-items: start;
+
+      .activity-details__content {
+        grid-row: 1;
+      }
+    }
+  }
+
+  &__content {
+    grid-row: 2;
   }
 
   &__presenter {
@@ -158,6 +170,8 @@
   }
 
   &__at-a-glance {
+    grid-row: 1;
+
     .icon {
       display: block;
     }
