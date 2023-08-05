@@ -100,7 +100,7 @@ const columns = [
 ];
 
 const MissingInfo: React.FC<{ activity: ActivityRow }> = ({ activity }) => {
-  if (!activity.missingInfo.length) return null;
+  if (!activity.missingInfo.length) return <Icon className="missing-info" />;
 
   return (
     <Tooltip
