@@ -23,6 +23,8 @@ import PageHeader from '@/molecules/PageHeader';
 
 import MergeDialog from './MergeDialog';
 
+import '../People.css';
+
 const columnHelper = createColumnHelper<PersonDetailsFragment>();
 
 const columns = [
@@ -88,7 +90,7 @@ const withSelectedVariants = {
 export const Component: React.FC = () => {
   const { data } = usePeopleQuery();
 
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'name', desc: false }]);
 
   const table = useReactTable({
     data: data?.people ?? [],

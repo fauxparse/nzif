@@ -80,7 +80,7 @@
       }
 
       &[aria-expanded="true"] {
-        .icon {
+        .icon:last-child {
           transform: rotate(180deg);
         }
       }
