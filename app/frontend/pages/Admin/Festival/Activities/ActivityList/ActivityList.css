@@ -1,0 +1,14 @@
+.activity-list {
+  margin-inline: var(--large);
+
+  .presenter {
+    + .presenter {
+      margin-left: var(--small);
+    }
+  }
+
+  .missing-info {
+    margin-right: var(--small);
+    color: var(--text-error);
+  }
+}

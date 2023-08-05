@@ -95,6 +95,7 @@ fragment ActivityListActivity on Activity {
   name
   type
   slug
+  missingInfo
 
   sessions {
     id

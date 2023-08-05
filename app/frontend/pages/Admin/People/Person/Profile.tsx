@@ -27,7 +27,7 @@ type ProfileProps = {
 };
 
 const formSchema = z.object({
-  name: z.string().regex(/^[^\s]+(\s+[^\s]+)+$/, 'We need your full (first and last) name'),
+  name: z.string().regex(/^(CB|[^\s]+(\s+[^\s]+)+)$/i, 'We need your full (first and last) name'),
   email: z.string().email('This doesn’t look like an email address').optional(),
   pronouns: z.string(),
   bio: z.string(),

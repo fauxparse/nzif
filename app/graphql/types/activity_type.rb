@@ -10,6 +10,7 @@ module Types
     field :presenters, [PersonType], null: false
     field :description, String, null: true
     field :picture, Types::ActivityPictureType, null: true
+    field :missing_info, [String], null: false
 
     definition_methods do
       def resolve_type(object, _context)
@@ -36,6 +37,18 @@ module Types
     def picture
       object.picture && object
     end
+
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    def missing_info
+      [].tap do |missing|
+        missing << 'Description' if object.description.blank?
+        missing << 'Image' if object.picture.blank?
+        missing << 'Presenter bio' if presenters.any? { |p| p.bio.blank? }
+        missing << 'Presenter image' if presenters.any? { |p| p.picture.blank? }
+        missing << 'Suitability' if object.is_a?(Workshop) && object.suitability.blank?
+      end
+    end
+    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
 
     orphan_types(
       ShowType,

@@ -16,7 +16,7 @@ const year = zod(z.string().regex(/^\d{4}$/)).defined();
 
 const date = zod(z.string().regex(/^\d{4}-\d{2}-\d{2}$/));
 
-const activityType = zod(z.string().regex(/^(workshops|shows)$/)).defined();
+const activityType = zod(z.string().regex(/^(workshops|shows|social-events)$/)).defined();
 
 const loadFestival: LoaderFunction = async () => {
   await client.query({ query: FestivalDocument });

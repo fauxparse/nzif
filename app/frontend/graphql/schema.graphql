@@ -1,6 +1,7 @@
 interface Activity {
   description: String
   id: ID!
+  missingInfo: [String!]!
   name: String!
   picture: ActivityPicture
   presenters: [Person!]!
@@ -493,6 +494,7 @@ type Show implements Activity {
   """
   directors: [Person!]!
   id: ID!
+  missingInfo: [String!]!
   name: String!
   picture: ActivityPicture
   presenters: [Person!]!
@@ -512,6 +514,7 @@ type Slot {
 type SocialEvent implements Activity {
   description: String
   id: ID!
+  missingInfo: [String!]!
   name: String!
 
   """
@@ -710,6 +713,7 @@ type VenueResult implements SearchResult {
 type Workshop implements Activity {
   description: String
   id: ID!
+  missingInfo: [String!]!
   name: String!
   picture: ActivityPicture
   presenters: [Person!]!

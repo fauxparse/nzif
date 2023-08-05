@@ -20,6 +20,7 @@ import {
   ActivityType,
   useActivityListQuery,
 } from '@/graphql/types';
+import Tooltip from '@/helpers/Tooltip';
 
 type ActivityTableProps = {
   type: ActivityType;
@@ -38,6 +39,7 @@ const columns = [
     sortingFn: 'alphanumeric',
     cell: (name) => (
       <Button ghost as={Link} to={`./${name.row.original.slug}`}>
+        <MissingInfo activity={name.row.original} />
         {name.getValue()}
       </Button>
     ),
@@ -97,9 +99,27 @@ const columns = [
   ),
 ];
 
+const MissingInfo: React.FC<{ activity: ActivityRow }> = ({ activity }) => {
+  if (!activity.missingInfo.length) return null;
+
+  return (
+    <Tooltip
+      content={
+        <ul>
+          {activity.missingInfo.map((info) => (
+            <li key={info}>{info}</li>
+          ))}
+        </ul>
+      }
+    >
+      <Icon className="missing-info" name="alert" />
+    </Tooltip>
+  );
+};
+
 const ActivityTable: React.FC<ActivityTableProps> = ({ type }) => {
   const { data } = useActivityListQuery({ variables: { type } });
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'name', desc: false }]);
 
   const rows = useMemo<ActivityRow[]>(
     () =>
@@ -121,7 +141,7 @@ const ActivityTable: React.FC<ActivityTableProps> = ({ type }) => {
   });
 
   return (
-    <div className="inset">
+    <div className="activity-list">
       <div className="data-table__container">
         <table className="data-table">
           <thead>

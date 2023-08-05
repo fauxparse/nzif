@@ -13,6 +13,8 @@ import { activityTypeFromPluralized, Pluralized } from '@/util/activityTypeLabel
 import ActivityTab from './ActivityTab';
 import ActivityTable from './ActivityTable';
 
+import './ActivityList.css';
+
 export const Component: React.FC = () => {
   const { type: pluralizedType } = useTypedParams(ROUTES.ADMIN.ACTIVITIES);
 
