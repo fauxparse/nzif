@@ -10,6 +10,7 @@ const PresenterForm: React.FC<PresenterFormProps> = ({ presenter }) => {
     <Profile
       person={presenter}
       showPermissions={false}
+      showName
       saveLabel={`Save ${presenter.name.split(/\s+/)[0]}`}
     />
   );

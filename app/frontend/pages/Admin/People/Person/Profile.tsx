@@ -22,12 +22,13 @@ import './Person.css';
 type ProfileProps = {
   person: PersonDetails;
   showPermissions?: boolean;
+  showName?: boolean;
   saveLabel?: string;
 };
 
 const formSchema = z.object({
   name: z.string().regex(/^[^\s]+(\s+[^\s]+)+$/, 'We need your full (first and last) name'),
-  email: z.string().email('This doesn’t look like an email address'),
+  email: z.string().email('This doesn’t look like an email address').optional(),
   pronouns: z.string(),
   bio: z.string(),
   city: z.string(),
@@ -40,6 +41,7 @@ type FormSchemaType = z.infer<typeof formSchema>;
 const Profile: React.FC<ProfileProps> = ({
   person,
   showPermissions = true,
+  showName = false,
   saveLabel = 'Save changes',
 }) => {
   const [updatePerson, { loading: saving }] = useUpdatePersonMutation();
@@ -109,6 +111,11 @@ const Profile: React.FC<ProfileProps> = ({
             <h3>General information</h3>
             <p>More about you</p>
           </header>
+          {showName && (
+            <Labelled name="name" label="Name" errors={errors}>
+              <Input id="name" {...register('name')} />
+            </Labelled>
+          )}
           <Labelled
             name="email"
             label="Email"
