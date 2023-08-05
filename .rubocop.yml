@@ -54,6 +54,10 @@ Metrics/AbcSize:
   Exclude:
     - 'db/migrate/*'
 
+Metrics/BlockLength:
+  Exclude:
+    - 'config/**/*'
+
 Metrics/CyclomaticComplexity:
   Max: 10
 

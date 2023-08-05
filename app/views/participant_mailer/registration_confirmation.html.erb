@@ -1,3 +1,40 @@
 <p>
   Kia ora <%= @user.profile.name %>,
 <p>
+<p>
+  You’re coming to NZIF 2023! We’re so excited to have you join us.
+</p>
+<p>
+  Right now, we’ve recorded your workshop preferences as part of
+  <b>earlybird registration</b>.
+  You can always change your preferences by logging in to the
+  <%= link_to 'NZIF registration website', registration_url %>.
+</p>
+<p>
+  Once we’ve closed earlybird registrations
+  on <%= @festival.earlybird_closes_at.to_date.to_fs(:friendly) %>, our system will allocate
+  workshop placements based on your preferences.
+  In most cases, you should get your first or second choices in most workshop slots,
+  but some popular workshops may be oversubscribed. You’ll automatically be
+  added to waitlists for your preferred workshops, and will be notified if
+  places in those workshops become available.
+</p>
+<p>
+  Once we’ve allocated workshop placements, we’ll send you an email with
+  your schedule, and at that point you’ll be asked for payment.
+  <b>Important:</b> If payment is not received prior to the start of the Festival, and we haven’t
+  heard from you, we’ll cancel your registration and offer your workshop places
+  to someone else, so please let us know if that’s going to be an issue.
+</p>
+<p>
+  If you have any questions, please reply to this message, or email us at
+  <a href="mailto:registrations@improvfest.nz">registrations@improvfest.nz</a>.
+<p>
+<p>
+  We’re so looking forward to seeing you in October!
+</p>
+<p>
+  Ngā mihi nui,<br />
+  Matt and Jim<br/>
+  NZIF 2023 Artistic Co-Directors
+</p>

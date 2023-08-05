@@ -75,4 +75,8 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
+
+  config.active_job.queue_adapter = :sidekiq
+  config.active_job.queue_name_prefix = 'nzif'
+  config.active_job.queue_name_delimiter = '_'
 end
