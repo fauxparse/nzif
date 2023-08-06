@@ -35,7 +35,7 @@ const LogInForm: React.FC = () => {
     resolver: zodResolver(formSchema),
   });
 
-  const [logIn, { loading: loggingIn, data: logInData, error: logInError }] = useLogInMutation({
+  const [logIn, { loading: loggingIn, error: logInError }] = useLogInMutation({
     update: (_, { data }) => {
       const { credentials } = data?.userLogin || {};
       if (credentials) {
@@ -45,7 +45,7 @@ const LogInForm: React.FC = () => {
     },
   });
 
-  const [signUp, { loading: signingUp, data: signUpData }] = useSignUpMutation({
+  const [signUp, { loading: signingUp }] = useSignUpMutation({
     update: (_, { data }) => {
       const { credentials } = data?.userRegister || {};
       if (credentials) {
@@ -67,7 +67,7 @@ const LogInForm: React.FC = () => {
           email,
           password,
         },
-      }).catch((e) => {
+      }).catch(() => {
         signUp({
           variables: {
             name,
@@ -108,8 +108,8 @@ const LogInForm: React.FC = () => {
               >
                 <h4>Already have an account?</h4>
                 <p>
-                  If you’ve attended NZIF before, you probably already have an account on this site
-                  and can log in with those details.
+                  We’ve upgraded our systems this year, so even if you’ve registered in the past,
+                  you’ll need to create a new account for 2023.
                 </p>
               </motion.div>
             )}

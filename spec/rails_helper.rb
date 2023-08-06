@@ -80,6 +80,8 @@ RSpec.configure do |config|
   config.include InteractorHelper, type: :interactor
   config.include MutationHelper, type: :mutation
 
+  config.include ActiveJob::TestHelper
+
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
@@ -97,6 +99,10 @@ RSpec.configure do |config|
       },
     ],
   )
+
+  config.before do
+    ActionMailer::Base.deliveries.clear
+  end
 end
 
 Shoulda::Matchers.configure do |config|

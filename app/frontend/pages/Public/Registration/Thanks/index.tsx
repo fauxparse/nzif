@@ -31,8 +31,15 @@ export const Component: React.FC = () => {
         communications about the Festival.
       </p>
       <p>
-        In the meantime, why not join us in the NZIF Green Room on Facebook? It’s where all the cool
-        kids hang out.
+        In the meantime, why not join us in the{' '}
+        <a
+          href="https://www.facebook.com/groups/NZIFGreenRoom"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          NZIF Green Room on Facebook
+        </a>
+        ? It’s where all the cool kids hang out.
       </p>
       <p>We can’t wait to see you in {festival.startDate.toFormat('MMMM')}!</p>
     </div>

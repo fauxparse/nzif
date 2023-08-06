@@ -5,7 +5,7 @@ module Registrations
     def call
       authorize! registration, to: :update?
 
-      # ParticipantMailer.registration_confirmation(registration).deliver_later
+      ParticipantMailer.registration_confirmation(registration).deliver_later
     end
   end
 end

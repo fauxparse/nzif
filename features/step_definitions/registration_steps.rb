@@ -18,6 +18,7 @@ module RegistrationHelpers
 end
 
 World(RegistrationHelpers)
+World(ActiveJob::TestHelper)
 
 ParameterType(
   name: 'ordinal',
