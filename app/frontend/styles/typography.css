@@ -28,6 +28,13 @@
   src: url("~/fonts/DINRoundPro-Black.woff2") format("woff2");
 }
 
+@font-face {
+  font-weight: 400;
+  font-style: italic;
+  font-family: "DIN Round Pro";
+  src: url("~/fonts/DINRoundPro-Italic.woff2") format("woff2");
+}
+
 :where(:root) {
   --font-weight-light: 300;
   --font-weight-normal: 400;

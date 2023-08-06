@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj, Meta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import Markdown from '.';
 
@@ -10,7 +10,7 @@ export default {
   component: Markdown,
   argTypes: {},
   args: {
-    text: 'Markdown',
+    children: 'Markdown',
   },
   render: (args) => <Markdown {...args} />,
 } satisfies Meta<typeof Markdown>;
