@@ -24,7 +24,9 @@ const List: React.FC<ListProps> = ({ loading, activities }) => {
       sortBy(
         toPairs(
           groupBy(
-            activities.filter((a) => !!a.sessions.length),
+            activities
+              .filter((a) => !!a.sessions.length)
+              .flatMap((a) => a.sessions.map((s) => ({ ...a, sessions: [s] }))),
             (a) => a.sessions[0].startsAt.toISO()
           )
         ).map(([_, group]: [string, ProgrammeActivity[]]) => ({
