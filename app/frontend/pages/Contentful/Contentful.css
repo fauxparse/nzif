@@ -47,6 +47,29 @@
       line-height: var(--line-height-large);
     }
   }
+
+  :where(table) {
+    margin-bottom: var(--medium);
+    border-collapse: collapse;
+
+    td {
+      padding: var(--small) var(--medium);
+      border-bottom: var(--border-width-standard) solid var(--border-subtle);
+      text-align: center;
+
+      p {
+        margin: 0;
+      }
+    }
+
+    tr {
+      &:first-child {
+        td {
+          border-top: var(--border-width-standard) solid var(--border-subtle);
+        }
+      }
+    }
+  }
 }
 
 
