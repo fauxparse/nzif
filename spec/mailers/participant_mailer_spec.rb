@@ -8,6 +8,6 @@ RSpec.describe ParticipantMailer do
 
     its(:subject) { is_expected.to eq('Your NZIF 2023 registration') }
     its(:to) { is_expected.to eq([registration.user.email]) }
-    its(:from) { is_expected.to eq(['registrations@improvfest.nz']) }
+    its(:from) { is_expected.to eq(['registrations+2023@improvfest.nz']) }
   end
 end
