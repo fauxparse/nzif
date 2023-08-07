@@ -2,31 +2,31 @@ module Types
   class QueryType < Types::BaseObject
     include Authorization
 
-    field :festival, FestivalType, null: false do
+    field :festival, FestivalType, null: false, authenticate: false do
       argument :year, String, required: false
     end
 
-    field :user, UserType, null: true do
+    field :user, UserType, null: true, authenticate: false do
       argument :id, ID, required: false
     end
 
-    field :setting, SettingType, null: true do
+    field :setting, SettingType, null: true, authenticate: false do
       argument :id, String, required: true
     end
 
-    field :search, resolver: Resolvers::SearchQuery
+    field :search, resolver: Resolvers::SearchQuery, authenticate: false
 
-    field :people, [PersonType]
+    field :people, [PersonType], authenticate: false
 
-    field :person, PersonType do
+    field :person, PersonType, authenticate: false do
       argument :id, ID, required: true
     end
 
-    field :permissions, [PermissionDefinitionType], null: false
+    field :permissions, [PermissionDefinitionType], null: false, authenticate: false
 
-    field :translations, resolver: Resolvers::Translations
+    field :translations, resolver: Resolvers::Translations, authenticate: false
 
-    field :registration, resolver: Resolvers::Registration
+    field :registration, resolver: Resolvers::Registration, authenticate: false
 
     def festival(year: nil)
       if year
