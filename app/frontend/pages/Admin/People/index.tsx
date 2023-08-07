@@ -1,8 +1,5 @@
 import React from 'react';
-import { Outlet, Route, Routes } from 'react-router-dom';
-
-import PeopleList from './PeopleList';
-import Person from './Person';
+import { Outlet } from 'react-router-dom';
 
 import './People.css';
 

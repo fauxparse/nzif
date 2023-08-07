@@ -43,9 +43,17 @@ export const ROUTES = {
       WORKSHOPS: route('workshops'),
       SOCIAL_EVENTS: route('social-events'),
       PEOPLE: route('people'),
-      PERSON: route('people/:id', {
-        params: { id },
-      }),
+      PERSON: route(
+        'people/:id',
+        {
+          params: { id },
+        },
+        {
+          SETTINGS: route('settings'),
+          REGISTRATION: route('registration'),
+        }
+      ),
+      REGISTRATIONS: route('registrations'),
       TRANSLATIONS: route('translations'),
     }
   ),
@@ -86,6 +94,10 @@ const router = createBrowserRouter([
         lazy: () => import('./pages/Admin'),
         children: [
           {
+            path: ROUTES.ADMIN.REGISTRATIONS.path,
+            lazy: () => import('./pages/Admin/Festival/Registrations'),
+          },
+          {
             path: ROUTES.ADMIN.TIMETABLE.path,
             lazy: () => import('./pages/Admin/Festival/Timetable'),
           },
@@ -122,6 +134,20 @@ const router = createBrowserRouter([
           {
             path: ROUTES.ADMIN.PERSON.path,
             lazy: () => import('./pages/Admin/People/Person'),
+            children: [
+              {
+                path: ROUTES.ADMIN.PERSON.REGISTRATION.path,
+                lazy: () => import('./pages/Admin/People/Person/Registration'),
+              },
+              {
+                path: ROUTES.ADMIN.PERSON.SETTINGS.path,
+                lazy: () => import('./pages/Admin/People/Person/Settings'),
+              },
+              {
+                index: true,
+                lazy: () => import('./pages/Admin/People/Person/Details'),
+              },
+            ],
           },
           {
             path: ROUTES.ADMIN.TRANSLATIONS.path,

@@ -42,7 +42,7 @@ const Button: ButtonComponent = forwardRef(
         {...extraButtonProps}
         {...buttonProps}
       >
-        {isIconName(icon) ? <Icon name={icon} /> : icon}
+        {isIconName(icon) ? <Icon className="button__icon" name={icon} /> : icon}
         {!!text && <Text>{text}</Text>}
         {buttonChildren}
       </Component>

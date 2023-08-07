@@ -2,10 +2,15 @@ module Resolvers
   class Registration < BaseResolver
     type Types::RegistrationType, null: false
 
-    def resolve
-      (current_user&.registrations || ::Registration)
+    argument :id, ID, required: false
+
+    def resolve(id: nil)
+      user = id ? Profile.includes(:user).find(id)&.user : current_user
+
+      (user&.registrations || ::Registration)
         .includes(user: :profile, preferences: { session: :activity })
-        .find_or_initialize_by(festival: current_festival, user: current_user)
+        .find_or_initialize_by(festival: current_festival, user:)
+        .tap { |registration| authorize! registration, to: :view? }
     end
 
     private

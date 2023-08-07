@@ -9,6 +9,7 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
     context = gql_devise_context(User)
+    context[:current_user] = context[:current_resource]
     PaperTrail.request.whodunnit = context[:current_resource].try(:id) || 'Unknown'
     result = NZIFSchema.execute(query, variables:, context:, operation_name:)
     render json: result

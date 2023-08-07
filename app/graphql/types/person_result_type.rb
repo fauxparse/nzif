@@ -17,7 +17,7 @@ module Types
     end
 
     def url
-      "/people/#{person.to_param}"
+      "/admin/people/#{person.to_param}"
     end
 
     delegate :person, to: :object

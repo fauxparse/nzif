@@ -14,7 +14,8 @@ external = Shrine::Storage::S3.new(
 
 Shrine.storages = {
   cache: Shrine::Storage::FileSystem.new('public', prefix: 'uploads/cache'), # temporary
-  store: Rails.env.production? ? external : local, # permanent
+  # store: Rails.env.production? ? external : local, # permanent
+  store: external,
 }
 
 Shrine.plugin :activerecord

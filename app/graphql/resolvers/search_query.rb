@@ -5,7 +5,7 @@ module Resolvers
     argument :activity_type, Types::ActivityTypeType, required: false
     argument :limit, Integer, required: false
     argument :only, [Types::SearchTypeType], required: false,
-      default_value: %i[activity person venue page]
+      default_value: %i[activity person page]
     argument :query, String, required: true
 
     def resolve(query:, only:, activity_type: nil, limit: 10)

@@ -2,8 +2,13 @@ import { Link } from 'react-router-dom';
 import { camelCase, kebabCase } from 'lodash-es';
 import pluralize from 'pluralize';
 
+import {
+  ActivityType,
+  Permission,
+  useRegistrationsCountSubscription,
+} from '../../../graphql/types';
+import Button from '@/atoms/Button';
 import { IconName } from '@/atoms/Icon';
-import { ActivityType, Permission } from '@/graphql/types';
 import Menu from '@/molecules/Menu';
 import { useAuthentication } from '@/organisms/Authentication';
 import { ROUTES } from '@/Routes';
@@ -16,9 +21,24 @@ export const Component: React.FC = () => {
 
   const year = String(new Date().getFullYear());
 
+  const { data } = useRegistrationsCountSubscription({ variables: { year } });
+
   return (
     <div className="dashboard inset">
       <h1>Dashboard</h1>
+      <div className="dashboard__stats">
+        <div className="dashboard__stat">
+          <div className="dashboard__stat__value">{data?.registrations?.count || '—'}</div>
+          <div className="dashboard__stat__label">
+            {pluralize('Registration', data?.registrations?.count || 0)}
+          </div>
+          <div className="dashboard__stat__action">
+            {hasPermission(Permission.Registrations) && (
+              <Button small as={Link} to={ROUTES.ADMIN.REGISTRATIONS.path} text="View all" />
+            )}
+          </div>
+        </div>
+      </div>
       <div className="dashboard__links">
         {hasPermission(Permission.People) && (
           <section>

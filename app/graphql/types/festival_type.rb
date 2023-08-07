@@ -14,6 +14,7 @@ module Types
     field :end_date, Types::ISODate, null: false
     field :general_opens_at, GraphQL::Types::ISO8601DateTime, null: true
     field :registration_phase, Types::RegistrationPhaseType, null: false
+    field :registrations, [Types::RegistrationType], null: false
     field :slots, [Types::SlotType], null: false do
       argument :type, Types::ActivityTypeType, required: false
     end
@@ -45,6 +46,12 @@ module Types
     def venues
       dataloader
         .with(Sources::VenuesByFestival, context:)
+        .load(object.id)
+    end
+
+    def registrations
+      dataloader
+        .with(Sources::Registrations, context:)
         .load(object.id)
     end
 

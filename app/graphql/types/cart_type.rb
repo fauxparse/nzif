@@ -8,5 +8,9 @@ module Types
     field :total, Integer, null: false
     field :value, Integer, null: false
     field :workshops_count, Integer, null: false
+
+    def id
+      object.registration.id
+    end
   end
 end

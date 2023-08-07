@@ -1,4 +1,57 @@
 .dashboard {
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: var(--large);
+    margin-bottom: var(--large);
+  }
+
+  &__stat {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: auto 1fr;
+    gap: var(--small) var(--medium);
+
+    &__value {
+      grid-row: 1 / -1;
+      grid-column: 1;
+      font-weight: var(--font-weight-bold);
+      font-size: 6rem;
+      line-height: 6rem;
+    }
+
+    &__label {
+      align-self: end;
+      justify-self: start;
+      color: var(--text-subtle);
+      font-weight: var(--font-weight-normal);
+      font-size: var(--font-size-medium);
+      line-height: var(--line-height-medium);
+      letter-spacing: 0.1rem;
+      text-transform: uppercase;
+    }
+
+    &__action {
+      display: flex;
+      align-self: start;
+      justify-self: start;
+
+      .button__icon {
+        order: 1;
+      }
+    }
+
+    @media (width > 1000px) {
+      grid-template-rows: auto auto auto;
+      grid-template-columns: auto;
+
+      &__value {
+        grid-row: 1;
+        grid-column: 1;
+      }
+    }
+  }
+
   &__links {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));

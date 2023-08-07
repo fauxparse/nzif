@@ -1,0 +1,25 @@
+fragment RegistrationsListItem on Registration {
+  id
+  completedAt
+  workshopsCount
+  user {
+    id
+    profile {
+      id
+      name
+      picture {
+        id
+        small
+      }
+    }
+  }
+}
+
+query Registrations {
+  festival {
+    id
+    registrations {
+      ...RegistrationsListItem
+    }
+  }
+}

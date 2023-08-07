@@ -1,16 +1,16 @@
 import React from 'react';
-import { Link, Route, Routes, useLocation, useParams, useResolvedPath } from 'react-router-dom';
+import { Link, Outlet, useLocation, useResolvedPath } from 'react-router-dom';
+import { useTypedParams } from 'react-router-typesafe-routes/dom';
 
 import { PersonAttributes, usePersonQuery, useUpdatePersonMutation } from '@/graphql/types';
 import Breadcrumbs, { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 import InPlaceEdit from '@/molecules/InPlaceEdit';
 import PageHeader from '@/molecules/PageHeader';
 import Tabs from '@/molecules/Tabs';
+import { ROUTES } from '@/Routes';
 
 import { PersonContext } from './Context';
 import { PersonDetails } from './Person.types';
-import Profile from './Profile';
-import Settings from './Settings';
 
 import './Person.css';
 
@@ -22,11 +22,12 @@ type Tab = {
 
 const TABS: Tab[] = [
   { label: 'Profile', path: '' },
+  { label: 'Registration', path: 'registration' },
   { label: 'Settings', path: 'settings', enabled: (person) => !!person?.user },
 ];
 
 export const Component: React.FC = () => {
-  const { id } = useParams<{ id: string }>() as { id: string };
+  const { id } = useTypedParams(ROUTES.ADMIN.PERSON);
 
   const { data, loading } = usePersonQuery({ variables: { id } });
 
@@ -61,7 +62,7 @@ export const Component: React.FC = () => {
   return (
     <PersonContext.Provider value={{ person, permissions }}>
       <BreadcrumbProvider label="People" path="people">
-        <div className="page">
+        <div className="admin-person page">
           <PageHeader>
             <Breadcrumbs />
             <h1>
@@ -86,12 +87,7 @@ export const Component: React.FC = () => {
               )}
             </Tabs>
           </PageHeader>
-          {!loading && !!person && (
-            <Routes>
-              <Route path="" element={<Profile person={person} />} />
-              {person?.user && <Route path="settings" element={<Settings user={person.user} />} />}
-            </Routes>
-          )}
+          <Outlet />
         </div>
       </BreadcrumbProvider>
     </PersonContext.Provider>

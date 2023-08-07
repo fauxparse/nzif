@@ -69,3 +69,54 @@
     }
   }
 }
+
+.admin-person {
+  .registration-summary {
+    section {
+      margin: 0 0 var(--medium);
+    }
+
+    ol {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      line-height: var(--line-height-medium);
+      counter-reset: position;
+
+      li {
+        --counter-background: var(--accent10);
+
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: var(--small);
+        align-items: start;
+        margin: 0 0 var(--small);
+        counter-increment: position;
+
+        &::before {
+          content: counter(position);
+          width: var(--line-height-medium);
+          height: var(--line-height-medium);
+          border-radius: var(--border-radius-round);
+          background-color: var(--counter-background);
+          color: var(--text-secondary);
+          color: var(--background);
+          font-weight: var(--font-weight-medium);
+          text-align: center;
+        }
+
+        + li {
+          --counter-background: var(--accent8);
+
+          + li {
+            --counter-background: var(--accent6);
+
+            + li {
+              --counter-background: var(--accent5);
+            }
+          }
+        }
+      }
+    }
+  }
+}

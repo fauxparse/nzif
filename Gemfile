@@ -133,3 +133,5 @@ group :test do
   gem 'puffing-billy', '~> 3.1'
   gem 'webmock', '~> 3.18'
 end
+
+gem "redis", "~> 5.0"

@@ -1,0 +1,5 @@
+subscription registrationsCount($year: ID!) {
+  registrations(year: $year) {
+    count
+  }
+}

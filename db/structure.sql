@@ -367,7 +367,8 @@ CREATE TABLE public.registrations (
     festival_id bigint NOT NULL,
     code_of_conduct_accepted_at timestamp without time zone,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    completed_at timestamp without time zone
 );
 
 
@@ -555,14 +556,14 @@ CREATE TABLE public.users (
     confirmed_at timestamp(6) without time zone,
     confirmation_sent_at timestamp(6) without time zone,
     unconfirmed_email character varying,
+    name character varying,
     email character varying,
     tokens json,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     settings public.hstore DEFAULT ''::public.hstore NOT NULL,
-    permissions character varying[],
-    name character varying,
-    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('english'::regconfig, public.my_concat(' '::text, regexp_split_to_array((COALESCE(email, ''::character varying))::text, '[.@]'::text))), 'B'::"char"))) STORED
+    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('english'::regconfig, public.my_concat(' '::text, regexp_split_to_array((COALESCE(email, ''::character varying))::text, '[.@]'::text))), 'B'::"char"))) STORED,
+    permissions character varying[]
 );
 
 
@@ -997,6 +998,13 @@ CREATE INDEX index_profiles_on_user_id ON public.profiles USING btree (user_id);
 
 
 --
+-- Name: index_registrations_on_completed_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_registrations_on_completed_at ON public.registrations USING btree (completed_at);
+
+
+--
 -- Name: index_registrations_on_festival_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1240,7 +1248,6 @@ ALTER TABLE ONLY public.sessions
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
-('0'),
 ('20230403213514'),
 ('20230404000215'),
 ('20230404025705'),
@@ -1281,7 +1288,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230721115845'),
 ('20230724041043'),
 ('20230728005202'),
-('20230728012819');
+('20230728012819'),
+('20230806193436');
 
 
 SET statement_timeout = 0;

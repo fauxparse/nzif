@@ -1,14 +1,17 @@
 import React, { useMemo } from 'react';
+import { useTypedParams } from 'react-router-typesafe-routes/dom';
 
 import { ABOUT_TRADITIONAL_PLACENAMES } from '@/atoms/Placename';
 import Switch from '@/atoms/Switch';
 import {
   SettingValue,
   SettingValueFragmentFragment,
+  usePersonQuery,
   useSettingsQuery,
   useUpdateSettingMutation,
 } from '@/graphql/types';
 import Labelled from '@/helpers/Labelled';
+import { ROUTES } from '@/Routes';
 
 import { PersonDetails } from './Person.types';
 
@@ -68,6 +71,13 @@ const Settings: React.FC<SettingsProps> = ({ user }) => {
       </form>
     </div>
   );
+};
+
+export const Component = () => {
+  const { id } = useTypedParams(ROUTES.ADMIN.PERSON);
+  const { data } = usePersonQuery({ variables: { id } });
+  if (!data?.person?.user?.id) return null;
+  return <Settings user={data.person.user} />;
 };
 
 export default Settings;
