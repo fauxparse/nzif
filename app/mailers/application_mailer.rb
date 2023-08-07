@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'registrations@improvfest.nz'
+  default from: 'matt@improvfest.nz'
   layout 'mailer'
 end

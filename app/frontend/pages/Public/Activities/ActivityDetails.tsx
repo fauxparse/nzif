@@ -15,6 +15,7 @@ import {
   useActivityDetailsQuery,
 } from '@/graphql/types';
 import Markdown from '@/helpers/Markdown';
+import ScrollToTop from '@/helpers/ScrollToTop';
 import Skeleton from '@/helpers/Skeleton';
 import Breadcrumbs, { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 import Callout from '@/molecules/Callout';
@@ -94,6 +95,7 @@ export const Component: React.FC = () => {
   return (
     <BreadcrumbProvider label={upperFirst(pluralizedType.replace(/-/g, ' '))} path={pluralizedType}>
       <div className="activity-details page">
+        <ScrollToTop />
         {activity && (
           <Helmet>
             <title>NZIF: {activity.name}</title>
