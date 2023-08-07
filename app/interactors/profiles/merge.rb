@@ -35,7 +35,11 @@ module Profiles
     def transformed_attributes
       attributes
         .to_h { |key, value| [key, profiles[value].send(key)] }
-        .merge(user_id: profiles.values.find(&:user_id?)&.user_id)
+        .merge(
+          user_id: profiles.values.find(&:user_id?)&.user_id,
+          picture: profiles.values.map(&:picture).detect(&:present?),
+          bio: profiles.values.map(&:bio).detect(&:present?),
+        )
     end
 
     def models_to_update

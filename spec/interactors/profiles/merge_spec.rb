@@ -5,11 +5,13 @@ RSpec.describe Profiles::Merge, type: :interactor do
     let(:context) { { profiles:, attributes: } }
 
     let(:first) do
-      create(:profile, :with_user, name: 'First Profile', country: 'NZ', city: 'wellington')
+      create(:profile, :with_user, name: 'First Profile', country: 'NZ', city: 'wellington',
+        bio: '')
     end
 
     let(:second) do
-      create(:profile, name: 'Second Profile', city: 'Te Whanganui-a-Tara', pronouns: 'he/him')
+      create(:profile, name: 'Second Profile', city: 'Te Whanganui-a-Tara', pronouns: 'he/him',
+        bio: 'Short bio')
     end
 
     let(:profiles) { [first, second] }
@@ -48,6 +50,7 @@ RSpec.describe Profiles::Merge, type: :interactor do
       its(:country) { is_expected.to eq(first.country) }
       its(:city) { is_expected.to eq(second.city) }
       its(:pronouns) { is_expected.to eq(second.pronouns) }
+      its(:bio) { is_expected.to eq(second.bio) }
     end
 
     context 'with only one profile to merge' do
