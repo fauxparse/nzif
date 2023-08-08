@@ -90,6 +90,7 @@
     "@contentful/rich-text-react-renderer": "^15.16.3",
     "@ctrl/tinycolor": "^3.6.0",
     "@floating-ui/react": "^0.22.3",
+    "@formatjs/intl-numberformat": "^8.7.0",
     "@georgedoescode/spline": "^1.0.1",
     "@hookform/resolvers": "^3.1.0",
     "@radix-ui/colors": "^0.1.8",

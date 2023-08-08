@@ -9,6 +9,10 @@ import { client } from '../graphql';
 import Toaster from '@/molecules/Toaster';
 
 import './application.css';
+
+import '@formatjs/intl-numberformat/polyfill';
+import '@formatjs/intl-numberformat/locale-data/en';
+
 // import 'virtual:fonts.css';
 
 // Example: Load Rails libraries in Vite.
