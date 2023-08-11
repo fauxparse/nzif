@@ -6,6 +6,7 @@ class Session < ApplicationRecord
   belongs_to :activity, optional: true
   has_one :slot_activity # rubocop:disable Rails/HasManyOrHasOneDependent
   has_one :slot, through: :slot_activity
+  has_many :preferences, dependent: :destroy
 
   enum :activity_type
 
