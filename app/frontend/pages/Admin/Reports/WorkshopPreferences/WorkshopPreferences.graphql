@@ -1,0 +1,16 @@
+query WorkshopPreferences {
+  festival {
+    id
+
+    activities(type: Workshop) {
+      id
+      name
+
+      ... on Workshop {
+        stats {
+          counts
+        }
+      }
+    }
+  }
+}

@@ -733,6 +733,7 @@ type Workshop implements Activity {
   sessions: [Session!]!
   show: Show
   slug: String!
+  stats: WorkshopStat!
   suitability: String
 
   """
@@ -740,6 +741,11 @@ type Workshop implements Activity {
   """
   tutors: [Person!]!
   type: ActivityType!
+}
+
+type WorkshopStat {
+  counts: [Int!]!
+  id: ID!
 }
 
 """

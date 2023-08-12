@@ -87,6 +87,15 @@ export const Component: React.FC = () => {
             />
           </section>
         )}
+        <section>
+          <h3>Reports</h3>
+          <Menu.Item
+            as={Link}
+            to={ROUTES.ADMIN.REPORTS.WORKSHOP_PREFERENCES.path}
+            icon="workshop"
+            label="Workshop preferences"
+          />
+        </section>
       </div>
     </div>
   );

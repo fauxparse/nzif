@@ -55,6 +55,13 @@ export const ROUTES = {
       ),
       REGISTRATIONS: route('registrations'),
       TRANSLATIONS: route('translations'),
+      REPORTS: route(
+        'reports',
+        {},
+        {
+          WORKSHOP_PREFERENCES: route('workshop-preferences'),
+        }
+      ),
     }
   ),
   ACTIVITIES: route(':type', {
@@ -152,6 +159,10 @@ const router = createBrowserRouter([
           {
             path: ROUTES.ADMIN.TRANSLATIONS.path,
             lazy: () => import('./pages/Admin/Translations'),
+          },
+          {
+            path: ROUTES.ADMIN.REPORTS.WORKSHOP_PREFERENCES.path,
+            lazy: () => import('./pages/Admin/Reports/WorkshopPreferences'),
           },
           {
             index: true,

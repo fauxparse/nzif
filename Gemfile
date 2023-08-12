@@ -80,7 +80,10 @@ gem 'premailer-rails'
 
 gem 'aws-sdk-s3', '~> 1.132.0'
 
+gem 'redis', '~> 5.0'
 gem 'sidekiq', '~> 7.1'
+
+gem 'sorted_set', '~> 1.0'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -133,5 +136,3 @@ group :test do
   gem 'puffing-billy', '~> 3.1'
   gem 'webmock', '~> 3.18'
 end
-
-gem "redis", "~> 5.0"
