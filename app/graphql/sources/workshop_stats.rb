@@ -28,7 +28,8 @@ module Sources
 
     def scope
       Session
-        .joins(:preferences)
+        .joins(preferences: :registration)
+        .where.not(registrations: { completed_at: nil })
         .select(
           <<~SQL.squish,
             sessions.activity_id AS activity_id,
