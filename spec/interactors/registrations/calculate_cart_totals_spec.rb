@@ -31,9 +31,9 @@ RSpec.describe Registrations::CalculateCartTotals, type: :interactor do
 
     its(:workshops_count) { is_expected.to eq 1 }
 
-    its(:value) { is_expected.to eq 60_00 }
+    its(:value) { is_expected.to eq 70_00 }
 
-    its(:total) { is_expected.to eq 60_00 }
+    its(:total) { is_expected.to eq 70_00 }
 
     its(:discount) { is_expected.to be_zero }
   end
@@ -51,9 +51,9 @@ RSpec.describe Registrations::CalculateCartTotals, type: :interactor do
 
     its(:workshops_count) { is_expected.to eq 1 }
 
-    its(:value) { is_expected.to eq 60_00 }
+    its(:value) { is_expected.to eq 70_00 }
 
-    its(:total) { is_expected.to eq 60_00 }
+    its(:total) { is_expected.to eq 70_00 }
 
     its(:discount) { is_expected.to be_zero }
   end

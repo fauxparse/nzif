@@ -31,8 +31,8 @@ Feature: Registration
     Then I should see "1 workshop selected"
 
     When I click the "next" button
-    Then I should see "1 workshop @ $60"
-    And I should see "Total amount due $60"
+    Then I should see "1 workshop @ $70"
+    And I should see "Total amount due $70"
     And I should have my preferences recorded
 
     When I click the "Finalise registration" button

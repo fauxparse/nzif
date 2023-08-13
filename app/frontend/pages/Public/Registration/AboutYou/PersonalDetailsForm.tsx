@@ -23,7 +23,7 @@ import CountryPicker from '@/molecules/CountryPicker';
 import ReadToEnd from './ReadToEnd';
 
 const formSchema = z.object({
-  name: z.string().regex(/^(cb|([^\s]+(\s+[^\s]+)+))$/i, 'We need your full (first and last) name'),
+  name: z.string().regex(/(CB|([^\s]+(\s+[^\s]+)+))/i, 'We need your full (first and last) name'),
   email: z.string().email('This doesn’t look like an email address'),
   pronouns: z.string().optional(),
   city: z.string().min(1, 'Please tell us where you’re from'),

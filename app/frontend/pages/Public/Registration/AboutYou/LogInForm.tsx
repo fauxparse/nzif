@@ -13,7 +13,7 @@ import Labelled from '@/helpers/Labelled';
 import Skeleton from '@/helpers/Skeleton';
 
 const formSchema = z.object({
-  name: z.string().regex(/^(CB|([^\s]+(\s+[^\s]+)+))$/i, 'We need your full (first and last) name'),
+  name: z.string().regex(/(CB|([^\s]+(\s+[^\s]+)+))/i, 'We need your full (first and last) name'),
   email: z.string().email('This doesn’t look like an email address'),
   password: z.string().min(6, 'Try a longer password'),
 });
