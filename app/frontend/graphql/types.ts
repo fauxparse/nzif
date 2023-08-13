@@ -608,6 +608,7 @@ export type Session = {
   __typename: 'Session';
   activity: Maybe<Activity>;
   activityType: ActivityType;
+  capacity: Maybe<Scalars['Int']>;
   endsAt: Scalars['ISO8601DateTime'];
   id: Scalars['ID'];
   startsAt: Scalars['ISO8601DateTime'];
@@ -1156,7 +1157,7 @@ export type SettingsQuery = { __typename: 'Query', user: { __typename: 'User', i
 export type WorkshopPreferencesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type WorkshopPreferencesQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, activities: Array<{ __typename: 'Show', id: string, name: string } | { __typename: 'SocialEvent', id: string, name: string } | { __typename: 'Workshop', id: string, name: string, stats: { __typename: 'WorkshopStat', counts: Array<number> } }> } };
+export type WorkshopPreferencesQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, activities: Array<{ __typename: 'Show', id: string, name: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null }> } | { __typename: 'SocialEvent', id: string, name: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null }> } | { __typename: 'Workshop', id: string, name: string, stats: { __typename: 'WorkshopStat', counts: Array<number> }, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null }> }> } };
 
 export type TranslationDetailsFragment = { __typename: 'Translation', id: string, name: string, traditionalName: string };
 
@@ -2965,6 +2966,11 @@ export const WorkshopPreferencesDocument = gql`
     activities(type: Workshop) {
       id
       name
+      sessions {
+        id
+        startsAt
+        capacity
+      }
       ... on Workshop {
         stats {
           counts

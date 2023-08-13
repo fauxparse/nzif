@@ -470,6 +470,7 @@ enum SearchType {
 type Session {
   activity: Activity
   activityType: ActivityType!
+  capacity: Int
   endsAt: ISO8601DateTime!
   id: ID!
   startsAt: ISO8601DateTime!

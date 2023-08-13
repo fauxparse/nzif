@@ -1,17 +1,25 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import ParentSize from '@visx/responsive/lib/components/ParentSize';
 import { sortBy } from 'lodash-es';
 
 import { useWorkshopPreferencesQuery, WorkshopPreferencesQuery } from '@/graphql/types';
+import Breadcrumbs from '@/molecules/Breadcrumbs';
+import PageHeader from '@/molecules/PageHeader';
+import Tabs from '@/molecules/Tabs';
 
 import Chart from './Chart';
+import PreferencesBySession from './PreferencesBySession';
 
 type Workshop = WorkshopPreferencesQuery['festival']['activities'][number] & {
   __typename: 'Workshop';
 };
 
+type View = 'chart' | 'table';
+
 export const Component: React.FC = () => {
   const { data } = useWorkshopPreferencesQuery();
+
+  const [view, setView] = useState<View>('chart');
 
   const workshops = useMemo(() => {
     if (!data) return [];
@@ -27,16 +35,29 @@ export const Component: React.FC = () => {
     );
   }, [data]);
 
-  const height = 33 * 32;
-
   return (
-    <div className="inset">
-      <h1>Workshop Preferences</h1>
+    <div>
+      <PageHeader>
+        <Breadcrumbs />
+        <h1>Workshop preferences</h1>
 
-      {workshops.length > 0 && (
-        <ParentSize className="graph-container" debounceTime={10}>
-          {({ width }) => <Chart data={workshops} width={width} height={height} />}
-        </ParentSize>
+        <Tabs>
+          <Tabs.Tab text="Chart" selected={view === 'chart'} onClick={() => setView('chart')} />
+          <Tabs.Tab text="Table" selected={view === 'table'} onClick={() => setView('table')} />
+        </Tabs>
+      </PageHeader>
+
+      {view === 'chart' && (
+        <div className="inset">
+          {workshops.length > 0 && (
+            <ParentSize className="graph-container" debounceTime={10}>
+              {({ width }) => <Chart data={workshops} width={width} />}
+            </ParentSize>
+          )}
+        </div>
+      )}
+      {view === 'table' && (
+        <div>{data && <PreferencesBySession data={data.festival.activities} />}</div>
       )}
     </div>
   );

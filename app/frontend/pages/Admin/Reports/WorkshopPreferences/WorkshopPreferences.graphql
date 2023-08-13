@@ -6,6 +6,12 @@ query WorkshopPreferences {
       id
       name
 
+      sessions {
+        id
+        startsAt
+        capacity
+      }
+
       ... on Workshop {
         stats {
           counts

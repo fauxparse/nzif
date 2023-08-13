@@ -31,7 +31,6 @@ type TooltipData = {
 export type BarStackHorizontalProps = {
   data: Workshop[];
   width: number;
-  height: number;
   margin?: { top: number; right: number; bottom: number; left: number };
 };
 
@@ -61,7 +60,6 @@ const Chart = withTooltip<BarStackHorizontalProps, TooltipData>(
   ({
     data,
     width,
-    height,
     margin = defaultMargin,
     tooltipOpen,
     tooltipLeft,
@@ -70,6 +68,8 @@ const Chart = withTooltip<BarStackHorizontalProps, TooltipData>(
     hideTooltip,
     showTooltip,
   }: BarStackHorizontalProps & WithTooltipProvidedProps<TooltipData>) => {
+    const height = data.length * 32 + margin.top + margin.bottom;
+
     // bounds
     const xMax = width - margin.left - margin.right;
     const yMax = height - margin.top - margin.bottom;
