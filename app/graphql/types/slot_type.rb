@@ -10,7 +10,11 @@ module Types
     end
 
     def workshops
-      object.activities.select { |a| a.type == 'Workshop' }.sort_by(&:name)
+      object.activities.select { |a| a.type == 'Workshop' }.sort_by(&:name).map do |workshop|
+        session = workshop.sessions.find { |s| s.starts_at == object.starts_at }
+        workshop.capacity = session&.capacity || 0
+        workshop
+      end
     end
   end
 end

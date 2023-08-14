@@ -25,7 +25,7 @@ export const Component: React.FC = () => {
         <title>NZIF Admin</title>
       </Helmet>
       {!loading && user?.permissions?.length && (
-        <div>
+        <div className="admin">
           <Header />
           <Outlet />
         </div>

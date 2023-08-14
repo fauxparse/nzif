@@ -1,3 +1,11 @@
+.admin {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  min-height: 100svh;
+}
+
 .data-table {
   width: 100%;
   border-spacing: 0;

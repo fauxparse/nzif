@@ -1,0 +1,61 @@
+query FestivalWorkshopAllocation {
+  festival {
+    id
+
+    workshopAllocation {
+      id
+      state
+    }
+
+    slots(type: Workshop) {
+      id
+      startsAt
+      workshops {
+        id
+        name
+        capacity
+      }
+    }
+
+    registrations {
+      id
+
+      user {
+        id
+        profile {
+          id
+          name
+        }
+      }
+
+      preferences {
+        id
+        position
+        slot {
+          id
+        }
+        workshop {
+          id
+        }
+      }
+    }
+  }
+}
+
+mutation AllocateWorkshops {
+  allocateWorkshops {
+    workshopAllocation {
+      id
+    }
+  }
+}
+
+subscription allocationProgress($id: ID!) {
+  jobProgress(jobName: "AllocateWorkshops", id: $id) {
+    id
+    state
+    progress
+    total
+    error
+  }
+}

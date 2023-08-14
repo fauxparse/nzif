@@ -138,6 +138,41 @@ ALTER SEQUENCE public.activities_id_seq OWNED BY public.activities.id;
 
 
 --
+-- Name: allocations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.allocations (
+    id bigint NOT NULL,
+    festival_id bigint NOT NULL,
+    original jsonb DEFAULT '{}'::jsonb NOT NULL,
+    overrides jsonb DEFAULT '{}'::jsonb NOT NULL,
+    score integer DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    completed_at timestamp without time zone
+);
+
+
+--
+-- Name: allocations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.allocations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: allocations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.allocations_id_seq OWNED BY public.allocations.id;
+
+
+--
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -666,6 +701,13 @@ ALTER TABLE ONLY public.activities ALTER COLUMN id SET DEFAULT nextval('public.a
 
 
 --
+-- Name: allocations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.allocations ALTER COLUMN id SET DEFAULT nextval('public.allocations_id_seq'::regclass);
+
+
+--
 -- Name: cast id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -778,6 +820,14 @@ ALTER TABLE ONLY public.active_record_views
 
 ALTER TABLE ONLY public.activities
     ADD CONSTRAINT activities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: allocations allocations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.allocations
+    ADD CONSTRAINT allocations_pkey PRIMARY KEY (id);
 
 
 --
@@ -919,6 +969,13 @@ CREATE UNIQUE INDEX index_activities_on_festival_id_and_type_and_slug ON public.
 --
 
 CREATE INDEX index_activities_on_searchable ON public.activities USING gin (searchable);
+
+
+--
+-- Name: index_allocations_on_festival_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_allocations_on_festival_id ON public.allocations USING btree (festival_id);
 
 
 --
@@ -1179,6 +1236,14 @@ ALTER TABLE ONLY public.registrations
 
 
 --
+-- Name: allocations fk_rails_595dd1d487; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.allocations
+    ADD CONSTRAINT fk_rails_595dd1d487 FOREIGN KEY (festival_id) REFERENCES public.festivals(id) ON DELETE CASCADE;
+
+
+--
 -- Name: sessions fk_rails_634f411c00; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1291,7 +1356,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230728005202'),
 ('20230728012819'),
 ('20230806193436'),
-('20230808011925');
+('20230808011925'),
+('20230813214033');
 
 
 SET statement_timeout = 0;

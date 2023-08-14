@@ -11,9 +11,13 @@ module Matchmaker
       @waitlist = SortedSet.new
     end
 
-    delegate :id, :activity, :slot, to: :session
+    delegate :starts_at, :activity, :slot, to: :session
 
     delegate :size, :each, to: :candidates
+
+    def id
+      session.to_param
+    end
 
     def place(candidate)
       candidates << candidate

@@ -10,6 +10,10 @@ module Matchmaker
       @bummed_out = 0
     end
 
+    def id
+      registration.to_param
+    end
+
     def candidates
       @candidates ||= registration.preferences.group_by(&:slot)
         .map { |slot, preferences| Candidate.new(self, slot, preferences) }

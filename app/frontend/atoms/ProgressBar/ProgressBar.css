@@ -1,0 +1,18 @@
+:where(.progress-bar) {
+  --progress-bar-height: var(--small);
+  --progress-bar-background: var(--background-element);
+  --progress-bar-foreground: var(--input-active);
+
+  height: var(--progress-bar-height);
+  appearance: none;
+
+  &::-webkit-progress-bar {
+    border-radius: var(--border-radius-round);
+    background-color: var(--progress-bar-background);
+  }
+
+  &::-webkit-progress-value {
+    border-radius: var(--border-radius-round);
+    background: var(--progress-bar-foreground);
+  }
+}

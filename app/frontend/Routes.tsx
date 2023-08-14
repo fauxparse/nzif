@@ -62,6 +62,7 @@ export const ROUTES = {
           WORKSHOP_PREFERENCES: route('workshop-preferences'),
         }
       ),
+      ALLOCATIONS: route('allocations'),
     }
   ),
   ACTIVITIES: route(':type', {
@@ -163,6 +164,10 @@ const router = createBrowserRouter([
           {
             path: ROUTES.ADMIN.REPORTS.WORKSHOP_PREFERENCES.path,
             lazy: () => import('./pages/Admin/Reports/WorkshopPreferences'),
+          },
+          {
+            path: ROUTES.ADMIN.ALLOCATIONS.path,
+            lazy: () => import('./pages/Admin/Allocations'),
           },
           {
             index: true,

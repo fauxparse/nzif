@@ -1,0 +1,24 @@
+.no-allocations {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    color: var(--text-subtle);
+    font-size: var(--font-size-legible);
+    line-height: var(--line-height-medium);
+  }
+
+  .button {
+    min-width: 12rem;
+  }
+
+  .progress-bar {
+    --progress-bar-height: var(--medium);
+
+    width: 80vw;
+    max-width: 40rem;
+  }
+}

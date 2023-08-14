@@ -22,6 +22,7 @@ module Types
     field :state, Types::FestivalStateType, null: false
     field :timetable, Types::TimetableType, null: false
     field :venues, [Types::VenueType], null: false
+    field :workshop_allocation, Types::WorkshopAllocationType, null: true
 
     def id
       object.start_date.year.to_s
@@ -56,9 +57,13 @@ module Types
     end
 
     def slots(type: nil)
-      scope = object.slots.includes(:activities).order(starts_at: :asc)
+      scope = object.slots.includes(activities: :sessions).order(starts_at: :asc)
       scope = scope.references(:activities).where(activities: { type: type.to_s }) if type
       scope
+    end
+
+    def workshop_allocation
+      Allocation.find_by(festival: object)
     end
   end
 end
