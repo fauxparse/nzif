@@ -7,8 +7,8 @@ module Matchmaker
     def initialize(session, capacity: session.capacity || 16)
       @session = session
       @capacity = capacity
-      @candidates = SortedSet.new
-      @waitlist = SortedSet.new
+      @candidates = Set.new
+      @waitlist = Set.new
     end
 
     delegate :starts_at, :activity, :slot, to: :session
@@ -19,13 +19,14 @@ module Matchmaker
       session.to_param
     end
 
-    def place(candidate)
+    def place(candidate, &)
       candidates << candidate
 
       return if candidates.size <= capacity
 
-      bumped = candidates.to_a.last
+      bumped = candidates.max
       candidates.delete(bumped)
+
       waitlist << bumped
       candidate.bump_from(self)
 

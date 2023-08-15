@@ -3,6 +3,7 @@ module Registrations
     delegate :allocation, :id, :best, to: :context
 
     def call
+      skip_authorization!
       best = find_best_allocation
       save(best)
       report_progress(progress: iterations, total: iterations, state: :completed)
@@ -42,12 +43,14 @@ module Registrations
           activity_id: session.activity.to_param,
           registrations: session.candidates.map(&:id),
           waitlist: session.waitlist.map(&:id),
+          capacity: session.capacity,
         }
       end
 
       allocation.update!(
         score: best.score * 100_00,
         original: { sessions: },
+        completed_at: Time.zone.now,
       )
     end
   end

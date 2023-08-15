@@ -900,7 +900,25 @@ export type Workshop = Activity & {
 export type WorkshopAllocation = {
   __typename: 'WorkshopAllocation';
   id: Scalars['ID'];
+  score: Maybe<Scalars['Float']>;
+  slots: Array<WorkshopAllocationSlot>;
   state: JobState;
+};
+
+export type WorkshopAllocationSession = {
+  __typename: 'WorkshopAllocationSession';
+  capacity: Scalars['Int'];
+  id: Scalars['ID'];
+  registrations: Array<Registration>;
+  waitlist: Array<Registration>;
+  workshop: Workshop;
+};
+
+export type WorkshopAllocationSlot = {
+  __typename: 'WorkshopAllocationSlot';
+  id: Scalars['ID'];
+  sessions: Array<WorkshopAllocationSession>;
+  startsAt: Scalars['ISO8601DateTime'];
 };
 
 export type WorkshopStat = {
@@ -996,15 +1014,17 @@ export type SearchQueryVariables = Exact<{
 
 export type SearchQuery = { __typename: 'Query', search: Array<{ __typename: 'ActivityResult', id: string, title: string, description: string | null, url: string, activity: { __typename: 'Show', id: string, name: string, type: ActivityType } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType } | { __typename: 'Workshop', id: string, name: string, type: ActivityType } } | { __typename: 'PageResult', id: string, title: string, description: string | null, url: string } | { __typename: 'PersonResult', id: string, title: string, description: string | null, url: string, person: { __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string } | null } } | { __typename: 'VenueResult', id: string, title: string, description: string | null, url: string, venue: { __typename: 'Venue', id: string, room: string | null, building: string, address: string } }> };
 
+export type WorkshopAllocationDetailsFragment = { __typename: 'WorkshopAllocation', id: string, state: JobState, slots: Array<{ __typename: 'WorkshopAllocationSlot', id: string, startsAt: DateTime, sessions: Array<{ __typename: 'WorkshopAllocationSession', id: string, capacity: number, workshop: { __typename: 'Workshop', id: string, name: string }, registrations: Array<{ __typename: 'Registration', id: string }>, waitlist: Array<{ __typename: 'Registration', id: string }> }> }> };
+
 export type FestivalWorkshopAllocationQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FestivalWorkshopAllocationQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, workshopAllocation: { __typename: 'WorkshopAllocation', id: string, state: JobState } | null, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, workshops: Array<{ __typename: 'Workshop', id: string, name: string, capacity: number }> }>, registrations: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null, preferences: Array<{ __typename: 'Preference', id: string, position: number, slot: { __typename: 'Slot', id: string }, workshop: { __typename: 'Workshop', id: string } }> }> } };
+export type FestivalWorkshopAllocationQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, workshopAllocation: { __typename: 'WorkshopAllocation', id: string, state: JobState, slots: Array<{ __typename: 'WorkshopAllocationSlot', id: string, startsAt: DateTime, sessions: Array<{ __typename: 'WorkshopAllocationSession', id: string, capacity: number, workshop: { __typename: 'Workshop', id: string, name: string }, registrations: Array<{ __typename: 'Registration', id: string }>, waitlist: Array<{ __typename: 'Registration', id: string }> }> }> } | null, registrations: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null, preferences: Array<{ __typename: 'Preference', id: string, position: number, slot: { __typename: 'Slot', id: string }, workshop: { __typename: 'Workshop', id: string } }> }> } };
 
 export type AllocateWorkshopsMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllocateWorkshopsMutation = { __typename: 'Mutation', allocateWorkshops: { __typename: 'allocateWorkshopsPayload', workshopAllocation: { __typename: 'WorkshopAllocation', id: string } } | null };
+export type AllocateWorkshopsMutation = { __typename: 'Mutation', allocateWorkshops: { __typename: 'allocateWorkshopsPayload', workshopAllocation: { __typename: 'WorkshopAllocation', id: string, state: JobState, slots: Array<{ __typename: 'WorkshopAllocationSlot', id: string, startsAt: DateTime, sessions: Array<{ __typename: 'WorkshopAllocationSession', id: string, capacity: number, workshop: { __typename: 'Workshop', id: string, name: string }, registrations: Array<{ __typename: 'Registration', id: string }>, waitlist: Array<{ __typename: 'Registration', id: string }> }> }> } } | null };
 
 export type AllocationProgressSubscriptionVariables = Exact<{
   id: Scalars['ID'];
@@ -1354,6 +1374,30 @@ export const AuthenticatedUserFragmentDoc = gql`
     name
     picture {
       small
+    }
+  }
+}
+    `;
+export const WorkshopAllocationDetailsFragmentDoc = gql`
+    fragment WorkshopAllocationDetails on WorkshopAllocation {
+  id
+  state
+  slots {
+    id
+    startsAt
+    sessions {
+      id
+      capacity
+      workshop {
+        id
+        name
+      }
+      registrations {
+        id
+      }
+      waitlist {
+        id
+      }
     }
   }
 }
@@ -2139,17 +2183,7 @@ export const FestivalWorkshopAllocationDocument = gql`
   festival {
     id
     workshopAllocation {
-      id
-      state
-    }
-    slots(type: Workshop) {
-      id
-      startsAt
-      workshops {
-        id
-        name
-        capacity
-      }
+      ...WorkshopAllocationDetails
     }
     registrations {
       id
@@ -2173,7 +2207,7 @@ export const FestivalWorkshopAllocationDocument = gql`
     }
   }
 }
-    `;
+    ${WorkshopAllocationDetailsFragmentDoc}`;
 
 /**
  * __useFestivalWorkshopAllocationQuery__
@@ -2205,11 +2239,11 @@ export const AllocateWorkshopsDocument = gql`
     mutation AllocateWorkshops {
   allocateWorkshops {
     workshopAllocation {
-      id
+      ...WorkshopAllocationDetails
     }
   }
 }
-    `;
+    ${WorkshopAllocationDetailsFragmentDoc}`;
 export type AllocateWorkshopsMutationFn = Apollo.MutationFunction<AllocateWorkshopsMutation, AllocateWorkshopsMutationVariables>;
 
 /**
@@ -3753,4 +3787,5 @@ export const scalarTypePolicies = {
   },
   Session: { fields: { endsAt: dateTimePolicy, startsAt: dateTimePolicy } },
   Slot: { fields: { endsAt: dateTimePolicy, startsAt: dateTimePolicy } },
+  WorkshopAllocationSlot: { fields: { startsAt: dateTimePolicy } },
 };

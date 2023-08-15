@@ -8,6 +8,7 @@ module Mutations
       def resolve
         authorize!(Registration, to: :manage?)
 
+        Allocation.where(festival: current_festival).destroy_all
         workshop_allocation = Allocation.create!(festival: current_festival).tap do |allocation|
           AllocateWorkshopsJob.perform_later(id: allocation.to_param)
         end

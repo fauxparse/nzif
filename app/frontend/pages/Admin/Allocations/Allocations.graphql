@@ -1,20 +1,32 @@
+fragment WorkshopAllocationDetails on WorkshopAllocation {
+  id
+  state
+  slots {
+    id
+    startsAt
+    sessions {
+      id
+      capacity
+      workshop {
+        id
+        name
+      }
+      registrations {
+        id
+      }
+      waitlist {
+        id
+      }
+    }
+  }
+}
+
 query FestivalWorkshopAllocation {
   festival {
     id
 
     workshopAllocation {
-      id
-      state
-    }
-
-    slots(type: Workshop) {
-      id
-      startsAt
-      workshops {
-        id
-        name
-        capacity
-      }
+      ...WorkshopAllocationDetails
     }
 
     registrations {
@@ -45,7 +57,7 @@ query FestivalWorkshopAllocation {
 mutation AllocateWorkshops {
   allocateWorkshops {
     workshopAllocation {
-      id
+      ...WorkshopAllocationDetails
     }
   }
 }

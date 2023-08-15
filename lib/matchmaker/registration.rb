@@ -31,7 +31,7 @@ module Matchmaker
     end
 
     def score
-      slots.values.count(1) - (@bummed_out * 5)
+      slots.values.map { |v| 1.0 / v }.sum / [slots.size, 1].max
     end
 
     def to_s

@@ -11,7 +11,8 @@ module Matchmaker
 
     def process
       while candidates.any?
-        candidates.shift.place(sessions) do |bumped|
+        candidate = candidates.shift
+        candidate.place(sessions) do |bumped|
           candidates.unshift(bumped) if bumped.present?
         end
       end
@@ -20,7 +21,6 @@ module Matchmaker
     def registrations
       @registrations ||= festival.registrations.completed.includes(:profile, preferences: :slot)
         .map { |r| Registration.new(r) }
-        .reject(&:empty?)
     end
 
     def candidates
@@ -36,16 +36,18 @@ module Matchmaker
     end
 
     def score
-      first_choices * never_bummed_out
+      average_score * never_bummed_out
     end
 
-    def first_choices
-      registrations.sum do |registration|
-        registration.slots.values.count(1) / registration.candidates.size.to_f
-      end / registrations.size.to_f
+    def average_score
+      return 0 if registrations.empty?
+
+      registrations.sum(&:score) / registrations.size.to_f
     end
 
     def never_bummed_out
+      return 0 if registrations.empty?
+
       registrations.count { |r| r.bummed_out.zero? } / registrations.size.to_f
     end
   end

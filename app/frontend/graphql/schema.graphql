@@ -783,7 +783,23 @@ type Workshop implements Activity {
 
 type WorkshopAllocation {
   id: ID!
+  score: Float
+  slots: [WorkshopAllocationSlot!]!
   state: JobState!
+}
+
+type WorkshopAllocationSession {
+  capacity: Int!
+  id: ID!
+  registrations: [Registration!]!
+  waitlist: [Registration!]!
+  workshop: Workshop!
+}
+
+type WorkshopAllocationSlot {
+  id: ID!
+  sessions: [WorkshopAllocationSession!]!
+  startsAt: ISO8601DateTime!
 }
 
 type WorkshopStat {

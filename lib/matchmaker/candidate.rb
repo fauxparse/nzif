@@ -21,7 +21,15 @@ module Matchmaker
     end
 
     def <=>(other)
-      registration.score <=> other.registration.score
+      if registration.score == other.registration.score
+        registration.id <=> other.registration.id
+      else
+        registration.score <=> other.registration.score
+      end
+    end
+
+    def eql?(other)
+      id == other.id
     end
 
     delegate :empty?, to: :preferences

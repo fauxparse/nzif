@@ -9,6 +9,7 @@ import {
 import Breadcrumbs from '@/molecules/Breadcrumbs';
 import PageHeader from '@/molecules/PageHeader';
 
+import Allocation from './Allocation';
 import AllocationProgress from './AllocationProgress';
 
 import './Allocations.css';
@@ -16,7 +17,7 @@ import './Allocations.css';
 export const Component: React.FC = () => {
   const { loading, data, refetch } = useFestivalWorkshopAllocationQuery();
 
-  const id = data?.festival?.workshopAllocation?.id;
+  const { id, state } = data?.festival?.workshopAllocation || {};
 
   const [startJob] = useAllocateWorkshopsMutation({
     update: (cache, { data }) => {
@@ -30,10 +31,7 @@ export const Component: React.FC = () => {
             ...existing,
             festival: {
               ...existing.festival,
-              workshopAllocation: {
-                ...data.allocateWorkshops.workshopAllocation,
-                state: JobState.Working,
-              },
+              workshopAllocation: data.allocateWorkshops.workshopAllocation,
             },
           },
         });
@@ -41,24 +39,24 @@ export const Component: React.FC = () => {
     },
   });
 
-  return (
-    <>
-      <PageHeader>
-        <Breadcrumbs />
-        <h1>Workshop allocation</h1>
-      </PageHeader>
-      <div className="no-allocations inset">
-        {id ? (
-          <AllocationProgress id={id} onComplete={refetch} />
-        ) : (
-          !loading && (
-            <>
-              <p>Click below to start searching for a workshop allocation solution.</p>
-              <Button large primary text="Start" onClick={() => startJob()} />
-            </>
-          )
-        )}
-      </div>
-    </>
+  return !!data?.festival.workshopAllocation && state === JobState.Completed ? (
+    <Allocation
+      allocation={data.festival.workshopAllocation}
+      registrations={data.festival.registrations}
+      onRerun={() => startJob()}
+    />
+  ) : (
+    <div className="no-allocations inset">
+      {id ? (
+        <AllocationProgress id={id} onComplete={refetch} />
+      ) : (
+        !loading && (
+          <>
+            <p>Click below to start searching for a workshop allocation solution.</p>
+            <Button large primary text="Start" onClick={() => startJob()} />
+          </>
+        )
+      )}
+    </div>
   );
 };

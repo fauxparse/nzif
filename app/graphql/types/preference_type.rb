@@ -7,14 +7,14 @@ module Types
 
     def slot
       dataloader
-        .with(Sources::Simple, context:, model: ::Slot)
+        .with(Sources::Slots, context:)
         .load(object.slot_id)
     end
 
     def workshop
       dataloader
         .with(Sources::Simple, context:, model: ::Workshop)
-        .load(object.session.activity_id)
+        .load(::Workshop.encode_id(object.session.activity_id))
     end
   end
 end

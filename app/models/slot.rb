@@ -11,6 +11,10 @@ class Slot < ActiveRecord::Base
   has_many :activities, through: :slot_activities
   has_many :slot_sessions, inverse_of: :slot, foreign_key: :starts_at
   has_many :sessions, through: :slot_sessions
+
+  def to_param
+    starts_at.iso8601
+  end
 end
 
 # rubocop:enable Rails/ApplicationRecord, Rails/HasManyOrHasOneDependent
