@@ -1,5 +1,3 @@
-require Rails.root.join('lib/matchmaker')
-
 class AllocateWorkshopsJob < ApplicationJob
   queue_as :default
 

@@ -28,6 +28,16 @@ const cache = () =>
       ActivityPicture: {
         merge: true,
       },
+      WorkshopAllocationSession: {
+        fields: {
+          registrations: {
+            merge: (_, incoming) => incoming,
+          },
+          waitlist: {
+            merge: (_, incoming) => incoming,
+          },
+        },
+      },
     },
   });
 

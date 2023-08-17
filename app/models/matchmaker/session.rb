@@ -32,5 +32,16 @@ module Matchmaker
 
       yield bumped if block_given?
     end
+
+    def as_json(*)
+      {
+        id:,
+        starts_at:,
+        activity_id: activity.to_param,
+        registrations: candidates.compact.map(&:id),
+        waitlist: waitlist.compact.map(&:id),
+        capacity:,
+      }
+    end
   end
 end

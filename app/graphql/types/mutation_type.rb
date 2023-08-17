@@ -27,6 +27,7 @@ module Types
 
     field :allocate_workshops, mutation: Mutations::Registrations::Allocate
     field :finalise_registration, mutation: Mutations::Registrations::Finalise
+    field :move_allocated_participant, mutation: Mutations::Registrations::MoveAllocatedParticipant
     field :update_registration_user_details, mutation: Mutations::Registrations::UpdateUserDetails
   end
 end

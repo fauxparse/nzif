@@ -10,7 +10,7 @@ class Slot < ActiveRecord::Base
   has_many :slot_activities, inverse_of: :slot, foreign_key: :starts_at
   has_many :activities, through: :slot_activities
   has_many :slot_sessions, inverse_of: :slot, foreign_key: :starts_at
-  has_many :sessions, through: :slot_sessions
+  has_many :sessions, inverse_of: :slot, foreign_key: :starts_at
 
   def to_param
     starts_at.iso8601

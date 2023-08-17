@@ -7,5 +7,17 @@ module Types
     def id
       object[:starts_at].iso8601
     end
+
+    def sessions
+      object[:sessions].map do |session|
+        {
+          id: session.id,
+          registrations: session.candidates.map(&:id),
+          waitlist: session.waitlist.map(&:id),
+          capacity: session.capacity,
+          activity_id: session.activity.to_param,
+        }
+      end
+    end
   end
 end

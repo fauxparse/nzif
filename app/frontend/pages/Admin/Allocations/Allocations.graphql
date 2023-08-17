@@ -1,23 +1,31 @@
+fragment WorkshopAllocationSessionDetails on WorkshopAllocationSession {
+  id
+  capacity
+  workshop {
+    id
+    name
+  }
+  registrations {
+    id
+  }
+  waitlist {
+    id
+  }
+}
+
+fragment WorkshopAllocationSlotDetails on WorkshopAllocationSlot {
+  id
+  startsAt
+  sessions {
+    ...WorkshopAllocationSessionDetails
+  }
+}
+
 fragment WorkshopAllocationDetails on WorkshopAllocation {
   id
   state
   slots {
-    id
-    startsAt
-    sessions {
-      id
-      capacity
-      workshop {
-        id
-        name
-      }
-      registrations {
-        id
-      }
-      waitlist {
-        id
-      }
-    }
+    ...WorkshopAllocationSlotDetails
   }
 }
 
@@ -58,6 +66,24 @@ mutation AllocateWorkshops {
   allocateWorkshops {
     workshopAllocation {
       ...WorkshopAllocationDetails
+    }
+  }
+}
+
+mutation MoveAllocatedParticipant(
+  $registrationId: ID!
+  $oldSessionId: ID
+  $newSessionId: ID
+  $waitlist: Boolean
+) {
+  moveAllocatedParticipant(
+    registrationId: $registrationId
+    oldSessionId: $oldSessionId
+    newSessionId: $newSessionId
+    waitlist: $waitlist
+  ) {
+    allocation {
+      id
     }
   }
 }

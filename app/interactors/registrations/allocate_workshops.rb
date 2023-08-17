@@ -4,8 +4,12 @@ module Registrations
 
     def call
       skip_authorization!
-      best = find_best_allocation
-      save(best)
+      data = find_best_allocation
+      allocation.update!(
+        data:,
+        score: data.score * 100,
+        completed_at: Time.zone.now,
+      )
       report_progress(progress: iterations, total: iterations, state: :completed)
     end
 
@@ -33,25 +37,6 @@ module Registrations
 
     def report_progress(progress:, total:, state: :working)
       context[:report_progress]&.call(progress:, total:, state:)
-    end
-
-    def save(best)
-      sessions = best.sessions.values.map do |session|
-        {
-          id: session.id,
-          starts_at: session.starts_at,
-          activity_id: session.activity.to_param,
-          registrations: session.candidates.map(&:id),
-          waitlist: session.waitlist.map(&:id),
-          capacity: session.capacity,
-        }
-      end
-
-      allocation.update!(
-        score: best.score * 100_00,
-        original: { sessions: },
-        completed_at: Time.zone.now,
-      )
     end
   end
 end

@@ -21,6 +21,11 @@ module Matchmaker
       @candidates.values
     end
 
+    def candidate(session)
+      candidates
+      @candidates[session.slot]
+    end
+
     def offer(slot, position)
       slots[slot.id] = position
     end

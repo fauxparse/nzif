@@ -16,15 +16,15 @@ module Types
     end
 
     def slots
-      (object.original.deep_symbolize_keys[:sessions] || [])
-        .group_by { |s| Time.zone.parse(s[:starts_at].to_s) }
-        .map do |starts_at, sessions|
-          {
-            id: starts_at.to_s,
-            starts_at:,
-            sessions:,
-          }
-        end
+      return [] if object.data.blank?
+
+      object.data.sessions.values.group_by(&:starts_at).map do |starts_at, sessions|
+        {
+          id: starts_at.to_s,
+          starts_at:,
+          sessions:,
+        }
+      end
     end
   end
 end

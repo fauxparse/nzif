@@ -144,12 +144,11 @@ ALTER SEQUENCE public.activities_id_seq OWNED BY public.activities.id;
 CREATE TABLE public.allocations (
     id bigint NOT NULL,
     festival_id bigint NOT NULL,
-    original jsonb DEFAULT '{}'::jsonb NOT NULL,
-    overrides jsonb DEFAULT '{}'::jsonb NOT NULL,
     score integer DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    completed_at timestamp without time zone
+    completed_at timestamp without time zone,
+    data jsonb DEFAULT '{}'::jsonb
 );
 
 
@@ -1357,7 +1356,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230728012819'),
 ('20230806193436'),
 ('20230808011925'),
-('20230813214033');
+('20230813214033'),
+('20230816054627');
 
 
 SET statement_timeout = 0;

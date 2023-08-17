@@ -35,7 +35,10 @@ const AllocationSlot: React.FC<AllocationSlotProps> = ({ slot, dispatch }) => {
   };
 
   const dragEnd = (event: DragEndEvent) => {
-    if (!event.over) return;
+    if (!event.over) {
+      setDragging(null);
+      return;
+    }
 
     const registration = (event.active.data.current as DraggableData).registration;
 
@@ -44,16 +47,19 @@ const AllocationSlot: React.FC<AllocationSlotProps> = ({ slot, dispatch }) => {
     const previousChoice = registration.choices.get(slot.id);
     const workshopId =
       previousChoice && (registration.preferences.get(slot.id) || [])[previousChoice - 1];
-    const previous = workshopId && slot.session(workshopId);
+    const previous = (workshopId && slot.session(workshopId)) || null;
+    const wasWaitlist = previous?.waitlist?.includes(registration);
 
-    dispatch({
-      type: 'drag',
-      registration,
-      slot,
-      previous: previous || null,
-      next: session || null,
-      waitlist,
-    });
+    if (previous !== session || wasWaitlist !== waitlist) {
+      dispatch({
+        type: 'drag',
+        registration,
+        slot,
+        previous: previous || null,
+        next: session || null,
+        waitlist,
+      });
+    }
 
     // console.log(
     //   `Drag ${registration.name} to ${session?.workshop?.name || 'unassigned'} ${
@@ -76,7 +82,12 @@ const AllocationSlot: React.FC<AllocationSlotProps> = ({ slot, dispatch }) => {
   }, [slot, dragging]);
 
   return (
-    <DndContext collisionDetection={pointerWithin} onDragStart={dragStart} onDragEnd={dragEnd}>
+    <DndContext
+      collisionDetection={pointerWithin}
+      onDragStart={dragStart}
+      onDragEnd={dragEnd}
+      onDragCancel={() => setDragging(null)}
+    >
       <details key={slot.id} className="allocations__slot">
         <summary>
           <Icon name="chevronRight" />
