@@ -916,8 +916,14 @@ export type WorkshopAllocation = {
   __typename: 'WorkshopAllocation';
   id: Scalars['ID'];
   score: Maybe<Scalars['Float']>;
+  slot: WorkshopAllocationSlot;
   slots: Array<WorkshopAllocationSlot>;
   state: JobState;
+};
+
+
+export type WorkshopAllocationSlotArgs = {
+  startsAt: Scalars['ISO8601DateTime'];
 };
 
 export type WorkshopAllocationSession = {
@@ -1050,10 +1056,11 @@ export type MoveAllocatedParticipantMutationVariables = Exact<{
   oldSessionId: InputMaybe<Scalars['ID']>;
   newSessionId: InputMaybe<Scalars['ID']>;
   waitlist: InputMaybe<Scalars['Boolean']>;
+  slot: Scalars['ISO8601DateTime'];
 }>;
 
 
-export type MoveAllocatedParticipantMutation = { __typename: 'Mutation', moveAllocatedParticipant: { __typename: 'MoveAllocatedParticipantPayload', allocation: { __typename: 'WorkshopAllocation', id: string } } | null };
+export type MoveAllocatedParticipantMutation = { __typename: 'Mutation', moveAllocatedParticipant: { __typename: 'MoveAllocatedParticipantPayload', allocation: { __typename: 'WorkshopAllocation', id: string, slot: { __typename: 'WorkshopAllocationSlot', id: string, startsAt: DateTime, sessions: Array<{ __typename: 'WorkshopAllocationSession', id: string, capacity: number, workshop: { __typename: 'Workshop', id: string, name: string }, registrations: Array<{ __typename: 'Registration', id: string }>, waitlist: Array<{ __typename: 'Registration', id: string }> }> } } } | null };
 
 export type AllocationProgressSubscriptionVariables = Exact<{
   id: Scalars['ID'];
@@ -2309,7 +2316,7 @@ export type AllocateWorkshopsMutationHookResult = ReturnType<typeof useAllocateW
 export type AllocateWorkshopsMutationResult = Apollo.MutationResult<AllocateWorkshopsMutation>;
 export type AllocateWorkshopsMutationOptions = Apollo.BaseMutationOptions<AllocateWorkshopsMutation, AllocateWorkshopsMutationVariables>;
 export const MoveAllocatedParticipantDocument = gql`
-    mutation MoveAllocatedParticipant($registrationId: ID!, $oldSessionId: ID, $newSessionId: ID, $waitlist: Boolean) {
+    mutation MoveAllocatedParticipant($registrationId: ID!, $oldSessionId: ID, $newSessionId: ID, $waitlist: Boolean, $slot: ISO8601DateTime!) {
   moveAllocatedParticipant(
     registrationId: $registrationId
     oldSessionId: $oldSessionId
@@ -2318,10 +2325,13 @@ export const MoveAllocatedParticipantDocument = gql`
   ) {
     allocation {
       id
+      slot(startsAt: $slot) {
+        ...WorkshopAllocationSlotDetails
+      }
     }
   }
 }
-    `;
+    ${WorkshopAllocationSlotDetailsFragmentDoc}`;
 export type MoveAllocatedParticipantMutationFn = Apollo.MutationFunction<MoveAllocatedParticipantMutation, MoveAllocatedParticipantMutationVariables>;
 
 /**
@@ -2341,6 +2351,7 @@ export type MoveAllocatedParticipantMutationFn = Apollo.MutationFunction<MoveAll
  *      oldSessionId: // value for 'oldSessionId'
  *      newSessionId: // value for 'newSessionId'
  *      waitlist: // value for 'waitlist'
+ *      slot: // value for 'slot'
  *   },
  * });
  */

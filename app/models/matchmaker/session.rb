@@ -33,13 +33,18 @@ module Matchmaker
       yield bumped if block_given?
     end
 
+    def remove(candidate)
+      candidates.delete(candidate)
+      waitlist.delete(candidate)
+    end
+
     def as_json(*)
       {
         id:,
         starts_at:,
         activity_id: activity.to_param,
-        registrations: candidates.compact.map(&:id),
-        waitlist: waitlist.compact.map(&:id),
+        registrations: candidates.to_a.sort_by(&:score).map(&:id),
+        waitlist: waitlist.to_a.sort_by(&:score).map(&:id),
         capacity:,
       }
     end

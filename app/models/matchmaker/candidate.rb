@@ -21,10 +21,12 @@ module Matchmaker
     end
 
     def <=>(other)
-      if registration.score == other.registration.score
-        registration.id <=> other.registration.id
+      as = registration.score
+      bs = other.registration.score
+      if as < bs
+        -1
       else
-        registration.score <=> other.registration.score
+        1
       end
     end
 
@@ -34,6 +36,6 @@ module Matchmaker
 
     delegate :empty?, to: :preferences
 
-    delegate :id, to: :registration
+    delegate :id, :score, to: :registration
   end
 end

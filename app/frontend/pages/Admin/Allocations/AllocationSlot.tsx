@@ -1,17 +1,12 @@
 import { Dispatch, useMemo, useState } from 'react';
-import {
-  DndContext,
-  DragEndEvent,
-  DragStartEvent,
-  pointerWithin,
-  useDroppable,
-} from '@dnd-kit/core';
+import { DndContext, DragEndEvent, DragStartEvent, pointerWithin } from '@dnd-kit/core';
+import { lime, red } from '@radix-ui/colors';
 
 import Icon from '@/atoms/Icon';
 
 import AllocationSession from './AllocationSession';
-import Person from './Person';
-import { DraggableData, DroppableData, Registration, Session, Slot } from './types';
+import AllocationTrash from './AllocationTrash';
+import { DraggableData, DroppableData, Session, Slot } from './types';
 import { DragAction } from './useAllocation';
 
 type AllocationSlotProps = {
@@ -20,18 +15,10 @@ type AllocationSlotProps = {
 };
 
 const AllocationSlot: React.FC<AllocationSlotProps> = ({ slot, dispatch }) => {
-  const { setNodeRef: setUnassignedRef } = useDroppable({
-    id: `${slot.id}-unassigned`,
-    data: {
-      session: null,
-      waitlist: true,
-    },
-  });
-
-  const [dragging, setDragging] = useState<Registration | null>(null);
+  const [dragging, setDragging] = useState<DraggableData | null>(null);
 
   const dragStart = (event: DragStartEvent) => {
-    setDragging((event.active.data.current as DraggableData).registration);
+    setDragging(event.active.data.current as DraggableData);
   };
 
   const dragEnd = (event: DragEndEvent) => {
@@ -40,17 +27,27 @@ const AllocationSlot: React.FC<AllocationSlotProps> = ({ slot, dispatch }) => {
       return;
     }
 
-    const registration = (event.active.data.current as DraggableData).registration;
+    const draggable = event.active.data.current as DraggableData;
+
+    const { registration } = draggable;
 
     const { session, slot, waitlist = false } = event.over.data.current as DroppableData;
 
     const previousChoice = registration.choices.get(slot.id);
     const workshopId =
       previousChoice && (registration.preferences.get(slot.id) || [])[previousChoice - 1];
-    const previous = (workshopId && slot.session(workshopId)) || null;
+    const previous = (!draggable.waitlist && workshopId && slot.session(workshopId)) || null;
     const wasWaitlist = previous?.waitlist?.includes(registration);
 
     if (previous !== session || wasWaitlist !== waitlist) {
+      if (previous) {
+        registration.choices.delete(slot.id);
+      }
+
+      if (session && !waitlist) {
+        registration.place(slot, session.workshop.id, false);
+      }
+
       dispatch({
         type: 'drag',
         registration,
@@ -61,20 +58,20 @@ const AllocationSlot: React.FC<AllocationSlotProps> = ({ slot, dispatch }) => {
       });
     }
 
-    // console.log(
-    //   `Drag ${registration.name} to ${session?.workshop?.name || 'unassigned'} ${
-    //     waitlist ? 'waitlist' : ''
-    //   }`
-    // );
-
     setDragging(null);
   };
 
   const zones = useMemo(() => {
     if (!dragging) {
       return new Map();
+    } else if (dragging.waitlist) {
+      const pref =
+        (dragging.registration.preferences.get(slot.id) || []).indexOf(
+          dragging.session.workshop.id
+        ) + 1;
+      return new Map<Session, number>([[dragging.session, pref]]);
     } else {
-      return (dragging.preferences.get(slot.id) || []).reduce((acc, id, i) => {
+      return (dragging.registration.preferences.get(slot.id) || []).reduce((acc, id, i) => {
         const session = slot.session(id);
         return session ? acc.set(session, i + 1) : acc;
       }, new Map<Session, number>());
@@ -92,6 +89,20 @@ const AllocationSlot: React.FC<AllocationSlotProps> = ({ slot, dispatch }) => {
         <summary>
           <Icon name="chevronRight" />
           <h3>{slot.startsAt.plus(0).toFormat('cccc d h:mm a')}</h3>
+          <div className="allocations__stats">
+            {slot.sessions.map((s) => (
+              <span key={s.id} className="allocations__stat" style={{ backgroundColor: s.color }}>
+                {s.registrations.length}
+              </span>
+            ))}
+            <span>+</span>
+            <span
+              className="allocations__stat"
+              style={{ backgroundColor: slot.unassigned.length ? red.red9 : lime.lime9 }}
+            >
+              {slot.unassigned.length}
+            </span>
+          </div>
         </summary>
         <div className="allocations__sessions">
           {slot.sessions.map((session) => (
@@ -102,16 +113,7 @@ const AllocationSlot: React.FC<AllocationSlotProps> = ({ slot, dispatch }) => {
               zone={dragging ? zones.get(session) : null}
             />
           ))}
-          <div className="allocations__session allocations__session--unassigned">
-            <h4>
-              <span>Unassigned</span>
-            </h4>
-            <div ref={setUnassignedRef} className="allocations__waitlist">
-              {slot.unassigned.map((reg) => (
-                <Person key={reg.id} registration={reg} position={null} />
-              ))}
-            </div>
-          </div>
+          <AllocationTrash slot={slot} />
         </div>
       </details>
     </DndContext>

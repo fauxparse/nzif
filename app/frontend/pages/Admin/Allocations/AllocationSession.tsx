@@ -39,7 +39,8 @@ const AllocationSession: React.FC<AllocationSessionProps> = ({ slot, session, zo
       <h4>
         <span>{session.workshop.name}</span>
         <span
-          data-oversubscribed={session.size > session.capacity || undefined}
+          className="allocations__stat"
+          style={{ backgroundColor: session.color }}
         >{`${session.size}/${session.capacity}`}</span>
       </h4>
       <div ref={setAllocatedRef} className="allocations__allocated">
@@ -56,6 +57,7 @@ const AllocationSession: React.FC<AllocationSessionProps> = ({ slot, session, zo
         {session.waitlist.map((reg) => (
           <Person
             key={reg.id}
+            waitlist
             registration={reg}
             session={session}
             position={reg.workshopPosition(slot, session.workshop.id)}

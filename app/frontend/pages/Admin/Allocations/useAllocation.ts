@@ -1,9 +1,6 @@
 import { useCallback, useMemo } from 'react';
 
-import {
-  useMoveAllocatedParticipantMutation,
-  WorkshopAllocationSessionDetailsFragment,
-} from '@/graphql/types';
+import { useMoveAllocatedParticipantMutation } from '@/graphql/types';
 
 import { AllocationData, Registration, RegistrationData, Session, Slot } from './types';
 
@@ -38,7 +35,7 @@ const useAllocation = (allocation: AllocationData, registrations: RegistrationDa
           sn.waitlist
             .map((r) => registrationsMap.get(r.id))
             .forEach((r) => {
-              if (r) slot.session(sn.workshop.id)?.waitlist.push(r);
+              if (r) slot.session(sn.workshop.id)?.addToWaitlist(r);
             });
         });
         return slot;
@@ -61,84 +58,68 @@ const useAllocation = (allocation: AllocationData, registrations: RegistrationDa
     (action: DragAction) => {
       const { registration, previous, next, slot, waitlist = false } = action;
 
+      const sessionRegistrations = (session: Session) => {
+        if (session === next && !waitlist) {
+          return [...session.registrations, registration];
+        } else if (session === previous || (session === next && waitlist)) {
+          return session.registrations.filter((r) => r.id !== registration.id);
+        }
+        return session.registrations;
+      };
+
+      const sessionWaitlist = (session: Session) => {
+        if (session === next && waitlist) {
+          return [...session.waitlist, registration];
+        } else if (session === previous || (session === next && !waitlist)) {
+          return session.waitlist.filter((r) => r.id !== registration.id);
+        }
+        return session.waitlist;
+      };
+
       move({
         variables: {
           registrationId: registration.id,
           oldSessionId: previous?.id || null,
           newSessionId: next?.id || null,
           waitlist,
+          slot: slot.startsAt,
         },
-        update: (cache) => {
-          if (previous) {
-            const id = `WorkshopAllocationSession:${previous.id}`;
-            cache.modify({
-              id,
-              fields: {
-                registrations: (
-                  existing: WorkshopAllocationSessionDetailsFragment['registrations'],
-                  { readField }
-                ) => {
-                  return existing.filter((r) => readField('id', r) !== registration.id);
-                },
-                waitlist: (
-                  existing: WorkshopAllocationSessionDetailsFragment['registrations'],
-                  { readField }
-                ) => {
-                  const preferences = registration.preferences.get(slot.id) || [];
-                  const addToWaitlist =
-                    !next ||
-                    preferences.indexOf(next.workshop.id) >
-                      preferences.indexOf(previous.workshop.id);
-                  return addToWaitlist
-                    ? [
-                        ...existing.filter((r) => readField('id', r) !== registration.id),
-                        { __typename: 'Registration', ...registration },
-                      ]
-                    : existing;
-                },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          moveAllocatedParticipant: {
+            __typename: 'MoveAllocatedParticipantPayload',
+            allocation: {
+              __typename: 'WorkshopAllocation',
+              id: allocation.id,
+              slot: {
+                __typename: 'WorkshopAllocationSlot',
+                id: slot.id,
+                startsAt: slot.startsAt,
+                sessions: slot.sessions.map((s) => ({
+                  __typename: 'WorkshopAllocationSession',
+                  id: s.id,
+                  capacity: s.capacity,
+                  registrations: sessionRegistrations(s).map((r) => ({
+                    __typename: 'Registration',
+                    id: r.id,
+                  })),
+                  waitlist: sessionWaitlist(s).map((r) => ({
+                    __typename: 'Registration',
+                    id: r.id,
+                  })),
+                  workshop: {
+                    __typename: 'Workshop',
+                    id: s.workshop.id,
+                    name: s.workshop.name,
+                  },
+                })),
               },
-            });
-          }
-          if (next) {
-            const id = `WorkshopAllocationSession:${next.id}`;
-            cache.modify({
-              id,
-              fields: {
-                registrations: (
-                  existing: WorkshopAllocationSessionDetailsFragment['registrations']
-                ) =>
-                  waitlist
-                    ? existing
-                    : [...existing, { __typename: 'Registration', ...registration }],
-                waitlist: (
-                  existing: WorkshopAllocationSessionDetailsFragment['registrations'],
-                  { readField }
-                ) => existing.filter((r) => readField('id', r) !== registration.id),
-              },
-            });
-            //   const newSession = cache.readFragment<WorkshopAllocationSessionDetailsFragment>({
-            //     fragment: WorkshopAllocationSessionDetailsFragmentDoc,
-            //     id,
-            //   });
-            //   if (newSession) {
-            //     const newWaitlist = newSession.waitlist.filter((r) => r.id !== registration.id);
-            //     cache.writeFragment({
-            //       fragment: WorkshopAllocationSessionDetailsFragmentDoc,
-            //       id,
-            //       data: {
-            //         ...newSession,
-            //         registrations: waitlist
-            //           ? newSession.registrations
-            //           : [...newSession.registrations, registration],
-            //         waitlist: waitlist ? [...newWaitlist, registration] : newWaitlist,
-            //       },
-            //     });
-            // }
-          }
+            },
+          },
         },
       });
     },
-    [move]
+    [move, allocation.id]
   );
 
   return { slots, registration, score, dispatch };

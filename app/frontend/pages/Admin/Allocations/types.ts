@@ -51,12 +51,12 @@ export class Registration {
     return tinycolor(this.color).setAlpha(0.2).toRgbString();
   }
 
-  place(slot: Slot, workshopId: string) {
+  place(slot: Slot, workshopId: string, push = true) {
     const choice = (this.preferences.get(slot.id)?.indexOf(workshopId) ?? -1) + 1;
     const session = slot.session(workshopId);
     if (session && choice) {
       this.choices.set(slot.id, choice);
-      session.push(this);
+      if (push) session.push(this);
     }
   }
 
@@ -74,7 +74,7 @@ export class Session {
   public workshop: { id: string; name: string };
   public capacity: number;
   private _registrations: Registration[];
-  public waitlist: Registration[];
+  public _waitlist: Registration[];
   public slot: Slot;
 
   constructor(data: AllocationData['slots'][number]['sessions'][number], slot: Slot) {
@@ -82,12 +82,23 @@ export class Session {
     this.workshop = { id: data.workshop.id, name: data.workshop.name };
     this.capacity = data.capacity;
     this._registrations = [];
-    this.waitlist = [];
+    this._waitlist = [];
     this.slot = slot;
   }
 
+  get color() {
+    const t = (this._registrations.length * 100.0) / (this.capacity || 1);
+    if (t > 100) return red.red9;
+    if (t < 50) return amber.amber9;
+    return lime.lime9;
+  }
+
   get registrations() {
-    return sortBy(this._registrations, 'score');
+    return sortBy(this._registrations, ['score', (r) => r.id]);
+  }
+
+  get waitlist() {
+    return sortBy(this._waitlist, ['score', (r) => r.id]);
   }
 
   get size() {
@@ -97,7 +108,7 @@ export class Session {
   push(registration: Registration) {
     if (this._registrations.includes(registration)) return;
     this._registrations = sortBy([...this._registrations, registration], 'score');
-    this.waitlist = this.waitlist.filter((r) => r.id !== registration.id);
+    this._waitlist = this._waitlist.filter((r) => r.id !== registration.id);
   }
 
   remove(registration: Registration) {
@@ -107,8 +118,8 @@ export class Session {
   }
 
   addToWaitlist(registration: Registration) {
-    if (this.waitlist.includes(registration)) return;
-    this.waitlist = sortBy([...this.waitlist, registration], 'score');
+    if (this._waitlist.includes(registration)) return;
+    this._waitlist = [...this._waitlist, registration];
   }
 }
 
@@ -142,6 +153,8 @@ export class Slot {
 
 export type DraggableData = {
   registration: Registration;
+  session: Session;
+  waitlist: boolean;
 };
 
 export type DroppableData = {

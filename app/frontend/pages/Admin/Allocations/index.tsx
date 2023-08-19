@@ -6,8 +6,6 @@ import {
   useAllocateWorkshopsMutation,
   useFestivalWorkshopAllocationQuery,
 } from '@/graphql/types';
-import Breadcrumbs from '@/molecules/Breadcrumbs';
-import PageHeader from '@/molecules/PageHeader';
 
 import Allocation from './Allocation';
 import AllocationProgress from './AllocationProgress';

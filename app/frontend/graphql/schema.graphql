@@ -792,6 +792,7 @@ type Workshop implements Activity {
 type WorkshopAllocation {
   id: ID!
   score: Float
+  slot(startsAt: ISO8601DateTime!): WorkshopAllocationSlot!
   slots: [WorkshopAllocationSlot!]!
   state: JobState!
 }

@@ -2,6 +2,9 @@ module Types
   class WorkshopAllocationType < BaseObject
     field :id, ID, null: false
     field :score, Float, null: true
+    field :slot, WorkshopAllocationSlotType, null: false do
+      argument :starts_at, GraphQL::Types::ISO8601DateTime, required: true
+    end
     field :slots, [WorkshopAllocationSlotType], null: false
     field :state, JobStateType, null: false
 
@@ -25,6 +28,15 @@ module Types
           sessions:,
         }
       end
+    end
+
+    def slot(starts_at:)
+      sessions = object.data.sessions.values.select { |s| s.starts_at == starts_at }
+      {
+        id: starts_at.to_s,
+        starts_at:,
+        sessions:,
+      }
     end
   end
 end

@@ -8,15 +8,23 @@ type PersonProps = {
   registration: Registration;
   position: number | null;
   session?: Session | null;
+  waitlist?: boolean;
 };
 
-const Person: React.FC<PersonProps> = ({ registration, position, session = null }) => {
+const Person: React.FC<PersonProps> = ({
+  registration,
+  position,
+  session = null,
+  waitlist = false,
+}) => {
   const id = [registration.id, session?.id].filter(Boolean).join('-') as string;
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id,
     data: {
       registration,
+      session,
+      waitlist,
     },
   });
 
@@ -37,7 +45,7 @@ const Person: React.FC<PersonProps> = ({ registration, position, session = null 
       style={
         {
           ...style,
-          borderColor: registration.color,
+          '--person-border': registration.color,
           '--person-background': registration.background,
         } as CSSProperties
       }
@@ -49,7 +57,7 @@ const Person: React.FC<PersonProps> = ({ registration, position, session = null 
     >
       <Position position={position} />
       <span>{registration.name}</span>
-      <span>{registration.score}</span>
+      <span className="allocations__person__score">{registration.score}</span>
     </div>
   );
 };

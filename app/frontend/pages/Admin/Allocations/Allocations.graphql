@@ -75,6 +75,7 @@ mutation MoveAllocatedParticipant(
   $oldSessionId: ID
   $newSessionId: ID
   $waitlist: Boolean
+  $slot: ISO8601DateTime!
 ) {
   moveAllocatedParticipant(
     registrationId: $registrationId
@@ -84,6 +85,9 @@ mutation MoveAllocatedParticipant(
   ) {
     allocation {
       id
+      slot(startsAt: $slot) {
+        ...WorkshopAllocationSlotDetails
+      }
     }
   }
 }

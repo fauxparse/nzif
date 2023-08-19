@@ -12,6 +12,7 @@
   }
 
   &::-webkit-progress-value {
+    min-width: var(--progress-bar-height);
     border-radius: var(--border-radius-round);
     background: var(--progress-bar-foreground);
   }

@@ -69,6 +69,10 @@
           transform: rotate(90deg);
         }
       }
+
+      .allocations__stats {
+        display: none;
+      }
     }
   }
 
@@ -83,12 +87,15 @@
 
   &__session {
     position: relative;
+    display: flex;
+    flex-direction: column;
     transition: opacity var(--timing-standard) var(--ease-standard);
 
     h4 {
       display: flex;
       gap: var(--medium);
       justify-content: space-between;
+      align-items: baseline;
       margin: 0;
       color: var(--text-subtle);
       font-weight: var(--font-weight-normal);
@@ -113,6 +120,22 @@
     }
   }
 
+  &__stats {
+    display: flex;
+    gap: var(--tiny);
+  }
+
+  &__stat {
+    min-width: var(--line-height-medium);
+    height: var(--line-height-medium);
+    padding: 0 var(--tiny);
+    border-radius: var(--border-radius-round);
+    color: var(--white);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-medium);
+    text-align: center;
+  }
+
   &__allocated,
   &__waitlist {
     display: flex;
@@ -127,6 +150,7 @@
   }
 
   &__waitlist {
+    flex: 1;
     min-height: calc(var(--row-height) + var(--tiny) * 2);
   }
 
@@ -136,8 +160,7 @@
     gap: var(--small);
     align-items: center;
     height: var(--row-height);
-    padding: 0 var(--small);
-    border: var(--border-width-standard) solid var(--accent5);
+    border: var(--border-width-standard) solid var(--person-border);
     border-radius: var(--border-radius-standard);
     background: var(--background) linear-gradient(to bottom, var(--person-background), var(--person-background));
     cursor: grab;
@@ -145,17 +168,27 @@
     &:not([data-dragging]) {
       transition: transform var(--timing-slow) var(--ease-standard);
     }
+
+    &__score {
+      display: grid;
+      align-items: center;
+      align-self: stretch;
+      width: calc(var(--row-height) - var(--border-width-standard));
+      padding-right: var(--small);
+      color: var(--person-border);
+      text-align: right;
+    }
   }
 
   &__position {
-    width: var(--icon-size);
-    height: var(--icon-size);
-    line-height: var(--icon-size);
+    display: grid;
+    place-content: center;
+    align-self: stretch;
+    width: calc(var(--row-height) - var(--border-width-standard));
+    background: var(--person-border);
+    color: var(--white);
+    font-weight: var(--font-weight-medium);
     text-align: center;
-
-    &:not([data-position]) {
-      color: var(--red11);
-    }
   }
 
   &__zone {
