@@ -205,6 +205,10 @@ GEM
     docile (1.4.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
+    dotenv (2.8.1)
+    dotenv-rails (2.8.1)
+      dotenv (= 2.8.1)
+      railties (>= 3.2)
     down (5.4.0)
       addressable (~> 2.8)
     dry-cli (1.0.0)
@@ -267,6 +271,7 @@ GEM
       http-cookie (~> 1.0)
       http-form_data (~> 2.2)
       llhttp-ffi (~> 0.4.0)
+    http-accept (1.7.0)
     http-cookie (1.0.5)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
@@ -329,6 +334,7 @@ GEM
       timeout
     net-smtp (0.3.3)
       net-protocol
+    netrc (0.11.0)
     nio4r (2.5.9)
     nokogiri (1.14.3)
       mini_portile2 (~> 2.8.0)
@@ -400,7 +406,6 @@ GEM
       zeitwerk (~> 2.5)
     rainbow (3.1.1)
     rake (13.0.6)
-    rbtree (0.4.6)
     redis (5.0.6)
       redis-client (>= 0.9.0)
     redis-client (0.15.0)
@@ -413,6 +418,11 @@ GEM
     responders (3.1.0)
       actionpack (>= 5.2)
       railties (>= 5.2)
+    rest-client (2.1.0)
+      http-accept (>= 1.7.0, < 2.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     rexml (3.2.5)
     rspec-collection_matchers (1.2.0)
       rspec-expectations (>= 2.99.0.beta1)
@@ -468,7 +478,6 @@ GEM
     seed-fu (2.3.9)
       activerecord (>= 3.1)
       activesupport (>= 3.1)
-    set (1.0.3)
     sexp_processor (4.17.0)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
@@ -489,9 +498,6 @@ GEM
       colorize
       simplecov
     simplecov_json_formatter (0.1.4)
-    sorted_set (1.0.3)
-      rbtree
-      set (~> 1.0)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -564,6 +570,7 @@ DEPENDENCIES
   cuprite (~> 0.14.3)
   database_cleaner (~> 2.0)
   debug
+  dotenv-rails
   email_spec (~> 2.2)
   factory_bot_rails
   geocoder (~> 1.8)
@@ -587,6 +594,7 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 7.0.4, >= 7.0.4.3)
   redis (~> 5.0)
+  rest-client
   rspec-collection_matchers
   rspec-its
   rspec-rails
@@ -600,7 +608,6 @@ DEPENDENCIES
   sidekiq (~> 7.1)
   simplecov
   simplecov-summary
-  sorted_set (~> 1.0)
   sprockets-rails
   stringex (~> 2.8)
   tzinfo-data
