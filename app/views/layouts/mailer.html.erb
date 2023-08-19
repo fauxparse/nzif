@@ -34,6 +34,7 @@
 
       table {
         border-collapse: separate;
+        border-spacing: 0;
         mso-table-lspace: 0pt;
         mso-table-rspace: 0pt;
         width: 100%; }
@@ -150,8 +151,12 @@
       }
 
       a {
-        color: #3498db;
+        color: #ea3e82;
         text-decoration: underline;
+      }
+
+      .subtle {
+        color: #61646d;
       }
 
       /* -------------------------------------
@@ -339,6 +344,37 @@
         }
       }
 
+      .cart {
+        background-color: #fdf3d1;
+        margin-bottom: 1.5rem;
+        padding: 0.5rem;
+      }
+
+      .cart td {
+        padding: 0.25rem 0.5rem;
+      }
+
+      .cart td:last-child {
+        text-align: right;
+      }
+
+      .cart tr:last-child td {
+        border-top: 1px solid #c9aa45;
+        font-weight: bold;
+        font-size: 1.125rem;
+      }
+
+      .cart .discount {
+        opacity: 0.625;
+      }
+
+      .cart .discount td {
+        padding-bottom: 0.5rem;
+      }
+
+      .cart .discount td:first-child {
+        padding-left: 1.5rem;
+      }
     </style>
   </head>
   <body>

@@ -9,8 +9,12 @@ module Registrations
       context[:outstanding] = total - paid
     end
 
+    def base_workshop_price
+      context[:base_workshop_price] ||= Registration.pricing.base_workshop_price
+    end
+
     def value
-      context[:value] ||= count * Registration.pricing.base_workshop_price
+      context[:value] ||= count * base_workshop_price
     end
 
     def discount

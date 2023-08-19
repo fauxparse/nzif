@@ -47,3 +47,8 @@ en:
         - :zero
         - :one
         - :other
+
+  time:
+    formats:
+      friendly: '%A %-d %B, %l:%M %p'
+      short: '%l:%M %p'

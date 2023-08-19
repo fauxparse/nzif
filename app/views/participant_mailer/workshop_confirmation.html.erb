@@ -1,0 +1,72 @@
+<p>
+  Kia ora <%= @user.profile.name %>,
+<p>
+<p>
+  Here is your confirmed list of workshops for NZIF <%= @festival.year %>.
+</p>
+<div style="padding-left: 1.5rem; border-left: 2px solid #ea3e82">
+  <%= render partial: 'placement', collection: @registration.placements %>
+</div>
+<% if @empty_slots.any? %>
+  <p>
+    Unfortunately, we were unable to place you in any workshops in the following timeslots.
+    You have been waitlisted for the workshops listed, and we’ll notify you if a spot becomes available.
+  </p>
+  <div style="padding-left: 1.5rem; border-left: 2px solid #2aa3c2; margin-bottom: 1.5rem">
+    <% @empty_slots.each_pair do |slot, preferences| %>
+      <div style="color: #61646d;"><%= l slot.starts_at, format: :friendly %> – <%= l slot.ends_at, format: :short %></div>
+      <ul style="margin: 0; padding: 0">
+        <% preferences.each do |p| %>
+          <li><%= p.session.activity.name %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+<% end %>
+<% if @cart.workshops_count.positive? %>
+  <p>
+    Your total registration fee is as follows:
+  </p>
+  <table class="cart">
+  <tr>
+    <td><%= pluralize @cart.workshops_count, 'workshop' %> @ $<%= @cart.base_workshop_price / 100 %></td>
+    <td>$<%= @cart.value / 100 %></td>
+  </tr>
+  <% if @cart.discount.positive? %>
+    <tr class="discount">
+      <td><%= @cart.workshops_count %>-workshop discount</td>
+      <td>-$<%= @cart.discount / 100 %></td>
+    </tr>
+  <% end %>
+  <tr>
+    <td>Total due</td>
+    <td>$<%= @cart.total / 100 %></td>
+  </tr>
+  </table>
+  <p>
+    All prices are in New Zealand Dollars and include GST.
+    This amount is due now, and can be paid at any time by visiting
+    <%= link_to "your registration page", payment_url(@registration) %>.
+  </p>
+  <p>
+    <b>Important:</b> If payment is not received prior to the start of the Festival, and we haven’t
+    heard from you, we’ll cancel your registration and offer your workshop places
+    to someone else, so please let us know if that’s going to be an issue.
+  </p>
+<% end %>
+<p>
+  If we manage to slot you into a workshop from a waitlist, we’ll notify you by email and/or text message.
+  The cost of the workshop will be added to your registration fee, and you’ll be able to pay this at any time.
+</p>
+<p>
+  If you have any questions, please reply to this message, or email us at
+  <a href="mailto:registrations@improvfest.nz">registrations@improvfest.nz</a>.
+<p>
+<p>
+  We’re so looking forward to seeing you in October!
+</p>
+<p>
+  Ngā mihi nui,<br />
+  Matt and Jim<br/>
+  NZIF 2023 Artistic Co-Directors
+</p>

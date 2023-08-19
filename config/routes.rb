@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   resources :countries, only: :index, defaults: { format: :json }
 
   get '/register/workshops', to: 'festivals#show', as: :registration
+  get '/register/payment', to: 'festivals#show', as: :payment
+
+  get '/workshops/:slug', to: 'festivals#show', as: :workshop
 
   get '*path', to: 'festivals#show'
   root to: 'festivals#show'

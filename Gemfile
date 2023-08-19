@@ -83,7 +83,7 @@ gem 'aws-sdk-s3', '~> 1.132.0'
 gem 'redis', '~> 5.0'
 gem 'sidekiq', '~> 7.1'
 
-gem 'sorted_set', '~> 1.0'
+gem 'icalendar', '~> 2.9'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

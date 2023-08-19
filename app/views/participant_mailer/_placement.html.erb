@@ -1,0 +1,24 @@
+<%
+  preferences = @registration.preferences.select { |p| p.session.starts_at == placement.session.starts_at }
+  preference = preferences.find { |p| p.session_id == placement.session_id }
+  waitlisted = preferences.select { |p| p.position < preference.position }.sort_by(&:position)
+%>
+
+<div style="margin: 0 0 1.5rem">
+  <div style="font-size: 1.125rem"><%= placement.session.activity.name %></div>
+  <div class="subtle">
+    <%= l placement.session.starts_at, format: :friendly %> – <%= l placement.session.ends_at, format: :short %> in
+    <%= placement.session.venue.room %>
+  </div>
+  <% if waitlisted.any? -%>
+    <p style="margin-top: 0.5rem">
+      This is your <%= %w(first second third fourth fifth)[preference.position - 1] %> choice for this timeslot.
+      You have been waitlisted for the following workshops:
+    </p>
+    <ul style="margin: 0; padding: 0">
+      <% waitlisted.each do |p| %>
+        <li><%= p.session.activity.name %></li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>

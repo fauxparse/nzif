@@ -13,4 +13,8 @@ class Venue < ApplicationRecord
   def name
     [room, building].compact_blank.join(' at ')
   end
+
+  def full_address_including_room
+    [room, building, full_address].compact_blank.join(', ')
+  end
 end
