@@ -166,7 +166,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ onContinue })
           errors={errors}
         >
           <Skeleton rounded loading={loading}>
-            <Input type="tel" id="phone" name="phone" autoComplete="tel" />
+            <Input type="tel" id="phone" autoComplete="tel" {...register('phone')} />
           </Skeleton>
         </Labelled>
       </Section>
