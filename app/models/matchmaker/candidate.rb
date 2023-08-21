@@ -26,6 +26,8 @@ module Matchmaker
       if as < bs
         -1
       else
+        return -1 if as == bs && registration.candidates.size < other.registration.candidates.size
+
         1
       end
     end

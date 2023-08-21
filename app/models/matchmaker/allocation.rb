@@ -93,7 +93,9 @@ module Matchmaker
         data[:sessions].each do |s|
           session = a.sessions[s[:id]]
           s[:registrations].each do |r|
-            session.candidates << registrations[r].candidate(session)
+            registration = registrations[r]
+            registration.slots[session.slot] = registration.session_position(session)
+            session.candidates << registration.candidate(session)
           end
           s[:waitlist].each do |r|
             session.waitlist << registrations[r].candidate(session)

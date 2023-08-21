@@ -1,10 +1,11 @@
 class AllocateWorkshopsJob < ApplicationJob
   queue_as :default
 
-  attr_reader :id
+  attr_reader :id, :step
 
-  def perform(id:, iterations: 100)
+  def perform(id:, iterations: 100, step: 5)
     @id = id
+    @step = step
     Registrations::AllocateWorkshops.call(
       id:,
       iterations:,
@@ -13,6 +14,8 @@ class AllocateWorkshopsJob < ApplicationJob
   end
 
   def report_progress(progress:, total:, state: :working)
+    return unless progress < step || progress > total - step || (progress % step).zero?
+
     NZIFSchema.subscriptions.trigger(
       :job_progress,
       { job_name: 'AllocateWorkshops', id: },

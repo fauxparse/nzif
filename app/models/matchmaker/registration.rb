@@ -3,6 +3,7 @@ module Matchmaker
     attr_reader :registration, :slots, :bummed_out
 
     delegate :empty?, to: :candidates
+    delegate :preferences, to: :registration
 
     def initialize(registration)
       @registration = registration
@@ -14,9 +15,10 @@ module Matchmaker
       registration.to_param
     end
 
-    def candidates
-      @candidates ||= registration.preferences.group_by(&:slot)
-        .map { |slot, preferences| Candidate.new(self, slot, preferences) }
+    def candidates(reload: false)
+      @candidates = nil if reload
+      @candidates ||= preferences.group_by(&:slot)
+        .map { |slot, prefs| Candidate.new(self, slot, prefs) }
         .index_by(&:slot)
       @candidates.values
     end
@@ -37,6 +39,10 @@ module Matchmaker
 
     def score
       slots.values.map { |v| 1.0 / v }.sum / [slots.size, 1].max
+    end
+
+    def session_position(session)
+      preferences.find { |p| p.session_id == ::Session.decode_id(session.id) }&.position
     end
 
     def to_s
