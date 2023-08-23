@@ -67,14 +67,7 @@ Metrics/MethodLength:
     - 'db/migrate/*'
 
 RSpec/ContextWording:
-  Prefixes:
-    - as
-    - by
-    - for
-    - when
-    - with
-    - without
-    - during
+  Enabled: false
 
 RSpec/EmptyExampleGroup:
   Exclude:

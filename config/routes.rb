@@ -6,6 +6,10 @@ Rails.application.routes.draw do
 
   mount Sidekiq::Web => '/sidekiq' if Rails.env.development?
 
+  constraints Domains::Short do
+    get '/:id', to: 'short_urls#redirect', as: :short
+  end
+
   resources :countries, only: :index, defaults: { format: :json }
 
   get '/register/workshops', to: 'festivals#show', as: :registration
