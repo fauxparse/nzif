@@ -189,7 +189,11 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ onContinue })
         }
       >
         {!registration?.codeOfConductAcceptedAt && (
-          <ReadToEnd onRead={() => setCodeOfConductRead(true)} />
+          <ReadToEnd
+            onRead={() => {
+              setCodeOfConductRead(true);
+            }}
+          />
         )}
         <label className="code-of-conduct__read">
           <Checkbox

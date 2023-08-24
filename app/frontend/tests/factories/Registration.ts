@@ -39,6 +39,18 @@ const registrationFactory = RegistrationFactory.define(
       user: associations.user || userFactory.withProfile().build(),
       codeOfConductAcceptedAt: null,
       preferences: [],
+      completedAt: null,
+      workshopsCount: 0,
+      cart: {
+        __typename: 'Cart',
+        id: String(sequence),
+        value: 0,
+        discount: 0,
+        total: 0,
+        paid: 0,
+        outstanding: 0,
+        workshopsCount: 0,
+      },
     } satisfies Registration)
 );
 
