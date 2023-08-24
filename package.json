@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-0",
+    "@cicadahq/cicada": "^0.1.50",
     "@contentful/rich-text-types": "^16.0.3",
     "@graphql-codegen/add": "^4.0.1",
     "@graphql-codegen/cli": "3.3.1",
