@@ -4,6 +4,8 @@ module Matchmaker
 
     delegate :empty?, to: :candidates
     delegate :preferences, to: :registration
+    delegate :user, to: :registration
+    delegate :name, to: :user
 
     def initialize(registration)
       @registration = registration

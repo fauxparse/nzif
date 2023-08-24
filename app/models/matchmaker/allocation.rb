@@ -11,8 +11,7 @@ module Matchmaker
       @seed = seed
       @capacity = capacity
 
-      while candidates.any?
-        candidate = candidates.shift
+      while (candidate = next_candidate)
         candidate.place(sessions) do |bumped|
           candidates.unshift(bumped) if bumped.present?
         end
@@ -31,6 +30,10 @@ module Matchmaker
 
     def candidates
       @candidates ||= registrations.flat_map(&:candidates).shuffle(random:)
+    end
+
+    def next_candidate
+      candidates.shift
     end
 
     def sessions

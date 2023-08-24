@@ -24,7 +24,7 @@ module Matchmaker
 
       return if candidates.size <= capacity
 
-      bumped = candidates.max
+      bumped = candidates.max_by { |c| c.score * c.registration.preferences.size }
       candidates.delete(bumped)
 
       waitlist << bumped
