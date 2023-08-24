@@ -5,7 +5,8 @@ class Session < ApplicationRecord
   belongs_to :venue, optional: true
   belongs_to :activity, optional: true
   has_one :slot_activity # rubocop:disable Rails/HasManyOrHasOneDependent
-  belongs_to :slot, class_name: 'Slot', foreign_key: :starts_at, inverse_of: :sessions
+  belongs_to :slot, class_name: 'Slot', foreign_key: :starts_at, inverse_of: :sessions,
+    optional: true
   has_many :preferences, dependent: :destroy
 
   enum :activity_type
