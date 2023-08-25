@@ -147,6 +147,14 @@ const UserPopup: React.FC<UserPopupProps> = ({ user, reference, open, onClose })
             <hr />
             <Menu className="user-popup__admin">
               <Menu.Item as={Link} to={ROUTES.ADMIN.path} icon="settings" label="Admin" />
+              {hasPermission(Permission.Registrations) && (
+                <Menu.Item
+                  as={Link}
+                  to={ROUTES.ADMIN.REGISTRATIONS.path}
+                  icon="user"
+                  label="Registrations"
+                />
+              )}
               {hasPermission(Permission.People) && (
                 <Menu.Item as={Link} to={ROUTES.ADMIN.PEOPLE.path} icon="user" label="People" />
               )}
