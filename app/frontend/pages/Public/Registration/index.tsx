@@ -8,6 +8,7 @@ import { RegistrationPhase, useRegistrationStatusQuery } from '@/graphql/types';
 import usePrevious from '@/hooks/usePrevious';
 
 import Footer from './Footer';
+import Paused from './Paused';
 import { RegistrationContextProvider } from './RegistrationContext';
 import Steps, { REGISTRATION_STEPS } from './Steps';
 
@@ -88,6 +89,10 @@ export const Component: React.FC = () => {
       preferences: [],
     },
   } = data || {};
+
+  if (festival.registrationPhase === RegistrationPhase.Paused) {
+    return <Paused festival={festival} />;
+  }
 
   return (
     <RegistrationContextProvider step={current} festival={festival} registration={registration}>

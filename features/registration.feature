@@ -66,3 +66,8 @@ Feature: Registration
     And I am on the workshop selection page
     Then I should see "How workshop selection works"
     And workshops in my slot should be disabled
+
+  Scenario: Earlybird registrations are closed
+    Given earlybird registration is closed
+    And I am on the registration page
+    Then I should see "Registrations paused"

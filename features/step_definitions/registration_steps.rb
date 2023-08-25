@@ -31,6 +31,10 @@ Given('earlybird registration is open') do
   travel_to festival.earlybird_opens_at + 1.day
 end
 
+Given('earlybird registration is closed') do
+  travel_to festival.earlybird_closes_at + 1.day
+end
+
 Given('I am on the registration page') do
   visit '/register'
   sleep 1
