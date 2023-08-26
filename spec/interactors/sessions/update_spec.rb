@@ -27,6 +27,22 @@ RSpec.describe Sessions::Update, type: :interactor do
       it 'updates the venue' do
         expect { result }.to change { session.reload.venue }.to(venue)
       end
+
+      context 'when there is a clashing session in that venue' do
+        let!(:clash) do
+          create(
+            :session,
+            festival:,
+            starts_at: session.starts_at,
+            ends_at: session.ends_at,
+            venue:,
+          )
+        end
+
+        it 'removes the venue from the clashing session' do
+          expect { result }.to change { clash.reload.venue }.from(venue).to(nil)
+        end
+      end
     end
 
     context 'as a normal user' do

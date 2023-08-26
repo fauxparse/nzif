@@ -133,3 +133,35 @@
     }
   }
 }
+
+.activity-session {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-flow: row dense;
+
+  &__meta {
+    display: grid;
+    gap: var(--small);
+
+    .labelled {
+      display: grid;
+      grid-template-columns: 6rem 1fr;
+      gap: var(--small);
+      justify-content: start;
+      align-items: center;
+    }
+  }
+
+  @media (width > 768px) {
+    grid-template-columns: 1fr 16rem;
+    gap: var(--large);
+
+    h1 {
+      grid-column: 1 / -1;
+    }
+
+    &__meta {
+      grid-column: 2;
+    }
+  }
+}

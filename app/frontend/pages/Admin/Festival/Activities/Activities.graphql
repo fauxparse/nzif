@@ -72,6 +72,7 @@ fragment AdminActivityDetails on Activity {
     id
     startsAt
     endsAt
+    capacity
 
     venue {
       id
@@ -87,6 +88,12 @@ query ActivityDetails($type: ActivityType!, $slug: String!) {
 
     activity(type: $type, slug: $slug) {
       ...AdminActivityDetails
+    }
+
+    venues {
+      id
+      room
+      building
     }
   }
 }
@@ -163,6 +170,29 @@ mutation UpdateActivity($id: ID!, $attributes: ActivityAttributes!) {
   updateActivity(id: $id, attributes: $attributes) {
     activity {
       ...AdminActivityDetails
+    }
+  }
+}
+
+mutation UpdateSessionVenue($id: ID!, $venueId: ID!) {
+  updateSession(id: $id, attributes: { venueId: $venueId }) {
+    session {
+      id
+
+      venue {
+        id
+        room
+        building
+      }
+    }
+  }
+}
+
+mutation UpdateSessionCapacity($id: ID!, $capacity: Int!) {
+  updateSession(id: $id, attributes: { capacity: $capacity }) {
+    session {
+      id
+      capacity
     }
   }
 }

@@ -5,6 +5,7 @@ import pluralize from 'pluralize';
 
 import Button from '@/atoms/Button';
 import {
+  ActivityDetailsQuery,
   useActivityDetailsQuery,
   useMoveActivityMutation,
   useRenameActivityMutation,
@@ -19,6 +20,8 @@ import activityTypeLabel, {
   activityTypeFromPluralized,
   Pluralized,
 } from '@/util/activityTypeLabel';
+
+import Context from './Context';
 
 import '../Activities.css';
 import './ActivityDetails.css';
@@ -112,72 +115,74 @@ export const Component: React.FC = () => {
   };
 
   return (
-    <BreadcrumbProvider
-      path={pluralize(kebabCase(type))}
-      label={pluralize(activityTypeLabel(type))}
-    >
-      <div className="page">
-        <PageHeader>
-          <Breadcrumbs />
-          <h1>
-            {loading || !activity ? (
-              'Loading…'
-            ) : (
-              <InPlaceEdit value={activity.name} onChange={handleRename} />
+    <Context.Provider value={data || ({} as ActivityDetailsQuery)}>
+      <BreadcrumbProvider
+        path={pluralize(kebabCase(type))}
+        label={pluralize(activityTypeLabel(type))}
+      >
+        <div className="page">
+          <PageHeader>
+            <Breadcrumbs />
+            <h1>
+              {loading || !activity ? (
+                'Loading…'
+              ) : (
+                <InPlaceEdit value={activity.name} onChange={handleRename} />
+              )}
+            </h1>
+            {activity && (
+              <div className="url-editor">
+                <span className="url-editor__prefix">{urlPrefix}</span>
+                <InPlaceEdit value={activity.slug} onChange={handleMove} />
+                <Button
+                  className="url-editor__copy"
+                  ghost
+                  icon="clipboard"
+                  aria-label="Copy"
+                  onClick={copyURL}
+                />
+              </div>
             )}
-          </h1>
-          {activity && (
-            <div className="url-editor">
-              <span className="url-editor__prefix">{urlPrefix}</span>
-              <InPlaceEdit value={activity.slug} onChange={handleMove} />
-              <Button
-                className="url-editor__copy"
-                ghost
-                icon="clipboard"
-                aria-label="Copy"
-                onClick={copyURL}
-              />
-            </div>
-          )}
-          {activity && (
-            <Tabs>
-              <Tabs.Tab
-                as={Link}
-                to={ROUTES.ADMIN.ACTIVITY.buildPath({ type: pluralizedType, slug })}
-                text="Details"
-                selected={location.pathname.endsWith(slug)}
-              />
-              {activity?.sessions?.map((session) => (
-                <Tabs.Tab
-                  key={session.id}
-                  as={Link}
-                  to={session.startsAt.toISODate() || ''}
-                  text={session.startsAt.plus(0).toFormat('cccc d')}
-                  selected={date === session.startsAt.toISODate()}
-                />
-              ))}
-              {activity.__typename === 'Workshop' && (
+            {activity && (
+              <Tabs>
                 <Tabs.Tab
                   as={Link}
-                  to={ROUTES.ADMIN.ACTIVITY.SHOW.buildPath({ type: pluralizedType, slug })}
-                  text={activity.show ? 'Show' : 'No attached show'}
-                  selected={location.pathname.endsWith('/show')}
+                  to={ROUTES.ADMIN.ACTIVITY.buildPath({ type: pluralizedType, slug })}
+                  text="Details"
+                  selected={location.pathname.endsWith(slug)}
                 />
-              )}
-              {activity.__typename === 'Show' && (
-                <Tabs.Tab
-                  as={Link}
-                  to={ROUTES.ADMIN.ACTIVITY.WORKSHOP.buildPath({ type: pluralizedType, slug })}
-                  text={activity.workshop ? 'Workshop' : 'No attached workshop'}
-                  selected={location.pathname.endsWith('/workshop')}
-                />
-              )}
-            </Tabs>
-          )}
-        </PageHeader>
-        <Outlet />
-      </div>
-    </BreadcrumbProvider>
+                {activity?.sessions?.map((session) => (
+                  <Tabs.Tab
+                    key={session.id}
+                    as={Link}
+                    to={session.startsAt.toISODate() || ''}
+                    text={session.startsAt.plus(0).toFormat('cccc d')}
+                    selected={date === session.startsAt.toISODate()}
+                  />
+                ))}
+                {activity.__typename === 'Workshop' && (
+                  <Tabs.Tab
+                    as={Link}
+                    to={ROUTES.ADMIN.ACTIVITY.SHOW.buildPath({ type: pluralizedType, slug })}
+                    text={activity.show ? 'Show' : 'No attached show'}
+                    selected={location.pathname.endsWith('/show')}
+                  />
+                )}
+                {activity.__typename === 'Show' && (
+                  <Tabs.Tab
+                    as={Link}
+                    to={ROUTES.ADMIN.ACTIVITY.WORKSHOP.buildPath({ type: pluralizedType, slug })}
+                    text={activity.workshop ? 'Workshop' : 'No attached workshop'}
+                    selected={location.pathname.endsWith('/workshop')}
+                  />
+                )}
+              </Tabs>
+            )}
+          </PageHeader>
+          <Outlet />
+        </div>
+      </BreadcrumbProvider>
+    </Context.Provider>
   );
 };
 
