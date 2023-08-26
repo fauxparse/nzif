@@ -703,7 +703,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "Int",
+                  "name": "Money",
                   "ofType": null
                 }
               },
@@ -739,7 +739,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "Int",
+                  "name": "Money",
                   "ofType": null
                 }
               },
@@ -757,7 +757,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "Int",
+                  "name": "Money",
                   "ofType": null
                 }
               },
@@ -775,7 +775,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "Int",
+                  "name": "Money",
                   "ofType": null
                 }
               },
@@ -793,7 +793,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "Int",
+                  "name": "Money",
                   "ofType": null
                 }
               },
@@ -1704,6 +1704,16 @@
               ]
             }
           ],
+          "inputFields": null,
+          "enumValues": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "Money",
+          "description": null,
+          "interfaces": null,
+          "possibleTypes": null,
+          "fields": null,
           "inputFields": null,
           "enumValues": null
         },

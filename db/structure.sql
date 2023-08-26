@@ -63,6 +63,29 @@ CREATE TYPE public.activity_type AS ENUM (
 
 
 --
+-- Name: payment_state; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.payment_state AS ENUM (
+    'pending',
+    'approved',
+    'cancelled',
+    'failed'
+);
+
+
+--
+-- Name: payment_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.payment_type AS ENUM (
+    'CreditCardPayment',
+    'InternetBankingPayment',
+    'Voucher'
+);
+
+
+--
 -- Name: f_unaccent(text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -251,6 +274,42 @@ CREATE SEQUENCE public.festivals_id_seq
 --
 
 ALTER SEQUENCE public.festivals_id_seq OWNED BY public.festivals.id;
+
+
+--
+-- Name: payments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.payments (
+    id bigint NOT NULL,
+    registration_id bigint NOT NULL,
+    type public.payment_type NOT NULL,
+    state public.payment_state DEFAULT 'pending'::public.payment_state NOT NULL,
+    amount_cents integer NOT NULL,
+    reference character varying,
+    notes text,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: payments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.payments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: payments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.payments_id_seq OWNED BY public.payments.id;
 
 
 --
@@ -754,6 +813,13 @@ ALTER TABLE ONLY public.festivals ALTER COLUMN id SET DEFAULT nextval('public.fe
 
 
 --
+-- Name: payments id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.payments ALTER COLUMN id SET DEFAULT nextval('public.payments_id_seq'::regclass);
+
+
+--
 -- Name: placements id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -891,6 +957,14 @@ ALTER TABLE ONLY public."cast"
 
 ALTER TABLE ONLY public.festivals
     ADD CONSTRAINT festivals_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: payments payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.payments
+    ADD CONSTRAINT payments_pkey PRIMARY KEY (id);
 
 
 --
@@ -1037,6 +1111,20 @@ CREATE INDEX index_cast_on_profile_id ON public."cast" USING btree (profile_id);
 --
 
 CREATE UNIQUE INDEX index_cast_uniquely ON public."cast" USING btree (activity_type, activity_id, profile_id, role);
+
+
+--
+-- Name: index_payments_on_registration_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_payments_on_registration_id ON public.payments USING btree (registration_id);
+
+
+--
+-- Name: index_payments_on_registration_id_and_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_payments_on_registration_id_and_type ON public.payments USING btree (registration_id, type);
 
 
 --
@@ -1368,6 +1456,14 @@ ALTER TABLE ONLY public.placements
 
 
 --
+-- Name: payments fk_rails_bb9133230f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.payments
+    ADD CONSTRAINT fk_rails_bb9133230f FOREIGN KEY (registration_id) REFERENCES public.registrations(id);
+
+
+--
 -- Name: profiles fk_rails_e424190865; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1443,7 +1539,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230808011925'),
 ('20230813214033'),
 ('20230816054627'),
-('20230825232026');
+('20230825232026'),
+('20230826101957');
 
 
 SET statement_timeout = 0;

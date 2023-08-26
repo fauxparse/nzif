@@ -1,0 +1,1 @@
+class InternetBankingPayment < Payment; end

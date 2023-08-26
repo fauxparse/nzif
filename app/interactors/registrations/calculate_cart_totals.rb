@@ -14,17 +14,16 @@ module Registrations
     end
 
     def value
-      context[:value] ||= count * base_workshop_price
+      context[:value] ||= Registration.pricing.package_value(workshops: count)
     end
 
     def discount
-      context[:discount] ||=
-        ((count * (count - 1)) / 2) * Registration.pricing.discount_per_additional_workshop
+      context[:discount] ||= Registration.pricing.package_discount(workshops: count)
     end
 
     def count
       context[:workshops_count] ||=
-        if registration.festival.registration_phase == :earlybird
+        if %i[earlybird paused].include? registration.festival.registration_phase
           registration.requested_slots.count
         else
           registration.sessions.count
@@ -36,7 +35,7 @@ module Registrations
     end
 
     def paid
-      context[:paid] ||= 0
+      context[:paid] ||= Money.new(0)
     end
   end
 end

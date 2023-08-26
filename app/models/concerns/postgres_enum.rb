@@ -10,6 +10,10 @@ class PostgresEnum
     @values ||= fetch_values
   end
 
+  def each_value(&)
+    values.each(&)
+  end
+
   private
 
   def initialize(name:)

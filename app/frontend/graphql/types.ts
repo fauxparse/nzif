@@ -19,6 +19,7 @@ export type Scalars = {
   /** An ISO 8601-encoded datetime */
   ISO8601DateTime: DateTime;
   ISODate: DateTime;
+  Money: number;
   Upload: File;
 };
 
@@ -91,12 +92,12 @@ export type BooleanSetting = Setting & {
 
 export type Cart = {
   __typename: 'Cart';
-  discount: Scalars['Int'];
+  discount: Scalars['Money'];
   id: Scalars['ID'];
-  outstanding: Scalars['Int'];
-  paid: Scalars['Int'];
-  total: Scalars['Int'];
-  value: Scalars['Int'];
+  outstanding: Scalars['Money'];
+  paid: Scalars['Money'];
+  total: Scalars['Money'];
+  value: Scalars['Money'];
   workshopsCount: Scalars['Int'];
 };
 

@@ -8,6 +8,7 @@ class Registration < ApplicationRecord
   has_many :sessions, through: :placements
   has_many :workshops, through: :sessions, source: :activity
   has_many :waitlist, dependent: :destroy
+  has_many :payments, dependent: :destroy
 
   scope :completed, -> { where.not(completed_at: nil) }
 
@@ -20,7 +21,7 @@ class Registration < ApplicationRecord
   end
 
   def self.pricing
-    @pricing ||= Hashie::Mash.new(YAML.load_file(Rails.root.join('config/pricing.yml'))['pricing'])
+    Pricing.instance
   end
 
   def phase

@@ -27,6 +27,7 @@ const config: CodegenConfig = {
           ISODate: 'luxon#DateTime',
           Country: 'String',
           Upload: 'File',
+          Money: 'number',
         },
         scalarTypePolicies: {
           ISO8601DateTime: './policies/dateTimePolicy#dateTimePolicy',
