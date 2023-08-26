@@ -33,6 +33,15 @@ export const Footer = forwardRef<HTMLElement, FooterProps>((props, ref) => {
               <Link to={ROUTES.CONTENT.buildPath(link)}>{link.title}</Link>
             </li>
           ))}
+          <li>
+            <a
+              href="https://improvfest.printmighty.co.nz/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Merch
+            </a>
+          </li>
         </ul>
       </nav>
       <p>&copy; {DateTime.now().toFormat('yyyy')} New Zealand Improvisation Trust</p>
