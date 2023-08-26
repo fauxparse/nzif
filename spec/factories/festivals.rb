@@ -7,13 +7,35 @@ FactoryBot.define do
     general_opens_at { earlybird_closes_at + 1.week }
 
     trait :with_workshops do
-      after(:create) do |festival|
+      transient do
+        workshop_days { 1 }
+      end
+
+      after(:create) do |festival, evaluator|
+        evaluator.workshop_days.times do |i|
+          create_list(
+            :session,
+            3,
+            :with_workshop,
+            festival:,
+            starts_at: festival.start_date.to_time + i.days + 10.hours,
+          )
+        end
+      end
+    end
+
+    trait :with_registrations do
+      transient do
+        registrations_count { 20 }
+      end
+
+      after(:create) do |festival, evaluator|
         create_list(
-          :session,
-          3,
-          :with_workshop,
+          :registration,
+          evaluator.registrations_count,
+          :completed,
+          :with_preferences,
           festival:,
-          starts_at: festival.start_date.to_time + 10.hours,
         )
       end
     end

@@ -8,6 +8,8 @@ class Session < ApplicationRecord
   belongs_to :slot, class_name: 'Slot', foreign_key: :starts_at, inverse_of: :sessions,
     optional: true
   has_many :preferences, dependent: :destroy
+  has_many :placements, dependent: :destroy
+  has_many :waitlist, -> { order(position: :asc) }, dependent: :destroy, inverse_of: :session
 
   enum :activity_type
 

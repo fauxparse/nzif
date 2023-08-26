@@ -8,6 +8,10 @@ module Matchmaker
       @preferences = preferences.sort_by(&:position)
     end
 
+    def record_id
+      registration.registration.id
+    end
+
     def place(sessions, &)
       preference = preferences.shift
       @choice = preference.position

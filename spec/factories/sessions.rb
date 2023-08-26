@@ -5,6 +5,7 @@ FactoryBot.define do
     ends_at { starts_at + 3.hours }
     venue
     activity_type { Workshop }
+    capacity { 5 }
 
     trait :with_workshop do
       activity { create(:workshop, festival:) }

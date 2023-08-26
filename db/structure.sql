@@ -693,6 +693,39 @@ ALTER SEQUENCE public.versions_id_seq OWNED BY public.versions.id;
 
 
 --
+-- Name: waitlist; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.waitlist (
+    id bigint NOT NULL,
+    session_id bigint NOT NULL,
+    registration_id bigint NOT NULL,
+    "position" integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: waitlist_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.waitlist_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: waitlist_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.waitlist_id_seq OWNED BY public.waitlist.id;
+
+
+--
 -- Name: activities id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -795,6 +828,13 @@ ALTER TABLE ONLY public.venues ALTER COLUMN id SET DEFAULT nextval('public.venue
 --
 
 ALTER TABLE ONLY public.versions ALTER COLUMN id SET DEFAULT nextval('public.versions_id_seq'::regclass);
+
+
+--
+-- Name: waitlist id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.waitlist ALTER COLUMN id SET DEFAULT nextval('public.waitlist_id_seq'::regclass);
 
 
 --
@@ -947,6 +987,14 @@ ALTER TABLE ONLY public.venues
 
 ALTER TABLE ONLY public.versions
     ADD CONSTRAINT versions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: waitlist waitlist_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.waitlist
+    ADD CONSTRAINT waitlist_pkey PRIMARY KEY (id);
 
 
 --
@@ -1195,11 +1243,40 @@ CREATE INDEX index_versions_on_item_type_and_item_id ON public.versions USING bt
 
 
 --
+-- Name: index_waitlist_on_registration_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_waitlist_on_registration_id ON public.waitlist USING btree (registration_id);
+
+
+--
+-- Name: index_waitlist_on_session_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_waitlist_on_session_id ON public.waitlist USING btree (session_id);
+
+
+--
+-- Name: index_waitlist_on_session_id_and_registration_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_waitlist_on_session_id_and_registration_id ON public.waitlist USING btree (session_id, registration_id);
+
+
+--
 -- Name: cast fk_rails_0cfc4c6b7a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."cast"
     ADD CONSTRAINT fk_rails_0cfc4c6b7a FOREIGN KEY (profile_id) REFERENCES public.profiles(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: waitlist fk_rails_11b65ce122; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.waitlist
+    ADD CONSTRAINT fk_rails_11b65ce122 FOREIGN KEY (registration_id) REFERENCES public.registrations(id) ON DELETE RESTRICT;
 
 
 --
@@ -1224,6 +1301,14 @@ ALTER TABLE ONLY public.show_workshops
 
 ALTER TABLE ONLY public.preferences
     ADD CONSTRAINT fk_rails_3f86686605 FOREIGN KEY (session_id) REFERENCES public.sessions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: waitlist fk_rails_411eff5ca7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.waitlist
+    ADD CONSTRAINT fk_rails_411eff5ca7 FOREIGN KEY (session_id) REFERENCES public.sessions(id) ON DELETE RESTRICT;
 
 
 --
@@ -1357,7 +1442,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230806193436'),
 ('20230808011925'),
 ('20230813214033'),
-('20230816054627');
+('20230816054627'),
+('20230825232026');
 
 
 SET statement_timeout = 0;

@@ -87,6 +87,7 @@ gem 'icalendar', '~> 2.9'
 
 gem 'rest-client'
 
+gem 'pry', '~> 0.14.2'
 gem 'raygun4ruby'
 
 group :development, :test do

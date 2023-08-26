@@ -6,6 +6,8 @@ class Registration < ApplicationRecord
   has_many :requested_slots, -> { distinct }, through: :preferences, source: :slot
   has_many :placements, dependent: :destroy
   has_many :sessions, through: :placements
+  has_many :workshops, through: :sessions, source: :activity
+  has_many :waitlist, dependent: :destroy
 
   scope :completed, -> { where.not(completed_at: nil) }
 

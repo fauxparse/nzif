@@ -15,4 +15,5 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'NZIF'
   inflect.acronym 'ISO'
   inflect.uncountable 'cast'
+  inflect.uncountable 'waitlist'
 end
