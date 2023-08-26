@@ -314,6 +314,7 @@ GEM
       net-imap
       net-pop
       net-smtp
+    mailsafe (0.3.1)
     marcel (1.0.2)
     matrix (0.4.2)
     method_source (1.0.0)
@@ -599,6 +600,7 @@ DEPENDENCIES
   interactor-rails!
   jbuilder
   letter_opener
+  mailsafe
   paper_trail (~> 14.0)
   pg (~> 1.1)
   pg_search (~> 2.3)

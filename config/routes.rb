@@ -1,10 +1,13 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/graphql' if Rails.env.development?
-  post '/graphql', to: 'graphql#execute'
+  unless Rails.env.production?
+    mount GraphiQL::Rails::Engine, at: '/graphiql',
+      graphql_path: '/graphql'
+    mount Sidekiq::Web => '/sidekiq'
+  end
 
-  mount Sidekiq::Web => '/sidekiq' if Rails.env.development?
+  post '/graphql', to: 'graphql#execute'
 
   resources :countries, only: :index, defaults: { format: :json }
 
