@@ -25,7 +25,7 @@
   text-align: center;
 }
 
-:where(.menu__item) {
+.menu__item {
   display: grid;
   grid-template-columns: var(--icon-size) 1fr auto;
   gap: 0 var(--small);
