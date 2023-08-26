@@ -35,6 +35,15 @@ export const Footer = forwardRef<HTMLElement, FooterProps>((props, ref) => {
           ))}
           <li>
             <a
+              href="https://www.facebook.com/groups/NZIFGreenRoom"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Green Room
+            </a>
+          </li>
+          <li>
+            <a
               href="https://improvfest.printmighty.co.nz/"
               target="_blank"
               rel="noopener noreferrer"

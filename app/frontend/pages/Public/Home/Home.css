@@ -33,6 +33,18 @@
     margin: 0 auto;
   }
 
+  &__registrations-paused {
+    max-width: 60ch;
+    margin: var(--huge) auto 0;
+    padding: var(--large);
+    border: var(--border-width-standard) solid var(--border-info);
+    border-radius: var(--border-radius-large);
+    background-color: var(--background-info);
+    color: var(--text-info);
+    font-size: var(--font-size-large);
+    line-height: var(--line-height-large);
+  }
+
   .countdown {
     margin: var(--huge) auto;
   }

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import pluralize from 'pluralize';
 
 import Button from '@/atoms/Button';
-import { useCurrentFestivalQuery } from '@/graphql/types';
+import { RegistrationPhase, useCurrentFestivalQuery } from '@/graphql/types';
 import { ROUTES } from '@/Routes';
 
 import FestivalCountdown from './FestivalCountdown';
@@ -36,6 +36,7 @@ export const Component: React.FC = () => {
             to={ROUTES.REGISTRATION.path}
             text="Register now"
             icon="new"
+            aria-disabled={festival.registrationPhase === RegistrationPhase.Paused || undefined}
           />
           <Button
             large
@@ -45,6 +46,16 @@ export const Component: React.FC = () => {
             icon="calendar"
           />
         </div>
+        {festival.registrationPhase === RegistrationPhase.Paused && (
+          <div className="hero__registrations-paused">
+            Registrations are currently <b>on hold</b> while we process the initial batch of
+            workshop allocations.
+            {festival.generalOpensAt &&
+              ` We expect to reopen registrations on ${festival.generalOpensAt.toFormat(
+                'd MMMM'
+              )}.`}
+          </div>
+        )}
         <FestivalCountdown />
       </section>
     </div>

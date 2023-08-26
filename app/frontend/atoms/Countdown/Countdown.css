@@ -41,7 +41,7 @@
 }
 
 :where(.countdown) {
-  --digit-height: min(10vw, 12rem);
+  --digit-height: min(9vw, 12rem);
   --digit-width: calc(var(--digit-height) * 0.75);
   --digit-font-size: calc(var(--digit-height) * 0.75);
   --digit-background: var(--neutral12);
