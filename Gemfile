@@ -115,8 +115,6 @@ group :development do
   gem 'rubocop-rails', '~> 2.18', require: false
   gem 'rubocop-rspec', '~> 2.19', require: false
 
-  gem 'graphiql-rails'
-
   gem 'seed-fu', '~> 2.3'
 
   gem 'letter_opener'
@@ -143,4 +141,7 @@ group :test do
   gem 'webmock', '~> 3.18'
 end
 
-gem 'mailsafe', group: %i[development staging]
+group :development, :staging do
+  gem 'graphiql-rails'
+  gem 'mailsafe'
+end
