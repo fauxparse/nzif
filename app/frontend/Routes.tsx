@@ -1,5 +1,11 @@
-import React, { Fragment } from 'react';
-import { createBrowserRouter, LoaderFunction, RouterProvider } from 'react-router-dom';
+import React, { Fragment, useEffect } from 'react';
+import {
+  createBrowserRouter,
+  LoaderFunction,
+  RouterProvider,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import { route } from 'react-router-typesafe-routes/dom';
 import { zod } from 'react-router-typesafe-routes/zod';
 import { z } from 'zod';
@@ -8,6 +14,7 @@ import { client } from '@/graphql';
 import RegistrationRedirect from '@/pages/Public/Registration/Redirect';
 
 import { FestivalDocument } from './graphql/types';
+import NotFound from './pages/404';
 // import NotFound from './pages/404';
 
 const id = zod(z.string()).defined();
@@ -91,6 +98,17 @@ export const ROUTES = {
     },
   }),
   PROFILE: route('profile'),
+};
+
+const RedirectToBase = () => {
+  const { '*': url } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate(`/${url}`, { replace: true });
+  }, [url, navigate]);
+
+  return null;
 };
 
 const router = createBrowserRouter([
@@ -230,8 +248,12 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: '/2023/*',
+        element: <RedirectToBase />,
+      },
     ],
-    // errorElement: <NotFound />,
+    errorElement: <NotFound />,
   },
 ]);
 
