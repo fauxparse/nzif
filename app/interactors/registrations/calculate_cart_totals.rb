@@ -35,7 +35,11 @@ module Registrations
     end
 
     def paid
-      context[:paid] ||= Money.new(0)
+      context[:paid] ||= payments.sum(Money.new(0), &:amount)
+    end
+
+    def payments
+      context[:payments] ||= registration.payments.where(state: %i[pending approved])
     end
   end
 end

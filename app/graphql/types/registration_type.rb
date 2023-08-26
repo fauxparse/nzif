@@ -6,6 +6,7 @@ module Types
     field :code_of_conduct_accepted_at, GraphQL::Types::ISO8601DateTime, null: true
     field :completed_at, GraphQL::Types::ISO8601DateTime, null: true
     field :id, ID, null: false
+    field :payments, [PaymentType], null: false
     field :preferences, [PreferenceType], null: false
     field :user, UserType, null: true
     field :workshops_count, Integer, null: false
@@ -30,8 +31,19 @@ module Types
     end
 
     def cart
-      ::Registrations::CalculateCartTotals.call(current_user: context[:current_resource],
-        registration: object)
+      payments.then do |payments|
+        ::Registrations::CalculateCartTotals.call(
+          current_user: context[:current_resource],
+          registration: object,
+          payments:,
+        )
+      end
+    end
+
+    def payments
+      dataloader
+        .with(Sources::Payments, states: %i[pending approved], context:)
+        .load(object.id)
     end
   end
 end

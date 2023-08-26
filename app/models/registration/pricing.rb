@@ -16,6 +16,17 @@ class Registration
       ((workshops * (workshops - 1)) / 2) * discount_per_additional_workshop
     end
 
+    def workshops_from_total(total:) # rubocop:disable Metrics/AbcSize
+      return 0 if total.zero?
+
+      d = discount_per_additional_workshop.to_f
+      p = base_workshop_price.to_f
+      t = total.to_f
+
+      # invert the pricing formula
+      (d + (2 * p) - Math.sqrt((d * d) + (4 * d * p) - (8 * d * t) + (4 * p * p))) / (2 * d).to_i
+    end
+
     private
 
     def data
