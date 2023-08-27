@@ -31,7 +31,7 @@ const Header: React.FC = () => {
 
   const [open, toggleOverlay] = useCycle(false, true);
 
-  const [popupOpen, togglePopup] = useCycle(false, true);
+  const [popupOpen, setPopupOpen] = useState(false);
 
   const { data } = useHeaderQuery();
 
@@ -53,7 +53,7 @@ const Header: React.FC = () => {
 
   const userButtonClicked = () => {
     if (user) {
-      togglePopup();
+      setPopupOpen((current) => !current);
     } else {
       toggleOverlay();
     }
@@ -83,7 +83,12 @@ const Header: React.FC = () => {
           </Button>
         )}
         {user && userButton && (
-          <UserPopup user={user} reference={userButton} open={popupOpen} onClose={togglePopup} />
+          <UserPopup
+            user={user}
+            reference={userButton}
+            open={popupOpen}
+            onClose={() => setPopupOpen(false)}
+          />
         )}
         <ThemeSwitcher />
       </div>

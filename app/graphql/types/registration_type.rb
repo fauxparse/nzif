@@ -2,7 +2,7 @@
 
 module Types
   class RegistrationType < Types::BaseObject
-    field :cart, CartType, null: false
+    field :cart, CartType, null: true
     field :code_of_conduct_accepted_at, GraphQL::Types::ISO8601DateTime, null: true
     field :completed_at, GraphQL::Types::ISO8601DateTime, null: true
     field :id, ID, null: false
@@ -31,6 +31,8 @@ module Types
     end
 
     def cart
+      return nil unless current_user
+
       payments.then do |payments|
         ::Registrations::CalculateCartTotals.call(
           current_user: context[:current_resource],

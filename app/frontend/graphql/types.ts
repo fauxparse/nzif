@@ -600,7 +600,7 @@ export type QueryUserArgs = {
 
 export type Registration = {
   __typename: 'Registration';
-  cart: Cart;
+  cart: Maybe<Cart>;
   codeOfConductAcceptedAt: Maybe<Scalars['ISO8601DateTime']>;
   completedAt: Maybe<Scalars['ISO8601DateTime']>;
   id: Scalars['ID'];
@@ -1052,7 +1052,7 @@ export type HeaderQuery = { __typename: 'Query', festival: { __typename: 'Festiv
 export type RegistrationSummaryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RegistrationSummaryQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, registrationPhase: RegistrationPhase }, registration: { __typename: 'Registration', id: string, cart: { __typename: 'Cart', id: string, value: number, discount: number, total: number, paid: number, outstanding: number, workshopsCount: number } } };
+export type RegistrationSummaryQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, registrationPhase: RegistrationPhase }, registration: { __typename: 'Registration', id: string, cart: { __typename: 'Cart', id: string, value: number, discount: number, total: number, paid: number, outstanding: number, workshopsCount: number } | null } };
 
 export type SearchQueryVariables = Exact<{
   query: Scalars['String'];

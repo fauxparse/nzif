@@ -436,7 +436,7 @@ type Query {
 }
 
 type Registration {
-  cart: Cart!
+  cart: Cart
   codeOfConductAcceptedAt: ISO8601DateTime
   completedAt: ISO8601DateTime
   id: ID!
