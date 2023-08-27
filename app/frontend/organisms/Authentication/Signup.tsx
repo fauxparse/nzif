@@ -1,5 +1,6 @@
 import React, { forwardRef, useContext, useRef } from 'react';
 import { mergeRefs } from 'react-merge-refs';
+import { useSelector } from '@xstate/react';
 import { AnimationDefinition, motion } from 'framer-motion';
 
 import Button from '@/atoms/Button';
@@ -36,6 +37,10 @@ const Signup = forwardRef<SignupForm>((_, ref) => {
     if (animation === 'in') ownRef.current?.email.focus();
   };
 
+  const state = useSelector(machine, (state) => state);
+
+  const error = useSelector(machine, (state) => state.context.error);
+
   return (
     <motion.form
       ref={mergedRefs}
@@ -47,16 +52,30 @@ const Signup = forwardRef<SignupForm>((_, ref) => {
       onSubmit={submit}
       onAnimationComplete={focusEmailInput}
     >
-      <motion.h2 variants={formItem}>Sign up</motion.h2>
+      <fieldset disabled={state.matches('signingUp')}>
+        <motion.h2 variants={formItem}>Sign up</motion.h2>
 
-      <Input name="fullName" required placeholder="Full name" icon="user" />
-      <Input type="email" name="email" required placeholder="Email address" icon="email" />
-      <Input type="password" name="password" placeholder="Password" icon="password" />
-      <Button as={motion.button} type="submit" primary stretch variants={formItem} text="Sign up" />
-      <motion.p variants={formItem}>
-        Already have an account?{' '}
-        <Button inline onClick={() => machine.send('LOG_IN_CLICKED')} text="Log in!" />
-      </motion.p>
+        {error && (
+          <motion.div key="error" variants={formItem} className="login__error">
+            Oops, that wasn’t quite right.
+          </motion.div>
+        )}
+        <Input name="fullName" required placeholder="Full name" icon="user" />
+        <Input type="email" name="email" required placeholder="Email address" icon="email" />
+        <Input type="password" name="password" placeholder="Password" icon="password" />
+        <Button
+          as={motion.button}
+          type="submit"
+          primary
+          stretch
+          variants={formItem}
+          text="Sign up"
+        />
+        <motion.p variants={formItem}>
+          Already have an account?{' '}
+          <Button inline onClick={() => machine.send('LOG_IN_CLICKED')} text="Log in!" />
+        </motion.p>
+      </fieldset>
     </motion.form>
   );
 });

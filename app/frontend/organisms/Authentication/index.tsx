@@ -59,8 +59,12 @@ const Authentication = forwardRef<HTMLDivElement, AuthenticationProps>(
         <ReactRemoveScroll enabled={isPresent}>
           <motion.div ref={ref} className="authentication">
             <AnimatePresence mode="wait">
-              {isPresent && state.matches('logIn') && <Login key="logIn" />}
-              {isPresent && state.matches('signUp') && <Signup key="signUp" />}
+              {isPresent && (state.matches('logIn') || state.matches('loggingIn')) && (
+                <Login key="logIn" />
+              )}
+              {isPresent && (state.matches('signUp') || state.matches('signingUp')) && (
+                <Signup key="signUp" />
+              )}
               {isPresent && state.matches('forgotPassword') && <Forgot key="forgot" />}
               {isPresent && state.matches('nextSteps') && (
                 <CheckEmail key="nextSteps" onClose={onClose} />
