@@ -13,6 +13,7 @@ import Select from '@/molecules/Select';
 import { ROUTES } from '@/Routes';
 
 import Context from './Context';
+import Participants from './Participants';
 
 export const Component: React.FC = () => {
   const { festival } = useContext(Context);
@@ -101,6 +102,7 @@ export const Component: React.FC = () => {
   return (
     <div className="activity-session inset">
       <h1>{date.toFormat('cccc d MMMM, h:mm a')}</h1>
+      <div>{activity?.type === ActivityType.Workshop && <Participants session={session} />}</div>
       <aside className="activity-session__meta">
         <Labelled label="Venue" name="venueId">
           <Select

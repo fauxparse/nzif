@@ -29,18 +29,18 @@
   </p>
   <table class="cart">
   <tr>
-    <td><%= pluralize @cart.workshops_count, 'workshop' %> @ $<%= @cart.base_workshop_price / 100 %></td>
-    <td>$<%= @cart.value / 100 %></td>
+    <td><%= pluralize @cart.workshops_count, 'workshop' %> @ $<%= @cart.base_workshop_price %></td>
+    <td>$<%= @cart.value %></td>
   </tr>
   <% if @cart.discount.positive? %>
     <tr class="discount">
       <td><%= @cart.workshops_count %>-workshop discount</td>
-      <td>-$<%= @cart.discount / 100 %></td>
+      <td><%= -@cart.discount %></td>
     </tr>
   <% end %>
   <tr>
     <td>Total due</td>
-    <td>$<%= @cart.total / 100 %></td>
+    <td><%= @cart.total %></td>
   </tr>
   </table>
   <p>

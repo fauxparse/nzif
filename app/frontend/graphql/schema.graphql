@@ -534,8 +534,10 @@ type Session {
   capacity: Int
   endsAt: ISO8601DateTime!
   id: ID!
+  participants: [Registration!]!
   startsAt: ISO8601DateTime!
   venue: Venue
+  waitlist: [Registration!]!
 }
 
 input SessionAttributes {

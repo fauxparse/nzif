@@ -8,6 +8,38 @@ query ActivityList($type: ActivityType) {
   }
 }
 
+fragment SessionParticipant on Registration {
+  id
+  user {
+    id
+    profile {
+      id
+      name
+    }
+  }
+}
+
+fragment AdminActivitySessionDetails on Session {
+  id
+  startsAt
+  endsAt
+  capacity
+
+  participants {
+    ...SessionParticipant
+  }
+
+  waitlist {
+    ...SessionParticipant
+  }
+
+  venue {
+    id
+    room
+    building
+  }
+}
+
 fragment AdminActivityDetails on Activity {
   id
   name
@@ -69,16 +101,7 @@ fragment AdminActivityDetails on Activity {
   }
 
   sessions {
-    id
-    startsAt
-    endsAt
-    capacity
-
-    venue {
-      id
-      room
-      building
-    }
+    ...AdminActivitySessionDetails
   }
 }
 
