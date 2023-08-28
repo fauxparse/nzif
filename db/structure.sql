@@ -531,6 +531,37 @@ ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
 
 
 --
+-- Name: short_urls; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.short_urls (
+    id bigint NOT NULL,
+    url character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: short_urls_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.short_urls_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: short_urls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.short_urls_id_seq OWNED BY public.short_urls.id;
+
+
+--
 -- Name: show_workshops; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -862,6 +893,13 @@ ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.ses
 
 
 --
+-- Name: short_urls id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.short_urls ALTER COLUMN id SET DEFAULT nextval('public.short_urls_id_seq'::regclass);
+
+
+--
 -- Name: show_workshops id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1021,6 +1059,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: short_urls short_urls_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.short_urls
+    ADD CONSTRAINT short_urls_pkey PRIMARY KEY (id);
 
 
 --
@@ -1237,6 +1283,13 @@ CREATE INDEX index_sessions_on_festival_id ON public.sessions USING btree (festi
 --
 
 CREATE INDEX index_sessions_on_venue_id ON public.sessions USING btree (venue_id);
+
+
+--
+-- Name: index_short_urls_on_url; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_short_urls_on_url ON public.short_urls USING btree (url);
 
 
 --
@@ -1539,6 +1592,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230808011925'),
 ('20230813214033'),
 ('20230816054627'),
+('20230823032344');
 ('20230825232026'),
 ('20230826101957');
 

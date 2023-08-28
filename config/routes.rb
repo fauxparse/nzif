@@ -9,6 +9,10 @@ Rails.application.routes.draw do
 
   post '/graphql', to: 'graphql#execute'
 
+  constraints Domains::Short do
+    get '/:id', to: 'short_urls#redirect', as: :short
+  end
+
   resources :countries, only: :index, defaults: { format: :json }
 
   get '/register/workshops', to: 'festivals#show', as: :registration
