@@ -792,7 +792,8 @@ CREATE TABLE public.waitlist (
     registration_id bigint NOT NULL,
     "position" integer,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    offered_at timestamp without time zone
 );
 
 
@@ -1384,6 +1385,13 @@ CREATE INDEX index_versions_on_item_type_and_item_id ON public.versions USING bt
 
 
 --
+-- Name: index_waitlist_on_offered_at_and_registration_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_waitlist_on_offered_at_and_registration_id ON public.waitlist USING btree (offered_at, registration_id);
+
+
+--
 -- Name: index_waitlist_on_registration_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1592,9 +1600,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230808011925'),
 ('20230813214033'),
 ('20230816054627'),
-('20230823032344');
+('20230823032344'),
 ('20230825232026'),
-('20230826101957');
+('20230826101957'),
+('20230828234352');
 
 
 SET statement_timeout = 0;

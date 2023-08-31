@@ -20,6 +20,8 @@ Rails.application.routes.draw do
 
   get '/workshops/:slug', to: 'festivals#show', as: :workshop
 
+  get '/waitlist/:id', to: 'festivals#show', as: :accept_waitlist
+
   get '*path', to: 'festivals#show'
   root to: 'festivals#show'
 end

@@ -8,7 +8,7 @@ module Types
     field :participants, [RegistrationType], null: false
     field :starts_at, GraphQL::Types::ISO8601DateTime, null: false
     field :venue, VenueType, null: true
-    field :waitlist, [RegistrationType], null: false
+    field :waitlist, [WaitlistType], null: false
 
     def participants
       dataloader

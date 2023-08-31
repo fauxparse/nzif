@@ -30,7 +30,12 @@ fragment AdminActivitySessionDetails on Session {
   }
 
   waitlist {
-    ...SessionParticipant
+    id
+    position
+    offeredAt
+    registration {
+      ...SessionParticipant
+    }
   }
 
   venue {

@@ -7,6 +7,10 @@ class Waitlist < ApplicationRecord
 
   validate :not_in_session
 
+  def offered?
+    offered_at.present?
+  end
+
   private
 
   def not_in_session
