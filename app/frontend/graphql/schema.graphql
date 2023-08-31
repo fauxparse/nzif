@@ -442,7 +442,9 @@ type Registration {
   id: ID!
   payments: [Payment!]!
   preferences: [Preference!]!
+  sessions: [Session!]!
   user: User
+  waitlist: [Session!]!
   workshopsCount: Int!
 }
 
@@ -535,9 +537,11 @@ type Session {
   endsAt: ISO8601DateTime!
   id: ID!
   participants: [Registration!]!
+  slot: Slot!
   startsAt: ISO8601DateTime!
   venue: Venue
-  waitlist: [Registration!]!
+  waitlist: [Waitlist!]!
+  workshop: Workshop
 }
 
 input SessionAttributes {
@@ -792,6 +796,13 @@ type VenueResult implements SearchResult {
 type Voucher implements Payment {
   amount: Money!
   id: ID!
+}
+
+type Waitlist {
+  id: ID!
+  offeredAt: ISO8601DateTime
+  position: Int!
+  registration: Registration!
 }
 
 type Workshop implements Activity {

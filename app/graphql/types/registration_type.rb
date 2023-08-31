@@ -8,7 +8,9 @@ module Types
     field :id, ID, null: false
     field :payments, [PaymentType], null: false
     field :preferences, [PreferenceType], null: false
+    field :sessions, [SessionType], null: false
     field :user, UserType, null: true
+    field :waitlist, [SessionType], null: false
     field :workshops_count, Integer, null: false
 
     def id
@@ -18,6 +20,18 @@ module Types
     def preferences
       dataloader
         .with(Sources::RegistrationPreferences, context:)
+        .load(object.id)
+    end
+
+    def sessions
+      dataloader
+        .with(Sources::RegistrationSessions, context:)
+        .load(object.id)
+    end
+
+    def waitlist
+      dataloader
+        .with(Sources::RegistrationWaitlist, context:)
         .load(object.id)
     end
 

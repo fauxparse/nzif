@@ -1,6 +1,7 @@
 import { range } from 'lodash-es';
 
 import Checkbox from '@/atoms/Checkbox';
+import { CheckboxIcon } from '@/atoms/Checkbox/Checkbox';
 import {
   RegistrationPhase,
   RegistrationSlotFragment,
@@ -50,6 +51,7 @@ const PreferenceCheckbox: React.FC<PreferenceCheckboxProps> = ({
           </g>
         ))}
       </svg>
+      <CheckboxIcon />
     </Checkbox>
   );
 };

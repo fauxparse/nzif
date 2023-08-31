@@ -507,7 +507,8 @@ CREATE TABLE public.sessions (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     activity_id bigint,
-    capacity integer
+    capacity integer,
+    placements_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1603,7 +1604,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230823032344'),
 ('20230825232026'),
 ('20230826101957'),
-('20230828234352');
+('20230828234352'),
+('20230831213654');
 
 
 SET statement_timeout = 0;

@@ -7,6 +7,7 @@ import Icon from '@/atoms/Icon';
 import Placename from '@/atoms/Placename';
 import {
   Placename as PlacenameType,
+  RegistrationPhase,
   RegistrationSlotFragment,
   RegistrationWorkshopFragment,
 } from '@/graphql/types';
@@ -29,17 +30,20 @@ type WorkshopCardProps = {
 const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot, disabled = false }) => {
   const ref = useRef<HTMLDivElement>(null);
 
-  const { selected, loading, zoomed, moreInfo, add, remove } = useWorkshopSelectionContext();
+  const { selected, waitlist, loading, zoomed, registrationPhase, moreInfo, add, remove } =
+    useWorkshopSelectionContext();
+
+  const session = useMemo(
+    () => workshop.sessions.find((s) => s.startsAt.equals(slot.startsAt)),
+    [workshop, slot]
+  );
 
   const preference = useMemo(
-    () => (selected.get(slot.startsAt) || []).findIndex((w) => w.id === workshop.id) + 1,
+    () => (selected.get(slot.startsAt.valueOf()) || []).findIndex((w) => w.id === workshop.id) + 1,
     [workshop, slot, selected]
   );
 
-  const nextAvailable = useMemo(
-    () => (selected.get(slot.startsAt) || []).length + 1,
-    [selected, slot]
-  );
+  const waitlisted = !!session && waitlist.has(session.id);
 
   const tutors = useMemo(() => sortBy(workshop.tutors, 'name'), [workshop.tutors]);
 
@@ -67,6 +71,15 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot, disabled = 
       return () => clearTimeout(timeout);
     }
   }, [zoomed, workshop.id]);
+
+  const addButtonText = useMemo(() => {
+    if (registrationPhase === RegistrationPhase.Earlybird) {
+      const nextAvailable = (selected.get(slot.startsAt.valueOf()) || []).length + 1;
+      return capitalize(`${ordinalize(nextAvailable)} choice`);
+    }
+
+    return 'Add';
+  }, [registrationPhase, selected, slot.startsAt]);
 
   return (
     <MotionConfig transition={{ duration: 0.3, ease: 'circOut' }}>
@@ -132,7 +145,7 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot, disabled = 
         <PreferenceCheckbox
           workshop={workshop}
           slot={slot}
-          preference={preference || null}
+          preference={preference}
           disabled={disabled || undefined}
         />
         {workshop.show && (
@@ -149,11 +162,13 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot, disabled = 
           <Skeleton rounded loading={loading}>
             {preference ? (
               <Button small text="Remove" onClick={() => remove({ workshop, slot })} />
+            ) : waitlisted ? (
+              <Button small text="Leave waitlist" onClick={() => null} />
             ) : (
               <Button
                 small
                 primary
-                text={capitalize(`${ordinalize(nextAvailable)} choice`)}
+                text={addButtonText}
                 disabled={disabled || undefined}
                 onClick={() => add({ workshop, slot })}
               />

@@ -1,10 +1,8 @@
 import { createContext, useContext } from 'react';
-import { DateTime } from 'luxon';
 
 import {
   RegistrationPhase,
   RegistrationSlotFragment,
-  RegistrationStatusQuery,
   RegistrationWorkshopFragment,
 } from '@/graphql/types';
 
@@ -14,7 +12,8 @@ type WorkshopSelectionContextType = {
   loading: boolean;
   registrationPhase: RegistrationPhase;
   slots: RegistrationSlotFragment[];
-  selected: Map<DateTime, RegistrationWorkshopFragment[]>;
+  selected: Map<number, RegistrationWorkshopFragment[]>;
+  waitlist: Set<string>;
   zoomed: SelectedWorkshop | null;
   add: (workshop: SelectedWorkshop) => void;
   remove: (workshop: SelectedWorkshop) => void;

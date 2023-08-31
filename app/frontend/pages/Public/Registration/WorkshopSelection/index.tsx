@@ -78,7 +78,7 @@ export const Component: React.FC = () => {
 
   const { festival, registration } = data || {};
 
-  const { slots = tempSessions } = festival || {};
+  const { registrationPhase, slots = tempSessions } = festival || {};
 
   const [zoomed, setZoomed] = useState<SelectedWorkshop | null>(null);
 
@@ -86,12 +86,34 @@ export const Component: React.FC = () => {
     setZoomed(w);
   }, []);
 
-  const selected = useMemo<Map<DateTime, RegistrationWorkshopFragment[]>>(
-    () =>
-      (registration?.preferences || []).reduce(
-        (acc, p) => acc.set(p.slot.startsAt, [...(acc.get(p.slot.startsAt) || []), p.workshop]),
-        new Map<DateTime, RegistrationWorkshopFragment[]>()
-      ),
+  const selected = useMemo<Map<number, RegistrationWorkshopFragment[]>>(() => {
+    switch (registrationPhase) {
+      case RegistrationPhase.Earlybird:
+      case RegistrationPhase.Paused:
+        return (registration?.preferences || []).reduce(
+          (acc, p) =>
+            acc.set(p.slot.startsAt.valueOf(), [
+              ...(acc.get(p.slot.startsAt.valueOf()) || []),
+              p.workshop,
+            ]),
+          new Map<number, RegistrationWorkshopFragment[]>()
+        );
+      default:
+        return (registration?.sessions || []).reduce(
+          (acc, s) =>
+            s.workshop
+              ? acc.set(s.startsAt.valueOf(), [
+                  ...(acc.get(s.startsAt.valueOf()) || []),
+                  s.workshop,
+                ])
+              : acc,
+          new Map<number, RegistrationWorkshopFragment[]>()
+        );
+    }
+  }, [registration, registrationPhase]);
+
+  const waitlist = useMemo<Set<string>>(
+    () => new Set(registration?.waitlist?.map((s) => s.id) || []),
     [registration]
   );
 
@@ -119,7 +141,7 @@ export const Component: React.FC = () => {
             id: uniqueId(),
             workshop,
             slot,
-            position: selected.get(slot.startsAt)?.length || 0,
+            position: selected.get(slot.startsAt.valueOf())?.length || 0,
           },
         },
       },
@@ -201,6 +223,7 @@ export const Component: React.FC = () => {
         loading,
         slots,
         selected,
+        waitlist,
         registrationPhase: festival?.registrationPhase || RegistrationPhase.Closed,
         zoomed,
         add,

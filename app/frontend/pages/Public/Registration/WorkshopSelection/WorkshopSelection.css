@@ -189,6 +189,13 @@
           stroke: none;
         }
       }
+
+      .icon {
+        position: absolute;
+        inset: -0.25rem;
+        width: 2rem;
+        height: 2rem;
+      }
     }
 
     input:checked ~ .checkbox__burst {

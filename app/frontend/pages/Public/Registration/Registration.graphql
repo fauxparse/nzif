@@ -17,6 +17,8 @@ fragment RegistrationWorkshop on Workshop {
   sessions {
     id
     startsAt
+    capacity
+    count
   }
 
   show {
@@ -62,6 +64,14 @@ fragment RegistrationPreference on Preference {
   slot {
     ...RegistrationSlot
   }
+  workshop {
+    ...RegistrationWorkshop
+  }
+}
+
+fragment RegistrationSession on Session {
+  id
+  startsAt
   workshop {
     ...RegistrationWorkshop
   }
@@ -150,6 +160,12 @@ query RegistrationStatus($id: ID) {
     ...RegistrationUserDetails
     preferences {
       ...RegistrationPreference
+    }
+    sessions {
+      ...RegistrationSession
+    }
+    waitlist {
+      ...RegistrationSession
     }
   }
 

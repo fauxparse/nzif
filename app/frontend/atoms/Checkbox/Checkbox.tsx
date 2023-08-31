@@ -9,7 +9,7 @@ import { CheckboxProps } from './Checkbox.types';
 
 import './Checkbox.css';
 
-const CheckboxIcon = () => (
+export const CheckboxIcon = () => (
   <Icon>
     <rect x={3} y={3} width={18} height={18} rx={2} />
     <path d="m7.5 12 3 3 6-6" pathLength={1} />
