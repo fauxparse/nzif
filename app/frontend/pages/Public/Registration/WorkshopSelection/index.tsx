@@ -10,17 +10,17 @@ import {
   ActivityType,
   RegistrationPhase,
   RegistrationPreferenceFragmentDoc,
+  RegistrationSessionFragment,
   RegistrationSlotFragment,
-  RegistrationStatusQuery,
   RegistrationWorkshopFragment,
   useAddPreferenceMutation,
   useRegistrationStatusQuery,
   useRemovePreferenceMutation,
 } from '@/graphql/types';
 
+import { useConfirmation } from './ConfirmationModal';
 import HowWorkshopsWork from './HowWorkshopsWork';
 import Slot from './Slot';
-import { SelectedWorkshop } from './types';
 import WorkshopDetails from './WorkshopDetails';
 import WorkshopSelectionContext from './WorkshopSelectionContext';
 
@@ -31,6 +31,49 @@ const tempSessions: RegistrationSlotFragment[] = range(5).map((days) => ({
   id: `${days}`,
   startsAt: DateTime.now().plus({ days }),
   endsAt: DateTime.now().plus({ days, hours: 3 }),
+  sessions: range(3).map(
+    (s): RegistrationSessionFragment => ({
+      __typename: 'Session',
+      id: `${days}-${s}`,
+      startsAt: DateTime.now().plus({ days }),
+      capacity: 0,
+      count: 0,
+      workshop: {
+        __typename: 'Workshop',
+        id: `${days}-${s}`,
+        slug: 'workshop',
+        name: 'The name of the workshop',
+        type: ActivityType.Workshop,
+        tutors: [
+          {
+            __typename: 'Person',
+            id: '1',
+            name: 'Lauren Ipsum',
+            city: {
+              __typename: 'Placename',
+              id: '1',
+              name: 'Wellington',
+              traditionalName: 'Poneke',
+            },
+            country: {
+              __typename: 'Placename',
+              id: 'NZ',
+              name: 'New Zealand',
+              traditionalName: 'Aotearoa',
+            },
+          },
+        ],
+        picture: {
+          __typename: 'ActivityPicture',
+          id: `${days}-${s}`,
+          blurhash: '',
+          medium: '',
+        },
+        sessions: [],
+        show: null,
+      },
+    })
+  ),
   workshops: range(3).map(
     (w): RegistrationWorkshopFragment => ({
       __typename: 'Workshop',
@@ -72,6 +115,8 @@ const tempSessions: RegistrationSlotFragment[] = range(5).map((days) => ({
 export const Component: React.FC = () => {
   const form = useRef<HTMLFormElement>(null);
 
+  const { confirm, modal } = useConfirmation();
+
   const { data, loading } = useRegistrationStatusQuery();
 
   const { next } = useRegistrationContext();
@@ -80,9 +125,9 @@ export const Component: React.FC = () => {
 
   const { registrationPhase, slots = tempSessions } = festival || {};
 
-  const [zoomed, setZoomed] = useState<SelectedWorkshop | null>(null);
+  const [zoomed, setZoomed] = useState<RegistrationSessionFragment | null>(null);
 
-  const moreInfo = useCallback((w: SelectedWorkshop | null) => {
+  const moreInfo = useCallback((w: RegistrationSessionFragment | null) => {
     setZoomed(w);
   }, []);
 
@@ -123,9 +168,10 @@ export const Component: React.FC = () => {
     refetchQueries: ['RegistrationSummary'],
   });
 
-  const add = ({ workshop, slot }: SelectedWorkshop) => {
-    const session = workshop.sessions.find((s) => s.startsAt.equals(slot.startsAt));
-    if (!session) return;
+  const add = (session: RegistrationSessionFragment) => {
+    const slot = slots.find((s) => s.startsAt.equals(session.startsAt));
+
+    if (!slot || !session.workshop) return;
 
     addPreference({
       variables: {
@@ -139,7 +185,7 @@ export const Component: React.FC = () => {
           preference: {
             __typename: 'Preference',
             id: uniqueId(),
-            workshop,
+            workshop: session.workshop,
             slot,
             position: selected.get(slot.startsAt.valueOf())?.length || 0,
           },
@@ -164,9 +210,24 @@ export const Component: React.FC = () => {
     });
   };
 
-  const remove = ({ workshop, slot }: SelectedWorkshop) => {
-    const session = workshop.sessions.find((s) => s.startsAt.equals(slot.startsAt));
-    if (!session || !registration) return;
+  const remove = (session: RegistrationSessionFragment) => {
+    const slot = slots.find((s) => s.startsAt.equals(session.startsAt));
+
+    if (!slot || !session?.workshop || !registration) return;
+
+    const { workshop } = session;
+
+    if (waitlist.has(session.id)) {
+      confirm({
+        title: 'Leave waitlist?',
+        message: 'If you rejoin the waitlist for this workshop you will lose your place.',
+      })
+        .then(() => {
+          console.log('Left waitlist');
+        })
+        .catch((e) => void 0);
+      return;
+    }
 
     const preference = registration.preferences.find((p) => p.workshop.id === workshop.id);
     if (!preference) return;
@@ -229,6 +290,7 @@ export const Component: React.FC = () => {
         add,
         remove,
         moreInfo,
+        confirm,
       }}
     >
       <form ref={form} id="registration-form" className="workshop-selection" onSubmit={submit}>
@@ -237,9 +299,10 @@ export const Component: React.FC = () => {
           {slots.map((slot) => (
             <Slot slot={slot} key={slot.id} />
           ))}
-          {zoomed && <WorkshopDetails {...zoomed} />}
+          {zoomed && <WorkshopDetails session={zoomed} />}
         </MotionContext.Provider>
       </form>
+      {modal}
     </WorkshopSelectionContext.Provider>
   );
 };

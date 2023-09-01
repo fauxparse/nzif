@@ -9,7 +9,6 @@ import {
   Placename as PlacenameType,
   RegistrationPhase,
   RegistrationSlotFragment,
-  RegistrationWorkshopFragment,
 } from '@/graphql/types';
 import Skeleton from '@/helpers/Skeleton';
 import Tooltip from '@/helpers/Tooltip';
@@ -19,24 +18,22 @@ import ordinalize from '@/util/ordinalize';
 import sentence from '@/util/sentence';
 
 import PreferenceCheckbox from './PreferenceCheckbox';
+import { WorkshopSession } from './types';
 import { useWorkshopSelectionContext } from './WorkshopSelectionContext';
 
 type WorkshopCardProps = {
-  workshop: RegistrationWorkshopFragment;
+  session: WorkshopSession;
   slot: RegistrationSlotFragment;
   disabled?: boolean;
 };
 
-const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot, disabled = false }) => {
+const WorkshopCard: React.FC<WorkshopCardProps> = ({ session, slot, disabled = false }) => {
   const ref = useRef<HTMLDivElement>(null);
+
+  const workshop = session.workshop;
 
   const { selected, waitlist, loading, zoomed, registrationPhase, moreInfo, add, remove } =
     useWorkshopSelectionContext();
-
-  const session = useMemo(
-    () => workshop.sessions.find((s) => s.startsAt.equals(slot.startsAt)),
-    [workshop, slot]
-  );
 
   const preference = useMemo(
     () => (selected.get(slot.startsAt.valueOf()) || []).findIndex((w) => w.id === workshop.id) + 1,
@@ -72,14 +69,18 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot, disabled = 
     }
   }, [zoomed, workshop.id]);
 
+  const soldOut = session.count >= (session.capacity || Infinity);
+
   const addButtonText = useMemo(() => {
     if (registrationPhase === RegistrationPhase.Earlybird) {
       const nextAvailable = (selected.get(slot.startsAt.valueOf()) || []).length + 1;
       return capitalize(`${ordinalize(nextAvailable)} choice`);
     }
 
+    if (soldOut) return 'Join waitlist';
+
     return 'Add';
-  }, [registrationPhase, selected, slot.startsAt]);
+  }, [registrationPhase, selected, slot.startsAt, soldOut]);
 
   return (
     <MotionConfig transition={{ duration: 0.3, ease: 'circOut' }}>
@@ -107,6 +108,9 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot, disabled = 
               />
             )}
           </motion.div>
+        )}
+        {session.count >= (session.capacity || Infinity) && (
+          <div className="workshop__sold-out">Sold out!</div>
         )}
         <div className="card__details">
           <h4 className="card__title workshop__name">
@@ -141,6 +145,9 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot, disabled = 
               </div>
             </>
           )}
+          {waitlist.has(session.id) && (
+            <div className="workshop__waitlisted">You’re on the waitlist</div>
+          )}
         </div>
         <PreferenceCheckbox
           workshop={workshop}
@@ -157,20 +164,20 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ workshop, slot, disabled = 
         )}
         <div className="card__footer">
           <Skeleton rounded loading={loading}>
-            <Button small text="More info" onClick={() => moreInfo({ workshop, slot })} />
+            <Button small text="More info" onClick={() => moreInfo(session)} />
           </Skeleton>
           <Skeleton rounded loading={loading}>
             {preference ? (
-              <Button small text="Remove" onClick={() => remove({ workshop, slot })} />
+              <Button small text="Remove" onClick={() => remove(session)} />
             ) : waitlisted ? (
-              <Button small text="Leave waitlist" onClick={() => null} />
+              <Button small text="Leave waitlist" onClick={() => remove(session)} />
             ) : (
               <Button
                 small
-                primary
+                primary={!soldOut || undefined}
                 text={addButtonText}
                 disabled={disabled || undefined}
-                onClick={() => add({ workshop, slot })}
+                onClick={() => add(session)}
               />
             )}
           </Skeleton>

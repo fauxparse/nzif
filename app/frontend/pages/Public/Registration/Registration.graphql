@@ -56,6 +56,10 @@ fragment RegistrationSlot on Slot {
   workshops {
     ...RegistrationWorkshop
   }
+
+  sessions {
+    ...RegistrationSession
+  }
 }
 
 fragment RegistrationPreference on Preference {
@@ -72,6 +76,8 @@ fragment RegistrationPreference on Preference {
 fragment RegistrationSession on Session {
   id
   startsAt
+  capacity
+  count
   workshop {
     ...RegistrationWorkshop
   }
@@ -157,6 +163,7 @@ query WorkshopDetails($slug: String!) {
 query RegistrationStatus($id: ID) {
   registration(id: $id) {
     id
+    completedAt
     ...RegistrationUserDetails
     preferences {
       ...RegistrationPreference

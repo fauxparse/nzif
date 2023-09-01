@@ -37,6 +37,24 @@
     }
   }
 
+  &__busy {
+    margin: 0 0 var(--medium);
+    padding: var(--medium);
+    border: var(--border-width-standard) solid var(--border-info);
+    border-radius: var(--border-radius-large);
+    background: var(--background-info);
+    color: var(--text-info);
+    text-align: center;
+
+    + .workshop-selection__workshops {
+      filter: grayscale(0.75);
+
+      .card {
+        box-shadow: inset 0 0 0 var(--border-width-standard) var(--card-border);
+      }
+    }
+  }
+
   &__workshops {
     display: grid;
     gap: var(--medium);
@@ -53,16 +71,29 @@
     grid-template-rows: auto auto;
     grid-template-columns: auto 1fr;
     gap: var(--small) var(--medium);
+    overflow: hidden;
     width: unset;
     padding: var(--medium);
     background: var(--background);
 
     .card__image {
+      position: relative;
       display: none;
+      mix-blend-mode: multiply;
 
       .skeleton {
         max-width: none;
         max-height: none;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        right: var(--border-width-standard);
+        bottom: 0;
+        left: var(--border-width-standard);
+        border-bottom: var(--border-width-standard) solid var(--border-subtle);
+        mix-blend-mode: multiply;
       }
     }
 
@@ -70,6 +101,26 @@
     .card__footer {
       grid-column: -2;
       padding: 0;
+    }
+
+    .card__details {
+      place-content: unset;
+    }
+
+    &__sold-out {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 8rem;
+      margin: 0 -4rem;
+      background: var(--solid-accent);
+      color: var(--contrast-accent);
+      box-shadow: 0 0 0.5rem var(--neutralA6);
+      font-weight: var(--font-weight-medium);
+      text-align: center;
+      text-transform: uppercase;
+      transform: rotate(45deg);
+      transform-origin: center top;
     }
 
     &__tutors {
@@ -215,6 +266,17 @@
       }
     }
 
+    &__waitlisted {
+      position: relative;
+      width: 100%;
+      margin: var(--small) 0;
+      padding: var(--small);
+      border: var(--border-width-standard) solid var(--border-info);
+      border-radius: var(--border-radius-standard);
+      background: var(--background-info);
+      color: var(--text -info);
+    }
+
     @media (width >= 768px) {
       --checkbox-size: 2rem;
 
@@ -238,6 +300,14 @@
         grid-row: 1;
       }
 
+      &__sold-out {
+        top: 3rem;
+        right: 3rem;
+        width: 12rem;
+        margin: 0 -6rem;
+        font-size: var(--font-size-large);
+      }
+
       .card__image {
         display: block;
         overflow: hidden;
@@ -247,6 +317,10 @@
       .card__details,
       .card__footer {
         padding: var(--medium);
+      }
+
+      .card__details {
+        align-content: start;
       }
     }
   }

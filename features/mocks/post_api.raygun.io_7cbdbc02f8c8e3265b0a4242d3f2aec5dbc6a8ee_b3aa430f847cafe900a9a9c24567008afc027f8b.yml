@@ -1,0 +1,79 @@
+---
+:scope:
+:url: https://api.raygun.io/entries?apikey=506C6CapQPSWt8QaeAfw
+:body: '{"OccurredOn":"2023-09-01T00:17:11.480Z","Details":{"Error":{"ClassName":"ApolloError","Message":"User
+  couldn''t be registered","StackTrace":[{"LineNumber":198,"ColumnNumber":152,"ClassName":"line
+  198, column 152","FileName":"http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js","MethodName":"new
+  t"},{"LineNumber":222,"ColumnNumber":19185,"ClassName":"line 222, column 19185","FileName":"http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js","MethodName":"?"},{"LineNumber":197,"ColumnNumber":8466,"ClassName":"line
+  197, column 8466","FileName":"http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js","MethodName":"y"},{"LineNumber":197,"ColumnNumber":8392,"ClassName":"line
+  197, column 8392","FileName":"http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js","MethodName":"?"},{"LineNumber":null,"ColumnNumber":null,"ClassName":"line
+  NaN, column null","FileName":"<anonymous>","MethodName":"new Promise"},{"LineNumber":197,"ColumnNumber":8359,"ClassName":"line
+  197, column 8359","FileName":"http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js","MethodName":"Object.then"},{"LineNumber":197,"ColumnNumber":8476,"ClassName":"line
+  197, column 8476","FileName":"http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js","MethodName":"Object.next"},{"LineNumber":197,"ColumnNumber":1908,"ClassName":"line
+  197, column 1908","FileName":"http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js","MethodName":"OP"},{"LineNumber":197,"ColumnNumber":2318,"ClassName":"line
+  197, column 2318","FileName":"http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js","MethodName":"u0"},{"LineNumber":197,"ColumnNumber":2835,"ClassName":"line
+  197, column 2835","FileName":"http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js","MethodName":"t.next"}],"StackString":"ApolloError:
+  User couldn''t be registered\n    at new t (http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js:198:152)\n    at
+  http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js:222:19185\n    at
+  y (http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js:197:8466)\n    at
+  http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js:197:8392\n    at
+  new Promise (<anonymous>)\n    at Object.then (http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js:197:8359)\n    at
+  Object.next (http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js:197:8476)\n    at
+  OP (http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js:197:1908)\n    at
+  u0 (http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js:197:2318)\n    at
+  t.next (http://127.0.0.1:53890/vite-test/assets/application-7e27a3b7.js:197:2835)"},"Environment":{"UtcOffset":12,"Browser-Width":1024,"Browser-Height":768,"Screen-Width":2560,"Screen-Height":1440,"Color-Depth":24,"Browser":"Mozilla","Browser-Name":"Netscape","Browser-Version":"5.0
+  (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/116.0.5845.140
+  Safari/537.36","Platform":"MacIntel"},"Client":{"Name":"raygun-js","Version":"2.27.0"},"UserCustomData":{},"Tags":["UnhandledPromiseRejection"],"Request":{"Url":"http://127.0.0.1:53890/register","QueryString":{},"Headers":{"User-Agent":"Mozilla/5.0
+  (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/116.0.5845.140
+  Safari/537.36","Referer":"","Host":"127.0.0.1"}},"Version":"Not supplied","User":{"Identifier":"c615fb3b-7b51-ca6b-b097-681b87dcda98","IsAnonymous":true,"UUID":"c615fb3b-7b51-ca6b-b097-681b87dcda98"},"Breadcrumbs":[{"level":"info","timestamp":1693527430027,"type":"navigation","message":"History
+  replaceState","CustomData":{"from":"/register","to":"/register","prevState":"null","nextState":"{\"idx\":0}"}},{"level":"info","timestamp":1693527430051,"type":"request","message":"Opening
+  request to http://127.0.0.1:53890/graphql","CustomData":{"method":"POST","requestURL":"http://127.0.0.1:53890/graphql","baseUrl":"http://127.0.0.1:53890/graphql","body":"Disabled
+  because logContentsOfXhrCalls has not been enabled"}},{"level":"info","timestamp":1693527430064,"type":"navigation","message":"DOMContentLoaded"},{"level":"info","timestamp":1693527430078,"type":"request","message":"Opening
+  request to http://127.0.0.1:53890/graphql","CustomData":{"method":"POST","requestURL":"http://127.0.0.1:53890/graphql","baseUrl":"http://127.0.0.1:53890/graphql","body":"Disabled
+  because logContentsOfXhrCalls has not been enabled"}},{"level":"info","timestamp":1693527430078,"type":"request","message":"Opening
+  request to http://127.0.0.1:53890/graphql","CustomData":{"method":"POST","requestURL":"http://127.0.0.1:53890/graphql","baseUrl":"http://127.0.0.1:53890/graphql","body":"Disabled
+  because logContentsOfXhrCalls has not been enabled"}},{"level":"info","timestamp":1693527430081,"type":"request","message":"Finished
+  request to http://127.0.0.1:53890/graphql","CustomData":{"status":200,"requestURL":"http://127.0.0.1:53890/graphql","responseURL":"http://127.0.0.1:53890/graphql","body":"Disabled
+  because logContentsOfXhrCalls has not been enabled","baseUrl":"http://127.0.0.1:53890/graphql","duration":"50ms"}},{"level":"info","timestamp":1693527430085,"type":"request","message":"Finished
+  request to http://127.0.0.1:53890/graphql","CustomData":{"status":200,"requestURL":"http://127.0.0.1:53890/graphql","responseURL":"http://127.0.0.1:53890/graphql","body":"Disabled
+  because logContentsOfXhrCalls has not been enabled","baseUrl":"http://127.0.0.1:53890/graphql","duration":"7ms"}},{"level":"info","timestamp":1693527430086,"type":"request","message":"Finished
+  request to http://127.0.0.1:53890/graphql","CustomData":{"status":200,"requestURL":"http://127.0.0.1:53890/graphql","responseURL":"http://127.0.0.1:53890/graphql","body":"Disabled
+  because logContentsOfXhrCalls has not been enabled","baseUrl":"http://127.0.0.1:53890/graphql","duration":"8ms"}},{"level":"info","timestamp":1693527430281,"type":"navigation","message":"Page
+  loaded"},{"level":"info","timestamp":1693527430282,"type":"navigation","message":"Page
+  shown"},{"level":"info","timestamp":1693527430346,"type":"request","message":"Opening
+  request to http://127.0.0.1:53890/graphql","CustomData":{"method":"POST","requestURL":"http://127.0.0.1:53890/graphql","baseUrl":"http://127.0.0.1:53890/graphql","body":"Disabled
+  because logContentsOfXhrCalls has not been enabled"}},{"level":"info","timestamp":1693527430347,"type":"request","message":"Opening
+  request to http://127.0.0.1:53890/graphql","CustomData":{"method":"POST","requestURL":"http://127.0.0.1:53890/graphql","baseUrl":"http://127.0.0.1:53890/graphql","body":"Disabled
+  because logContentsOfXhrCalls has not been enabled"}},{"level":"info","timestamp":1693527430349,"type":"request","message":"Opening
+  request to https://graphql.contentful.com/content/v1/spaces/4hh9rxfdoza6","CustomData":{"method":"POST","requestURL":"https://graphql.contentful.com/content/v1/spaces/4hh9rxfdoza6","baseUrl":"https://graphql.contentful.com/content/v1/spaces/4hh9rxfdoza6","body":"Disabled
+  because logContentsOfXhrCalls has not been enabled"}},{"level":"info","timestamp":1693527430360,"type":"request","message":"Finished
+  request to http://127.0.0.1:53890/graphql","CustomData":{"status":200,"requestURL":"http://127.0.0.1:53890/graphql","responseURL":"http://127.0.0.1:53890/graphql","body":"Disabled
+  because logContentsOfXhrCalls has not been enabled","baseUrl":"http://127.0.0.1:53890/graphql","duration":"14ms"}},{"level":"info","timestamp":1693527430385,"type":"request","message":"Finished
+  request to http://127.0.0.1:53890/graphql","CustomData":{"status":200,"requestURL":"http://127.0.0.1:53890/graphql","responseURL":"http://127.0.0.1:53890/graphql","body":"Disabled
+  because logContentsOfXhrCalls has not been enabled","baseUrl":"http://127.0.0.1:53890/graphql","duration":"38ms"}},{"level":"info","timestamp":1693527430405,"type":"request","message":"Finished
+  request to https://graphql.contentful.com/content/v1/spaces/4hh9rxfdoza6","CustomData":{"status":200,"requestURL":"https://graphql.contentful.com/content/v1/spaces/4hh9rxfdoza6","responseURL":"https://graphql.contentful.com/content/v1/spaces/4hh9rxfdoza6","body":"Disabled
+  because logContentsOfXhrCalls has not been enabled","baseUrl":"https://graphql.contentful.com/content/v1/spaces/4hh9rxfdoza6","duration":"56ms"}},{"level":"info","timestamp":1693527431446,"type":"click-event","message":"UI
+  Click","CustomData":{"text":"Continue","selector":"SPAN.button__text"}},{"level":"info","timestamp":1693527431450,"type":"request","message":"Opening
+  request to http://127.0.0.1:53890/graphql","CustomData":{"method":"POST","requestURL":"http://127.0.0.1:53890/graphql","baseUrl":"http://127.0.0.1:53890/graphql","body":"Disabled
+  because logContentsOfXhrCalls has not been enabled"}},{"level":"info","timestamp":1693527431460,"type":"request","message":"Finished
+  request to http://127.0.0.1:53890/graphql","CustomData":{"status":200,"requestURL":"http://127.0.0.1:53890/graphql","responseURL":"http://127.0.0.1:53890/graphql","body":"Disabled
+  because logContentsOfXhrCalls has not been enabled","baseUrl":"http://127.0.0.1:53890/graphql","duration":"11ms"}},{"level":"info","timestamp":1693527431462,"type":"request","message":"Opening
+  request to http://127.0.0.1:53890/graphql","CustomData":{"method":"POST","requestURL":"http://127.0.0.1:53890/graphql","baseUrl":"http://127.0.0.1:53890/graphql","body":"Disabled
+  because logContentsOfXhrCalls has not been enabled"}},{"level":"info","timestamp":1693527431478,"type":"request","message":"Finished
+  request to http://127.0.0.1:53890/graphql","CustomData":{"status":200,"requestURL":"http://127.0.0.1:53890/graphql","responseURL":"http://127.0.0.1:53890/graphql","body":"Disabled
+  because logContentsOfXhrCalls has not been enabled","baseUrl":"http://127.0.0.1:53890/graphql","duration":"16ms"}}]}}'
+:status: 400
+:method: post
+:headers:
+  Server: awselb/2.0
+  Date: Fri, 01 Sep 2023 00:17:12 GMT
+  Content-Type: text/html
+  Content-Length: '524'
+  Connection: close
+:content: "<html>\r\n<head><title>400 Bad Request</title></head>\r\n<body>\r\n<center><h1>400
+  Bad Request</h1></center>\r\n</body>\r\n</html>\r\n<!-- a padding to disable MSIE
+  and Chrome friendly error page -->\r\n<!-- a padding to disable MSIE and Chrome
+  friendly error page -->\r\n<!-- a padding to disable MSIE and Chrome friendly error
+  page -->\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n<!--
+  a padding to disable MSIE and Chrome friendly error page -->\r\n<!-- a padding to
+  disable MSIE and Chrome friendly error page -->\r\n"

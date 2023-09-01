@@ -4,9 +4,9 @@ import { useRegistrationContext } from '../RegistrationContext';
 import Icon from '@/atoms/Icon';
 
 const HowWorkshopsWork = () => {
-  const [expanded, setExpanded] = useState(true);
+  const { festival, registration } = useRegistrationContext();
 
-  const { festival } = useRegistrationContext();
+  const [expanded, setExpanded] = useState(() => !!registration?.completedAt);
 
   return (
     <div className="collapsible how-workshops-work" aria-expanded={expanded}>

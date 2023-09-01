@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
 
-import { RegistrationSlotFragment } from '@/graphql/types';
+import { RegistrationSessionFragment, RegistrationSlotFragment } from '@/graphql/types';
 import Skeleton from '@/helpers/Skeleton';
 import { useAuthentication } from '@/organisms/Authentication';
 
+import { WorkshopSession } from './types';
 import WorkshopCard from './WorkshopCard';
 import { useWorkshopSelectionContext } from './WorkshopSelectionContext';
 
@@ -11,15 +12,22 @@ type SlotProps = {
   slot: RegistrationSlotFragment;
 };
 
+const hasWorkshop = (session: RegistrationSessionFragment): session is WorkshopSession =>
+  !!session.workshop;
+
 const Slot: React.FC<SlotProps> = ({ slot }) => {
   const { loading } = useWorkshopSelectionContext();
 
   const { user } = useAuthentication();
 
   const busy = useMemo(
-    () => !!user && slot.workshops.some((w) => w.tutors.some((t) => t.id === user.profile?.id)),
+    () =>
+      !!user &&
+      slot.sessions.some((s) => s.workshop?.tutors?.some((t) => t.id === user.profile?.id)),
     [slot, user]
   );
+
+  const sessions = useMemo(() => slot.sessions.filter(hasWorkshop), [slot]);
 
   return (
     <section className="workshop-selection__slot">
@@ -35,9 +43,12 @@ const Slot: React.FC<SlotProps> = ({ slot }) => {
           </Skeleton>
         </time>
       </header>
+      {busy && (
+        <div className="workshop-selection__busy">You’re teaching during this timeslot.</div>
+      )}
       <div className="workshop-selection__workshops">
-        {slot.workshops.map((workshop) => (
-          <WorkshopCard disabled={busy} key={workshop.id} workshop={workshop} slot={slot} />
+        {sessions.map((session) => (
+          <WorkshopCard disabled={busy} key={session.id} session={session} slot={slot} />
         ))}
       </div>
     </section>

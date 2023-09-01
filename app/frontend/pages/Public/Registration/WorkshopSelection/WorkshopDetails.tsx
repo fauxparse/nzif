@@ -8,6 +8,7 @@ import Icon from '@/atoms/Icon';
 import Placename from '@/atoms/Placename';
 import {
   Placename as PlacenameType,
+  RegistrationSessionFragment,
   RegistrationSlotFragment,
   RegistrationWorkshopFragment,
   useWorkshopDetailsQuery,
@@ -24,36 +25,45 @@ import sentence from '@/util/sentence';
 import { useWorkshopSelectionContext } from './WorkshopSelectionContext';
 
 type WorkshopDetailsProps = {
-  workshop: RegistrationWorkshopFragment;
-  slot: RegistrationSlotFragment;
+  session: RegistrationSessionFragment;
 };
 
 const isWorkshop = (
   workshop: WorkshopDetailsQuery['festival']['activity'] | null | undefined
 ): workshop is WorkshopDetailsFragment => workshop?.type === 'Workshop';
 
-const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({ workshop, slot }) => {
+const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({ session }) => {
   const open = useIsPresent();
 
-  const { moreInfo, selected, add, remove } = useWorkshopSelectionContext();
+  const { moreInfo, selected, add, remove, slots } = useWorkshopSelectionContext();
+
+  const workshop = session.workshop;
+
+  const slot = useMemo(
+    () => slots.find((s) => s.startsAt.equals(session.startsAt)),
+    [slots, session]
+  );
 
   const preference = useMemo(
-    () => (selected.get(slot.startsAt) || []).findIndex((w) => w.id === workshop.id) + 1,
-    [workshop, slot, selected]
+    () =>
+      (selected.get(slot?.startsAt?.valueOf() || 0) || []).findIndex(
+        (w) => w.id === session.workshop?.id
+      ) + 1,
+    [session, slot, selected]
   );
 
   const nextAvailable = useMemo(
-    () => (selected.get(slot.startsAt) || []).length + 1,
+    () => (selected.get(slot?.startsAt?.valueOf() || 0) || []).length + 1,
     [selected, slot]
   );
 
   const { loading, data } = useWorkshopDetailsQuery({
-    variables: { slug: workshop.slug },
+    variables: { slug: workshop?.slug || '' },
   });
 
   const workshopDetails = data?.festival?.activity;
 
-  const tutors = useMemo(() => sortBy(workshop.tutors, 'name'), [workshop.tutors]);
+  const tutors = useMemo(() => sortBy(workshop?.tutors || [], 'name'), [workshop]);
 
   const places = useMemo(
     () =>
@@ -67,34 +77,37 @@ const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({ workshop, slot }) => 
   );
 
   const dateAndTime = useMemo(
-    () => `${slot.startsAt.plus(0).toFormat('EEEE d MMMM, ha')}–${slot.endsAt.toFormat('ha')}`,
+    () =>
+      slot && `${slot.startsAt.plus(0).toFormat('EEEE d MMMM, ha')}–${slot.endsAt.toFormat('ha')}`,
     [slot]
   );
 
   const slotDetails = useMemo(
     () =>
       isWorkshop(workshopDetails) &&
-      workshopDetails?.sessions?.find((s) => s.startsAt.toMillis() === slot.startsAt.toMillis()),
-    [workshopDetails, slot.startsAt]
+      workshopDetails?.sessions?.find((s) => s.startsAt.toMillis() === slot?.startsAt?.toMillis()),
+    [workshopDetails, slot]
   );
 
   const { venue } = slotDetails || {};
 
   const tutorDetails: WorkshopDetailsFragment['tutors'] =
     (isWorkshop(workshopDetails) && workshopDetails.tutors) ||
-    workshop.tutors.map((t) => ({ ...t, bio: '' }));
+    (workshop?.tutors || []).map((t) => ({ ...t, bio: '' }));
 
   const close = () => moreInfo(null);
 
   const addToRegistration = () => {
-    add({ workshop, slot });
+    add(session);
     close();
   };
 
   const removeFromRegistration = () => {
-    remove({ workshop, slot });
+    remove(session);
     close();
   };
+
+  if (!workshop) return null;
 
   return (
     <MotionConfig transition={{ duration: 0.3, ease: 'circOut' }}>

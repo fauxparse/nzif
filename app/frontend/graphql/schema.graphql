@@ -534,6 +534,7 @@ type Session {
   activity: Activity
   activityType: ActivityType!
   capacity: Int
+  count: Int!
   endsAt: ISO8601DateTime!
   id: ID!
   participants: [Registration!]!
@@ -585,6 +586,7 @@ type Show implements Activity {
 type Slot {
   endsAt: ISO8601DateTime!
   id: ID!
+  sessions: [Session!]!
   startsAt: ISO8601DateTime!
   workshops: [Workshop!]!
 }

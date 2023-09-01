@@ -2,11 +2,12 @@ import { createContext, useContext } from 'react';
 
 import {
   RegistrationPhase,
+  RegistrationSessionFragment,
   RegistrationSlotFragment,
   RegistrationWorkshopFragment,
 } from '@/graphql/types';
 
-import { SelectedWorkshop } from './types';
+import { ConfirmOptions } from './ConfirmationModal';
 
 type WorkshopSelectionContextType = {
   loading: boolean;
@@ -14,10 +15,11 @@ type WorkshopSelectionContextType = {
   slots: RegistrationSlotFragment[];
   selected: Map<number, RegistrationWorkshopFragment[]>;
   waitlist: Set<string>;
-  zoomed: SelectedWorkshop | null;
-  add: (workshop: SelectedWorkshop) => void;
-  remove: (workshop: SelectedWorkshop) => void;
-  moreInfo: (workshop: SelectedWorkshop | null) => void;
+  zoomed: RegistrationSessionFragment | null;
+  add: (session: RegistrationSessionFragment) => void;
+  remove: (session: RegistrationSessionFragment) => void;
+  moreInfo: (session: RegistrationSessionFragment | null) => void;
+  confirm: (options: ConfirmOptions) => Promise<void>;
 };
 
 const WorkshopSelectionContext = createContext<WorkshopSelectionContextType>(
