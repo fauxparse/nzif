@@ -212,6 +212,39 @@ mutation RemovePreference($registrationId: ID, $sessionId: ID!) {
   removePreference(registrationId: $registrationId, sessionId: $sessionId)
 }
 
+mutation JoinWaitlist($registrationId: ID, $sessionId: ID!) {
+  addToWaitlist(registrationId: $registrationId, sessionId: $sessionId) {
+    waitlist {
+      id
+      session {
+        ...RegistrationSession
+      }
+    }
+  }
+}
+
+mutation LeaveWaitlist($registrationId: ID, $sessionId: ID!) {
+  removeFromWaitlist(registrationId: $registrationId, sessionId: $sessionId)
+}
+
+mutation JoinSession($registrationId: ID, $sessionId: ID!) {
+  addToSession(registrationId: $registrationId, sessionId: $sessionId) {
+    session {
+      ...RegistrationSession
+    }
+  }
+}
+
+mutation LeaveSession($registrationId: ID, $sessionId: ID!) {
+  removeFromSession(registrationId: $registrationId, sessionId: $sessionId) {
+    session {
+      id
+      count
+      capacity
+    }
+  }
+}
+
 mutation FinaliseRegistration {
   finaliseRegistration {
     registration {

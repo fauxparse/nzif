@@ -23,6 +23,10 @@ module Types
     field :update_translation, mutation: Mutations::Translations::Update
 
     field :add_preference, mutation: Mutations::Preferences::Add
+    field :add_to_session, mutation: Mutations::Registrations::AddToSession
+    field :add_to_waitlist, mutation: Mutations::Registrations::AddToWaitlist
+    field :remove_from_session, mutation: Mutations::Registrations::RemoveFromSession
+    field :remove_from_waitlist, mutation: Mutations::Registrations::RemoveFromWaitlist
     field :remove_preference, mutation: Mutations::Preferences::Remove
 
     field :allocate_workshops, mutation: Mutations::Registrations::Allocate

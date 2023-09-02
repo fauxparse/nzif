@@ -1190,6 +1190,13 @@ CREATE INDEX index_placements_on_session_id ON public.placements USING btree (se
 
 
 --
+-- Name: index_placements_on_session_id_and_registration_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_placements_on_session_id_and_registration_id ON public.placements USING btree (session_id, registration_id);
+
+
+--
 -- Name: index_placenames_on_english; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1605,7 +1612,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230825232026'),
 ('20230826101957'),
 ('20230828234352'),
-('20230831213654');
+('20230831213654'),
+('20230901020857');
 
 
 SET statement_timeout = 0;

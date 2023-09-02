@@ -150,8 +150,7 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ session, slot, disabled = f
           )}
         </div>
         <PreferenceCheckbox
-          workshop={workshop}
-          slot={slot}
+          session={session}
           preference={preference}
           disabled={disabled || undefined}
         />

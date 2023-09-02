@@ -8,12 +8,17 @@ import { DateTime } from 'luxon';
 import { useRegistrationContext } from '../RegistrationContext';
 import {
   ActivityType,
+  JoinSessionMutationVariables,
+  LeaveSessionMutationVariables,
   RegistrationPhase,
   RegistrationPreferenceFragmentDoc,
   RegistrationSessionFragment,
+  RegistrationSessionFragmentDoc,
   RegistrationSlotFragment,
   RegistrationWorkshopFragment,
   useAddPreferenceMutation,
+  useJoinSessionMutation,
+  useLeaveSessionMutation,
   useRegistrationStatusQuery,
   useRemovePreferenceMutation,
 } from '@/graphql/types';
@@ -168,46 +173,79 @@ export const Component: React.FC = () => {
     refetchQueries: ['RegistrationSummary'],
   });
 
+  const [joinSession] = useJoinSessionMutation();
+
+  const [leaveSession] = useLeaveSessionMutation();
+
   const add = (session: RegistrationSessionFragment) => {
     const slot = slots.find((s) => s.startsAt.equals(session.startsAt));
 
     if (!slot || !session.workshop) return;
 
-    addPreference({
-      variables: {
-        registrationId: registration?.id || null,
-        sessionId: session.id,
-      },
-      optimisticResponse: {
-        __typename: 'Mutation',
-        addPreference: {
-          __typename: 'AddPreferencePayload',
-          preference: {
-            __typename: 'Preference',
-            id: uniqueId(),
-            workshop: session.workshop,
-            slot,
-            position: selected.get(slot.startsAt.valueOf())?.length || 0,
+    if (registrationPhase === RegistrationPhase.Earlybird) {
+      addPreference({
+        variables: {
+          registrationId: registration?.id || null,
+          sessionId: session.id,
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          addPreference: {
+            __typename: 'AddPreferencePayload',
+            preference: {
+              __typename: 'Preference',
+              id: uniqueId(),
+              workshop: session.workshop,
+              slot,
+              position: selected.get(slot.startsAt.valueOf())?.length || 0,
+            },
           },
         },
-      },
-      update: (cache, { data }) => {
-        const { preference } = data?.addPreference || {};
-        if (!preference || !registration) return;
+        update: (cache, { data }) => {
+          const { preference } = data?.addPreference || {};
+          if (!preference || !registration) return;
 
-        const ref = cache.writeFragment({
-          fragment: RegistrationPreferenceFragmentDoc,
-          fragmentName: 'RegistrationPreference',
-          data: preference,
-        });
-        cache.modify({
-          id: cache.identify(registration),
-          fields: {
-            preferences: (existing) => [...existing, ref],
+          const ref = cache.writeFragment({
+            fragment: RegistrationPreferenceFragmentDoc,
+            fragmentName: 'RegistrationPreference',
+            data: preference,
+          });
+          cache.modify({
+            id: cache.identify(registration),
+            fields: {
+              preferences: (existing) => [...existing, ref],
+            },
+          });
+        },
+      });
+    } else {
+      if (!registration) return;
+
+      joinSession({
+        variables: { sessionId: session.id } as JoinSessionMutationVariables,
+        optimisticResponse: {
+          __typename: 'Mutation',
+          addToSession: {
+            __typename: 'AddToSessionPayload',
+            session,
           },
-        });
-      },
-    });
+        },
+        update: (cache, { data }) => {
+          const ref = cache.writeFragment({
+            id: cache.identify(session),
+            fragment: RegistrationSessionFragmentDoc,
+            fragmentName: 'RegistrationSession',
+            data: data?.addToSession?.session,
+          });
+          cache.modify({
+            id: cache.identify(registration),
+            fields: {
+              sessions: (existing: Reference[]) => [...existing, ref],
+            },
+          });
+        },
+      });
+    }
   };
 
   const remove = (session: RegistrationSessionFragment) => {
@@ -223,46 +261,91 @@ export const Component: React.FC = () => {
         message: 'If you rejoin the waitlist for this workshop you will lose your place.',
       })
         .then(() => {
-          console.log('Left waitlist');
+          // console.log('Left waitlist');
         })
-        .catch((e) => void 0);
+        .catch(() => void 0);
       return;
     }
 
-    const preference = registration.preferences.find((p) => p.workshop.id === workshop.id);
-    if (!preference) return;
+    if (registrationPhase === RegistrationPhase.Earlybird) {
+      const preference = registration.preferences.find((p) => p.workshop.id === workshop.id);
+      if (!preference) return;
 
-    removePreference({
-      variables: {
-        registrationId: registration?.id || null,
-        sessionId: session.id,
-      },
-      optimisticResponse: {
-        __typename: 'Mutation',
-        removePreference: true,
-      },
-      update: (cache, { data }) => {
-        if (!data?.removePreference) return;
+      removePreference({
+        variables: {
+          registrationId: registration?.id || null,
+          sessionId: session.id,
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          removePreference: true,
+        },
+        update: (cache, { data }) => {
+          if (!data?.removePreference) return;
 
-        cache.modify({
-          id: cache.identify(registration),
-          fields: {
-            preferences: (existing: Reference[], { readField }) =>
-              existing.filter((p) => readField<string>('id', p) !== preference.id),
+          cache.modify({
+            id: cache.identify(registration),
+            fields: {
+              preferences: (existing: Reference[], { readField }) =>
+                existing.filter((p) => readField<string>('id', p) !== preference.id),
+            },
+          });
+          registration.preferences.forEach((p) => {
+            if (p.slot.id === slot.id && p.position > preference.position) {
+              cache.modify({
+                id: cache.identify(p),
+                fields: {
+                  position: (current) => current - 1,
+                },
+              });
+            }
+          });
+        },
+      });
+    } else {
+      if (!registration.sessions.find((s) => s.id === session.id)) return;
+
+      const doLeaveSession = () => {
+        leaveSession({
+          variables: { sessionId: session.id } as LeaveSessionMutationVariables,
+          optimisticResponse: {
+            __typename: 'Mutation',
+            removeFromSession: {
+              __typename: 'RemoveFromSessionPayload',
+              session: {
+                __typename: 'Session',
+                id: session.id,
+                count: session.count - 1,
+                capacity: session.capacity,
+              },
+            },
           },
-        });
-        registration.preferences.forEach((p) => {
-          if (p.slot.id === slot.id && p.position > preference.position) {
+          update: (cache) => {
             cache.modify({
-              id: cache.identify(p),
+              id: cache.identify(registration),
               fields: {
-                position: (current) => current - 1,
+                sessions: (existing: Reference[], { readField }) =>
+                  existing.filter((s) => readField<string>('id', s) !== session.id),
               },
             });
-          }
+          },
         });
-      },
-    });
+      };
+
+      if (session.count >= (session.capacity || Infinity)) {
+        confirm({
+          title: 'Leave this workshop?',
+          message:
+            'This workshop is full. If you leave it, someone on the waitlist will be offered your place.',
+        })
+          .then(() => {
+            doLeaveSession();
+          })
+          .catch(() => void 0);
+      } else {
+        doLeaveSession();
+      }
+    }
   };
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {

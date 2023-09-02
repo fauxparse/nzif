@@ -1,11 +1,11 @@
 module WaitlistPlaces
-  class Offer
+  class Offer < ApplicationInteractor
     include Rails.application.routes.url_helpers
-    include Interactor
 
     delegate :waitlist, to: :context
 
     def call
+      authorize! waitlist.session, to: :update?
       short_url
       waitlist.update!(offered_at: Time.zone.now)
     end

@@ -4,6 +4,7 @@ import Checkbox from '@/atoms/Checkbox';
 import { CheckboxIcon } from '@/atoms/Checkbox/Checkbox';
 import {
   RegistrationPhase,
+  RegistrationSessionFragment,
   RegistrationSlotFragment,
   RegistrationWorkshopFragment,
 } from '@/graphql/types';
@@ -12,25 +13,22 @@ import { useWorkshopSelectionContext } from './WorkshopSelectionContext';
 
 type PreferenceCheckboxProps = {
   preference: number | null;
-  workshop: RegistrationWorkshopFragment;
-  slot: RegistrationSlotFragment;
+  session: RegistrationSessionFragment;
   disabled?: boolean;
 };
 
 const PreferenceCheckbox: React.FC<PreferenceCheckboxProps> = ({
-  workshop,
-  slot,
+  session,
   preference,
   disabled,
 }) => {
   const { registrationPhase, add, remove } = useWorkshopSelectionContext();
 
   const changed = () => {
-    (preference ? remove : add)({
-      workshop,
-      slot,
-    });
+    (preference ? remove : add)(session);
   };
+
+  if (!session.workshop) return null;
 
   return (
     <Checkbox
@@ -38,7 +36,7 @@ const PreferenceCheckbox: React.FC<PreferenceCheckboxProps> = ({
       checked={!!preference}
       preference={(registrationPhase === RegistrationPhase.Earlybird && preference) || undefined}
       disabled={disabled || undefined}
-      value={workshop.id}
+      value={session.workshop.id}
       onChange={changed}
     >
       <svg className="checkbox__burst" viewBox="-64 -64 128 128">
