@@ -121,10 +121,12 @@
   }
 
   .registration__payments {
-    .add-voucher {
+    .add-voucher,
+    .add-payment {
       display: flex;
       flex-direction: column;
       gap: var(--medium);
+      margin-bottom: var(--medium);
       padding: var(--medium);
       border: var(--border-width-standard) solid var(--border-subtle);
       border-radius: var(--border-radius-standard);
@@ -139,16 +141,22 @@
         grid-template-columns: auto 1fr;
         align-items: center;
 
-        &__field {
-          order: -1;
-
-          .input {
-            width: 4rem;
-          }
+        .input {
+          width: 6rem;
         }
 
         label {
           text-transform: lowercase;
+        }
+      }
+    }
+
+    .add-voucher {
+      .labelled__field {
+        order: -1;
+
+        .input {
+          width: 4rem;
         }
       }
     }
@@ -182,9 +190,6 @@
     font-weight: var(--font-weight-normal);
     text-align: left;
 
-    &:last-child {
-      text-align: right;
-    }
 
     strong {
       font-weight: var(--font-weight-medium);
@@ -193,12 +198,48 @@
         color: var(--text-subtle);
       }
     }
+
+    &:first-child,
+    &:last-child {
+      vertical-align: middle;
+      width: 2.5rem;
+      padding: 0;
+      text-align: center;
+
+      .button {
+        color: var(--text-subtle);
+
+        &:not([aria-expanded]) {
+          opacity: 0;
+        }
+      }
+    }
+
+    &:first-child {
+      vertical-align: top;
+      padding-block: var(--small);
+    }
   }
 
-  tr:last-child {
-    td, th {
-      border-top: var(--border-width-standard) solid var(--text);
-      border-bottom: var(--border-width-standard) solid var(--text);
+  tr:hover {
+    td:last-child {
+      .button {
+        opacity: 1;
+      }
+    }
+  }
+
+  .payment__amount {
+    text-align: right;
+  }
+
+  tbody:first-child,
+  tfoot {
+    tr:last-child {
+      td, th {
+        border-top: var(--border-width-standard) solid var(--text);
+        border-bottom: var(--border-width-standard) solid var(--text);
+      }
     }
   }
 

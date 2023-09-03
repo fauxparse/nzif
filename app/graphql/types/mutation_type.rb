@@ -34,6 +34,9 @@ module Types
     field :move_allocated_participant, mutation: Mutations::Registrations::MoveAllocatedParticipant
     field :update_registration_user_details, mutation: Mutations::Registrations::UpdateUserDetails
 
+    field :add_payment, mutation: Mutations::Payments::Add
     field :add_voucher, mutation: Mutations::Payments::AddVoucher
+    field :approve_payment, mutation: Mutations::Payments::Approve
+    field :cancel_payment, mutation: Mutations::Payments::Cancel
   end
 end

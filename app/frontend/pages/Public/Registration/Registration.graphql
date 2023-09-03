@@ -148,6 +148,17 @@ fragment RegistrationUserDetails on Registration {
   codeOfConductAcceptedAt
 }
 
+fragment RegistrationPayment on Payment {
+  id
+  amount
+  state
+  createdAt
+
+  ... on Voucher {
+    workshops
+  }
+}
+
 query WorkshopDetails($slug: String!) {
   festival {
     id
@@ -175,14 +186,7 @@ query RegistrationStatus($id: ID) {
       ...RegistrationSession
     }
     payments {
-      id
-      amount
-      state
-      createdAt
-
-      ... on Voucher {
-        workshops
-      }
+      ...RegistrationPayment
     }
   }
 

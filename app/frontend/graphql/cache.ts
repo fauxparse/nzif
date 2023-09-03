@@ -6,6 +6,7 @@ const cache = () =>
   new InMemoryCache({
     possibleTypes: {
       Activity: ['Show', 'Workshop', 'SocialEvent'],
+      Payment: ['CreditCardPayment', 'InternetBankingPayment', 'Voucher'],
       Setting: ['BooleanSetting', 'StringSetting'],
       SearchResult: ['ActivityResult', 'PersonResult', 'VenueResult', 'PageResult'],
     },

@@ -5,37 +5,37 @@ import Input from '@/atoms/Input';
 import {
   RegistrationPaymentFragmentDoc,
   RegistrationStatusQuery,
-  useAddVoucherMutation,
+  useAddPaymentMutation,
 } from '@/graphql/types';
 import Labelled from '@/helpers/Labelled';
 
-type AddVoucherForm = HTMLFormElement & {
-  workshopsCount: HTMLInputElement;
+type AddPaymentForm = HTMLFormElement & {
+  amount: HTMLInputElement;
 };
 
-type AddVoucherProps = {
+type AddPaymentProps = {
   registration: RegistrationStatusQuery['registration'];
 };
 
-const AddVoucher: React.FC<AddVoucherProps> = ({ registration }) => {
-  const [addVoucher] = useAddVoucherMutation();
+const AddPayment: React.FC<AddPaymentProps> = ({ registration }) => {
+  const [addPayment] = useAddPaymentMutation();
 
   const [disabled, setDisabled] = useState(false);
 
-  const submit = (e: React.FormEvent<AddVoucherForm>) => {
+  const submit = (e: React.FormEvent<AddPaymentForm>) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (!registration) return;
 
     setDisabled(true);
-    addVoucher({
+    addPayment({
       variables: {
         registrationId: registration.id,
-        workshops: e.currentTarget.workshopsCount.valueAsNumber,
+        amount: e.currentTarget.amount.valueAsNumber * 100,
       },
       update: (cache, { data }) => {
-        const payment = data?.addVoucher?.voucher;
+        const payment = data?.addPayment?.payment;
         if (!payment) return;
 
         const ref = cache.writeFragment({
@@ -55,21 +55,14 @@ const AddVoucher: React.FC<AddVoucherProps> = ({ registration }) => {
   };
 
   return (
-    <form className="add-voucher" onSubmit={submit}>
-      <h3>Add voucher</h3>
-      <Labelled name="workshopsCount" label="Workshops">
-        <Input
-          type="number"
-          name="workshopsCount"
-          id="workshopsCount"
-          min={1}
-          defaultValue={5}
-          htmlSize={1}
-        />
+    <form className="add-payment" onSubmit={submit}>
+      <h3>Add payment</h3>
+      <Labelled name="amount" label="$">
+        <Input type="number" name="amount" id="amount" min={1} defaultValue={50} htmlSize={3} />
       </Labelled>
-      <Button type="submit" text="Add voucher" disabled={disabled || !registration || undefined} />
+      <Button type="submit" text="Add payment" disabled={disabled || !registration || undefined} />
     </form>
   );
 };
 
-export default AddVoucher;
+export default AddPayment;

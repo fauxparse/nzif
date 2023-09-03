@@ -1,8 +1,9 @@
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
 
-import { RegistrationStatusQuery, useRegistrationStatusQuery } from '@/graphql/types';
+import { useRegistrationStatusQuery } from '@/graphql/types';
 import { ROUTES } from '@/Routes';
 
+import AddPayment from './AddPayment';
 import AddVoucher from './AddVoucher';
 import PaymentsTable from './PaymentsTable';
 
@@ -19,7 +20,12 @@ export const Component: React.FC = () => {
           <PaymentsTable registration={registration} festival={festival} />
         )}
       </div>
-      <aside>{registration && <AddVoucher registration={registration} />}</aside>
+      {registration && (
+        <aside>
+          <AddVoucher registration={registration} />
+          <AddPayment registration={registration} />
+        </aside>
+      )}
     </div>
   );
 };

@@ -1,9 +1,31 @@
 mutation AddVoucher($registrationId: ID!, $workshops: Int!) {
   addVoucher(registrationId: $registrationId, workshops: $workshops) {
     voucher {
-      id
-      workshops
-      amount
+      ...RegistrationPayment
+    }
+  }
+}
+
+mutation ApprovePayment($id: ID!) {
+  approvePayment(id: $id) {
+    payment {
+      ...RegistrationPayment
+    }
+  }
+}
+
+mutation CancelPayment($id: ID!) {
+  cancelPayment(id: $id) {
+    payment {
+      ...RegistrationPayment
+    }
+  }
+}
+
+mutation AddPayment($registrationId: ID!, $amount: Money!) {
+  addPayment(registrationId: $registrationId, amount: $amount) {
+    payment {
+      ...RegistrationPayment
     }
   }
 }
