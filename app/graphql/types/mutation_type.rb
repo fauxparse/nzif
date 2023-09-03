@@ -33,5 +33,7 @@ module Types
     field :finalise_registration, mutation: Mutations::Registrations::Finalise
     field :move_allocated_participant, mutation: Mutations::Registrations::MoveAllocatedParticipant
     field :update_registration_user_details, mutation: Mutations::Registrations::UpdateUserDetails
+
+    field :add_voucher, mutation: Mutations::Payments::AddVoucher
   end
 end

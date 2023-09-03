@@ -23,6 +23,7 @@ type Tab = {
 const TABS: Tab[] = [
   { label: 'Profile', path: '' },
   { label: 'Registration', path: 'registration' },
+  { label: 'Payment', path: 'payment' },
   { label: 'Settings', path: 'settings', enabled: (person) => !!person?.user },
 ];
 

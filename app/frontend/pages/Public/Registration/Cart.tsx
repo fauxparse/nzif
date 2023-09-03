@@ -3,10 +3,13 @@ import pluralize from 'pluralize';
 import Icon from '@/atoms/Icon';
 import Money from '@/atoms/Money';
 
+import { useRegistrationContext } from './RegistrationContext';
 import useCartCalculator from './useCartCalculator';
 
 const Cart: React.FC = () => {
-  const { count, value, discount, total } = useCartCalculator();
+  const { registration, festival } = useRegistrationContext();
+
+  const { count, value, discount, total } = useCartCalculator(registration, festival);
 
   return (
     <div className="cart">

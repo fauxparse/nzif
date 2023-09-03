@@ -125,9 +125,15 @@ const UserPopup: React.FC<UserPopupProps> = ({ user, reference, open, onClose })
             </Skeleton>
             {cart && (
               <Skeleton rounded loading={loading}>
-                <Button small primary as={Link} to={ROUTES.REGISTRATION.PAYMENT.path}>
+                <Button
+                  small
+                  primary
+                  as={Link}
+                  to={ROUTES.REGISTRATION.PAYMENT.path}
+                  disabled={cart.outstanding <= 0 || undefined}
+                >
                   <Button.Text>
-                    <Money cents={cart.total} /> to pay
+                    <Money cents={cart.outstanding} /> to pay
                   </Button.Text>
                 </Button>
               </Skeleton>

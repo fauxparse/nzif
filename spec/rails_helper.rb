@@ -76,6 +76,10 @@ RSpec.configure do |config|
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
 
+  config.define_derived_metadata(file_path: %r{/spec/interactors/}) do |metadata|
+    metadata[:type] = :interactor
+  end
+
   config.include AuthorizationMatchers
   config.include InteractorHelper, type: :interactor
   config.include MutationHelper, type: :mutation

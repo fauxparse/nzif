@@ -1,0 +1,9 @@
+mutation AddVoucher($registrationId: ID!, $workshops: Int!) {
+  addVoucher(registrationId: $registrationId, workshops: $workshops) {
+    voucher {
+      id
+      workshops
+      amount
+    }
+  }
+}

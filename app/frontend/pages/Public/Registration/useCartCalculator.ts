@@ -2,16 +2,15 @@ import { useMemo } from 'react';
 import { uniq } from 'lodash-es';
 
 import CONFIG from '@/../../config/pricing.yml';
-import { RegistrationPhase } from '@/graphql/types';
-
-import { useRegistrationContext } from './RegistrationContext';
+import { PaymentState, RegistrationPhase, RegistrationStatusQuery } from '@/graphql/types';
 
 const BASE_PRICE = CONFIG.pricing.base_workshop_price;
 const DISCOUNT = CONFIG.pricing.discount_per_additional_workshop;
 
-const useCartCalculator = () => {
-  const { registration, festival } = useRegistrationContext();
+type Registration = RegistrationStatusQuery['registration'];
+type Festival = RegistrationStatusQuery['festival'];
 
+const useCartCalculator = (registration: Registration, festival: Festival) => {
   const count = useMemo(() => {
     if (festival.registrationPhase === RegistrationPhase.Earlybird) {
       return uniq(registration.preferences.map((p) => p.slot.id)).length;
@@ -23,6 +22,12 @@ const useCartCalculator = () => {
   const value = count * BASE_PRICE;
   const discount = ((count * (count - 1)) / 2) * DISCOUNT;
   const total = value - discount;
+  const paid = registration.payments.reduce(
+    (acc, p) => (p.state === PaymentState.Approved ? acc + p.amount : acc),
+    0
+  );
+  const outstanding = Math.max(0, total - paid);
+  const refundDue = Math.max(0, paid - total);
 
   return {
     base: BASE_PRICE,
@@ -30,6 +35,9 @@ const useCartCalculator = () => {
     value,
     discount,
     total,
+    paid,
+    outstanding,
+    refundDue,
   };
 };
 

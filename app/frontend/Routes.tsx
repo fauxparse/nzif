@@ -58,6 +58,7 @@ export const ROUTES = {
         {
           SETTINGS: route('settings'),
           REGISTRATION: route('registration'),
+          PAYMENT: route('payment'),
         }
       ),
       REGISTRATIONS: route('registrations'),
@@ -168,6 +169,10 @@ const router = createBrowserRouter([
               {
                 path: ROUTES.ADMIN.PERSON.SETTINGS.path,
                 lazy: () => import('./pages/Admin/People/Person/Settings'),
+              },
+              {
+                path: ROUTES.ADMIN.PERSON.PAYMENT.path,
+                lazy: () => import('./pages/Admin/People/Person/Payment'),
               },
               {
                 index: true,
