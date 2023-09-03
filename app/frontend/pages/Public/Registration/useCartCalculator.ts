@@ -22,7 +22,7 @@ const useCartCalculator = (registration: Registration, festival: Festival) => {
   const value = count * BASE_PRICE;
   const discount = ((count * (count - 1)) / 2) * DISCOUNT;
   const total = value - discount;
-  const paid = registration.payments.reduce(
+  const paid = (registration.payments || []).reduce(
     (acc, p) => (p.state === PaymentState.Approved ? acc + p.amount : acc),
     0
   );

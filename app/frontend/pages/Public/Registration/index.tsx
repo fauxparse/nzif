@@ -4,7 +4,11 @@ import { useLocation } from 'react-router-dom';
 import { AnimatePresence, HTMLMotionProps, motion, Variants } from 'framer-motion';
 import { DateTime } from 'luxon';
 
-import { RegistrationPhase, useRegistrationStatusQuery } from '@/graphql/types';
+import {
+  RegistrationPhase,
+  RegistrationStatusQuery,
+  useRegistrationStatusQuery,
+} from '@/graphql/types';
 import usePrevious from '@/hooks/usePrevious';
 
 import Footer from './Footer';
@@ -48,7 +52,7 @@ const variants: Variants = {
 };
 
 export const Component: React.FC = () => {
-  const { data } = useRegistrationStatusQuery();
+  const { loading, data } = useRegistrationStatusQuery();
 
   const { pathname } = useLocation();
 
@@ -87,7 +91,11 @@ export const Component: React.FC = () => {
       user: null,
       codeOfConductAcceptedAt: null,
       preferences: [],
-    },
+      sessions: [],
+      payments: [],
+      waitlist: [],
+      completedAt: null,
+    } satisfies RegistrationStatusQuery['registration'],
   } = data || {};
 
   if (festival.registrationPhase === RegistrationPhase.Paused) {
@@ -95,7 +103,12 @@ export const Component: React.FC = () => {
   }
 
   return (
-    <RegistrationContextProvider step={current} festival={festival} registration={registration}>
+    <RegistrationContextProvider
+      loading={loading}
+      step={current}
+      festival={festival}
+      registration={registration}
+    >
       <div
         className="registration"
         data-complete={currentIndex === REGISTRATION_STEPS.length - 1 || undefined}

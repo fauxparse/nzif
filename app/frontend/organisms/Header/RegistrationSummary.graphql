@@ -15,5 +15,8 @@ query RegistrationSummary {
       outstanding
       workshopsCount
     }
+    payments {
+      ...RegistrationPayment
+    }
   }
 }

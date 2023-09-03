@@ -7,6 +7,7 @@ import { ContinueHandler, Step } from './Registration.types';
 import { REGISTRATION_STEPS } from './Steps';
 
 type RegistrationContextProps = {
+  loading?: boolean;
   step: Step;
   festival: RegistrationStatusQuery['festival'];
   registration: RegistrationStatusQuery['registration'];
@@ -19,10 +20,11 @@ export const RegistrationContext = createContext<RegistrationContextProps>(
 );
 
 type RegistrationContextProviderProps = PropsWithChildren<
-  Pick<RegistrationContextProps, 'step' | 'festival' | 'registration'>
+  Pick<RegistrationContextProps, 'loading' | 'step' | 'festival' | 'registration'>
 >;
 
 export const RegistrationContextProvider: React.FC<RegistrationContextProviderProps> = ({
+  loading = false,
   step,
   festival,
   registration,
@@ -46,7 +48,7 @@ export const RegistrationContextProvider: React.FC<RegistrationContextProviderPr
   }, [step, navigate]);
 
   return (
-    <RegistrationContext.Provider value={{ step, festival, registration, next, back }}>
+    <RegistrationContext.Provider value={{ loading, step, festival, registration, next, back }}>
       {children}
     </RegistrationContext.Provider>
   );

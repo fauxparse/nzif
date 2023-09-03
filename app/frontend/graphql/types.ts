@@ -1187,7 +1187,7 @@ export type HeaderQuery = { __typename: 'Query', festival: { __typename: 'Festiv
 export type RegistrationSummaryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RegistrationSummaryQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, registrationPhase: RegistrationPhase }, registration: { __typename: 'Registration', id: string, cart: { __typename: 'Cart', id: string, value: number, discount: number, total: number, paid: number, outstanding: number, workshopsCount: number } | null } };
+export type RegistrationSummaryQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, registrationPhase: RegistrationPhase }, registration: { __typename: 'Registration', id: string, cart: { __typename: 'Cart', id: string, value: number, discount: number, total: number, paid: number, outstanding: number, workshopsCount: number } | null, payments: Array<{ __typename: 'CreditCardPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'InternetBankingPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Voucher', workshops: number, id: string, amount: number, state: PaymentState, createdAt: DateTime }> } };
 
 export type SearchQueryVariables = Exact<{
   query: Scalars['String'];
@@ -2434,9 +2434,12 @@ export const RegistrationSummaryDocument = gql`
       outstanding
       workshopsCount
     }
+    payments {
+      ...RegistrationPayment
+    }
   }
 }
-    `;
+    ${RegistrationPaymentFragmentDoc}`;
 
 /**
  * __useRegistrationSummaryQuery__

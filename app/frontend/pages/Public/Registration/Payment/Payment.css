@@ -21,27 +21,93 @@
     }
   }
 
-  &__summary {
+  .registration__cart {
     dl {
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: var(--small) var(--large);
-      align-items: flex-end;
+      align-content: center;
       margin: 0;
       padding: 0;
+    }
+
+    dt,
+    dd {
+      margin: 0;
+      padding: var(--tiny) 0;
+      font-size: var(--font-size-medium);
+      line-height: var(--line-height-medium);
+    }
+
+    .di {
+      display: contents;
+
+      dt,
+      dd {
+        border-top: 1px solid var(--border-subtle);
+      }
+
+      &:last-child {
+        font-weight: var(--font-weight-medium);
+      }
     }
 
     dt {
       display: flex;
       gap: var(--tiny);
       align-items: center;
-      margin: 0;
+
+      .icon {
+        --icon-size: 1rem;
+      }
     }
 
     dd {
-      margin: 0;
-      padding: 0;
       text-align: right;
+    }
+  }
+
+  .payment-methods {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--large);
+  }
+
+  .payment-method {
+    display: grid;
+    grid-template:
+      "radio label" auto
+      "radio sub" auto / auto 1fr;
+    gap: 0 var(--medium);
+    padding: var(--medium);
+    border: var(--border-width-standard) solid var(--border-element);
+    border-radius: var(--border-radius-standard);
+    line-height: 1.25;
+    cursor: pointer;
+
+    .radio {
+      grid-area: radio;
+      align-self: center;
+    }
+
+    .b {
+      align-self: end;
+      font-weight: var(--font-weight-medium);
+    }
+
+    small {
+      align-self: start;
+      color: var(--text-subtle);
+      font-size: 100%;
+    }
+
+    &:hover {
+      border-color: var(--border-hover);
+      background: var(--background-hover);
+    }
+
+    &[aria-selected] {
+      border-color: var(--border-element-accent);
+      background: var(--background-element-accent);
     }
   }
 
@@ -50,7 +116,8 @@
     grid-template-columns: 1fr 1fr 1fr;
     gap: var(--large);
 
-    &__earlybird {
+    &__earlybird,
+    &__general {
       grid-column: 1 / span 2;
       padding-right: var(--large);
     }
