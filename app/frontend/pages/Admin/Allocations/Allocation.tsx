@@ -1,3 +1,5 @@
+import { sortBy } from 'lodash-es';
+
 import Button from '@/atoms/Button';
 import { FestivalWorkshopAllocationQuery } from '@/graphql/types';
 import Breadcrumbs from '@/molecules/Breadcrumbs';
@@ -32,7 +34,7 @@ const Allocation: React.FC<AllocationProps> = ({ allocation, registrations, onRe
         </div>
       </PageHeader>
       <div className="allocations">
-        {slots.map((slot) => (
+        {sortBy(slots, 'startsAt').map((slot) => (
           <AllocationSlot key={slot.id} slot={slot} dispatch={dispatch} />
         ))}
       </div>
