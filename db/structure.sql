@@ -461,7 +461,8 @@ CREATE TABLE public.registrations (
     code_of_conduct_accepted_at timestamp without time zone,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    completed_at timestamp without time zone
+    completed_at timestamp without time zone,
+    stripe_customer_id character varying
 );
 
 
@@ -1613,7 +1614,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230826101957'),
 ('20230828234352'),
 ('20230831213654'),
-('20230901020857');
+('20230901020857'),
+('20230904001348');
 
 
 SET statement_timeout = 0;

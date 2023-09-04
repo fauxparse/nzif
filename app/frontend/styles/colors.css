@@ -87,6 +87,18 @@
   --info10: var(--amber10);
   --info11: var(--amber11);
   --info12: var(--amber12);
+  --error1: var(--red1);
+  --error2: var(--red2);
+  --error3: var(--red3);
+  --error4: var(--red4);
+  --error5: var(--red5);
+  --error6: var(--red6);
+  --error7: var(--red7);
+  --error8: var(--red8);
+  --error9: var(--red9);
+  --error10: var(--red10);
+  --error11: var(--red11);
+  --error12: var(--red12);
 
   /* Color aliases */
   --background: var(--neutral1);
@@ -101,7 +113,9 @@
   --solid-hover: var(--neutral10);
   --text-subtle: var(--neutral11);
   --text: var(--neutral12);
-  --text-error: var(--red11);
+  --text-error: var(--error11);
+  --background-error: var(--error3);
+  --border-error: var(--error7);
   --background-accent: var(--accent1);
   --background-subtle-accent: var(--accent2);
   --background-element-accent: var(--accent3);

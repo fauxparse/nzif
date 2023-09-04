@@ -15,6 +15,9 @@ Rails.application.routes.draw do
 
   resources :countries, only: :index, defaults: { format: :json }
 
+  post '/payment_intents', to: 'payments#create_intent', defaults: { format: :json }
+  post '/payments', to: 'payments#webhook', defaults: { format: :json }
+
   get '/register/workshops', to: 'festivals#show', as: :registration
   get '/register/payment', to: 'festivals#show', as: :payment
 

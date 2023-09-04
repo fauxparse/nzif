@@ -23,4 +23,7 @@ export default defineConfig({
     },
     threads: false,
   },
+  define: {
+    STRIPE_PUBLIC_KEY: '"process.env.STRIPE_PUBLISHABLE_KEY"',
+  },
 });

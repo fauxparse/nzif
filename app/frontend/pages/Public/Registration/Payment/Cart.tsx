@@ -92,19 +92,18 @@ const Cart: React.FC<CartProps> = ({ registration, festival }) => {
             </dd>
           </span>
         )}
-        {outstanding > 0 && (
-          <span className="di">
-            <dt>Amount remaining</dt>
-            <dd>
-              <Money cents={outstanding} includeCurrency />
-            </dd>
-          </span>
-        )}
-        {refundDue > 0 && (
+        {refundDue > 0 ? (
           <span className="di">
             <dt>Refund due</dt>
             <dd>
               <Money cents={-refundDue} includeCurrency />
+            </dd>
+          </span>
+        ) : (
+          <span className="di">
+            <dt>Amount remaining</dt>
+            <dd>
+              <Money cents={Math.max(0, outstanding)} includeCurrency />
             </dd>
           </span>
         )}

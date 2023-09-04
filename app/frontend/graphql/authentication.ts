@@ -9,7 +9,7 @@ type AuthenticationInfo = {
 
 const LOCALSTORAGE_KEY = 'nzif';
 
-const getAuthenticationInfo = (): AuthenticationInfo | null => {
+export const getAuthenticationInfo = (): AuthenticationInfo | null => {
   const stored = localStorage.getItem(LOCALSTORAGE_KEY);
   if (!stored) return null;
 

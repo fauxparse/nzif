@@ -1,6 +1,6 @@
 module Payments
   class Add < ApplicationInteractor
-    delegate :registration, :amount, :type, to: :context
+    delegate :registration, :amount, :type, :reference, :state, to: :context
 
     def call
       authorize! registration, to: :manage?
@@ -11,7 +11,8 @@ module Payments
       context[:payment] ||= type.create!(
         registration:,
         amount:,
-        state: :approved,
+        state: state || :approved,
+        reference:,
       )
     end
   end

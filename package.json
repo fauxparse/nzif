@@ -102,6 +102,8 @@
     "@radix-ui/react-dialog": "^1.0.3",
     "@radix-ui/react-toggle-group": "^1.0.3",
     "@rails/actioncable": "^7.0.6",
+    "@stripe/react-stripe-js": "^2.1.2",
+    "@stripe/stripe-js": "^2.1.1",
     "@tanstack/react-query": "^4.29.7",
     "@tanstack/react-table": "^8.9.1",
     "@visx/axis": "^3.3.0",

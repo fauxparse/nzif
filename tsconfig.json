@@ -21,7 +21,7 @@
     },
     "types": ["@modyfi/vite-plugin-yaml/modules", "@testing-library/jest-dom"]
   },
-  "include": ["./app/frontend", "./config/roles.yml"],
+  "include": ["./app/frontend", "./config/roles.yml", "./vite-env.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "ts-node": {
     "esm": true,

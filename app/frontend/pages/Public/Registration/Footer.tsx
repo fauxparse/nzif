@@ -10,7 +10,7 @@ import { REGISTRATION_STEPS } from './Steps';
 const Footer: React.FC = () => {
   const [container, setContainer] = useState<HTMLElement | null>(null);
 
-  const { step, festival } = useRegistrationContext();
+  const { step, festival, busy } = useRegistrationContext();
 
   const { previous, next } = useMemo(() => {
     const currentIndex = REGISTRATION_STEPS.indexOf(step);
@@ -71,10 +71,11 @@ const Footer: React.FC = () => {
           id="next"
           type="submit"
           form="registration-form"
+          disabled={busy || undefined}
           text={
             <>
               <small>Next</small>
-              <span>{next.label}</span>
+              <span>{busy ? 'Please wait…' : next.label}</span>
             </>
           }
         />

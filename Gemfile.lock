@@ -529,6 +529,7 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     stringex (2.8.6)
+    stripe (9.1.0)
     sync (0.5.0)
     sys-uname (1.2.3)
       ffi (~> 1.1)
@@ -638,6 +639,7 @@ DEPENDENCIES
   simplecov-summary
   sprockets-rails
   stringex (~> 2.8)
+  stripe
   tzinfo-data
   vite_rails (~> 3.0)
   web-console

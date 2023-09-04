@@ -3984,6 +3984,18 @@
     "@types/express" "^4.7.0"
     file-system-cache "2.3.0"
 
+"@stripe/react-stripe-js@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@stripe/react-stripe-js/-/react-stripe-js-2.1.2.tgz#981b4557f82455170ce88b7c2319e52a4e4c4429"
+  integrity sha512-2JcKRvOdMD698uGrY0cINLHb6XHnY24L+wlWlw2+TbI2aXlQZ9t8Mc+KssFES+EuNgISbrp7fJR3w/13epfiOw==
+  dependencies:
+    prop-types "^15.7.2"
+
+"@stripe/stripe-js@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-2.1.1.tgz#dd540bb9e764ef9e6fe54bbff9a259e66451a0b1"
+  integrity sha512-V+0z21/YNbvIX0b2Fo6mE4w5kiihrdytAwVPG66RRWvkAe4COumywRfaWrBTmVQF2aAmxoRpeyTM1LKWbiOK6Q==
+
 "@tanstack/query-core@4.29.7":
   version "4.29.7"
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.29.7.tgz#9fe4587e23cb9566b937c518ffa44226041d388d"
