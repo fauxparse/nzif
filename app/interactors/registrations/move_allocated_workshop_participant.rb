@@ -10,7 +10,7 @@ module Registrations
 
       remove_from_old_session if old_session.present? && !waitlist
       add_to_new_session if new_session.present?
-      # allocation.update!(data: matchmaker)
+      update_waitlists unless waitlist
       allocation.save!
     end
 
@@ -65,6 +65,20 @@ module Registrations
     def find_position(session_id)
       id = Session.decode_id(session_id)
       candidate.preferences.find { |p| p.session_id == id }&.position
+    end
+
+    def update_waitlists
+      position = find_position(new_session_id)
+      sessions = allocation.data.siblings(new_session || old_session).index_by(&:id)
+      prefs = candidate.preferences
+        .to_h { |p| [Session.encode_id(p.session_id), p.position] }
+      sessions.each_pair do |id, session|
+        if !position || prefs[id] < position
+          session.waitlist << candidate
+        else
+          session.waitlist.delete(candidate)
+        end
+      end
     end
 
     def noop?

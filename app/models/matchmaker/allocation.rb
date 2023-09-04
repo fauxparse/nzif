@@ -58,6 +58,10 @@ module Matchmaker
         .index_by(&:id)
     end
 
+    def siblings(session)
+      sessions.values.select { |s| s.starts_at == session.starts_at }
+    end
+
     def score
       average_score / never_bummed_out * no_zeroes
     end
@@ -123,6 +127,10 @@ module Matchmaker
           end
         end
       end
+    end
+
+    def inspect
+      '(Allocation)'
     end
   end
 end
