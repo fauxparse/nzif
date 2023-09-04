@@ -19,7 +19,9 @@ module Matchmaker
       session.to_param
     end
 
-    def place(candidate, &)
+    def place(candidate, &) # rubocop:disable Metrics/AbcSize
+      return if candidates.find { |c| c.id == candidate.id }
+
       candidates << candidate
 
       return if candidates.size <= capacity

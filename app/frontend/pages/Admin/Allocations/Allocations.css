@@ -44,6 +44,7 @@
       appearance: none;
 
       h3 {
+        flex: 1 1 0;
         margin: 0;
       }
 
@@ -82,7 +83,7 @@
     gap: var(--large);
     place-content: center;
     margin: 0 auto;
-    padding: 0 var(--large) var(--large) var(--horizontal-padding);
+    padding: 0 var(--large) var(--large);
   }
 
   &__session {
@@ -92,9 +93,9 @@
     transition: opacity var(--timing-standard) var(--ease-standard);
 
     h4 {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto;
       gap: var(--medium);
-      justify-content: space-between;
       align-items: baseline;
       margin: 0;
       color: var(--text-subtle);
@@ -122,6 +123,7 @@
 
   &__stats {
     display: flex;
+    flex: 0 0 auto;
     gap: var(--tiny);
   }
 

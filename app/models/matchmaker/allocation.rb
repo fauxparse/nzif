@@ -11,12 +11,26 @@ module Matchmaker
       @seed = seed
       @capacity = capacity
 
+      @retries = 10
+
       while (candidate = next_candidate)
         candidate.place(sessions) do |bumped|
           candidates.unshift(bumped) if bumped.present?
         end
+
+        retry! if candidates.empty?
       end
       self
+    end
+
+    def retry!
+      return if @retries.zero?
+
+      @retries -= 1
+      @candidates = registrations
+        .select { |r| r.score < 0.5 }
+        .flat_map { |r| r.candidates(reload: true) }
+        .shuffle(random:)
     end
 
     def random
@@ -45,7 +59,7 @@ module Matchmaker
     end
 
     def score
-      average_score * never_bummed_out
+      average_score / never_bummed_out * no_zeroes
     end
 
     def average_score
@@ -58,6 +72,10 @@ module Matchmaker
       return 0 if registrations.empty?
 
       registrations.count { |r| r.bummed_out.zero? } / registrations.size.to_f
+    end
+
+    def no_zeroes
+      registrations.any? { |r| r.score.zero? } ? 0 : 1
     end
 
     def as_json(*)

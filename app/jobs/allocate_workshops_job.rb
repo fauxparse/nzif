@@ -3,7 +3,7 @@ class AllocateWorkshopsJob < ApplicationJob
 
   attr_reader :id, :step
 
-  def perform(id:, iterations: 100, step: 5)
+  def perform(id:, iterations: 10, step: 1)
     @id = id
     @step = step
     Registrations::AllocateWorkshops.call(
