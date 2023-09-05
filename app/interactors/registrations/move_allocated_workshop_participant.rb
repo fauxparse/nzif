@@ -25,7 +25,7 @@ module Registrations
     end
 
     def registration
-      @registration ||= matchmaker.registrations.find { |r| r.id == registration_id }
+      @registration ||= matchmaker.registrations[registration_id]
     end
 
     def old_session
@@ -45,38 +45,38 @@ module Registrations
     end
 
     def remove_from_old_session
-      old_session&.remove(candidate)
+      old_session&.remove(registration)
 
       return unless !new_position || old_position < new_position
 
-      old_session.waitlist << candidate
+      old_session.waitlist << registration
     end
 
     def add_to_new_session
       if waitlist
-        new_session.candidates.delete(candidate)
-        new_session.waitlist << candidate
+        new_session.remove(registration)
+        new_session.waitlist << registration
       else
-        new_session.waitlist.delete(candidate)
-        new_session.candidates << candidate
+        new_session.waitlist.delete(registration)
+        new_session.placements << registration
       end
     end
 
     def find_position(session_id)
-      id = Session.decode_id(session_id)
-      candidate.preferences.find { |p| p.session_id == id }&.position
+      candidate.preferences.find_index(session_id)&.succ
     end
 
     def update_waitlists
       position = find_position(new_session_id)
-      sessions = allocation.data.siblings(new_session || old_session).index_by(&:id)
-      prefs = candidate.preferences
-        .to_h { |p| [Session.encode_id(p.session_id), p.position] }
+      sessions = matchmaker.siblings(new_session || old_session).index_by(&:id)
+      prefs = candidate.preferences.zip(1..candidate.preferences.size).to_h
       sessions.each_pair do |id, session|
+        next unless prefs[id]
+
         if !position || prefs[id] < position
-          session.waitlist << candidate
+          session.waitlist << registration
         else
-          session.waitlist.delete(candidate)
+          session.waitlist.delete(registration)
         end
       end
     end

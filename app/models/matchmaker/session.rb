@@ -1,54 +1,70 @@
+# rubocop:disable Metrics/ParameterLists
+
 module Matchmaker
   class Session
-    include Enumerable
+    attr_reader :id, :name, :starts_at, :activity_id, :capacity, :placements, :waitlist
 
-    attr_reader :session, :candidates, :waitlist, :capacity
-
-    def initialize(session, capacity: session.capacity || 16)
-      @session = session
+    def initialize(
+      id:,
+      name:,
+      starts_at:,
+      activity_id:,
+      capacity:,
+      placements:,
+      waitlist:,
+      registrations:
+    )
+      @id = id
+      @name = name
+      @starts_at = starts_at
+      @activity_id = activity_id
       @capacity = capacity
-      @candidates = Set.new
-      @waitlist = Set.new
+      @placements = SortedList.new(self, placements.map { |p| registrations[p] })
+      @waitlist = SortedList.new(self, waitlist.map { |w| registrations[w] })
+
+      @placements.each { |p| p.placed_in(self) }
     end
 
-    delegate :starts_at, :activity, :slot, to: :session
+    def place(registration, &)
+      return if placements.include?(registration)
 
-    delegate :size, :each, to: :candidates
+      placements << registration
 
-    def id
-      session.to_param
-    end
+      waitlist.delete(registration)
 
-    def place(candidate, &) # rubocop:disable Metrics/AbcSize
-      return if candidates.find { |c| c.id == candidate.id }
+      if placements.size <= capacity
+        registration.placed_in(self)
+        return
+      end
 
-      candidates << candidate
+      bumped = placements.pop
 
-      return if candidates.size <= capacity
-
-      bumped = candidates.max_by { |c| c.score * c.registration.preferences.size }
-      candidates.delete(bumped)
+      registration.placed_in(self) unless bumped == registration
 
       waitlist << bumped
-      candidate.bump_from(self)
+      next_candidate = bumped.bump_from(self)
 
-      yield bumped if block_given?
+      yield next_candidate if next_candidate && block_given?
     end
 
-    def remove(candidate)
-      candidates.delete(candidate)
-      waitlist.delete(candidate)
+    def remove(registration)
+      placements.delete(registration)
+      waitlist.delete(registration)
+      registration.bump_from(self)
     end
 
-    def as_json(*)
+    def as_json
       {
         id:,
         starts_at:,
-        activity_id: activity.to_param,
-        registrations: candidates.to_a.sort_by(&:score).map(&:id),
-        waitlist: waitlist.to_a.sort_by(&:score).map(&:id),
+        activity_id:,
+        name:,
         capacity:,
+        placements: placements.map(&:id),
+        waitlist: waitlist.map(&:id),
       }
     end
   end
 end
+
+# rubocop:enable Metrics/ParameterLists

@@ -1,136 +1,74 @@
 module Matchmaker
   class Allocation
-    attr_accessor :festival, :seed, :capacity
+    attr_reader :registrations, :sessions
 
-    def self.process(festival:, seed: Random.new_seed, capacity: nil)
-      new.process(festival:, seed:, capacity:)
+    def initialize(json)
+      @registrations = json[:registrations].map do |r|
+        Registration.new(**r.symbolize_keys)
+      end.index_by(&:id)
+      @sessions = json[:sessions].map do |s|
+        Session.new(registrations:, **s.symbolize_keys)
+      end.index_by(&:id)
     end
 
-    def process(festival: nil, seed: Random.new_seed, capacity: nil)
-      @festival = festival
-      @seed = seed
-      @capacity = capacity
+    def allocate!
+      @retries = 5
 
-      @retries = 10
+      while candidates.any?
+        candidate = candidates.shift
 
-      while (candidate = next_candidate)
-        candidate.place(sessions) do |bumped|
-          candidates.unshift(bumped) if bumped.present?
+        session = candidate.next_non_clashing_session(sessions)
+        next unless session
+
+        session.place(candidate.registration) do |bumped|
+          candidates.unshift(bumped)
         end
 
-        retry! if candidates.empty?
+        repechage if candidates.empty?
       end
       self
     end
 
-    def retry!
+    def repechage
       return if @retries.zero?
 
       @retries -= 1
-      @candidates = registrations
-        .select { |r| r.score < 0.5 }
-        .flat_map { |r| r.candidates(reload: true) }
-        .shuffle(random:)
-    end
-
-    def random
-      @random ||= Random.new(seed)
-    end
-
-    def registrations
-      @registrations ||= festival.registrations.completed.includes(:profile, preferences: :slot)
-        .map { |r| Registration.new(r) }
+      @candidates = registrations.values.select(&:zero?).flat_map do |c|
+        c.candidates(reload: true).values
+      end.shuffle
     end
 
     def candidates
-      @candidates ||= registrations.flat_map(&:candidates).shuffle(random:)
+      @candidates ||= registrations.values.flat_map { |r| r.candidates.values }.shuffle
     end
 
-    def next_candidate
-      candidates.shift
-    end
-
-    def sessions
-      @sessions ||= festival.sessions.includes(:slot, :activity)
-        .where(activity_type: 'Workshop')
-        .where.not(activity_id: nil)
-        .map { |s| Session.new(s, capacity: capacity || s.capacity) }
-        .index_by(&:id)
+    def score
+      registrations.values.sum { |r| r.score * r.score } / [registrations.size, 1].max
     end
 
     def siblings(session)
       sessions.values.select { |s| s.starts_at == session.starts_at }
     end
 
-    def score
-      average_score / never_bummed_out * no_zeroes
+    def inspect
+      '<Matchmaker::Allocation...>'
     end
 
-    def average_score
-      return 0 if registrations.empty?
-
-      registrations.sum(&:score) / registrations.size.to_f
+    def self.from_festival(festival)
+      new(**Loader.new(festival).as_json)
     end
 
-    def never_bummed_out
-      return 0 if registrations.empty?
-
-      registrations.count { |r| r.bummed_out.zero? } / registrations.size.to_f
-    end
-
-    def no_zeroes
-      registrations.any? { |r| r.score.zero? } ? 0 : 1
-    end
-
-    def as_json(*)
+    def self.dump(allocation)
       {
-        sessions: sessions.values.map(&:as_json),
-        festival_id: festival.to_param,
-        capacity:,
-        seed:,
+        registrations: allocation.registrations.values.map(&:as_json),
+        sessions: allocation.sessions.values.map(&:as_json),
       }
     end
 
-    def save_as(record)
-      record.update!(
-        score: score * 100_00,
-        original: as_json,
-        completed_at: Time.zone.now,
-      )
-    end
-
-    def self.dump(value)
-      (value || {}).to_json
-    end
-
-    def self.load(json) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    def self.load(json)
       return nil if json.blank?
 
-      data = JSON.parse(json).deep_symbolize_keys
-
-      new.tap do |a|
-        a.festival = Festival.find(data[:festival_id])
-        a.seed = data[:seed]
-        a.capacity = data[:capacity]
-
-        registrations = a.registrations.index_by(&:id)
-
-        data[:sessions].each do |s|
-          session = a.sessions[s[:id]]
-          s[:registrations].each do |r|
-            registration = registrations[r]
-            registration.slots[session.slot] = registration.session_position(session)
-            session.candidates << registration.candidate(session)
-          end
-          s[:waitlist].each do |r|
-            session.waitlist << registrations[r].candidate(session)
-          end
-        end
-      end
-    end
-
-    def inspect
-      '(Allocation)'
+      new(**json.with_indifferent_access)
     end
   end
 end

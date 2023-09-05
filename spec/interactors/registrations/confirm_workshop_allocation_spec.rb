@@ -10,7 +10,7 @@ RSpec.describe Registrations::ConfirmWorkshopAllocation, type: :interactor do
   it { is_expected.to be_success }
 
   it 'creates placements' do
-    expected_placement_count = allocation.data.sessions.values.sum { |s| s.candidates.size }
+    expected_placement_count = allocation.data.sessions.values.sum { |s| s.placements.size }
     expect { result }.to change(Placement, :count).by(expected_placement_count)
   end
 

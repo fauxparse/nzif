@@ -17,6 +17,21 @@ module Registrations
 
     private
 
+    def sessions
+      @sessions ||= festival
+        .sessions
+        .includes(:activity)
+        .where(activities: { type: 'Workshop' })
+        .index_by(&:to_param)
+    end
+
+    def registrations
+      @registrations ||= festival
+        .registrations
+        .completed
+        .index_by(&:to_param)
+    end
+
     def finalise_sessions
       allocation.sessions.each_value do |session|
         finalise_session(session)
@@ -24,20 +39,20 @@ module Registrations
     end
 
     def finalise_session(session)
-      record = session.session
+      record = sessions[session.id]
 
-      session.candidates.each do |candidate|
-        record.placements.create!(registration_id: candidate.record_id)
+      session.placements.each do |registration|
+        record.placements.create!(registration_id: registrations[registration.id].id)
       end
 
-      session.waitlist.sort_by { |c| c.score * c.registration.preferences.size }.each do |candidate|
-        record.waitlist.create!(registration_id: candidate.record_id)
+      session.waitlist.sort_by { |r| r.score * r.preferences.size }.each do |registration|
+        record.waitlist.create!(registration_id: registrations[registration.id].id)
       end
     end
 
     def send_confirmations
       allocation.registrations.each do |registration|
-        ParticipantMailer.workshop_confirmation(registration.registration).deliver_later
+        ParticipantMailer.workshop_confirmation(registrations[registration]).deliver_later
       end
     end
   end

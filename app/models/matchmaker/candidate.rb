@@ -1,47 +1,31 @@
 module Matchmaker
   class Candidate
-    attr_reader :preferences, :registration, :slot, :choice
+    attr_reader :registration, :preferences, :slot, :position
 
-    def initialize(registration, slot, preferences)
+    def initialize(registration:, preferences:, slot:)
       @registration = registration
+      @preferences = preferences
       @slot = slot
-      @preferences = preferences.sort_by(&:position)
+      @position = 1
     end
 
-    def record_id
-      registration.registration.id
+    delegate :id, to: :registration
+
+    def session_id
+      preferences[position - 1]
     end
 
-    def place(sessions, &)
-      preference = preferences.shift
-      @choice = preference.position
-      registration.offer(slot, choice)
-      session_id = ::Session.encode_id(preference.session_id)
-      sessions[session_id].place(self, &)
+    def next_non_clashing_session(sessions)
+      @position += 1 while session_id && registration.already_in?(sessions[session_id].activity_id)
+
+      session_id && sessions[session_id]
     end
 
-    def bump_from(_session)
-      registration.revoke(slot)
+    def bump(session)
+      @position += 1 if session_id == session.id
+      session_id && self
     end
 
-    def <=>(other)
-      as = registration.score
-      bs = other.registration.score
-      if as < bs
-        -1
-      else
-        return -1 if as == bs && registration.candidates.size < other.registration.candidates.size
-
-        1
-      end
-    end
-
-    def eql?(other)
-      id == other.id
-    end
-
-    delegate :empty?, to: :preferences
-
-    delegate :id, :score, to: :registration
+    delegate :present?, to: :session_id
   end
 end

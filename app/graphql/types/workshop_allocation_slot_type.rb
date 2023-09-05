@@ -12,10 +12,10 @@ module Types
       object[:sessions].map do |session|
         {
           id: session.id,
-          registrations: session.candidates.map(&:id),
+          registrations: session.placements.map(&:id),
           waitlist: session.waitlist.map(&:id),
           capacity: session.capacity,
-          activity_id: session.activity.to_param,
+          activity_id: session.activity_id,
         }
       end
     end

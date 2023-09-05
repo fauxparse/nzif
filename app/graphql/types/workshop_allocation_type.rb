@@ -23,15 +23,16 @@ module Types
 
       object.data.sessions.values.group_by(&:starts_at).map do |starts_at, sessions|
         {
-          id: starts_at.to_s,
-          starts_at:,
+          id: starts_at,
+          starts_at: Time.zone.parse(starts_at),
           sessions:,
         }
       end
     end
 
     def slot(starts_at:)
-      sessions = object.data.sessions.values.select { |s| s.starts_at == starts_at }
+      start = starts_at.iso8601
+      sessions = object.data.sessions.values.select { |s| s.starts_at == start }
       {
         id: starts_at.to_s,
         starts_at:,

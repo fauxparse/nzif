@@ -5,6 +5,6 @@ require_relative 'matchmaker/session'
 
 module Matchmaker
   def self.allocate(festival:, seed: Random.new_seed, capacity: nil)
-    Allocation.process(festival:, seed:, capacity:)
+    Allocation.from_festival(festival).allocate!
   end
 end
