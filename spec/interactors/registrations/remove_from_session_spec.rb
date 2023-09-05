@@ -4,11 +4,11 @@ RSpec.describe Registrations::RemoveFromSession, type: :interactor do
   let(:festival) { create(:festival) }
   let(:session) { create(:session, festival:) }
   let(:registration) { create(:registration, festival:) }
-  let!(:placement) { create(:waitlist, session:, registration:) } # rubocop:disable RSpec/LetSetup
+  let!(:placement) { create(:placement, session:, registration:) } # rubocop:disable RSpec/LetSetup
   let(:context) { { session:, registration: } }
 
   it 'removes the registration from the session' do
-    expect { result }.to change(session.placement, :count).by(-1)
+    expect { result }.to change(session.placements, :count).by(-1)
   end
 
   context 'when the registration is not in the session' do
