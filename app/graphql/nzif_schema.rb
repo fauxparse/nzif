@@ -5,6 +5,7 @@ class NZIFSchema < GraphQL::Schema
     resource_loaders: [
       GraphqlDevise::ResourceLoader.new(User),
     ],
+    authenticate_default: false,
   )
 
   use GraphQL::Subscriptions::ActionCableSubscriptions, broadcast: true, default_broadcastable: true
