@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
@@ -89,8 +89,6 @@ export const Component: React.FC = () => {
       ),
     [presenters]
   );
-
-  const venue = activity?.sessions?.[0]?.venue;
 
   return (
     <BreadcrumbProvider label={upperFirst(pluralizedType.replace(/-/g, ' '))} path={pluralizedType}>
@@ -209,37 +207,36 @@ export const Component: React.FC = () => {
           </div>
           <aside className="activity-details__at-a-glance">
             <dl>
-              <dt>
-                <Icon name="calendar" aria-label="Date and time" />
-              </dt>
-              {(activity?.sessions || []).map((session) => (
-                <dd key={session.id}>
-                  {`${session.startsAt
-                    .plus(0)
-                    .toFormat('EEEE d MMMM, h:mma')}–${session.endsAt.toFormat('h:mma')}`}
-                </dd>
+              {(activity?.sessions || []).map((session, i) => (
+                <Fragment key={session.id}>
+                  {i > 0 && <div className="activity-details__divider">and</div>}
+                  <dt>
+                    <Icon name="calendar" aria-label="Date and time" />
+                  </dt>
+                  <dd key={session.id}>
+                    {`${session.startsAt
+                      .plus(0)
+                      .toFormat('EEEE d MMMM, h:mma')}–${session.endsAt.toFormat('h:mma')}`}
+                  </dd>
+                  {session.venue && (
+                    <>
+                      <dt>
+                        <Icon name="location" aria-label="Location" />
+                      </dt>
+                      <dd>
+                        {[session.venue.room, session.venue.building].filter(Boolean).join(' at ')}
+                      </dd>
+                    </>
+                  )}
+                </Fragment>
               ))}
+
               {loading && (
                 <Skeleton text loading>
                   Loading date and time…
                 </Skeleton>
               )}
-              <>
-                <dt>
-                  <Icon name="location" aria-label="Location" />
-                </dt>
-                <dd>
-                  {loading ? (
-                    <Skeleton text loading>
-                      Loading venue…
-                    </Skeleton>
-                  ) : venue ? (
-                    [venue.room, venue.building].filter(Boolean).join(' at ')
-                  ) : (
-                    defaultVenue
-                  )}
-                </dd>
-              </>
+              <></>
               {hasBookingLink(activity) && (
                 <>
                   <dt>

@@ -55,6 +55,7 @@
   --line-height-huge: 3rem;
   --font-stack: system, -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
   --font-family-base: "DIN Round Pro", var(--font-stack);
+  --letter-spacing-wide: 0.1em;
 }
 
 body {

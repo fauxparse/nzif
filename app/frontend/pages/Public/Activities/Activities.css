@@ -217,4 +217,17 @@
       border-left: var(--border-width-standard) solid var(--border-subtle);
     }
   }
+
+  &__divider {
+    display: flex;
+    grid-column: 2;
+    gap: var(--small);
+    align-items: center;
+    margin: var(--medium) 0;
+    color: var(--text-subtle);
+    font-size: var(--font-size-tiny);
+    line-height: var(--line-height-small);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+  }
 }
