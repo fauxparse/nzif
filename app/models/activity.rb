@@ -4,8 +4,6 @@ class Activity < ApplicationRecord
   include Searchable
   include Castable
 
-  has_paper_trail
-
   enum :type, :activity_type
 
   sluggable scope: %i[festival_id type]

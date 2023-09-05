@@ -3,8 +3,6 @@ class Profile < ApplicationRecord
   include Searchable
   include Localizable
 
-  has_paper_trail
-
   belongs_to :user, optional: true, inverse_of: :profile
   has_many :cast, dependent: :destroy, inverse_of: :profile
   has_many :activities, through: :cast, source: :activity

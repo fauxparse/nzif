@@ -74,8 +74,6 @@ gem 'amatch', '~> 0.4.1'
 gem 'countries', '~> 5.4'
 gem 'i18n-active_record', require: 'i18n/active_record'
 
-gem 'paper_trail', '~> 14.0'
-
 gem 'premailer-rails'
 
 gem 'aws-sdk-s3', '~> 1.132.0'
