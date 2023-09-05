@@ -4,13 +4,12 @@ class GraphqlController < ApplicationController
   # but you'll have to authenticate your user separately
   # protect_from_forgery with: :null_session
 
-  def execute # rubocop:disable Metrics/AbcSize
+  def execute
     variables = prepare_variables(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
     context = gql_devise_context(User)
     context[:current_user] = context[:current_resource]
-    PaperTrail.request.whodunnit = context[:current_resource].try(:id) || 'Unknown'
     result = NZIFSchema.execute(query, variables:, context:, operation_name:)
     render json: result
   rescue StandardError => e
