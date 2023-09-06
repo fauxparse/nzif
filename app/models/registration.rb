@@ -1,16 +1,25 @@
 class Registration < ApplicationRecord
+  include ActiveSnapshot
+
   belongs_to :user
   belongs_to :festival
   has_one :profile, through: :user
   has_many :preferences, autosave: true, dependent: :destroy
   has_many :requested_slots, -> { distinct }, through: :preferences, source: :slot
-  has_many :placements, dependent: :destroy
+  has_many :placements, dependent: :destroy, autosave: true
   has_many :sessions, through: :placements
   has_many :workshops, through: :sessions, source: :activity
-  has_many :waitlist, dependent: :destroy
+  has_many :waitlist, dependent: :destroy, autosave: true
   has_many :payments, dependent: :destroy
 
   scope :completed, -> { where.not(completed_at: nil) }
+
+  has_snapshot_children do
+    instance = self.class.includes(:placements, :waitlist).find(id)
+    { placements: instance.placements, waitlist: instance.waitlist }
+  end
+
+  before_destroy :destroy_snapshots
 
   def self.with_details_for_calendar
     includes(
@@ -30,5 +39,11 @@ class Registration < ApplicationRecord
 
   def completed?
     completed_at&.past?
+  end
+
+  private
+
+  def destroy_snapshots
+    snapshots.destroy_all
   end
 end

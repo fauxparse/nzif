@@ -632,6 +632,75 @@ CREATE VIEW public.slots AS
 
 
 --
+-- Name: snapshot_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.snapshot_items (
+    id bigint NOT NULL,
+    snapshot_id bigint NOT NULL,
+    item_type character varying NOT NULL,
+    item_id bigint NOT NULL,
+    object json NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    child_group_name character varying
+);
+
+
+--
+-- Name: snapshot_items_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.snapshot_items_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: snapshot_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.snapshot_items_id_seq OWNED BY public.snapshot_items.id;
+
+
+--
+-- Name: snapshots; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.snapshots (
+    id bigint NOT NULL,
+    item_type character varying NOT NULL,
+    item_id bigint NOT NULL,
+    identifier character varying,
+    user_type character varying,
+    user_id bigint,
+    metadata jsonb,
+    created_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: snapshots_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.snapshots_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: snapshots_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.snapshots_id_seq OWNED BY public.snapshots.id;
+
+
+--
 -- Name: translations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -876,6 +945,20 @@ ALTER TABLE ONLY public.show_workshops ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
+-- Name: snapshot_items id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.snapshot_items ALTER COLUMN id SET DEFAULT nextval('public.snapshot_items_id_seq'::regclass);
+
+
+--
+-- Name: snapshots id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.snapshots ALTER COLUMN id SET DEFAULT nextval('public.snapshots_id_seq'::regclass);
+
+
+--
 -- Name: translations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1037,6 +1120,22 @@ ALTER TABLE ONLY public.short_urls
 
 ALTER TABLE ONLY public.show_workshops
     ADD CONSTRAINT show_workshops_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: snapshot_items snapshot_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.snapshot_items
+    ADD CONSTRAINT snapshot_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: snapshots snapshots_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.snapshots
+    ADD CONSTRAINT snapshots_pkey PRIMARY KEY (id);
 
 
 --
@@ -1279,6 +1378,41 @@ CREATE INDEX index_show_workshops_on_workshop_id ON public.show_workshops USING 
 --
 
 CREATE INDEX index_slots_on_everything ON public.sessions USING btree (festival_id, venue_id, starts_at, ends_at);
+
+
+--
+-- Name: index_snapshot_items_on_item; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_snapshot_items_on_item ON public.snapshot_items USING btree (item_type, item_id);
+
+
+--
+-- Name: index_snapshot_items_on_snapshot_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_snapshot_items_on_snapshot_id ON public.snapshot_items USING btree (snapshot_id);
+
+
+--
+-- Name: index_snapshots_on_identifier; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_snapshots_on_identifier ON public.snapshots USING btree (identifier);
+
+
+--
+-- Name: index_snapshots_on_item; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_snapshots_on_item ON public.snapshots USING btree (item_type, item_id);
+
+
+--
+-- Name: index_snapshots_on_user; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_snapshots_on_user ON public.snapshots USING btree (user_type, user_id);
 
 
 --
@@ -1560,7 +1694,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230831213654'),
 ('20230901020857'),
 ('20230904001348'),
-('20230905055639');
+('20230905055639'),
+('20230905234421');
 
 
 SET statement_timeout = 0;

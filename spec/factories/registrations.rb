@@ -25,5 +25,16 @@ FactoryBot.define do
         end
       end
     end
+
+    trait :with_placements do
+      after(:create) do |registration, _evaluator|
+        slots = registration.festival.slots.includes(:sessions).references(:sessions)
+          .where(sessions: { activity_type: 'Workshop' })
+
+        slots.each do |slot|
+          registration.placements.create!(session: slot.sessions.sample)
+        end
+      end
+    end
   end
 end
