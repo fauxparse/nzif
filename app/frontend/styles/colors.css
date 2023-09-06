@@ -22,6 +22,10 @@
 @import url('@radix-ui/colors/yellowDark.css');
 @import url('@radix-ui/colors/yellowA.css');
 @import url('@radix-ui/colors/yellowDarkA.css');
+@import url('@radix-ui/colors/lime.css');
+@import url('@radix-ui/colors/limeDark.css');
+@import url('@radix-ui/colors/limeA.css');
+@import url('@radix-ui/colors/limeDarkA.css');
 
 :where(body) {
   /* Neutral colors */

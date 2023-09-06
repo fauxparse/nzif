@@ -3,9 +3,11 @@ import { sortBy } from 'lodash-es';
 import Button from '@/atoms/Button';
 import { FestivalWorkshopAllocationQuery } from '@/graphql/types';
 import Breadcrumbs from '@/molecules/Breadcrumbs';
+import ContextMenu from '@/molecules/ContextMenu';
 import PageHeader from '@/molecules/PageHeader';
 
 import AllocationSlot from './AllocationSlot';
+import Popup from './Popup';
 import useAllocation from './useAllocation';
 
 type AllocationProps = {
@@ -15,10 +17,10 @@ type AllocationProps = {
 };
 
 const Allocation: React.FC<AllocationProps> = ({ allocation, registrations, onRerun }) => {
-  const { slots, score, dispatch } = useAllocation(allocation, registrations);
+  const { slots, score, dispatch, registration } = useAllocation(allocation, registrations);
 
   return (
-    <>
+    <ContextMenu.Root>
       <PageHeader className="allocations__header">
         <Breadcrumbs />
         <h1>Workshop allocation</h1>
@@ -38,7 +40,10 @@ const Allocation: React.FC<AllocationProps> = ({ allocation, registrations, onRe
           <AllocationSlot key={slot.id} slot={slot} dispatch={dispatch} />
         ))}
       </div>
-    </>
+      <ContextMenu>
+        <Popup slots={slots} getRegistration={registration} />
+      </ContextMenu>
+    </ContextMenu.Root>
   );
 };
 

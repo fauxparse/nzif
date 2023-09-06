@@ -121,6 +121,10 @@ export class Session {
     if (this._waitlist.includes(registration)) return;
     this._waitlist = [...this._waitlist, registration];
   }
+
+  includes(registrationId: string) {
+    return this._registrations.some((r) => r.id === registrationId);
+  }
 }
 
 export class Slot {
@@ -148,6 +152,14 @@ export class Slot {
       ),
       'score'
     );
+  }
+
+  find(registrationId: string): Session | 'waitlisted' | null {
+    const session = this.sessions.find((s) => s.includes(registrationId));
+    if (session) return session;
+    const waitlist = this.sessions.find((s) => s.waitlist.some((r) => r.id === registrationId));
+    if (waitlist) return 'waitlisted';
+    return null;
   }
 }
 
