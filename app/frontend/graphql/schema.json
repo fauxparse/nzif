@@ -37,6 +37,20 @@
           ],
           "fields": [
             {
+              "name": "bookingLink",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
               "name": "description",
               "description": null,
               "type": {
@@ -232,6 +246,18 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "bookingLink",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "defaultValue": null,
@@ -6567,6 +6593,20 @@
           "possibleTypes": null,
           "fields": [
             {
+              "name": "bookingLink",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
               "name": "description",
               "description": null,
               "type": {
@@ -8357,6 +8397,20 @@
           ],
           "possibleTypes": null,
           "fields": [
+            {
+              "name": "bookingLink",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
             {
               "name": "capacity",
               "description": null,

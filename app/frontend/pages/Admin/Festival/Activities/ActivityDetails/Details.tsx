@@ -30,6 +30,7 @@ const formSchema = z.object({
   name: z.string(),
   description: z.string(),
   suitability: z.string(),
+  bookingLink: z.string().optional(),
   presenters: z.array(z.object({ id: z.string(), name: z.string() })),
 });
 
@@ -55,6 +56,7 @@ export const Component: React.FC = () => {
       description: activity?.description || '',
       suitability: (activity && 'suitability' in activity && activity.suitability) || '',
       presenters: activity?.presenters || [],
+      bookingLink: activity?.bookingLink || '',
     },
   });
 
@@ -63,6 +65,7 @@ export const Component: React.FC = () => {
 
     setValue('name', activity.name || '');
     setValue('description', activity.description || '');
+    setValue('bookingLink', activity.bookingLink || '');
     if (activity.__typename === 'Workshop') setValue('suitability', activity.suitability || '');
   }, [activity, setValue]);
 
@@ -177,6 +180,17 @@ export const Component: React.FC = () => {
                       disabled={loading || undefined}
                     />
                   </AutoResize>
+                </Labelled>
+              )}
+
+              {activity?.type === ActivityType.Show && (
+                <Labelled name="bookingLink" label="Booking link" errors={errors}>
+                  <Input
+                    type="url"
+                    id="bookingLink"
+                    {...register('bookingLink')}
+                    disabled={loading || undefined}
+                  />
                 </Labelled>
               )}
             </section>

@@ -11,6 +11,7 @@ module Types
     field :description, String, null: true
     field :picture, Types::ActivityPictureType, null: true
     field :missing_info, [String], null: false
+    field :booking_link, String, null: true
 
     definition_methods do
       def resolve_type(object, _context)

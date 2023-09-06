@@ -1,6 +1,7 @@
 module Types
   class ActivityAttributes < BaseInputObject
     argument :attached_activity_id, ID, required: false
+    argument :booking_link, String, required: false
     argument :description, String, required: false
     argument :name, String, required: false
     argument :picture, ApolloUploadServer::Upload, required: false

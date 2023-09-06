@@ -52,6 +52,7 @@ fragment AdminActivityDetails on Activity {
   slug
   description
   missingInfo
+  bookingLink
 
   picture {
     id

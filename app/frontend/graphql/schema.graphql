@@ -1,4 +1,5 @@
 interface Activity {
+  bookingLink: String
   description: String
   id: ID!
   missingInfo: [String!]!
@@ -12,6 +13,7 @@ interface Activity {
 
 input ActivityAttributes {
   attachedActivityId: ID
+  bookingLink: String
   description: String
   name: String
   picture: Upload
@@ -679,6 +681,7 @@ type Slot {
 }
 
 type SocialEvent implements Activity {
+  bookingLink: String
   description: String
   id: ID!
   missingInfo: [String!]!
@@ -899,6 +902,7 @@ type Waitlist {
 }
 
 type Workshop implements Activity {
+  bookingLink: String
   capacity: Int!
   description: String
   id: ID!
