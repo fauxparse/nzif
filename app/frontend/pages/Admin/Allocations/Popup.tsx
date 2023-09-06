@@ -1,4 +1,5 @@
 import { forwardRef, Fragment, useMemo } from 'react';
+import { sortBy } from 'lodash-es';
 
 import Icon from '@/atoms/Icon';
 import { useContextMenu } from '@/molecules/ContextMenu';
@@ -19,7 +20,7 @@ const Popup = forwardRef<HTMLDivElement, PopupProps>(({ slots, getRegistration }
 
   const slotData = useMemo(() => {
     if (!registration) return [];
-    return slots.reduce(
+    return sortBy(slots, 'startsAt').reduce(
       (data: { slot: Slot; session: Session | null; position: number | null }[], slot: Slot) => {
         const session = slot.find(registration.id);
         if (!session) return data;
