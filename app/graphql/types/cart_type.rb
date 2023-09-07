@@ -10,7 +10,7 @@ module Types
     field :workshops_count, Integer, null: false
 
     def id
-      object.registration.id
+      object.registration.to_param
     end
   end
 end

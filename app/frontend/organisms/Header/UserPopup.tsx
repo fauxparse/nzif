@@ -5,13 +5,12 @@ import pluralize from 'pluralize';
 import { useAuthentication } from '../Authentication';
 import Avatar from '@/atoms/Avatar';
 import { AvatarSize } from '@/atoms/Avatar/Avatar.types';
-import Button from '@/atoms/Button';
+import Button, { ButtonVariant } from '@/atoms/Button';
 import Icon from '@/atoms/Icon';
 import Money from '@/atoms/Money';
 import {
   AuthenticatedUserFragment,
   Permission,
-  RegistrationPhase,
   useCurrentUserQuery,
   useRegistrationSummaryQuery,
 } from '@/graphql/types';
@@ -30,7 +29,7 @@ type UserPopupProps = {
 };
 
 const UserPopup: React.FC<UserPopupProps> = ({ user, reference, open, onClose }) => {
-  const { loading: userLoading, data } = useCurrentUserQuery();
+  const { loading: userLoading } = useCurrentUserQuery();
 
   const { loading: registrationLoading, data: registrationData } = useRegistrationSummaryQuery({
     fetchPolicy: 'cache-first',
@@ -58,9 +57,6 @@ const UserPopup: React.FC<UserPopupProps> = ({ user, reference, open, onClose })
   const cart = registration?.cart;
 
   const { hasPermission } = useAuthentication();
-
-  const registrationPhase =
-    registrationData?.festival.registrationPhase || RegistrationPhase.Closed;
 
   return (
     <Portal>
@@ -127,10 +123,10 @@ const UserPopup: React.FC<UserPopupProps> = ({ user, reference, open, onClose })
               <Skeleton rounded loading={loading}>
                 <Button
                   small
-                  primary
+                  variant={cart.outstanding ? ButtonVariant.PRIMARY : undefined}
                   as={Link}
                   to={ROUTES.REGISTRATION.PAYMENT.path}
-                  disabled={cart.outstanding <= 0 || undefined}
+                  aria-disabled={cart.outstanding <= 0 || undefined}
                 >
                   <Button.Text>
                     <Money cents={cart.outstanding} /> to pay

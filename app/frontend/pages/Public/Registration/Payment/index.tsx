@@ -1,14 +1,15 @@
 import { useRegistrationContext } from '../RegistrationContext';
-import { RegistrationPhase, useFinaliseRegistrationMutation } from '@/graphql/types';
+import { RegistrationPhase } from '@/graphql/types';
 
-import Cart from './Cart';
 import Earlybird from './Earlybird';
 import General from './General';
 
 import './Payment.css';
 
 export const Component: React.FC = () => {
-  const { festival } = useRegistrationContext();
+  const { loading, festival } = useRegistrationContext();
+
+  if (loading) return null;
 
   return festival.registrationPhase === RegistrationPhase.Earlybird ? <Earlybird /> : <General />;
 };

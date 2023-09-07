@@ -11,6 +11,7 @@ import { getAuthenticationInfo } from '@/graphql/authentication';
 import { useFinaliseRegistrationMutation } from '@/graphql/types';
 
 import Cart from './Cart';
+import InternetBanking from './InternetBanking';
 import StripeCheckout from './StripeCheckout';
 
 const PAYMENT_METHODS = [
@@ -70,6 +71,10 @@ const General: React.FC = () => {
 
   const [paymentMethod, setPaymentMethod] = React.useState<PaymentMethod>('CreditCard');
 
+  const finaliseAndContinue = () => {
+    finaliseRegistration().then(() => next());
+  };
+
   return (
     <div className="registration__payment">
       <div className="registration__payment__general">
@@ -83,36 +88,50 @@ const General: React.FC = () => {
           )}
         </h2>
 
-        {stripePromise && clientSecret && (
-          <Elements stripe={stripePromise} options={{ clientSecret }}>
-            <p>Please select your payment method:</p>
+        {!outstanding ? (
+          <p>
+            You have nothing to pay right now. Click the <b>Finalise registration</b> button to
+            complete your registration.
+          </p>
+        ) : (
+          stripePromise &&
+          clientSecret && (
+            <Elements stripe={stripePromise} options={{ clientSecret }}>
+              <p>Please select your payment method:</p>
 
-            <div className="payment-methods">
-              {PAYMENT_METHODS.map((method) => (
-                <label
-                  className="payment-method"
-                  key={method.id}
-                  aria-selected={paymentMethod === method.id || undefined}
-                >
-                  <Radio
-                    name="paymentMethod"
-                    value={method.id}
-                    checked={paymentMethod === method.id}
-                    onChange={(e) => setPaymentMethod((p) => (e.target.checked ? method.id : p))}
-                  />
-                  <b>{method.label}</b>
-                  <small>{method.sub}</small>
-                </label>
-              ))}
-            </div>
+              <div className="payment-methods">
+                {PAYMENT_METHODS.map((method) => (
+                  <label
+                    className="payment-method"
+                    key={method.id}
+                    aria-selected={paymentMethod === method.id || undefined}
+                  >
+                    <Radio
+                      name="paymentMethod"
+                      value={method.id}
+                      checked={paymentMethod === method.id}
+                      onChange={(e) => setPaymentMethod((p) => (e.target.checked ? method.id : p))}
+                    />
+                    <b>{method.label}</b>
+                    <small>{method.sub}</small>
+                  </label>
+                ))}
+              </div>
 
-            {paymentMethod === 'CreditCard' && <StripeCheckout />}
+              {paymentMethod === 'CreditCard' && <StripeCheckout next={finaliseAndContinue} />}
+              {paymentMethod === 'InternetBanking' && (
+                <InternetBanking next={finaliseAndContinue} />
+              )}
 
-            <p className="note">
-              If paying the full amount today doesn’t work for you, please{' '}
-              <a href="mailto:hello@improvfest.nz">get in touch</a> to talk about your options.
-            </p>
-          </Elements>
+              <p className="note">
+                <b>Important:</b> If payment is not received by 1 October, we reserve the right to
+                cancel your registration and offer your workshop places to someone else. We really
+                don’t want to do this, so if you need extra time to make your payment, please email
+                us at <a href="mailto:hello@improvfest.nz">hello@improvfest.nz</a>. We’re happy to
+                talk!
+              </p>
+            </Elements>
+          )
         )}
       </div>
       {registration && festival && <Cart registration={registration} festival={festival} />}

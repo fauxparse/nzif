@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import pluralize from 'pluralize';
 
-import { useRegistrationContext } from '../RegistrationContext';
 import useCartCalculator from '../useCartCalculator';
 import Button from '@/atoms/Button';
 import Money from '@/atoms/Money';
-import { RegistrationStatusQuery, useFinaliseRegistrationMutation } from '@/graphql/types';
+import { RegistrationStatusQuery } from '@/graphql/types';
 import Popover from '@/molecules/Popover';
 
 type CartProps = {
@@ -18,15 +17,6 @@ const Cart: React.FC<CartProps> = ({ registration, festival }) => {
     registration,
     festival
   );
-
-  const { next } = useRegistrationContext();
-
-  const [finaliseRegistration] = useFinaliseRegistrationMutation();
-
-  const submit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    finaliseRegistration().then(() => next());
-  };
 
   const [discountHelp, setDiscountHelp] = useState<HTMLElement | null>(null);
 
@@ -108,6 +98,12 @@ const Cart: React.FC<CartProps> = ({ registration, festival }) => {
           </span>
         )}
       </dl>
+
+      <p>
+        If you have paid by internet banking, this payment may take a couple of days to show up
+        here. Please <a href="mailto:registrations@improvfest.nz">let us know</a> if something seems
+        amiss.
+      </p>
     </div>
   );
 };

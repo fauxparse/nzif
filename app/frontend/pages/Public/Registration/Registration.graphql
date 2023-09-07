@@ -266,3 +266,11 @@ mutation FinaliseRegistration {
     }
   }
 }
+
+mutation PromiseInternetBankingPayment($registrationId: ID!, $amount: Money!) {
+  promiseInternetBankingPayment(registrationId: $registrationId, amount: $amount) {
+    payment {
+      ...RegistrationPayment
+    }
+  }
+}

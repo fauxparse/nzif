@@ -4,7 +4,7 @@ import { createUploadLink } from 'apollo-upload-client';
 import ActionCableLink from 'graphql-ruby-client/subscriptions/ActionCableLink';
 
 import authentication from './authentication';
-import cache from './cache';
+import createCache from './cache';
 
 const cable = createConsumer();
 
@@ -26,11 +26,13 @@ const contentful = new HttpLink({
   },
 });
 
+export const cache = createCache();
+
 export const client = new ApolloClient({
   link: split(
     (operation) => operation.getContext().clientName === 'contentful',
     contentful,
     authenticated
   ),
-  cache: cache(),
+  cache,
 });

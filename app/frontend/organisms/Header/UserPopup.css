@@ -81,6 +81,11 @@
     justify-self: stretch;
     width: unset;
     max-width: unset;
+
+    &[aria-disabled] {
+      opacity: var(--disabled-opacity);
+      pointer-events: none;
+    }
   }
 
   hr {

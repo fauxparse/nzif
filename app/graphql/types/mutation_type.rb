@@ -38,5 +38,7 @@ module Types
     field :add_voucher, mutation: Mutations::Payments::AddVoucher
     field :approve_payment, mutation: Mutations::Payments::Approve
     field :cancel_payment, mutation: Mutations::Payments::Cancel
+    field :promise_internet_banking_payment,
+      mutation: Mutations::Payments::PromiseInternetBankingPayment
   end
 end

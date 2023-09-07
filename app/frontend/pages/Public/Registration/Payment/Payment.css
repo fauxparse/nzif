@@ -41,8 +41,8 @@
     dd {
       margin: 0;
       padding: var(--tiny) 0;
-      font-size: var(--font-size-medium);
-      line-height: var(--line-height-medium);
+      font-size: var(--font-size-legible);
+      line-height: var(--line-height-large);
     }
 
     .di {
@@ -70,6 +70,12 @@
 
     dd {
       text-align: right;
+    }
+
+    p {
+      color: var(--text-subtle);
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
     }
   }
 
@@ -131,6 +137,29 @@
       background: var(--background-error);
       color: var(--text-error);
       line-height: var(--line-height-medium);
+    }
+  }
+
+  .internet-banking {
+    &__account {
+      display: grid;
+      grid-template-columns: 12em 1fr auto;
+      gap: 0 var(--large);
+      align-items: start;
+      width: max-content;
+      margin-left: var(--large);
+
+      dt, dd {
+        margin: 0;
+        padding: 0;
+        font-size: var(--font-size-legible);
+      }
+
+      dt {
+        grid-column: 1;
+        color: var(--text-subtle);
+        text-align: right;
+      }
     }
   }
 

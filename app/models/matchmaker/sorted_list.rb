@@ -15,6 +15,10 @@ module Matchmaker
       largest
     end
 
+    def delete(registration)
+      super(find { |r| r.id == registration.id })
+    end
+
     delegate :map, to: :sort
   end
 end

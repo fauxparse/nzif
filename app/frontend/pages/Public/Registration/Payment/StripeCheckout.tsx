@@ -4,20 +4,21 @@ import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { useRegistrationContext } from '../RegistrationContext';
 import useCartCalculator from '../useCartCalculator';
 import Icon from '@/atoms/Icon';
-import { useFinaliseRegistrationMutation } from '@/graphql/types';
+import { cache } from '@/graphql';
 
-const StripeCheckout: React.FC = () => {
+type StripeCheckoutProps = {
+  next: () => void;
+};
+
+const StripeCheckout: React.FC<StripeCheckoutProps> = ({ next }) => {
   const stripe = useStripe();
   const elements = useElements();
 
-  const { registration, festival, next, setBusy } = useRegistrationContext();
-  const { outstanding } = useCartCalculator(registration, festival);
+  const { setBusy, registration, festival } = useRegistrationContext();
 
-  const [finaliseRegistration] = useFinaliseRegistrationMutation();
+  const { total } = useCartCalculator(registration, festival);
 
-  const [error, setError] = useState<string | null>(
-    'There was an error processing your payment. Please try again.'
-  );
+  const [error, setError] = useState<string | null>(null);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,6 +43,14 @@ const StripeCheckout: React.FC = () => {
       setError(error.message || 'There was an error processing your payment. Please try again.');
       return;
     } else {
+      cache.modify({
+        id: `Cart:${registration.id}`,
+        fields: {
+          outstanding: () => 0,
+          paid: () => total,
+        },
+      });
+
       next();
     }
   };

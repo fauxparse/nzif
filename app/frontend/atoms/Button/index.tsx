@@ -1,7 +1,7 @@
 import Button from './Button';
-import { ButtonProps, ButtonSize } from './Button.types';
+import { ButtonProps, ButtonSize, ButtonVariant } from './Button.types';
 
-export { ButtonSize };
+export { ButtonSize, ButtonVariant };
 export type { ButtonProps };
 
 export default Button;

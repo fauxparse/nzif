@@ -1,3 +1,13 @@
+fragment CartSummary on Cart {
+  id
+  value
+  discount
+  total
+  paid
+  outstanding
+  workshopsCount
+}
+
 query RegistrationSummary {
   festival {
     id
@@ -7,13 +17,7 @@ query RegistrationSummary {
   registration {
     id
     cart {
-      id
-      value
-      discount
-      total
-      paid
-      outstanding
-      workshopsCount
+      ...CartSummary
     }
     payments {
       ...RegistrationPayment
