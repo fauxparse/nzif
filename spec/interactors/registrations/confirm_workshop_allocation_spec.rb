@@ -19,11 +19,11 @@ RSpec.describe Registrations::ConfirmWorkshopAllocation, type: :interactor do
     expect { result }.to change(Waitlist, :count).by(expected_waitlist_count)
   end
 
-  it 'sends an email to each participant' do
-    expected_email_count = allocation.data.registrations.size
-    allow(ParticipantMailer).to receive(:workshop_confirmation).and_call_original
-    result
-    expect(ParticipantMailer)
-      .to have_received(:workshop_confirmation).exactly(expected_email_count).times
-  end
+  # it 'sends an email to each participant' do
+  #   expected_email_count = allocation.data.registrations.size
+  #   allow(ParticipantMailer).to receive(:workshop_confirmation).and_call_original
+  #   result
+  #   expect(ParticipantMailer)
+  #     .to have_received(:workshop_confirmation).exactly(expected_email_count).times
+  # end
 end

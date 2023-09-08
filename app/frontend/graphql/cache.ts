@@ -1,4 +1,5 @@
-import { InMemoryCache } from '@apollo/client';
+import { InMemoryCache, TypePolicies } from '@apollo/client';
+import { merge } from 'lodash-es';
 
 import { scalarTypePolicies } from './types';
 
@@ -10,8 +11,7 @@ const cache = () =>
       Setting: ['BooleanSetting', 'StringSetting'],
       SearchResult: ['ActivityResult', 'PersonResult', 'VenueResult', 'PageResult'],
     },
-    typePolicies: {
-      ...scalarTypePolicies,
+    typePolicies: merge({}, scalarTypePolicies, {
       Activity: {
         fields: {
           presenters: {
@@ -29,6 +29,13 @@ const cache = () =>
       ActivityPicture: {
         merge: true,
       },
+      Session: {
+        fields: {
+          participants: {
+            merge: (_, incoming) => incoming,
+          },
+        },
+      },
       WorkshopAllocationSession: {
         fields: {
           registrations: {
@@ -39,7 +46,7 @@ const cache = () =>
           },
         },
       },
-    },
+    } satisfies TypePolicies),
   });
 
 export default cache;

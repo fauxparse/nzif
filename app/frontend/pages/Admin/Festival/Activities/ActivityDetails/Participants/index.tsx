@@ -27,6 +27,7 @@ import Participant from './Participant';
 import ParticipantList from './ParticipantList';
 import SortableParticipant from './SortableParticipant';
 import useParticipants from './useParticipants';
+import Waitlist from './Waitlist';
 
 const dropAnimation: DropAnimation = {
   sideEffects: defaultDropAnimationSideEffects({
@@ -70,7 +71,6 @@ const Participants: React.FC<ParticipantsProps> = ({
   strategy = verticalListSortingStrategy,
 }: ParticipantsProps) => {
   const { items, active, start, drag, drop, cancel, isFromWaitlist } = useParticipants(session);
-  const containers = ['participants', 'waitlist'] as const;
 
   const sensors = useSensors(
     useSensor(MouseSensor),
@@ -98,29 +98,36 @@ const Participants: React.FC<ParticipantsProps> = ({
         modifiers={modifiers}
       >
         <div className="session__participant-lists">
-          {containers.map((containerId) => (
-            <ParticipantList
-              key={containerId}
-              id={containerId}
-              session={session}
-              items={items[containerId]}
-            >
-              <SortableContext items={items[containerId]} strategy={strategy}>
-                {items[containerId].map((value, index) => {
-                  return (
-                    <SortableParticipant
-                      registration={value}
-                      key={value.id}
-                      id={value.id}
-                      index={index}
-                      containerId={containerId}
-                      fromWaitlist={isFromWaitlist(value)}
-                    />
-                  );
-                })}
-              </SortableContext>
-            </ParticipantList>
-          ))}
+          <ParticipantList id="participants" session={session} items={items.participants}>
+            {items.participants.map((value, index) => {
+              return (
+                <SortableParticipant
+                  registration={value}
+                  key={value.id}
+                  id={value.id}
+                  index={index}
+                  containerId="participants"
+                  fromWaitlist={isFromWaitlist(value)}
+                />
+              );
+            })}
+          </ParticipantList>
+          <Waitlist id="waitlist" session={session} items={items.waitlist}>
+            <SortableContext items={items.waitlist} strategy={strategy}>
+              {items.waitlist.map((value, index) => {
+                return (
+                  <SortableParticipant
+                    registration={value}
+                    key={value.id}
+                    id={value.id}
+                    index={index}
+                    containerId="waitlist"
+                    fromWaitlist={true}
+                  />
+                );
+              })}
+            </SortableContext>
+          </Waitlist>
         </div>
         {createPortal(
           <DragOverlay adjustScale={adjustScale} dropAnimation={dropAnimation}>

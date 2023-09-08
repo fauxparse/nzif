@@ -1,4 +1,4 @@
-module WaitlistPlaces
+module Waitlists
   class Remove < ApplicationInteractor
     delegate :session, :registration, to: :context
 

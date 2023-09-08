@@ -33,20 +33,28 @@ module Registrations
     end
 
     def finalise_sessions
-      allocation.sessions.each_value do |session|
-        finalise_session(session)
+      festival.transaction do
+        allocation.sessions.each_value do |session|
+          finalise_session(session)
+        end
       end
     end
 
     def finalise_session(session)
       record = sessions[session.id]
+      place_participants(record, session.placements)
+      create_waitlist(record, session.waitlist)
+    end
 
-      session.placements.each do |registration|
-        record.placements.create!(registration_id: registrations[registration.id].id)
+    def place_participants(session, placements)
+      placements.each do |registration|
+        session.placements.create!(registration_id: registrations[registration.id].id)
       end
+    end
 
-      session.waitlist.sort_by { |r| r.score * r.preferences.size }.each do |registration|
-        record.waitlist.create!(registration_id: registrations[registration.id].id)
+    def create_waitlist(session, waitlist)
+      waitlist.sort_by { |r| r.score * r.preferences.size }.each do |registration|
+        session.waitlist.create!(registration_id: registrations[registration.id].id)
       end
     end
 

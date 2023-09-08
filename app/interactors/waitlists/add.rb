@@ -1,4 +1,4 @@
-module WaitlistPlaces
+module Waitlists
   class Add < ApplicationInteractor
     delegate :session, :registration, to: :context
 

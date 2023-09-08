@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe WaitlistPlaces::Remove, type: :interactor do
+RSpec.describe Waitlists::Remove, type: :interactor do
   let(:festival) { create(:festival) }
   let(:session) { create(:session, festival:) }
   let(:registration) { create(:registration, festival:) }

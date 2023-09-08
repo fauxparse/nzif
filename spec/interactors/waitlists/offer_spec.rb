@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe WaitlistPlaces::Offer, type: :interactor do
+RSpec.describe Waitlists::Offer, type: :interactor do
   let(:waitlist) { create(:waitlist) }
   let(:context) { { waitlist: } }
 

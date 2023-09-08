@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe WaitlistPlaces::Add, type: :interactor do
+RSpec.describe Waitlists::Add, type: :interactor do
   let(:festival) { create(:festival) }
   let(:session) { create(:session, festival:) }
   let(:registration) { create(:registration, festival:) }

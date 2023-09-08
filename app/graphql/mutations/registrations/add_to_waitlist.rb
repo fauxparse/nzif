@@ -9,7 +9,7 @@ module Mutations
       def resolve(session_id:, registration_id: nil)
         registration = find_registration(id: registration_id)
         session = current_festival.sessions.find(session_id)
-        perform(::WaitlistPlaces::Add, registration:, session:)
+        perform(::Waitlists::Add, registration:, session:)
       end
     end
   end

@@ -25,6 +25,9 @@ module Types
     field :add_preference, mutation: Mutations::Preferences::Add
     field :add_to_session, mutation: Mutations::Registrations::AddToSession
     field :add_to_waitlist, mutation: Mutations::Registrations::AddToWaitlist
+    field :demote_session_participant, mutation: Mutations::Waitlists::Demote
+    field :move_waitlist_participant, mutation: Mutations::Waitlists::Move
+    field :promote_waitlist_participant, mutation: Mutations::Waitlists::Promote
     field :remove_from_session, mutation: Mutations::Registrations::RemoveFromSession
     field :remove_from_waitlist, mutation: Mutations::Registrations::RemoveFromWaitlist
     field :remove_preference, mutation: Mutations::Preferences::Remove

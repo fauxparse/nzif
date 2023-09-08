@@ -30,18 +30,22 @@ fragment AdminActivitySessionDetails on Session {
   }
 
   waitlist {
-    id
-    position
-    offeredAt
-    registration {
-      ...SessionParticipant
-    }
+    ...SessionWaitlistParticipant
   }
 
   venue {
     id
     room
     building
+  }
+}
+
+fragment SessionWaitlistParticipant on Waitlist {
+  id
+  position
+  offeredAt
+  registration {
+    ...SessionParticipant
   }
 }
 
@@ -222,6 +226,45 @@ mutation UpdateSessionCapacity($id: ID!, $capacity: Int!) {
     session {
       id
       capacity
+    }
+  }
+}
+
+mutation MoveWaitlistParticipant($sessionId: ID!, $registrationId: ID!, $position: Int!) {
+  moveWaitlistParticipant(
+    sessionId: $sessionId
+    registrationId: $registrationId
+    position: $position
+  ) {
+    waitlist {
+      id
+      position
+    }
+  }
+}
+
+mutation PromoteWaitlistParticipant($sessionId: ID!, $registrationId: ID!) {
+  promoteWaitlistParticipant(sessionId: $sessionId, registrationId: $registrationId) {
+    registration {
+      ...SessionParticipant
+    }
+  }
+}
+
+mutation DemoteSessionParticipant($sessionId: ID!, $registrationId: ID!, $position: Int!) {
+  demoteSessionParticipant(
+    sessionId: $sessionId
+    registrationId: $registrationId
+    position: $position
+  ) {
+    session {
+      id
+      participants {
+        ...SessionParticipant
+      }
+      waitlist {
+        ...SessionWaitlistParticipant
+      }
     }
   }
 }

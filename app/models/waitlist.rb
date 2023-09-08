@@ -11,6 +11,25 @@ class Waitlist < ApplicationRecord
     offered_at.present?
   end
 
+  def move_to(new_position)
+    return if new_position == position
+
+    low, high, direction = [*[new_position, position].sort, position <=> new_position]
+
+    acts_as_list_list
+      .where('position >= ? AND position <= ?', low, high)
+      .update_all( # rubocop:disable Rails/SkipsModelValidations
+        Waitlist.sanitize_sql_array(
+          [
+            'position = CASE WHEN position = ? THEN ? ELSE position + ? END',
+            position, new_position, direction
+          ],
+        ),
+      )
+
+    self.position = new_position
+  end
+
   private
 
   def not_in_session

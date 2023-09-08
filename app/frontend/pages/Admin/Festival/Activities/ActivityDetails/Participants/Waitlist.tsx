@@ -1,5 +1,5 @@
 import React from 'react';
-import { UniqueIdentifier, useDroppable } from '@dnd-kit/core';
+import { UniqueIdentifier } from '@dnd-kit/core';
 import { AnimateLayoutChanges, defaultAnimateLayoutChanges, useSortable } from '@dnd-kit/sortable';
 import { motion } from 'framer-motion';
 import { get } from 'lodash-es';
@@ -30,12 +30,13 @@ const Container: React.FC<ContainerProps> = ({
   items,
   ...props
 }) => {
-  const { active, over, setNodeRef } = useDroppable({
+  const { active, over, setNodeRef } = useSortable({
     id,
     data: {
       type: 'container',
       children: items,
     },
+    animateLayoutChanges,
   });
 
   const isOverContainer = over

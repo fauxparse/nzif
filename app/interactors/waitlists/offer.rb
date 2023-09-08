@@ -1,4 +1,4 @@
-module WaitlistPlaces
+module Waitlists
   class Offer < ApplicationInteractor
     include Rails.application.routes.url_helpers
 
