@@ -16,7 +16,10 @@ class Registration < ApplicationRecord
 
   has_snapshot_children do
     instance = self.class.includes(:placements, :waitlist).find(id)
-    { placements: instance.placements, waitlist: instance.waitlist }
+    {
+      sessions: instance.sessions,
+      waitlist: instance.waitlist,
+    }
   end
 
   before_destroy :destroy_snapshots

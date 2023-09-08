@@ -9,7 +9,9 @@ import { useRegistrationContext } from '../RegistrationContext';
 import {
   ActivityType,
   JoinSessionMutationVariables,
+  JoinWaitlistMutationVariables,
   LeaveSessionMutationVariables,
+  LeaveWaitlistMutationVariables,
   RegistrationPhase,
   RegistrationPreferenceFragmentDoc,
   RegistrationSessionFragment,
@@ -18,7 +20,9 @@ import {
   RegistrationWorkshopFragment,
   useAddPreferenceMutation,
   useJoinSessionMutation,
+  useJoinWaitlistMutation,
   useLeaveSessionMutation,
+  useLeaveWaitlistMutation,
   useRegistrationStatusQuery,
   useRemovePreferenceMutation,
 } from '@/graphql/types';
@@ -177,6 +181,10 @@ export const Component: React.FC = () => {
 
   const [leaveSession] = useLeaveSessionMutation();
 
+  const [joinWaitlist] = useJoinWaitlistMutation();
+
+  const [leaveWaitlist] = useLeaveWaitlistMutation();
+
   const add = (session: RegistrationSessionFragment) => {
     const slot = slots.find((s) => s.startsAt.equals(session.startsAt));
 
@@ -221,30 +229,56 @@ export const Component: React.FC = () => {
     } else {
       if (!registration) return;
 
-      joinSession({
-        variables: { sessionId: session.id } as JoinSessionMutationVariables,
-        optimisticResponse: {
-          __typename: 'Mutation',
-          addToSession: {
-            __typename: 'AddToSessionPayload',
-            session,
-          },
-        },
-        update: (cache, { data }) => {
-          const ref = cache.writeFragment({
-            id: cache.identify(session),
-            fragment: RegistrationSessionFragmentDoc,
-            fragmentName: 'RegistrationSession',
-            data: data?.addToSession?.session,
-          });
-          cache.modify({
-            id: cache.identify(registration),
-            fields: {
-              sessions: (existing: Reference[]) => [...existing, ref],
+      if (session.count >= (session.capacity || Infinity)) {
+        joinWaitlist({
+          variables: { sessionId: session.id } as JoinWaitlistMutationVariables,
+          optimisticResponse: {
+            __typename: 'Mutation',
+            addToWaitlist: {
+              __typename: 'AddToWaitlistPayload',
+              waitlist: {
+                __typename: 'Waitlist',
+                id: session.id,
+                session,
+              },
             },
-          });
-        },
-      });
+          },
+          update: (cache) => {
+            const ref = { __ref: cache.identify(session) };
+            cache.modify({
+              id: cache.identify(registration),
+              fields: {
+                waitlist: (existing: Reference[]) => [...existing, ref],
+              },
+            });
+          },
+        });
+      } else {
+        joinSession({
+          variables: { sessionId: session.id } as JoinSessionMutationVariables,
+          optimisticResponse: {
+            __typename: 'Mutation',
+            addToSession: {
+              __typename: 'AddToSessionPayload',
+              session,
+            },
+          },
+          update: (cache, { data }) => {
+            const ref = cache.writeFragment({
+              id: cache.identify(session),
+              fragment: RegistrationSessionFragmentDoc,
+              fragmentName: 'RegistrationSession',
+              data: data?.addToSession?.session,
+            });
+            cache.modify({
+              id: cache.identify(registration),
+              fields: {
+                sessions: (existing: Reference[]) => [...existing, ref],
+              },
+            });
+          },
+        });
+      }
     }
   };
 
@@ -261,7 +295,22 @@ export const Component: React.FC = () => {
         message: 'If you rejoin the waitlist for this workshop you will lose your place.',
       })
         .then(() => {
-          // console.log('Left waitlist');
+          leaveWaitlist({
+            variables: { sessionId: session.id } as LeaveWaitlistMutationVariables,
+            optimisticResponse: {
+              __typename: 'Mutation',
+              removeFromWaitlist: true,
+            },
+            update: (cache) => {
+              cache.modify({
+                id: cache.identify(registration),
+                fields: {
+                  waitlist: (existing: Reference[], { readField }) =>
+                    existing.filter((s) => readField('id', s) !== session.id),
+                },
+              });
+            },
+          });
         })
         .catch(() => void 0);
       return;

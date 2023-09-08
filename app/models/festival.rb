@@ -64,4 +64,8 @@ class Festival < ApplicationRecord
 
     :closed
   end
+
+  def earlybird?
+    registration_phase == :earlybird
+  end
 end

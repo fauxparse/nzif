@@ -5,7 +5,17 @@ module Registrations
     def call
       authorize! registration, to: :update?
 
-      ParticipantMailer.registration_confirmation(registration).deliver_later
+      email.deliver_later
+    end
+
+    def email
+      return ParticipantMailer.registration_confirmation(registration) if earlybird?
+
+      ParticipantMailer.workshop_confirmation(registration)
+    end
+
+    def earlybird?
+      registration.festival.earlybird?
     end
   end
 end

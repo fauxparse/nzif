@@ -1566,6 +1566,8 @@ export type RegistrationPreferenceFragment = { __typename: 'Preference', id: str
 
 export type RegistrationSessionFragment = { __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number, workshop: { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null } | null };
 
+export type RegistrationWaitlistFragment = { __typename: 'Waitlist', id: string, session: { __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number, workshop: { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null } | null } | null };
+
 export type WorkshopDetailsFragment = { __typename: 'Workshop', id: string, type: ActivityType, description: string | null, picture: { __typename: 'ActivityPicture', id: string, large: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, bio: string }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string, address: string } | null }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null };
 
 export type RegistrationUserDetailsFragment = { __typename: 'Registration', codeOfConductAcceptedAt: DateTime | null, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string, pronouns: string | null, phone: string | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null, raw: string } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null } | null } | null };
@@ -2087,6 +2089,14 @@ export const RegistrationPreferenceFragmentDoc = gql`
 }
     ${RegistrationSlotFragmentDoc}
 ${RegistrationWorkshopFragmentDoc}`;
+export const RegistrationWaitlistFragmentDoc = gql`
+    fragment RegistrationWaitlist on Waitlist {
+  id
+  session {
+    ...RegistrationSession
+  }
+}
+    ${RegistrationSessionFragmentDoc}`;
 export const WorkshopDetailsFragmentDoc = gql`
     fragment WorkshopDetails on Workshop {
   id
@@ -4371,14 +4381,11 @@ export const JoinWaitlistDocument = gql`
     mutation JoinWaitlist($registrationId: ID, $sessionId: ID!) {
   addToWaitlist(registrationId: $registrationId, sessionId: $sessionId) {
     waitlist {
-      id
-      session {
-        ...RegistrationSession
-      }
+      ...RegistrationWaitlist
     }
   }
 }
-    ${RegistrationSessionFragmentDoc}`;
+    ${RegistrationWaitlistFragmentDoc}`;
 export type JoinWaitlistMutationFn = Apollo.MutationFunction<JoinWaitlistMutation, JoinWaitlistMutationVariables>;
 
 /**

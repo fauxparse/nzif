@@ -75,6 +75,12 @@ const General: React.FC = () => {
     finaliseRegistration().then(() => next());
   };
 
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    finaliseAndContinue();
+  };
+
   return (
     <div className="registration__payment">
       <div className="registration__payment__general">
@@ -89,10 +95,12 @@ const General: React.FC = () => {
         </h2>
 
         {!outstanding ? (
-          <p>
-            You have nothing to pay right now. Click the <b>Finalise registration</b> button to
-            complete your registration.
-          </p>
+          <form id="registration-form" onSubmit={submit}>
+            <p>
+              You have nothing to pay right now. Click the <b>Finalise registration</b> button to
+              complete your registration.
+            </p>
+          </form>
         ) : (
           stripePromise &&
           clientSecret && (

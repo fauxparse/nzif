@@ -16,17 +16,15 @@ RSpec.describe Registrations::CreateSnapshot do
   describe '#snapshot' do
     subject(:snapshot) { result.snapshot }
 
-    its(:identifier) { is_expected.to eq "#{registration.to_param}@#{Time.zone.now.iso8601}" }
-
     its(:metadata) { is_expected.to eq 'action' => 'test' }
   end
 
   describe '#snapshot_items' do
     subject(:snapshot_items) { result.snapshot.snapshot_items }
 
-    it 'serializes the placements' do
+    it 'serializes the sessions' do
       expect(snapshot_items.map(&:item_type))
-        .to eq %w[Registration Placement Placement Placement]
+        .to eq %w[Registration Session Session Session]
     end
   end
 end

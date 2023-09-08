@@ -88,7 +88,7 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ session, slot, disabled = f
         ref={ref}
         as={Component}
         className="workshop"
-        {...(loading ? {} : { layoutId: workshop.id })}
+        {...(loading ? {} : { layoutId: session.id })}
         aria-hidden={loading || undefined}
         data-loading={loading || undefined}
       >
@@ -99,7 +99,7 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ session, slot, disabled = f
             </Skeleton>
           </div>
         ) : (
-          <motion.div className="card__image" layoutId={`${workshop.id}-image`}>
+          <motion.div className="card__image" layoutId={`${session.id}-image`}>
             {workshop.picture && (
               <BlurrableImage
                 className="workshop__image"

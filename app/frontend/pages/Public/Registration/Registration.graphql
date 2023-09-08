@@ -83,6 +83,13 @@ fragment RegistrationSession on Session {
   }
 }
 
+fragment RegistrationWaitlist on Waitlist {
+  id
+  session {
+    ...RegistrationSession
+  }
+}
+
 fragment WorkshopDetails on Workshop {
   id
   type
@@ -229,10 +236,7 @@ mutation RemovePreference($registrationId: ID, $sessionId: ID!) {
 mutation JoinWaitlist($registrationId: ID, $sessionId: ID!) {
   addToWaitlist(registrationId: $registrationId, sessionId: $sessionId) {
     waitlist {
-      id
-      session {
-        ...RegistrationSession
-      }
+      ...RegistrationWaitlist
     }
   }
 }

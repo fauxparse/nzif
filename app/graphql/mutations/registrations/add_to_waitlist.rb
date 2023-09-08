@@ -6,7 +6,7 @@ module Mutations
       argument :registration_id, ID, required: false
       argument :session_id, ID, required: true
 
-      def resolve(registration_id:, session_id:)
+      def resolve(session_id:, registration_id: nil)
         registration = find_registration(id: registration_id)
         session = current_festival.sessions.find(session_id)
         perform(::WaitlistPlaces::Add, registration:, session:)

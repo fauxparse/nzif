@@ -33,7 +33,10 @@ class ParticipantMailer < ApplicationMailer
       current_user: @registration.user,
     )
 
-    attachments['workshops.ics'] = WorkshopCalendar.new(registration).to_ical
+    @removed = Registrations::CompareWorkshopLists.call(registration:).removed
+
+    attachments['workshops.ics'] =
+      WorkshopCalendar.new(registration, deleted_sessions: @removed).to_ical
 
     mail(
       to: email_address_with_name(@user.email, @user.profile.name),

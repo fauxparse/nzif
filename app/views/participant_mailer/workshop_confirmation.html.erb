@@ -5,8 +5,16 @@
   Here is your confirmed list of workshops for NZIF <%= @festival.year %>.
 </p>
 <div style="padding-left: 1.5rem; border-left: 2px solid #ea3e82">
-  <%= render partial: 'placement', collection: @registration.placements %>
+  <%= render partial: 'session', collection: @registration.sessions %>
 </div>
+<% if @removed.any? %>
+<p>
+  You have been <b>removed</b> from the following <%= 'workshop'.pluralize(@removed.size) %>:
+</p>
+<div style="padding-left: 1.5rem; border-left: 2px solid #ea3e82">
+  <%= render partial: 'removed', collection: @removed %>
+</div>
+<% end %>
 <% if @empty_slots.any? %>
   <p>
     Unfortunately, we were unable to place you in any workshops in the following timeslots.
@@ -28,20 +36,30 @@
     Your total registration fee is as follows:
   </p>
   <table class="cart">
-  <tr>
-    <td><%= pluralize @cart.workshops_count, 'workshop' %> @ $<%= @cart.base_workshop_price %></td>
-    <td>$<%= @cart.value %></td>
-  </tr>
-  <% if @cart.discount.positive? %>
-    <tr class="discount">
-      <td><%= @cart.workshops_count %>-workshop discount</td>
-      <td><%= -@cart.discount %></td>
+    <tr>
+      <td><%= pluralize @cart.workshops_count, 'workshop' %> @ <%= humanized_money_with_symbol @cart.base_workshop_price %></td>
+      <td><%= humanized_money_with_symbol @cart.value %></td>
     </tr>
-  <% end %>
-  <tr>
-    <td>Total due</td>
-    <td><%= @cart.total %></td>
-  </tr>
+    <% if @cart.discount.positive? %>
+      <tr class="discount">
+        <td><%= @cart.workshops_count %>-workshop discount</td>
+        <td>-<%= humanized_money_with_symbol @cart.discount %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td>Total due</td>
+      <td><%= humanized_money_with_symbol @cart.total %></td>
+    </tr>
+    <% if @cart.paid > 0 %>
+      <tr>
+        <td>Paid</td>
+        <td>-<%= humanized_money_with_symbol @cart.paid %></td>
+      </tr>
+      <tr>
+        <td>Outstanding</td>
+        <td><%= humanized_money_with_symbol @cart.outstanding %></td>
+      </tr>
+    <% end %>
   </table>
   <p>
     All prices are in New Zealand Dollars and include GST.

@@ -5,8 +5,9 @@ module Registrations
     def call
       authorize! registration, to: :update?
 
-      context.snapshot = registration.create_snapshot!(
-        identifier: "#{registration.to_param}@#{Time.zone.now.iso8601}",
+      reloaded = Registration.includes(:placements, :waitlist).find(registration.id)
+
+      context.snapshot = reloaded.create_snapshot!(
         user: current_user,
         metadata: {
           action:,

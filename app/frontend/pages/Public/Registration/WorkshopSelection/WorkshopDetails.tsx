@@ -9,8 +9,6 @@ import Placename from '@/atoms/Placename';
 import {
   Placename as PlacenameType,
   RegistrationSessionFragment,
-  RegistrationSlotFragment,
-  RegistrationWorkshopFragment,
   useWorkshopDetailsQuery,
   WorkshopDetailsFragment,
   WorkshopDetailsQuery,
@@ -118,10 +116,10 @@ const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({ session }) => {
             variants={overlayVariants}
             animate={open ? 'open' : 'closed'}
           />
-          <motion.div className="dialog__content workshop-details__dialog" layoutId={workshop.id}>
+          <motion.div className="dialog__content workshop-details__dialog" layoutId={session.id}>
             <header className="workshop-details__header">
               {workshop.picture && (
-                <motion.div className="workshop-details__image" layoutId={`${workshop.id}-image`}>
+                <motion.div className="workshop-details__image" layoutId={`${session.id}-image`}>
                   <img src={workshop.picture.medium} alt={workshop.name} aria-hidden />
                 </motion.div>
               )}

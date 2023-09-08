@@ -6,7 +6,8 @@ module Registrations
 
     def call
       authorize! registration, to: :view?
-      context[:outstanding] = total - paid
+      base_workshop_price
+      context[:outstanding] = [0, total - paid].max
     end
 
     def base_workshop_price

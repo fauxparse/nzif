@@ -5,12 +5,13 @@ class WorkshopCalendar
 
   attr_reader :registration, :sessions
 
-  def initialize(registration, sessions: nil)
+  def initialize(registration, sessions: nil, deleted_sessions: nil)
     @registration = Registration.with_details_for_calendar.find(registration.id)
     @sessions = sessions ||= default_sessions
 
     start_time = sessions.first.starts_at
     ical.add_timezone start_time.time_zone.tzinfo.ical_timezone(start_time)
+    deleted_sessions.each { |session| add_session(session, status: 'CANCELLED') }
     sessions.each { |session| add_session(session) }
     ical.append_custom_property('METHOD', 'PUBLISH')
   end
@@ -24,7 +25,7 @@ class WorkshopCalendar
     @ical ||= Icalendar::Calendar.new
   end
 
-  def add_session(session) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def add_session(session, status: 'CONFIRMED') # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     ical.event do |e|
       e.uid         = session.to_param
       e.dtstart     = session.starts_at.to_datetime
@@ -35,7 +36,8 @@ class WorkshopCalendar
       e.organizer   = organizer
       e.attendee    = attendee
       e.location    = session.venue&.full_address_including_room
-      e.status      = 'CONFIRMED'
+      e.status      = status
+      e.sequence    = registration.snapshots.count
       e.ip_class    = 'PUBLIC'
 
       e.alarm do |a|
