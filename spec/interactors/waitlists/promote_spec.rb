@@ -1,8 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Waitlists::Promote do
-  let(:session) { create(:session, :with_workshop) }
-  let!(:waitlist) { create_list(:waitlist, 10, session:) }
+  let(:festival) { create(:festival, :with_workshops) }
+  let(:session) { festival.sessions.first }
+  let(:registrations) { create_list(:registration, 10, festival:) }
+  let!(:waitlist) do
+    registrations.map { |registration| create(:waitlist, session:, registration:) }
+  end
   let(:context) { { session:, registration: } }
 
   context 'when the user is on the waitlist' do
@@ -16,6 +20,44 @@ RSpec.describe Waitlists::Promote do
 
     it 'moves the user into the session' do
       expect { result }.to change(session.placements, :count).by(1)
+    end
+
+    context 'when this workshop is the user’s first choice' do
+      before do
+        festival.sessions.each do |s|
+          registration.preferences.create!(session: s)
+          registration.waitlist.create!(session: s) unless session == s
+        end
+      end
+
+      it 'removes the user from other waitlists' do
+        expect { result }.to change(registration.waitlist, :count).by(-3)
+      end
+    end
+
+    context 'when this workshop is the user’s third choice' do
+      before do
+        festival.sessions.reverse.each do |s|
+          registration.preferences.create!(session: s)
+          registration.waitlist.create!(session: s) unless session == s
+        end
+      end
+
+      it 'does not removes the user from other waitlists' do
+        expect { result }.to change(registration.waitlist, :count).by(-1)
+      end
+    end
+
+    context 'when the user is in another session' do
+      let(:other_session) { session.slot.sessions.where.not(id: session.id).first }
+
+      before do
+        registration.placements.create!(session: other_session)
+      end
+
+      it 'removes the user from the other session' do
+        expect { result }.to change(other_session.placements, :count).by(-1)
+      end
     end
   end
 
