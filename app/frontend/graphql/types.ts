@@ -225,6 +225,11 @@ export type FestivalActivityArgs = {
 };
 
 
+export type FestivalRegistrationsArgs = {
+  name: InputMaybe<Scalars['String']>;
+};
+
+
 export type FestivalSlotsArgs = {
   type: InputMaybe<ActivityType>;
 };
@@ -1251,6 +1256,7 @@ export type RegistrationSummaryQuery = { __typename: 'Query', festival: { __type
 
 export type SearchQueryVariables = Exact<{
   query: Scalars['String'];
+  only: InputMaybe<Array<SearchType> | SearchType>;
 }>;
 
 
@@ -1304,17 +1310,17 @@ export type ActivityListQueryVariables = Exact<{
 
 export type ActivityListQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, activities: Array<{ __typename: 'Show', id: string, name: string, type: ActivityType, slug: string, missingInfo: Array<string>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }>, presenters: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, missingInfo: Array<string>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }>, presenters: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> } | { __typename: 'Workshop', id: string, name: string, type: ActivityType, slug: string, missingInfo: Array<string>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }>, presenters: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> }> } };
 
-export type SessionParticipantFragment = { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null };
+export type SessionParticipantFragment = { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null };
 
-export type AdminActivitySessionDetailsFragment = { __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null };
+export type AdminActivitySessionDetailsFragment = { __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null };
 
-export type SessionWaitlistParticipantFragment = { __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } };
+export type SessionWaitlistParticipantFragment = { __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } };
 
-type AdminActivityDetails_Show_Fragment = { __typename: 'Show', bookingLink: string | null, id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, workshop: { __typename: 'Workshop', id: string, name: string, slug: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> };
+type AdminActivityDetails_Show_Fragment = { __typename: 'Show', bookingLink: string | null, id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, workshop: { __typename: 'Workshop', id: string, name: string, slug: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> };
 
-type AdminActivityDetails_SocialEvent_Fragment = { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, bookingLink: string | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> };
+type AdminActivityDetails_SocialEvent_Fragment = { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, bookingLink: string | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> };
 
-type AdminActivityDetails_Workshop_Fragment = { __typename: 'Workshop', suitability: string | null, id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, bookingLink: string | null, show: { __typename: 'Show', id: string, name: string, slug: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> };
+type AdminActivityDetails_Workshop_Fragment = { __typename: 'Workshop', suitability: string | null, id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, bookingLink: string | null, show: { __typename: 'Show', id: string, name: string, slug: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> };
 
 export type AdminActivityDetailsFragment = AdminActivityDetails_Show_Fragment | AdminActivityDetails_SocialEvent_Fragment | AdminActivityDetails_Workshop_Fragment;
 
@@ -1324,7 +1330,7 @@ export type ActivityDetailsQueryVariables = Exact<{
 }>;
 
 
-export type ActivityDetailsQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, activity: { __typename: 'Show', bookingLink: string | null, id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, workshop: { __typename: 'Workshop', id: string, name: string, slug: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, bookingLink: string | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | { __typename: 'Workshop', suitability: string | null, id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, bookingLink: string | null, show: { __typename: 'Show', id: string, name: string, slug: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | null, venues: Array<{ __typename: 'Venue', id: string, room: string | null, building: string }> } };
+export type ActivityDetailsQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, activity: { __typename: 'Show', bookingLink: string | null, id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, workshop: { __typename: 'Workshop', id: string, name: string, slug: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, bookingLink: string | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | { __typename: 'Workshop', suitability: string | null, id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, bookingLink: string | null, show: { __typename: 'Show', id: string, name: string, slug: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | null, venues: Array<{ __typename: 'Venue', id: string, room: string | null, building: string }> } };
 
 type ActivityListActivity_Show_Fragment = { __typename: 'Show', id: string, name: string, type: ActivityType, slug: string, missingInfo: Array<string>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }>, presenters: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> };
 
@@ -1358,7 +1364,7 @@ export type UpdateActivityMutationVariables = Exact<{
 }>;
 
 
-export type UpdateActivityMutation = { __typename: 'Mutation', updateActivity: { __typename: 'UpdateActivityPayload', activity: { __typename: 'Show', bookingLink: string | null, id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, workshop: { __typename: 'Workshop', id: string, name: string, slug: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, bookingLink: string | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | { __typename: 'Workshop', suitability: string | null, id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, bookingLink: string | null, show: { __typename: 'Show', id: string, name: string, slug: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } } | null };
+export type UpdateActivityMutation = { __typename: 'Mutation', updateActivity: { __typename: 'UpdateActivityPayload', activity: { __typename: 'Show', bookingLink: string | null, id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, workshop: { __typename: 'Workshop', id: string, name: string, slug: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, bookingLink: string | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | { __typename: 'Workshop', suitability: string | null, id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, bookingLink: string | null, show: { __typename: 'Show', id: string, name: string, slug: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } } | null };
 
 export type UpdateSessionVenueMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -1391,7 +1397,7 @@ export type PromoteWaitlistParticipantMutationVariables = Exact<{
 }>;
 
 
-export type PromoteWaitlistParticipantMutation = { __typename: 'Mutation', promoteWaitlistParticipant: { __typename: 'PromoteWaitlistParticipantPayload', registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } } | null };
+export type PromoteWaitlistParticipantMutation = { __typename: 'Mutation', promoteWaitlistParticipant: { __typename: 'PromoteWaitlistParticipantPayload', registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } } | null };
 
 export type DemoteSessionParticipantMutationVariables = Exact<{
   sessionId: Scalars['ID'];
@@ -1400,7 +1406,48 @@ export type DemoteSessionParticipantMutationVariables = Exact<{
 }>;
 
 
-export type DemoteSessionParticipantMutation = { __typename: 'Mutation', demoteSessionParticipant: { __typename: 'DemoteSessionParticipantPayload', session: { __typename: 'Session', id: string, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }> } } | null };
+export type DemoteSessionParticipantMutation = { __typename: 'Mutation', demoteSessionParticipant: { __typename: 'DemoteSessionParticipantPayload', session: { __typename: 'Session', id: string, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }> } } | null };
+
+export type AddWaitlistParticipantMutationVariables = Exact<{
+  sessionId: Scalars['ID'];
+  registrationId: Scalars['ID'];
+}>;
+
+
+export type AddWaitlistParticipantMutation = { __typename: 'Mutation', addToWaitlist: { __typename: 'AddToWaitlistPayload', waitlist: { __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } } } | null };
+
+export type AddSessionParticipantMutationVariables = Exact<{
+  sessionId: Scalars['ID'];
+  registrationId: Scalars['ID'];
+}>;
+
+
+export type AddSessionParticipantMutation = { __typename: 'Mutation', addToSession: { __typename: 'AddToSessionPayload', registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } } | null };
+
+export type RemoveWaitlistParticipantMutationVariables = Exact<{
+  sessionId: Scalars['ID'];
+  registrationId: Scalars['ID'];
+}>;
+
+
+export type RemoveWaitlistParticipantMutation = { __typename: 'Mutation', removeFromWaitlist: boolean | null };
+
+export type RemoveSessionParticipantMutationVariables = Exact<{
+  sessionId: Scalars['ID'];
+  registrationId: Scalars['ID'];
+}>;
+
+
+export type RemoveSessionParticipantMutation = { __typename: 'Mutation', removeFromSession: { __typename: 'RemoveFromSessionPayload', session: { __typename: 'Session', participants: Array<{ __typename: 'Registration', id: string }> } } | null };
+
+export type ParticipantRegistrationFragment = { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null };
+
+export type ParticipantSearchQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type ParticipantSearchQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, registrations: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }> } };
 
 export type FestivalQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1835,6 +1882,7 @@ export const SessionParticipantFragmentDoc = gql`
   id
   user {
     id
+    email
     profile {
       id
       name
@@ -1953,6 +2001,19 @@ export const ActivityListActivityFragmentDoc = gql`
   }
 }
     ${ActivityPresenterFragmentDoc}`;
+export const ParticipantRegistrationFragmentDoc = gql`
+    fragment ParticipantRegistration on Registration {
+  id
+  user {
+    id
+    email
+    profile {
+      id
+      name
+    }
+  }
+}
+    `;
 export const RegistrationsListItemFragmentDoc = gql`
     fragment RegistrationsListItem on Registration {
   id
@@ -2587,8 +2648,8 @@ export type RegistrationSummaryQueryHookResult = ReturnType<typeof useRegistrati
 export type RegistrationSummaryLazyQueryHookResult = ReturnType<typeof useRegistrationSummaryLazyQuery>;
 export type RegistrationSummaryQueryResult = Apollo.QueryResult<RegistrationSummaryQuery, RegistrationSummaryQueryVariables>;
 export const SearchDocument = gql`
-    query Search($query: String!) {
-  search(query: $query) {
+    query Search($query: String!, $only: [SearchType!]) {
+  search(query: $query, only: $only) {
     id
     title
     description
@@ -2643,6 +2704,7 @@ export const SearchDocument = gql`
  * const { data, loading, error } = useSearchQuery({
  *   variables: {
  *      query: // value for 'query'
+ *      only: // value for 'only'
  *   },
  * });
  */
@@ -3262,6 +3324,186 @@ export function useDemoteSessionParticipantMutation(baseOptions?: Apollo.Mutatio
 export type DemoteSessionParticipantMutationHookResult = ReturnType<typeof useDemoteSessionParticipantMutation>;
 export type DemoteSessionParticipantMutationResult = Apollo.MutationResult<DemoteSessionParticipantMutation>;
 export type DemoteSessionParticipantMutationOptions = Apollo.BaseMutationOptions<DemoteSessionParticipantMutation, DemoteSessionParticipantMutationVariables>;
+export const AddWaitlistParticipantDocument = gql`
+    mutation AddWaitlistParticipant($sessionId: ID!, $registrationId: ID!) {
+  addToWaitlist(sessionId: $sessionId, registrationId: $registrationId) {
+    waitlist {
+      ...SessionWaitlistParticipant
+    }
+  }
+}
+    ${SessionWaitlistParticipantFragmentDoc}`;
+export type AddWaitlistParticipantMutationFn = Apollo.MutationFunction<AddWaitlistParticipantMutation, AddWaitlistParticipantMutationVariables>;
+
+/**
+ * __useAddWaitlistParticipantMutation__
+ *
+ * To run a mutation, you first call `useAddWaitlistParticipantMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddWaitlistParticipantMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addWaitlistParticipantMutation, { data, loading, error }] = useAddWaitlistParticipantMutation({
+ *   variables: {
+ *      sessionId: // value for 'sessionId'
+ *      registrationId: // value for 'registrationId'
+ *   },
+ * });
+ */
+export function useAddWaitlistParticipantMutation(baseOptions?: Apollo.MutationHookOptions<AddWaitlistParticipantMutation, AddWaitlistParticipantMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddWaitlistParticipantMutation, AddWaitlistParticipantMutationVariables>(AddWaitlistParticipantDocument, options);
+      }
+export type AddWaitlistParticipantMutationHookResult = ReturnType<typeof useAddWaitlistParticipantMutation>;
+export type AddWaitlistParticipantMutationResult = Apollo.MutationResult<AddWaitlistParticipantMutation>;
+export type AddWaitlistParticipantMutationOptions = Apollo.BaseMutationOptions<AddWaitlistParticipantMutation, AddWaitlistParticipantMutationVariables>;
+export const AddSessionParticipantDocument = gql`
+    mutation AddSessionParticipant($sessionId: ID!, $registrationId: ID!) {
+  addToSession(sessionId: $sessionId, registrationId: $registrationId) {
+    registration {
+      ...SessionParticipant
+    }
+  }
+}
+    ${SessionParticipantFragmentDoc}`;
+export type AddSessionParticipantMutationFn = Apollo.MutationFunction<AddSessionParticipantMutation, AddSessionParticipantMutationVariables>;
+
+/**
+ * __useAddSessionParticipantMutation__
+ *
+ * To run a mutation, you first call `useAddSessionParticipantMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddSessionParticipantMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addSessionParticipantMutation, { data, loading, error }] = useAddSessionParticipantMutation({
+ *   variables: {
+ *      sessionId: // value for 'sessionId'
+ *      registrationId: // value for 'registrationId'
+ *   },
+ * });
+ */
+export function useAddSessionParticipantMutation(baseOptions?: Apollo.MutationHookOptions<AddSessionParticipantMutation, AddSessionParticipantMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddSessionParticipantMutation, AddSessionParticipantMutationVariables>(AddSessionParticipantDocument, options);
+      }
+export type AddSessionParticipantMutationHookResult = ReturnType<typeof useAddSessionParticipantMutation>;
+export type AddSessionParticipantMutationResult = Apollo.MutationResult<AddSessionParticipantMutation>;
+export type AddSessionParticipantMutationOptions = Apollo.BaseMutationOptions<AddSessionParticipantMutation, AddSessionParticipantMutationVariables>;
+export const RemoveWaitlistParticipantDocument = gql`
+    mutation RemoveWaitlistParticipant($sessionId: ID!, $registrationId: ID!) {
+  removeFromWaitlist(sessionId: $sessionId, registrationId: $registrationId)
+}
+    `;
+export type RemoveWaitlistParticipantMutationFn = Apollo.MutationFunction<RemoveWaitlistParticipantMutation, RemoveWaitlistParticipantMutationVariables>;
+
+/**
+ * __useRemoveWaitlistParticipantMutation__
+ *
+ * To run a mutation, you first call `useRemoveWaitlistParticipantMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveWaitlistParticipantMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeWaitlistParticipantMutation, { data, loading, error }] = useRemoveWaitlistParticipantMutation({
+ *   variables: {
+ *      sessionId: // value for 'sessionId'
+ *      registrationId: // value for 'registrationId'
+ *   },
+ * });
+ */
+export function useRemoveWaitlistParticipantMutation(baseOptions?: Apollo.MutationHookOptions<RemoveWaitlistParticipantMutation, RemoveWaitlistParticipantMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveWaitlistParticipantMutation, RemoveWaitlistParticipantMutationVariables>(RemoveWaitlistParticipantDocument, options);
+      }
+export type RemoveWaitlistParticipantMutationHookResult = ReturnType<typeof useRemoveWaitlistParticipantMutation>;
+export type RemoveWaitlistParticipantMutationResult = Apollo.MutationResult<RemoveWaitlistParticipantMutation>;
+export type RemoveWaitlistParticipantMutationOptions = Apollo.BaseMutationOptions<RemoveWaitlistParticipantMutation, RemoveWaitlistParticipantMutationVariables>;
+export const RemoveSessionParticipantDocument = gql`
+    mutation RemoveSessionParticipant($sessionId: ID!, $registrationId: ID!) {
+  removeFromSession(sessionId: $sessionId, registrationId: $registrationId) {
+    session {
+      participants {
+        id
+      }
+    }
+  }
+}
+    `;
+export type RemoveSessionParticipantMutationFn = Apollo.MutationFunction<RemoveSessionParticipantMutation, RemoveSessionParticipantMutationVariables>;
+
+/**
+ * __useRemoveSessionParticipantMutation__
+ *
+ * To run a mutation, you first call `useRemoveSessionParticipantMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveSessionParticipantMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeSessionParticipantMutation, { data, loading, error }] = useRemoveSessionParticipantMutation({
+ *   variables: {
+ *      sessionId: // value for 'sessionId'
+ *      registrationId: // value for 'registrationId'
+ *   },
+ * });
+ */
+export function useRemoveSessionParticipantMutation(baseOptions?: Apollo.MutationHookOptions<RemoveSessionParticipantMutation, RemoveSessionParticipantMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveSessionParticipantMutation, RemoveSessionParticipantMutationVariables>(RemoveSessionParticipantDocument, options);
+      }
+export type RemoveSessionParticipantMutationHookResult = ReturnType<typeof useRemoveSessionParticipantMutation>;
+export type RemoveSessionParticipantMutationResult = Apollo.MutationResult<RemoveSessionParticipantMutation>;
+export type RemoveSessionParticipantMutationOptions = Apollo.BaseMutationOptions<RemoveSessionParticipantMutation, RemoveSessionParticipantMutationVariables>;
+export const ParticipantSearchDocument = gql`
+    query ParticipantSearch($name: String!) {
+  festival {
+    id
+    registrations(name: $name) {
+      ...ParticipantRegistration
+    }
+  }
+}
+    ${ParticipantRegistrationFragmentDoc}`;
+
+/**
+ * __useParticipantSearchQuery__
+ *
+ * To run a query within a React component, call `useParticipantSearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useParticipantSearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useParticipantSearchQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useParticipantSearchQuery(baseOptions: Apollo.QueryHookOptions<ParticipantSearchQuery, ParticipantSearchQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ParticipantSearchQuery, ParticipantSearchQueryVariables>(ParticipantSearchDocument, options);
+      }
+export function useParticipantSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ParticipantSearchQuery, ParticipantSearchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ParticipantSearchQuery, ParticipantSearchQueryVariables>(ParticipantSearchDocument, options);
+        }
+export type ParticipantSearchQueryHookResult = ReturnType<typeof useParticipantSearchQuery>;
+export type ParticipantSearchLazyQueryHookResult = ReturnType<typeof useParticipantSearchLazyQuery>;
+export type ParticipantSearchQueryResult = Apollo.QueryResult<ParticipantSearchQuery, ParticipantSearchQueryVariables>;
 export const FestivalDocument = gql`
     query Festival {
   festival {

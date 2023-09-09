@@ -7,6 +7,7 @@ module Registrations
 
       session.placements.find_by!(registration_id: registration.id).destroy!
 
+      # TODO: promote from waitlist
       # TODO: send cancellation email
     end
   end

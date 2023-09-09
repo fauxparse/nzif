@@ -207,7 +207,7 @@ type Festival {
   generalOpensAt: ISO8601DateTime
   id: ID!
   registrationPhase: RegistrationPhase!
-  registrations: [Registration!]!
+  registrations(name: String): [Registration!]!
   slots(type: ActivityType): [Slot!]!
   startDate: ISODate!
   state: FestivalState!

@@ -1,13 +1,9 @@
 import React from 'react';
 import { UniqueIdentifier, useDroppable } from '@dnd-kit/core';
-import { AnimateLayoutChanges, defaultAnimateLayoutChanges, useSortable } from '@dnd-kit/sortable';
 import { motion } from 'framer-motion';
 import { get } from 'lodash-es';
 
 import { AdminActivitySessionDetailsFragment, SessionParticipantFragment } from '@/graphql/types';
-
-const animateLayoutChanges: AnimateLayoutChanges = (args) =>
-  defaultAnimateLayoutChanges({ ...args, wasDragging: true });
 
 const TITLES = {
   participants: 'Participants',

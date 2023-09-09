@@ -14,7 +14,9 @@ module Types
     field :end_date, Types::ISODate, null: false
     field :general_opens_at, GraphQL::Types::ISO8601DateTime, null: true
     field :registration_phase, Types::RegistrationPhaseType, null: false
-    field :registrations, [Types::RegistrationType], null: false
+    field :registrations, [Types::RegistrationType], null: false do
+      argument :name, String, required: false
+    end
     field :slots, [Types::SlotType], null: false do
       argument :type, Types::ActivityTypeType, required: false
     end
@@ -50,9 +52,9 @@ module Types
         .load(object.id)
     end
 
-    def registrations
+    def registrations(name: nil)
       dataloader
-        .with(Sources::Registrations, context:)
+        .with(Sources::Registrations, context:, name:)
         .load(object.id)
     end
 

@@ -12,6 +12,7 @@ fragment SessionParticipant on Registration {
   id
   user {
     id
+    email
     profile {
       id
       name
@@ -264,6 +265,36 @@ mutation DemoteSessionParticipant($sessionId: ID!, $registrationId: ID!, $positi
       }
       waitlist {
         ...SessionWaitlistParticipant
+      }
+    }
+  }
+}
+
+mutation AddWaitlistParticipant($sessionId: ID!, $registrationId: ID!) {
+  addToWaitlist(sessionId: $sessionId, registrationId: $registrationId) {
+    waitlist {
+      ...SessionWaitlistParticipant
+    }
+  }
+}
+
+mutation AddSessionParticipant($sessionId: ID!, $registrationId: ID!) {
+  addToSession(sessionId: $sessionId, registrationId: $registrationId) {
+    registration {
+      ...SessionParticipant
+    }
+  }
+}
+
+mutation RemoveWaitlistParticipant($sessionId: ID!, $registrationId: ID!) {
+  removeFromWaitlist(sessionId: $sessionId, registrationId: $registrationId)
+}
+
+mutation RemoveSessionParticipant($sessionId: ID!, $registrationId: ID!) {
+  removeFromSession(sessionId: $sessionId, registrationId: $registrationId) {
+    session {
+      participants {
+        id
       }
     }
   }

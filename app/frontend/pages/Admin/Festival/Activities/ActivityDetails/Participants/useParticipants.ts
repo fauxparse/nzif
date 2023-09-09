@@ -1,14 +1,22 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Reference, StoreObject } from '@apollo/client';
 import { Active, Over, UniqueIdentifier } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { sortBy } from 'lodash-es';
 
 import {
   AdminActivitySessionDetailsFragment,
+  ParticipantRegistrationFragment,
   SessionParticipantFragment,
+  SessionParticipantFragmentDoc,
+  SessionWaitlistParticipantFragmentDoc,
+  useAddSessionParticipantMutation,
+  useAddWaitlistParticipantMutation,
   useDemoteSessionParticipantMutation,
   useMoveWaitlistParticipantMutation,
   usePromoteWaitlistParticipantMutation,
+  useRemoveSessionParticipantMutation,
+  useRemoveWaitlistParticipantMutation,
 } from '@/graphql/types';
 
 export type Container = 'participants' | 'waitlist';
@@ -24,7 +32,6 @@ const useParticipants = (session: AdminActivitySessionDetailsFragment) => {
     [session.participants, session.waitlist]
   );
   const [active, setActive] = useState<SessionParticipantFragment | null>(null);
-  const [clonedItems, setClonedItems] = useState<Items | null>(null);
   const recentlyMovedToNewContainer = useRef(false);
 
   const findContainer = useCallback(
@@ -36,16 +43,12 @@ const useParticipants = (session: AdminActivitySessionDetailsFragment) => {
     [items]
   );
 
-  const start = useCallback(
-    ({ active }: { active: Active }) => {
-      const { registration = null } = active.data.current || {};
-      if (registration) {
-        setActive(registration);
-        setClonedItems(items);
-      }
-    },
-    [items]
-  );
+  const start = useCallback(({ active }: { active: Active }) => {
+    const { registration = null } = active.data.current || {};
+    if (registration) {
+      setActive(registration);
+    }
+  }, []);
 
   const drag = useCallback(
     ({ active, over }: { active: Active; over: Over | null }) => {
@@ -61,45 +64,6 @@ const useParticipants = (session: AdminActivitySessionDetailsFragment) => {
       }
 
       if (activeContainer !== overContainer) {
-        // setItems((items) => {
-        //   const activeItems = items[activeContainer];
-        //   const overItems = items[overContainer];
-        //   const overIndex = overItems.findIndex((p) => p.id === overId);
-        //   const activeIndex = activeItems.findIndex((p) => p.id === active.id);
-
-        //   let newIndex: number;
-
-        //   if (overId in items) {
-        //     newIndex = overItems.length + 1;
-        //   } else {
-        //     const isBelowOverItem =
-        //       over &&
-        //       active.rect.current.translated &&
-        //       active.rect.current.translated.top > over.rect.top + over.rect.height;
-
-        //     const modifier = isBelowOverItem ? 1 : 0;
-
-        //     newIndex = overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
-        //   }
-
-        //   recentlyMovedToNewContainer.current = true;
-
-        //   return {
-        //     ...items,
-        //     [activeContainer]: items[activeContainer].filter((p) => p.id !== active.id),
-        //     [overContainer]:
-        //       overContainer === 'waitlist'
-        //         ? [
-        //             ...items[overContainer].slice(0, newIndex),
-        //             items[activeContainer][activeIndex],
-        //             ...items[overContainer].slice(newIndex),
-        //           ]
-        //         : sortBy(
-        //             [...items[overContainer], items[activeContainer][activeIndex]],
-        //             (r) => r.user?.profile?.name
-        //           ),
-        //   };
-        // });
         recentlyMovedToNewContainer.current = true;
       }
     },
@@ -109,6 +73,222 @@ const useParticipants = (session: AdminActivitySessionDetailsFragment) => {
   const [moveWaitlistParticipant] = useMoveWaitlistParticipantMutation();
   const [promoteWaitlistParticipant] = usePromoteWaitlistParticipantMutation();
   const [demoteSessionParticipant] = useDemoteSessionParticipantMutation();
+  const [addSessionParticipant] = useAddSessionParticipantMutation();
+  const [addWaitlistParticipant] = useAddWaitlistParticipantMutation();
+  const [removeSessionParticipant] = useRemoveSessionParticipantMutation();
+  const [removeWaitlistParticipant] = useRemoveWaitlistParticipantMutation();
+
+  const add = useCallback(
+    (registration: ParticipantRegistrationFragment) => {
+      addSessionParticipant({
+        variables: {
+          registrationId: registration.id,
+          sessionId: session.id,
+        },
+        update: (cache, { data }) => {
+          const registration = data?.addToSession?.registration;
+
+          if (!registration) return;
+
+          const ref = cache.writeFragment({
+            id: cache.identify(registration),
+            fragment: SessionParticipantFragmentDoc,
+            data: registration,
+          });
+
+          cache.modify({
+            id: cache.identify(session),
+            fields: {
+              participants: (existing) => [...existing, ref],
+            },
+          });
+        },
+      });
+    },
+    [addSessionParticipant, session]
+  );
+
+  const remove = useCallback(
+    (registration: ParticipantRegistrationFragment) =>
+      removeSessionParticipant({
+        variables: {
+          registrationId: registration.id,
+          sessionId: session.id,
+        },
+        update: (cache) => {
+          cache.modify({
+            id: cache.identify(session),
+            fields: {
+              participants: (existing, { readField }) =>
+                existing.filter(
+                  (p: StoreObject | Reference) => readField('id', p) !== registration.id
+                ),
+            },
+          });
+        },
+      }),
+    [removeSessionParticipant, session]
+  );
+
+  const promote = useCallback(
+    (registration: ParticipantRegistrationFragment) =>
+      promoteWaitlistParticipant({
+        variables: {
+          registrationId: registration.id,
+          sessionId: session.id,
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          promoteWaitlistParticipant: {
+            __typename: 'PromoteWaitlistParticipantPayload',
+            registration,
+          },
+        },
+        update: (cache) => {
+          const oldPosition =
+            session.waitlist.find((w) => w.registration.id === registration.id)?.position ||
+            Infinity;
+          session.waitlist.forEach((w) => {
+            if (w.position > oldPosition) {
+              cache.modify({
+                id: cache.identify(w),
+                fields: {
+                  position: (existing) => existing - 1,
+                },
+              });
+            }
+          });
+
+          cache.modify({
+            id: cache.identify(session),
+            fields: {
+              participants: (existing, { readField }) =>
+                sortBy([...existing, { __ref: cache.identify(registration) }], (p) =>
+                  readField('name', readField('profile', readField('user', p)))
+                ),
+              waitlist: (existing, { readField }) => {
+                return existing.filter(
+                  (w: StoreObject | Reference) =>
+                    readField('id', readField('registration', w)) !== registration.id
+                );
+              },
+            },
+          });
+        },
+      }),
+    [promoteWaitlistParticipant, session]
+  );
+
+  const demote = useCallback(
+    (registration: ParticipantRegistrationFragment, position = session.waitlist.length + 1) =>
+      demoteSessionParticipant({
+        variables: {
+          registrationId: registration.id,
+          sessionId: session.id,
+          position,
+        },
+        update: (cache, { data }) => {
+          const waitlist = data?.demoteSessionParticipant?.session?.waitlist?.find(
+            (w) => w.registration.id === registration.id
+          );
+          if (!waitlist) return;
+
+          cache.modify({
+            id: cache.identify(session),
+            fields: {
+              participants: (existing, { readField }) =>
+                existing.filter(
+                  (p: StoreObject | Reference) => readField('id', p) !== registration.id
+                ),
+            },
+          });
+        },
+      }),
+    [demoteSessionParticipant, session]
+  );
+
+  const move = useCallback(
+    (registration: ParticipantRegistrationFragment, position: number) => {
+      const activeIndex = session.waitlist.findIndex((w) => w.registration.id === registration.id);
+      if (activeIndex < 0) return;
+
+      return moveWaitlistParticipant({
+        variables: {
+          sessionId: session.id,
+          registrationId: registration.id,
+          position,
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          moveWaitlistParticipant: {
+            __typename: 'MoveWaitlistParticipantPayload',
+            waitlist: arrayMove(session.waitlist, activeIndex, position - 1),
+          },
+        },
+        update: (cache) => {
+          cache.modify({
+            id: cache.identify(session),
+            fields: {
+              waitlist: (existing) => arrayMove(existing, activeIndex, position - 1),
+            },
+          });
+        },
+      });
+    },
+    [session, moveWaitlistParticipant]
+  );
+
+  const addToWaitlist = useCallback(
+    (registration: ParticipantRegistrationFragment) =>
+      addWaitlistParticipant({
+        variables: {
+          registrationId: registration.id,
+          sessionId: session.id,
+        },
+        update: (cache, { data }) => {
+          const waitlist = data?.addToWaitlist?.waitlist;
+
+          if (!waitlist) return;
+
+          const ref = cache.writeFragment({
+            id: cache.identify(waitlist),
+            fragment: SessionWaitlistParticipantFragmentDoc,
+            data: waitlist,
+          });
+
+          cache.modify({
+            id: cache.identify(session),
+            fields: {
+              waitlist: (existing) => [...existing, ref],
+            },
+          });
+        },
+      }),
+    [addWaitlistParticipant, session]
+  );
+
+  const removeFromWaitlist = useCallback(
+    (registration: ParticipantRegistrationFragment) =>
+      removeWaitlistParticipant({
+        variables: {
+          registrationId: registration.id,
+          sessionId: session.id,
+        },
+        update: (cache) => {
+          cache.modify({
+            id: cache.identify(session),
+            fields: {
+              waitlist: (existing, { readField }) =>
+                existing.filter(
+                  (w: StoreObject | Reference) =>
+                    readField('id', readField('registration', w)) !== registration.id
+                ),
+            },
+          });
+        },
+      }),
+    [removeWaitlistParticipant, session]
+  );
 
   const drop = useCallback(
     ({ active, over }: { active: Active; over: Over | null }) => {
@@ -133,133 +313,28 @@ const useParticipants = (session: AdminActivitySessionDetailsFragment) => {
         const overIndex = items[overContainer].findIndex((p) => p.id === overId);
 
         if (activeIndex !== overIndex || activeContainer !== overContainer) {
-          // setItems((items) => ({
-          //   ...items,
-          //   [overContainer]:
-          //     overContainer === 'waitlist'
-          //       ? arrayMove(items[overContainer], activeIndex, overIndex)
-          //       : sortBy(
-          //           arrayMove(items[overContainer], activeIndex, overIndex),
-          //           (r) => r.user?.profile?.name
-          //         ),
-          // }));
-
           if (activeContainer === 'waitlist') {
             if (overContainer === 'waitlist') {
-              moveWaitlistParticipant({
-                variables: {
-                  sessionId: session.id,
-                  registrationId: String(active.id),
-                  position: overIndex + 1,
-                },
-                optimisticResponse: {
-                  __typename: 'Mutation',
-                  moveWaitlistParticipant: {
-                    __typename: 'MoveWaitlistParticipantPayload',
-                    waitlist: arrayMove(session.waitlist, activeIndex, overIndex),
-                  },
-                },
-                update: (cache) => {
-                  cache.modify({
-                    id: cache.identify(session),
-                    fields: {
-                      waitlist: (existing) => arrayMove(existing, activeIndex, overIndex),
-                    },
-                  });
-                },
-              });
+              move(items[activeContainer][activeIndex], overIndex + 1);
             } else {
               const registration = session.waitlist[activeIndex].registration;
-
-              promoteWaitlistParticipant({
-                variables: {
-                  sessionId: session.id,
-                  registrationId: String(active.id),
-                },
-                optimisticResponse: {
-                  __typename: 'Mutation',
-                  promoteWaitlistParticipant: {
-                    __typename: 'PromoteWaitlistParticipantPayload',
-                    registration,
-                  },
-                },
-                update: (cache) => {
-                  cache.modify({
-                    id: cache.identify(session),
-                    fields: {
-                      participants: (existing, { readField }) =>
-                        sortBy([...existing, { __ref: cache.identify(registration) }], (p) =>
-                          readField('user.profile.name', p)
-                        ),
-                      waitlist: (existing) => [
-                        ...existing.slice(0, activeIndex),
-                        ...existing.slice(activeIndex + 1),
-                      ],
-                    },
-                  });
-                },
-              });
+              promote(registration);
             }
           } else {
-            demoteSessionParticipant({
-              variables: {
-                sessionId: session.id,
-                registrationId: String(active.id),
-                position: overIndex + 1,
-              },
-              optimisticResponse: {
-                __typename: 'Mutation',
-                demoteSessionParticipant: {
-                  __typename: 'DemoteSessionParticipantPayload',
-                  session: {
-                    ...session,
-                    participants: [
-                      ...session.participants.slice(0, activeIndex),
-                      ...session.participants.slice(activeIndex + 1),
-                    ],
-                    waitlist: [
-                      ...session.waitlist.slice(0, overIndex),
-                      {
-                        __typename: 'Waitlist',
-                        id: session.participants[activeIndex].id,
-                        registration: session.participants[activeIndex],
-                        position: overIndex + 1,
-                        offeredAt: null,
-                      },
-                      ...session.waitlist.slice(overIndex).map((w) => ({
-                        ...w,
-                        position: w.position + 1,
-                      })),
-                    ],
-                  },
-                },
-              },
-            });
+            const registration = session.participants[activeIndex];
+            demote(registration);
           }
         }
       }
 
       setActive(null);
     },
-    [
-      items,
-      session,
-      findContainer,
-      moveWaitlistParticipant,
-      promoteWaitlistParticipant,
-      demoteSessionParticipant,
-    ]
+    [findContainer, items, move, session, promote, demote]
   );
 
   const cancel = useCallback(() => {
-    if (clonedItems) {
-      // Reset items to their original state in case items have been dragged across containers
-      // setItems(clonedItems);
-    }
-
     setActive(null);
-    setClonedItems(null);
-  }, [clonedItems]);
+  }, []);
 
   useEffect(() => {
     requestAnimationFrame(() => {
@@ -276,14 +351,19 @@ const useParticipants = (session: AdminActivitySessionDetailsFragment) => {
   return {
     items,
     active,
-    clonedItems,
-    setClonedItems,
     findContainer,
     start,
     drag,
     drop,
     cancel,
     isFromWaitlist,
+    add,
+    remove,
+    promote,
+    demote,
+    move,
+    addToWaitlist,
+    removeFromWaitlist,
   };
 };
 

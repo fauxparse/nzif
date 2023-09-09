@@ -1,0 +1,20 @@
+fragment ParticipantRegistration on Registration {
+  id
+  user {
+    id
+    email
+    profile {
+      id
+      name
+    }
+  }
+}
+
+query ParticipantSearch($name: String!) {
+  festival {
+    id
+    registrations(name: $name) {
+      ...ParticipantRegistration
+    }
+  }
+}
