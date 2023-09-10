@@ -1,0 +1,29 @@
+:where(.segmented) {
+  --segmented-selected-background: var(--border-element-accent);
+  --segmented-selected-foreground: var(--text);
+
+  display: flex;
+
+  .button {
+    position: relative;
+    border-radius: var(--border-radius-round);
+    font-weight: var(--font-weight-medium);
+
+    &:not(:first-child) {
+      margin-left: calc(var(--button-border-width) * -1);
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &[aria-selected="true"] {
+      z-index: 1;
+      background: var(--segmented-selected-background);
+      color: var(--segmented-selected-foreground);
+    }
+  }
+}
