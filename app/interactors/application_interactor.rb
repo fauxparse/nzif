@@ -22,6 +22,10 @@ class ApplicationInteractor
     super(*args, **kwargs, &)
   end
 
+  def perform(interactor_class, **kwargs)
+    interactor_class.call(**kwargs.merge(current_user:))
+  end
+
   def skip_authorization!
     @authorization_performed = true
   end

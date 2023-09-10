@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ParticipantMailer do
   describe 'registration_confirmation' do
-    subject(:mail) { described_class.registration_confirmation(registration) }
+    subject(:mail) { described_class.registration_confirmation(registration:) }
 
     let(:registration) { create(:registration) }
 

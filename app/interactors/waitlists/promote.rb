@@ -7,10 +7,8 @@ module Waitlists
     def call
       authorize! :session, to: :manage?
 
-      session.placements.create!(registration:)
       waitlist.destroy!
-      remove_from_other_sessions
-      remove_from_waitlists
+      perform(Registrations::AddToSession, session:, registration:)
       send_notification
     end
 
@@ -47,7 +45,7 @@ module Waitlists
     end
 
     def send_notification
-      # TODO: Send notification
+      # TODO: Send SMS notification
       registration.reload
     end
   end

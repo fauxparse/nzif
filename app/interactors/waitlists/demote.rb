@@ -9,11 +9,12 @@ module Waitlists
       authorize! registration, to: :manage?
 
       registration.transaction do
-        placement.destroy!
+        perform(::Registrations::RemoveFromSession, registration:, session:)
         session.placements.reload
         waitlist.insert_at(position)
-        # TODO: Send notification
       end
+    rescue ActiveRecord::RecordNotFound
+      raise NotInSession
     end
 
     def placement

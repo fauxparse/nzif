@@ -68,4 +68,8 @@ class Festival < ApplicationRecord
   def earlybird?
     registration_phase == :earlybird
   end
+
+  def general?
+    %i[general closed].include?(registration_phase)
+  end
 end

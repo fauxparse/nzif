@@ -4,14 +4,14 @@
 <p>
   Here is your confirmed list of workshops for NZIF <%= @festival.year %>.
 </p>
-<div style="padding-left: 1.5rem; border-left: 2px solid #ea3e82">
+<div class="left-pink-border">
   <%= render partial: 'session', collection: @registration.sessions %>
 </div>
 <% if @removed.any? %>
 <p>
   You have been <b>removed</b> from the following <%= 'workshop'.pluralize(@removed.size) %>:
 </p>
-<div style="padding-left: 1.5rem; border-left: 2px solid #ea3e82">
+<div class="left-pink-border">
   <%= render partial: 'removed', collection: @removed %>
 </div>
 <% end %>
@@ -20,7 +20,7 @@
     Unfortunately, we were unable to place you in any workshops in the following timeslots.
     You have been waitlisted for the workshops listed, and we’ll notify you if a spot becomes available.
   </p>
-  <div style="padding-left: 1.5rem; border-left: 2px solid #2aa3c2; margin-bottom: 1.5rem">
+  <div class="left-blue-border" style="margin-bottom: 1.5rem">
     <% @empty_slots.each_pair do |slot, preferences| %>
       <div style="color: #61646d;"><%= l slot.starts_at, format: :friendly %> – <%= l slot.ends_at, format: :short %></div>
       <ul style="margin: 0; padding: 0">
@@ -35,43 +35,7 @@
   <p>
     Your total registration fee is as follows:
   </p>
-  <table class="cart">
-    <tr>
-      <td><%= pluralize @cart.workshops_count, 'workshop' %> @ <%= humanized_money_with_symbol @cart.base_workshop_price %></td>
-      <td><%= humanized_money_with_symbol @cart.value %></td>
-    </tr>
-    <% if @cart.discount.positive? %>
-      <tr class="discount">
-        <td><%= @cart.workshops_count %>-workshop discount</td>
-        <td>-<%= humanized_money_with_symbol @cart.discount %></td>
-      </tr>
-    <% end %>
-    <tr>
-      <td>Total due</td>
-      <td><%= humanized_money_with_symbol @cart.total %></td>
-    </tr>
-    <% if @cart.paid > 0 %>
-      <tr>
-        <td>Paid</td>
-        <td>-<%= humanized_money_with_symbol @cart.paid %></td>
-      </tr>
-      <tr>
-        <td>Outstanding</td>
-        <td><%= humanized_money_with_symbol @cart.outstanding %></td>
-      </tr>
-    <% end %>
-  </table>
-  <p>
-    All prices are in New Zealand Dollars and include GST.
-    You can pay this amount now by visiting
-    <%= link_to "your registration page", payment_url(@registration) %>.
-  </p>
-  <p>
-    <b>Important:</b> If payment is not received by 1 October, we reserve the right to
-    cancel your registration and offer your workshop places to someone else.
-    We really don’t want to do this, so if you need extra time to make your payment, please email us at
-    <a href="mailto:registrations@improvfest.nz">registrations@improvfest.nz</a> — we’re happy to talk!
-  </p>
+  <%= render partial: 'cart', locals: { cart: @cart } %>
 <% end %>
 <p>
   If we manage to slot you into a workshop from a waitlist, we’ll notify you by email and/or text message.

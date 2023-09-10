@@ -36,12 +36,9 @@ module Types
     end
 
     def workshops_count
-      # TODO: use dataloader here
-      if object.festival.registration_phase == :earlybird
-        object.requested_slots.count
-      else
-        object.workshops.count
-      end
+      dataloader
+        .with(Sources::WorkshopsCount, festival: object.festival, context:)
+        .load(object.id)
     end
 
     def cart

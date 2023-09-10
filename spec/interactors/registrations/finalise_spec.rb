@@ -7,7 +7,7 @@ RSpec.describe Registrations::Finalise do
   # it 'sends an email' do
   #   allow(ParticipantMailer).to receive(:registration_confirmation).and_call_original
   #   result
-  #   expect(ParticipantMailer).to have_received(:registration_confirmation).with(registration)
+  #   expect(ParticipantMailer).to have_received(:registration_confirmation).with(registration:)
   # end
 
   it 'completes the registration' do

@@ -60,7 +60,9 @@ module Registrations
 
     def send_confirmations
       allocation.registrations.each do |registration|
-        ParticipantMailer.workshop_confirmation(registrations[registration]).deliver_later
+        ParticipantMailer
+          .workshop_confirmation(registration: registrations[registration])
+          .deliver_later
       end
     end
   end

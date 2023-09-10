@@ -9,9 +9,9 @@ module Registrations
     end
 
     def email
-      return ParticipantMailer.registration_confirmation(registration) if earlybird?
+      return ParticipantMailer.registration_confirmation(registration:) if earlybird?
 
-      ParticipantMailer.workshop_confirmation(registration)
+      ParticipantMailer.workshop_confirmation(registration:)
     end
 
     def earlybird?

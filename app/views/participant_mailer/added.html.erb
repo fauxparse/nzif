@@ -1,0 +1,28 @@
+<p>
+  Kia ora <%= @user.profile.name %>,
+<p>
+<p>
+  You’ve been added to the following workshop session:
+</p>
+<div class="left-pink-border">
+  <%= render partial: 'session', locals: { session: @session } %>
+</div>
+<p>
+  This replaces any other workshop session you may have been registered for in this timeslot.
+</p>
+
+<% if @removed.empty? %>
+  <p>
+    Your registration fee balance is as follows:
+  </p>
+  <%= render partial: 'cart', locals: { cart: @cart } %>
+<% end %>
+<p>
+  If you have any questions, please reply to this message, or email us at
+  <a href="mailto:registrations@improvfest.nz">registrations@improvfest.nz</a>.
+<p>
+<p>
+  Ngā mihi nui,<br />
+  Matt and Jim<br/>
+  NZIF 2023 Artistic Co-Directors
+</p>

@@ -1,14 +1,26 @@
 require 'rails_helper'
 
 RSpec.describe Registrations::AddToSession, type: :interactor do
-  let(:festival) { create(:festival) }
-  let(:session) { create(:session, festival:) }
+  let(:festival) { create(:festival, :with_workshops) }
+  let(:session) { festival.sessions.first }
   let(:registration) { create(:registration, festival:) }
-
   let(:context) { { session:, registration: } }
+  let(:now) { festival.general_opens_at + 1.day }
+
+  before do
+    travel_to(now)
+    allow(ParticipantMailer).to receive(:added).and_call_original
+  end
 
   it 'adds the registration to the session' do
     expect { result }.to change(session.placements, :count).by(1)
+  end
+
+  it 'sends a notification email' do
+    result
+    expect(ParticipantMailer)
+      .to have_received(:added)
+      .with(registration:, session:, removed: [])
   end
 
   context 'when the user is on the waitlist' do
@@ -38,6 +50,32 @@ RSpec.describe Registrations::AddToSession, type: :interactor do
 
     it 'fails' do
       expect { result }.to raise_error(ActionPolicy::Unauthorized)
+    end
+  end
+
+  context 'when the user is moved from another session' do
+    before do
+      create(:placement, session: festival.sessions.second, registration:)
+    end
+
+    it 'removes the registration from the other session' do
+      expect { result }.to change(festival.sessions.second.placements, :count).by(-1)
+    end
+
+    it 'sends a notification email' do
+      result
+      expect(ParticipantMailer)
+        .to have_received(:added)
+        .with(registration:, session:, removed: [festival.sessions.second.id])
+    end
+  end
+
+  context 'when registration is not open yet' do
+    let(:now) { festival.general_opens_at - 1.day }
+
+    it 'does not send an email' do
+      result
+      expect(ParticipantMailer).not_to have_received(:added)
     end
   end
 end

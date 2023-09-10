@@ -254,7 +254,7 @@ mutation JoinSession($registrationId: ID, $sessionId: ID!) {
 }
 
 mutation LeaveSession($registrationId: ID, $sessionId: ID!) {
-  removeFromSession(registrationId: $registrationId, sessionId: $sessionId) {
+  removeFromSession(registrationId: $registrationId, sessionId: $sessionId, promote: true) {
     session {
       id
       count

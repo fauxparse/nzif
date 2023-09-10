@@ -1,0 +1,48 @@
+<table class="cart">
+  <tr>
+    <td><%= pluralize cart.workshops_count, 'workshop' %> @ <%= humanized_money_with_symbol cart.base_workshop_price %></td>
+    <td><%= humanized_money_with_symbol cart.value %></td>
+  </tr>
+  <% if cart.discount.positive? %>
+    <tr class="discount">
+      <td><%= cart.workshops_count %>-workshop discount</td>
+      <td>-<%= humanized_money_with_symbol cart.discount %></td>
+    </tr>
+  <% end %>
+  <tr>
+    <td>Total due</td>
+    <td><%= humanized_money_with_symbol cart.total %></td>
+  </tr>
+  <% if cart.paid > 0 %>
+    <tr>
+      <td>Paid</td>
+      <td>-<%= humanized_money_with_symbol cart.paid %></td>
+    </tr>
+    <% if cart.paid > cart.total %>
+      <tr>
+        <td>Refund due</td>
+        <td><%= humanized_money_with_symbol(cart.paid - cart.total) %></td>
+      </tr>
+    <% else %>
+      <tr>
+        <td>Outstanding</td>
+        <td><%= humanized_money_with_symbol cart.outstanding %></td>
+      </tr>
+    <% end %>
+  <% end %>
+</table>
+<p>
+  All prices are in New Zealand Dollars and include GST.
+  You can pay this amount now by visiting
+  <%= link_to "your registration page", payment_url(@registration) %>.
+</p>
+<% if cart.paid > cart.total %>
+  <p>If you are due a refund, we will be in touch to arrange this.</p>
+<% else %>
+  <p>
+    <b>Important:</b> If payment is not received by 1 October, we reserve the right to
+    cancel your registration and offer your workshop places to someone else.
+    We really don’t want to do this, so if you need extra time to make your payment, please email us at
+    <a href="mailto:registrations@improvfest.nz">registrations@improvfest.nz</a> — we’re happy to talk!
+  </p>
+<% end %>
