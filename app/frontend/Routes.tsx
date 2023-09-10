@@ -63,6 +63,8 @@ export const ROUTES = {
       ),
       REGISTRATIONS: route('registrations'),
       TRANSLATIONS: route('translations'),
+      PAYMENTS: route('payments'),
+      PAYMENT: route('payments/:id', { params: { id } }),
       REPORTS: route(
         'reports',
         {},
@@ -191,6 +193,16 @@ const router = createBrowserRouter([
           {
             path: ROUTES.ADMIN.ALLOCATIONS.path,
             lazy: () => import('./pages/Admin/Allocations'),
+          },
+          {
+            path: ROUTES.ADMIN.PAYMENTS.path,
+            lazy: () => import('./pages/Admin/Payments'),
+            children: [
+              {
+                path: ROUTES.ADMIN.PAYMENT.path,
+                lazy: () => import('./pages/Admin/Payments/Payment'),
+              },
+            ],
           },
           {
             index: true,
