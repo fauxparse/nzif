@@ -43,5 +43,6 @@ module Types
     field :cancel_payment, mutation: Mutations::Payments::Cancel
     field :promise_internet_banking_payment,
       mutation: Mutations::Payments::PromiseInternetBankingPayment
+    field :update_payment, mutation: Mutations::Payments::Update
   end
 end

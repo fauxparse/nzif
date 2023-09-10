@@ -1,6 +1,9 @@
+import { IconName } from '@/atoms/Icon';
+
 export type SegmentedOption<T extends string = string> = {
   id: T;
   label: string | (<V extends SegmentedOption<T>>(option: V) => string);
+  icon?: IconName;
 };
 
 type BaseSegmentedProps<T extends string = string> = {

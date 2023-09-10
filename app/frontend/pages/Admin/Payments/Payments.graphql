@@ -1,0 +1,44 @@
+fragment PaymentDetails on Payment {
+  id
+  amount
+  createdAt
+  reference
+  state
+
+  registration {
+    id
+    user {
+      id
+      name
+      email
+    }
+  }
+
+  ... on Voucher {
+    workshops
+  }
+}
+
+query Payments {
+  festival {
+    id
+    workshopTotal
+    payments {
+      ...PaymentDetails
+    }
+  }
+}
+
+query Payment($id: ID!) {
+  payment(id: $id) {
+    ...PaymentDetails
+  }
+}
+
+mutation UpdatePayment($id: ID!, $attributes: PaymentAttributes!) {
+  updatePayment(id: $id, attributes: $attributes) {
+    payment {
+      ...PaymentDetails
+    }
+  }
+}

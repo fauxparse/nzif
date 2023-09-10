@@ -3,6 +3,7 @@ class Festival < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :slots # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :registrations, dependent: :destroy
+  has_many :payments, through: :registrations
 
   Activity.descendants.each do |activity_type|
     has_many :"#{activity_type.name.underscore.pluralize}",

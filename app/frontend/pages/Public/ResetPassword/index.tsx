@@ -13,11 +13,7 @@ export const Component: React.FC = () => {
 
   return (
     <div className="reset-password">
-      <Header />
-      <main className="page">
-        <Form token={token} />
-      </main>
-      <Footer />
+      <Form token={token} />
     </div>
   );
 };

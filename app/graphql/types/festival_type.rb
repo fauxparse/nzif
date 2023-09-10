@@ -13,6 +13,7 @@ module Types
     field :earlybird_opens_at, GraphQL::Types::ISO8601DateTime, null: true
     field :end_date, Types::ISODate, null: false
     field :general_opens_at, GraphQL::Types::ISO8601DateTime, null: true
+    field :payments, [Types::PaymentType]
     field :registration_phase, Types::RegistrationPhaseType, null: false
     field :registrations, [Types::RegistrationType], null: false do
       argument :name, String, required: false
@@ -25,6 +26,7 @@ module Types
     field :timetable, Types::TimetableType, null: false
     field :venues, [Types::VenueType], null: false
     field :workshop_allocation, Types::WorkshopAllocationType, null: true
+    field :workshop_total, Types::MoneyType, null: false
 
     def id
       object.start_date.year.to_s
@@ -66,6 +68,31 @@ module Types
 
     def workshop_allocation
       Allocation.find_by(festival: object)
+    end
+
+    def payments
+      object.payments.includes(registration: :user)
+    end
+
+    def workshop_total # rubocop:disable GraphQL/ResolverMethodLength, Metrics/MethodLength
+      Festival.connection.execute(
+        Festival.sanitize_sql_array([
+
+          <<~SQL.squish,
+            SELECT
+              SUM((count * ? - (count * (count - 1)) / 2 * ?)) AS total
+            FROM (
+              SELECT
+              placements.registration_id,
+              COUNT(DISTINCT (placements.id)) AS count
+              FROM placements
+              GROUP BY placements.registration_id
+            ) counts
+          SQL
+          Registration::Pricing.instance.base_workshop_price.cents,
+          Registration::Pricing.instance.discount_per_additional_workshop.cents,
+        ]),
+      ).first['total'].to_i
     end
   end
 end

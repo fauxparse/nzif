@@ -1,0 +1,114 @@
+.payments-admin {
+  .page-header {
+    border-bottom: var(--border-width-standard) solid var(--border-subtle);
+  }
+
+  &__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--medium);
+    margin-top: var(--medium);
+  }
+
+  [data-column="name"] {
+    a {
+      color: inherit;
+      font-weight: var(--font-weight-normal);
+      text-decoration: none;
+    }
+
+    small {
+      color: var(--text-subtle);
+      font-size: var(--font-size-normal);
+    }
+
+    span,
+    small {
+      display: block;
+      line-height: var(--line-height-normal);
+    }
+  }
+
+  &__state,
+  &__method {
+    --icon-size: 1rem;
+
+    display: flex;
+    gap: var(--small);
+    align-items: center;
+    width: max-content;
+    height: 1.5rem;
+    padding: 0 var(--medium) 0 var(--small);
+    border-radius: var(--border-radius-round);
+    background: var(--background-element);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-small);
+    line-height: 1;
+
+    &[data-state="Approved"] {
+      background-color: var(--lime3);
+      color: var(--lime11);
+    }
+
+    &[data-state="Pending"] {
+      background-color: transparent;
+      color: var(--lime11);
+      outline: var(--border-width-standard) dashed var(--lime7);
+      outline-offset: calc(-1 * var(--border-width-standard));
+    }
+
+    &[data-state="Cancelled"] {
+      background-color: var(--red3);
+      color: var(--red11);
+    }
+
+    &[data-state="Failed"] {
+      background-color: var(--amber3);
+      color: var(--amber11);
+    }
+  }
+
+  &__dialog {
+    .dialog__footer {
+      justify-content: center;
+    }
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--large);
+
+    .money {
+      order: -1;
+      color: var(--text-subtle);
+      font-weight: var(--font-weight-medium);
+      font-size: 4rem;
+      line-height: 1;
+    }
+
+    dl {
+      display: grid;
+      grid-template-columns: var(--icon-size) auto;
+      gap: var(--small) var(--medium);
+      margin: 0;
+      padding: 0;
+
+      dt,
+      dd {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    @media (width >= 769px) {
+      display: grid;
+      grid-template-columns: auto auto;
+      align-items: start;
+
+      .money {
+        order: unset;
+      }
+    }
+  }
+}

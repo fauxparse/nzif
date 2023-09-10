@@ -1,11 +1,11 @@
 :where(.segmented) {
-  --segmented-selected-background: var(--border-element-accent);
-  --segmented-selected-foreground: var(--text);
+  --segmented-selected-background: var(--accent2);
+  --segmented-selected-foreground: var(--text-accent);
 
   display: flex;
 
   .button {
-    position: relative;
+    border-color: var(--border-element);
     border-radius: var(--border-radius-round);
     font-weight: var(--font-weight-medium);
 
@@ -21,7 +21,8 @@
     }
 
     &[aria-selected="true"] {
-      z-index: 1;
+      position: relative;
+      border-color: var(--border-element-accent);
       background: var(--segmented-selected-background);
       color: var(--segmented-selected-foreground);
     }

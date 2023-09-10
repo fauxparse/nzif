@@ -6,6 +6,8 @@ module Types
     field :amount, MoneyType, null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :state, PaymentStateType, null: false
+    field :reference, String, null: false
+    field :registration, RegistrationType, null: false
 
     definition_methods do
       def resolve_type(object, _context)
@@ -21,6 +23,16 @@ module Types
 
     def state
       object.state.to_sym
+    end
+
+    def reference
+      object.reference.to_s
+    end
+
+    def registration
+      dataloader
+        .with(Sources::Simple, model: Registration, context:)
+        .load(object.registration_id)
     end
 
     orphan_types(

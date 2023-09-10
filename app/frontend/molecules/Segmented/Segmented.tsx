@@ -36,6 +36,7 @@ export const Segmented = <T extends string = string>(props: SegmentedProps<T>) =
           key={option.id}
           text={isFunction(option.label) ? option.label(option) : option.label}
           role="option"
+          icon={option.icon}
           aria-selected={set.has(option.id)}
           data-id={option.id}
           onClick={() => change(option.id)}

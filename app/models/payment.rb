@@ -8,4 +8,8 @@ class Payment < ApplicationRecord
   def self.types
     @types ||= PostgresEnum[:payment_type].values.map { |s| s.to_s.constantize }
   end
+
+  def policy_class
+    PaymentPolicy
+  end
 end

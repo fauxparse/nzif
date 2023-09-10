@@ -28,6 +28,10 @@ module Types
 
     field :registration, resolver: Resolvers::Registration, authenticate: false
 
+    field :payment, PaymentType, null: false do
+      argument :id, ID, required: true
+    end
+
     def festival(year: nil)
       if year
         Festival.by_year(year).first!
@@ -60,6 +64,10 @@ module Types
 
     def permissions
       Permission.all.select { |p| p.parent.nil? }
+    end
+
+    def payment(id:)
+      Payment.find(id)
     end
   end
 end
