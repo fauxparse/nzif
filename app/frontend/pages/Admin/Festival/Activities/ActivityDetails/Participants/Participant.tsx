@@ -4,6 +4,7 @@ import { CSS, Transform } from '@dnd-kit/utilities';
 
 import Icon from '@/atoms/Icon';
 import { SessionParticipantFragment } from '@/graphql/types';
+import ContextMenu from '@/molecules/ContextMenu';
 
 export interface ParticipantProps {
   registration: SessionParticipantFragment;
@@ -65,17 +66,20 @@ const Participant = React.memo(
             } as React.CSSProperties
           }
         >
-          <div
-            className="session__participant"
-            data-dragging={dragging || undefined}
-            data-drag-overlay={dragOverlay || undefined}
-            data-from-waitlist={fromWaitlist || undefined}
-          >
-            <div ref={handle} {...listeners} {...props}>
-              <Icon name="drag" />
+          <ContextMenu.Trigger>
+            <div
+              className="session__participant"
+              data-id={registration.id}
+              data-dragging={dragging || undefined}
+              data-drag-overlay={dragOverlay || undefined}
+              data-from-waitlist={fromWaitlist || undefined}
+            >
+              <div ref={handle} {...listeners} {...props}>
+                <Icon name="drag" />
+              </div>
+              <div className="session__participant__name">{registration.user?.profile?.name}</div>
             </div>
-            <div className="session__participant__name">{registration.user?.profile?.name}</div>
-          </div>
+          </ContextMenu.Trigger>
         </div>
       );
     }

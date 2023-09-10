@@ -20,11 +20,14 @@ import {
 import { SortableContext, SortingStrategy, verticalListSortingStrategy } from '@dnd-kit/sortable';
 
 import { AdminActivitySessionDetailsFragment } from '@/graphql/types';
+import ContextMenu from '@/molecules/ContextMenu';
+import Menu from '@/molecules/Menu';
 
 import ParticipantsContext from './Context';
 import { coordinateGetter as multipleContainersCoordinateGetter } from './multipleContainersKeyboardCoordinates';
 import Participant from './Participant';
 import ParticipantList from './ParticipantList';
+import ParticipantMenu from './ParticipantMenu';
 import SortableParticipant from './SortableParticipant';
 import useParticipants from './useParticipants';
 import Waitlist from './Waitlist';
@@ -82,60 +85,63 @@ const Participants: React.FC<ParticipantsProps> = ({
 
   return (
     <ParticipantsContext.Provider value={{ session }}>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={pointerWithin}
-        measuring={{
-          droppable: {
-            strategy: MeasuringStrategy.Always,
-          },
-        }}
-        onDragStart={start}
-        onDragOver={drag}
-        onDragEnd={drop}
-        cancelDrop={cancelDrop}
-        onDragCancel={cancel}
-        modifiers={modifiers}
-      >
-        <div className="session__participant-lists">
-          <ParticipantList id="participants" session={session} items={items.participants}>
-            {items.participants.map((value, index) => {
-              return (
-                <SortableParticipant
-                  registration={value}
-                  key={value.id}
-                  id={value.id}
-                  index={index}
-                  containerId="participants"
-                  fromWaitlist={isFromWaitlist(value)}
-                />
-              );
-            })}
-          </ParticipantList>
-          <Waitlist id="waitlist" session={session} items={items.waitlist}>
-            <SortableContext items={items.waitlist} strategy={strategy}>
-              {items.waitlist.map((value, index) => {
+      <ContextMenu.Root>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={pointerWithin}
+          measuring={{
+            droppable: {
+              strategy: MeasuringStrategy.Always,
+            },
+          }}
+          onDragStart={start}
+          onDragOver={drag}
+          onDragEnd={drop}
+          cancelDrop={cancelDrop}
+          onDragCancel={cancel}
+          modifiers={modifiers}
+        >
+          <div className="session__participant-lists">
+            <ParticipantList id="participants" session={session} items={items.participants}>
+              {items.participants.map((value, index) => {
                 return (
                   <SortableParticipant
                     registration={value}
                     key={value.id}
                     id={value.id}
                     index={index}
-                    containerId="waitlist"
-                    fromWaitlist={true}
+                    containerId="participants"
+                    fromWaitlist={isFromWaitlist(value)}
                   />
                 );
               })}
-            </SortableContext>
-          </Waitlist>
-        </div>
-        {createPortal(
-          <DragOverlay adjustScale={adjustScale} dropAnimation={dropAnimation}>
-            {active && <Participant dragOverlay registration={active} />}
-          </DragOverlay>,
-          document.body
-        )}
-      </DndContext>
+            </ParticipantList>
+            <Waitlist id="waitlist" session={session} items={items.waitlist}>
+              <SortableContext items={items.waitlist} strategy={strategy}>
+                {items.waitlist.map((value, index) => {
+                  return (
+                    <SortableParticipant
+                      registration={value}
+                      key={value.id}
+                      id={value.id}
+                      index={index}
+                      containerId="waitlist"
+                      fromWaitlist={true}
+                    />
+                  );
+                })}
+              </SortableContext>
+            </Waitlist>
+          </div>
+          {createPortal(
+            <DragOverlay adjustScale={adjustScale} dropAnimation={dropAnimation}>
+              {active && <Participant dragOverlay registration={active} />}
+            </DragOverlay>,
+            document.body
+          )}
+        </DndContext>
+        <ParticipantMenu session={session} />
+      </ContextMenu.Root>
     </ParticipantsContext.Provider>
   );
 };
