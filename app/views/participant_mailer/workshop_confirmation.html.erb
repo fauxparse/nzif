@@ -5,7 +5,7 @@
   Here is your confirmed list of workshops for NZIF <%= @festival.year %>.
 </p>
 <div class="left-pink-border">
-  <%= render partial: 'session', collection: @registration.sessions %>
+  <%= render partial: 'session', collection: @registration.sessions.sort_by(&:starts_at) %>
 </div>
 <% if @removed.any? %>
 <p>
