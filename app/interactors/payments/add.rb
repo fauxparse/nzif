@@ -3,8 +3,7 @@ module Payments
     delegate :registration, :amount, :type, :reference, :state, to: :context
 
     def call
-      # authorize! registration, to: :manage?
-      skip_authorization!
+      authorize! registration, to: :update?
       payment
     end
 
