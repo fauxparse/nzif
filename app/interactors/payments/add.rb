@@ -8,9 +8,9 @@ module Payments
     end
 
     def payment
-      context[:payment] ||= type.create!(
+      context[:payment] ||= type.find_or_create_by!(
         registration:,
-        amount:,
+        amount_cents: amount.cents,
         state: state || :approved,
         reference:,
       )
