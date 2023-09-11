@@ -178,12 +178,7 @@ const UserPopup: React.FC<UserPopupProps> = ({ user, reference, open, onClose })
                 </>
               )}
               {hasPermission(Permission.Payments) && (
-                <Menu.Item
-                  as={Link}
-                  to={ROUTES.ADMIN.PAYMENTS.path}
-                  icon="payment"
-                  label="Payments"
-                />
+                <Menu.Item as={Link} to={ROUTES.ADMIN.PAYMENTS.path} icon="bank" label="Payments" />
               )}
             </Menu>
           </>

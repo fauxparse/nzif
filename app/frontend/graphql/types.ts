@@ -116,6 +116,13 @@ export type ApprovePaymentPayload = {
   payment: Payment;
 };
 
+export type Balance = {
+  __typename: 'Balance';
+  id: Scalars['ID'];
+  paid: Scalars['Money'];
+  total: Scalars['Money'];
+};
+
 export type BooleanSetting = Setting & {
   __typename: 'BooleanSetting';
   description: Scalars['String'];
@@ -200,6 +207,7 @@ export type Festival = {
   __typename: 'Festival';
   activities: Array<Activity>;
   activity: Maybe<Activity>;
+  balance: Balance;
   earlybirdClosesAt: Maybe<Scalars['ISO8601DateTime']>;
   earlybirdOpensAt: Maybe<Scalars['ISO8601DateTime']>;
   endDate: Scalars['ISODate'];
@@ -1339,6 +1347,11 @@ export type RegistrationsCountSubscriptionVariables = Exact<{
 
 export type RegistrationsCountSubscription = { __typename: 'Subscription', registrations: { __typename: 'RegistrationsPayload', count: number } };
 
+export type FestivalBalanceQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FestivalBalanceQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, balance: { __typename: 'Balance', id: string, total: number, paid: number } } };
+
 export type ActivityListQueryVariables = Exact<{
   type: InputMaybe<ActivityType>;
 }>;
@@ -1584,7 +1597,7 @@ export type PaymentDetailsFragment = PaymentDetails_CreditCardPayment_Fragment |
 export type PaymentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PaymentsQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, workshopTotal: number, payments: Array<{ __typename: 'CreditCardPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'InternetBankingPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'Voucher', workshops: number, id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } }> | null } };
+export type PaymentsQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, payments: Array<{ __typename: 'CreditCardPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'InternetBankingPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'Voucher', workshops: number, id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } }> | null, balance: { __typename: 'Balance', id: string, total: number, paid: number } } };
 
 export type PaymentQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -3005,6 +3018,45 @@ export function useRegistrationsCountSubscription(baseOptions: Apollo.Subscripti
       }
 export type RegistrationsCountSubscriptionHookResult = ReturnType<typeof useRegistrationsCountSubscription>;
 export type RegistrationsCountSubscriptionResult = Apollo.SubscriptionResult<RegistrationsCountSubscription>;
+export const FestivalBalanceDocument = gql`
+    query FestivalBalance {
+  festival {
+    id
+    balance {
+      id
+      total
+      paid
+    }
+  }
+}
+    `;
+
+/**
+ * __useFestivalBalanceQuery__
+ *
+ * To run a query within a React component, call `useFestivalBalanceQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFestivalBalanceQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFestivalBalanceQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFestivalBalanceQuery(baseOptions?: Apollo.QueryHookOptions<FestivalBalanceQuery, FestivalBalanceQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FestivalBalanceQuery, FestivalBalanceQueryVariables>(FestivalBalanceDocument, options);
+      }
+export function useFestivalBalanceLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FestivalBalanceQuery, FestivalBalanceQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FestivalBalanceQuery, FestivalBalanceQueryVariables>(FestivalBalanceDocument, options);
+        }
+export type FestivalBalanceQueryHookResult = ReturnType<typeof useFestivalBalanceQuery>;
+export type FestivalBalanceLazyQueryHookResult = ReturnType<typeof useFestivalBalanceLazyQuery>;
+export type FestivalBalanceQueryResult = Apollo.QueryResult<FestivalBalanceQuery, FestivalBalanceQueryVariables>;
 export const ActivityListDocument = gql`
     query ActivityList($type: ActivityType) {
   festival {
@@ -4019,9 +4071,13 @@ export const PaymentsDocument = gql`
     query Payments {
   festival {
     id
-    workshopTotal
     payments {
       ...PaymentDetails
+    }
+    balance {
+      id
+      total
+      paid
     }
   }
 }

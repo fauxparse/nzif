@@ -22,9 +22,13 @@ fragment PaymentDetails on Payment {
 query Payments {
   festival {
     id
-    workshopTotal
     payments {
       ...PaymentDetails
+    }
+    balance {
+      id
+      total
+      paid
     }
   }
 }

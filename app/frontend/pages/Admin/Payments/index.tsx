@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom';
 import {
   ColumnFiltersState,
@@ -65,7 +65,7 @@ const columns = [
   columnHelper.accessor((row) => row.createdAt, {
     id: 'date',
     header: 'Date',
-    cell: (date) => date.getValue().toFormat('dd LLL hh:mm a'),
+    cell: (date) => date.getValue().toFormat('dd LLL h:mm a'),
   }),
   columnHelper.accessor((row) => row.registration.user?.name, {
     id: 'name',
@@ -116,7 +116,7 @@ export const Component: React.FC = () => {
 
   const { data } = usePaymentsQuery();
 
-  const [sorting, setSorting] = useState<SortingState>([{ id: 'name', desc: false }]);
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'date', desc: true }]);
 
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
     { id: 'state', value: [PaymentState.Approved, PaymentState.Pending] },

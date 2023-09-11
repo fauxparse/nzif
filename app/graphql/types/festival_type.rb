@@ -9,6 +9,7 @@ module Types
       argument :slug, String, required: true
       argument :type, Types::ActivityTypeType, required: true
     end
+    field :balance, Types::BalanceType, null: false
     field :earlybird_closes_at, GraphQL::Types::ISO8601DateTime, null: true
     field :earlybird_opens_at, GraphQL::Types::ISO8601DateTime, null: true
     field :end_date, Types::ISODate, null: false
@@ -74,25 +75,8 @@ module Types
       object.payments.includes(registration: :user)
     end
 
-    def workshop_total # rubocop:disable GraphQL/ResolverMethodLength, Metrics/MethodLength
-      Festival.connection.execute(
-        Festival.sanitize_sql_array([
-
-          <<~SQL.squish,
-            SELECT
-              SUM((count * ? - (count * (count - 1)) / 2 * ?)) AS total
-            FROM (
-              SELECT
-              placements.registration_id,
-              COUNT(DISTINCT (placements.id)) AS count
-              FROM placements
-              GROUP BY placements.registration_id
-            ) counts
-          SQL
-          Registration::Pricing.instance.base_workshop_price.cents,
-          Registration::Pricing.instance.discount_per_additional_workshop.cents,
-        ]),
-      ).first['total'].to_i
+    def balance
+      object
     end
   end
 end

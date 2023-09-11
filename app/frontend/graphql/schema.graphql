@@ -115,6 +115,12 @@ type ApprovePaymentPayload {
   payment: Payment!
 }
 
+type Balance {
+  id: ID!
+  paid: Money!
+  total: Money!
+}
+
 type BooleanSetting implements Setting {
   description: String!
   id: String!
@@ -203,6 +209,7 @@ type DemoteSessionParticipantPayload {
 type Festival {
   activities(type: ActivityType): [Activity!]!
   activity(slug: String!, type: ActivityType!): Activity
+  balance: Balance!
   earlybirdClosesAt: ISO8601DateTime
   earlybirdOpensAt: ISO8601DateTime
   endDate: ISODate!

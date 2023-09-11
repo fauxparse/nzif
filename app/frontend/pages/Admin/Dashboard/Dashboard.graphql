@@ -3,3 +3,14 @@ subscription registrationsCount($year: ID!) {
     count
   }
 }
+
+query FestivalBalance {
+  festival {
+    id
+    balance {
+      id
+      total
+      paid
+    }
+  }
+}

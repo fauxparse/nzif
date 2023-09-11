@@ -5,10 +5,12 @@ import pluralize from 'pluralize';
 import {
   ActivityType,
   Permission,
+  useFestivalBalanceQuery,
   useRegistrationsCountSubscription,
 } from '../../../graphql/types';
 import Button from '@/atoms/Button';
 import { IconName } from '@/atoms/Icon';
+import Money from '@/atoms/Money';
 import Menu from '@/molecules/Menu';
 import { useAuthentication } from '@/organisms/Authentication';
 import { ROUTES } from '@/Routes';
@@ -23,6 +25,11 @@ export const Component: React.FC = () => {
 
   const { data } = useRegistrationsCountSubscription({ variables: { year } });
 
+  const { data: balanceData } = useFestivalBalanceQuery();
+
+  const total = balanceData?.festival?.balance?.total || 0;
+  const outstanding = total - (balanceData?.festival?.balance?.paid || 0);
+
   return (
     <div className="dashboard inset">
       <h1>Dashboard</h1>
@@ -34,7 +41,23 @@ export const Component: React.FC = () => {
           </div>
           <div className="dashboard__stat__action">
             {hasPermission(Permission.Registrations) && (
-              <Button small as={Link} to={ROUTES.ADMIN.REGISTRATIONS.path} text="View all" />
+              <Button
+                small
+                as={Link}
+                to={ROUTES.ADMIN.REGISTRATIONS.path}
+                text="View registrations"
+              />
+            )}
+          </div>
+        </div>
+        <div className="dashboard__stat">
+          <Money className="dashboard__stat__value" cents={outstanding} />
+          <div className="dashboard__stat__label">
+            of <Money cents={total} /> outstanding
+          </div>
+          <div className="dashboard__stat__action">
+            {hasPermission(Permission.Registrations) && (
+              <Button small as={Link} to={ROUTES.ADMIN.PAYMENTS.path} text="View payments" />
             )}
           </div>
         </div>
@@ -85,6 +108,12 @@ export const Component: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
             />
+          </section>
+        )}
+        {hasPermission(Permission.Payments) && (
+          <section>
+            <h3>Payments</h3>
+            <Menu.Item as={Link} to={ROUTES.ADMIN.PAYMENTS.path} icon="bank" label="Payments" />
           </section>
         )}
         <section>
