@@ -49,7 +49,7 @@ class ParticipantMailer < ApplicationMailer
     @session = session
     @user = registration.user
     @festival = registration.festival
-    @removed = festival.sessions.includes(:activity).find(removed)
+    @removed = @festival.sessions.includes(:activity).find(removed)
 
     @cart = Registrations::CalculateCartTotals.call(
       registration: @registration,
