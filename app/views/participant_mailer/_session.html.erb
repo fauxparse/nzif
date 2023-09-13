@@ -1,7 +1,7 @@
 <%
   preferences = @registration.preferences.select { |p| p.session.starts_at == session.starts_at }
   preference = preferences.find { |p| p.session_id == session.id }
-  waitlisted = preferences.select { |p| p.position < preference.position }.sort_by(&:position)
+  waitlisted = preference ? preferences.select { |p| p.position < preference.position }.sort_by(&:position) : []
 %>
 
 <div style="margin: 0 0 1.5rem">
