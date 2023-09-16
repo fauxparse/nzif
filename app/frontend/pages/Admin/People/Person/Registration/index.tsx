@@ -1,16 +1,12 @@
-import { useMemo } from 'react';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
-import { sortBy } from 'lodash-es';
-import { DateTime } from 'luxon';
 
-import {
-  RegistrationPhase,
-  RegistrationStatusQuery,
-  useRegistrationStatusQuery,
-} from '@/graphql/types';
+import { RegistrationPhase, useRegistrationStatusQuery } from '@/graphql/types';
 import { ROUTES } from '@/Routes';
 
+import Placements from './Placements';
 import Preferences from './Preferences';
+
+import './Registration.css';
 
 export const Component = () => {
   const { id } = useTypedParams(ROUTES.ADMIN.PERSON);
@@ -25,7 +21,7 @@ export const Component = () => {
 
   if (registrationPhase === RegistrationPhase.Earlybird) {
     return <Preferences />;
+  } else {
+    return <Placements />;
   }
-
-  return <div className="inset registration-summary"></div>;
 };
