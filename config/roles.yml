@@ -17,3 +17,6 @@ roles:
     social_event:
       activity:
         - organiser
+    conference:
+      activity:
+        - speaker

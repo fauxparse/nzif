@@ -1,0 +1,1 @@
+class ConferencePolicy < ActivityPolicy; end

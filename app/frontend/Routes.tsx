@@ -23,7 +23,9 @@ const year = zod(z.string().regex(/^\d{4}$/)).defined();
 
 const date = zod(z.string().regex(/^\d{4}-\d{2}-\d{2}$/));
 
-const activityType = zod(z.string().regex(/^(workshops|shows|social-events)$/)).defined();
+const activityType = zod(
+  z.string().regex(/^(workshops|shows|social-events|conferences)$/)
+).defined();
 
 const loadFestival: LoaderFunction = async () => {
   await client.query({ query: FestivalDocument });
@@ -49,6 +51,7 @@ export const ROUTES = {
       SHOWS: route('shows'),
       WORKSHOPS: route('workshops'),
       SOCIAL_EVENTS: route('social-events'),
+      CONFERENCES: route('conferences'),
       PEOPLE: route('people'),
       PERSON: route(
         'people/:id',

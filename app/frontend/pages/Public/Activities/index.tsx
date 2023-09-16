@@ -23,6 +23,8 @@ import './Activities.css';
 const TABS: [ActivityType, string][] = [
   [ActivityType.Workshop, 'workshops'],
   [ActivityType.Show, 'shows'],
+  [ActivityType.SocialEvent, 'social-events'],
+  [ActivityType.Conference, 'conferences'],
 ];
 
 export const Component: React.FC = () => {

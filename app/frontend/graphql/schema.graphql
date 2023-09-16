@@ -57,6 +57,11 @@ type ActivityResult implements SearchResult {
 
 enum ActivityType {
   """
+  Conference
+  """
+  Conference
+
+  """
   Show
   """
   Show
@@ -142,6 +147,24 @@ type Cart {
   total: Money!
   value: Money!
   workshopsCount: Int!
+}
+
+type Conference implements Activity {
+  bookingLink: String
+  description: String
+  id: ID!
+  missingInfo: [String!]!
+  name: String!
+  picture: ActivityPicture
+  presenters: [Person!]!
+  sessions: [Session!]!
+  slug: String!
+
+  """
+  Speakers
+  """
+  speakers: [Person!]!
+  type: ActivityType!
 }
 
 scalar Country

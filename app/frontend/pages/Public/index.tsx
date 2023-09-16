@@ -3,15 +3,14 @@ import { useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 
 import usePrevious from '@/hooks/usePrevious';
-import { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 import Footer from '@/organisms/Footer';
 import Header from '@/organisms/Header';
 import AnimatedOutlet from '@/pages/AnimatedOutlet';
 
 const CONTAINERS: [RegExp, string][] = [
   [/^(\/register\/)/, 'register'],
-  [/^(\/(shows|workshops)\/[^/]+)/, 'activity'],
-  [/^(\/)(shows|workshops)$/, 'activities'],
+  [/^(\/(shows|workshops|social-events|conferences)\/[^/]+)/, 'activity'],
+  [/^(\/)(shows|workshops|social-events|conferences)$/, 'activities'],
 ];
 
 export const pageVariants: Variants = {

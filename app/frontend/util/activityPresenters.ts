@@ -12,6 +12,10 @@ type WithPresenters<T> =
   | {
       type: ActivityType.SocialEvent;
       organisers: T[];
+    }
+  | {
+      type: ActivityType.Conference;
+      speakers: T[];
     };
 
 const presenters = <T>(activity: WithPresenters<T>): T[] => {
@@ -22,6 +26,8 @@ const presenters = <T>(activity: WithPresenters<T>): T[] => {
       return activity.directors;
     case ActivityType.SocialEvent:
       return activity.organisers;
+    case ActivityType.Conference:
+      return [...activity.organisers, ...activity.speakers, ...activity.panellists];
   }
 };
 

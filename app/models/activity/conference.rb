@@ -1,0 +1,1 @@
+class Conference < Activity; end

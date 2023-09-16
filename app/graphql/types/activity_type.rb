@@ -19,6 +19,7 @@ module Types
         when Show then Types::ShowType
         when Workshop then Types::WorkshopType
         when SocialEvent then Types::SocialEventType
+        when Conference then Types::ConferenceType
         else
           raise "Unexpected Activity: #{object.inspect}"
         end
@@ -55,6 +56,7 @@ module Types
       ShowType,
       WorkshopType,
       SocialEventType,
+      ConferenceType,
     )
   end
 end

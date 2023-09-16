@@ -7,6 +7,7 @@ const PLURALIZED = {
   [ActivityType.Workshop]: 'workshops',
   [ActivityType.Show]: 'shows',
   [ActivityType.SocialEvent]: 'social-events',
+  [ActivityType.Conference]: 'conferences',
 } as const;
 
 export type Pluralized = (typeof PLURALIZED)[keyof typeof PLURALIZED];
@@ -15,6 +16,7 @@ const SINGULARIZED = {
   workshops: ActivityType.Workshop,
   shows: ActivityType.Show,
   'social-events': ActivityType.SocialEvent,
+  conferences: ActivityType.Conference,
 } as const;
 
 export const activityTypeFromPluralized = (plural: Pluralized): ActivityType =>

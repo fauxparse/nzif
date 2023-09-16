@@ -26,6 +26,10 @@
 @import url('@radix-ui/colors/limeDark.css');
 @import url('@radix-ui/colors/limeA.css');
 @import url('@radix-ui/colors/limeDarkA.css');
+@import url('@radix-ui/colors/plum.css');
+@import url('@radix-ui/colors/plumDark.css');
+@import url('@radix-ui/colors/plumA.css');
+@import url('@radix-ui/colors/plumDarkA.css');
 
 :where(body) {
   /* Neutral colors */
@@ -219,6 +223,30 @@
   --social-event-A10: var(--yellowA10);
   --social-event-A11: var(--yellowA11);
   --social-event-A12: var(--yellowA12);
+  --conference-1: var(--plum1);
+  --conference-2: var(--plum2);
+  --conference-3: var(--plum3);
+  --conference-4: var(--plum4);
+  --conference-5: var(--plum5);
+  --conference-6: var(--plum6);
+  --conference-7: var(--plum7);
+  --conference-8: var(--plum8);
+  --conference-9: var(--plum9);
+  --conference-10: var(--plum10);
+  --conference-11: var(--plum11);
+  --conference-12: var(--plum12);
+  --conference-A1: var(--plumA1);
+  --conference-A2: var(--plumA2);
+  --conference-A3: var(--plumA3);
+  --conference-A4: var(--plumA4);
+  --conference-A5: var(--plumA5);
+  --conference-A6: var(--plumA6);
+  --conference-A7: var(--plumA7);
+  --conference-A8: var(--plumA8);
+  --conference-A9: var(--plumA9);
+  --conference-A10: var(--plumA10);
+  --conference-A11: var(--plumA11);
+  --conference-A12: var(--plumA12);
   --activity-foreground: white;
 
   /* Misc */
@@ -306,6 +334,34 @@
   --activityA11: var(--social-event-A11);
   --activityA12: var(--social-event-A12);
   --activity-foreground: black;
+}
+
+:where([data-activity-type="conference"]) {
+  --activity1: var(--conference-1);
+  --activity2: var(--conference-2);
+  --activity3: var(--conference-3);
+  --activity4: var(--conference-4);
+  --activity5: var(--conference-5);
+  --activity6: var(--conference-6);
+  --activity7: var(--conference-7);
+  --activity8: var(--conference-8);
+  --activity9: var(--conference-9);
+  --activity10: var(--conference-10);
+  --activity11: var(--conference-11);
+  --activity12: var(--conference-12);
+  --activityA1: var(--conference-A1);
+  --activityA2: var(--conference-A2);
+  --activityA3: var(--conference-A3);
+  --activityA4: var(--conference-A4);
+  --activityA5: var(--conference-A5);
+  --activityA6: var(--conference-A6);
+  --activityA7: var(--conference-A7);
+  --activityA8: var(--conference-A8);
+  --activityA9: var(--conference-A9);
+  --activityA10: var(--conference-A10);
+  --activityA11: var(--conference-A11);
+  --activityA12: var(--conference-A12);
+  --activity-foreground: white;
 }
 
 :where([data-theme="light"]) {

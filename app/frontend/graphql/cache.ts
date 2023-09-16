@@ -6,7 +6,7 @@ import { scalarTypePolicies } from './types';
 const cache = () =>
   new InMemoryCache({
     possibleTypes: {
-      Activity: ['Show', 'Workshop', 'SocialEvent'],
+      Activity: ['Show', 'Workshop', 'SocialEvent', 'Conference'],
       Payment: ['CreditCardPayment', 'InternetBankingPayment', 'Voucher'],
       Setting: ['BooleanSetting', 'StringSetting'],
       SearchResult: ['ActivityResult', 'PersonResult', 'VenueResult', 'PageResult'],
