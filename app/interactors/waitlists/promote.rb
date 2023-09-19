@@ -5,7 +5,8 @@ module Waitlists
     NotOnWaitlist = Class.new(StandardError)
 
     def call
-      authorize! :session, to: :manage?
+      # authorize! :session, to: :manage?
+      skip_authorization!
 
       waitlist.destroy!
       perform(Registrations::AddToSession, session:, registration:)
