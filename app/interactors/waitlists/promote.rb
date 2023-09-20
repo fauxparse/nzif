@@ -5,11 +5,10 @@ module Waitlists
     NotOnWaitlist = Class.new(StandardError)
 
     def call
-      # authorize! :session, to: :manage?
-      skip_authorization!
+      authorize! :session, to: :manage?
 
       waitlist.destroy!
-      perform(Registrations::AddToSession, session:, registration:)
+      perform(Registrations::AddToSession, session:, registration:, current_user: User.automaton)
       send_notification
     end
 
@@ -23,10 +22,6 @@ module Waitlists
 
     def other_sessions_in_slot
       @other_sessions_in_slot ||= session.slot.sessions.where.not(id: session.id)
-    end
-
-    def remove_from_other_sessions
-      registration.placements.where(session: other_sessions_in_slot).destroy_all
     end
 
     def preferences

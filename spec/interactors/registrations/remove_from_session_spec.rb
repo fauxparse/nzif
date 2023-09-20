@@ -4,6 +4,7 @@ RSpec.describe Registrations::RemoveFromSession, type: :interactor do
   let(:festival) { create(:festival) }
   let(:session) { create(:session, festival:) }
   let(:registration) { create(:registration, festival:) }
+  let(:current_user) { registration.user }
   let!(:placement) { create(:placement, session:, registration:) }
   let(:context) { { session:, registration:, promote: } }
   let(:promote) { false }

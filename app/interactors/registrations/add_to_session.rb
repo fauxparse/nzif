@@ -1,6 +1,6 @@
 module Registrations
   class AddToSession < ApplicationInteractor
-    delegate :session, :registration, to: :context
+    delegate :session, :registration, :cascade, to: :context
 
     def call
       authorize! registration, to: :update?

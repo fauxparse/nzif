@@ -5,6 +5,7 @@ RSpec.describe Registrations::RemoveFromOtherSessions, type: :interactor do
   let(:session) { festival.sessions.first }
   let(:other_session) { festival.sessions.second }
   let(:registration) { create(:registration, festival:) }
+  let(:current_user) { registration.user }
   let(:context) { { session:, registration: } }
 
   before do

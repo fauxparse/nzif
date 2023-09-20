@@ -4,6 +4,7 @@ RSpec.describe Registrations::AddToSession, type: :interactor do
   let(:festival) { create(:festival, :with_workshops) }
   let(:session) { festival.sessions.first }
   let(:registration) { create(:registration, festival:) }
+  let(:current_user) { registration.user }
   let(:context) { { session:, registration: } }
   let(:now) { festival.general_opens_at + 1.day }
 

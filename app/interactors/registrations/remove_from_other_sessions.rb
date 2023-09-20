@@ -14,12 +14,20 @@ module Registrations
     def placements
       context[:placements] ||=
         registration.placements
-          .includes(:session)
+          .includes(:session, :registration)
           .where(session_id: other_sessions_in_slot.map(&:id))
     end
 
     def remove_from_other_sessions
-      placements.destroy_all
+      placements.each do |placement|
+        perform(
+          RemoveFromSession,
+          session: placement.session,
+          registration:,
+          current_user: User.automaton,
+          suppress_notifications: true,
+        )
+      end
     end
 
     def remove_from_waitlists

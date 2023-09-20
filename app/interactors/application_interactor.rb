@@ -23,7 +23,7 @@ class ApplicationInteractor
   end
 
   def perform(interactor_class, **kwargs)
-    interactor_class.call(**kwargs.merge(current_user:))
+    interactor_class.call(**kwargs.reverse_merge(current_user:))
   end
 
   def skip_authorization!

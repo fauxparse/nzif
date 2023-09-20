@@ -21,6 +21,15 @@ class User < ApplicationRecord
 
   searchable_on :name, :email
 
+  def self.automaton
+    @automaton ||=
+      find_or_create_by!(email: 'registrations@improvfest.nz') do |user|
+        user.name = 'NZIF bot'
+        user.password = user.password_confirmation = SecureRandom.hex(32)
+        user.permissions << :registrations
+      end
+  end
+
   private
 
   def populate_profile
