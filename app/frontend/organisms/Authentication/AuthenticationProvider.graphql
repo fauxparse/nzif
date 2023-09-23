@@ -16,6 +16,19 @@ fragment AuthenticatedUser on User {
 query CurrentUser {
   user {
     ...AuthenticatedUser
+
+    activities {
+      id
+      name
+      type
+      slug
+
+      sessions {
+        id
+        startsAt
+        endsAt
+      }
+    }
   }
 }
 

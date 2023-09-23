@@ -104,6 +104,8 @@ export const ROUTES = {
     },
   }),
   PROFILE: route('profile'),
+  TEACHING: route('teaching'),
+  DIRECTING: route('directing'),
 };
 
 const RedirectToBase = () => {

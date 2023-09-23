@@ -9,7 +9,8 @@ import Button, { ButtonVariant } from '@/atoms/Button';
 import Icon from '@/atoms/Icon';
 import Money from '@/atoms/Money';
 import {
-  AuthenticatedUserFragment,
+  ActivityType,
+  CurrentUserQuery,
   Permission,
   useCurrentUserQuery,
   useRegistrationSummaryQuery,
@@ -23,7 +24,7 @@ import './UserPopup.css';
 
 type UserPopupProps = {
   reference: HTMLElement;
-  user: AuthenticatedUserFragment;
+  user: NonNullable<CurrentUserQuery['user']>;
   open: boolean;
   onClose: () => void;
 };
@@ -58,6 +59,10 @@ const UserPopup: React.FC<UserPopupProps> = ({ user, reference, open, onClose })
 
   const { hasPermission } = useAuthentication();
 
+  const hasWorkshops = user.activities.some((activity) => activity.type === ActivityType.Workshop);
+
+  const hasShows = user.activities.some((activity) => activity.type === ActivityType.Show);
+
   return (
     <Portal>
       <Popover
@@ -78,8 +83,16 @@ const UserPopup: React.FC<UserPopupProps> = ({ user, reference, open, onClose })
             <div className="user-popup__name">{user.profile?.name}</div>
             <div className="user-popup__email">{user.email}</div>
           </div>
-          <Button small text="Edit profile" as={Link} to={ROUTES.PROFILE.path} />
-          <Button small text="Log out" onClick={onLogOut} />
+          <Menu className="user-popup__actions">
+            <Menu.Item as={Link} to={ROUTES.PROFILE.path} icon="user" label="Profile" />
+            {hasWorkshops && (
+              <Menu.Item as={Link} to={ROUTES.TEACHING.path} icon="workshop" label="Teaching" />
+            )}
+            {hasShows && (
+              <Menu.Item as={Link} to={ROUTES.DIRECTING.path} icon="show" label="Casting" />
+            )}
+            <Menu.Item icon="logOut" label="Log out" onClick={onLogOut} />
+          </Menu>
         </div>
         <hr />
         {loading || registration?.id ? (

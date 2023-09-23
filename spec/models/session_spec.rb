@@ -96,6 +96,6 @@ RSpec.describe Session do
   describe '.activity_type_values' do
     subject(:activity_type_values) { described_class.activity_type_values }
 
-    it { is_expected.to eq %i[Workshop Show SocialEvent] }
+    it { is_expected.to eq %i[Workshop Show SocialEvent Conference] }
   end
 end

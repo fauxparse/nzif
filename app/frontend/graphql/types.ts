@@ -1062,6 +1062,7 @@ export type UpdateUserPayload = {
 
 export type User = {
   __typename: 'User';
+  activities: Array<Activity>;
   email: Scalars['String'];
   id: Scalars['ID'];
   name: Scalars['String'];
@@ -1272,7 +1273,7 @@ export type AuthenticatedUserFragment = { __typename: 'User', id: string, email:
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename: 'Query', user: { __typename: 'User', id: string, email: string, permissions: Array<Permission>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null } | null };
+export type CurrentUserQuery = { __typename: 'Query', user: { __typename: 'User', id: string, email: string, permissions: Array<Permission>, activities: Array<{ __typename: 'Conference', id: string, name: string, type: ActivityType, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> } | { __typename: 'Show', id: string, name: string, type: ActivityType, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> } | { __typename: 'Workshop', id: string, name: string, type: ActivityType, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> }>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null } | null };
 
 export type LogInMutationVariables = Exact<{
   email: Scalars['String'];
@@ -2503,6 +2504,17 @@ export const CurrentUserDocument = gql`
     query CurrentUser {
   user {
     ...AuthenticatedUser
+    activities {
+      id
+      name
+      type
+      slug
+      sessions {
+        id
+        startsAt
+        endsAt
+      }
+    }
   }
 }
     ${AuthenticatedUserFragmentDoc}`;

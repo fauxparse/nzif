@@ -1,5 +1,6 @@
 module Types
   class UserType < Types::BaseObject
+    field :activities, [ActivityType], null: false
     field :email, String, null: false
     field :id, ID, null: false
     field :name, String, null: false
@@ -29,6 +30,12 @@ module Types
       object.class.settings.values.map do |setting|
         setting.to_graphql_object_for(object)
       end
+    end
+
+    def activities
+      dataloader
+        .with(Sources::UserActivities, context:)
+        .load(object.id)
     end
   end
 end

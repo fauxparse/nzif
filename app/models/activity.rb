@@ -11,6 +11,8 @@ class Activity < ApplicationRecord
   belongs_to :festival
   has_many :sessions, inverse_of: :activity, dependent: :nullify
   has_many :slots, through: :sessions
+  has_many :activity_owners, as: :activity # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :owners, through: :activity_owners, source: :user
 
   searchable_on :name, :description
 

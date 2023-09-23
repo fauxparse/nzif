@@ -278,6 +278,38 @@ ALTER SEQUENCE public.festivals_id_seq OWNED BY public.festivals.id;
 
 
 --
+-- Name: ownerships; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ownerships (
+    id bigint NOT NULL,
+    profile_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: ownerships_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ownerships_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ownerships_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.ownerships_id_seq OWNED BY public.ownerships.id;
+
+
+--
 -- Name: payments; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -883,6 +915,13 @@ ALTER TABLE ONLY public.festivals ALTER COLUMN id SET DEFAULT nextval('public.fe
 
 
 --
+-- Name: ownerships id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ownerships ALTER COLUMN id SET DEFAULT nextval('public.ownerships_id_seq'::regclass);
+
+
+--
 -- Name: payments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1041,6 +1080,14 @@ ALTER TABLE ONLY public."cast"
 
 ALTER TABLE ONLY public.festivals
     ADD CONSTRAINT festivals_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ownerships ownerships_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ownerships
+    ADD CONSTRAINT ownerships_pkey PRIMARY KEY (id);
 
 
 --
@@ -1211,6 +1258,27 @@ CREATE INDEX index_cast_on_profile_id ON public."cast" USING btree (profile_id);
 --
 
 CREATE UNIQUE INDEX index_cast_uniquely ON public."cast" USING btree (activity_type, activity_id, profile_id, role);
+
+
+--
+-- Name: index_ownerships_on_profile_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ownerships_on_profile_id ON public.ownerships USING btree (profile_id);
+
+
+--
+-- Name: index_ownerships_on_profile_id_and_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_ownerships_on_profile_id_and_user_id ON public.ownerships USING btree (profile_id, user_id);
+
+
+--
+-- Name: index_ownerships_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ownerships_on_user_id ON public.ownerships USING btree (user_id);
 
 
 --
@@ -1573,11 +1641,27 @@ ALTER TABLE ONLY public.sessions
 
 
 --
+-- Name: ownerships fk_rails_68282d75fa; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ownerships
+    ADD CONSTRAINT fk_rails_68282d75fa FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: sessions fk_rails_7ac879864b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT fk_rails_7ac879864b FOREIGN KEY (festival_id) REFERENCES public.festivals(id) ON DELETE CASCADE;
+
+
+--
+-- Name: ownerships fk_rails_82c6631333; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ownerships
+    ADD CONSTRAINT fk_rails_82c6631333 FOREIGN KEY (profile_id) REFERENCES public.profiles(id) ON DELETE CASCADE;
 
 
 --
@@ -1697,7 +1781,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230904001348'),
 ('20230905055639'),
 ('20230905234421'),
-('20230916002539');
+('20230916002539'),
+('20230917052932');
 
 
 SET statement_timeout = 0;

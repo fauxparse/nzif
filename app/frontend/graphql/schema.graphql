@@ -865,6 +865,7 @@ type UpdateUserPayload {
 scalar Upload
 
 type User {
+  activities: [Activity!]!
   email: String!
   id: ID!
   name: String!

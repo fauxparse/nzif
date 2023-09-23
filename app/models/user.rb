@@ -9,6 +9,10 @@ class User < ApplicationRecord
 
   has_one :profile, dependent: :nullify, inverse_of: :user, autosave: true
   has_many :registrations, dependent: :restrict_with_exception, inverse_of: :user
+  has_many :ownerships, dependent: :destroy, inverse_of: :user
+  has_many :profiles, through: :ownerships
+  has_many :activity_owners, as: :user # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :activities, through: :activity_owners
 
   before_validation :populate_profile
 

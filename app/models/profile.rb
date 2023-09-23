@@ -6,6 +6,8 @@ class Profile < ApplicationRecord
   belongs_to :user, optional: true, inverse_of: :profile
   has_many :cast, dependent: :destroy, inverse_of: :profile
   has_many :activities, through: :cast, source: :activity
+  has_many :ownerships, dependent: :destroy, inverse_of: :profile
+  has_many :owners, through: :ownerships, source: :user
 
   NAME_FORMAT = /(CB|([^\s]+(\s+[^\s]+)+))/i
 
