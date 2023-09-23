@@ -5,6 +5,7 @@ import PERMISSIONS from '@config/permissions.yml';
 import { clearAuthenticationInfo, saveAuthenticationInfo } from '@/graphql/authentication';
 import {
   AuthenticatedUserFragment,
+  CurrentUserQuery,
   LogInMutationVariables,
   Permission,
   SignUpMutationVariables,
@@ -18,7 +19,7 @@ import { ROUTES } from '@/Routes';
 
 type AuthenticationContextShape = {
   loading: boolean;
-  user: AuthenticatedUserFragment | null;
+  user: CurrentUserQuery['user'];
   logIn: (variables: {
     email: string;
     password: string;

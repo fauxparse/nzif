@@ -1,0 +1,55 @@
+fragment TeachingWorkshop on Activity {
+  name
+  slug
+  picture {
+    id
+    medium
+    blurhash
+  }
+}
+
+fragment TeachingSession on Session {
+  id
+  startsAt
+  endsAt
+  capacity
+
+  participants {
+    id
+
+    user {
+      id
+
+      profile {
+        id
+        name
+      }
+    }
+  }
+
+  activity {
+    id
+    type
+    ...TeachingWorkshop
+  }
+
+  venue {
+    id
+    room
+    building
+  }
+}
+
+query TeachingSessions {
+  user {
+    id
+
+    activities {
+      id
+      type
+      sessions {
+        ...TeachingSession
+      }
+    }
+  }
+}

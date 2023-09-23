@@ -21,13 +21,6 @@ query CurrentUser {
       id
       name
       type
-      slug
-
-      sessions {
-        id
-        startsAt
-        endsAt
-      }
     }
   }
 }

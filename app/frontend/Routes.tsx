@@ -2,6 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import {
   createBrowserRouter,
   LoaderFunction,
+  Outlet,
   RouterProvider,
   useNavigate,
   useParams,
@@ -104,7 +105,7 @@ export const ROUTES = {
     },
   }),
   PROFILE: route('profile'),
-  TEACHING: route('teaching'),
+  TEACHING: route('teaching', {}, { SESSION: route(':id', { params: { id } }) }),
   DIRECTING: route('directing'),
 };
 
@@ -267,6 +268,20 @@ const router = createBrowserRouter([
           {
             path: '/password',
             lazy: () => import('./pages/Public/ResetPassword'),
+          },
+          {
+            path: ROUTES.TEACHING.path,
+            element: <Outlet />,
+            children: [
+              {
+                path: ROUTES.TEACHING.SESSION.path,
+                lazy: () => import('./pages/Public/Teaching/Session'),
+              },
+              {
+                index: true,
+                lazy: () => import('./pages/Public/Teaching/List'),
+              },
+            ],
           },
         ],
       },

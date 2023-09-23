@@ -1273,7 +1273,7 @@ export type AuthenticatedUserFragment = { __typename: 'User', id: string, email:
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename: 'Query', user: { __typename: 'User', id: string, email: string, permissions: Array<Permission>, activities: Array<{ __typename: 'Conference', id: string, name: string, type: ActivityType, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> } | { __typename: 'Show', id: string, name: string, type: ActivityType, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> } | { __typename: 'Workshop', id: string, name: string, type: ActivityType, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime }> }>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null } | null };
+export type CurrentUserQuery = { __typename: 'Query', user: { __typename: 'User', id: string, email: string, permissions: Array<Permission>, activities: Array<{ __typename: 'Conference', id: string, name: string, type: ActivityType } | { __typename: 'Show', id: string, name: string, type: ActivityType } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType } | { __typename: 'Workshop', id: string, name: string, type: ActivityType }>, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', small: string } | null } | null } | null };
 
 export type LogInMutationVariables = Exact<{
   email: Scalars['String'];
@@ -1891,6 +1891,23 @@ export type ResetPasswordAndLogInMutationVariables = Exact<{
 
 export type ResetPasswordAndLogInMutation = { __typename: 'Mutation', resetPasswordAndLogIn: { __typename: 'ResetPasswordAndLogInPayload', authenticatable: { __typename: 'User', id: string, email: string }, credentials: { __typename: 'Credential', accessToken: string, client: string, uid: string } | null } | null };
 
+type TeachingWorkshop_Conference_Fragment = { __typename: 'Conference', name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null };
+
+type TeachingWorkshop_Show_Fragment = { __typename: 'Show', name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null };
+
+type TeachingWorkshop_SocialEvent_Fragment = { __typename: 'SocialEvent', name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null };
+
+type TeachingWorkshop_Workshop_Fragment = { __typename: 'Workshop', name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null };
+
+export type TeachingWorkshopFragment = TeachingWorkshop_Conference_Fragment | TeachingWorkshop_Show_Fragment | TeachingWorkshop_SocialEvent_Fragment | TeachingWorkshop_Workshop_Fragment;
+
+export type TeachingSessionFragment = { __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, activity: { __typename: 'Conference', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | { __typename: 'Show', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | { __typename: 'SocialEvent', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | null, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null };
+
+export type TeachingSessionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TeachingSessionsQuery = { __typename: 'Query', user: { __typename: 'User', id: string, activities: Array<{ __typename: 'Conference', id: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, activity: { __typename: 'Conference', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | { __typename: 'Show', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | { __typename: 'SocialEvent', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | null, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | { __typename: 'Show', id: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, activity: { __typename: 'Conference', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | { __typename: 'Show', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | { __typename: 'SocialEvent', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | null, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | { __typename: 'SocialEvent', id: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, activity: { __typename: 'Conference', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | { __typename: 'Show', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | { __typename: 'SocialEvent', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | null, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> } | { __typename: 'Workshop', id: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, activity: { __typename: 'Conference', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | { __typename: 'Show', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | { __typename: 'SocialEvent', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null } | null, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }> }> } | null };
+
 export const SettingValueFragmentFragmentDoc = gql`
     fragment SettingValueFragment on Setting {
   id
@@ -2429,6 +2446,45 @@ export const RegistrationPaymentFragmentDoc = gql`
   }
 }
     `;
+export const TeachingWorkshopFragmentDoc = gql`
+    fragment TeachingWorkshop on Activity {
+  name
+  slug
+  picture {
+    id
+    medium
+    blurhash
+  }
+}
+    `;
+export const TeachingSessionFragmentDoc = gql`
+    fragment TeachingSession on Session {
+  id
+  startsAt
+  endsAt
+  capacity
+  participants {
+    id
+    user {
+      id
+      profile {
+        id
+        name
+      }
+    }
+  }
+  activity {
+    id
+    type
+    ...TeachingWorkshop
+  }
+  venue {
+    id
+    room
+    building
+  }
+}
+    ${TeachingWorkshopFragmentDoc}`;
 export const GetSettingDocument = gql`
     query GetSetting($id: String!) {
   setting(id: $id) {
@@ -2508,12 +2564,6 @@ export const CurrentUserDocument = gql`
       id
       name
       type
-      slug
-      sessions {
-        id
-        startsAt
-        endsAt
-      }
     }
   }
 }
@@ -5373,6 +5423,47 @@ export function useResetPasswordAndLogInMutation(baseOptions?: Apollo.MutationHo
 export type ResetPasswordAndLogInMutationHookResult = ReturnType<typeof useResetPasswordAndLogInMutation>;
 export type ResetPasswordAndLogInMutationResult = Apollo.MutationResult<ResetPasswordAndLogInMutation>;
 export type ResetPasswordAndLogInMutationOptions = Apollo.BaseMutationOptions<ResetPasswordAndLogInMutation, ResetPasswordAndLogInMutationVariables>;
+export const TeachingSessionsDocument = gql`
+    query TeachingSessions {
+  user {
+    id
+    activities {
+      id
+      type
+      sessions {
+        ...TeachingSession
+      }
+    }
+  }
+}
+    ${TeachingSessionFragmentDoc}`;
+
+/**
+ * __useTeachingSessionsQuery__
+ *
+ * To run a query within a React component, call `useTeachingSessionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTeachingSessionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTeachingSessionsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTeachingSessionsQuery(baseOptions?: Apollo.QueryHookOptions<TeachingSessionsQuery, TeachingSessionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TeachingSessionsQuery, TeachingSessionsQueryVariables>(TeachingSessionsDocument, options);
+      }
+export function useTeachingSessionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TeachingSessionsQuery, TeachingSessionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TeachingSessionsQuery, TeachingSessionsQueryVariables>(TeachingSessionsDocument, options);
+        }
+export type TeachingSessionsQueryHookResult = ReturnType<typeof useTeachingSessionsQuery>;
+export type TeachingSessionsLazyQueryHookResult = ReturnType<typeof useTeachingSessionsLazyQuery>;
+export type TeachingSessionsQueryResult = Apollo.QueryResult<TeachingSessionsQuery, TeachingSessionsQueryVariables>;
 import { dateTimePolicy, datePolicy } from './policies/dateTimePolicy';
 
 export const scalarTypePolicies = {

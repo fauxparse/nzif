@@ -1,0 +1,40 @@
+.teaching {
+  &__workshops {
+    padding: 0 0 var(--huge);
+  }
+
+  .programme__activity {
+    color: inherit;
+    text-decoration: none;
+
+    dl {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: var(--small) var(--medium);
+      margin: var(--medium) 0;
+      padding: 0;
+      color: var(--text-subtle);
+    }
+
+    dt, dd {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  &__participants {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--small) var(--large);
+    margin: 0 0 var(--huge);
+    padding: 0;
+    list-style: none;
+    font-size: var(--font-size-legible);
+    line-height: var(--line-height-medium);
+
+    li {
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
