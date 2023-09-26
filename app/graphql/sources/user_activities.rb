@@ -6,7 +6,7 @@ module Sources
         .where(user_id: ids)
         .group_by(&:user_id)
 
-      ids.map { |id| activities[id].map(&:activity) }
+      ids.map { |id| activities[id]&.map(&:activity) || [] }
     end
   end
 end
