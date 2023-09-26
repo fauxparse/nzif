@@ -8,7 +8,12 @@ FactoryBot.define do
     capacity { 5 }
 
     trait :with_workshop do
-      activity { create(:workshop, festival:) }
+      activity { create(:workshop, :with_tutor, festival:) } # rubocop:disable FactoryBot/FactoryAssociationWithStrategy
+    end
+
+    trait :with_show do
+      activity_type { Show }
+      activity { create(:show, :with_director, festival:) } # rubocop:disable FactoryBot/FactoryAssociationWithStrategy
     end
   end
 end

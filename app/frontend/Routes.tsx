@@ -106,7 +106,7 @@ export const ROUTES = {
   }),
   PROFILE: route('profile'),
   TEACHING: route('teaching', {}, { SESSION: route(':id', { params: { id } }) }),
-  DIRECTING: route('directing'),
+  DIRECTING: route('directing', {}, { SESSION: route(':id', { params: { id } }) }),
 };
 
 const RedirectToBase = () => {
@@ -268,6 +268,20 @@ const router = createBrowserRouter([
           {
             path: '/password',
             lazy: () => import('./pages/Public/ResetPassword'),
+          },
+          {
+            path: ROUTES.DIRECTING.path,
+            element: <Outlet />,
+            children: [
+              {
+                path: ROUTES.DIRECTING.SESSION.path,
+                lazy: () => import('./pages/Public/Casting/Session'),
+              },
+              {
+                index: true,
+                lazy: () => import('./pages/Public/Casting/List'),
+              },
+            ],
           },
           {
             path: ROUTES.TEACHING.path,

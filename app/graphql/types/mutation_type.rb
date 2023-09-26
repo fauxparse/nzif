@@ -13,9 +13,11 @@ module Types
     field :rename_activity, mutation: Mutations::Activities::Rename
     field :update_activity, mutation: Mutations::Activities::Update
 
+    field :add_session_cast, mutation: Mutations::Sessions::AddCast
     field :create_session, mutation: Mutations::Sessions::Create
     field :create_sessions, mutation: Mutations::Sessions::CreateMultiple
     field :destroy_session, mutation: Mutations::Sessions::Destroy
+    field :remove_session_cast, mutation: Mutations::Sessions::RemoveCast
     field :update_session, mutation: Mutations::Sessions::Update
 
     field :create_translation, mutation: Mutations::Translations::Create

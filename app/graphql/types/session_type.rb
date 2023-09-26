@@ -13,6 +13,11 @@ module Types
     field :waitlist, [WaitlistType], null: false
     field :workshop, WorkshopType, null: true
 
+    field :hosts, [PersonType], null: false
+    field :musos, [PersonType], null: false
+    field :operators, [PersonType], null: false
+    field :performers, [PersonType], null: false
+
     def participants
       dataloader
         .with(Sources::SessionParticipants, context:)
@@ -39,6 +44,28 @@ module Types
       dataloader
         .with(Sources::Simple, context:, model: ::Slot, primary_key: :starts_at)
         .load(object.starts_at)
+    end
+
+    def cast
+      dataloader
+        .with(Sources::ActivityCast, context:, activity_type: 'Session')
+        .load(object.id)
+    end
+
+    def hosts
+      cast.then { |cast| cast.select(&:host?).map(&:profile) }
+    end
+
+    def performers
+      cast.then { |cast| cast.select(&:performer?).map(&:profile) }
+    end
+
+    def musos
+      cast.then { |cast| cast.select(&:muso?).map(&:profile) }
+    end
+
+    def operators
+      cast.then { |cast| cast.select(&:operator?).map(&:profile) }
     end
   end
 end

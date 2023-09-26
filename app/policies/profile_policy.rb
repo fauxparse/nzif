@@ -1,6 +1,6 @@
 class ProfilePolicy < ApplicationPolicy
   def index?
-    user.people?
+    user.people? || user.activities.exists?
   end
 
   def show?
@@ -16,7 +16,7 @@ class ProfilePolicy < ApplicationPolicy
   end
 
   scope_for :relation do |relation|
-    next relation if user.admin?
+    next relation if user.admin? || user.activities.exists?
 
     # Don't list users at all if you're not an admin
     relation.where('1 = 0')

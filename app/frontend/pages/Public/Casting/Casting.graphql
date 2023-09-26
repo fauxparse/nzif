@@ -1,0 +1,86 @@
+fragment CastMember on Person {
+  id
+  name
+  picture {
+    id
+    small
+  }
+}
+
+fragment CastingShow on Activity {
+  name
+  slug
+  picture {
+    id
+    medium
+    blurhash
+  }
+  ... on Show {
+    workshop {
+      id
+      sessions {
+        ...TeachingSession
+      }
+    }
+  }
+}
+
+fragment CastingSession on Session {
+  id
+  startsAt
+  endsAt
+
+  activity {
+    id
+    type
+    ...CastingShow
+  }
+
+  venue {
+    id
+    room
+    building
+  }
+
+  hosts {
+    ...CastMember
+  }
+
+  performers {
+    ...CastMember
+  }
+
+  musos {
+    ...CastMember
+  }
+
+  operators {
+    ...CastMember
+  }
+}
+
+query CastingSessions {
+  user {
+    id
+
+    activities {
+      id
+      type
+      sessions {
+        ...CastingSession
+      }
+    }
+  }
+}
+
+mutation AddSessionCast($sessionId: ID!, $profileId: ID!, $role: Role!) {
+  addSessionCast(sessionId: $sessionId, profileId: $profileId, role: $role) {
+    cast {
+      ...CastMember
+    }
+  }
+}
+
+mutation RemoveSessionCast($sessionId: ID!, $profileId: ID!, $role: Role!) {
+  removeSessionCast(sessionId: $sessionId, profileId: $profileId, role: $role)
+}

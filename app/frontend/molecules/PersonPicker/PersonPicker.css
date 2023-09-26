@@ -15,6 +15,7 @@
     border: var(--border-width-standard) solid var(--neutral6);
     border-radius: var(--border-radius-standard);
     background: var(--background);
+    font: inherit;
     line-height: 1.875;
     cursor: pointer;
 

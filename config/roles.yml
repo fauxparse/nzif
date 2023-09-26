@@ -3,7 +3,7 @@ roles:
     show:
       activity:
         - director
-      slot:
+      session:
         - host
         - performer
         - muso
@@ -12,7 +12,7 @@ roles:
     workshop:
       activity:
         - tutor
-      slot:
+      session:
         - muso
     social_event:
       activity:

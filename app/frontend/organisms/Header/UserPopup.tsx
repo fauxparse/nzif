@@ -61,7 +61,7 @@ const UserPopup: React.FC<UserPopupProps> = ({ user, reference, open, onClose })
 
   const hasWorkshops = user.activities.some((activity) => activity.type === ActivityType.Workshop);
 
-  const hasShows = false; // user.activities.some((activity) => activity.type === ActivityType.Show);
+  const hasShows = user.activities.some((activity) => activity.type === ActivityType.Show);
 
   return (
     <Portal>

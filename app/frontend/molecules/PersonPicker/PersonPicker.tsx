@@ -67,18 +67,9 @@ export const PersonPicker = forwardRef(
 
     const { people, activeIndex, menuIndex, results } = state.context as Context<T>;
 
-    const valueRef = useRef(value);
-
-    valueRef.current = value;
-
     useEffect(() => {
-      if (
-        !isEqual(map(valueRef.current, 'id'), map(people, 'id')) &&
-        !people.find((p) => 'temp' in p)
-      ) {
-        onChange(people);
-      }
-    }, [people, onChange]);
+      machine.send({ type: 'RESET', value });
+    }, [machine, value]);
 
     const isExpanded = state.matches('menu.expanded');
 
@@ -132,6 +123,12 @@ export const PersonPicker = forwardRef(
     const choose = (person: T) => {
       machine.send({ type: 'ADD', person });
       machine.send('COLLAPSE');
+      onChange([...people, person]);
+    };
+
+    const remove = (person: T) => {
+      machine.send({ type: 'DELETE', id: person.id });
+      onChange(people.filter((p) => p.id !== person.id));
     };
 
     const keyDown = (e: React.KeyboardEvent) => {
@@ -159,7 +156,12 @@ export const PersonPicker = forwardRef(
           {...props}
         >
           {people.map((person, index) => (
-            <Chip key={person.id} person={person} active={activeIndex === index} />
+            <Chip
+              key={person.id}
+              person={person}
+              active={activeIndex === index}
+              onRemove={remove}
+            />
           ))}
           <InputGroup>
             <InputGroup.Icon name="userAdd" />

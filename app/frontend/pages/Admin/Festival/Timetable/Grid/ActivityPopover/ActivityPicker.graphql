@@ -20,6 +20,10 @@ query PersonSearch($query: String!) {
     ... on PersonResult {
       person {
         ...TimetableCast
+        picture {
+          id
+          small
+        }
       }
     }
   }

@@ -1,4 +1,8 @@
-SELECT owners.user_id, "cast".activity_id, "cast".activity_type
+SELECT
+	owners.user_id AS user_id,
+	'User' AS user_type,
+	"cast".activity_id AS activity_id,
+	"cast".activity_type AS activity_type
 FROM (
 	SELECT
 		profiles.user_id AS user_id,

@@ -34,6 +34,11 @@ type Add = {
   person: Profile;
 };
 
+type Reset = {
+  type: 'RESET';
+  value: Profile[];
+};
+
 type SetMenuIndex = {
   type: 'SET_MENU_INDEX';
   index: Maybe<number>;
@@ -44,7 +49,7 @@ type Search = {
   query: string;
 };
 
-type Event = KeyPress | Expand | Collapse | Delete | Add | SetMenuIndex | Search;
+type Event = KeyPress | Expand | Collapse | Delete | Add | Reset | SetMenuIndex | Search;
 
 type Services = {
   search: { data: TemporaryProfile[] };
@@ -132,6 +137,13 @@ const PersonPickerMachine = createMachine(
                   target: 'idle',
                   internal: true,
                   actions: ['addPerson', 'clearInput', 'focusInput'],
+                },
+              ],
+              RESET: [
+                {
+                  target: 'idle',
+                  internal: true,
+                  actions: ['resetValue', 'clearInput', 'focusInput'],
                 },
               ],
             },
@@ -357,6 +369,9 @@ const PersonPickerMachine = createMachine(
               : []),
           ];
         },
+      }),
+      resetValue: assign({
+        people: (_, { value }) => value,
       }),
       cancelSearch: () => void 0,
     },

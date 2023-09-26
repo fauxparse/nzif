@@ -9,10 +9,15 @@ import './PersonPicker.css';
 type ChipProps<T extends Profile = Profile> = {
   person: T;
   active?: boolean;
+  onRemove: (person: T) => void;
 };
 
-export const Chip = <T extends Profile = Profile>({ person, active }: ChipProps<T>) => {
-  const { machine, uniqueId } = usePersonPicker();
+export const Chip = <T extends Profile = Profile>({ person, active, onRemove }: ChipProps<T>) => {
+  const { uniqueId } = usePersonPicker();
+
+  const remove = () => {
+    onRemove(person);
+  };
 
   return (
     <div
@@ -29,7 +34,7 @@ export const Chip = <T extends Profile = Profile>({ person, active }: ChipProps<
         icon="close"
         aria-label="Delete"
         tabIndex={-1}
-        onClick={() => machine.send({ type: 'DELETE', id: person.id })}
+        onClick={remove}
       />
     </div>
   );
