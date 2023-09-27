@@ -732,6 +732,7 @@ export type PersonAttributes = {
   city: InputMaybe<Scalars['String']>;
   country: InputMaybe<Scalars['Country']>;
   name: InputMaybe<Scalars['String']>;
+  phone: InputMaybe<Scalars['String']>;
   picture: InputMaybe<Scalars['Upload']>;
   pronouns: InputMaybe<Scalars['String']>;
 };
@@ -1686,14 +1687,14 @@ export type UpdatePaymentMutationVariables = Exact<{
 
 export type UpdatePaymentMutation = { __typename: 'Mutation', updatePayment: { __typename: 'UpdatePaymentPayload', payment: { __typename: 'CreditCardPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'InternetBankingPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'Voucher', workshops: number, id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } } | null };
 
-export type PersonDetailsFragment = { __typename: 'Person', id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null };
+export type PersonDetailsFragment = { __typename: 'Person', id: string, name: string, pronouns: string | null, phone: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null };
 
 export type PersonUserFragment = { __typename: 'User', id: string, email: string, permissions: Array<Permission> };
 
 export type PeopleQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PeopleQuery = { __typename: 'Query', people: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null }> | null };
+export type PeopleQuery = { __typename: 'Query', people: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null, phone: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null }> | null };
 
 export type PermissionDefinitionFieldsFragment = { __typename: 'PermissionDefinition', id: Permission, label: string };
 
@@ -1702,7 +1703,7 @@ export type PersonQueryVariables = Exact<{
 }>;
 
 
-export type PersonQuery = { __typename: 'Query', person: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, user: { __typename: 'User', permissions: Array<Permission>, id: string, email: string } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } | null, permissions: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string, children: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string, children: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string, children: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string }> | null }> | null }> | null }> };
+export type PersonQuery = { __typename: 'Query', person: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, phone: string | null, user: { __typename: 'User', permissions: Array<Permission>, id: string, email: string } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } | null, permissions: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string, children: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string, children: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string, children: Array<{ __typename: 'PermissionDefinition', id: Permission, label: string }> | null }> | null }> | null }> };
 
 export type UpdatePersonMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -1710,7 +1711,7 @@ export type UpdatePersonMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePersonMutation = { __typename: 'Mutation', updatePerson: { __typename: 'UpdatePersonPayload', profile: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } } | null };
+export type UpdatePersonMutation = { __typename: 'Mutation', updatePerson: { __typename: 'UpdatePersonPayload', profile: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, phone: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } } | null };
 
 export type MergePeopleMutationVariables = Exact<{
   profileIds: Array<Scalars['ID']> | Scalars['ID'];
@@ -1718,7 +1719,7 @@ export type MergePeopleMutationVariables = Exact<{
 }>;
 
 
-export type MergePeopleMutation = { __typename: 'Mutation', mergePeople: { __typename: 'MergePeoplePayload', profile: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } } | null };
+export type MergePeopleMutation = { __typename: 'Mutation', mergePeople: { __typename: 'MergePeoplePayload', profile: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, phone: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } } | null };
 
 export type UpdatePermissionsMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -1858,7 +1859,7 @@ export type RemoveSessionCastMutation = { __typename: 'Mutation', removeSessionC
 export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProfileQuery = { __typename: 'Query', user: { __typename: 'User', id: string, profile: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, user: { __typename: 'User', id: string, name: string, permissions: Array<Permission>, email: string } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } | null } | null };
+export type ProfileQuery = { __typename: 'Query', user: { __typename: 'User', id: string, profile: { __typename: 'Person', bio: string, id: string, name: string, pronouns: string | null, phone: string | null, user: { __typename: 'User', id: string, name: string, permissions: Array<Permission>, email: string } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null } | null } | null };
 
 export type RegistrationWorkshopFragment = { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null };
 
@@ -2312,6 +2313,7 @@ export const PersonDetailsFragmentDoc = gql`
   id
   name
   pronouns
+  phone
   user {
     id
     email

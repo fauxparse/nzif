@@ -2,6 +2,7 @@ fragment PersonDetails on Person {
   id
   name
   pronouns
+  phone
 
   user {
     id

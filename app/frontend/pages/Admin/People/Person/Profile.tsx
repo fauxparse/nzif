@@ -33,6 +33,7 @@ const formSchema = z.object({
   bio: z.string(),
   city: z.string(),
   country: z.string(),
+  phone: z.string().optional(),
   picture: z.instanceof(File).nullish(),
 });
 
@@ -61,6 +62,7 @@ const Profile: React.FC<ProfileProps> = ({
       name: person?.name || '',
       email: person?.user?.email || '',
       pronouns: person?.pronouns || '',
+      phone: person?.phone || '',
       bio: person?.bio || '',
       city: person?.city?.name || '',
       country: person?.country?.id || 'NZ',
@@ -86,6 +88,7 @@ const Profile: React.FC<ProfileProps> = ({
       name: person.name,
       email: person.user?.email,
       pronouns: person.pronouns || '',
+      phone: person.phone || '',
       bio: person.bio || '',
       city: person.city?.name || '',
       country: person.country?.id || 'NZ',
@@ -135,6 +138,14 @@ const Profile: React.FC<ProfileProps> = ({
             errors={errors}
           >
             <Input id="pronouns" {...register('pronouns')} />
+          </Labelled>
+          <Labelled
+            name="phone"
+            label="Phone"
+            hint="So we can get in touch with you during the Festival"
+            errors={errors}
+          >
+            <Input id="phone" type="tel" autoComplete="tel" {...register('phone')} />
           </Labelled>
           <Labelled
             name="bio"

@@ -527,6 +527,7 @@ input PersonAttributes {
   city: String
   country: Country
   name: String
+  phone: String
   picture: Upload
   pronouns: String
 }
