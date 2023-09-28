@@ -61,6 +61,7 @@ class ParticipantMailer < ApplicationMailer
 
     mail(
       to: email_address_with_name(@user.email, @user.profile.name),
+      cc: 'registrations@improvfest.nz',
       subject: "NZIF #{registration.festival.year}: added to #{session.activity.name}",
     )
   end
@@ -81,6 +82,7 @@ class ParticipantMailer < ApplicationMailer
 
     mail(
       to: email_address_with_name(@user.email, @user.profile.name),
+      cc: 'registrations@improvfest.nz',
       subject: "NZIF #{registration.festival.year}: removed from #{session.activity.name}",
     )
   end
