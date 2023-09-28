@@ -26,6 +26,7 @@ module Registrations
           registration:,
           current_user: User.automaton,
           suppress_notifications: true,
+          promote: true,
         )
       end
     end
