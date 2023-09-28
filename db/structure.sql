@@ -162,6 +162,75 @@ ALTER SEQUENCE public.activities_id_seq OWNED BY public.activities.id;
 
 
 --
+-- Name: cast; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."cast" (
+    id bigint NOT NULL,
+    activity_type character varying NOT NULL,
+    activity_id bigint NOT NULL,
+    profile_id bigint NOT NULL,
+    role character varying NOT NULL,
+    "position" integer DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: ownerships; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ownerships (
+    id bigint NOT NULL,
+    profile_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: profiles; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.profiles (
+    id bigint NOT NULL,
+    user_id bigint,
+    pronouns character varying,
+    name character varying,
+    city character varying,
+    country character varying,
+    bio text,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    searchable tsvector GENERATED ALWAYS AS (setweight(to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char")) STORED,
+    picture_data jsonb,
+    phone character varying(32)
+);
+
+
+--
+-- Name: activity_owners; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.activity_owners AS
+ SELECT owners.user_id,
+    'User'::text AS user_type,
+    "cast".activity_id,
+    "cast".activity_type
+   FROM (( SELECT profiles.user_id,
+            profiles.id AS profile_id
+           FROM public.profiles
+        UNION ALL
+         SELECT ownerships.user_id,
+            ownerships.profile_id
+           FROM public.ownerships) owners
+     JOIN public."cast" ON (("cast".profile_id = owners.profile_id)))
+  WHERE (owners.user_id IS NOT NULL);
+
+
+--
 -- Name: allocations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -202,22 +271,6 @@ ALTER SEQUENCE public.allocations_id_seq OWNED BY public.allocations.id;
 CREATE TABLE public.ar_internal_metadata (
     key character varying NOT NULL,
     value character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
--- Name: cast; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public."cast" (
-    id bigint NOT NULL,
-    activity_type character varying NOT NULL,
-    activity_id bigint NOT NULL,
-    profile_id bigint NOT NULL,
-    role character varying NOT NULL,
-    "position" integer DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -278,16 +331,38 @@ ALTER SEQUENCE public.festivals_id_seq OWNED BY public.festivals.id;
 
 
 --
--- Name: ownerships; Type: TABLE; Schema: public; Owner: -
+-- Name: messages; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.ownerships (
+CREATE TABLE public.messages (
     id bigint NOT NULL,
-    profile_id bigint NOT NULL,
-    user_id bigint NOT NULL,
+    messageable_type character varying NOT NULL,
+    messageable_id bigint NOT NULL,
+    sender_id bigint NOT NULL,
+    subject character varying,
+    content text,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
+
+
+--
+-- Name: messages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.messages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
 
 
 --
@@ -442,26 +517,6 @@ CREATE SEQUENCE public.preferences_id_seq
 --
 
 ALTER SEQUENCE public.preferences_id_seq OWNED BY public.preferences.id;
-
-
---
--- Name: profiles; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.profiles (
-    id bigint NOT NULL,
-    user_id bigint,
-    pronouns character varying,
-    name character varying,
-    city character varying,
-    country character varying,
-    bio text,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    searchable tsvector GENERATED ALWAYS AS (setweight(to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char")) STORED,
-    picture_data jsonb,
-    phone character varying(32)
-);
 
 
 --
@@ -915,6 +970,13 @@ ALTER TABLE ONLY public.festivals ALTER COLUMN id SET DEFAULT nextval('public.fe
 
 
 --
+-- Name: messages id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.messages ALTER COLUMN id SET DEFAULT nextval('public.messages_id_seq'::regclass);
+
+
+--
 -- Name: ownerships id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1080,6 +1142,14 @@ ALTER TABLE ONLY public."cast"
 
 ALTER TABLE ONLY public.festivals
     ADD CONSTRAINT festivals_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: messages messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.messages
+    ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
 
 
 --
@@ -1258,6 +1328,20 @@ CREATE INDEX index_cast_on_profile_id ON public."cast" USING btree (profile_id);
 --
 
 CREATE UNIQUE INDEX index_cast_uniquely ON public."cast" USING btree (activity_type, activity_id, profile_id, role);
+
+
+--
+-- Name: index_messages_on_messageable; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_messages_on_messageable ON public.messages USING btree (messageable_type, messageable_id);
+
+
+--
+-- Name: index_messages_on_sender_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_messages_on_sender_id ON public.messages USING btree (sender_id);
 
 
 --
@@ -1689,6 +1773,14 @@ ALTER TABLE ONLY public.placements
 
 
 --
+-- Name: messages fk_rails_b8f26a382d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.messages
+    ADD CONSTRAINT fk_rails_b8f26a382d FOREIGN KEY (sender_id) REFERENCES public.users(id);
+
+
+--
 -- Name: payments fk_rails_bb9133230f; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1782,7 +1874,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230905055639'),
 ('20230905234421'),
 ('20230916002539'),
-('20230917052932');
+('20230917052932'),
+('20230927061247');
 
 
 SET statement_timeout = 0;
@@ -1801,6 +1894,7 @@ SET row_security = off;
 --
 
 COPY public.active_record_views (name, class_name, checksum, options, refreshed_at) FROM stdin;
+activity_owners	ActivityOwner	ac32616e2e9fc692ec58a52fd9678eb17ea752ee	{"dependencies":[]}	\N
 slot_activities	SlotActivity	717b988a5900ecc4d9842325e50563404a15d71b	{"dependencies":[]}	\N
 slot_sessions	SlotSession	6ab18ab7d8faec08af36bec11b736b3e84e21cca	{"dependencies":[]}	\N
 slots	Slot	d66acce70040a0dab5163f0966147d4fa78977c3	{"dependencies":[]}	\N

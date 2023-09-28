@@ -1,5 +1,6 @@
 class Session < ApplicationRecord
   include Castable
+  include Messageable
 
   belongs_to :festival
   belongs_to :venue, optional: true
