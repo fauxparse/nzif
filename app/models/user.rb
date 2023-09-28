@@ -12,7 +12,7 @@ class User < ApplicationRecord
   has_many :ownerships, dependent: :destroy, inverse_of: :user
   has_many :profiles, through: :ownerships
   has_many :activity_owners, as: :user # rubocop:disable Rails/HasManyOrHasOneDependent
-  has_many :activities, through: :activity_owners
+  has_many :activities, through: :activity_owners, source_type: 'Activity'
 
   before_validation :populate_profile
 

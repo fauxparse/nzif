@@ -39,4 +39,16 @@ RSpec.describe Sessions::AddCast do
       expect { result }.to raise_error(ActionPolicy::Unauthorized)
     end
   end
+
+  context 'when the current user is a cast member' do
+    let(:current_user) { create(:user, :with_profile) }
+
+    before do
+      session.cast.create!(profile: current_user.profile, role: :performer)
+    end
+
+    it 'raises an error' do
+      expect { result }.to raise_error(ActionPolicy::Unauthorized)
+    end
+  end
 end
