@@ -1,5 +1,6 @@
 .teaching {
-  &__workshops {
+  &__workshops,
+  &__session {
     padding: 0 0 var(--huge);
   }
 
@@ -36,5 +37,46 @@
       margin: 0;
       padding: 0;
     }
+  }
+}
+
+.session-messages {
+  margin: var(--large) 0;
+  border-bottom: var(--border-width-standard) solid var(--border-subtle);
+}
+
+.session-message {
+  border-top: var(--border-width-standard) solid var(--border-subtle);
+
+  summary {
+    display: grid;
+    grid-template: "icon sender" auto "icon date" auto / auto 1fr;
+    gap: 0 var(--small);
+    padding: var(--small);
+
+    .icon {
+      grid-area: icon;
+      align-self: center;
+      color: var(--text-subtle);
+      transition: rotate var(--timing-standard) var(--ease-standard);
+    }
+  }
+
+  &[open] summary .icon {
+    rotate: 90deg;
+  }
+
+  &__sender {
+    grid-area: sender;
+  }
+
+  &__date {
+    grid-area: date;
+    color: var(--text-subtle);
+  }
+
+  &__content {
+    max-width: 45em;
+    padding: 0 calc(var(--small) * 2 + var(--icon-size)) var(--large);
   }
 }

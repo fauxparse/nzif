@@ -11,6 +11,7 @@ const CONTAINERS: [RegExp, string][] = [
   [/^(\/register\/)/, 'register'],
   [/^(\/(shows|workshops|social-events|conferences)\/[^/]+)/, 'activity'],
   [/^(\/)(shows|workshops|social-events|conferences)$/, 'activities'],
+  [/^(\/teaching\/[^/]+)/, 'teaching'],
 ];
 
 export const pageVariants: Variants = {

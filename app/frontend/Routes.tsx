@@ -105,7 +105,19 @@ export const ROUTES = {
     },
   }),
   PROFILE: route('profile'),
-  TEACHING: route('teaching', {}, { SESSION: route(':id', { params: { id } }) }),
+  TEACHING: route(
+    'teaching',
+    {},
+    {
+      SESSION: route(
+        ':id',
+        { params: { id } },
+        {
+          MESSAGE: route('message'),
+        }
+      ),
+    }
+  ),
   DIRECTING: route('directing', {}, { SESSION: route(':id', { params: { id } }) }),
 };
 
@@ -290,6 +302,12 @@ const router = createBrowserRouter([
               {
                 path: ROUTES.TEACHING.SESSION.path,
                 lazy: () => import('./pages/Public/Teaching/Session'),
+                children: [
+                  {
+                    path: ROUTES.TEACHING.SESSION.MESSAGE.path,
+                    element: <></>,
+                  },
+                ],
               },
               {
                 index: true,

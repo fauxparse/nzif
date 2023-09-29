@@ -42,6 +42,18 @@ fragment TeachingSession on Session {
     room
     building
   }
+
+  messages {
+    id
+    subject
+    content
+    createdAt
+    sender {
+      id
+      name
+      email
+    }
+  }
 }
 
 query TeachingSessions {

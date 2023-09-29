@@ -18,6 +18,8 @@ module Types
     field :operators, [PersonType], null: false
     field :performers, [PersonType], null: false
 
+    field :messages, [MessageType], null: false
+
     def participants
       dataloader
         .with(Sources::SessionParticipants, context:)
@@ -66,6 +68,10 @@ module Types
 
     def operators
       cast.then { |cast| cast.select(&:operator?).map(&:profile) }
+    end
+
+    def messages
+      dataloader.with(Sources::SessionMessages, context:).load(object.id)
     end
   end
 end

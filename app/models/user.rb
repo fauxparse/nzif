@@ -31,6 +31,7 @@ class User < ApplicationRecord
         user.name = 'NZIF bot'
         user.password = user.password_confirmation = SecureRandom.hex(32)
         user.permissions << :registrations
+        user.permissions << :activities
       end
   end
 

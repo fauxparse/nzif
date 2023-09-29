@@ -24,6 +24,22 @@ RSpec.describe Registrations::AddToSession, type: :interactor do
       .with(registration:, session:, removed: [])
   end
 
+  context 'when the session has existing messages' do
+    let!(:message) { create(:message, messageable: session) }
+
+    it 'sends the message to the new user' do
+      expect { result }.to have_enqueued_job.with(
+        'SessionMailer',
+        'custom',
+        'deliver_now',
+        args: [hash_including(
+          message:,
+          recipients: [registration.user],
+        )],
+      )
+    end
+  end
+
   context 'when the user is on the waitlist' do
     before do
       session.waitlist.create!(registration:)

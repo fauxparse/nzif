@@ -1,9 +1,13 @@
 import React, { useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
 import { sortBy } from 'lodash-es';
 
+import MessageComposer from '../MessageComposer';
+import Button from '@/atoms/Button';
+import Icon from '@/atoms/Icon';
 import { ActivityType, TeachingSessionFragment, useTeachingSessionsQuery } from '@/graphql/types';
+import Markdown from '@/helpers/Markdown';
 import Breadcrumbs, { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 import PageHeader from '@/molecules/PageHeader';
 import { ROUTES } from '@/Routes';
@@ -28,6 +32,7 @@ export const Component: React.FC = () => {
   const { id } = useTypedParams(ROUTES.TEACHING.SESSION);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const session = useMemo(
     () =>
@@ -69,6 +74,38 @@ export const Component: React.FC = () => {
               <li key={participant.id}>{participant.name}</li>
             ))}
           </ul>
+          <h2>Messages</h2>
+          <MessageComposer
+            session={session}
+            open={location.pathname.endsWith('/message')}
+            onClose={() => navigate(ROUTES.TEACHING.SESSION.buildPath({ id: session.id }))}
+          />
+          <p>
+            Messages listed here have been sent to all participants, and will be sent to everyone
+            who joins after they were sent.
+          </p>
+          <div className="session-messages">
+            {session.messages.map((message) => (
+              <details key={message.id} className="session-message">
+                <summary>
+                  <Icon name="chevronRight" />
+                  <div className="session-message__sender">{message.sender.name}</div>
+                  <div className="session-message__date">
+                    {message.createdAt.toFormat('d MMMM, h:mm a')}
+                  </div>
+                </summary>
+                <div className="session-message__content">
+                  <Markdown>{message.content}</Markdown>
+                </div>
+              </details>
+            ))}
+          </div>
+          <Button
+            as={Link}
+            to={ROUTES.TEACHING.SESSION.MESSAGE.buildPath({ id: session.id })}
+            icon="email"
+            text="New message"
+          />
         </div>
       </div>
     </BreadcrumbProvider>

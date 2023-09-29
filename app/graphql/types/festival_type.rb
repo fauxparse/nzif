@@ -19,6 +19,9 @@ module Types
     field :registrations, [Types::RegistrationType], null: false do
       argument :name, String, required: false
     end
+    field :session, Types::SessionType, null: false do
+      argument :id, ID, required: true
+    end
     field :slots, [Types::SlotType], null: false do
       argument :type, Types::ActivityTypeType, required: false
     end
@@ -77,6 +80,12 @@ module Types
 
     def balance
       object
+    end
+
+    def session(id:)
+      dataloader
+        .with(Sources::Simple, context:, model: Session)
+        .load(Session.decode_id(id))
     end
   end
 end

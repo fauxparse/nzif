@@ -46,5 +46,7 @@ module Types
     field :promise_internet_banking_payment,
       mutation: Mutations::Payments::PromiseInternetBankingPayment
     field :update_payment, mutation: Mutations::Payments::Update
+
+    field :send_message, mutation: Mutations::Messages::Send
   end
 end

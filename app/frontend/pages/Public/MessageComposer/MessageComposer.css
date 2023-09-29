@@ -1,0 +1,28 @@
+.message-composer {
+  .dialog__content {
+    display: flex;
+    flex-direction: column;
+    width: 48rem;
+    max-width: calc(100vw - 4rem);
+    height: 64rem;
+    max-height: calc(100vh - 4rem);
+  }
+
+  .dialog__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+
+    .input {
+      flex: 1;
+      min-height: 0;
+    }
+
+    textarea {
+      font-size: var(--font-size-legible);
+      line-height: var(--line-height-large);
+      resize: none;
+    }
+  }
+}

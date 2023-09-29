@@ -1,0 +1,19 @@
+fragment SentMessage on Message {
+  id
+  subject
+  content
+  createdAt
+  sender {
+    id
+    name
+    email
+  }
+}
+
+mutation SendMessage($sessionId: ID!, $subject: String!, $content: String!) {
+  sendMessage(sessionId: $sessionId, subject: $subject, content: $content) {
+    message {
+      ...SentMessage
+    }
+  }
+}

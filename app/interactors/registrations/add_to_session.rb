@@ -9,6 +9,8 @@ module Registrations
       removed = perform(RemoveFromOtherSessions, session:, registration:).sessions.map(&:id)
 
       send_notification(removed)
+
+      perform(Messages::SendExisting, messageable: session, current_user: User.automaton)
     end
 
     private
