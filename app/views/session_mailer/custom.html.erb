@@ -1,0 +1,1 @@
+<%= Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true).render(@message.content).html_safe %>

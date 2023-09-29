@@ -10,6 +10,7 @@ class Session < ApplicationRecord
     optional: true
   has_many :preferences, dependent: :destroy
   has_many :placements, dependent: :destroy
+  has_many :participants, through: :placements, source: :registration
   has_many :waitlist, -> { order(position: :asc) }, dependent: :destroy, inverse_of: :session
 
   enum :activity_type
@@ -43,6 +44,10 @@ class Session < ApplicationRecord
 
   def valid_cast_roles
     Castable.roles_from_config[activity_type.to_s.underscore.to_sym][:session]&.map(&:to_sym) || []
+  end
+
+  def message_recipients
+    placements.includes(registration: :user).map { |p| p.registration.user }
   end
 
   private

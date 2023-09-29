@@ -4,6 +4,10 @@ class SessionPolicy < ApplicationPolicy
   end
 
   def cast?
-    user.activities? || user.activity_owners.exists?(session: record, role: :director)
+    user.activities? || user.activity_owners.exists?(session: record, role: %i[director tutor])
+  end
+
+  def message?
+    cast?
   end
 end

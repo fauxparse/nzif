@@ -15,5 +15,21 @@ FactoryBot.define do
       activity_type { Show }
       activity { create(:show, :with_director, festival:) } # rubocop:disable FactoryBot/FactoryAssociationWithStrategy
     end
+
+    trait :with_participants do
+      transient do
+        participants_count { 5 }
+      end
+
+      after(:create) do |session, evaluator|
+        create_list(
+          :registration,
+          evaluator.participants_count,
+          festival: session.festival,
+        ).each do |registration|
+          session.placements.create!(registration:)
+        end
+      end
+    end
   end
 end

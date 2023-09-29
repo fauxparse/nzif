@@ -433,6 +433,7 @@ GEM
       json
       rack
     rbtree (0.4.6)
+    redcarpet (3.6.0)
     redis (5.0.6)
       redis-client (>= 0.9.0)
     redis-client (0.15.0)
@@ -628,6 +629,7 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 7.0.4, >= 7.0.4.3)
   raygun4ruby
+  redcarpet (~> 3.6)
   redis (~> 5.0)
   rest-client
   rspec-collection_matchers
