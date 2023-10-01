@@ -13,7 +13,9 @@ Rails.application.routes.draw do
     get '/:id', to: 'short_urls#redirect', as: :short
   end
 
-  get '/:directory/*path', to: 'directories#show'
+  resource :directory, only: :show do
+    get '*path', to: 'directories#show'
+  end
 
   resources :countries, only: :index, defaults: { format: :json }
 
