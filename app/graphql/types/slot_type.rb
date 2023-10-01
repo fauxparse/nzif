@@ -2,7 +2,9 @@ module Types
   class SlotType < Types::BaseObject
     field :ends_at, GraphQL::Types::ISO8601DateTime, null: false
     field :id, ID, null: false
-    field :sessions, [Types::SessionType], null: false
+    field :sessions, [Types::SessionType], null: false do
+      argument :type, ActivityTypeType, required: false
+    end
     field :starts_at, GraphQL::Types::ISO8601DateTime, null: false
     field :workshops, [Types::WorkshopType], null: false
 
@@ -18,9 +20,9 @@ module Types
       end
     end
 
-    def sessions
-      object.activities.select { |a| a.type == 'Workshop' }.sort_by(&:name).map do |workshop|
-        workshop.sessions.find { |s| s.starts_at == object.starts_at }
+    def sessions(type: Workshop)
+      object.activities.select { |a| a.type == type.name }.sort_by(&:name).map do |activity|
+        activity.sessions.find { |s| s.starts_at == object.starts_at }
       end
     end
   end

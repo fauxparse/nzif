@@ -118,7 +118,14 @@ export const ROUTES = {
       ),
     }
   ),
-  DIRECTING: route('directing', {}, { SESSION: route(':id', { params: { id } }) }),
+  DIRECTING: route(
+    'directing',
+    {},
+    {
+      ALL: route('all'),
+      SESSION: route(':id', { params: { id } }),
+    }
+  ),
 };
 
 const RedirectToBase = () => {
@@ -285,6 +292,10 @@ const router = createBrowserRouter([
             path: ROUTES.DIRECTING.path,
             element: <Outlet />,
             children: [
+              {
+                path: ROUTES.DIRECTING.ALL.path,
+                lazy: () => import('./pages/Public/Casting/MasterList'),
+              },
               {
                 path: ROUTES.DIRECTING.SESSION.path,
                 lazy: () => import('./pages/Public/Casting/Session'),

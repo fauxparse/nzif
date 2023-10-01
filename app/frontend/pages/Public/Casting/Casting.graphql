@@ -73,6 +73,19 @@ query CastingSessions {
   }
 }
 
+query MasterCastList {
+  festival {
+    id
+    slots(type: Show) {
+      id
+      startsAt
+      sessions(type: Show) {
+        ...CastingSession
+      }
+    }
+  }
+}
+
 mutation AddSessionCast($sessionId: ID!, $profileId: ID!, $role: Role!) {
   addSessionCast(sessionId: $sessionId, profileId: $profileId, role: $role) {
     cast {

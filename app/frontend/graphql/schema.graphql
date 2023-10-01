@@ -837,7 +837,7 @@ type Show implements Activity {
 type Slot {
   endsAt: ISO8601DateTime!
   id: ID!
-  sessions: [Session!]!
+  sessions(type: ActivityType): [Session!]!
   startsAt: ISO8601DateTime!
   workshops: [Workshop!]!
 }
