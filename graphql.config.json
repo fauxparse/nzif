@@ -6,5 +6,6 @@
         "url": "http://localhost:5100/graphql"
       }
     }
-  }
+  },
+  "exclude": "app/frontend/graphql/types.ts"
 }

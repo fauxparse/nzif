@@ -1,0 +1,36 @@
+query Directory {
+  festival {
+    id
+    slots(type: Workshop) {
+      id
+      startsAt
+      endsAt
+    }
+  }
+}
+
+query DirectorySearch($query: String!) {
+  directorySearch(query: $query) {
+    id
+    name
+  }
+}
+
+query DirectoryResult($id: ID!, $time: ISO8601DateTime!) {
+  directoryResult(id: $id, time: $time) {
+    id
+    activity {
+      id
+      name
+      presenters {
+        id
+        name
+      }
+    }
+    venue {
+      id
+      room
+      building
+    }
+  }
+}

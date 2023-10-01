@@ -32,6 +32,9 @@ module Types
       argument :id, ID, required: true
     end
 
+    field :directory_result, resolver: Resolvers::DirectoryResult, authenticate: false
+    field :directory_search, resolver: Resolvers::DirectorySearch, authenticate: false
+
     def festival(year: nil)
       if year
         Festival.by_year(year).first!

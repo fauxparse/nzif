@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     get '/:id', to: 'short_urls#redirect', as: :short
   end
 
+  get '/:directory/*path', to: 'directories#show'
+
   resources :countries, only: :index, defaults: { format: :json }
 
   post '/payment_intents', to: 'payments#create_intent', defaults: { format: :json }

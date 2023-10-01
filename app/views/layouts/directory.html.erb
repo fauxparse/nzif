@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>NZIF</title>
+    <title>NZIF Directory</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= vite_client_tag %>
     <%= vite_react_refresh_tag %>
-    <%= vite_typescript_tag 'application.tsx' %>
+    <%= vite_typescript_tag 'directory.tsx' %>
 
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   </head>
-  <body>
-    <%= render partial: '/shared/filer' %>
+  <body data-theme="light">
     <%= yield %>
     <div id="root" />
   </body>

@@ -19,4 +19,14 @@ class Profile < ApplicationRecord
   searchable_on :name
 
   scope :without_attached_user, -> { where(user_id: nil) }
+  scope :registered, lambda {
+    joins(
+      <<~SQL.squish,
+        INNER JOIN users
+        ON profiles.user_id = users.id
+        INNER JOIN registrations
+        ON registrations.user_id = users.id
+      SQL
+    )
+  }
 end

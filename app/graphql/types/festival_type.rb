@@ -65,9 +65,9 @@ module Types
     end
 
     def slots(type: nil)
-      scope = object.slots.includes(activities: :sessions).order(starts_at: :asc)
-      scope = scope.references(:activities).where(activities: { type: type.to_s }) if type
-      scope
+      scope = object.slots.order(starts_at: :asc)
+      scope = scope.joins(sessions: :activity).where(activities: { type: type.to_s }) if type
+      scope.distinct
     end
 
     def workshop_allocation

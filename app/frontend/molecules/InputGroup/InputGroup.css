@@ -39,8 +39,8 @@
   }
 
   &:where([data-size="large"]) {
-    --addon-padding-block: var(--spacing);
-    --addon-padding-inline: var(--spacing-large);
+    --addon-padding-block: var(--medium);
+    --addon-padding-inline: var(--large);
     --addon-font-size: var(--font-size-large);
     --addon-line-height: var(--line-height-large);
     --addon-border-width: var(--border-radius-large);

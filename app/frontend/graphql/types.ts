@@ -817,6 +817,8 @@ export type PromoteWaitlistParticipantPayload = {
 
 export type Query = {
   __typename: 'Query';
+  directoryResult: Session;
+  directorySearch: Array<Person>;
   festival: Festival;
   payment: Payment;
   people: Maybe<Array<Person>>;
@@ -827,6 +829,17 @@ export type Query = {
   setting: Maybe<Setting>;
   translations: Array<Translation>;
   user: Maybe<User>;
+};
+
+
+export type QueryDirectoryResultArgs = {
+  id: Scalars['ID'];
+  time: Scalars['ISO8601DateTime'];
+};
+
+
+export type QueryDirectorySearchArgs = {
+  query: Scalars['String'];
 };
 
 
@@ -1324,6 +1337,26 @@ export type FinaliseRegistrationPayload = {
   __typename: 'finaliseRegistrationPayload';
   registration: Registration;
 };
+
+export type DirectoryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DirectoryQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime }> } };
+
+export type DirectorySearchQueryVariables = Exact<{
+  query: Scalars['String'];
+}>;
+
+
+export type DirectorySearchQuery = { __typename: 'Query', directorySearch: Array<{ __typename: 'Person', id: string, name: string }> };
+
+export type DirectoryResultQueryVariables = Exact<{
+  id: Scalars['ID'];
+  time: Scalars['ISO8601DateTime'];
+}>;
+
+
+export type DirectoryResultQuery = { __typename: 'Query', directoryResult: { __typename: 'Session', id: string, activity: { __typename: 'Conference', id: string, name: string, presenters: Array<{ __typename: 'Person', id: string, name: string }> } | { __typename: 'Show', id: string, name: string, presenters: Array<{ __typename: 'Person', id: string, name: string }> } | { __typename: 'SocialEvent', id: string, name: string, presenters: Array<{ __typename: 'Person', id: string, name: string }> } | { __typename: 'Workshop', id: string, name: string, presenters: Array<{ __typename: 'Person', id: string, name: string }> } | null, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null } };
 
 export type GetSettingQueryVariables = Exact<{
   id: Scalars['String'];
@@ -2419,19 +2452,6 @@ export const TeachingWorkshopFragmentDoc = gql`
   }
 }
     `;
-export const SentMessageFragmentDoc = gql`
-    fragment SentMessage on Message {
-  id
-  subject
-  content
-  createdAt
-  sender {
-    id
-    name
-    email
-  }
-}
-    `;
 export const TeachingSessionFragmentDoc = gql`
     fragment TeachingSession on Session {
   id
@@ -2463,11 +2483,18 @@ export const TeachingSessionFragmentDoc = gql`
     building
   }
   messages {
-    ...SentMessage
+    id
+    subject
+    content
+    createdAt
+    sender {
+      id
+      name
+      email
+    }
   }
 }
-    ${TeachingWorkshopFragmentDoc}
-${SentMessageFragmentDoc}`;
+    ${TeachingWorkshopFragmentDoc}`;
 export const CastingShowFragmentDoc = gql`
     fragment CastingShow on Activity {
   name
@@ -2527,6 +2554,19 @@ export const CastingSessionFragmentDoc = gql`
 }
     ${CastingShowFragmentDoc}
 ${CastMemberFragmentDoc}`;
+export const SentMessageFragmentDoc = gql`
+    fragment SentMessage on Message {
+  id
+  subject
+  content
+  createdAt
+  sender {
+    id
+    name
+    email
+  }
+}
+    `;
 export const RegistrationTutorFragmentDoc = gql`
     fragment RegistrationTutor on Person {
   id
@@ -2692,6 +2732,130 @@ export const RegistrationPaymentFragmentDoc = gql`
   }
 }
     `;
+export const DirectoryDocument = gql`
+    query Directory {
+  festival {
+    id
+    slots(type: Workshop) {
+      id
+      startsAt
+      endsAt
+    }
+  }
+}
+    `;
+
+/**
+ * __useDirectoryQuery__
+ *
+ * To run a query within a React component, call `useDirectoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDirectoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDirectoryQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDirectoryQuery(baseOptions?: Apollo.QueryHookOptions<DirectoryQuery, DirectoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DirectoryQuery, DirectoryQueryVariables>(DirectoryDocument, options);
+      }
+export function useDirectoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DirectoryQuery, DirectoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DirectoryQuery, DirectoryQueryVariables>(DirectoryDocument, options);
+        }
+export type DirectoryQueryHookResult = ReturnType<typeof useDirectoryQuery>;
+export type DirectoryLazyQueryHookResult = ReturnType<typeof useDirectoryLazyQuery>;
+export type DirectoryQueryResult = Apollo.QueryResult<DirectoryQuery, DirectoryQueryVariables>;
+export const DirectorySearchDocument = gql`
+    query DirectorySearch($query: String!) {
+  directorySearch(query: $query) {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useDirectorySearchQuery__
+ *
+ * To run a query within a React component, call `useDirectorySearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDirectorySearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDirectorySearchQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *   },
+ * });
+ */
+export function useDirectorySearchQuery(baseOptions: Apollo.QueryHookOptions<DirectorySearchQuery, DirectorySearchQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DirectorySearchQuery, DirectorySearchQueryVariables>(DirectorySearchDocument, options);
+      }
+export function useDirectorySearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DirectorySearchQuery, DirectorySearchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DirectorySearchQuery, DirectorySearchQueryVariables>(DirectorySearchDocument, options);
+        }
+export type DirectorySearchQueryHookResult = ReturnType<typeof useDirectorySearchQuery>;
+export type DirectorySearchLazyQueryHookResult = ReturnType<typeof useDirectorySearchLazyQuery>;
+export type DirectorySearchQueryResult = Apollo.QueryResult<DirectorySearchQuery, DirectorySearchQueryVariables>;
+export const DirectoryResultDocument = gql`
+    query DirectoryResult($id: ID!, $time: ISO8601DateTime!) {
+  directoryResult(id: $id, time: $time) {
+    id
+    activity {
+      id
+      name
+      presenters {
+        id
+        name
+      }
+    }
+    venue {
+      id
+      room
+      building
+    }
+  }
+}
+    `;
+
+/**
+ * __useDirectoryResultQuery__
+ *
+ * To run a query within a React component, call `useDirectoryResultQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDirectoryResultQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDirectoryResultQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      time: // value for 'time'
+ *   },
+ * });
+ */
+export function useDirectoryResultQuery(baseOptions: Apollo.QueryHookOptions<DirectoryResultQuery, DirectoryResultQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DirectoryResultQuery, DirectoryResultQueryVariables>(DirectoryResultDocument, options);
+      }
+export function useDirectoryResultLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DirectoryResultQuery, DirectoryResultQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DirectoryResultQuery, DirectoryResultQueryVariables>(DirectoryResultDocument, options);
+        }
+export type DirectoryResultQueryHookResult = ReturnType<typeof useDirectoryResultQuery>;
+export type DirectoryResultLazyQueryHookResult = ReturnType<typeof useDirectoryResultLazyQuery>;
+export type DirectoryResultQueryResult = Apollo.QueryResult<DirectoryResultQuery, DirectoryResultQueryVariables>;
 export const GetSettingDocument = gql`
     query GetSetting($id: String!) {
   setting(id: $id) {
