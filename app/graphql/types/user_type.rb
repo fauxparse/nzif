@@ -33,6 +33,8 @@ module Types
     end
 
     def activities
+      return current_festival.activities.scheduled.distinct if object.admin?
+
       dataloader
         .with(Sources::UserActivities, context:)
         .load(object.id)

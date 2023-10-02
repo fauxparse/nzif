@@ -22,6 +22,7 @@ class Activity < ApplicationRecord
     absence: { unless: :workshop? }
 
   scope :by_type, ->(type) { where(type: type.to_s) }
+  scope :scheduled, -> { joins('INNER JOIN sessions ON sessions.activity_id = activities.id') }
 
   after_save do
     next unless saved_change_to_picture_data? && picture(:tiny).present?
