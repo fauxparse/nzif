@@ -1,6 +1,6 @@
 module Resolvers
   class DirectoryResult < Resolvers::BaseResolver
-    type Types::SessionType, null: false
+    type Types::SessionType, null: true
 
     argument :id, GraphQL::Types::ID, required: true
     argument :time, GraphQL::Types::ISO8601DateTime, required: true

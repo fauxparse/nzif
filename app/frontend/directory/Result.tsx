@@ -37,7 +37,7 @@ const ICONS: Record<string, IconName> = {
 const Result = forwardRef<HTMLDivElement, unknown>((_, ref) => {
   const { id, timeslot } = useTypedParams(ROUTES.DIRECTORY.TIMESLOT.PERSON);
 
-  const { data } = useDirectoryResultQuery({
+  const { loading, data } = useDirectoryResultQuery({
     variables: {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       id: id!,
@@ -99,7 +99,7 @@ const Result = forwardRef<HTMLDivElement, unknown>((_, ref) => {
             </div>
           )}
         </div>
-      ) : result ? (
+      ) : !loading ? (
         <div className="directory__session">
           <Button
             ghost
@@ -109,7 +109,7 @@ const Result = forwardRef<HTMLDivElement, unknown>((_, ref) => {
             text="Back"
           />
           <div>
-            <h1>Sorry</h1>
+            <h1>Sorry…</h1>
             <p>
               We couldn’t find you in a workshop this {time.hour < 12 ? 'morning' : 'afternoon'}.{' '}
             </p>

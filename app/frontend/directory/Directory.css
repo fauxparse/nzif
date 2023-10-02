@@ -106,6 +106,7 @@
     p {
       margin: 0.5em 0 0;
       color: var(--text-subtle);
+      max-width: 25ch;
     }
 
     h1 {
@@ -130,5 +131,17 @@
       height: 2em;
       color: inherit;
     }
+  }
+
+  .button {
+    --button-font-size: 0.5em;
+    --button-text: var(--text-subtle);
+    --button-line-height: 1.5;
+    --icon-size: 1em;
+    --button-border-radius: 0.25em;
+
+    gap: 0.25em;
+    padding: 0.25em 0.5em;
+    font-weight: var(--font-weight-medium);
   }
 }
