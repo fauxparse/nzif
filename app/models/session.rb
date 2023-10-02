@@ -50,6 +50,10 @@ class Session < ApplicationRecord
     placements.includes(registration: :user).map { |p| p.registration.user }
   end
 
+  def sessions
+    [self]
+  end
+
   private
 
   def check_for_venue_clashes
