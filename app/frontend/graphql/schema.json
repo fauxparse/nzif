@@ -6235,13 +6235,9 @@
               "name": "directoryResult",
               "description": null,
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Session",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "Session",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null,

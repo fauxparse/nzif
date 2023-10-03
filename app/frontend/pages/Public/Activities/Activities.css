@@ -230,4 +230,31 @@
     letter-spacing: var(--letter-spacing-wide);
     text-transform: uppercase;
   }
+
+  .show-casts {
+    dl {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0 var(--large);
+      margin: 0 0 var(--large);
+    }
+
+    dt {
+      grid-column: 1;
+      margin: 0;
+      padding: 0;
+      color: var(--text-subtle);
+    }
+
+    dd {
+      grid-column: 2;
+      margin: 0;
+      padding: 0;
+    }
+
+    small {
+      margin-left: 1ch;
+      color: var(--text-subtle);
+    }
+  }
 }

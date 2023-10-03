@@ -60,7 +60,7 @@ export const Component: React.FC = () => {
   if (!session) return null;
 
   return (
-    <BreadcrumbProvider label="Teaching" path={ROUTES.TEACHING.path}>
+    <BreadcrumbProvider label="Teaching" path="teaching">
       <div className="teaching">
         <PageHeader>
           <Breadcrumbs />

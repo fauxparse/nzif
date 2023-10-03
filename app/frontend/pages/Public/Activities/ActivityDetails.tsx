@@ -30,6 +30,7 @@ import {
 import sentence from '@/util/sentence';
 
 import PresenterPlacename from './PresenterPlacename';
+import ShowCasts from './ShowCasts';
 
 import './Activities.css';
 
@@ -59,15 +60,15 @@ const hasAttachedShow = (activity: Activity | null | undefined): activity is Wor
 const hasSuitability = (activity: Activity | null | undefined): activity is Workshop =>
   !!activity && 'suitability' in activity && !!activity.suitability;
 
+const isShow = (activity: Activity | null | undefined): activity is Show =>
+  !!activity && activity.__typename === ActivityType.Show;
+
 export const Component: React.FC = () => {
   const { type: pluralizedType, slug } = useTypedParams(ROUTES.ACTIVITY);
 
   const { hasPermission } = useAuthentication();
 
   const type = activityTypeFromPluralized(pluralizedType as Pluralized);
-
-  const defaultVenue =
-    type === ActivityType.Workshop || type === ActivityType.Show ? 'BATS Theatre' : 'Venue TBC';
 
   const { loading, data } = useActivityDetailsQuery({ variables: { type, slug } });
 
@@ -159,8 +160,10 @@ export const Component: React.FC = () => {
                     </Markdown>
                   </>
                 )}
+                {isShow(activity) && <ShowCasts show={activity} />}
               </>
             )}
+
             {hasAttachedWorkshop(activity) && (
               <Callout className="activity-details__attached">
                 This show is cast at least in part from the accompanying workshop,{' '}

@@ -605,7 +605,7 @@ type PromoteWaitlistParticipantPayload {
 }
 
 type Query {
-  directoryResult(id: ID!, time: ISO8601DateTime!): Session!
+  directoryResult(id: ID!, time: ISO8601DateTime!): Session
   directorySearch(query: String!): [Person!]!
   festival(year: String): Festival!
   payment(id: ID!): Payment!

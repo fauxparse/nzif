@@ -20,6 +20,12 @@ fragment SessionParticipant on Registration {
   }
 }
 
+fragment SessionCast on Person {
+  id
+  name
+  pronouns
+}
+
 fragment AdminActivitySessionDetails on Session {
   id
   startsAt
@@ -38,6 +44,22 @@ fragment AdminActivitySessionDetails on Session {
     id
     room
     building
+  }
+
+  hosts {
+    ...SessionCast
+  }
+
+  performers {
+    ...SessionCast
+  }
+
+  musos {
+    ...SessionCast
+  }
+
+  operators {
+    ...SessionCast
   }
 }
 
