@@ -29,6 +29,8 @@ Rails.application.routes.draw do
 
   get '/waitlist/:id', to: 'festivals#show', as: :accept_waitlist
 
+  get '/feedback/:id', to: 'festivals#show', as: :session_feedback
+
   get '*path', to: 'festivals#show'
   root to: 'festivals#show'
 end

@@ -86,4 +86,17 @@ class ParticipantMailer < ApplicationMailer
       subject: "NZIF #{registration.festival.year}: removed from #{session.activity.name}",
     )
   end
+
+  def feedback_reminder(registration:, session:)
+    @registration = registration
+    @session = session
+    @workshop = session.activity
+    @user = registration.user
+    @festival = registration.festival
+
+    mail(
+      to: email_address_with_name(@user.email, @user.profile.name),
+      subject: "Workshop feedback: #{session.activity.name}",
+    )
+  end
 end

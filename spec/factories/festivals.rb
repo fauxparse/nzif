@@ -39,5 +39,21 @@ FactoryBot.define do
         )
       end
     end
+
+    trait :with_confirmed_registrations do
+      transient do
+        registrations_count { 20 }
+      end
+
+      after(:create) do |festival, evaluator|
+        create_list(
+          :registration,
+          evaluator.registrations_count,
+          :completed,
+          :with_placements,
+          festival:,
+        )
+      end
+    end
   end
 end

@@ -9,4 +9,12 @@ class ParticipantPreview < ActionMailer::Preview
   def workshop_confirmation
     ParticipantMailer.workshop_confirmation(registration: Registration.find_by(user_id: 1))
   end
+
+  def feedback_reminder
+    placement = Placement.includes(registration: { user: :profile }, session: :activity).first
+    ParticipantMailer.feedback_reminder(
+      registration: placement.registration,
+      session: placement.session,
+    )
+  end
 end
