@@ -16,6 +16,7 @@ import RegistrationRedirect from '@/pages/Public/Registration/Redirect';
 
 import { FestivalDocument } from './graphql/types';
 import NotFound from './pages/404';
+import RequireLogin from './pages/RequireLogin';
 // import NotFound from './pages/404';
 
 const id = zod(z.string()).defined();
@@ -123,6 +124,13 @@ export const ROUTES = {
     {},
     {
       ALL: route('all'),
+      SESSION: route(':id', { params: { id } }),
+    }
+  ),
+  FEEDBACK: route(
+    'feedback',
+    {},
+    {
       SESSION: route(':id', { params: { id } }),
     }
   ),
@@ -287,6 +295,20 @@ const router = createBrowserRouter([
           {
             path: '/password',
             lazy: () => import('./pages/Public/ResetPassword'),
+          },
+          {
+            path: ROUTES.FEEDBACK.path,
+            element: <RequireLogin />,
+            children: [
+              {
+                index: true,
+                lazy: () => import('./pages/Public/Feedback/List'),
+              },
+              {
+                path: ROUTES.FEEDBACK.SESSION.path,
+                lazy: () => import('./pages/Public/Feedback/Session'),
+              },
+            ],
           },
           {
             path: ROUTES.DIRECTING.path,

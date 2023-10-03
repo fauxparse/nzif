@@ -211,14 +211,35 @@ CREATE TABLE public.profiles (
 
 
 --
+-- Name: sessions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.sessions (
+    id bigint NOT NULL,
+    festival_id bigint NOT NULL,
+    venue_id bigint,
+    starts_at timestamp without time zone NOT NULL,
+    ends_at timestamp without time zone NOT NULL,
+    activity_type public.activity_type,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    activity_id bigint,
+    capacity integer,
+    placements_count integer DEFAULT 0 NOT NULL
+);
+
+
+--
 -- Name: activity_owners; Type: VIEW; Schema: public; Owner: -
 --
 
 CREATE VIEW public.activity_owners AS
  SELECT owners.user_id,
     'User'::text AS user_type,
-    "cast".activity_id,
-    "cast".activity_type
+    casting.activity_id,
+    casting.activity_type,
+    casting.role,
+    casting.session_id
    FROM (( SELECT profiles.user_id,
             profiles.id AS profile_id
            FROM public.profiles
@@ -226,7 +247,21 @@ CREATE VIEW public.activity_owners AS
          SELECT ownerships.user_id,
             ownerships.profile_id
            FROM public.ownerships) owners
-     JOIN public."cast" ON (("cast".profile_id = owners.profile_id)))
+     JOIN ( SELECT "cast".profile_id,
+            sessions.activity_id,
+            (sessions.activity_type)::text AS activity_type,
+            "cast".role,
+            sessions.id AS session_id
+           FROM (public."cast"
+             JOIN public.sessions ON (((("cast".activity_type)::text = 'Activity'::text) AND (sessions.activity_id = "cast".activity_id))))
+        UNION ALL
+         SELECT "cast".profile_id,
+            sessions.activity_id,
+            (sessions.activity_type)::text AS activity_type,
+            "cast".role,
+            sessions.id AS session_id
+           FROM (public."cast"
+             JOIN public.sessions ON (((("cast".activity_type)::text = 'Session'::text) AND ("cast".activity_id = sessions.id))))) casting ON ((casting.profile_id = owners.profile_id)))
   WHERE (owners.user_id IS NOT NULL);
 
 
@@ -293,6 +328,42 @@ CREATE SEQUENCE public.cast_id_seq
 --
 
 ALTER SEQUENCE public.cast_id_seq OWNED BY public."cast".id;
+
+
+--
+-- Name: feedback; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.feedback (
+    id bigint NOT NULL,
+    registration_id bigint NOT NULL,
+    session_id bigint NOT NULL,
+    rating integer,
+    positive text,
+    constructive text,
+    testimonial text,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: feedback_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.feedback_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: feedback_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.feedback_id_seq OWNED BY public.feedback.id;
 
 
 --
@@ -579,25 +650,6 @@ ALTER SEQUENCE public.registrations_id_seq OWNED BY public.registrations.id;
 
 CREATE TABLE public.schema_migrations (
     version character varying NOT NULL
-);
-
-
---
--- Name: sessions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.sessions (
-    id bigint NOT NULL,
-    festival_id bigint NOT NULL,
-    venue_id bigint,
-    starts_at timestamp without time zone NOT NULL,
-    ends_at timestamp without time zone NOT NULL,
-    activity_type public.activity_type,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    activity_id bigint,
-    capacity integer,
-    placements_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -963,6 +1015,13 @@ ALTER TABLE ONLY public."cast" ALTER COLUMN id SET DEFAULT nextval('public.cast_
 
 
 --
+-- Name: feedback id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.feedback ALTER COLUMN id SET DEFAULT nextval('public.feedback_id_seq'::regclass);
+
+
+--
 -- Name: festivals id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1134,6 +1193,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 ALTER TABLE ONLY public."cast"
     ADD CONSTRAINT cast_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: feedback feedback_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.feedback
+    ADD CONSTRAINT feedback_pkey PRIMARY KEY (id);
 
 
 --
@@ -1328,6 +1395,27 @@ CREATE INDEX index_cast_on_profile_id ON public."cast" USING btree (profile_id);
 --
 
 CREATE UNIQUE INDEX index_cast_uniquely ON public."cast" USING btree (activity_type, activity_id, profile_id, role);
+
+
+--
+-- Name: index_feedback_on_registration_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_feedback_on_registration_id ON public.feedback USING btree (registration_id);
+
+
+--
+-- Name: index_feedback_on_registration_id_and_session_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_feedback_on_registration_id_and_session_id ON public.feedback USING btree (registration_id, session_id);
+
+
+--
+-- Name: index_feedback_on_session_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_feedback_on_session_id ON public.feedback USING btree (session_id);
 
 
 --
@@ -1677,6 +1765,14 @@ ALTER TABLE ONLY public.registrations
 
 
 --
+-- Name: feedback fk_rails_301803d736; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.feedback
+    ADD CONSTRAINT fk_rails_301803d736 FOREIGN KEY (registration_id) REFERENCES public.registrations(id);
+
+
+--
 -- Name: show_workshops fk_rails_34bf9d8260; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1706,6 +1802,14 @@ ALTER TABLE ONLY public.waitlist
 
 ALTER TABLE ONLY public.registrations
     ADD CONSTRAINT fk_rails_4604f69f81 FOREIGN KEY (festival_id) REFERENCES public.festivals(id);
+
+
+--
+-- Name: feedback fk_rails_4df94b4825; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.feedback
+    ADD CONSTRAINT fk_rails_4df94b4825 FOREIGN KEY (session_id) REFERENCES public.sessions(id);
 
 
 --
@@ -1875,7 +1979,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230905234421'),
 ('20230916002539'),
 ('20230917052932'),
-('20230927061247');
+('20230927061247'),
+('20231003055221');
 
 
 SET statement_timeout = 0;
@@ -1894,7 +1999,7 @@ SET row_security = off;
 --
 
 COPY public.active_record_views (name, class_name, checksum, options, refreshed_at) FROM stdin;
-activity_owners	ActivityOwner	ac32616e2e9fc692ec58a52fd9678eb17ea752ee	{"dependencies":[]}	\N
+activity_owners	ActivityOwner	f2723da6818beb2445e1d563125953c531272374	{"dependencies":[]}	\N
 slot_activities	SlotActivity	717b988a5900ecc4d9842325e50563404a15d71b	{"dependencies":[]}	\N
 slot_sessions	SlotSession	6ab18ab7d8faec08af36bec11b736b3e84e21cca	{"dependencies":[]}	\N
 slots	Slot	d66acce70040a0dab5163f0966147d4fa78977c3	{"dependencies":[]}	\N

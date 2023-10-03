@@ -236,6 +236,16 @@ type DemoteSessionParticipantPayload {
   session: Session!
 }
 
+type Feedback {
+  constructive: String!
+  id: ID!
+  positive: String!
+  rating: Int
+  registration: Registration!
+  session: Session!
+  testimonial: String!
+}
+
 type Festival {
   activities(type: ActivityType): [Activity!]!
   activity(slug: String!, type: ActivityType!): Activity
@@ -623,6 +633,7 @@ type Registration {
   cart: Cart
   codeOfConductAcceptedAt: ISO8601DateTime
   completedAt: ISO8601DateTime
+  feedback: [Feedback!]!
   id: ID!
   payments: [Payment!]!
   preferences: [Preference!]!

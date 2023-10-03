@@ -1,0 +1,4 @@
+.login-required {
+  position: fixed;
+  inset: 0;
+}

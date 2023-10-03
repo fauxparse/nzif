@@ -13,6 +13,8 @@ module Types
     field :waitlist, [SessionType], null: false
     field :workshops_count, Integer, null: false
 
+    field :feedback, [FeedbackType], null: false
+
     def id
       super || ''
     end
@@ -56,6 +58,12 @@ module Types
     def payments
       dataloader
         .with(Sources::Payments, states: %i[pending approved], context:)
+        .load(object.id)
+    end
+
+    def feedback
+      dataloader
+        .with(Sources::FeedbackByRegistration, context:)
         .load(object.id)
     end
   end

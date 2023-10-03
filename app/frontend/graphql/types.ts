@@ -227,6 +227,17 @@ export type DemoteSessionParticipantPayload = {
   session: Session;
 };
 
+export type Feedback = {
+  __typename: 'Feedback';
+  constructive: Scalars['String'];
+  id: Scalars['ID'];
+  positive: Scalars['String'];
+  rating: Maybe<Scalars['Int']>;
+  registration: Registration;
+  session: Session;
+  testimonial: Scalars['String'];
+};
+
 export type Festival = {
   __typename: 'Festival';
   activities: Array<Activity>;
@@ -885,6 +896,7 @@ export type Registration = {
   cart: Maybe<Cart>;
   codeOfConductAcceptedAt: Maybe<Scalars['ISO8601DateTime']>;
   completedAt: Maybe<Scalars['ISO8601DateTime']>;
+  feedback: Array<Feedback>;
   id: Scalars['ID'];
   payments: Array<Payment>;
   preferences: Array<Preference>;
@@ -1931,6 +1943,13 @@ export type RemoveSessionCastMutationVariables = Exact<{
 
 export type RemoveSessionCastMutation = { __typename: 'Mutation', removeSessionCast: boolean | null };
 
+export type WorkshopFeedbackFragment = { __typename: 'Feedback', id: string, rating: number | null, positive: string, constructive: string, testimonial: string, session: { __typename: 'Session', id: string } };
+
+export type FeedbackListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FeedbackListQuery = { __typename: 'Query', registration: { __typename: 'Registration', id: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, activity: { __typename: 'Conference', id: string, name: string, presenters: Array<{ __typename: 'Person', id: string, name: string }> } | { __typename: 'Show', id: string, name: string, presenters: Array<{ __typename: 'Person', id: string, name: string }> } | { __typename: 'SocialEvent', id: string, name: string, presenters: Array<{ __typename: 'Person', id: string, name: string }> } | { __typename: 'Workshop', id: string, name: string, presenters: Array<{ __typename: 'Person', id: string, name: string }> } | null }>, feedback: Array<{ __typename: 'Feedback', id: string, rating: number | null, positive: string, constructive: string, testimonial: string, session: { __typename: 'Session', id: string } }> } };
+
 export type SentMessageFragment = { __typename: 'Message', id: string, subject: string | null, content: string | null, createdAt: DateTime, sender: { __typename: 'User', id: string, name: string, email: string } };
 
 export type SendMessageMutationVariables = Exact<{
@@ -2586,6 +2605,18 @@ export const CastingSessionFragmentDoc = gql`
 }
     ${CastingShowFragmentDoc}
 ${CastMemberFragmentDoc}`;
+export const WorkshopFeedbackFragmentDoc = gql`
+    fragment WorkshopFeedback on Feedback {
+  id
+  rating
+  positive
+  constructive
+  testimonial
+  session {
+    id
+  }
+}
+    `;
 export const SentMessageFragmentDoc = gql`
     fragment SentMessage on Message {
   id
@@ -5467,6 +5498,55 @@ export function useRemoveSessionCastMutation(baseOptions?: Apollo.MutationHookOp
 export type RemoveSessionCastMutationHookResult = ReturnType<typeof useRemoveSessionCastMutation>;
 export type RemoveSessionCastMutationResult = Apollo.MutationResult<RemoveSessionCastMutation>;
 export type RemoveSessionCastMutationOptions = Apollo.BaseMutationOptions<RemoveSessionCastMutation, RemoveSessionCastMutationVariables>;
+export const FeedbackListDocument = gql`
+    query FeedbackList {
+  registration {
+    id
+    sessions {
+      id
+      startsAt
+      activity {
+        id
+        name
+        presenters {
+          id
+          name
+        }
+      }
+    }
+    feedback {
+      ...WorkshopFeedback
+    }
+  }
+}
+    ${WorkshopFeedbackFragmentDoc}`;
+
+/**
+ * __useFeedbackListQuery__
+ *
+ * To run a query within a React component, call `useFeedbackListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFeedbackListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFeedbackListQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFeedbackListQuery(baseOptions?: Apollo.QueryHookOptions<FeedbackListQuery, FeedbackListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FeedbackListQuery, FeedbackListQueryVariables>(FeedbackListDocument, options);
+      }
+export function useFeedbackListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FeedbackListQuery, FeedbackListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FeedbackListQuery, FeedbackListQueryVariables>(FeedbackListDocument, options);
+        }
+export type FeedbackListQueryHookResult = ReturnType<typeof useFeedbackListQuery>;
+export type FeedbackListLazyQueryHookResult = ReturnType<typeof useFeedbackListLazyQuery>;
+export type FeedbackListQueryResult = Apollo.QueryResult<FeedbackListQuery, FeedbackListQueryVariables>;
 export const SendMessageDocument = gql`
     mutation SendMessage($sessionId: ID!, $subject: String!, $content: String!) {
   sendMessage(sessionId: $sessionId, subject: $subject, content: $content) {

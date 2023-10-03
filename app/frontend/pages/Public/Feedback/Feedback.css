@@ -1,0 +1,100 @@
+.feedback-list {
+  &__sessions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--large);
+    padding: var(--huge);
+  }
+
+  .feedback-session {
+    display: grid;
+    grid-template: "checkbox title" auto "checkbox tutor" auto "checkbox date" auto / auto 1fr;
+    gap: 0 var(--medium);
+    color: inherit;
+    text-decoration: none;
+
+    .checkbox {
+      --icon-size: 2.5rem;
+
+      grid-area: checkbox;
+      align-self: center;
+    }
+
+    &__name {
+      grid-area: title;
+      font-size: var(--font-size-legible);
+    }
+
+    &__tutor {
+      grid-area: tutor;
+      color: var(--text-subtle);
+    }
+
+    &__date {
+      grid-area: date;
+      color: var(--text-subtle);
+    }
+
+    &[data-future] {
+      /* opacity: var(--disabled-opacity);
+      pointer-events: none; */
+    }
+  }
+}
+
+.feedback-form {
+  max-width: 60ch;
+  padding: var(--huge) 0;
+  font-size: var(--font-size-legible);
+
+  label,
+  textarea {
+    display: block;
+    width: 100%;
+    font: inherit;
+  }
+
+  label {
+    margin: 0 0 var(--medium);
+  }
+
+  textarea {
+    min-height: 6rem;
+    margin: 0 0 var(--huge);
+    background: var(--background-subtle);
+  }
+
+  .likert {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: var(--huge) repeat(7, var(--icon-size)) var(--huge);
+    gap: var(--small) var(--medium);
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 var(--huge);
+
+    &::before {
+      content: "";
+      grid-column: 1;
+    }
+
+    small {
+      grid-row: 2;
+      font-size: var(--font-size-medium);
+
+      &:first-child {
+        grid-column: 1 / span 4;
+        text-align: left;
+      }
+
+      &:last-child {
+        grid-column: 6 / span 4;
+        text-align: right;
+      }
+    }
+
+    .radio {
+      flex: 0 0 auto;
+    }
+  }
+}

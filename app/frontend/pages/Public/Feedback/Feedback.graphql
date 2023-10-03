@@ -1,0 +1,36 @@
+fragment WorkshopFeedback on Feedback {
+  id
+  rating
+  positive
+  constructive
+  testimonial
+
+  session {
+    id
+  }
+}
+
+query FeedbackList {
+  registration {
+    id
+
+    sessions {
+      id
+      startsAt
+
+      activity {
+        id
+        name
+
+        presenters {
+          id
+          name
+        }
+      }
+    }
+
+    feedback {
+      ...WorkshopFeedback
+    }
+  }
+}
