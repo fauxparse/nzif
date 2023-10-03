@@ -46,6 +46,13 @@ const cache = () =>
           },
         },
       },
+      Registration: {
+        fields: {
+          feedback: {
+            merge: (_, incoming) => incoming,
+          },
+        },
+      },
     } satisfies TypePolicies),
   });
 

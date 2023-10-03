@@ -47,6 +47,10 @@
   padding: var(--huge) 0;
   font-size: var(--font-size-legible);
 
+  fieldset {
+    display: contents;
+  }
+
   label,
   textarea {
     display: block;

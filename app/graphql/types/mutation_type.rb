@@ -48,5 +48,7 @@ module Types
     field :update_payment, mutation: Mutations::Payments::Update
 
     field :send_message, mutation: Mutations::Messages::Send
+
+    field :save_feedback, mutation: Mutations::Feedback::Save
   end
 end

@@ -52,7 +52,7 @@ export const Component: React.FC = () => {
                   key={item.session.id}
                   data-future={item.session.startsAt > now || undefined}
                 >
-                  <Checkbox checked={!!item.feedback} />
+                  <Checkbox checked={!!item.feedback} readOnly />
                   <span className="feedback-session__name">{item.session.activity.name}</span>
                   <span className="feedback-session__tutor">
                     {sentence((item.session.activity?.presenters || []).map((p) => p.name))}
