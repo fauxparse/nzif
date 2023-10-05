@@ -1,6 +1,6 @@
 import { Fragment, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { groupBy, mapValues, values } from 'lodash-es';
+import { groupBy, values } from 'lodash-es';
 import { DateTime } from 'luxon';
 
 import Button from '@/atoms/Button';
@@ -19,7 +19,7 @@ type Day = {
 };
 
 const Sessions: React.FC = () => {
-  const { loading, data } = useDirectoryQuery();
+  const { data } = useDirectoryQuery();
 
   const days = useMemo<Day[]>(
     () =>
