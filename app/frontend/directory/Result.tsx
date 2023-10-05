@@ -42,7 +42,7 @@ const Result = forwardRef<HTMLDivElement, unknown>((_, ref) => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       id: id!,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      time: DateTime.fromFormat(timeslot!, 'y-MM-dd-hhmm'),
+      time: DateTime.fromFormat(timeslot!, 'y-MM-dd-HHmm'),
     },
   });
 

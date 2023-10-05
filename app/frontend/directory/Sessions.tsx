@@ -40,7 +40,7 @@ const Sessions: React.FC = () => {
               as={Link}
               key={slot.id}
               to={ROUTES.DIRECTORY.TIMESLOT.buildPath({
-                timeslot: slot.startsAt.toFormat('y-MM-dd-hhmm'),
+                timeslot: slot.startsAt.toFormat('y-MM-dd-HHmm'),
               })}
               icon="calendar"
               text={slot.startsAt.toLocaleString(DateTime.TIME_SIMPLE)}
