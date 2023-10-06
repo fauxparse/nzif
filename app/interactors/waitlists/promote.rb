@@ -41,8 +41,19 @@ module Waitlists
     end
 
     def send_notification
-      # TODO: Send SMS notification
       registration.reload
+
+      phone_number = registration.user.profile.phone
+      return if phone_number.blank?
+
+      SMS::Send.call(
+        to: phone_number,
+        body: <<~SMS.squish,
+          NZIF: You've been added to #{session.activity.name}
+          (#{session.starts_at.strftime('%A at %-I%P')}) from the waitlist.
+          Check your email for details. Please don't reply to this message :)
+        SMS
+      )
     end
   end
 end

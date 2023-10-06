@@ -1,4 +1,13 @@
 GIT
+  remote: https://github.com/ClickSend/clicksend-ruby.git
+  revision: ed958896d81accc97909f7b8b5f1335e4a1e82f5
+  specs:
+    clicksend_client (5.0.75)
+      addressable (~> 2.3, >= 2.3.0)
+      json (~> 2.1, >= 2.1.0)
+      typhoeus (~> 1.0, >= 1.0.1)
+
+GIT
   remote: https://github.com/fauxparse/interactor-rails.git
   revision: 2b6889385e9086a6bb7de75d0dbad4472e168327
   specs:
@@ -234,6 +243,8 @@ GEM
       launchy (~> 2.1)
       mail (~> 2.7)
     erubi (1.12.0)
+    ethon (0.16.0)
+      ffi (>= 1.15.0)
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
     factory_bot (6.2.1)
@@ -369,6 +380,7 @@ GEM
     pg_search (2.3.6)
       activerecord (>= 5.2)
       activesupport (>= 5.2)
+    phony (2.20.8)
     premailer (1.18.0)
       addressable
       css_parser (>= 1.12.0)
@@ -544,6 +556,8 @@ GEM
     timeout (0.3.2)
     tins (1.32.1)
       sync
+    typhoeus (1.4.0)
+      ethon (>= 0.9.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unaccent (0.4.0)
@@ -595,6 +609,7 @@ DEPENDENCIES
   blurhash (~> 0.1.7)
   bootsnap
   capybara (~> 3.39)
+  clicksend_client!
   contentful (~> 2.16)
   countries (~> 5.4)
   cucumber (~> 8.0)
@@ -623,6 +638,7 @@ DEPENDENCIES
   money-rails (~> 1.12)
   pg (~> 1.1)
   pg_search (~> 2.3)
+  phony (~> 2.20)
   premailer-rails
   pry (~> 0.14.2)
   puffing-billy (~> 3.1)

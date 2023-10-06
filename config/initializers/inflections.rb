@@ -14,6 +14,7 @@
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'NZIF'
   inflect.acronym 'ISO'
+  inflect.acronym 'SMS'
   inflect.uncountable 'cast'
   inflect.uncountable 'waitlist'
   inflect.uncountable 'feedback'
