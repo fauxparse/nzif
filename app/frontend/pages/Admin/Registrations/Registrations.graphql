@@ -2,6 +2,7 @@ fragment RegistrationsListItem on Registration {
   id
   completedAt
   workshopsCount
+  outstanding
   user {
     id
     profile {

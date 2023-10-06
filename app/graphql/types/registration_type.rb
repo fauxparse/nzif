@@ -6,6 +6,7 @@ module Types
     field :code_of_conduct_accepted_at, GraphQL::Types::ISO8601DateTime, null: true
     field :completed_at, GraphQL::Types::ISO8601DateTime, null: true
     field :id, ID, null: false
+    field :outstanding, MoneyType, null: false
     field :payments, [PaymentType], null: false
     field :preferences, [PreferenceType], null: false
     field :sessions, [SessionType], null: false
@@ -64,6 +65,16 @@ module Types
     def feedback
       dataloader
         .with(Sources::FeedbackByRegistration, context:)
+        .load(object.id)
+    end
+
+    def outstanding
+      account.then { |account| account&.outstanding || Money.zero }
+    end
+
+    def account
+      dataloader
+        .with(Sources::Accounts, context:)
         .load(object.id)
     end
   end

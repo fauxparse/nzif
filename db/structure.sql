@@ -621,7 +621,8 @@ CREATE TABLE public.registrations (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     completed_at timestamp without time zone,
-    stripe_customer_id character varying
+    stripe_customer_id character varying,
+    placements_count integer
 );
 
 
@@ -1980,7 +1981,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230916002539'),
 ('20230917052932'),
 ('20230927061247'),
-('20231003055221');
+('20231003055221'),
+('20231006212429');
 
 
 SET statement_timeout = 0;

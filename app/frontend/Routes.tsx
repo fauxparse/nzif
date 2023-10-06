@@ -157,7 +157,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: ROUTES.ADMIN.REGISTRATIONS.path,
-            lazy: () => import('./pages/Admin/Festival/Registrations'),
+            lazy: () => import('./pages/Admin/Registrations'),
           },
           {
             path: ROUTES.ADMIN.TIMETABLE.path,

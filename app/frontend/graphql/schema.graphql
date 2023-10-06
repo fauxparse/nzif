@@ -643,6 +643,7 @@ type Registration {
   completedAt: ISO8601DateTime
   feedback: [Feedback!]!
   id: ID!
+  outstanding: Money!
   payments: [Payment!]!
   preferences: [Preference!]!
   sessions: [Session!]!

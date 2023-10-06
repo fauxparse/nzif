@@ -912,6 +912,7 @@ export type Registration = {
   completedAt: Maybe<Scalars['ISO8601DateTime']>;
   feedback: Array<Feedback>;
   id: Scalars['ID'];
+  outstanding: Scalars['Money'];
   payments: Array<Payment>;
   preferences: Array<Preference>;
   sessions: Array<Session>;
@@ -1681,13 +1682,6 @@ export type CurrentFestivalQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type CurrentFestivalQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, registrationPhase: RegistrationPhase, earlybirdOpensAt: DateTime | null, earlybirdClosesAt: DateTime | null, generalOpensAt: DateTime | null } };
 
-export type RegistrationsListItemFragment = { __typename: 'Registration', id: string, completedAt: DateTime | null, workshopsCount: number, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null } | null } | null };
-
-export type RegistrationsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type RegistrationsQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, registrations: Array<{ __typename: 'Registration', id: string, completedAt: DateTime | null, workshopsCount: number, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null } | null } | null }> } };
-
 export type ActivitySearchQueryVariables = Exact<{
   query: Scalars['String'];
   activityType: ActivityType;
@@ -1867,6 +1861,13 @@ export type SettingsQueryVariables = Exact<{
 
 
 export type SettingsQuery = { __typename: 'Query', user: { __typename: 'User', id: string, settings: Array<{ __typename: 'BooleanSetting', id: string, valueAsBoolean: boolean } | { __typename: 'StringSetting', id: string, valueAsString: string }> } | null };
+
+export type RegistrationsListItemFragment = { __typename: 'Registration', id: string, completedAt: DateTime | null, workshopsCount: number, outstanding: number, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null } | null } | null };
+
+export type RegistrationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RegistrationsQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, registrations: Array<{ __typename: 'Registration', id: string, completedAt: DateTime | null, workshopsCount: number, outstanding: number, user: { __typename: 'User', id: string, profile: { __typename: 'Person', id: string, name: string, picture: { __typename: 'ProfilePicture', id: string, small: string } | null } | null } | null }> } };
 
 export type WorkshopPreferencesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2373,24 +2374,6 @@ export const ParticipantRegistrationFragmentDoc = gql`
   }
 }
     `;
-export const RegistrationsListItemFragmentDoc = gql`
-    fragment RegistrationsListItem on Registration {
-  id
-  completedAt
-  workshopsCount
-  user {
-    id
-    profile {
-      id
-      name
-      picture {
-        id
-        small
-      }
-    }
-  }
-}
-    `;
 export const TimetableCastFragmentDoc = gql`
     fragment TimetableCast on Person {
   id
@@ -2499,6 +2482,25 @@ export const PermissionDefinitionFieldsFragmentDoc = gql`
     fragment PermissionDefinitionFields on PermissionDefinition {
   id
   label
+}
+    `;
+export const RegistrationsListItemFragmentDoc = gql`
+    fragment RegistrationsListItem on Registration {
+  id
+  completedAt
+  workshopsCount
+  outstanding
+  user {
+    id
+    profile {
+      id
+      name
+      picture {
+        id
+        small
+      }
+    }
+  }
 }
     `;
 export const TranslationDetailsFragmentDoc = gql`
@@ -4265,43 +4267,6 @@ export function useCurrentFestivalLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type CurrentFestivalQueryHookResult = ReturnType<typeof useCurrentFestivalQuery>;
 export type CurrentFestivalLazyQueryHookResult = ReturnType<typeof useCurrentFestivalLazyQuery>;
 export type CurrentFestivalQueryResult = Apollo.QueryResult<CurrentFestivalQuery, CurrentFestivalQueryVariables>;
-export const RegistrationsDocument = gql`
-    query Registrations {
-  festival {
-    id
-    registrations {
-      ...RegistrationsListItem
-    }
-  }
-}
-    ${RegistrationsListItemFragmentDoc}`;
-
-/**
- * __useRegistrationsQuery__
- *
- * To run a query within a React component, call `useRegistrationsQuery` and pass it any options that fit your needs.
- * When your component renders, `useRegistrationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useRegistrationsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useRegistrationsQuery(baseOptions?: Apollo.QueryHookOptions<RegistrationsQuery, RegistrationsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<RegistrationsQuery, RegistrationsQueryVariables>(RegistrationsDocument, options);
-      }
-export function useRegistrationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RegistrationsQuery, RegistrationsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<RegistrationsQuery, RegistrationsQueryVariables>(RegistrationsDocument, options);
-        }
-export type RegistrationsQueryHookResult = ReturnType<typeof useRegistrationsQuery>;
-export type RegistrationsLazyQueryHookResult = ReturnType<typeof useRegistrationsLazyQuery>;
-export type RegistrationsQueryResult = Apollo.QueryResult<RegistrationsQuery, RegistrationsQueryVariables>;
 export const ActivitySearchDocument = gql`
     query ActivitySearch($query: String!, $activityType: ActivityType!) {
   search(query: $query, activityType: $activityType, only: [Activity]) {
@@ -5114,6 +5079,43 @@ export function useSettingsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<S
 export type SettingsQueryHookResult = ReturnType<typeof useSettingsQuery>;
 export type SettingsLazyQueryHookResult = ReturnType<typeof useSettingsLazyQuery>;
 export type SettingsQueryResult = Apollo.QueryResult<SettingsQuery, SettingsQueryVariables>;
+export const RegistrationsDocument = gql`
+    query Registrations {
+  festival {
+    id
+    registrations {
+      ...RegistrationsListItem
+    }
+  }
+}
+    ${RegistrationsListItemFragmentDoc}`;
+
+/**
+ * __useRegistrationsQuery__
+ *
+ * To run a query within a React component, call `useRegistrationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRegistrationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRegistrationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRegistrationsQuery(baseOptions?: Apollo.QueryHookOptions<RegistrationsQuery, RegistrationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RegistrationsQuery, RegistrationsQueryVariables>(RegistrationsDocument, options);
+      }
+export function useRegistrationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RegistrationsQuery, RegistrationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RegistrationsQuery, RegistrationsQueryVariables>(RegistrationsDocument, options);
+        }
+export type RegistrationsQueryHookResult = ReturnType<typeof useRegistrationsQuery>;
+export type RegistrationsLazyQueryHookResult = ReturnType<typeof useRegistrationsLazyQuery>;
+export type RegistrationsQueryResult = Apollo.QueryResult<RegistrationsQuery, RegistrationsQueryVariables>;
 export const WorkshopPreferencesDocument = gql`
     query WorkshopPreferences {
   festival {

@@ -12,6 +12,7 @@ import {
 import Avatar from '@/atoms/Avatar';
 import Button from '@/atoms/Button';
 import Icon from '@/atoms/Icon';
+import Money from '@/atoms/Money';
 import { RegistrationsListItemFragment, useRegistrationsQuery } from '@/graphql/types';
 import Breadcrumbs from '@/molecules/Breadcrumbs';
 import PageHeader from '@/molecules/PageHeader';
@@ -46,6 +47,15 @@ const columns = [
     id: 'date',
     header: 'Date',
     cell: (date) => date.getValue()?.toFormat('d MMM, h:mma'),
+  }),
+  columnHelper.accessor((row) => row.outstanding, {
+    id: 'outstanding',
+    header: 'Owing',
+    cell: (amount) => {
+      const cents = amount.getValue();
+      if (!cents) return null;
+      return <Money cents={cents} data-refund={cents < 0} />;
+    },
   }),
 ];
 
