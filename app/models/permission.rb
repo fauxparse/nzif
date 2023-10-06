@@ -55,7 +55,13 @@ class Permission
 
   class Set < ::Set
     def self.load(permissions)
-      new((permissions || []).map { |p| Permission[p.to_sym] })
+      values = (permissions || []).map do |p|
+        case p
+        when Hash then p[:name] || p['name']
+        else Permission[p.to_sym]
+        end
+      end
+      new(values)
     end
 
     def self.dump(value)
