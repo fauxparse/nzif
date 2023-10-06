@@ -23,6 +23,7 @@ fragment TeachingSession on Session {
       profile {
         id
         name
+        pronouns
         picture {
           id
           small

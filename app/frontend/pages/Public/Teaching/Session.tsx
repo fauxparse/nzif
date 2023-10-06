@@ -24,6 +24,7 @@ const isWorkshopSession = (session: TeachingSessionFragment): session is Worksho
 type Participant = {
   id: string;
   name: string;
+  pronouns: string | null;
 };
 
 export const Component: React.FC = () => {
@@ -71,7 +72,15 @@ export const Component: React.FC = () => {
           <h2>Workshop participants</h2>
           <ul className="teaching__participants">
             {participants.map((participant) => (
-              <li key={participant.id}>{participant.name}</li>
+              <li key={participant.id}>
+                {participant.name}
+                {participant.pronouns && (
+                  <>
+                    {' '}
+                    <small>({participant.pronouns})</small>
+                  </>
+                )}
+              </li>
             ))}
           </ul>
           <h2>Messages</h2>

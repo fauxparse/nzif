@@ -42,6 +42,10 @@
     li {
       margin: 0;
       padding: 0;
+
+      small {
+        color: var(--text-subtle);
+      }
     }
   }
 }
