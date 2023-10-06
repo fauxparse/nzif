@@ -15,7 +15,7 @@
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   </head>
-  <body>
+  <body data-env="<%= Rails.env %>">
     <%= render partial: '/shared/filter' %>
     <%= yield %>
     <div id="root" />
