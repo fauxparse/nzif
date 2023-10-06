@@ -321,7 +321,7 @@ const useParticipants = (session: AdminActivitySessionDetailsFragment) => {
               promote(registration);
             }
           } else {
-            const registration = session.participants[activeIndex];
+            const registration = items.participants[activeIndex];
             demote(registration);
           }
         }
