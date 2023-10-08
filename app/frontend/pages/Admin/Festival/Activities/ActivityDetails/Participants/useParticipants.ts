@@ -93,6 +93,7 @@ const useParticipants = (session: AdminActivitySessionDetailsFragment) => {
           const ref = cache.writeFragment({
             id: cache.identify(registration),
             fragment: SessionParticipantFragmentDoc,
+            fragmentName: 'SessionParticipant',
             data: registration,
           });
 
@@ -253,6 +254,7 @@ const useParticipants = (session: AdminActivitySessionDetailsFragment) => {
           const ref = cache.writeFragment({
             id: cache.identify(waitlist),
             fragment: SessionWaitlistParticipantFragmentDoc,
+            fragmentName: 'SessionWaitlistParticipant',
             data: waitlist,
           });
 
