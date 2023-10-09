@@ -154,6 +154,25 @@ query ActivityDetails($type: ActivityType!, $slug: String!) {
   }
 }
 
+query ActivityFeedback($slug: String!) {
+  festival {
+    id
+
+    activity(type: Workshop, slug: $slug) {
+      id
+      ... on Workshop {
+        feedback {
+          id
+          rating
+          positive
+          constructive
+          testimonial
+        }
+      }
+    }
+  }
+}
+
 fragment ActivityListActivity on Activity {
   id
   name

@@ -48,6 +48,7 @@ export const ROUTES = {
           SESSION: route(':date', { params: { date } }),
           SHOW: route('show'),
           WORKSHOP: route('workshop'),
+          FEEDBACK: route('feedback'),
         }
       ),
       SHOWS: route('shows'),
@@ -182,6 +183,10 @@ const router = createBrowserRouter([
               {
                 path: ROUTES.ADMIN.ACTIVITY.WORKSHOP.path,
                 lazy: () => import('./pages/Admin/Festival/Activities/ActivityDetails/Attached'),
+              },
+              {
+                path: ROUTES.ADMIN.ACTIVITY.FEEDBACK.path,
+                lazy: () => import('./pages/Admin/Festival/Activities/ActivityDetails/Feedback'),
               },
               {
                 index: true,

@@ -1104,6 +1104,7 @@ type Workshop implements Activity {
   bookingLink: String
   capacity: Int!
   description: String
+  feedback: [Feedback!]!
   id: ID!
   missingInfo: [String!]!
   name: String!

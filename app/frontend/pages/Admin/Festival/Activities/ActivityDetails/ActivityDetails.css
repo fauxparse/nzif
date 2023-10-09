@@ -276,3 +276,33 @@
     text-align: center;
   }
 }
+
+.feedback-summary {
+  padding: var(--large) 0 var(--huge);
+
+  &__rating {
+    --percentage: 50%;
+
+    display: grid;
+    width: calc(7 * var(--icon-size));
+
+    div {
+      display: flex;
+      grid-area: 1 / 1;
+
+      path {
+        fill: var(--neutral5);
+        stroke: var(--neutral6);
+      }
+
+      + div {
+        clip-path: polygon(0 0, var(--percentage) 0%, var(--percentage) 100%, 0 100%);
+
+        path {
+          fill: var(--yellow9);
+          stroke: var(--yellow10);
+        }
+      }
+    }
+  }
+}

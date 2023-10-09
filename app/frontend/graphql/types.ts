@@ -1313,6 +1313,7 @@ export type Workshop = Activity & {
   bookingLink: Maybe<Scalars['String']>;
   capacity: Scalars['Int'];
   description: Maybe<Scalars['String']>;
+  feedback: Array<Feedback>;
   id: Scalars['ID'];
   missingInfo: Array<Scalars['String']>;
   name: Scalars['String'];
@@ -1552,6 +1553,13 @@ export type ActivityDetailsQueryVariables = Exact<{
 
 
 export type ActivityDetailsQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, activity: { __typename: 'Conference', id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, bookingLink: string | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null, hosts: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null }>, performers: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null }>, musos: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null }>, operators: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null }> }> } | { __typename: 'Show', bookingLink: string | null, id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, workshop: { __typename: 'Workshop', id: string, name: string, slug: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null, hosts: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null }>, performers: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null }>, musos: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null }>, operators: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null }> }> } | { __typename: 'SocialEvent', id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, bookingLink: string | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null, hosts: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null }>, performers: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null }>, musos: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null }>, operators: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null }> }> } | { __typename: 'Workshop', suitability: string | null, id: string, name: string, type: ActivityType, slug: string, description: string | null, missingInfo: Array<string>, bookingLink: string | null, show: { __typename: 'Show', id: string, name: string, slug: string, type: ActivityType, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null, picture: { __typename: 'ActivityPicture', id: string, medium: string, large: string } | null, presenters: Array<{ __typename: 'Person', bio: string, pronouns: string | null, id: string, name: string, picture: { __typename: 'ProfilePicture', large: string, id: string, small: string } | null, user: { __typename: 'User', id: string, email: string, permissions: Array<Permission> } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, capacity: number | null, participants: Array<{ __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null }>, waitlist: Array<{ __typename: 'Waitlist', id: string, position: number, offeredAt: DateTime | null, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string } | null } | null } }>, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null, hosts: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null }>, performers: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null }>, musos: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null }>, operators: Array<{ __typename: 'Person', id: string, name: string, pronouns: string | null }> }> } | null, venues: Array<{ __typename: 'Venue', id: string, room: string | null, building: string }> } };
+
+export type ActivityFeedbackQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type ActivityFeedbackQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, activity: { __typename: 'Conference', id: string } | { __typename: 'Show', id: string } | { __typename: 'SocialEvent', id: string } | { __typename: 'Workshop', id: string, feedback: Array<{ __typename: 'Feedback', id: string, rating: number | null, positive: string, constructive: string, testimonial: string }> } | null } };
 
 type ActivityListActivity_Conference_Fragment = { __typename: 'Conference', id: string, name: string, type: ActivityType, slug: string, missingInfo: Array<string>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, endsAt: DateTime, venue: { __typename: 'Venue', id: string, room: string | null, building: string } | null }>, presenters: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string } | null }> };
 
@@ -3692,6 +3700,53 @@ export function useActivityDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type ActivityDetailsQueryHookResult = ReturnType<typeof useActivityDetailsQuery>;
 export type ActivityDetailsLazyQueryHookResult = ReturnType<typeof useActivityDetailsLazyQuery>;
 export type ActivityDetailsQueryResult = Apollo.QueryResult<ActivityDetailsQuery, ActivityDetailsQueryVariables>;
+export const ActivityFeedbackDocument = gql`
+    query ActivityFeedback($slug: String!) {
+  festival {
+    id
+    activity(type: Workshop, slug: $slug) {
+      id
+      ... on Workshop {
+        feedback {
+          id
+          rating
+          positive
+          constructive
+          testimonial
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useActivityFeedbackQuery__
+ *
+ * To run a query within a React component, call `useActivityFeedbackQuery` and pass it any options that fit your needs.
+ * When your component renders, `useActivityFeedbackQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useActivityFeedbackQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useActivityFeedbackQuery(baseOptions: Apollo.QueryHookOptions<ActivityFeedbackQuery, ActivityFeedbackQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ActivityFeedbackQuery, ActivityFeedbackQueryVariables>(ActivityFeedbackDocument, options);
+      }
+export function useActivityFeedbackLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ActivityFeedbackQuery, ActivityFeedbackQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ActivityFeedbackQuery, ActivityFeedbackQueryVariables>(ActivityFeedbackDocument, options);
+        }
+export type ActivityFeedbackQueryHookResult = ReturnType<typeof useActivityFeedbackQuery>;
+export type ActivityFeedbackLazyQueryHookResult = ReturnType<typeof useActivityFeedbackLazyQuery>;
+export type ActivityFeedbackQueryResult = Apollo.QueryResult<ActivityFeedbackQuery, ActivityFeedbackQueryVariables>;
 export const RenameActivityDocument = gql`
     mutation RenameActivity($id: ID!, $name: String!) {
   renameActivity(id: $id, name: $name) {

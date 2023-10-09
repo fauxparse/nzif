@@ -7,6 +7,8 @@ module Types
     field :stats, WorkshopStatType, null: false
     field :suitability, String, null: true
 
+    field :feedback, [FeedbackType], null: false
+
     def presenters
       tutors
     end
@@ -20,6 +22,12 @@ module Types
     def stats
       dataloader
         .with(Sources::WorkshopStats, context:)
+        .load(object.id)
+    end
+
+    def feedback
+      dataloader
+        .with(Sources::FeedbackByWorkshop, context:)
         .load(object.id)
     end
   end

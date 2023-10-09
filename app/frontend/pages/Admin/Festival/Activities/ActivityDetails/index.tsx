@@ -176,6 +176,14 @@ export const Component: React.FC = () => {
                     selected={location.pathname.endsWith('/workshop')}
                   />
                 )}
+                {activity.__typename === 'Workshop' && (
+                  <Tabs.Tab
+                    as={Link}
+                    to={ROUTES.ADMIN.ACTIVITY.FEEDBACK.buildPath({ type: pluralizedType, slug })}
+                    text="Feedback"
+                    selected={location.pathname.endsWith('/feedback')}
+                  />
+                )}
               </Tabs>
             )}
           </PageHeader>
