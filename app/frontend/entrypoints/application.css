@@ -157,6 +157,8 @@ input[type="search"] {
 }
 
 body[data-env="development"]::after {
+  --stripes: rgb(0 0 0 / 85%);
+
   content: "";
   position: fixed;
   top: 0;
@@ -165,6 +167,6 @@ body[data-env="development"]::after {
   z-index: 1000;
   height: 1rem;
   background-color: var(--yellow9);
-  background-image: repeating-linear-gradient(-45deg, transparent, transparent 10px, var(--yellow12) 10px, var(--yellow12) 20px);
+  background-image: repeating-linear-gradient(-45deg, transparent, transparent 10px, var(--stripes) 10px, var(--stripes) 20px);
   background-size: auto auto;
 }
