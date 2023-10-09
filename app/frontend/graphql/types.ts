@@ -429,6 +429,7 @@ export type Mutation = {
 export type MutationAddPaymentArgs = {
   amount: Scalars['Money'];
   registrationId: Scalars['ID'];
+  type?: InputMaybe<PaymentType>;
 };
 
 
@@ -732,6 +733,17 @@ export enum PaymentState {
   Pending = 'Pending'
 }
 
+export enum PaymentType {
+  /** CreditCardPayment */
+  CreditCardPayment = 'CreditCardPayment',
+  /** InternetBankingPayment */
+  InternetBankingPayment = 'InternetBankingPayment',
+  /** Refund */
+  Refund = 'Refund',
+  /** Voucher */
+  Voucher = 'Voucher'
+}
+
 export enum Permission {
   /** Manage activities */
   Activities = 'activities',
@@ -903,6 +915,16 @@ export type QuerySettingArgs = {
 
 export type QueryUserArgs = {
   id: InputMaybe<Scalars['ID']>;
+};
+
+export type Refund = Payment & {
+  __typename: 'Refund';
+  amount: Scalars['Money'];
+  createdAt: Scalars['ISO8601DateTime'];
+  id: Scalars['ID'];
+  reference: Scalars['String'];
+  registration: Registration;
+  state: PaymentState;
 };
 
 export type Registration = {
@@ -1465,7 +1487,7 @@ export type CartSummaryFragment = { __typename: 'Cart', id: string, value: numbe
 export type RegistrationSummaryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RegistrationSummaryQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, registrationPhase: RegistrationPhase }, registration: { __typename: 'Registration', id: string, cart: { __typename: 'Cart', id: string, value: number, discount: number, total: number, paid: number, outstanding: number, workshopsCount: number } | null, payments: Array<{ __typename: 'CreditCardPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'InternetBankingPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Voucher', workshops: number, id: string, amount: number, state: PaymentState, createdAt: DateTime }> } };
+export type RegistrationSummaryQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, registrationPhase: RegistrationPhase }, registration: { __typename: 'Registration', id: string, cart: { __typename: 'Cart', id: string, value: number, discount: number, total: number, paid: number, outstanding: number, workshopsCount: number } | null, payments: Array<{ __typename: 'CreditCardPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'InternetBankingPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Refund', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Voucher', workshops: number, id: string, amount: number, state: PaymentState, createdAt: DateTime }> } };
 
 export type SearchQueryVariables = Exact<{
   query: Scalars['String'];
@@ -1767,21 +1789,23 @@ type PaymentDetails_CreditCardPayment_Fragment = { __typename: 'CreditCardPaymen
 
 type PaymentDetails_InternetBankingPayment_Fragment = { __typename: 'InternetBankingPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } };
 
+type PaymentDetails_Refund_Fragment = { __typename: 'Refund', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } };
+
 type PaymentDetails_Voucher_Fragment = { __typename: 'Voucher', workshops: number, id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } };
 
-export type PaymentDetailsFragment = PaymentDetails_CreditCardPayment_Fragment | PaymentDetails_InternetBankingPayment_Fragment | PaymentDetails_Voucher_Fragment;
+export type PaymentDetailsFragment = PaymentDetails_CreditCardPayment_Fragment | PaymentDetails_InternetBankingPayment_Fragment | PaymentDetails_Refund_Fragment | PaymentDetails_Voucher_Fragment;
 
 export type PaymentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PaymentsQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, payments: Array<{ __typename: 'CreditCardPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'InternetBankingPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'Voucher', workshops: number, id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } }> | null, balance: { __typename: 'Balance', id: string, total: number, paid: number } } };
+export type PaymentsQuery = { __typename: 'Query', festival: { __typename: 'Festival', id: string, payments: Array<{ __typename: 'CreditCardPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'InternetBankingPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'Refund', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'Voucher', workshops: number, id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } }> | null, balance: { __typename: 'Balance', id: string, total: number, paid: number } } };
 
 export type PaymentQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type PaymentQuery = { __typename: 'Query', payment: { __typename: 'CreditCardPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'InternetBankingPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'Voucher', workshops: number, id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } };
+export type PaymentQuery = { __typename: 'Query', payment: { __typename: 'CreditCardPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'InternetBankingPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'Refund', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'Voucher', workshops: number, id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } };
 
 export type UpdatePaymentMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -1789,7 +1813,7 @@ export type UpdatePaymentMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePaymentMutation = { __typename: 'Mutation', updatePayment: { __typename: 'UpdatePaymentPayload', payment: { __typename: 'CreditCardPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'InternetBankingPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'Voucher', workshops: number, id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } } | null };
+export type UpdatePaymentMutation = { __typename: 'Mutation', updatePayment: { __typename: 'UpdatePaymentPayload', payment: { __typename: 'CreditCardPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'InternetBankingPayment', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'Refund', id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } | { __typename: 'Voucher', workshops: number, id: string, amount: number, createdAt: DateTime, reference: string, state: PaymentState, registration: { __typename: 'Registration', id: string, user: { __typename: 'User', id: string, name: string, email: string } | null } } } | null };
 
 export type PersonDetailsFragment = { __typename: 'Person', id: string, name: string, pronouns: string | null, phone: string | null, user: { __typename: 'User', id: string, email: string } | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, picture: { __typename: 'ProfilePicture', id: string, small: string, large: string } | null };
 
@@ -1846,14 +1870,14 @@ export type ApprovePaymentMutationVariables = Exact<{
 }>;
 
 
-export type ApprovePaymentMutation = { __typename: 'Mutation', approvePayment: { __typename: 'ApprovePaymentPayload', payment: { __typename: 'CreditCardPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'InternetBankingPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Voucher', workshops: number, id: string, amount: number, state: PaymentState, createdAt: DateTime } } | null };
+export type ApprovePaymentMutation = { __typename: 'Mutation', approvePayment: { __typename: 'ApprovePaymentPayload', payment: { __typename: 'CreditCardPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'InternetBankingPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Refund', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Voucher', workshops: number, id: string, amount: number, state: PaymentState, createdAt: DateTime } } | null };
 
 export type CancelPaymentMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type CancelPaymentMutation = { __typename: 'Mutation', cancelPayment: { __typename: 'CancelPaymentPayload', payment: { __typename: 'CreditCardPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'InternetBankingPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Voucher', workshops: number, id: string, amount: number, state: PaymentState, createdAt: DateTime } } | null };
+export type CancelPaymentMutation = { __typename: 'Mutation', cancelPayment: { __typename: 'CancelPaymentPayload', payment: { __typename: 'CreditCardPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'InternetBankingPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Refund', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Voucher', workshops: number, id: string, amount: number, state: PaymentState, createdAt: DateTime } } | null };
 
 export type AddPaymentMutationVariables = Exact<{
   registrationId: Scalars['ID'];
@@ -1861,7 +1885,15 @@ export type AddPaymentMutationVariables = Exact<{
 }>;
 
 
-export type AddPaymentMutation = { __typename: 'Mutation', addPayment: { __typename: 'AddPaymentPayload', payment: { __typename: 'CreditCardPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'InternetBankingPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Voucher', workshops: number, id: string, amount: number, state: PaymentState, createdAt: DateTime } } | null };
+export type AddPaymentMutation = { __typename: 'Mutation', addPayment: { __typename: 'AddPaymentPayload', payment: { __typename: 'CreditCardPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'InternetBankingPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Refund', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Voucher', workshops: number, id: string, amount: number, state: PaymentState, createdAt: DateTime } } | null };
+
+export type AddRefundMutationVariables = Exact<{
+  registrationId: Scalars['ID'];
+  amount: Scalars['Money'];
+}>;
+
+
+export type AddRefundMutation = { __typename: 'Mutation', addPayment: { __typename: 'AddPaymentPayload', payment: { __typename: 'CreditCardPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'InternetBankingPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Refund', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Voucher', workshops: number, id: string, amount: number, state: PaymentState, createdAt: DateTime } } | null };
 
 export type SettingsQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -2023,9 +2055,11 @@ type RegistrationPayment_CreditCardPayment_Fragment = { __typename: 'CreditCardP
 
 type RegistrationPayment_InternetBankingPayment_Fragment = { __typename: 'InternetBankingPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime };
 
+type RegistrationPayment_Refund_Fragment = { __typename: 'Refund', id: string, amount: number, state: PaymentState, createdAt: DateTime };
+
 type RegistrationPayment_Voucher_Fragment = { __typename: 'Voucher', workshops: number, id: string, amount: number, state: PaymentState, createdAt: DateTime };
 
-export type RegistrationPaymentFragment = RegistrationPayment_CreditCardPayment_Fragment | RegistrationPayment_InternetBankingPayment_Fragment | RegistrationPayment_Voucher_Fragment;
+export type RegistrationPaymentFragment = RegistrationPayment_CreditCardPayment_Fragment | RegistrationPayment_InternetBankingPayment_Fragment | RegistrationPayment_Refund_Fragment | RegistrationPayment_Voucher_Fragment;
 
 export type WorkshopDetailsQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -2039,7 +2073,7 @@ export type RegistrationStatusQueryVariables = Exact<{
 }>;
 
 
-export type RegistrationStatusQuery = { __typename: 'Query', registration: { __typename: 'Registration', id: string, completedAt: DateTime | null, codeOfConductAcceptedAt: DateTime | null, preferences: Array<{ __typename: 'Preference', id: string, position: number, slot: { __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, workshops: Array<{ __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number, workshop: { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null } | null }> }, workshop: { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null } }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number, workshop: { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null } | null }>, waitlist: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number, workshop: { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null } | null }>, payments: Array<{ __typename: 'CreditCardPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'InternetBankingPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Voucher', workshops: number, id: string, amount: number, state: PaymentState, createdAt: DateTime }>, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string, pronouns: string | null, phone: string | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null, raw: string } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null } | null } | null }, festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, earlybirdOpensAt: DateTime | null, earlybirdClosesAt: DateTime | null, generalOpensAt: DateTime | null, registrationPhase: RegistrationPhase, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, workshops: Array<{ __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number, workshop: { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null } | null }> }> } };
+export type RegistrationStatusQuery = { __typename: 'Query', registration: { __typename: 'Registration', id: string, completedAt: DateTime | null, codeOfConductAcceptedAt: DateTime | null, preferences: Array<{ __typename: 'Preference', id: string, position: number, slot: { __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, workshops: Array<{ __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number, workshop: { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null } | null }> }, workshop: { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null } }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number, workshop: { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null } | null }>, waitlist: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number, workshop: { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null } | null }>, payments: Array<{ __typename: 'CreditCardPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'InternetBankingPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Refund', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Voucher', workshops: number, id: string, amount: number, state: PaymentState, createdAt: DateTime }>, user: { __typename: 'User', id: string, email: string, profile: { __typename: 'Person', id: string, name: string, pronouns: string | null, phone: string | null, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null, raw: string } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null } | null } | null }, festival: { __typename: 'Festival', id: string, startDate: DateTime, endDate: DateTime, earlybirdOpensAt: DateTime | null, earlybirdClosesAt: DateTime | null, generalOpensAt: DateTime | null, registrationPhase: RegistrationPhase, slots: Array<{ __typename: 'Slot', id: string, startsAt: DateTime, endsAt: DateTime, workshops: Array<{ __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number, workshop: { __typename: 'Workshop', id: string, type: ActivityType, name: string, slug: string, picture: { __typename: 'ActivityPicture', id: string, medium: string, blurhash: string } | null, tutors: Array<{ __typename: 'Person', id: string, name: string, city: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null, country: { __typename: 'Placename', id: string, name: string, traditionalName: string | null } | null }>, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime, capacity: number | null, count: number }>, show: { __typename: 'Show', id: string, name: string, slug: string, sessions: Array<{ __typename: 'Session', id: string, startsAt: DateTime }> } | null } | null }> }> } };
 
 export type UpdateRegistrationUserDetailsMutationVariables = Exact<{
   attributes: UserDetailsAttributes;
@@ -2107,7 +2141,7 @@ export type PromiseInternetBankingPaymentMutationVariables = Exact<{
 }>;
 
 
-export type PromiseInternetBankingPaymentMutation = { __typename: 'Mutation', promiseInternetBankingPayment: { __typename: 'PromiseInternetBankingPaymentPayload', payment: { __typename: 'CreditCardPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'InternetBankingPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Voucher', workshops: number, id: string, amount: number, state: PaymentState, createdAt: DateTime } } | null };
+export type PromiseInternetBankingPaymentMutation = { __typename: 'Mutation', promiseInternetBankingPayment: { __typename: 'PromiseInternetBankingPaymentPayload', payment: { __typename: 'CreditCardPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'InternetBankingPayment', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Refund', id: string, amount: number, state: PaymentState, createdAt: DateTime } | { __typename: 'Voucher', workshops: number, id: string, amount: number, state: PaymentState, createdAt: DateTime } } | null };
 
 export type ResetPasswordAndLogInMutationVariables = Exact<{
   password: Scalars['String'];
@@ -5096,6 +5130,42 @@ export function useAddPaymentMutation(baseOptions?: Apollo.MutationHookOptions<A
 export type AddPaymentMutationHookResult = ReturnType<typeof useAddPaymentMutation>;
 export type AddPaymentMutationResult = Apollo.MutationResult<AddPaymentMutation>;
 export type AddPaymentMutationOptions = Apollo.BaseMutationOptions<AddPaymentMutation, AddPaymentMutationVariables>;
+export const AddRefundDocument = gql`
+    mutation AddRefund($registrationId: ID!, $amount: Money!) {
+  addPayment(registrationId: $registrationId, amount: $amount, type: Refund) {
+    payment {
+      ...RegistrationPayment
+    }
+  }
+}
+    ${RegistrationPaymentFragmentDoc}`;
+export type AddRefundMutationFn = Apollo.MutationFunction<AddRefundMutation, AddRefundMutationVariables>;
+
+/**
+ * __useAddRefundMutation__
+ *
+ * To run a mutation, you first call `useAddRefundMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddRefundMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addRefundMutation, { data, loading, error }] = useAddRefundMutation({
+ *   variables: {
+ *      registrationId: // value for 'registrationId'
+ *      amount: // value for 'amount'
+ *   },
+ * });
+ */
+export function useAddRefundMutation(baseOptions?: Apollo.MutationHookOptions<AddRefundMutation, AddRefundMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddRefundMutation, AddRefundMutationVariables>(AddRefundDocument, options);
+      }
+export type AddRefundMutationHookResult = ReturnType<typeof useAddRefundMutation>;
+export type AddRefundMutationResult = Apollo.MutationResult<AddRefundMutation>;
+export type AddRefundMutationOptions = Apollo.BaseMutationOptions<AddRefundMutation, AddRefundMutationVariables>;
 export const SettingsDocument = gql`
     query Settings($id: ID!) {
   user(id: $id) {
@@ -6277,6 +6347,7 @@ export const scalarTypePolicies = {
   },
   InternetBankingPayment: { fields: { createdAt: dateTimePolicy } },
   Message: { fields: { createdAt: dateTimePolicy } },
+  Refund: { fields: { createdAt: dateTimePolicy } },
   Registration: {
     fields: { codeOfConductAcceptedAt: dateTimePolicy, completedAt: dateTimePolicy },
   },

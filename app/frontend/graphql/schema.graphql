@@ -387,7 +387,7 @@ input MultipleSessionAttributes {
 }
 
 type Mutation {
-  addPayment(amount: Money!, registrationId: ID!): AddPaymentPayload
+  addPayment(amount: Money!, registrationId: ID!, type: PaymentType = InternetBankingPayment): AddPaymentPayload
   addPreference(registrationId: ID, sessionId: ID!): AddPreferencePayload
   addSessionCast(profileId: ID!, role: Role!, sessionId: ID!): AddSessionCastPayload
   addToSession(registrationId: ID, sessionId: ID!): AddToSessionPayload
@@ -478,6 +478,28 @@ enum PaymentState {
   Pending
   """
   Pending
+}
+
+enum PaymentType {
+  """
+  CreditCardPayment
+  """
+  CreditCardPayment
+
+  """
+  InternetBankingPayment
+  """
+  InternetBankingPayment
+
+  """
+  Refund
+  """
+  Refund
+
+  """
+  Voucher
+  """
+  Voucher
 }
 
 enum Permission {
@@ -635,6 +657,15 @@ type Query {
   setting(id: String!): Setting
   translations: [Translation!]!
   user(id: ID): User
+}
+
+type Refund implements Payment {
+  amount: Money!
+  createdAt: ISO8601DateTime!
+  id: ID!
+  reference: String!
+  registration: Registration!
+  state: PaymentState!
 }
 
 type Registration {

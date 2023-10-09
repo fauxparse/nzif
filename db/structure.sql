@@ -82,7 +82,8 @@ CREATE TYPE public.payment_state AS ENUM (
 CREATE TYPE public.payment_type AS ENUM (
     'CreditCardPayment',
     'InternetBankingPayment',
-    'Voucher'
+    'Voucher',
+    'Refund'
 );
 
 
@@ -102,6 +103,20 @@ CREATE FUNCTION public.f_unaccent(text) RETURNS text
 CREATE FUNCTION public.my_concat(text, text[]) RETURNS text
     LANGUAGE sql IMMUTABLE PARALLEL SAFE
     AS $_$SELECT array_to_string($2, $1)$_$;
+
+
+--
+-- Name: accounts; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.accounts AS
+SELECT
+    NULL::bigint AS id,
+    NULL::bigint AS registration_id,
+    NULL::integer AS placements_count,
+    NULL::integer AS total_cents,
+    NULL::bigint AS paid_cents,
+    NULL::bigint AS outstanding_cents;
 
 
 SET default_tablespace = '';
@@ -1742,6 +1757,28 @@ CREATE UNIQUE INDEX index_waitlist_on_session_id_and_registration_id ON public.w
 
 
 --
+-- Name: accounts _RETURN; Type: RULE; Schema: public; Owner: -
+--
+
+CREATE OR REPLACE VIEW public.accounts AS
+ SELECT inner_query.id,
+    inner_query.registration_id,
+    inner_query.placements_count,
+    inner_query.total_cents,
+    inner_query.paid_cents,
+    (inner_query.total_cents - inner_query.paid_cents) AS outstanding_cents
+   FROM ( SELECT registrations.id,
+            registrations.id AS registration_id,
+            registrations.placements_count,
+            ((7000 * registrations.placements_count) - (((registrations.placements_count * (registrations.placements_count - 1)) / 2) * 500)) AS total_cents,
+            COALESCE(sum(payments.amount_cents), (0)::bigint) AS paid_cents
+           FROM (public.registrations
+             LEFT JOIN public.payments ON (((payments.registration_id = registrations.id) AND (payments.state = 'approved'::public.payment_state))))
+          WHERE (registrations.completed_at IS NOT NULL)
+          GROUP BY registrations.id) inner_query;
+
+
+--
 -- Name: cast fk_rails_0cfc4c6b7a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1982,7 +2019,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230917052932'),
 ('20230927061247'),
 ('20231003055221'),
-('20231006212429');
+('20231006212429'),
+('20231009211805');
 
 
 SET statement_timeout = 0;
@@ -2001,6 +2039,7 @@ SET row_security = off;
 --
 
 COPY public.active_record_views (name, class_name, checksum, options, refreshed_at) FROM stdin;
+accounts	Account	527717ab674bda9a8d0d439f086869ff2cf1098a	{"dependencies":[]}	\N
 activity_owners	ActivityOwner	f2723da6818beb2445e1d563125953c531272374	{"dependencies":[]}	\N
 slot_activities	SlotActivity	717b988a5900ecc4d9842325e50563404a15d71b	{"dependencies":[]}	\N
 slot_sessions	SlotSession	6ab18ab7d8faec08af36bec11b736b3e84e21cca	{"dependencies":[]}	\N

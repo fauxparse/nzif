@@ -29,3 +29,11 @@ mutation AddPayment($registrationId: ID!, $amount: Money!) {
     }
   }
 }
+
+mutation AddRefund($registrationId: ID!, $amount: Money!) {
+  addPayment(registrationId: $registrationId, amount: $amount, type: Refund) {
+    payment {
+      ...RegistrationPayment
+    }
+  }
+}

@@ -7,10 +7,11 @@ module Mutations
 
       argument :amount, Types::MoneyType, required: true
       argument :registration_id, ID, required: true
+      argument :type, Types::PaymentTypeType, required: false, default_value: InternetBankingPayment
 
-      def resolve(registration_id:, amount:)
+      def resolve(registration_id:, amount:, type:)
         registration = Registration.find(registration_id)
-        perform(::Payments::Add, registration:, amount:, type: InternetBankingPayment)
+        perform(::Payments::Add, registration:, amount:, type:)
       end
     end
   end

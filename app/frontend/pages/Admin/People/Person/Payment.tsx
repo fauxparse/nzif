@@ -4,6 +4,7 @@ import { useRegistrationStatusQuery } from '@/graphql/types';
 import { ROUTES } from '@/Routes';
 
 import AddPayment from './AddPayment';
+import AddRefund from './AddRefund';
 import AddVoucher from './AddVoucher';
 import PaymentsTable from './PaymentsTable';
 
@@ -24,6 +25,7 @@ export const Component: React.FC = () => {
         <aside>
           <AddVoucher registration={registration} />
           <AddPayment registration={registration} />
+          <AddRefund registration={registration} />
         </aside>
       )}
     </div>

@@ -27,6 +27,7 @@ const PAYMENT_TYPE_LABELS: { [key in Payment['__typename']]: string } = {
   InternetBankingPayment: 'Internet banking',
   CreditCardPayment: 'Credit card',
   Voucher: 'Voucher',
+  Refund: 'Refund',
 } as const;
 
 const PAYMENT_STATE_ICONS: { [key in PaymentState]: IconName } = {

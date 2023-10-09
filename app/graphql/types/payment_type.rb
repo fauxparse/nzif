@@ -15,6 +15,7 @@ module Types
         when CreditCardPayment then Types::CreditCardPaymentType
         when InternetBankingPayment then Types::InternetBankingPaymentType
         when Voucher then Types::VoucherType
+        when Refund then Types::RefundType
         else
           raise "Unexpected Payment: #{object.inspect}"
         end
@@ -39,6 +40,7 @@ module Types
       CreditCardPaymentType,
       InternetBankingPaymentType,
       VoucherType,
+      RefundType,
     )
   end
 end
