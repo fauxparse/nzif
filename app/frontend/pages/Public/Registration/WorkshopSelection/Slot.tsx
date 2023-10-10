@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { DateTime } from 'luxon';
 
 import { RegistrationSessionFragment, RegistrationSlotFragment } from '@/graphql/types';
 import Skeleton from '@/helpers/Skeleton';
@@ -29,6 +30,8 @@ const Slot: React.FC<SlotProps> = ({ slot }) => {
 
   const sessions = useMemo(() => slot.sessions.filter(hasWorkshop), [slot]);
 
+  const past = slot.endsAt < DateTime.now();
+
   return (
     <section className="workshop-selection__slot">
       <header>
@@ -48,7 +51,7 @@ const Slot: React.FC<SlotProps> = ({ slot }) => {
       )}
       <div className="workshop-selection__workshops">
         {sessions.map((session) => (
-          <WorkshopCard disabled={busy} key={session.id} session={session} slot={slot} />
+          <WorkshopCard disabled={busy || past} key={session.id} session={session} slot={slot} />
         ))}
       </div>
     </section>
