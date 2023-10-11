@@ -14,7 +14,7 @@ FactoryBot.define do
     trait :with_preferences do
       after(:create) do |registration, _evaluator|
         sessions = registration.festival.sessions.includes(:slot).where(activity_type: 'Workshop')
-        sessions = sessions.sample(rand(sessions.size).floor)
+        sessions = sessions.sample(rand(sessions.size).floor + 1)
         sessions.each do |session|
           create(
             :preference,
