@@ -4,13 +4,14 @@ RSpec.describe Waitlists::Promote do
   let(:festival) { create(:festival, :with_workshops) }
   let(:session) { festival.sessions.first }
   let(:registrations) { create_list(:registration, 10, festival:) }
-  let!(:waitlist) do
-    registrations.map { |registration| create(:waitlist, session:, registration:) }
-  end
   let(:context) { { session:, registration: } }
 
   context 'when the user is on the waitlist' do
-    let(:registration) { waitlist.first.registration }
+    let(:registration) { registrations.first }
+
+    before do
+      session.waitlist.create_or_find_by!(registration:)
+    end
 
     it { is_expected.to be_success }
 
@@ -26,7 +27,7 @@ RSpec.describe Waitlists::Promote do
       before do
         festival.sessions.each do |s|
           registration.preferences.create!(session: s)
-          registration.waitlist.create!(session: s) unless session == s
+          registration.waitlist.create_or_find_by!(session: s)
         end
       end
 
@@ -36,11 +37,13 @@ RSpec.describe Waitlists::Promote do
     end
 
     context 'when this workshop is the user’s third choice' do
-      before do
-        festival.sessions.reverse.each do |s|
+      let(:session) do |_p|
+        festival.sessions.order(starts_at: :asc).each do |s|
           registration.preferences.create!(session: s)
-          registration.waitlist.create!(session: s) unless session == s
+          registration.waitlist.create_or_find_by!(session: s)
         end
+
+        registration.preferences.find { |p| p.position == 3 }.session
       end
 
       it 'does not removes the user from other waitlists' do
