@@ -33,7 +33,7 @@ class Festival < ApplicationRecord
   end
 
   def self.upcoming
-    where('end_date > ?', Time.zone.today).order(start_date: :asc)
+    where("end_date > date_trunc('year', now())").order(start_date: :asc)
   end
 
   def self.finished
