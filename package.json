@@ -26,6 +26,7 @@
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "@modyfi/vite-plugin-yaml": "^1.0.4",
     "@ngneat/falso": "^6.4.0",
+    "@storybook/addon-docs": "7.6.16",
     "@storybook/addon-essentials": "^7.4.0",
     "@storybook/addon-interactions": "^7.4.0",
     "@storybook/addon-links": "^7.4.0",
@@ -73,7 +74,6 @@
     "typescript": "^5.0.3",
     "unplugin-fonts": "^1.0.3",
     "vite": "^4.2.1",
-    "vite-plugin-fonts": "^0.7.0",
     "vite-plugin-ruby": "^3.2.1",
     "vitest": "^0.29.8"
   },
