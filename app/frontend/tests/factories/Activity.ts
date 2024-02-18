@@ -60,7 +60,7 @@ export const activityFactory = ActivityFactory.define(
       sessions: associations.sessions || [],
       picture: null,
       presenters: [],
-    } as unknown as Activity)
+    }) as unknown as Activity
 );
 
 export default activityFactory;

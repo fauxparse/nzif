@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import {
   createColumnHelper,
   flexRender,
@@ -7,6 +6,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { groupBy, sortBy, sum, values } from 'lodash-es';
+import { useMemo } from 'react';
 import { mapValues } from 'xstate/lib/utils';
 
 import { WorkshopPreferencesQuery } from '@/graphql/types';

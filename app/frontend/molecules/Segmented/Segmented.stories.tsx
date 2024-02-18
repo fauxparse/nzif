@@ -1,8 +1,8 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 
-import { SegmentedOption } from './Segmented.types';
 import Segmented from '.';
+import { SegmentedOption } from './Segmented.types';
 
 type Story = StoryObj<typeof Segmented>;
 

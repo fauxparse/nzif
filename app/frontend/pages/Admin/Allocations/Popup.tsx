@@ -1,5 +1,5 @@
-import { forwardRef, Fragment, useMemo } from 'react';
 import { sortBy } from 'lodash-es';
+import { Fragment, forwardRef, useMemo } from 'react';
 
 import Icon from '@/atoms/Icon';
 import { useContextMenu } from '@/molecules/ContextMenu';
@@ -25,14 +25,13 @@ const Popup = forwardRef<HTMLDivElement, PopupProps>(({ slots, getRegistration }
         const session = slot.find(registration.id);
         if (!session) return data;
         const s = session === 'waitlisted' ? null : session;
-        return [
-          ...data,
+        return data.concat([
           {
             slot,
             session: s,
             position: s ? registration.workshopPosition(slot, s.workshop.id) : null,
           },
-        ];
+        ]);
       },
       []
     );

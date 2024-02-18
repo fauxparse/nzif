@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { crimson } from '@radix-ui/colors';
 import { AxisBottom, AxisLeft } from '@visx/axis';
 import { GridColumns } from '@visx/grid';
@@ -6,9 +5,10 @@ import { Group } from '@visx/group';
 import { scaleBand, scaleLinear, scaleOrdinal } from '@visx/scale';
 import { BarStackHorizontal } from '@visx/shape';
 import { SeriesPoint } from '@visx/shape/lib/types';
-import { defaultStyles, Tooltip, withTooltip } from '@visx/tooltip';
+import { Tooltip, defaultStyles, withTooltip } from '@visx/tooltip';
 import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip';
 import { upperFirst } from 'lodash-es';
+import { useMemo } from 'react';
 
 type Choice = 'first' | 'second' | 'third';
 
@@ -100,6 +100,7 @@ const Chart = withTooltip<BarStackHorizontalProps, TooltipData>(
     return width < 10 ? null : (
       <div>
         <svg width={width} height={height}>
+          <title>Workshop preferences graph</title>
           <Group top={margin.top} left={margin.left}>
             <BarStackHorizontal<Workshop, Choice>
               data={data}

@@ -53,7 +53,7 @@ const ResizeHandle = forwardRef<HTMLDivElement, ResizeHandleProps>(
     return (
       <div
         ref={ref}
-        className={`timetable__resize-handle`}
+        className="timetable__resize-handle"
         data-dragging={dragging}
         data-side={side}
         onPointerDown={pointerDown}

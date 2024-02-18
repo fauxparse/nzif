@@ -1,6 +1,6 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { kebabCase, uniqueId } from 'lodash-es';
+import React from 'react';
 
 import { ActivityType } from '@/graphql/types';
 

@@ -1,14 +1,14 @@
+import { FloatingPortal } from '@floating-ui/react';
+import clsx from 'clsx';
 import React, { ElementType, forwardRef, useContext } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 import { Link } from 'react-router-dom';
-import { FloatingPortal } from '@floating-ui/react';
-import clsx from 'clsx';
 
-import Button from '../Button';
-import Icon from '../Icon';
+import { ROUTES } from '@/Routes';
 import Tooltip from '@/helpers/Tooltip';
 import Popover from '@/molecules/Popover';
-import { ROUTES } from '@/Routes';
+import Button from '../Button';
+import Icon from '../Icon';
 
 import { PlacenameComponent } from './Placename.types';
 import { PlacenameContext } from './PlacenameProvider';

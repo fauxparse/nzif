@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
 import { isEqual } from 'lodash-es';
+import { useEffect } from 'react';
 
 import { Permission, PermissionDefinition, useUpdatePermissionsMutation } from '@/graphql/types';
 import { useAuthentication } from '@/organisms/Authentication/AuthenticationProvider';

@@ -1,3 +1,6 @@
+import { useInterpret, useSelector } from '@xstate/react';
+import clsx from 'clsx';
+import { range, throttle } from 'lodash-es';
 import React, {
   ElementType,
   forwardRef,
@@ -9,9 +12,6 @@ import React, {
   useState,
 } from 'react';
 import { mergeRefs } from 'react-merge-refs';
-import { useInterpret, useSelector } from '@xstate/react';
-import clsx from 'clsx';
-import { range, throttle } from 'lodash-es';
 
 import { GridComponent, Region } from './Grid.types';
 import GridMachine from './GridMachine';
@@ -84,8 +84,8 @@ export const Grid: GridComponent = forwardRef(
               e.type === 'pointerdown'
                 ? 'POINTER_DOWN'
                 : e.type === 'pointerup'
-                ? 'POINTER_UP'
-                : 'POINTER_MOVE';
+                  ? 'POINTER_UP'
+                  : 'POINTER_MOVE';
             rowRef.current = row;
             columnRef.current = column;
             machine.send({

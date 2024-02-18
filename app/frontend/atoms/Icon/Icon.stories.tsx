@@ -1,8 +1,8 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 
-import ICONS, { IconName } from './icons';
 import Icon, { IconProps } from '.';
+import ICONS, { IconName } from './icons';
 
 const meta = {
   title: 'Atoms/Icon',

@@ -1,5 +1,5 @@
-import React, { forwardRef } from 'react';
 import { HTMLMotionProps, motion } from 'framer-motion';
+import React, { forwardRef } from 'react';
 
 import Avatar from '@/atoms/Avatar';
 import Icon from '@/atoms/Icon';

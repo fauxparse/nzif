@@ -24,7 +24,7 @@ const ActivityPicture: React.FC<ActivityPictureProps> = ({ activity }) => {
     if (!file || !activity) return;
 
     const fr = new FileReader();
-    fr.onload = function () {
+    fr.onload = () => {
       if (!imageRef.current) return;
       imageRef.current.src = fr.result as string;
       imageRef.current.style.opacity = '1';

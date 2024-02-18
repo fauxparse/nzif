@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { assign, createMachine, InterpreterFrom } from 'xstate';
+import { InterpreterFrom, assign, createMachine } from 'xstate';
 
 type Events =
   | { type: 'EDIT' }

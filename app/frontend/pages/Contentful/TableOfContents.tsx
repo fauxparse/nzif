@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
 import { Document, Text } from '@contentful/rich-text-types';
 import { deburr, kebabCase } from 'lodash-es';
+import React, { useMemo } from 'react';
 
 import Icon from '@/atoms/Icon';
 
@@ -27,17 +27,15 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ document }) => {
           const id = kebabCase(deburr(text));
 
           if (node.nodeType === 'heading-2' || !acc.length) {
-            return [...acc, { id, heading: text, subheadings: [] }];
-          } else {
-            const last = acc.pop() as TOCSection;
-            return [
-              ...acc,
-              {
-                ...last,
-                subheadings: [...last.subheadings, { id, heading: text, subheadings: [] }],
-              },
-            ];
+            acc.push({ id, heading: text, subheadings: [] });
+            return acc;
           }
+          const last = acc.pop() as TOCSection;
+          acc.push({
+            ...last,
+            subheadings: [...last.subheadings, { id, heading: text, subheadings: [] }],
+          });
+          return acc;
         }, [] as TOCSection[]),
     [document]
   );

@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useReducer } from 'react';
 import { isEqual, sortBy } from 'lodash-es';
+import { useEffect, useMemo, useReducer } from 'react';
 
 import { CurrentUserQuery, Permission, PermissionDefinition } from '@/graphql/types';
 
@@ -26,7 +26,7 @@ const usePermissionTree = (
       parent: PermissionDefinition | null = null
     ) => {
       if (parent) map.set(permission.id, [...(map.get(parent.id) || []), parent.id]);
-      permission.children?.forEach((child) => addParents(map, child, permission));
+      for (const child of permission.children || []) addParents(map, child, permission);
       return map;
     };
     return permissions.reduce(
@@ -38,7 +38,7 @@ const usePermissionTree = (
   const children = useMemo(() => {
     const addChildren = (map: Map<Permission, Permission[]>, permission: PermissionDefinition) => {
       map.set(permission.id, permission.children?.map((child) => child.id) || []);
-      permission.children?.forEach((child) => addChildren(map, child));
+      for (const child of permission.children || []) addChildren(map, child);
       return map;
     };
     return permissions.reduce(
@@ -52,11 +52,11 @@ const usePermissionTree = (
       map: Map<Permission, Permission[]>,
       permission: PermissionDefinition
     ) => {
-      permission.children?.forEach((child) => addDescendants(map, child));
+      for (const child of permission.children || []) addDescendants(map, child);
       map.set(
         permission.id,
         permission.children?.reduce(
-          (acc, child) => [...acc, child.id, ...(map.get(child.id) || [])],
+          (acc, child) => acc.concat([child.id, ...(map.get(child.id) || [])]),
           [] as Permission[]
         ) || []
       );
@@ -89,13 +89,13 @@ const usePermissionTree = (
         case 'add': {
           const newSet = new Set(state.permissions);
           newSet.add(action.permission);
-          descendants.get(action.permission)?.forEach((p) => newSet.delete(p));
-          [...(parents.get(action.permission) || [])].reverse().forEach((p) => {
+          for (const p of descendants.get(action.permission) || []) newSet.delete(p);
+          for (const p of [...(parents.get(action.permission) || [])].reverse()) {
             if (children.get(p)?.every((d) => newSet.has(d))) {
-              descendants.get(p)?.forEach((d) => newSet.delete(d));
+              for (const d of descendants.get(p) || []) newSet.delete(d);
               newSet.add(p);
             }
-          });
+          }
           return { ...state, permissions: newSet };
         }
         case 'remove': {
@@ -105,10 +105,10 @@ const usePermissionTree = (
             .find((p) => newSet.has(p));
           if (parent) {
             newSet.delete(parent);
-            children.get(parent)?.forEach((p) => newSet.add(p));
+            for (const p of children.get(parent) || []) newSet.add(p);
             newSet.delete(action.permission);
           }
-          descendants.get(action.permission)?.forEach((p) => newSet.delete(p));
+          for (const p of descendants.get(action.permission) || []) newSet.delete(p);
           newSet.delete(action.permission);
           return { ...state, permissions: newSet };
         }
@@ -146,7 +146,7 @@ const usePermissionTree = (
 
   useEffect(() => {
     reset(set);
-  }, [set]);
+  }, [reset, set]);
 
   return {
     permissions: array,

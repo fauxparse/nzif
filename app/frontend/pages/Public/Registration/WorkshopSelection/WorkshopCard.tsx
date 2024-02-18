@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useRef } from 'react';
-import { motion, MotionConfig } from 'framer-motion';
+import { MotionConfig, motion } from 'framer-motion';
 import { capitalize, map, sortBy, uniqBy } from 'lodash-es';
+import { useEffect, useMemo, useRef } from 'react';
 
 import Button from '@/atoms/Button';
 import Icon from '@/atoms/Icon';
@@ -18,8 +18,8 @@ import ordinalize from '@/util/ordinalize';
 import sentence from '@/util/sentence';
 
 import PreferenceCheckbox from './PreferenceCheckbox';
-import { WorkshopSession } from './types';
 import { useWorkshopSelectionContext } from './WorkshopSelectionContext';
+import { WorkshopSession } from './types';
 
 type WorkshopCardProps = {
   session: WorkshopSession;
@@ -95,7 +95,7 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ session, slot, disabled = f
         {loading ? (
           <div className="card__image">
             <Skeleton loading={loading} className="workshop__image">
-              <img />
+              <img alt="loading" />
             </Skeleton>
           </div>
         ) : (
@@ -121,7 +121,7 @@ const WorkshopCard: React.FC<WorkshopCardProps> = ({ session, slot, disabled = f
           {loading ? (
             <>
               <div className="workshop__tutors">
-                <Skeleton paragraph lines={1}></Skeleton>
+                <Skeleton paragraph lines={1} />
               </div>
               <div className="workshop__placenames">
                 <Skeleton rounded>

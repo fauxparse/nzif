@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+import { get } from 'lodash-es';
 import React, {
   Children,
   ElementType,
@@ -7,14 +9,12 @@ import React, {
   ReactElement,
   useMemo,
 } from 'react';
-import clsx from 'clsx';
-import { get } from 'lodash-es';
 
 import { AllInputVariants, InputSize } from '@/atoms/Input/Input.types';
 import { extractVariants } from '@/types/variants';
 
-import InputGroupContext from './context';
 import { InputGroupComponent, InputGroupIconPosition, InputGroupProps } from './InputGroup.types';
+import InputGroupContext from './context';
 
 import './InputGroup.css';
 
@@ -40,7 +40,7 @@ const InputGroup: InputGroupComponent = forwardRef(
           (acc, child) => {
             if (get(child.type, 'displayName') !== 'InputGroup.Icon') return acc;
             const position = (child.props.position || 'start') as InputGroupIconPosition;
-            return { ...acc, [position]: acc[position] + 1 };
+            return Object.assign({ [position]: acc[position] + 1 });
           },
           { start: 0, end: 0 } as Record<InputGroupIconPosition, number>
         ),
@@ -54,8 +54,8 @@ const InputGroup: InputGroupComponent = forwardRef(
           className={clsx('input-group', className)}
           style={{
             ...style,
-            '--input-group-start-icons': icons['start'],
-            '--input-group-end-icons': icons['end'],
+            '--input-group-start-icons': icons.start,
+            '--input-group-end-icons': icons.end,
           }}
           {...inputGroupProps}
         >

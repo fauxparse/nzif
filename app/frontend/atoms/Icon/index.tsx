@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
 import { isString } from 'lodash-es';
+import { ReactNode } from 'react';
 
 import Icon from './Icon';
 import { IconProps } from './Icon.types';

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types, @typescript-eslint/no-explicit-any */
-
 import { get, omit } from 'lodash-es';
 
 import { ExactlyOneOf } from './keys.types';
@@ -15,7 +13,7 @@ export type VariantProp<K, T> = K extends string
   : never;
 
 export type VariantProps<T> = Empty<T> extends true
-  ? {}
+  ? Record<never, never>
   : { [key in keyof T]: VariantProp<key, T[key]> & VariantProps<Omit<T, key>> }[keyof T];
 
 type VariantPropTypes<T> = {
@@ -37,16 +35,19 @@ export const extractVariants = <T, P extends PropsWithVariants<T>>(
   props: P
 ): P => {
   const keys = Object.keys(variants) as (keyof T)[];
+  // biome-ignore lint/complexity/useLiteralKeys: TS complains either way
   const allProps = keys.flatMap((key) => Object.values(variants[key]['values']));
   const propsWithVariants = keys.reduce(
-    (acc, key) => ({
-      ...acc,
-      [key]:
-        get(props, key) ||
-        (Object.values(variants[key]['values']) as (keyof P)[]).find((v) => !!props[v]) ||
-        variants[key]['defaultValue'],
-    }),
-    props
+    (acc, key) =>
+      Object.assign(acc, {
+        [key]:
+          get(props, key) ||
+          // biome-ignore lint/complexity/useLiteralKeys: TS complains either way
+          (Object.values(variants[key]['values']) as (keyof P)[]).find((v) => !!props[v]) ||
+          // biome-ignore lint/complexity/useLiteralKeys: TS complains either way
+          variants[key]['defaultValue'],
+      }),
+    { ...props }
   );
   return omit(propsWithVariants, allProps as (keyof typeof propsWithVariants)[]) as P;
 };

@@ -19,7 +19,7 @@
       "@config/*": ["./config/*"],
       "@/*": ["./app/frontend/*"]
     },
-    "types": ["@modyfi/vite-plugin-yaml/modules", "@testing-library/jest-dom"]
+    "types": ["@modyfi/vite-plugin-yaml/modules", "vite/client"]
   },
   "include": ["./app/frontend", "./config/roles.yml", "./vite-env.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }],

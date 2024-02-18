@@ -26,18 +26,14 @@ const useAllocation = (allocation: AllocationData, registrations: RegistrationDa
     () =>
       allocation.slots.map((s) => {
         const slot = new Slot(s);
-        s.sessions.forEach((sn) => {
-          sn.registrations
-            .map((r) => registrationsMap.get(r.id))
-            .forEach((r) => {
-              if (r) r.place(slot, sn.workshop.id);
-            });
-          sn.waitlist
-            .map((r) => registrationsMap.get(r.id))
-            .forEach((r) => {
-              if (r) slot.session(sn.workshop.id)?.addToWaitlist(r);
-            });
-        });
+        for (const sn of s.sessions) {
+          for (const r of sn.registrations.map((r) => registrationsMap.get(r.id))) {
+            if (r) r.place(slot, sn.workshop.id);
+          }
+          for (const r of sn.waitlist.map((r) => registrationsMap.get(r.id))) {
+            if (r) slot.session(sn.workshop.id)?.addToWaitlist(r);
+          }
+        }
         return slot;
       }),
     [allocation, registrationsMap]
@@ -61,7 +57,8 @@ const useAllocation = (allocation: AllocationData, registrations: RegistrationDa
       const sessionRegistrations = (session: Session) => {
         if (session === next && !waitlist) {
           return [...session.registrations, registration];
-        } else if (session === previous || (session === next && waitlist)) {
+        }
+        if (session === previous || (session === next && waitlist)) {
           return session.registrations.filter((r) => r.id !== registration.id);
         }
         return session.registrations;
@@ -70,7 +67,8 @@ const useAllocation = (allocation: AllocationData, registrations: RegistrationDa
       const sessionWaitlist = (session: Session) => {
         if (session === next && waitlist) {
           return [...session.waitlist, registration];
-        } else if (session === previous || (session === next && !waitlist)) {
+        }
+        if (session === previous || (session === next && !waitlist)) {
           return session.waitlist.filter((r) => r.id !== registration.id);
         }
         return session.waitlist;

@@ -1,8 +1,8 @@
-import { Link, useNavigate } from 'react-router-dom';
 import { Portal } from '@chakra-ui/portal';
 import pluralize from 'pluralize';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { useAuthentication } from '../Authentication';
+import { ROUTES } from '@/Routes';
 import Avatar from '@/atoms/Avatar';
 import { AvatarSize } from '@/atoms/Avatar/Avatar.types';
 import Button, { ButtonVariant } from '@/atoms/Button';
@@ -18,7 +18,7 @@ import {
 import Skeleton from '@/helpers/Skeleton';
 import Menu from '@/molecules/Menu';
 import Popover from '@/molecules/Popover';
-import { ROUTES } from '@/Routes';
+import { useAuthentication } from '../Authentication';
 
 import './UserPopup.css';
 

@@ -1,9 +1,9 @@
-import { RefObject, useEffect } from 'react';
 import { TinyColor } from '@ctrl/tinycolor';
+import { RefObject, useEffect } from 'react';
 
 const getStyle = (element: HTMLElement, prop: string, defaultValue = 0): number => {
   const result = parseInt(window.getComputedStyle(element).getPropertyValue(prop));
-  return isNaN(result) ? defaultValue : result;
+  return Number.isNaN(result) ? defaultValue : result;
 };
 
 const getColor = (element: HTMLElement, prop = 'color'): TinyColor =>

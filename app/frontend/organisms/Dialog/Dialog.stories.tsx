@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import React, { useState } from 'react';
 
 import Button from '@/atoms/Button';
 
@@ -18,8 +18,8 @@ const DialogStory = () => {
           <Dialog.Title>Dialog title</Dialog.Title>
           <Dialog.Close />
         </Dialog.Header>
-        <Dialog.Body></Dialog.Body>
-        <Dialog.Footer></Dialog.Footer>
+        <Dialog.Body />
+        <Dialog.Footer />
       </Dialog>
     </>
   );

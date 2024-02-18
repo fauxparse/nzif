@@ -1,5 +1,5 @@
-import { useEffect, useReducer } from 'react';
 import { range } from 'lodash-es';
+import { useEffect, useReducer } from 'react';
 
 type Digit = number;
 
@@ -17,9 +17,8 @@ const Digit: React.FC<DigitProps> = ({ digit }) => {
     ({ previous, current }: State, next: Digit) => {
       if (next === current) {
         return { previous, current };
-      } else {
-        return { previous: current, current: next };
       }
+      return { previous: current, current: next };
     },
     { previous: ((digit + 9) % 10) as Digit, current: digit }
   );

@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 
-import { useTimetableContext } from '../../Context';
 import {
   ActivityAttributes,
   ActivitySearchQuery,
@@ -15,6 +14,7 @@ import {
 } from '@/graphql/types';
 import Popover, { PopoverProps } from '@/molecules/Popover';
 import ActivityPicker from '@/organisms/ActivityPicker';
+import { useTimetableContext } from '../../Context';
 
 import CurrentActivity from './CurrentActivity';
 
@@ -117,7 +117,7 @@ const ActivityPopover: React.FC<ActivityPopoverProps> = ({
         },
       });
     },
-    [session, updateSession]
+    [session, updateSession, onOpenChange]
   );
 
   return (

@@ -26,13 +26,13 @@ export type BaseSelectProps<V = string, T extends SelectOption<V> = SelectOption
 export type SelectProps<
   V = string,
   T extends SelectOption<V> = SelectOption<V>,
-  C extends ElementType = 'div'
+  C extends ElementType = 'div',
 > = Polymorphic<C, BaseSelectProps<V, T>>;
 
 export type SelectComponent<
   V = string,
   T extends SelectOption<V> = SelectOption<V>,
-  C extends ElementType = typeof Button
+  C extends ElementType = typeof Button,
 > = WithDisplayName<(props: SelectProps<V, T, C>) => ReactElement | null>;
 
 export const isSeparator = <T>(

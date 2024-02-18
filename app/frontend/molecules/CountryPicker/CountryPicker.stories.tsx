@@ -1,10 +1,10 @@
-import React, { useCallback, useMemo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { SelectOptionSeparator } from '../Select/Select.types';
 
-import COUNTRIES from './countries.json';
 import CountryPicker, { CountryPickerProps } from '.';
+import COUNTRIES from './countries.json';
 
 type Story = StoryObj<typeof CountryPicker>;
 

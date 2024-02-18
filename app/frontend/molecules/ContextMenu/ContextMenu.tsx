@@ -1,10 +1,9 @@
-import React, { Children, cloneElement, isValidElement, useEffect, useRef, useState } from 'react';
 import {
-  autoUpdate,
-  flip,
   FloatingFocusManager,
   FloatingOverlay,
   FloatingPortal,
+  autoUpdate,
+  flip,
   offset,
   shift,
   useDismiss,
@@ -16,6 +15,7 @@ import {
 } from '@floating-ui/react';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
+import React, { Children, cloneElement, isValidElement, useEffect, useRef, useState } from 'react';
 
 import Menu, { MenuProps } from '../Menu';
 

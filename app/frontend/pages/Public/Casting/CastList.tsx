@@ -1,6 +1,6 @@
-import { Fragment, useMemo } from 'react';
 import { sortBy, upperFirst } from 'lodash-es';
 import { DateTime } from 'luxon';
+import { Fragment, useMemo } from 'react';
 
 import { CastMemberFragment, MasterCastListQuery } from '@/graphql/types';
 
@@ -20,7 +20,8 @@ const CastList: React.FC<CastListProps> = ({ session }) => {
   const cast = useMemo(
     () =>
       ROLES.reduce(
-        (acc, role) => ({ ...acc, [role]: sortBy(session[role], 'name') as CastMemberFragment[] }),
+        (acc, role) =>
+          Object.assign(acc, { [role]: sortBy(session[role], 'name') as CastMemberFragment[] }),
         {} as Record<(typeof ROLES)[number], CastMemberFragment[]>
       ),
     [session]

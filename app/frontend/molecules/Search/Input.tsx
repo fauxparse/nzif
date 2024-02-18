@@ -1,5 +1,5 @@
+import { HTMLMotionProps, Variants, motion } from 'framer-motion';
 import React, { forwardRef, useRef, useState } from 'react';
-import { HTMLMotionProps, motion, Variants } from 'framer-motion';
 
 import Button from '@/atoms/Button';
 import Spinner from '@/atoms/Spinner/Spinner';

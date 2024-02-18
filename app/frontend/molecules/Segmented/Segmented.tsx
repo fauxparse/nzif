@@ -4,7 +4,7 @@ import { isFunction } from 'xstate/lib/utils';
 
 import Button from '@/atoms/Button';
 
-import { isExclusive, SegmentedProps } from './Segmented.types';
+import { SegmentedProps, isExclusive } from './Segmented.types';
 
 import './Segmented.css';
 
@@ -31,7 +31,7 @@ export const Segmented = <T extends string = string>(props: SegmentedProps<T>) =
       role="listbox"
       aria-multiselectable={isExclusive(props)}
     >
-      {props.options.map((option) => (
+      {(props.options || []).map((option) => (
         <Button
           key={option.id}
           text={isFunction(option.label) ? option.label(option) : option.label}

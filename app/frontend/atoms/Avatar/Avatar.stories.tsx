@@ -1,8 +1,8 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 
-import { AvatarSize } from './Avatar.types';
 import Avatar from '.';
+import { AvatarSize } from './Avatar.types';
 
 type Story = StoryObj<typeof Avatar>;
 

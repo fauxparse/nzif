@@ -1,7 +1,7 @@
-import React, { forwardRef, useEffect } from 'react';
-import ReactRemoveScroll from 'react-remove-scroll/dist/es5/Combination';
 import { useInterpret, useSelector } from '@xstate/react';
 import { AnimatePresence, motion, usePresence } from 'framer-motion';
+import React, { forwardRef, useEffect } from 'react';
+import ReactRemoveScroll from 'react-remove-scroll/dist/es5/Combination';
 
 import AuthenticationMachine, {
   AuthenticationMachineContext,

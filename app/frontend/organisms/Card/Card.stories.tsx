@@ -1,5 +1,5 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 
 import Button from '@/atoms/Button';
 
@@ -25,7 +25,7 @@ export const Default: Story = {
     children: (
       <>
         <div className="card__image">
-          <img src="https://picsum.photos/seed/rWWCwZ/640/360" aria-hidden />
+          <img src="https://picsum.photos/seed/rWWCwZ/640/360" aria-hidden alt="placeholder" />
         </div>
         <Card.Details>
           <Card.Title className="workshop__name">Card title</Card.Title>

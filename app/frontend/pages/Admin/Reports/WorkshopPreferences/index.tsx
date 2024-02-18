@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from 'react';
 import ParentSize from '@visx/responsive/lib/components/ParentSize';
 import { sortBy } from 'lodash-es';
+import React, { useMemo, useState } from 'react';
 
-import { useWorkshopPreferencesQuery, WorkshopPreferencesQuery } from '@/graphql/types';
+import { WorkshopPreferencesQuery, useWorkshopPreferencesQuery } from '@/graphql/types';
 import Breadcrumbs from '@/molecules/Breadcrumbs';
 import PageHeader from '@/molecules/PageHeader';
 import Tabs from '@/molecules/Tabs';

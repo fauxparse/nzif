@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useCallback, useContext, useReducer } from 'react';
+import { PropsWithChildren, createContext, useCallback, useContext, useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { RegistrationStatusQuery } from '@/graphql/types';

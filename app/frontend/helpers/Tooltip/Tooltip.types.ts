@@ -1,5 +1,5 @@
-import { ElementType, ReactElement, ReactNode, Ref } from 'react';
 import { Placement } from '@floating-ui/react';
+import { ElementType, ReactElement, ReactNode, Ref } from 'react';
 
 import { WithDisplayName } from '@/types/polymorphic.types';
 

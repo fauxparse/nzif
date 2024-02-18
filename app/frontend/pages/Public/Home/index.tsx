@@ -1,11 +1,11 @@
+import pluralize from 'pluralize';
 import React from 'react';
 import Balanced from 'react-balanced';
 import { Link } from 'react-router-dom';
-import pluralize from 'pluralize';
 
+import { ROUTES } from '@/Routes';
 import Button from '@/atoms/Button';
 import { RegistrationPhase, useCurrentFestivalQuery } from '@/graphql/types';
-import { ROUTES } from '@/Routes';
 
 import FestivalCountdown from './FestivalCountdown';
 

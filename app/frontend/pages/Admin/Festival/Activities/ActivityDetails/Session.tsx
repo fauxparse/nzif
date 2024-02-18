@@ -1,7 +1,8 @@
+import { DateTime } from 'luxon';
 import { ChangeEvent, useContext, useMemo, useRef } from 'react';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
-import { DateTime } from 'luxon';
 
+import { ROUTES } from '@/Routes';
 import Input from '@/atoms/Input';
 import {
   ActivityType,
@@ -10,11 +11,10 @@ import {
 } from '@/graphql/types';
 import Labelled from '@/helpers/Labelled';
 import Select from '@/molecules/Select';
-import { ROUTES } from '@/Routes';
 
-import ParticipantSearch from './Participants/ParticipantSearch';
 import Context from './Context';
 import Participants from './Participants';
+import ParticipantSearch from './Participants/ParticipantSearch';
 
 export const Component: React.FC = () => {
   const { festival } = useContext(Context);

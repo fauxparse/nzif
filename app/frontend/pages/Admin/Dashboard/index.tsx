@@ -1,20 +1,20 @@
-import { Link } from 'react-router-dom';
 import { camelCase, kebabCase } from 'lodash-es';
 import pluralize from 'pluralize';
+import { Link } from 'react-router-dom';
 
+import { ROUTES } from '@/Routes';
+import Button from '@/atoms/Button';
+import { IconName } from '@/atoms/Icon';
+import Money from '@/atoms/Money';
+import Menu from '@/molecules/Menu';
+import { useAuthentication } from '@/organisms/Authentication';
+import activityTypeLabel from '@/util/activityTypeLabel';
 import {
   ActivityType,
   Permission,
   useFestivalBalanceQuery,
   useRegistrationsCountSubscription,
 } from '../../../graphql/types';
-import Button from '@/atoms/Button';
-import { IconName } from '@/atoms/Icon';
-import Money from '@/atoms/Money';
-import Menu from '@/molecules/Menu';
-import { useAuthentication } from '@/organisms/Authentication';
-import { ROUTES } from '@/Routes';
-import activityTypeLabel from '@/util/activityTypeLabel';
 
 import './Dashboard.css';
 

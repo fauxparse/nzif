@@ -1,5 +1,5 @@
-import { ComponentProps } from 'react';
 import { DateTime } from 'luxon';
+import { ComponentProps } from 'react';
 
 export type CountdownProps = ComponentProps<'div'> & {
   to: DateTime;

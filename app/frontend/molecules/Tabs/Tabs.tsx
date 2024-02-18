@@ -1,6 +1,6 @@
-import React, { ElementType, forwardRef, useId } from 'react';
 import clsx from 'clsx';
 import { LayoutGroup } from 'framer-motion';
+import React, { ElementType, forwardRef, useId } from 'react';
 
 import Tab from './Tab';
 import { TabsComponent } from './Tabs.types';

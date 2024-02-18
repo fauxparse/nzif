@@ -1,16 +1,16 @@
+import { sortBy } from 'lodash-es';
 import React, { useEffect, useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
-import { sortBy } from 'lodash-es';
 
-import MessageComposer from '../MessageComposer';
+import { ROUTES } from '@/Routes';
 import Button from '@/atoms/Button';
 import Icon from '@/atoms/Icon';
 import { ActivityType, TeachingSessionFragment, useTeachingSessionsQuery } from '@/graphql/types';
 import Markdown from '@/helpers/Markdown';
 import Breadcrumbs, { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 import PageHeader from '@/molecules/PageHeader';
-import { ROUTES } from '@/Routes';
+import MessageComposer from '../MessageComposer';
 
 import './Teaching.css';
 

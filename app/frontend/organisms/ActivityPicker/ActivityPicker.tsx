@@ -1,5 +1,5 @@
+import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import React, { useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 
 import { ActivityPickerProps } from './ActivityPicker.types';
 import ActivitySearch from './ActivitySearch';

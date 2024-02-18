@@ -1,6 +1,6 @@
-import React, { forwardRef, HTMLProps } from 'react';
-import { AnimatePresence, HTMLMotionProps, motion, Variants } from 'framer-motion';
+import { AnimatePresence, HTMLMotionProps, Variants, motion } from 'framer-motion';
 import { range } from 'lodash-es';
+import React, { forwardRef, HTMLProps } from 'react';
 
 import Result from './Result';
 import { SearchResult } from './Search.types';

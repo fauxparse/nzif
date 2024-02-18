@@ -1,5 +1,5 @@
-import { ComponentPropsWithoutRef } from 'react';
 import { Maybe } from 'graphql/jsutils/Maybe';
+import { ComponentPropsWithoutRef } from 'react';
 
 import { PropsWithVariants } from '@/types/variants';
 

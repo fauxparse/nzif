@@ -1,12 +1,12 @@
-import React from 'react';
 import { randFullName, randJobTitle } from '@ngneat/falso';
 import type { Meta, StoryObj } from '@storybook/react';
 import { deburr } from 'lodash-es';
+import React from 'react';
 
 import { IconName } from '@/atoms/Icon';
 
-import { SearchResult } from './Search.types';
 import Search from '.';
+import { SearchResult } from './Search.types';
 
 import './Search.css';
 

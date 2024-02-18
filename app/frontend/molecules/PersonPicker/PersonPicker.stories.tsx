@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
 import { randFullName } from '@ngneat/falso';
 import type { Meta, StoryObj } from '@storybook/react';
 import { deburr, range, sortBy, uniqueId } from 'lodash-es';
+import React, { useState } from 'react';
 
-import { Profile } from './PersonPicker.types';
 import PersonPicker from '.';
+import { Profile } from './PersonPicker.types';
 
 type Story = StoryObj<typeof PersonPicker>;
 

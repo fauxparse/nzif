@@ -1,4 +1,4 @@
-import { ApolloClient, ApolloLink, from, HttpLink, Operation, split } from '@apollo/client';
+import { ApolloClient, ApolloLink, HttpLink, Operation, from, split } from '@apollo/client';
 import { createConsumer } from '@rails/actioncable';
 import { createUploadLink } from 'apollo-upload-client';
 import ActionCableLink from 'graphql-ruby-client/subscriptions/ActionCableLink';

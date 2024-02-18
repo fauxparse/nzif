@@ -1,6 +1,6 @@
-import React, { forwardRef, Fragment, useCallback, useEffect } from 'react';
 import clsx from 'clsx';
 import { DateTime } from 'luxon';
+import React, { forwardRef, Fragment, useCallback, useEffect } from 'react';
 
 import { CountdownProps } from './Countdown.types';
 import Digit from './Digit';

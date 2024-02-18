@@ -1,9 +1,9 @@
+import { Options, documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import { BLOCKS, Document, Text } from '@contentful/rich-text-types';
+import { deburr, kebabCase } from 'lodash-es';
 import React from 'react';
 import Balanced from 'react-balanced';
 import { useParams } from 'react-router-dom';
-import { documentToReactComponents, Options } from '@contentful/rich-text-react-renderer';
-import { BLOCKS, Document, Text } from '@contentful/rich-text-types';
-import { deburr, kebabCase } from 'lodash-es';
 
 import Spinner from '@/atoms/Spinner';
 import { useContentPageQuery } from '@/contentful/types';

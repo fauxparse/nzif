@@ -1,5 +1,5 @@
-import React, { ElementType, forwardRef, useId } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import React, { ElementType, forwardRef, useId } from 'react';
 
 import Input from '@/atoms/Input';
 

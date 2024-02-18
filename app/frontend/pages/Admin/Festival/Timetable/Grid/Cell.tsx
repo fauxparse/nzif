@@ -19,7 +19,7 @@ const Cell: React.FC<CellProps> = ({ row, column, style = {}, ...props }) => {
       data-track={track}
       data-of={tracks}
       data-last-track={isLast || undefined}
-    ></div>
+    />
   );
 };
 

@@ -1,8 +1,8 @@
-import React, { ChangeEvent } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
-import { describe, expect, it, Mock, vi } from 'vitest';
+import React, { ChangeEvent } from 'react';
+import { Mock, describe, expect, it, vi } from 'vitest';
 
 import Switch, { SwitchProps } from '.';
 
@@ -21,9 +21,9 @@ const renderSwitch = ({ checked, ...props }: Partial<SwitchProps> = {}): HTMLInp
 const drag = (input: HTMLInputElement, stops: number[]) => {
   const [initial, ...rest] = stops;
   input.dispatchEvent(new MouseEvent('pointerdown', { clientX: initial }));
-  rest.forEach((clientX) => {
+  for (const clientX of rest) {
     input.dispatchEvent(new MouseEvent('pointermove', { clientX }));
-  });
+  }
   input.dispatchEvent(new MouseEvent('pointerup', { bubbles: true }));
   vi.runAllTimers();
 };

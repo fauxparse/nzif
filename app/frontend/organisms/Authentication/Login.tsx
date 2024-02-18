@@ -1,7 +1,7 @@
-import React, { forwardRef, useContext, useRef } from 'react';
-import { mergeRefs } from 'react-merge-refs';
 import { useSelector } from '@xstate/react';
 import { AnimationDefinition, motion } from 'framer-motion';
+import React, { forwardRef, useContext, useRef } from 'react';
+import { mergeRefs } from 'react-merge-refs';
 
 import Button from '@/atoms/Button';
 

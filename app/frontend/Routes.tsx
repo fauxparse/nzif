@@ -1,9 +1,9 @@
 import React, { Fragment, useEffect } from 'react';
 import {
-  createBrowserRouter,
   LoaderFunction,
   Outlet,
   RouterProvider,
+  createBrowserRouter,
   useNavigate,
   useParams,
 } from 'react-router-dom';

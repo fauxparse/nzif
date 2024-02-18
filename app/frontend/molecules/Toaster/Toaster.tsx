@@ -1,6 +1,6 @@
-import React, { useEffect, useReducer, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { merge, uniqueId } from 'lodash-es';
+import React, { useEffect, useReducer, useRef } from 'react';
 
 import Context from './Context';
 import Toast from './Toast';
@@ -62,13 +62,13 @@ export const Toaster: React.FC<ToasterProps> = ({ children }) => {
   }, [notifications]);
 
   useEffect(
-    () => () =>
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      timeouts.current.forEach((timeout) => {
+    () => () => {
+      for (const timeout of timeouts.current) {
         if (timeout) {
           clearTimeout(timeout);
         }
-      }),
+      }
+    },
     []
   );
 

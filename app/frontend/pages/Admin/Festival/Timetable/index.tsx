@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
 import { first, last, range } from 'lodash-es';
 import { DateTime } from 'luxon';
+import React, { useMemo } from 'react';
 
 import { useTimetableQuery } from '@/graphql/types';
 import Breadcrumbs from '@/molecules/Breadcrumbs';

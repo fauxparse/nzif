@@ -1,16 +1,16 @@
-import { useForm } from 'react-hook-form';
 import { useApolloClient } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import Section from '../Section';
 import Button from '@/atoms/Button';
 import Input from '@/atoms/Input';
 import { saveAuthenticationInfo } from '@/graphql/authentication';
 import { useLogInMutation, useRegistrationStatusQuery, useSignUpMutation } from '@/graphql/types';
 import Labelled from '@/helpers/Labelled';
 import Skeleton from '@/helpers/Skeleton';
+import Section from '../Section';
 
 const formSchema = z.object({
   name: z.string().regex(/(CB|([^\s]+(\s+[^\s]+)+))/i, 'We need your full (first and last) name'),

@@ -1,5 +1,5 @@
-import { KeyboardEvent, RefObject } from 'react';
 import { uniqueId } from 'lodash-es';
+import { KeyboardEvent, RefObject } from 'react';
 import { assign, createMachine } from 'xstate';
 import { choose } from 'xstate/lib/actions';
 
@@ -380,9 +380,8 @@ const PersonPickerMachine = createMachine(
       addNewPerson: ({ results, menuIndex }, action) => {
         if ('person' in action) {
           return new Promise<Profile>((resolve) => resolve(action.person));
-        } else {
-          return new Promise<Profile>((resolve) => resolve(results[menuIndex ?? 0]));
         }
+        return new Promise<Profile>((resolve) => resolve(results[menuIndex ?? 0]));
       },
     },
   }

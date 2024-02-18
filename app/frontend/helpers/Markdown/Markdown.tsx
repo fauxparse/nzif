@@ -1,6 +1,6 @@
+import clsx from 'clsx';
 import { ElementType, forwardRef } from 'react';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
-import clsx from 'clsx';
 import smartypants from 'remark-smartypants';
 
 import { MarkdownComponent } from './Markdown.types';

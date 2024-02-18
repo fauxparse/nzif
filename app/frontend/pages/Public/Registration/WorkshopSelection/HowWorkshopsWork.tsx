@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import { useRegistrationContext } from '../RegistrationContext';
 import Icon from '@/atoms/Icon';
+import { useRegistrationContext } from '../RegistrationContext';
 
 const HowWorkshopsWork = () => {
   const { festival, registration } = useRegistrationContext();

@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
 import { uniq } from 'lodash-es';
+import { useMemo } from 'react';
 
 import CONFIG from '@/../../config/pricing.yml';
 import { PaymentState, RegistrationPhase, RegistrationStatusQuery } from '@/graphql/types';
@@ -14,9 +14,8 @@ const useCartCalculator = (registration: Registration, festival: Festival) => {
   const count = useMemo(() => {
     if (festival.registrationPhase === RegistrationPhase.Earlybird) {
       return uniq(registration.preferences.map((p) => p.slot.id)).length;
-    } else {
-      return registration.sessions.length;
     }
+    return registration.sessions.length;
   }, [registration, festival.registrationPhase]);
 
   const value = count * BASE_PRICE;

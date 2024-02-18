@@ -1,9 +1,7 @@
-import React, { forwardRef, useEffect, useId, useRef } from 'react';
-import { mergeRefs } from 'react-merge-refs';
 import {
+  FloatingPortal,
   autoUpdate,
   flip,
-  FloatingPortal,
   offset,
   size,
   useDismiss,
@@ -15,11 +13,13 @@ import {
 import { useInterpret, useSelector } from '@xstate/react';
 import clsx from 'clsx';
 import { isEqual, map } from 'lodash-es';
+import React, { forwardRef, useEffect, useId, useRef } from 'react';
+import { mergeRefs } from 'react-merge-refs';
 
-import InputGroup from '../InputGroup';
-import Menu from '../Menu';
 import Input, { InputSize } from '@/atoms/Input';
 import AutoResize from '@/helpers/AutoResize';
+import InputGroup from '../InputGroup';
+import Menu from '../Menu';
 
 import Chip from './Chip';
 import PersonPickerContext from './Context';

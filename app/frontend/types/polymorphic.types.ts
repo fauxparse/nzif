@@ -1,6 +1,6 @@
 // based on https://blog.logrocket.com/build-strongly-typed-polymorphic-components-react-typescript/
 
-import { ComponentPropsWithoutRef, ComponentPropsWithRef, ElementType } from 'react';
+import { ComponentPropsWithRef, ComponentPropsWithoutRef, ElementType } from 'react';
 
 export type As<C extends ElementType> = {
   /** HTML element or React component to render as */

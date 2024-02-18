@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { extractVariants, PropsWithVariants } from './variants';
+import { PropsWithVariants, extractVariants } from './variants';
 
 describe('extractVariants', () => {
   enum Size {

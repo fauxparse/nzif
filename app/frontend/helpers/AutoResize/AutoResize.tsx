@@ -1,16 +1,16 @@
+import { get, throttle } from 'lodash-es';
 import {
   Children,
-  cloneElement,
   ComponentPropsWithRef,
   ElementType,
+  ReactElement,
+  cloneElement,
   forwardRef,
   isValidElement,
-  ReactElement,
   useLayoutEffect,
   useState,
 } from 'react';
 import { mergeRefs } from 'react-merge-refs';
-import { get, throttle } from 'lodash-es';
 
 import { PolymorphicRef } from '@/types/polymorphic.types';
 

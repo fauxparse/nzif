@@ -1,15 +1,15 @@
-import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
 import {
+  SortingState,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
-  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
 import { first } from 'lodash-es';
 import { DateTime } from 'luxon';
+import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import Avatar from '@/atoms/Avatar';
 import Button from '@/atoms/Button';

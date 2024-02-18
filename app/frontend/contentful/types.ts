@@ -1,8 +1,8 @@
-/* eslint-disable */
-import { DateTime } from 'luxon';
-import { Document } from '@contentful/rich-text-types';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
+import { Document } from '@contentful/rich-text-types';
+/* eslint-disable */
+import { DateTime } from 'luxon';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -39,55 +39,46 @@ export type Asset = {
   width: Maybe<Scalars['Int']>;
 };
 
-
 /** Represents a binary file in a space. An asset can be any file type. */
 export type AssetContentTypeArgs = {
   locale: InputMaybe<Scalars['String']>;
 };
-
 
 /** Represents a binary file in a space. An asset can be any file type. */
 export type AssetDescriptionArgs = {
   locale: InputMaybe<Scalars['String']>;
 };
 
-
 /** Represents a binary file in a space. An asset can be any file type. */
 export type AssetFileNameArgs = {
   locale: InputMaybe<Scalars['String']>;
 };
-
 
 /** Represents a binary file in a space. An asset can be any file type. */
 export type AssetHeightArgs = {
   locale: InputMaybe<Scalars['String']>;
 };
 
-
 /** Represents a binary file in a space. An asset can be any file type. */
 export type AssetLinkedFromArgs = {
   allowedLocales: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
-
 
 /** Represents a binary file in a space. An asset can be any file type. */
 export type AssetSizeArgs = {
   locale: InputMaybe<Scalars['String']>;
 };
 
-
 /** Represents a binary file in a space. An asset can be any file type. */
 export type AssetTitleArgs = {
   locale: InputMaybe<Scalars['String']>;
 };
-
 
 /** Represents a binary file in a space. An asset can be any file type. */
 export type AssetUrlArgs = {
   locale: InputMaybe<Scalars['String']>;
   transform: InputMaybe<ImageTransformOptions>;
 };
-
 
 /** Represents a binary file in a space. An asset can be any file type. */
 export type AssetWidthArgs = {
@@ -176,7 +167,6 @@ export type AssetLinkingCollections = {
   entryCollection: Maybe<EntryCollection>;
 };
 
-
 export type AssetLinkingCollectionsEntryCollectionArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   locale: InputMaybe<Scalars['String']>;
@@ -204,7 +194,7 @@ export enum AssetOrder {
   UrlAsc = 'url_ASC',
   UrlDesc = 'url_DESC',
   WidthAsc = 'width_ASC',
-  WidthDesc = 'width_DESC'
+  WidthDesc = 'width_DESC',
 }
 
 export type ContentfulMetadata = {
@@ -261,7 +251,7 @@ export enum EntryOrder {
   SysPublishedAtAsc = 'sys_publishedAt_ASC',
   SysPublishedAtDesc = 'sys_publishedAt_DESC',
   SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
-  SysPublishedVersionDesc = 'sys_publishedVersion_DESC'
+  SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
 }
 
 /** [See type definition](https://app.contentful.com/spaces/4hh9rxfdoza6/content_types/footer) */
@@ -274,12 +264,10 @@ export type Footer = Entry & {
   title: Maybe<Scalars['String']>;
 };
 
-
 /** [See type definition](https://app.contentful.com/spaces/4hh9rxfdoza6/content_types/footer) */
 export type FooterLinkedFromArgs = {
   allowedLocales: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
-
 
 /** [See type definition](https://app.contentful.com/spaces/4hh9rxfdoza6/content_types/footer) */
 export type FooterLinksCollectionArgs = {
@@ -288,7 +276,6 @@ export type FooterLinksCollectionArgs = {
   preview: InputMaybe<Scalars['Boolean']>;
   skip?: InputMaybe<Scalars['Int']>;
 };
-
 
 /** [See type definition](https://app.contentful.com/spaces/4hh9rxfdoza6/content_types/footer) */
 export type FooterTitleArgs = {
@@ -323,7 +310,6 @@ export type FooterLinkingCollections = {
   entryCollection: Maybe<EntryCollection>;
 };
 
-
 export type FooterLinkingCollectionsEntryCollectionArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   locale: InputMaybe<Scalars['String']>;
@@ -349,7 +335,7 @@ export enum FooterOrder {
   SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
   SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
   TitleAsc = 'title_ASC',
-  TitleDesc = 'title_DESC'
+  TitleDesc = 'title_DESC',
 }
 
 export enum ImageFormat {
@@ -371,7 +357,7 @@ export enum ImageFormat {
    */
   Png8 = 'PNG8',
   /** WebP image format. */
-  Webp = 'WEBP'
+  Webp = 'WEBP',
 }
 
 export enum ImageResizeFocus {
@@ -396,7 +382,7 @@ export enum ImageResizeFocus {
   /** Focus the resizing on the top left. */
   TopLeft = 'TOP_LEFT',
   /** Focus the resizing on the top right. */
-  TopRight = 'TOP_RIGHT'
+  TopRight = 'TOP_RIGHT',
 }
 
 export enum ImageResizeStrategy {
@@ -414,7 +400,7 @@ export enum ImageResizeStrategy {
   /** Resizes the image to the specified dimensions, changing the original aspect ratio if needed. */
   Scale = 'SCALE',
   /** Creates a thumbnail from the image. */
-  Thumb = 'THUMB'
+  Thumb = 'THUMB',
 }
 
 export type ImageTransformOptions = {
@@ -459,30 +445,25 @@ export type Page = Entry & {
   title: Maybe<Scalars['String']>;
 };
 
-
 /** A page of content [See type definition](https://app.contentful.com/spaces/4hh9rxfdoza6/content_types/page) */
 export type PageBodyArgs = {
   locale: InputMaybe<Scalars['String']>;
 };
-
 
 /** A page of content [See type definition](https://app.contentful.com/spaces/4hh9rxfdoza6/content_types/page) */
 export type PageLedeArgs = {
   locale: InputMaybe<Scalars['String']>;
 };
 
-
 /** A page of content [See type definition](https://app.contentful.com/spaces/4hh9rxfdoza6/content_types/page) */
 export type PageLinkedFromArgs = {
   allowedLocales: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
-
 /** A page of content [See type definition](https://app.contentful.com/spaces/4hh9rxfdoza6/content_types/page) */
 export type PageSlugArgs = {
   locale: InputMaybe<Scalars['String']>;
 };
-
 
 /** A page of content [See type definition](https://app.contentful.com/spaces/4hh9rxfdoza6/content_types/page) */
 export type PageTitleArgs = {
@@ -580,14 +561,12 @@ export type PageLinkingCollections = {
   footerCollection: Maybe<FooterCollection>;
 };
 
-
 export type PageLinkingCollectionsEntryCollectionArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   locale: InputMaybe<Scalars['String']>;
   preview: InputMaybe<Scalars['Boolean']>;
   skip?: InputMaybe<Scalars['Int']>;
 };
-
 
 export type PageLinkingCollectionsFooterCollectionArgs = {
   limit?: InputMaybe<Scalars['Int']>;
@@ -608,7 +587,7 @@ export enum PageOrder {
   SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
   SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
   TitleAsc = 'title_ASC',
-  TitleDesc = 'title_DESC'
+  TitleDesc = 'title_DESC',
 }
 
 export type Query = {
@@ -622,13 +601,11 @@ export type Query = {
   pageCollection: Maybe<PageCollection>;
 };
 
-
 export type QueryAssetArgs = {
   id: Scalars['String'];
   locale: InputMaybe<Scalars['String']>;
   preview: InputMaybe<Scalars['Boolean']>;
 };
-
 
 export type QueryAssetCollectionArgs = {
   limit?: InputMaybe<Scalars['Int']>;
@@ -639,7 +616,6 @@ export type QueryAssetCollectionArgs = {
   where: InputMaybe<AssetFilter>;
 };
 
-
 export type QueryEntryCollectionArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   locale: InputMaybe<Scalars['String']>;
@@ -649,13 +625,11 @@ export type QueryEntryCollectionArgs = {
   where: InputMaybe<EntryFilter>;
 };
 
-
 export type QueryFooterArgs = {
   id: Scalars['String'];
   locale: InputMaybe<Scalars['String']>;
   preview: InputMaybe<Scalars['Boolean']>;
 };
-
 
 export type QueryFooterCollectionArgs = {
   limit?: InputMaybe<Scalars['Int']>;
@@ -666,13 +640,11 @@ export type QueryFooterCollectionArgs = {
   where: InputMaybe<FooterFilter>;
 };
 
-
 export type QueryPageArgs = {
   id: Scalars['String'];
   locale: InputMaybe<Scalars['String']>;
   preview: InputMaybe<Scalars['Boolean']>;
 };
-
 
 export type QueryPageCollectionArgs = {
   limit?: InputMaybe<Scalars['Int']>;
@@ -734,14 +706,41 @@ export type ContentPageQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
+export type ContentPageQuery = {
+  __typename: 'Query';
+  pageCollection: {
+    __typename: 'PageCollection';
+    items: Array<{
+      __typename: 'Page';
+      slug: string | null;
+      title: string | null;
+      lede: { __typename: 'PageLede'; json: Document } | null;
+      body: { __typename: 'PageBody'; json: Document } | null;
+    } | null>;
+  } | null;
+};
 
-export type ContentPageQuery = { __typename: 'Query', pageCollection: { __typename: 'PageCollection', items: Array<{ __typename: 'Page', slug: string | null, title: string | null, lede: { __typename: 'PageLede', json: Document } | null, body: { __typename: 'PageBody', json: Document } | null } | null> } | null };
+export type FooterLinksQueryVariables = Exact<{ [key: string]: never }>;
 
-export type FooterLinksQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type FooterLinksQuery = { __typename: 'Query', footerCollection: { __typename: 'FooterCollection', items: Array<{ __typename: 'Footer', linksCollection: { __typename: 'FooterLinksCollection', items: Array<{ __typename: 'Page', slug: string | null, title: string | null, body: { __typename: 'PageBody', json: Document } | null, sys: { __typename: 'Sys', id: string } } | null> } | null } | null> } | null };
-
+export type FooterLinksQuery = {
+  __typename: 'Query';
+  footerCollection: {
+    __typename: 'FooterCollection';
+    items: Array<{
+      __typename: 'Footer';
+      linksCollection: {
+        __typename: 'FooterLinksCollection';
+        items: Array<{
+          __typename: 'Page';
+          slug: string | null;
+          title: string | null;
+          body: { __typename: 'PageBody'; json: Document } | null;
+          sys: { __typename: 'Sys'; id: string };
+        } | null>;
+      } | null;
+    } | null>;
+  } | null;
+};
 
 export const ContentPageDocument = gql`
     query ContentPage($slug: String!) {
@@ -776,17 +775,27 @@ export const ContentPageDocument = gql`
  *   },
  * });
  */
-export function useContentPageQuery(baseOptions: Apollo.QueryHookOptions<ContentPageQuery, ContentPageQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ContentPageQuery, ContentPageQueryVariables>(ContentPageDocument, options);
-      }
-export function useContentPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ContentPageQuery, ContentPageQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ContentPageQuery, ContentPageQueryVariables>(ContentPageDocument, options);
-        }
+export function useContentPageQuery(
+  baseOptions: Apollo.QueryHookOptions<ContentPageQuery, ContentPageQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ContentPageQuery, ContentPageQueryVariables>(ContentPageDocument, options);
+}
+export function useContentPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<ContentPageQuery, ContentPageQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ContentPageQuery, ContentPageQueryVariables>(
+    ContentPageDocument,
+    options
+  );
+}
 export type ContentPageQueryHookResult = ReturnType<typeof useContentPageQuery>;
 export type ContentPageLazyQueryHookResult = ReturnType<typeof useContentPageLazyQuery>;
-export type ContentPageQueryResult = Apollo.QueryResult<ContentPageQuery, ContentPageQueryVariables>;
+export type ContentPageQueryResult = Apollo.QueryResult<
+  ContentPageQuery,
+  ContentPageQueryVariables
+>;
 export const FooterLinksDocument = gql`
     query FooterLinks {
   footerCollection(limit: 1) {
@@ -825,15 +834,25 @@ export const FooterLinksDocument = gql`
  *   },
  * });
  */
-export function useFooterLinksQuery(baseOptions?: Apollo.QueryHookOptions<FooterLinksQuery, FooterLinksQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FooterLinksQuery, FooterLinksQueryVariables>(FooterLinksDocument, options);
-      }
-export function useFooterLinksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FooterLinksQuery, FooterLinksQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FooterLinksQuery, FooterLinksQueryVariables>(FooterLinksDocument, options);
-        }
+export function useFooterLinksQuery(
+  baseOptions?: Apollo.QueryHookOptions<FooterLinksQuery, FooterLinksQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FooterLinksQuery, FooterLinksQueryVariables>(FooterLinksDocument, options);
+}
+export function useFooterLinksLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<FooterLinksQuery, FooterLinksQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FooterLinksQuery, FooterLinksQueryVariables>(
+    FooterLinksDocument,
+    options
+  );
+}
 export type FooterLinksQueryHookResult = ReturnType<typeof useFooterLinksQuery>;
 export type FooterLinksLazyQueryHookResult = ReturnType<typeof useFooterLinksLazyQuery>;
-export type FooterLinksQueryResult = Apollo.QueryResult<FooterLinksQuery, FooterLinksQueryVariables>;
+export type FooterLinksQueryResult = Apollo.QueryResult<
+  FooterLinksQuery,
+  FooterLinksQueryVariables
+>;
 export const scalarTypePolicies = {};

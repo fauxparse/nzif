@@ -1,6 +1,6 @@
-import { Dispatch, useMemo, useState } from 'react';
 import { DndContext, DragEndEvent, DragStartEvent, pointerWithin } from '@dnd-kit/core';
 import { lime, red } from '@radix-ui/colors';
+import { Dispatch, useMemo, useState } from 'react';
 
 import Icon from '@/atoms/Icon';
 
@@ -64,18 +64,18 @@ const AllocationSlot: React.FC<AllocationSlotProps> = ({ slot, dispatch }) => {
   const zones = useMemo(() => {
     if (!dragging) {
       return new Map();
-    } else if (dragging.waitlist) {
+    }
+    if (dragging.waitlist) {
       const pref =
         (dragging.registration.preferences.get(slot.id) || []).indexOf(
           dragging.session.workshop.id
         ) + 1;
       return new Map<Session, number>([[dragging.session, pref]]);
-    } else {
-      return (dragging.registration.preferences.get(slot.id) || []).reduce((acc, id, i) => {
-        const session = slot.session(id);
-        return session ? acc.set(session, i + 1) : acc;
-      }, new Map<Session, number>());
     }
+    return (dragging.registration.preferences.get(slot.id) || []).reduce((acc, id, i) => {
+      const session = slot.session(id);
+      return session ? acc.set(session, i + 1) : acc;
+    }, new Map<Session, number>());
   }, [slot, dragging]);
 
   return (

@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 
+import { ROUTES } from '@/Routes';
 import Button from '@/atoms/Button';
 import { TimetableActivityFragment, TimetableSessionFragment } from '@/graphql/types';
 import Popover from '@/molecules/Popover';
-import { ROUTES } from '@/Routes';
 import { adminActivityLink, pluralizeActivityType } from '@/util/activityTypeLabel';
 
 type CurrentActivityProps = {

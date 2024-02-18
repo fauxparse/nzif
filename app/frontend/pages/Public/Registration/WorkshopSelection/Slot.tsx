@@ -1,13 +1,13 @@
-import { useMemo } from 'react';
 import { DateTime } from 'luxon';
+import { useMemo } from 'react';
 
 import { RegistrationSessionFragment, RegistrationSlotFragment } from '@/graphql/types';
 import Skeleton from '@/helpers/Skeleton';
 import { useAuthentication } from '@/organisms/Authentication';
 
-import { WorkshopSession } from './types';
 import WorkshopCard from './WorkshopCard';
 import { useWorkshopSelectionContext } from './WorkshopSelectionContext';
+import { WorkshopSession } from './types';
 
 type SlotProps = {
   slot: RegistrationSlotFragment;

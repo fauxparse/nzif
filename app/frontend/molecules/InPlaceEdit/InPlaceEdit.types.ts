@@ -5,7 +5,7 @@ import { Polymorphic, WithDisplayName } from '@/types/polymorphic.types';
 export type BaseInPlaceEditProps = {
   value: string;
   placeholder?: string;
-  onChange: (value: string) => void | Promise<string>;
+  onChange: (value: string) => undefined | Promise<string>;
 };
 
 export type InPlaceEditProps<C extends ElementType = 'input'> = Polymorphic<

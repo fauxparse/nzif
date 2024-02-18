@@ -1,10 +1,10 @@
-import React, { forwardRef, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { DateTime } from 'luxon';
+import React, { forwardRef, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 
-import { Page, useFooterLinksQuery } from '@/contentful/types';
 import { ROUTES } from '@/Routes';
+import { Page, useFooterLinksQuery } from '@/contentful/types';
 
 import { FooterProps } from './Footer.types';
 
@@ -16,12 +16,11 @@ const isPageLink = (link: { __typename: string } | null): link is Page =>
 export const Footer = forwardRef<HTMLElement, FooterProps>((props, ref) => {
   const { data } = useFooterLinksQuery({ context: { clientName: 'contentful' } });
 
+  const items = data?.footerCollection?.items?.[0]?.linksCollection?.items || [];
+
   const links = useMemo(
-    () =>
-      (data?.footerCollection?.items?.[0]?.linksCollection?.items || []).filter((p) =>
-        isPageLink(p)
-      ) as (Page & { slug: string })[],
-    [data]
+    () => items.filter((p) => isPageLink(p)) as (Page & { slug: string })[],
+    [items]
   );
 
   return (

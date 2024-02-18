@@ -1,6 +1,6 @@
+import { crimson, cyan, yellow } from '@radix-ui/colors';
 import { useEffect, useState } from 'react';
 import ConfettiExplosion from 'react-confetti-explosion';
-import { crimson, cyan, yellow } from '@radix-ui/colors';
 
 import { useRegistrationContext } from '../RegistrationContext';
 

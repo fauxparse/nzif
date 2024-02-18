@@ -1,11 +1,11 @@
-import React from 'react';
 import { PortalManager } from '@chakra-ui/portal';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import rg4js from 'raygun4js';
+import React from 'react';
 
+import Routes from './Routes';
 import PlacenameProvider from './atoms/Placename/PlacenameProvider';
 import AuthenticationProvider from './organisms/Authentication/AuthenticationProvider';
-import Routes from './Routes';
 
 const queryClient = new QueryClient();
 

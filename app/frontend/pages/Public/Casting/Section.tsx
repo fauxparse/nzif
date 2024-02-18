@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
 import { sortBy, upperFirst } from 'lodash-es';
+import { useMemo, useState } from 'react';
 
 import Avatar from '@/atoms/Avatar';
 import Icon from '@/atoms/Icon';
@@ -68,6 +68,7 @@ const Section: React.FC<SectionProps> = ({ session, role }) => {
             {workshopParticipants.map((p) => (
               <button
                 key={p.id}
+                type="button"
                 className="person-picker__person"
                 onClick={() => addWorkshopParticipant(p)}
               >

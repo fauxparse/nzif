@@ -1,7 +1,8 @@
-import React, { createContext, PropsWithChildren, useContext, useMemo } from 'react';
 import { useApolloClient } from '@apollo/client';
 import PERMISSIONS from '@config/permissions.yml';
+import React, { createContext, PropsWithChildren, useContext, useMemo } from 'react';
 
+import { ROUTES } from '@/Routes';
 import { clearAuthenticationInfo, saveAuthenticationInfo } from '@/graphql/authentication';
 import {
   AuthenticatedUserFragment,
@@ -15,7 +16,6 @@ import {
   useResetPasswordMutation,
   useSignUpMutation,
 } from '@/graphql/types';
-import { ROUTES } from '@/Routes';
 
 type AuthenticationContextShape = {
   loading: boolean;
@@ -48,7 +48,7 @@ export const useAuthentication = () => useContext(AuthenticationContext);
 
 const descendants = (() => {
   const buildDescendants = (config: typeof PERMISSIONS, map: Map<Permission, Set<Permission>>) => {
-    Object.entries(config).forEach(([key, value]) => {
+    for (const [key, value] of Object.entries(config)) {
       const permission = key as Permission;
       const children = (value.implies || {}) as Record<Permission, typeof PERMISSIONS>;
       buildDescendants(children, map);
@@ -59,7 +59,7 @@ const descendants = (() => {
           ...Object.keys(children).flatMap((k) => [...(map.get(k as Permission) || [])]),
         ])
       );
-    });
+    }
     return map;
   };
   return buildDescendants(PERMISSIONS, new Map<Permission, Set<Permission>>());

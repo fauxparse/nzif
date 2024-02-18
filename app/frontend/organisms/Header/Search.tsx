@@ -1,6 +1,6 @@
+import { camelCase } from 'lodash-es';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { camelCase } from 'lodash-es';
 
 import { IconName } from '@/atoms/Icon';
 import {
@@ -58,13 +58,11 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ container }) => {
       const left = padding - el.getBoundingClientRect().left;
       const right = el.getBoundingClientRect().right - (header.clientWidth - padding);
       return { left, right };
-    } else {
-      const logo = header.querySelector('.header__logo');
-      const left =
-        (logo?.getBoundingClientRect().right || 0) + 16 - el.getBoundingClientRect().left;
-      const right = 0;
-      return { left, right };
     }
+    const logo = header.querySelector('.header__logo');
+    const left = (logo?.getBoundingClientRect().right || 0) + 16 - el.getBoundingClientRect().left;
+    const right = 0;
+    return { left, right };
   };
 
   const performSearch = useCallback(

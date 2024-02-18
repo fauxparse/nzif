@@ -1,11 +1,11 @@
-import { useMemo } from 'react';
-import { useTypedParams } from 'react-router-typesafe-routes/dom';
 import { groupBy, sortBy, toPairs } from 'lodash-es';
 import { DateTime } from 'luxon';
+import { useMemo } from 'react';
+import { useTypedParams } from 'react-router-typesafe-routes/dom';
 
+import { ROUTES } from '@/Routes';
 import { ProgrammeQuery } from '@/graphql/types';
 import Skeleton from '@/helpers/Skeleton';
-import { ROUTES } from '@/Routes';
 
 import ActivityCard from './ActivityCard';
 

@@ -1,5 +1,5 @@
-import { forwardRef, Ref } from 'react';
 import clsx from 'clsx';
+import { Ref, forwardRef } from 'react';
 
 import { LabelledProps } from './Labelled.types';
 

@@ -1,7 +1,7 @@
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
 
-import { RegistrationPhase, useRegistrationStatusQuery } from '@/graphql/types';
 import { ROUTES } from '@/Routes';
+import { RegistrationPhase, useRegistrationStatusQuery } from '@/graphql/types';
 
 import Placements from './Placements';
 import Preferences from './Preferences';
@@ -21,7 +21,6 @@ export const Component = () => {
 
   if (registrationPhase === RegistrationPhase.Earlybird) {
     return <Preferences />;
-  } else {
-    return <Placements />;
   }
+  return <Placements />;
 };

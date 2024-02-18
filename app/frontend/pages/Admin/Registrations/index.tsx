@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import {
+  SortingState,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
-  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
+import { ROUTES } from '@/Routes';
 import Avatar from '@/atoms/Avatar';
 import Button from '@/atoms/Button';
 import Icon from '@/atoms/Icon';
@@ -16,7 +17,6 @@ import Money from '@/atoms/Money';
 import { RegistrationsListItemFragment, useRegistrationsQuery } from '@/graphql/types';
 import Breadcrumbs from '@/molecules/Breadcrumbs';
 import PageHeader from '@/molecules/PageHeader';
-import { ROUTES } from '@/Routes';
 
 const columnHelper = createColumnHelper<RegistrationsListItemFragment>();
 

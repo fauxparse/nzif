@@ -1,6 +1,6 @@
+import clsx from 'clsx';
 import React, { ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react';
 import { Blurhash } from 'react-blurhash';
-import clsx from 'clsx';
 import { useIntersectionObserver } from 'usehooks-ts';
 
 import './BlurrableImage.css';
@@ -42,7 +42,13 @@ const BlurrableImage: React.FC<BlurrableImageProps> = ({ className, blurhash, sr
         />
       )}
       {visible && (
-        <img ref={addLoadHandler} className="blurrable-image__image" src={src} {...props} />
+        <img
+          ref={addLoadHandler}
+          className="blurrable-image__image"
+          src={src}
+          {...props}
+          alt="loading"
+        />
       )}
     </div>
   );

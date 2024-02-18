@@ -1,5 +1,5 @@
-import React, { PropsWithChildren, useContext, useMemo } from 'react';
 import { last } from 'lodash-es';
+import React, { PropsWithChildren, useContext, useMemo } from 'react';
 
 import { Crumb } from './Breadcrumbs.types';
 import Context from './Context';
@@ -8,7 +8,7 @@ const BreadcrumbProvider: React.FC<PropsWithChildren<Crumb>> = ({ label, path, c
   const { crumbs: existing } = useContext(Context);
 
   const crumbs = useMemo(
-    () => [...existing, { label, path: (last(existing)?.path || '') + '/' + path }],
+    () => [...existing, { label, path: `${last(existing)?.path || ''}/${path}` }],
     [existing, label, path]
   );
 

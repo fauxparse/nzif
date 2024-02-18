@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { useTimetableContext } from '../Context';
+import { ROUTES } from '@/Routes';
 import {
   SessionAttributes,
   useDestroySessionMutation,
@@ -10,8 +10,8 @@ import {
 import ContextMenu from '@/molecules/ContextMenu';
 import { useContextMenu } from '@/molecules/ContextMenu/Context';
 import Menu from '@/molecules/Menu';
-import { ROUTES } from '@/Routes';
 import { adminActivityLink, pluralizeActivityType } from '@/util/activityTypeLabel';
+import { useTimetableContext } from '../Context';
 
 const TimetableSessionContextMenu: React.FC = () => {
   const { currentTarget, close } = useContextMenu();

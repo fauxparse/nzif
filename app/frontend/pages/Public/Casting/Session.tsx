@@ -1,13 +1,13 @@
+import { sortBy, upperFirst } from 'lodash-es';
 import React, { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
-import { sortBy, upperFirst } from 'lodash-es';
 
+import { ROUTES } from '@/Routes';
 import { ActivityType, CastingSessionFragment, useCastingSessionsQuery } from '@/graphql/types';
 import Breadcrumbs, { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 import PageHeader from '@/molecules/PageHeader';
 import PersonPicker from '@/molecules/PersonPicker';
-import { ROUTES } from '@/Routes';
 
 import Section from './Section';
 

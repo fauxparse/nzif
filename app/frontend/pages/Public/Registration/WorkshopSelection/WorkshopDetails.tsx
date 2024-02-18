@@ -1,7 +1,7 @@
+import { MotionConfig, motion, useIsPresent } from 'framer-motion';
+import { map, sortBy, uniqBy } from 'lodash-es';
 import { useMemo } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
-import { motion, MotionConfig, useIsPresent } from 'framer-motion';
-import { map, sortBy, uniqBy } from 'lodash-es';
 
 import Button from '@/atoms/Button';
 import Icon from '@/atoms/Icon';
@@ -9,9 +9,9 @@ import Placename from '@/atoms/Placename';
 import {
   Placename as PlacenameType,
   RegistrationSessionFragment,
-  useWorkshopDetailsQuery,
   WorkshopDetailsFragment,
   WorkshopDetailsQuery,
+  useWorkshopDetailsQuery,
 } from '@/graphql/types';
 import Markdown from '@/helpers/Markdown';
 import Scrollable from '@/helpers/Scrollable';

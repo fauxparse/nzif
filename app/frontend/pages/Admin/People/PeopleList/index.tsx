@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import {
+  Row,
+  SortingState,
+  Table,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
-  Row,
-  SortingState,
-  Table,
   useReactTable,
 } from '@tanstack/react-table';
 import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import Avatar from '@/atoms/Avatar';
 import Button from '@/atoms/Button';

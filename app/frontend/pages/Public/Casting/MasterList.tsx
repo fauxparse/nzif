@@ -23,9 +23,10 @@ export const Component: React.FC = () => {
         if (prev?.date?.equals(date)) {
           prev.sessions = prev.sessions.concat(slot.sessions);
           return acc;
-        } else {
-          return [...acc, { date, sessions: slot.sessions }];
         }
+
+        acc.push({ date, sessions: slot.sessions });
+        return acc;
       }, [] as Day[]),
     [data]
   );

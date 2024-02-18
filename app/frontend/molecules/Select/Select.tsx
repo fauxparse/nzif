@@ -1,16 +1,13 @@
-import React, { ElementType, forwardRef, useEffect, useRef, useState } from 'react';
-import { flushSync } from 'react-dom';
-import { mergeRefs } from 'react-merge-refs';
 import {
-  autoUpdate,
-  flip,
   FloatingFocusManager,
   FloatingOverlay,
   FloatingPortal,
+  SideObject,
+  autoUpdate,
+  flip,
   inner,
   offset,
   shift,
-  SideObject,
   size,
   useClick,
   useDismiss,
@@ -22,14 +19,17 @@ import {
   useTypeahead,
 } from '@floating-ui/react';
 import clsx from 'clsx';
+import React, { ElementType, forwardRef, useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
+import { mergeRefs } from 'react-merge-refs';
 
-import Menu from '../Menu';
 import Button from '@/atoms/Button';
 import { PolymorphicRef } from '@/types/polymorphic.types';
+import Menu from '../Menu';
 
 import SelectContext from './Context';
 import ScrollArrow from './ScrollArrow';
-import { isSeparator, SelectOption, SelectProps } from './Select.types';
+import { SelectOption, SelectProps, isSeparator } from './Select.types';
 import DefaultTrigger from './Trigger';
 
 import './Select.css';
@@ -52,10 +52,10 @@ export const Select = forwardRef(
     const [open, setOpen] = useState(false);
 
     const [selectedIndex, setSelectedIndex] = useState<number | null>(() =>
-      options.findIndex((o) => !isSeparator(o) && o.value === value)
+      options.findIndex((o) => !isSeparator<V>(o) && o.value === value)
     );
     useEffect(() => {
-      setSelectedIndex(options.findIndex((o) => !isSeparator(o) && o.value === value));
+      setSelectedIndex(options.findIndex((o) => !isSeparator<V>(o) && o.value === value));
     }, [options, value]);
 
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -72,13 +72,15 @@ export const Select = forwardRef(
     const allowMouseUpRef = useRef(true);
     const selectTimeoutRef = useRef<number>();
 
-    const hasIcon = !!(props as Record<string, unknown>)['icon'];
+    const hasIcon = !!(props as Record<string, unknown>).icon;
 
     const selectedItem =
-      selectedIndex !== undefined && selectedIndex !== null && !isSeparator(options[selectedIndex])
+      selectedIndex !== undefined &&
+      selectedIndex !== null &&
+      !isSeparator<V>(options[selectedIndex])
         ? options[selectedIndex]
         : null;
-    const label = (!isSeparator(selectedItem) && selectedItem?.label) || undefined;
+    const label = (!isSeparator<V>(selectedItem) && selectedItem?.label) || undefined;
 
     if (!open) {
       if (innerOffset !== 0) setInnerOffset(0);
@@ -162,16 +164,17 @@ export const Select = forwardRef(
         return () => {
           clearTimeout(selectTimeoutRef.current);
         };
-      } else {
-        allowSelectRef.current = false;
-        allowMouseUpRef.current = true;
       }
+      allowSelectRef.current = false;
+      allowMouseUpRef.current = true;
     }, [open]);
 
     const triggerRef = mergeRefs([ref, refs.setReference]);
 
     const select = (value: V) => {
-      const index = options.findIndex((option) => !isSeparator(option) && option.value === value);
+      const index = options.findIndex(
+        (option) => !isSeparator<V>(option) && option.value === value
+      );
       if (index > -1) {
         setSelectedIndex(index);
         onChange(value);
@@ -246,7 +249,7 @@ export const Select = forwardRef(
                     })}
                   >
                     {options.map((option, i) =>
-                      isSeparator(option) ? (
+                      isSeparator<V>(option) ? (
                         <Menu.Separator key={i} />
                       ) : (
                         <Menu.Item

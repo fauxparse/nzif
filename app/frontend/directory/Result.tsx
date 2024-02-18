@@ -1,8 +1,8 @@
+import { Variants, motion } from 'framer-motion';
+import { DateTime } from 'luxon';
 import { forwardRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
-import { motion, Variants } from 'framer-motion';
-import { DateTime } from 'luxon';
 
 import Button from '@/atoms/Button';
 import Icon, { IconName } from '@/atoms/Icon';
@@ -39,10 +39,8 @@ const Result = forwardRef<HTMLDivElement, unknown>((_, ref) => {
 
   const { loading, data } = useDirectoryResultQuery({
     variables: {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      id: id!,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      time: DateTime.fromFormat(timeslot!, 'y-MM-dd-HHmm'),
+      id: id || '',
+      time: DateTime.fromFormat(timeslot || '', 'y-MM-dd-HHmm'),
     },
   });
 

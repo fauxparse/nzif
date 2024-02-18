@@ -1,8 +1,8 @@
-import React from 'react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { describe, it, vi } from 'vitest';
 
 import cache from '@/graphql/cache';
@@ -29,7 +29,7 @@ describe.skip('Registration', () => {
     mocks = [],
     currentPath = '/2023/registration',
   }: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: we don't care about the types here
     mocks?: readonly MockedResponse<Record<string, any>, Record<string, any>>[];
     currentPath?: string;
   } = {}) => {

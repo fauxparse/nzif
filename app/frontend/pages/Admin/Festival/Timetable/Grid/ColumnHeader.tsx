@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Context from '../Context';
 import { ColumnHeaderProps } from '@/molecules/Grid/Grid.types';
+import Context from '../Context';
 
 const ColumnHeader: React.FC<ColumnHeaderProps> = ({ column, style, ...props }) => {
   const { startHour, granularity } = React.useContext(Context);

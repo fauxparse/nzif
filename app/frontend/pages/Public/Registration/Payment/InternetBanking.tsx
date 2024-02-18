@@ -1,11 +1,11 @@
-import { ReactNode } from 'react';
 import { isString } from 'lodash-es';
+import { ReactNode } from 'react';
 
-import { useRegistrationContext } from '../RegistrationContext';
-import useCartCalculator from '../useCartCalculator';
 import CopyToClipboard from '@/atoms/CopyToClipboard';
 import Money from '@/atoms/Money';
 import { usePromiseInternetBankingPaymentMutation } from '@/graphql/types';
+import { useRegistrationContext } from '../RegistrationContext';
+import useCartCalculator from '../useCartCalculator';
 
 const Copyable = ({ children, as }: { children: ReactNode; as?: string }) => (
   <>

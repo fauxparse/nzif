@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import React, { useState } from 'react';
 
 import Button from '@/atoms/Button';
 
-import { PopoverProps } from './Popover.types';
 import Popover from '.';
+import { PopoverProps } from './Popover.types';
 
 type Story = StoryObj<typeof Popover>;
 

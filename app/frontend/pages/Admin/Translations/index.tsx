@@ -1,16 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
 import {
   ColumnDef,
+  Row,
+  RowData,
+  SortingState,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
-  Row,
-  RowData,
-  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
 import { isEqual } from 'lodash-es';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Button from '@/atoms/Button';
 import Icon from '@/atoms/Icon';

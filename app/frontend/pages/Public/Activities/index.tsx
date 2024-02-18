@@ -1,18 +1,18 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useTypedParams } from 'react-router-typesafe-routes/dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { range } from 'lodash-es';
 import { DateTime } from 'luxon';
 import pluralize from 'pluralize';
+import { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useTypedParams } from 'react-router-typesafe-routes/dom';
 
+import { ROUTES } from '@/Routes';
 import { ActivityType, useProgrammeQuery } from '@/graphql/types';
 import usePrevious from '@/hooks/usePrevious';
 import Breadcrumbs from '@/molecules/Breadcrumbs';
 import PageHeader from '@/molecules/PageHeader';
 import Tabs from '@/molecules/Tabs';
 import { pageVariants } from '@/pages/variants';
-import { ROUTES } from '@/Routes';
 import activityFactory from '@/tests/factories/Activity';
 import activityTypeLabel from '@/util/activityTypeLabel';
 
@@ -48,7 +48,7 @@ export const Component: React.FC = () => {
     setAnimating(true);
     const timeout = setTimeout(() => setAnimating(false), 350);
     return () => clearTimeout(timeout);
-  }, [type]);
+  }, []);
 
   const activities = useMemo(() => {
     if (loading) {

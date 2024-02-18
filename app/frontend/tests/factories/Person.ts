@@ -39,7 +39,7 @@ const personFactory = PersonFactory.define(
       user: associations.user || null,
       city: cityFactory.build(),
       country: countryFactory.build(),
-    } satisfies Person)
+    }) satisfies Person
 );
 
 export default personFactory;

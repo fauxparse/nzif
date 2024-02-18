@@ -1,9 +1,9 @@
 import {
-  closestCorners,
   DroppableContainer,
-  getFirstCollision,
   KeyboardCode,
   KeyboardCoordinateGetter,
+  closestCorners,
+  getFirstCollision,
 } from '@dnd-kit/core';
 
 const directions: string[] = [
@@ -26,7 +26,7 @@ export const coordinateGetter: KeyboardCoordinateGetter = (
 
     const filteredContainers: DroppableContainer[] = [];
 
-    droppableContainers.getEnabled().forEach((entry) => {
+    for (const entry of droppableContainers.getEnabled()) {
       if (!entry || entry?.disabled) {
         return;
       }
@@ -71,7 +71,7 @@ export const coordinateGetter: KeyboardCoordinateGetter = (
           }
           break;
       }
-    });
+    }
 
     const collisions = closestCorners({
       active,

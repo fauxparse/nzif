@@ -1,8 +1,5 @@
-import React from 'react';
-import { createPortal } from 'react-dom';
 import {
   CancelDrop,
-  defaultDropAnimationSideEffects,
   DndContext,
   DragOverlay,
   DropAnimation,
@@ -11,26 +8,29 @@ import {
   MeasuringStrategy,
   Modifiers,
   MouseSensor,
-  pointerWithin,
   TouchSensor,
   UniqueIdentifier,
+  defaultDropAnimationSideEffects,
+  pointerWithin,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
 import { SortableContext, SortingStrategy, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import React from 'react';
+import { createPortal } from 'react-dom';
 
 import { AdminActivitySessionDetailsFragment } from '@/graphql/types';
 import ContextMenu from '@/molecules/ContextMenu';
 import Menu from '@/molecules/Menu';
 
 import ParticipantsContext from './Context';
-import { coordinateGetter as multipleContainersCoordinateGetter } from './multipleContainersKeyboardCoordinates';
 import Participant from './Participant';
 import ParticipantList from './ParticipantList';
 import ParticipantMenu from './ParticipantMenu';
 import SortableParticipant from './SortableParticipant';
-import useParticipants from './useParticipants';
 import Waitlist from './Waitlist';
+import { coordinateGetter as multipleContainersCoordinateGetter } from './multipleContainersKeyboardCoordinates';
+import useParticipants from './useParticipants';
 
 const dropAnimation: DropAnimation = {
   sideEffects: defaultDropAnimationSideEffects({

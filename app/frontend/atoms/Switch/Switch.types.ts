@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef } from 'react';
 
-import { UnwantedInputProps } from '../Radio/Radio.types';
 import { PropsWithVariants } from '@/types/variants';
+import { UnwantedInputProps } from '../Radio/Radio.types';
 
 export enum Orientation {
   HORIZONTAL = 'horizontal',

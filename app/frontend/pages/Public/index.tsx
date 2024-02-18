@@ -1,6 +1,6 @@
+import { AnimatePresence, Variants, motion } from 'framer-motion';
 import React, { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-import { AnimatePresence, motion, Variants } from 'framer-motion';
 
 import usePrevious from '@/hooks/usePrevious';
 import Footer from '@/organisms/Footer';

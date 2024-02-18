@@ -1,7 +1,7 @@
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
 
-import { useRegistrationStatusQuery } from '@/graphql/types';
 import { ROUTES } from '@/Routes';
+import { useRegistrationStatusQuery } from '@/graphql/types';
 
 import AddPayment from './AddPayment';
 import AddRefund from './AddRefund';

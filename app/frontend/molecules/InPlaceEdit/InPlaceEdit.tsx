@@ -1,7 +1,7 @@
-import React, { ElementType, forwardRef, useRef } from 'react';
-import { mergeRefs } from 'react-merge-refs';
 import { useInterpret, useSelector } from '@xstate/react';
 import clsx from 'clsx';
+import React, { ElementType, forwardRef, useRef } from 'react';
+import { mergeRefs } from 'react-merge-refs';
 import { isPromiseLike } from 'xstate/lib/utils';
 
 import Button from '@/atoms/Button';

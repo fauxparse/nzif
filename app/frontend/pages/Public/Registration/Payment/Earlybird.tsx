@@ -1,5 +1,5 @@
-import { useRegistrationContext } from '../RegistrationContext';
 import { useFinaliseRegistrationMutation } from '@/graphql/types';
+import { useRegistrationContext } from '../RegistrationContext';
 
 import Cart from './Cart';
 

@@ -1,8 +1,8 @@
 import { ElementType, ReactElement, ReactNode } from 'react';
 
-import { IconName } from '../Icon/icons';
 import { Polymorphic, WithDisplayName } from '@/types/polymorphic.types';
 import { PropsWithVariants } from '@/types/variants';
+import { IconName } from '../Icon/icons';
 
 /* c8 ignore next */
 export enum ButtonSize {

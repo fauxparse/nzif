@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
-import { RegistrationStatusQuery } from '@/graphql/types';
 import { ROUTES } from '@/Routes';
+import { RegistrationStatusQuery } from '@/graphql/types';
 
 type PausedProps = {
   festival: RegistrationStatusQuery['festival'];

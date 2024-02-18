@@ -40,6 +40,7 @@ const PreferenceCheckbox: React.FC<PreferenceCheckboxProps> = ({
       onChange={changed}
     >
       <svg className="checkbox__burst" viewBox="-64 -64 128 128">
+        <title>burst</title>
         {range(7).map((i) => (
           <g
             style={{ rotate: `${(i * 360) / 7}deg`, scale: String(Math.random() * 0.2 + 0.8) }}

@@ -1,10 +1,10 @@
-import { useMemo } from 'react';
-import { useTypedParams } from 'react-router-typesafe-routes/dom';
 import { sortBy } from 'lodash-es';
 import { DateTime } from 'luxon';
+import { useMemo } from 'react';
+import { useTypedParams } from 'react-router-typesafe-routes/dom';
 
-import { RegistrationStatusQuery, useRegistrationStatusQuery } from '@/graphql/types';
 import { ROUTES } from '@/Routes';
+import { RegistrationStatusQuery, useRegistrationStatusQuery } from '@/graphql/types';
 
 const Preferences = () => {
   const { id } = useTypedParams(ROUTES.ADMIN.PERSON);

@@ -1,8 +1,8 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import Icon from '../Icon';
 import { extractVariants } from '@/types/variants';
+import Icon from '../Icon';
 
 import { AVATAR_VARIANTS, AvatarProps, AvatarVariants } from './Avatar.types';
 

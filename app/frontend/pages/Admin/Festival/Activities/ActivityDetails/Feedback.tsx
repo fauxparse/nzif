@@ -1,10 +1,10 @@
+import { map, range, shuffle, sum, upperFirst } from 'lodash-es';
 import { CSSProperties, useMemo } from 'react';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
-import { map, range, shuffle, sum, upperFirst } from 'lodash-es';
 
+import { ROUTES } from '@/Routes';
 import Icon from '@/atoms/Icon';
 import { useActivityFeedbackQuery } from '@/graphql/types';
-import { ROUTES } from '@/Routes';
 
 export const Component: React.FC = () => {
   const { slug } = useTypedParams(ROUTES.ADMIN.ACTIVITY.FEEDBACK);
@@ -25,10 +25,10 @@ export const Component: React.FC = () => {
   const comments = useMemo(
     () =>
       ['positive', 'constructive', 'testimonial'].reduce(
-        (acc, field) => ({
-          ...acc,
-          [field]: shuffle(map(feedback, field).filter(Boolean)),
-        }),
+        (acc, field) =>
+          Object.assign(acc, {
+            [field]: shuffle(map(feedback, field).filter(Boolean)),
+          }),
         {} as Record<'positive' | 'constructive' | 'testimonial', string[]>
       ),
     [feedback]

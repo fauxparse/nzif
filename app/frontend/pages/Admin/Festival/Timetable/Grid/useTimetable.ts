@@ -1,14 +1,14 @@
-import { useCallback, useContext, useMemo } from 'react';
 import { map, memoize, partition, range, tap } from 'lodash-es';
 import { DateTime } from 'luxon';
+import { useCallback, useContext, useMemo } from 'react';
 
-import Context from '../Context';
 import {
   SessionAttributes,
   TimetableSessionFragment,
   useUpdateSessionMutation,
 } from '@/graphql/types';
 import { Cell } from '@/molecules/Grid/Grid.types';
+import Context from '../Context';
 
 export type Schedule = TimetableSessionFragment;
 
@@ -120,16 +120,18 @@ const useTimetable = <T extends Schedule = Schedule>(schedules: T[]) => {
   }, []);
 
   const rows = useMemo(() => {
-    const groups = schedules.reduce((groups, schedule) => {
-      const block = scheduleToBlock(schedule);
-      const group = groups.get(block.row) || [];
-      return groups.set(block.row, [...group, block]);
-    }, new Map<number, Block<T>[]>(dates.map((_, i) => [i, []])));
+    const groups = schedules.reduce(
+      (groups, schedule) => {
+        const block = scheduleToBlock(schedule);
+        const group = groups.get(block.row) || [];
+        return groups.set(block.row, [...group, block]);
+      },
+      new Map<number, Block<T>[]>(dates.map((_, i) => [i, []]))
+    );
 
     return dates.reduce<Row<T>[]>((acc, date, i) => {
       const tracks = arrangeRow(groups.get(i) || []);
-      return [
-        ...acc,
+      return acc.concat([
         ...tracks.flatMap((blocks, track) => ({
           date,
           row: i,
@@ -137,7 +139,7 @@ const useTimetable = <T extends Schedule = Schedule>(schedules: T[]) => {
           tracks: tracks.length,
           blocks: blocks.map((b) => ({ ...b, row: acc.length + track })),
         })),
-      ];
+      ]);
     }, []);
   }, [arrangeRow, dates, scheduleToBlock, schedules]);
 

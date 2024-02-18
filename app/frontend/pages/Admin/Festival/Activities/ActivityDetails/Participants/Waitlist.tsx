@@ -1,8 +1,8 @@
-import React from 'react';
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { AnimateLayoutChanges, defaultAnimateLayoutChanges, useSortable } from '@dnd-kit/sortable';
 import { motion } from 'framer-motion';
 import { get } from 'lodash-es';
+import React from 'react';
 
 import { AdminActivitySessionDetailsFragment, SessionParticipantFragment } from '@/graphql/types';
 

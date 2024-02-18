@@ -1,5 +1,5 @@
-import { Fragment, ReactNode, useEffect, useMemo, useReducer, useState } from 'react';
 import { map, maxBy, startCase } from 'lodash-es';
+import { Fragment, ReactNode, useEffect, useMemo, useReducer, useState } from 'react';
 
 import Button from '@/atoms/Button';
 import Icon from '@/atoms/Icon';
@@ -83,7 +83,7 @@ const MergeDialog: React.FC<MergeDialogProps> = ({ open, people: peopleProp, onO
           return { ...state, [action.field]: action.id };
         case 'reset':
           return FIELDS.reduce(
-            (state, field) => ({ ...state, [field.name]: mostComplete }),
+            (state, field) => Object.assign(state, { [field.name]: mostComplete }),
             {} as State
           );
       }
@@ -92,7 +92,7 @@ const MergeDialog: React.FC<MergeDialogProps> = ({ open, people: peopleProp, onO
     {} as State,
     () =>
       FIELDS.reduce(
-        (state, field) => ({ ...state, [field.name]: people?.[0]?.id ?? null }),
+        (state, field) => Object.assign(state, { [field.name]: people?.[0]?.id ?? null }),
         {} as State
       )
   );

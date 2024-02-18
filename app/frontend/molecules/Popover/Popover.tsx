@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from 'react';
 import {
+  FloatingFocusManager,
   arrow,
   autoUpdate,
   flip,
-  FloatingFocusManager,
   offset,
   shift,
   useDismiss,
@@ -12,7 +11,8 @@ import {
   useRole,
 } from '@floating-ui/react';
 import clsx from 'clsx';
-import { AnimatePresence, motion, Variants } from 'framer-motion';
+import { AnimatePresence, Variants, motion } from 'framer-motion';
+import React, { useEffect, useRef } from 'react';
 
 import PopoverContext from './Context';
 import { FloatingArrow } from './FloatingArrow';

@@ -51,7 +51,7 @@ const registrationFactory = RegistrationFactory.define(
         outstanding: 0,
         workshopsCount: 0,
       },
-    } satisfies Registration)
+    }) satisfies Registration
 );
 
 export default registrationFactory;

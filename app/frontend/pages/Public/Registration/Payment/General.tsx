@@ -1,14 +1,14 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe, Stripe } from '@stripe/stripe-js';
+import { Stripe, loadStripe } from '@stripe/stripe-js';
 import { kebabCase, mapKeys } from 'lodash-es';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-import { useRegistrationContext } from '../RegistrationContext';
-import useCartCalculator from '../useCartCalculator';
 import Money from '@/atoms/Money';
 import Radio from '@/atoms/Radio';
 import { getAuthenticationInfo } from '@/graphql/authentication';
 import { useFinaliseRegistrationMutation } from '@/graphql/types';
+import { useRegistrationContext } from '../RegistrationContext';
+import useCartCalculator from '../useCartCalculator';
 
 import Cart from './Cart';
 import InternetBanking from './InternetBanking';

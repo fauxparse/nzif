@@ -1,7 +1,7 @@
-import React from 'react';
 import { randFullName, randJobTitle, randUrl } from '@ngneat/falso';
 import type { Meta, StoryObj } from '@storybook/react';
 import { range } from 'lodash-es';
+import React from 'react';
 
 import Results from './Results';
 

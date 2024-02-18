@@ -1,6 +1,6 @@
-import React, { ComponentPropsWithoutRef, useRef } from 'react';
 import clsx from 'clsx';
 import { kebabCase } from 'lodash-es';
+import React, { ComponentPropsWithoutRef, useRef } from 'react';
 
 import {
   SessionAttributes,

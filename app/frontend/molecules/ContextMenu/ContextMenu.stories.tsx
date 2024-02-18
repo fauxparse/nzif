@@ -1,5 +1,5 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 
 import Menu from '../Menu';
 
@@ -18,7 +18,7 @@ export default {
   render: () => (
     <ContextMenu.Root>
       <ContextMenu.Trigger>
-        <div style={{ width: '100vw', height: '100vh' }}></div>
+        <div style={{ width: '100vw', height: '100vh' }} />
       </ContextMenu.Trigger>
       <ContextMenu>
         <Menu.Item label="Back" onClick={() => console.log('Back')} />

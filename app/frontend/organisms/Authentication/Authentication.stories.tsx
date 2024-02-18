@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { User } from './AuthenticationMachine';
 import Authentication from '.';
+import { User } from './AuthenticationMachine';
 
 const meta = {
   title: 'Organisms/Authentication',

@@ -1,14 +1,14 @@
-import { forwardRef, PropsWithChildren, useEffect, useMemo, useRef } from 'react';
-import { mergeRefs } from 'react-merge-refs';
 import { useSelector } from '@xstate/react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import { clamp, kebabCase } from 'lodash-es';
 import { DateTime } from 'luxon';
+import { PropsWithChildren, forwardRef, useEffect, useMemo, useRef } from 'react';
+import { mergeRefs } from 'react-merge-refs';
 
-import { useTimetableContext } from '../Context';
 import { TimetableSessionFragment } from '@/graphql/types';
 import { Cell } from '@/molecules/Grid/Grid.types';
+import { useTimetableContext } from '../Context';
 
 import { useGridContext } from './Context';
 

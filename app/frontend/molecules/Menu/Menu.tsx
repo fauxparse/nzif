@@ -1,5 +1,5 @@
-import React, { ElementType, forwardRef } from 'react';
 import clsx from 'clsx';
+import React, { ElementType, forwardRef } from 'react';
 
 import { MenuComponent } from './Menu.types';
 

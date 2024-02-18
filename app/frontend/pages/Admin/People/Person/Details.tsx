@@ -1,7 +1,7 @@
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
 
-import { usePersonQuery } from '@/graphql/types';
 import { ROUTES } from '@/Routes';
+import { usePersonQuery } from '@/graphql/types';
 
 import Profile from './Profile';
 

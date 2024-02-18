@@ -1,5 +1,5 @@
-import { ElementType, forwardRef, useMemo } from 'react';
 import clsx from 'clsx';
+import { ElementType, forwardRef, useMemo } from 'react';
 
 import { extractVariants } from '@/types/variants';
 

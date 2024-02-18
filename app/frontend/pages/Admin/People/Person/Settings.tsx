@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
 
+import { ROUTES } from '@/Routes';
 import { ABOUT_TRADITIONAL_PLACENAMES } from '@/atoms/Placename';
 import Switch from '@/atoms/Switch';
 import {
@@ -11,7 +12,6 @@ import {
   useUpdateSettingMutation,
 } from '@/graphql/types';
 import Labelled from '@/helpers/Labelled';
-import { ROUTES } from '@/Routes';
 
 import { PersonDetails } from './Person.types';
 

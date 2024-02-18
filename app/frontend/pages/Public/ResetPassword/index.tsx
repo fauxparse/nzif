@@ -1,8 +1,8 @@
 import { useTypedSearchParams } from 'react-router-typesafe-routes/dom';
 
+import { ROUTES } from '@/Routes';
 import Footer from '@/organisms/Footer';
 import Header from '@/organisms/Header';
-import { ROUTES } from '@/Routes';
 
 import Form from './Form';
 

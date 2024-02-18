@@ -1,6 +1,6 @@
+import { AnimationDefinition, motion } from 'framer-motion';
 import React, { forwardRef, useContext, useRef } from 'react';
 import { mergeRefs } from 'react-merge-refs';
-import { AnimationDefinition, motion } from 'framer-motion';
 
 import Button from '@/atoms/Button';
 

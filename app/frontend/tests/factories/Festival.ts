@@ -29,7 +29,7 @@ const festivalFactory = FestivalFactory.define(
       registrationPhase: RegistrationPhase.Earlybird,
       registrations: associations.registrations || [],
       workshopAllocation: null,
-    } satisfies FestivalWithoutQueryMethods)
+    }) satisfies FestivalWithoutQueryMethods
 ).transient({ year: 2023 });
 
 export default festivalFactory;

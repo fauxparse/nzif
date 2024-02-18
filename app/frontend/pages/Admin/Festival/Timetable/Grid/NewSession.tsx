@@ -1,8 +1,7 @@
-import React, { useMemo, useReducer } from 'react';
 import { groupBy, pick, range, uniqueId } from 'lodash-es';
 import { DateTime } from 'luxon';
+import React, { useMemo, useReducer } from 'react';
 
-import { useTimetableContext } from '../Context';
 import Button from '@/atoms/Button';
 import Checkbox from '@/atoms/Checkbox';
 import {
@@ -16,6 +15,7 @@ import { Region } from '@/molecules/Grid/Grid.types';
 import Popover from '@/molecules/Popover';
 import Select from '@/molecules/Select';
 import activityTypeLabel from '@/util/activityTypeLabel';
+import { useTimetableContext } from '../Context';
 
 import { useGridContext } from './Context';
 

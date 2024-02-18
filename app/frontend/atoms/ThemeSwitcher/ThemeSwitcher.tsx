@@ -1,5 +1,5 @@
-import React, { forwardRef, useEffect } from 'react';
 import clsx from 'clsx';
+import React, { forwardRef, useEffect } from 'react';
 import { useDarkMode } from 'usehooks-ts';
 
 import Button from '../Button';

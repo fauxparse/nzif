@@ -1,5 +1,5 @@
-import { CSSProperties } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { CSSProperties } from 'react';
 
 import Switch from './Switch';
 import { Orientation, SwitchProps } from './Switch.types';
@@ -10,7 +10,7 @@ type HiddenProps<T extends string> = Record<T, { table: { disable: true } }>;
 
 const hideProps = <T extends string>(props: T[]): HiddenProps<T> =>
   props.reduce(
-    (acc, prop) => ({ ...acc, [prop]: { table: { disable: true } } }),
+    (acc, prop): HiddenProps<T> => Object.assign(acc, { [prop]: { table: { disable: true } } }),
     {} as HiddenProps<T>
   );
 

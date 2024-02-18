@@ -1,6 +1,6 @@
+import clsx from 'clsx';
 import { forwardRef, useEffect, useRef } from 'react';
 import { mergeRefs } from 'react-merge-refs';
-import clsx from 'clsx';
 
 import { extractVariants } from '@/types/variants';
 
@@ -31,6 +31,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
         ref={mergeRefs([ref, ownRef])}
         type="checkbox"
         role="switch"
+        aria-checked={indeterminate ? 'mixed' : switchProps.checked}
         className={clsx('switch', className)}
         data-orientation={orientation}
         {...switchProps}

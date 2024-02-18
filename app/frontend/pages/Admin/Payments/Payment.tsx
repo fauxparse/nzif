@@ -1,7 +1,8 @@
+import { DateTime } from 'luxon';
 import React from 'react';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
-import { DateTime } from 'luxon';
 
+import { ROUTES } from '@/Routes';
 import Icon from '@/atoms/Icon';
 import Money from '@/atoms/Money';
 import {
@@ -13,7 +14,6 @@ import {
 import Skeleton from '@/helpers/Skeleton';
 import Segmented from '@/molecules/Segmented';
 import Dialog from '@/organisms/Dialog';
-import { ROUTES } from '@/Routes';
 
 import { PAYMENT_METHOD_ICONS, PAYMENT_METHOD_LABELS, PAYMENT_STATE_OPTIONS } from './types';
 

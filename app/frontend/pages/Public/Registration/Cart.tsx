@@ -15,7 +15,7 @@ const Cart: React.FC = () => {
     <div className="cart">
       <Icon name="cart" viewBox="-6 -6 36 36" />
       <div className="cart__count">
-        {count ? pluralize('workshop', count, true) + ' selected' : 'No workshops selected'}
+        {count ? `${pluralize('workshop', count, true)} selected` : 'No workshops selected'}
       </div>
       <div className="cart__price">
         {discount > 0 && <Money className="cart__value" cents={value} />}

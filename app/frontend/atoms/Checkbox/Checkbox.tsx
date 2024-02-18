@@ -1,6 +1,6 @@
+import clsx from 'clsx';
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import { mergeRefs } from 'react-merge-refs';
-import clsx from 'clsx';
 
 import Icon from '../Icon';
 import Radio from '../Radio';

@@ -1,5 +1,5 @@
-import React from 'react';
 import type { StoryObj } from '@storybook/react';
+import React from 'react';
 
 import Icon from '../Icon';
 
@@ -57,17 +57,17 @@ export default {
       },
     },
     ...Object.values(ButtonSize).reduce(
-      (acc, size) => ({
-        ...acc,
-        [size]: { table: { disable: true } },
-      }),
+      (acc, size) =>
+        Object.assign(acc, {
+          [size]: { table: { disable: true } },
+        }),
       {}
     ),
     ...Object.values(ButtonVariant).reduce(
-      (acc, variant) => ({
-        ...acc,
-        [variant]: { table: { disable: true } },
-      }),
+      (acc, variant) =>
+        Object.assign(acc, {
+          [variant]: { table: { disable: true } },
+        }),
       {}
     ),
     as: {

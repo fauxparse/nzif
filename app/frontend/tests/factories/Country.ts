@@ -25,7 +25,7 @@ const countryFactory = CountryFactory.define(
       name: 'New Zealand',
       traditionalName: 'Aotearoa',
       raw: 'New Zealand',
-    } as const)
+    }) as const
 );
 
 export default countryFactory;

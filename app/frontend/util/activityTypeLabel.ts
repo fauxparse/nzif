@@ -1,7 +1,7 @@
 import { capitalize, startCase } from 'lodash-es';
 
-import { ActivityType } from '@/graphql/types';
 import { ROUTES } from '@/Routes';
+import { ActivityType } from '@/graphql/types';
 
 const PLURALIZED = {
   [ActivityType.Workshop]: 'workshops',

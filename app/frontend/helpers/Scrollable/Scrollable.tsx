@@ -1,6 +1,6 @@
+import clsx from 'clsx';
 import React, { ElementType, forwardRef, useLayoutEffect, useRef } from 'react';
 import { mergeRefs } from 'react-merge-refs';
-import clsx from 'clsx';
 
 import { extractVariants } from '@/types/variants';
 
@@ -28,12 +28,12 @@ export const Scrollable: ScrollableComponent = forwardRef(
 
       const intersectionObserver = new IntersectionObserver(
         (entries) => {
-          entries.forEach((entry: IntersectionObserverEntry) => {
+          for (const entry of entries) {
             root.style.setProperty(
               `--${(entry.target as HTMLElement).dataset.edge}-edge`,
               entry.isIntersecting ? '0' : '1'
             );
-          });
+          }
         },
         { root: ownRef.current, threshold: 0.9 }
       );

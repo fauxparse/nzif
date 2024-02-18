@@ -1,6 +1,6 @@
+import type { Meta, StoryObj } from '@storybook/react';
 import React, { PropsWithChildren } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import type { Meta, StoryObj } from '@storybook/react';
 
 import BreadcrumbProvider from './BreadcrumbProvider';
 import Breadcrumbs from './Breadcrumbs';
@@ -14,15 +14,14 @@ const BreadcrumbsDemo: React.FC<PropsWithChildren<{ crumbs: Crumb[] }>> = ({
 }) => {
   if (!crumbs.length) {
     return <>{children}</>;
-  } else {
-    const [crumb, ...rest] = crumbs;
-
-    return (
-      <BreadcrumbProvider {...crumb}>
-        <BreadcrumbsDemo crumbs={rest}>{children}</BreadcrumbsDemo>
-      </BreadcrumbProvider>
-    );
   }
+  const [crumb, ...rest] = crumbs;
+
+  return (
+    <BreadcrumbProvider {...crumb}>
+      <BreadcrumbsDemo crumbs={rest}>{children}</BreadcrumbsDemo>
+    </BreadcrumbProvider>
+  );
 };
 
 export default {

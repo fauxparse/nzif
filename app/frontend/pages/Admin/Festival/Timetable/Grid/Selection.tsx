@@ -1,6 +1,6 @@
+import clsx from 'clsx';
 import React, { ComponentPropsWithoutRef, forwardRef } from 'react';
 import { mergeRefs } from 'react-merge-refs';
-import clsx from 'clsx';
 
 import { SelectionProps as BaseSelectionProps } from '@/molecules/Grid/Grid.types';
 

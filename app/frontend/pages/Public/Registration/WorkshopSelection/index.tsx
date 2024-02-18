@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Reference } from '@apollo/client';
 import { MotionContext } from 'framer-motion';
 import { range, uniqueId } from 'lodash-es';
 import { DateTime } from 'luxon';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { useRegistrationContext } from '../RegistrationContext';
 import {
   ActivityType,
   JoinSessionMutationVariables,
@@ -26,6 +25,7 @@ import {
   useRegistrationStatusQuery,
   useRemovePreferenceMutation,
 } from '@/graphql/types';
+import { useRegistrationContext } from '../RegistrationContext';
 
 import { useConfirmation } from './ConfirmationModal';
 import HowWorkshopsWork from './HowWorkshopsWork';
@@ -339,7 +339,7 @@ export const Component: React.FC = () => {
                 existing.filter((p) => readField<string>('id', p) !== preference.id),
             },
           });
-          registration.preferences.forEach((p) => {
+          for (const p of registration.preferences) {
             if (p.slot.id === slot.id && p.position > preference.position) {
               cache.modify({
                 id: cache.identify(p),
@@ -348,7 +348,7 @@ export const Component: React.FC = () => {
                 },
               });
             }
-          });
+          }
         },
       });
     } else {

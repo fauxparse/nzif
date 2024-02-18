@@ -1,6 +1,6 @@
+import { useIsPresent } from 'framer-motion';
 import React, { useRef } from 'react';
 import { useOutlet } from 'react-router-dom';
-import { useIsPresent } from 'framer-motion';
 
 import usePrevious from '@/hooks/usePrevious';
 

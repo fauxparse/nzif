@@ -25,7 +25,7 @@ const cityFactory = CityFactory.define(
       name: 'Wellington',
       traditionalName: 'Te Whanganui-a-Tara',
       raw: 'Wellington',
-    } as const)
+    }) as const
 );
 
 export default cityFactory;

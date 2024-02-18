@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Reference, StoreObject } from '@apollo/client';
 import { Active, Over, UniqueIdentifier } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { sortBy } from 'lodash-es';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   AdminActivitySessionDetailsFragment,
@@ -149,7 +149,7 @@ const useParticipants = (session: AdminActivitySessionDetailsFragment) => {
           const oldPosition =
             session.waitlist.find((w) => w.registration.id === registration.id)?.position ||
             Infinity;
-          session.waitlist.forEach((w) => {
+          for (const w of session.waitlist) {
             if (w.position > oldPosition) {
               cache.modify({
                 id: cache.identify(w),
@@ -158,7 +158,7 @@ const useParticipants = (session: AdminActivitySessionDetailsFragment) => {
                 },
               });
             }
-          });
+          }
 
           cache.modify({
             id: cache.identify(session),

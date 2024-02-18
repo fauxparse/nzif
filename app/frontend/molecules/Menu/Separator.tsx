@@ -1,5 +1,5 @@
-import React, { ComponentPropsWithoutRef, forwardRef } from 'react';
 import clsx from 'clsx';
+import React, { ComponentPropsWithoutRef, forwardRef } from 'react';
 
 const Separator = forwardRef<HTMLHRElement, ComponentPropsWithoutRef<'hr'>>(
   ({ className, ...props }, ref) => (

@@ -1,5 +1,5 @@
-import { ComponentPropsWithoutRef, MutableRefObject } from 'react';
 import { Placement } from '@floating-ui/react';
+import { ComponentPropsWithoutRef, MutableRefObject } from 'react';
 
 export type PopoverProps = ComponentPropsWithoutRef<'div'> & {
   reference: HTMLElement;

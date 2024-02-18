@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useRef } from 'react';
 import { spline } from '@georgedoescode/spline';
 import { crimson, cyan, yellow } from '@radix-ui/colors';
 import clsx from 'clsx';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { createNoise2D } from 'simplex-noise';
 
 import { LogoProps } from './Logo.types';
@@ -56,7 +56,7 @@ export const Logo: React.FC<LogoProps> = ({ className, ...props }) => {
 
     const animate = () => {
       blobs.forEach((blob, i) => {
-        blob.points.forEach((point) => {
+        for (const point of blob.points) {
           const nX = noise(point.noiseOffsetX, point.noiseOffsetX);
           const nY = noise(point.noiseOffsetY, point.noiseOffsetY);
           const x = map(nX, -1, 1, point.originX - 20, point.originX + 20);
@@ -65,7 +65,7 @@ export const Logo: React.FC<LogoProps> = ({ className, ...props }) => {
           point.y = y;
           point.noiseOffsetX += NOISE_STEP;
           point.noiseOffsetY += NOISE_STEP;
-        });
+        }
         if (blobRef.current[i]) blobRef.current[i].setAttribute('d', spline(blob.points, 1, true));
       });
       frame = requestAnimationFrame(animate);
@@ -77,6 +77,7 @@ export const Logo: React.FC<LogoProps> = ({ className, ...props }) => {
 
   return (
     <svg className={clsx('logo', className)} viewBox="0 0 800 600" {...props}>
+      <title>NZIF logo</title>
       {blobs.map((blob, i) => (
         <path
           className="logo__blob"

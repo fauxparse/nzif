@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { Alignment, FloatingContext, Side } from '@floating-ui/react';
+import * as React from 'react';
 
 export interface Props extends React.SVGAttributes<SVGSVGElement> {
   context: FloatingContext;
@@ -42,7 +42,7 @@ export const FloatingArrow = React.forwardRef(function FloatingArrow(
       ref={ref}
       width={width}
       height={width}
-      viewBox={`0 0 48 48`}
+      viewBox="0 0 48 48"
       style={{
         ...style,
         position: 'absolute',
@@ -53,6 +53,7 @@ export const FloatingArrow = React.forwardRef(function FloatingArrow(
         transform: `${rotation}${style?.transform ? ` ${style.transform}` : ''}`,
       }}
     >
+      <title>arrow</title>
       <path
         d="M24.5 48v-5.375a3.998 3.998 0 0 0-1.172-2.829l-12.96-12.96a4.001 4.001 0 0 1 .01-5.667c4.358-4.32 8.735-8.638 12.982-12.975a3.998 3.998 0 0 0 1.14-2.796V0h2v48h-7.5Z"
         fill="var(--popover-background)"

@@ -1,7 +1,7 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useInterpret, useSelector } from '@xstate/react';
 import { AnimatePresence } from 'framer-motion';
 import { isEqual, sortBy } from 'lodash-es';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 
 import { TimetableSessionFragment } from '@/graphql/types';
 import ContextMenu from '@/molecules/ContextMenu';

@@ -1,5 +1,5 @@
-import React, { ComponentPropsWithoutRef } from 'react';
 import clsx from 'clsx';
+import React, { ComponentPropsWithoutRef } from 'react';
 
 export const Title: React.FC<ComponentPropsWithoutRef<'h4'>> = ({
   className,

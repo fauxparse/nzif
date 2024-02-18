@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { useState } from 'react';
 
-import { useRegistrationContext } from '../RegistrationContext';
-import useCartCalculator from '../useCartCalculator';
 import Icon from '@/atoms/Icon';
 import { cache } from '@/graphql';
+import { useRegistrationContext } from '../RegistrationContext';
+import useCartCalculator from '../useCartCalculator';
 
 type StripeCheckoutProps = {
   next: () => void;
@@ -42,17 +42,16 @@ const StripeCheckout: React.FC<StripeCheckoutProps> = ({ next }) => {
     if (error) {
       setError(error.message || 'There was an error processing your payment. Please try again.');
       return;
-    } else {
-      cache.modify({
-        id: `Cart:${registration.id}`,
-        fields: {
-          outstanding: () => 0,
-          paid: () => total,
-        },
-      });
-
-      next();
     }
+    cache.modify({
+      id: `Cart:${registration.id}`,
+      fields: {
+        outstanding: () => 0,
+        paid: () => total,
+      },
+    });
+
+    next();
   };
 
   return (

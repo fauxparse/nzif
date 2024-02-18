@@ -1,6 +1,6 @@
-import { forwardRef } from 'react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
+import { forwardRef } from 'react';
 
 import { TabComponent } from './Tabs.types';
 

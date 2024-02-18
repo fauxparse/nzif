@@ -25,7 +25,7 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({ profile }) => {
     if (!file || !profile) return;
 
     const fr = new FileReader();
-    fr.onload = function () {
+    fr.onload = () => {
       if (!imageRef.current) return;
       imageRef.current.src = fr.result as string;
       imageRef.current.style.opacity = '1';

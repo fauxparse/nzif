@@ -2,12 +2,12 @@ import React from 'react';
 import { Link, Outlet, useLocation, useResolvedPath } from 'react-router-dom';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
 
+import { ROUTES } from '@/Routes';
 import { PersonAttributes, usePersonQuery, useUpdatePersonMutation } from '@/graphql/types';
 import Breadcrumbs, { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 import InPlaceEdit from '@/molecules/InPlaceEdit';
 import PageHeader from '@/molecules/PageHeader';
 import Tabs from '@/molecules/Tabs';
-import { ROUTES } from '@/Routes';
 
 import { PersonContext } from './Context';
 import { PersonDetails } from './Person.types';
@@ -39,12 +39,12 @@ export const Component: React.FC = () => {
   const [updatePerson] = useUpdatePersonMutation();
 
   const location = useLocation();
-  const resolvedPath = useResolvedPath(`{PATH}`).pathname;
+  const resolvedPath = useResolvedPath('{PATH}').pathname;
 
   const resolvePath = (path: string) => resolvedPath.replace('{PATH}', path).replace(/\/$/, '');
 
   const handleRename = (name: string) => {
-    if (!person) return;
+    if (!person) return Promise.reject();
     updatePerson({
       variables: { id: person.id, attributes: { name } as PersonAttributes },
       optimisticResponse: {

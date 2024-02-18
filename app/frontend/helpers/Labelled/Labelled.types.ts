@@ -6,6 +6,6 @@ export type LabelledProps<T extends string> = ComponentPropsWithoutRef<'label'> 
   label: ComponentPropsWithoutRef<'label'>['children'];
   required?: boolean;
   hint?: ReactNode;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny:
   errors?: FieldErrors<{ [key in T]: any }>;
 };

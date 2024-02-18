@@ -1,7 +1,7 @@
-import React from 'react';
 import { UniqueIdentifier, useDroppable } from '@dnd-kit/core';
 import { motion } from 'framer-motion';
 import { get } from 'lodash-es';
+import React from 'react';
 
 import { AdminActivitySessionDetailsFragment, SessionParticipantFragment } from '@/graphql/types';
 

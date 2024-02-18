@@ -1,8 +1,8 @@
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
 
-import { useActivityDetailsQuery } from '@/graphql/types';
 import { ROUTES } from '@/Routes';
-import { activityTypeFromPluralized, Pluralized } from '@/util/activityTypeLabel';
+import { useActivityDetailsQuery } from '@/graphql/types';
+import { Pluralized, activityTypeFromPluralized } from '@/util/activityTypeLabel';
 
 const useActivity = () => {
   const { type: pluralizedType, slug } = useTypedParams(ROUTES.ADMIN.ACTIVITY);

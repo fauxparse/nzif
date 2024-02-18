@@ -1,11 +1,11 @@
-import { useState } from 'react';
 import pluralize from 'pluralize';
+import { useState } from 'react';
 
-import useCartCalculator from '../useCartCalculator';
 import Button from '@/atoms/Button';
 import Money from '@/atoms/Money';
 import { RegistrationStatusQuery } from '@/graphql/types';
 import Popover from '@/molecules/Popover';
+import useCartCalculator from '../useCartCalculator';
 
 type CartProps = {
   registration: RegistrationStatusQuery['registration'];

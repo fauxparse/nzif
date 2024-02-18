@@ -1,6 +1,6 @@
+import { get } from 'lodash-es';
 import { cloneElement, forwardRef } from 'react';
 import { mergeRefs } from 'react-merge-refs';
-import { get } from 'lodash-es';
 
 import { useContextMenu } from './Context';
 import { ContextMenuTriggerComponent } from './ContextMenu.types';

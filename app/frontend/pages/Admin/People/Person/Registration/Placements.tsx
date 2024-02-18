@@ -1,11 +1,11 @@
+import { sortBy, uniqBy } from 'lodash-es';
+import { DateTime } from 'luxon';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
-import { sortBy, uniqBy } from 'lodash-es';
-import { DateTime } from 'luxon';
 
-import { RegistrationStatusQuery, useRegistrationStatusQuery } from '@/graphql/types';
 import { ROUTES } from '@/Routes';
+import { RegistrationStatusQuery, useRegistrationStatusQuery } from '@/graphql/types';
 
 type Session = RegistrationStatusQuery['registration']['sessions'][number];
 
@@ -62,7 +62,7 @@ const Placements = () => {
                     type: 'workshops',
                     slug: session.workshop.slug,
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    date: session.startsAt.toISODate()!,
+                    date: session.startsAt.toISODate() || '',
                   })}
                 >
                   {session.workshop.name}
@@ -85,7 +85,7 @@ const Placements = () => {
                             type: 'workshops',
                             slug: waitlist.workshop.slug,
                             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                            date: waitlist.startsAt.toISODate()!,
+                            date: waitlist.startsAt.toISODate() || '',
                           })}
                         >
                           {waitlist.workshop.name}

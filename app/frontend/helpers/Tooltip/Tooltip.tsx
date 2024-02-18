@@ -1,23 +1,8 @@
-import React, {
-  Children,
-  cloneElement,
-  ComponentPropsWithRef,
-  ElementType,
-  forwardRef,
-  isValidElement,
-  Ref,
-  useEffect,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import { mergeRefs } from 'react-merge-refs';
 import {
+  FloatingPortal,
   arrow,
   autoUpdate,
   flip,
-  FloatingPortal,
   inline,
   offset,
   shift,
@@ -34,6 +19,21 @@ import {
 } from '@floating-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { get } from 'lodash-es';
+import React, {
+  Children,
+  cloneElement,
+  ComponentPropsWithRef,
+  ElementType,
+  forwardRef,
+  isValidElement,
+  Ref,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { mergeRefs } from 'react-merge-refs';
 
 import { TooltipComponent, TooltipHandle, TooltipProps } from './Tooltip.types';
 

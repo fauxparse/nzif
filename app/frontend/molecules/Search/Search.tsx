@@ -1,10 +1,8 @@
-import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import { mergeRefs } from 'react-merge-refs';
 import {
-  autoUpdate,
-  flip,
   FloatingFocusManager,
   FloatingPortal,
+  autoUpdate,
+  flip,
   offset,
   size,
   useDismiss,
@@ -15,6 +13,8 @@ import {
 } from '@floating-ui/react';
 import clsx from 'clsx';
 import { AnimatePresence } from 'framer-motion';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { mergeRefs } from 'react-merge-refs';
 import { useDebounce } from 'usehooks-ts';
 
 import Input from './Input';
@@ -90,7 +90,7 @@ export const Search = forwardRef<HTMLInputElement, SearchProps>(
           apply({ rects, elements }) {
             Object.assign(elements.floating.style, {
               width: `${rects.reference.width}px`,
-              maxHeight: `336px`,
+              maxHeight: '336px',
             });
           },
           padding: 16,

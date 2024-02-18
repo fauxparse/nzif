@@ -1,5 +1,5 @@
-import { useRegistrationContext } from '../RegistrationContext';
 import { useRegistrationStatusQuery } from '@/graphql/types';
+import { useRegistrationContext } from '../RegistrationContext';
 
 import LogInForm from './LogInForm';
 import PersonalDetailsForm from './PersonalDetailsForm';

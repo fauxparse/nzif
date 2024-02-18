@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useRegistrationContext } from '../RegistrationContext';
 import { RegistrationPhase } from '@/graphql/types';
+import { useRegistrationContext } from '../RegistrationContext';
 
 import Earlybird from './Earlybird';
 import General from './General';

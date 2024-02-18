@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { assign, createMachine, InterpreterFrom } from 'xstate';
+import { InterpreterFrom, assign, createMachine } from 'xstate';
 
 export type LogInAction = { type: 'LOG_IN'; email: string; password: string };
 export type LogOutAction = { type: 'LOG_OUT' };

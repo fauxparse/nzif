@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import pluralize from 'pluralize';
+import { useState } from 'react';
 
 import Button from '@/atoms/Button';
 import Icon, { IconName } from '@/atoms/Icon';
@@ -100,7 +100,7 @@ export const PaymentsTable: React.FC<PaymentsTableProps> = ({ registration, fest
       <table className="payments-table">
         <tbody>
           <tr>
-            <td></td>
+            <td />
             <th>{registration.completedAt?.toFormat('d MMM')}</th>
             <td>
               {pluralize('workshop', count, true)}
@@ -110,27 +110,27 @@ export const PaymentsTable: React.FC<PaymentsTableProps> = ({ registration, fest
             <td className="payment__amount">
               <Money cents={value} />
             </td>
-            <td></td>
+            <td />
           </tr>
           {count > 1 && (
             <tr>
-              <td></td>
-              <td></td>
+              <td />
+              <td />
               <th>Discount</th>
               <td className="payment__amount">
                 <Money cents={-discount} />
               </td>
-              <td></td>
+              <td />
             </tr>
           )}
           <tr>
-            <td></td>
-            <td></td>
+            <td />
+            <td />
             <th>Subtotal</th>
             <td className="payment__amount">
               <Money cents={total} />
             </td>
-            <td></td>
+            <td />
           </tr>
         </tbody>
         <tbody>
@@ -163,23 +163,23 @@ export const PaymentsTable: React.FC<PaymentsTableProps> = ({ registration, fest
         <tfoot>
           {refundDue > 0 ? (
             <tr>
-              <td></td>
-              <td></td>
+              <td />
+              <td />
               <th>Refund due</th>
               <td className="payment__amount">
                 <Money cents={refundDue} />
               </td>
-              <td></td>
+              <td />
             </tr>
           ) : (
             <tr>
-              <td></td>
-              <td></td>
+              <td />
+              <td />
               <th>Outstanding</th>
               <td className="payment__amount">
                 <Money cents={outstanding} />
               </td>
-              <td></td>
+              <td />
             </tr>
           )}
         </tfoot>

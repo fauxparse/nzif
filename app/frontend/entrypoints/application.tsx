@@ -1,17 +1,17 @@
+import { ApolloProvider } from '@apollo/client';
+import { Settings } from 'luxon';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { ApolloProvider } from '@apollo/client';
-import { Settings } from 'luxon';
 
+import Toaster from '@/molecules/Toaster';
 import App from '../App';
 import { client } from '../graphql';
-import Toaster from '@/molecules/Toaster';
 
 import './application.css';
 
-import '@formatjs/intl-numberformat/polyfill';
 import '@formatjs/intl-numberformat/locale-data/en';
+import '@formatjs/intl-numberformat/polyfill';
 
 // import 'virtual:fonts.css';
 

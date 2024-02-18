@@ -1,8 +1,8 @@
+import { AnimatePresence, HTMLMotionProps, Variants, motion } from 'framer-motion';
+import { DateTime } from 'luxon';
 import { forwardRef, useMemo, useRef } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 import { useLocation } from 'react-router-dom';
-import { AnimatePresence, HTMLMotionProps, motion, Variants } from 'framer-motion';
-import { DateTime } from 'luxon';
 
 import {
   RegistrationPhase,
@@ -16,8 +16,8 @@ import Paused from './Paused';
 import { RegistrationContextProvider } from './RegistrationContext';
 import Steps, { REGISTRATION_STEPS } from './Steps';
 
-import './Registration.css';
 import '../../Contentful/Contentful.css';
+import './Registration.css';
 
 const variants: Variants = {
   entering: (direction = 1) => ({

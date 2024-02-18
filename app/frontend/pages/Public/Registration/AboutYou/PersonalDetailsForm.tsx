@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mapValues, merge, omit } from 'lodash-es';
 import { DateTime } from 'luxon';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { ContinueHandler } from '../Registration.types';
-import Section from '../Section';
 import Checkbox from '@/atoms/Checkbox';
 import Input from '@/atoms/Input';
 import {
@@ -19,6 +17,8 @@ import {
 import Labelled from '@/helpers/Labelled';
 import Skeleton from '@/helpers/Skeleton';
 import CountryPicker from '@/molecules/CountryPicker';
+import { ContinueHandler } from '../Registration.types';
+import Section from '../Section';
 
 import ReadToEnd from './ReadToEnd';
 
@@ -109,7 +109,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({ onContinue })
           <>
             Just so we know how to talk to (and about) you. To find out why we ask for this
             information, check out our{' '}
-            <a href="/privacy" target="_blank">
+            <a href="/privacy" target="_blank" rel="noreferrer">
               privacy policy
             </a>
             .

@@ -1,15 +1,15 @@
+import { AnimatePresence, Variants, motion, useWillChange } from 'framer-motion';
 import React, { useEffect } from 'react';
-import { AnimatePresence, motion, useWillChange, Variants } from 'framer-motion';
 
+import Button from '@/atoms/Button';
+import { LogInMutationVariables, SignUpMutationVariables } from '@/graphql/types';
 import Authentication from '../Authentication';
 import { User } from '../Authentication/AuthenticationMachine';
 import { useAuthentication } from '../Authentication/AuthenticationProvider';
-import Button from '@/atoms/Button';
-import { LogInMutationVariables, SignUpMutationVariables } from '@/graphql/types';
 
 const overlay: Variants = {
   open: {
-    clipPath: `circle(200vmax at var(--cx) var(--cy))`,
+    clipPath: 'circle(200vmax at var(--cx) var(--cy))',
     opacity: 1,
     transition: {
       type: 'spring',

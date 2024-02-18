@@ -1,9 +1,10 @@
+import { uniqBy, upperFirst } from 'lodash-es';
 import { Fragment, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
-import { uniqBy, upperFirst } from 'lodash-es';
 
+import { ROUTES } from '@/Routes';
 import Avatar from '@/atoms/Avatar';
 import Button from '@/atoms/Button';
 import Icon from '@/atoms/Icon';
@@ -21,11 +22,10 @@ import Breadcrumbs, { BreadcrumbProvider } from '@/molecules/Breadcrumbs';
 import Callout from '@/molecules/Callout';
 import PageHeader from '@/molecules/PageHeader';
 import { useAuthentication } from '@/organisms/Authentication';
-import { ROUTES } from '@/Routes';
 import {
+  Pluralized,
   activityTypeFromPluralized,
   adminActivityLink,
-  Pluralized,
 } from '@/util/activityTypeLabel';
 import sentence from '@/util/sentence';
 
@@ -239,7 +239,6 @@ export const Component: React.FC = () => {
                   Loading date and time…
                 </Skeleton>
               )}
-              <></>
               {hasBookingLink(activity) && (
                 <>
                   <dt>

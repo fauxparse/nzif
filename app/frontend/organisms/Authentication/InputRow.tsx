@@ -1,5 +1,5 @@
-import React, { forwardRef } from 'react';
 import { motion } from 'framer-motion';
+import React, { forwardRef } from 'react';
 
 import { IconName } from '@/atoms/Icon/icons';
 import Input, { InputProps } from '@/atoms/Input';

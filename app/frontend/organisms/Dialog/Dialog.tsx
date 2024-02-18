@@ -1,7 +1,7 @@
-import { forwardRef, useEffect, useState } from 'react';
 import * as RadixDialog from '@radix-ui/react-dialog';
 import clsx from 'clsx';
-import { motion, Variants } from 'framer-motion';
+import { Variants, motion } from 'framer-motion';
+import { forwardRef, useEffect, useState } from 'react';
 
 import DialogContext from './Context';
 import { DialogProps } from './Dialog.types';
@@ -54,8 +54,8 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
         (open && current === 'closed') || current === 'closing'
           ? 'opening'
           : (!open && current === 'open') || current === 'opening'
-          ? 'closing'
-          : current
+            ? 'closing'
+            : current
       );
     }, [open]);
 

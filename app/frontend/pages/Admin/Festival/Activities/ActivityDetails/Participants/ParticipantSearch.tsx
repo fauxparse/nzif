@@ -61,8 +61,8 @@ const ParticipantSearch: React.FC<ParticipantSearchProps> = ({ session }) => {
                 description: inSession(result)
                   ? 'Already in session'
                   : onWaitlist(result)
-                  ? 'On the waitlist'
-                  : 'Not in this session',
+                    ? 'On the waitlist'
+                    : 'Not in this session',
                 icon: 'user',
                 url: '',
               };
@@ -104,8 +104,8 @@ const ParticipantSearch: React.FC<ParticipantSearchProps> = ({ session }) => {
               {inSession(registration)
                 ? 'in'
                 : onWaitlist(registration)
-                ? 'on the waitlist for'
-                : 'not in'}{' '}
+                  ? 'on the waitlist for'
+                  : 'not in'}{' '}
               this session.
             </p>
           )}

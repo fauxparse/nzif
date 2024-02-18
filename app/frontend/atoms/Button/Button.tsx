@@ -1,9 +1,9 @@
-import React, { Children, ElementType, forwardRef } from 'react';
 import clsx from 'clsx';
+import React, { Children, ElementType, forwardRef } from 'react';
 
-import Icon, { isIconName } from '../Icon';
 import { PolymorphicRef } from '@/types/polymorphic.types';
 import { extractVariants } from '@/types/variants';
+import Icon, { isIconName } from '../Icon';
 
 import { AllButtonVariants, BUTTON_VARIANTS, ButtonComponent, ButtonProps } from './Button.types';
 import Text from './Text';

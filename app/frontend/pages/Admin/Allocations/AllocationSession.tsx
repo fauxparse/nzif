@@ -1,5 +1,5 @@
-import { CSSProperties } from 'react';
 import { useDroppable } from '@dnd-kit/core';
+import { CSSProperties } from 'react';
 
 import Person from './Person';
 import { Session, Slot } from './types';

@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
 import { randFullName } from '@ngneat/falso';
 import type { Meta, StoryObj } from '@storybook/react';
+import React, { useMemo } from 'react';
 
 import { Select } from './Select';
-import { isSeparator, SelectOption, SelectOptionSeparator, SelectProps } from './Select.types';
+import { SelectOption, SelectOptionSeparator, SelectProps, isSeparator } from './Select.types';
 
 type Story = StoryObj<typeof Select>;
 

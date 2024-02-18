@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
 
-import { isSeparator, SelectOptionSeparator } from '../Select/Select.types';
+import { SelectOptionSeparator, isSeparator } from '../Select/Select.types';
 
 import { CountryPickerOption } from './CountryPicker.types';
 

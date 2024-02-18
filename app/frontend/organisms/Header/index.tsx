@@ -1,9 +1,8 @@
-import React, { useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useCycle } from 'framer-motion';
 import { DateTime } from 'luxon';
+import React, { useMemo, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import { useAuthentication } from '../Authentication/AuthenticationProvider';
 import Avatar from '@/atoms/Avatar';
 import Button from '@/atoms/Button';
 import Icon from '@/atoms/Icon';
@@ -11,6 +10,7 @@ import Logo from '@/atoms/Logo';
 import Placename from '@/atoms/Placename/Placename';
 import ThemeSwitcher from '@/atoms/ThemeSwitcher';
 import { useHeaderQuery } from '@/graphql/types';
+import { useAuthentication } from '../Authentication/AuthenticationProvider';
 
 import Overlay from './Overlay';
 import HeaderSearch from './Search';
@@ -21,9 +21,8 @@ import './Header.css';
 const dateRange = (start: DateTime, end: DateTime) => {
   if (start.hasSame(end, 'month')) {
     return `${start.toFormat('d')}–${end.toFormat('d MMMM, yyyy')}`;
-  } else {
-    return `${start.toFormat('d MMM')} – ${end.toFormat('d MMMM, yyyy')}`;
   }
+  return `${start.toFormat('d MMM')} – ${end.toFormat('d MMMM, yyyy')}`;
 };
 
 const Header: React.FC = () => {

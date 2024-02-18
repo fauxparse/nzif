@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+import { ROUTES } from '@/Routes';
 import Button from '@/atoms/Button';
 import {
   ActivityAttributes,
@@ -9,7 +10,6 @@ import {
   useActivitySearchLazyQuery,
   useUpdateActivityMutation,
 } from '@/graphql/types';
-import { ROUTES } from '@/Routes';
 import { pluralizeActivityType } from '@/util/activityTypeLabel';
 
 import useActivity from './useActivity';
@@ -28,8 +28,8 @@ export const Component: React.FC = () => {
     activity?.__typename === 'Show'
       ? activity.workshop
       : activity?.__typename === 'Workshop'
-      ? activity.show
-      : null;
+        ? activity.show
+        : null;
 
   useEffect(() => {
     if (attached || !activity || !PAIRS[activity.type]) return;

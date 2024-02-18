@@ -1,5 +1,5 @@
-import { createContext, useContext } from 'react';
 import { DateTime } from 'luxon';
+import { createContext, useContext } from 'react';
 
 import { TimetableQuery, TimetableSessionFragment } from '@/graphql/types';
 

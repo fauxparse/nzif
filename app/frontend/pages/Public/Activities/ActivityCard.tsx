@@ -1,6 +1,6 @@
+import { map, sortBy, uniqBy } from 'lodash-es';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { map, sortBy, uniqBy } from 'lodash-es';
 
 import Placename from '@/atoms/Placename';
 import { Placename as PlacenameType, ProgrammeQuery } from '@/graphql/types';
@@ -40,7 +40,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ loading = false, activity, 
       {loading ? (
         <div className="card__image">
           <Skeleton loading={loading} className="workshop__image">
-            <img />
+            <img alt="loading" />
           </Skeleton>
         </div>
       ) : (
@@ -63,7 +63,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ loading = false, activity, 
         {loading ? (
           <>
             <div className="activity__presenters">
-              <Skeleton paragraph lines={1}></Skeleton>
+              <Skeleton paragraph lines={1} />
             </div>
             <div className="activity__placenames">
               <Skeleton rounded>

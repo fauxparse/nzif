@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
 import { isEmpty } from 'lodash-es';
 import pluralize from 'pluralize';
+import { useMemo } from 'react';
 
 import { ActivityDetailsQuery } from '@/graphql/types';
 
@@ -26,11 +26,12 @@ const ROLE_LABELS: Record<(typeof ROLES)[number], string> = {
 const ShowCasts: React.FC<ShowCastsProps> = ({ show }) => {
   const casts = useMemo(
     () =>
-      show.sessions.reduce(
-        (acc: Session[], session: Session) =>
-          ROLES.some((role) => (session[role] || []).length > 0) ? [...acc, session] : acc,
-        [] as Session[]
-      ),
+      show.sessions.reduce((acc: Session[], session: Session) => {
+        if (ROLES.some((role) => (session[role] || []).length > 0)) {
+          acc.push(session);
+        }
+        return acc;
+      }, [] as Session[]),
     [show]
   );
 

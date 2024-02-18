@@ -1,6 +1,6 @@
-import { PropsWithChildren, ReactNode } from 'react';
 import clsx from 'clsx';
 import { isString } from 'lodash-es';
+import { PropsWithChildren, ReactNode } from 'react';
 
 type SectionProps = PropsWithChildren<{
   title: ReactNode;

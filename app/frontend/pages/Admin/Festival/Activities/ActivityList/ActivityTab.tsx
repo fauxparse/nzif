@@ -1,6 +1,6 @@
-import { Link, useLocation, useResolvedPath } from 'react-router-dom';
 import { kebabCase } from 'lodash-es';
 import pluralize from 'pluralize';
+import { Link, useLocation, useResolvedPath } from 'react-router-dom';
 
 import { ActivityType } from '@/graphql/types';
 import Tabs from '@/molecules/Tabs';

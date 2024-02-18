@@ -1,13 +1,13 @@
+import { sortBy } from 'lodash-es';
 import React, { useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { sortBy } from 'lodash-es';
 
+import { ROUTES } from '@/Routes';
 import Icon from '@/atoms/Icon';
 import { ActivityType, TeachingSessionFragment, useTeachingSessionsQuery } from '@/graphql/types';
 import BlurrableImage from '@/molecules/BlurrableImage';
 import PageHeader from '@/molecules/PageHeader';
 import Card from '@/organisms/Card';
-import { ROUTES } from '@/Routes';
 
 import './Teaching.css';
 

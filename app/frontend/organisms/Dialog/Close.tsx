@@ -1,5 +1,5 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
 import Button, { ButtonProps } from '@/atoms/Button';
 import { AllButtonVariants, BUTTON_VARIANTS, ButtonVariant } from '@/atoms/Button/Button.types';

@@ -1,8 +1,9 @@
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { useTypedParams } from 'react-router-typesafe-routes/dom';
 import { kebabCase } from 'lodash-es';
 import pluralize from 'pluralize';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useTypedParams } from 'react-router-typesafe-routes/dom';
 
+import { ROUTES } from '@/Routes';
 import Button from '@/atoms/Button';
 import {
   ActivityDetailsQuery,
@@ -15,7 +16,6 @@ import InPlaceEdit from '@/molecules/InPlaceEdit';
 import PageHeader from '@/molecules/PageHeader';
 import Tabs from '@/molecules/Tabs';
 import { useToaster } from '@/molecules/Toaster';
-import { ROUTES } from '@/Routes';
 import activityTypeLabel, {
   activityTypeFromPluralized,
   Pluralized,

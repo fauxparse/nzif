@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import Icon from '@/atoms/Icon';
 
@@ -45,22 +45,26 @@ export function ScrollArrow({
   const statusRef = useRef<'idle' | 'active'>('idle');
   const frameRef = useRef(-1);
 
+  const hideCallback = useRef(onHide);
+
+  useEffect(() => {
+    hideCallback.current = onHide;
+  }, [onHide]);
+
   // Updates the visibility state of the arrow when necessary.
   useLayoutEffect(() => {
     if (isPositioned && statusRef.current !== 'active') {
       setShow(shouldShowArrow(scrollRef, dir));
     }
-  }, [isPositioned, innerOffset, scrollTop, scrollRef, dir]);
+  }, [isPositioned, scrollRef, dir]);
 
   // While pressing the scroll arrows on touch devices,
   // prevent selection once they disappear (lift finger)
   useLayoutEffect(() => {
     if (!show && statusRef.current === 'active') {
-      onHide();
+      hideCallback.current?.();
     }
-    // Assuming `onHide` does not change.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [show, scrollTop]);
+  }, [show]);
 
   const handlePointerEnter = () => {
     statusRef.current = 'active';

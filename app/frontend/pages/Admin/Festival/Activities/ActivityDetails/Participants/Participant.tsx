@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
 import type { DraggableSyntheticListeners } from '@dnd-kit/core';
 import { CSS, Transform } from '@dnd-kit/utilities';
+import React, { useEffect } from 'react';
 
 import Icon from '@/atoms/Icon';
 import { SessionParticipantFragment } from '@/graphql/types';
