@@ -10,7 +10,8 @@
     "storybook": "STORYBOOK=1 storybook dev -p 6006",
     "build-storybook": "STORYBOOK=1 storybook build",
     "test": "vitest",
-    "new": "hygen new component"
+    "new": "hygen new component",
+    "preinstall": "npx only-allow pnpm"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-0",
@@ -94,6 +95,7 @@
     "@dnd-kit/core": "^6.0.8",
     "@dnd-kit/modifiers": "^6.0.1",
     "@dnd-kit/sortable": "^7.0.2",
+    "@dnd-kit/utilities": "^3.2.2",
     "@floating-ui/react": "^0.22.3",
     "@formatjs/intl-numberformat": "^8.7.0",
     "@georgedoescode/spline": "^1.0.1",
@@ -148,8 +150,5 @@
     "utility-types": "^3.10.0",
     "xstate": "^4.37.1",
     "zod": "^3.21.4"
-  },
-  "resolutions": {
-    "@storybook/addons/@storybook/types": "^7.4.0"
   }
 }
