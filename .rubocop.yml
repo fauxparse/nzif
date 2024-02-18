@@ -56,6 +56,9 @@ Metrics/BlockLength:
   Exclude:
     - 'config/**/*'
 
+Metrics/ClassLength:
+  Enabled: false
+
 Metrics/CyclomaticComplexity:
   Max: 10
 

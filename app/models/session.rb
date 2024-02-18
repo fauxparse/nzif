@@ -12,6 +12,7 @@ class Session < ApplicationRecord
   has_many :placements, dependent: :destroy
   has_many :participants, through: :placements, source: :registration
   has_many :waitlist, -> { order(position: :asc) }, dependent: :destroy, inverse_of: :session
+  has_many :feedback, dependent: :destroy
 
   enum :activity_type
 
