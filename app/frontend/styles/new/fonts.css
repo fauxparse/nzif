@@ -1,0 +1,58 @@
+@font-face {
+  font-weight: 400;
+  font-family: "DIN Round Pro";
+  src: url("~/fonts/DINRoundPro.woff2") format("woff2");
+}
+
+@font-face {
+  font-weight: 300;
+  font-family: "DIN Round Pro";
+  src: url("~/fonts/DINRoundPro-Light.woff2") format("woff2");
+}
+
+@font-face {
+  font-weight: 500;
+  font-family: "DIN Round Pro";
+  src: url("~/fonts/DINRoundPro-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-weight: 700;
+  font-family: "DIN Round Pro";
+  src: url("~/fonts/DINRoundPro-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-weight: 900;
+  font-family: "DIN Round Pro";
+  src: url("~/fonts/DINRoundPro-Black.woff2") format("woff2");
+}
+
+@font-face {
+  font-weight: 400;
+  font-style: italic;
+  font-family: "DIN Round Pro";
+  src: url("~/fonts/DINRoundPro-Italic.woff2") format("woff2");
+}
+
+body {
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+
+  --font-size-tiny: 0.75rem;
+  --font-size-small: 0.875rem;
+  --font-size-medium: 1rem;
+
+  --line-height-tiny: 1rem;
+  --line-height-small: 1.5rem;
+  --line-height-medium: 1.5rem;
+
+  --font-stack: system, -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI",
+    "Helvetica Neue", "Lucida Grande", sans-serif;
+  --font-family-base: "DIN Round Pro", var(--font-stack);
+
+  font: var(--font-weight-regular) 1em / 1.5 var(--font-family-base);
+}

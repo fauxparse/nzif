@@ -1,0 +1,33 @@
+@import url("@/styles/new/variables.css");
+@import url("@/styles/new/fonts.css");
+@import url("@/styles/new/shadows.css");
+
+:root {
+  color-scheme: light dark;
+  font-synthesis: none;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-app);
+  color: var(--text-default);
+  font-family: "DIN Round Pro", sans-serif;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  padding-inline: var(--container-padding-horizontal);
+}
+

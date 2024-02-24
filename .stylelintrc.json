@@ -13,6 +13,9 @@
         "resolveNestedSelectors": true
       }
     ],
+    "alpha-value-notation": null,
+    "hue-degree-notation": null,
+    "custom-property-empty-line-before": null,
     "order/order": [
       [
         "dollar-variables",
