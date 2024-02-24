@@ -1,0 +1,13 @@
+.authentication {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  background-color: var(--background-subtle);
+
+  &__frame {
+    padding: var(--spacing-large);
+    border-radius: var(--radius-large);
+    background-color: var(--background-app);
+    box-shadow: var(--shadow-xl);
+  }
+}

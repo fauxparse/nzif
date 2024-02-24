@@ -22,8 +22,19 @@
   }
 
   &__right {
+    display: flex;
     grid-area: right;
+    gap: var(--spacing-base);
+    align-items: center;
     justify-self: end;
+  }
+
+  .avatar {
+    overflow: hidden;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: var(--background-solid);
   }
 
   h1 {
@@ -54,15 +65,11 @@
     position: absolute;
     inset: 0;
     z-index: -1;
+    pointer-events: none;
 
     path {
-      mix-blend-mode: multiply;
-    }
-
-    [data-theme="dark"] & {
-      path {
-        mix-blend-mode: screen;
-      }
+      fill: var(--pure);
+      mix-blend-mode: var(--blend-mode);
     }
   }
 }

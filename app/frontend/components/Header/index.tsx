@@ -3,6 +3,7 @@ import { ComponentProps } from 'react';
 
 import './Header.css';
 import Waves from './Waves';
+import { Link } from '@tanstack/react-router';
 
 type HeaderProps = ComponentProps<'header'>;
 
@@ -20,6 +21,7 @@ const Header: React.FC<HeaderProps> = ({ className, ...props }) => (
       </h1>
       <div className="header__right">
         <button type="button">Search</button>
+        <Link className="avatar" to="/profile" />
       </div>
     </div>
     <Waves />
