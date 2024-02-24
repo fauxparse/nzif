@@ -11,11 +11,7 @@ const LEVEL = 72;
 
 const AMPLITUDE = 8;
 
-const LAYERS = [
-  { fill: 'var(--cyan-9)' },
-  { fill: 'var(--magenta-9)' },
-  { fill: 'var(--yellow-9)' },
-] as const;
+const LAYERS = ['cyan', 'magenta', 'yellow'] as const;
 
 type Point = {
   x: number;
@@ -25,7 +21,7 @@ type Point = {
 };
 
 type Layer = {
-  fill: string;
+  color: string;
   points: Point[];
 };
 
@@ -62,8 +58,8 @@ const Waves = () => {
   const n = Math.ceil(width / WAVELENGTH);
 
   const layers = useMemo(() => {
-    return LAYERS.map(({ fill }, j) => ({
-      fill,
+    return LAYERS.map((color, j) => ({
+      color,
       points: range(0, n + 2).map((i) => {
         const x = i * WAVELENGTH - WAVELENGTH / 2 + (j * WAVELENGTH) / 6;
         const y = LEVEL;
@@ -112,7 +108,7 @@ const Waves = () => {
       role="presentation"
       preserveAspectRatio="none"
     >
-      {layers.map(({ fill }, i) => (
+      {layers.map(({ color }, i) => (
         <path
           className="blend"
           key={i}
@@ -120,7 +116,7 @@ const Waves = () => {
             if (el) paths.current[i] = el;
           }}
           d={`M0 0H${width}V${LEVEL}H0Z`}
-          fill={fill}
+          data-color={color}
         />
       ))}
     </svg>
