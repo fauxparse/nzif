@@ -1,5 +1,6 @@
 import yaml from '@modyfi/vite-plugin-yaml';
 import react from '@vitejs/plugin-react';
+import { TanStackRouterVite } from '@tanstack/router-vite-plugin';
 import * as path from 'path';
 import ruby from 'vite-plugin-ruby';
 import { configDefaults, defineConfig } from 'vitest/config';
@@ -11,7 +12,16 @@ export default defineConfig({
       '@': path.resolve(__dirname, './app/frontend'),
     },
   },
-  plugins: [...(process.env.STORYBOOK ? [] : [ruby()]), react(), yaml()],
+  plugins: [
+    ...(process.env.STORYBOOK ? [] : [ruby()]),
+    react(),
+    yaml(),
+    TanStackRouterVite({
+      routesDirectory: path.resolve(__dirname, './app/frontend/routes'),
+      generatedRouteTree: path.resolve(__dirname, './app/frontend/routeTree.gen.ts'),
+      quoteStyle: 'single',
+    }),
+  ],
   test: {
     globals: true,
     css: true,
