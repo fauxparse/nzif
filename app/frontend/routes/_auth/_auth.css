@@ -2,12 +2,53 @@
   display: grid;
   place-items: center;
   min-height: 100vh;
-  background-color: var(--background-subtle);
+  background: radial-gradient(
+    circle at 25% 25%,
+    var(--magenta-alpha-5) 0%,
+    transparent 75%
+  ),
+    radial-gradient(
+    circle at 75% 50%,
+    var(--cyan-alpha-5) 0%,
+    transparent 75%
+  ),
+    radial-gradient(
+    circle at 50% 75%,
+    var(--yellow-alpha-3) 0%,
+    transparent 75%
+  );
+  background-blend-mode: var(--blend-mode);
 
-  &__frame {
-    padding: var(--spacing-large);
-    border-radius: var(--radius-large);
-    background-color: var(--background-app);
-    box-shadow: var(--shadow-xl);
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 25rem;
+    padding: var(--spacing-lg);
+  }
+
+  .logo {
+    width: 12rem;
+  }
+
+  form {
+    display: contents;
+  }
+
+  fieldset {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-self: stretch;
+  }
+
+  input {
+    padding-inline: var(--padding-input-medium-horizontal);
+    padding-block: var(--padding-input-medium-vertical);
+    border: 0;
+    border-radius: var(--radius-small);
+    background: var(--background-input);
+    box-shadow: inset 0 0 0 1px var(--border-input);
+    font: inherit;
+    line-height: var(--line-height-medium);
   }
 }

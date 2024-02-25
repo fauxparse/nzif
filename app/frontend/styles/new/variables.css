@@ -114,6 +114,7 @@
   --yellow-alpha-8: hsl(45 100% 39% / 0.78);
   --yellow-alpha-9: hsl(53 100% 50% / 0.84);
   --yellow-inverse-subtle: var(--yellow-2);
+  --translucent: hsla(240 20% 99% / 0.25);
 }
 
 [data-theme="dark"] {
@@ -220,6 +221,7 @@
   --yellow-alpha-8: hsl(45 98% 59% / 0.48);
   --yellow-alpha-9: hsl(53 100% 58%);
   --yellow-inverse-subtle: var(--yellow-11);
+  --translucent: hsla(240 6% 7% / 0.25);
 }
 
 :root {
@@ -331,6 +333,12 @@ body,
   --colored-text-link: var(--yellow-alpha-11);
   --colored-text-subtle: var(--yellow-alpha-9);
   --pure: var(--yellow-9);
+}
+
+:root,
+[data-size="medium"] {
+  --padding-input-horizontal: var(--padding-input-medium-horizontal);
+  --padding-input-vertical: var(--padding-input-medium-vertical);
 }
 
 [data-mode="dark"] {

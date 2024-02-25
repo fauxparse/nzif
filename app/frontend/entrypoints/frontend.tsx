@@ -13,6 +13,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 
 // Import the generated route tree
 import { routeTree } from '../routeTree.gen';
+import { AuthenticationProvider } from '@/services/Authentication';
 
 Settings.defaultZone = 'Pacific/Auckland';
 
@@ -33,7 +34,9 @@ createRoot(document.getElementById('root') as HTMLElement).render(
         <title>NZIF: New Zealand Improv Festival 2023</title>
       </Helmet>
       <ApolloProvider client={client}>
-        <RouterProvider router={router} />
+        <AuthenticationProvider>
+          <RouterProvider router={router} />
+        </AuthenticationProvider>
       </ApolloProvider>
     </HelmetProvider>
   </React.StrictMode>

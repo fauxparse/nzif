@@ -19,7 +19,14 @@
       "@config/*": ["./config/*"],
       "@/*": ["./app/frontend/*"]
     },
-    "types": ["@modyfi/vite-plugin-yaml/modules", "vite/client"]
+    "types": ["@modyfi/vite-plugin-yaml/modules", "vite/client"],
+    "plugins": [
+      {
+        "name": "@0no-co/graphqlsp",
+        "schema": "./app/frontend/graphql/schema.graphql",
+        "tadaOutputLocation": "./app/frontend/graphql/graphql-env.d.ts"
+      }
+    ]
   },
   "include": ["./app/frontend", "./config/roles.yml", "./vite-env.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }],

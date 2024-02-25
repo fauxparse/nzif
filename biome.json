@@ -30,6 +30,7 @@
     "rules": {
       "recommended": true,
       "a11y": {
+        "noAutofocus": "off",
         "noRedundantAlt": "off",
         "useKeyWithClickEvents": "off",
         "useValidAnchor": "off"
@@ -43,6 +44,6 @@
     }
   },
   "files": {
-    "ignore": ["*.typegen.ts", "*.gen.ts"]
+    "ignore": ["*.typegen.ts", "*.gen.ts", "graphql-env.d.ts"]
   }
 }
