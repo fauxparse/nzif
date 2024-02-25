@@ -2,9 +2,23 @@ import { ApolloClient, ApolloLink, HttpLink, Operation, from, split } from '@apo
 import { createConsumer } from '@rails/actioncable';
 import { createUploadLink } from 'apollo-upload-client';
 import ActionCableLink from 'graphql-ruby-client/subscriptions/ActionCableLink';
+import { DateTime } from 'luxon';
 
 import authentication from './authentication';
 import createCache from './cache';
+
+import { initGraphQLTada } from 'gql.tada';
+import type { introspection } from './graphql-env.d.ts';
+
+export const graphql = initGraphQLTada<{
+  introspection: introspection;
+  scalars: {
+    DateTime: DateTime;
+  };
+}>();
+
+export type { FragmentOf, ResultOf, VariablesOf } from 'gql.tada';
+export { readFragment } from 'gql.tada';
 
 const cable = createConsumer();
 

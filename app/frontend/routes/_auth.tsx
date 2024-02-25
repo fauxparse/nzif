@@ -2,6 +2,7 @@ import { createFileRoute, Outlet } from '@tanstack/react-router';
 
 import './_auth/_auth.css';
 import { pick } from 'lodash-es';
+import Logo from '@/components/Logo';
 
 type AuthSearch = {
   redirect?: string;
@@ -9,7 +10,10 @@ type AuthSearch = {
 
 const Authentication = () => (
   <div className="authentication">
-    <Outlet />
+    <div className="container">
+      <Logo />
+      <Outlet />
+    </div>
   </div>
 );
 
