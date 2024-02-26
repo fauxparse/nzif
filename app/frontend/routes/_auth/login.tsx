@@ -1,10 +1,15 @@
-import { useAuthentication, LogInVariables } from '@/services/Authentication';
+import { useAuthentication } from '@/services/Authentication';
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
-import { DeepKeys, FieldApi, FormApi, createFormFactory, useForm } from '@tanstack/react-form';
+import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 import { z } from 'zod';
-import { ChangeEvent, ComponentPropsWithoutRef } from 'react';
-import { Input, TextInput, Box, Button } from '@mantine/core';
+import { ChangeEvent } from 'react';
+import TextInput from '@/components/TextInput';
+import Button from '@/components/Button';
+import Logo from '@/components/Logo';
+import AtSignIcon from '@/icons/AtSignIcon';
+import KeyIcon from '@/icons/KeyIcon';
+import XIcon from '@/icons/XIcon';
 
 const LogIn = () => {
   const { logIn, loading, error } = useAuthentication();
@@ -29,7 +34,6 @@ const LogIn = () => {
 
   return (
     <form.Provider>
-      <h2>Log in</h2>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -37,6 +41,8 @@ const LogIn = () => {
           form.handleSubmit();
         }}
       >
+        <Logo />
+        <h2>Log in</h2>
         <fieldset disabled={loading || undefined}>
           <form.Field name="email" validators={{ onChange: z.string() }}>
             {(field) => (
@@ -45,6 +51,8 @@ const LogIn = () => {
                 type="email"
                 placeholder="yes@and.com"
                 autoFocus
+                leftSection={<AtSignIcon />}
+                leftSectionPointerEvents="none"
                 error={error}
                 id={field.name}
                 name={field.name}
@@ -64,6 +72,8 @@ const LogIn = () => {
                   </>
                 }
                 labelProps={{ display: 'contents' }}
+                leftSection={<KeyIcon />}
+                leftSectionPointerEvents="none"
                 type="password"
                 placeholder="Password"
                 id={field.name}
@@ -74,7 +84,9 @@ const LogIn = () => {
               />
             )}
           </form.Field>
-          <Button type="submit">Log in</Button>
+          <Button variant="solid" color="primary" type="submit">
+            Log in
+          </Button>
         </fieldset>
       </form>
       <Link to="/signup" search={search}>

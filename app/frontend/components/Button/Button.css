@@ -8,10 +8,14 @@
   --button-border-radius: var(--radius-small);
   --button-padding-block: var(--padding-button-medium-vertical);
   --button-padding-inline: var(--padding-button-medium-horizontal);
+  --button-line-height: var(--line-height-medium);
+  --button-font-size: var(--font-size-medium);
 
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: calc(var(--button-padding-inline) * 2 + 1lh);
+  min-height: calc(var(--button-padding-block) * 2 + 1lh);
   padding: var(--button-padding-block) var(--button-padding-inline);
   border: 0;
   border-radius: var(--button-border-radius);
@@ -20,10 +24,13 @@
   box-shadow: inset 0 0 0 var(--button-border-width) var(--button-border-color), 0 0 0 var(--button-focus-width) var(--focus-ring);
   outline: none;
   font: inherit;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--button-font-size);
+  line-height: var(--button-line-height);
   text-decoration: none;
   cursor: pointer;
   user-select: none;
-  transition: all var(--speed-standard) --var(--ease-standard);
+  transition: all var(--speed-standard) var(--ease-standard);
 
   &__content {
     display: flex;

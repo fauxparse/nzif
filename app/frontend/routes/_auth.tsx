@@ -10,7 +10,6 @@ type AuthSearch = {
 const Authentication = () => (
   <div className="authentication">
     <div className="container">
-      <Logo />
       <Outlet />
     </div>
   </div>

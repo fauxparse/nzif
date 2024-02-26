@@ -306,7 +306,8 @@ body,
   --colored-text-subtle: var(--text-subtle);
 }
 
-[data-color="magenta"] {
+[data-color="magenta"],
+[data-color="primary"] {
   --background-solid: var(--magenta-9);
   --button-ghost-icon: var(--magenta-11);
   --button-ghost-text: var(--magenta-12);
@@ -391,6 +392,10 @@ body,
 
 :root {
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-squish-1: cubic-bezier(.5,-.1,.1,1.5);
+  --ease-squish-2: cubic-bezier(.5,-.3,.1,1.5);
+  --ease-squish-3: cubic-bezier(.5,-.5,.1,1.5);
+  --ease-squish-4: cubic-bezier(.5,-.7,.1,1.5);
   --ease-squish-5: cubic-bezier(.5,-.9,.1,1.5);
   --speed-standard: 150ms;
 }
