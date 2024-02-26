@@ -29,18 +29,10 @@
     justify-self: end;
   }
 
-  .avatar {
-    overflow: hidden;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    background-color: var(--background-solid);
-  }
-
   h1 {
     grid-area: center;
     margin: 0;
-    color: var(--text-inverse);
+    color: var(--neutral-12);
     font-weight: var(--font-weight-medium);
     font-size: 2rem;
 
@@ -51,14 +43,10 @@
       text-transform: lowercase;
 
       b {
-        color: var(--text-inverse);
+        color: var(--neutral-12);
         font-weight: inherit;
       }
     }
-  }
-
-  button {
-    display: flex;
   }
 
   &__waves {
@@ -70,6 +58,33 @@
     path {
       fill: var(--pure);
       mix-blend-mode: var(--blend-mode);
+    }
+  }
+
+  [rel="menu"] {
+    g, path {
+      transition: transform 0.5s var(--ease-squish-5);
+      transform-origin: center;
+    }
+
+    &[aria-expanded] {
+      g {
+        transform: rotate(225deg);
+      }
+
+      path {
+        &:nth-child(1) {
+          transform: translateY(7.25px);
+        }
+
+        &:nth-child(2) {
+          transform: rotate(90deg);
+        }
+
+        &:nth-child(3) {
+          transform: translateY(-7.25px) scale(0);
+        }
+      }
     }
   }
 }

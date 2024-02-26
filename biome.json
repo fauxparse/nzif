@@ -39,7 +39,8 @@
         "useExhaustiveDependencies": "off"
       },
       "suspicious": {
-        "noArrayIndexKey": "off"
+        "noArrayIndexKey": "off",
+        "noConsoleLog":"error"
       }
     }
   },

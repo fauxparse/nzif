@@ -10,7 +10,9 @@
   }
 
   &__main {
+    display: grid;
     grid-area: main;
+    justify-items: center;
   }
 
   &__footer {

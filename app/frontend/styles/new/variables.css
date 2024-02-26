@@ -10,7 +10,8 @@
 }
 
 :root,
-[data-theme="light"] {
+:where([data-theme="light"]),
+:where([data-theme="dark"]) :where([data-theme="invert"]) {
   --cyan-1: hsl(195 67% 99%);
   --cyan-10: hsl(191 93% 38%);
   --cyan-11: hsl(192 81% 33%);
@@ -115,9 +116,14 @@
   --yellow-alpha-9: hsl(53 100% 50% / 0.84);
   --yellow-inverse-subtle: var(--yellow-2);
   --translucent: hsla(240 20% 99% / 0.25);
+  --focus-magenta: var(--magenta-alpha-3);
+  --focus-cyan: var(--cyan-alpha-3);
+  --focus-yellow: var(--yellow-alpha-3);
+  --focus-ring: var(--focus-magenta);
 }
 
-[data-theme="dark"] {
+:where([data-theme="dark"]),
+:where([data-theme="light"]) :where([data-theme="invert"]) {
   --cyan-1: hsl(196 41% 7%);
   --cyan-10: hsl(191 71% 48%);
   --cyan-11: hsl(190 75% 60%);
@@ -207,7 +213,7 @@
   --yellow-7: hsl(46 63% 25%);
   --yellow-8: hsl(45 60% 32%);
   --yellow-9: hsl(53 100% 58%);
-  --yellow-inverse: var(--yellow-12);
+  --yellow-inverse: var(--yellow-1);
   --yellow-alpha-1: hsl(23 100% 41% / 0.02);
   --yellow-alpha-10: hsl(60 100% 67%);
   --yellow-alpha-11: hsl(53 99% 64% / 0.96);
@@ -220,8 +226,12 @@
   --yellow-alpha-7: hsl(46 98% 56% / 0.36);
   --yellow-alpha-8: hsl(45 98% 59% / 0.48);
   --yellow-alpha-9: hsl(53 100% 58%);
-  --yellow-inverse-subtle: var(--yellow-11);
+  --yellow-inverse-subtle: var(--yellow-2);
   --translucent: hsla(240 6% 7% / 0.25);
+  --focus-magenta: var(--magenta-alpha-5);
+  --focus-cyan: var(--cyan-alpha-5);
+  --focus-yellow: var(--yellow-alpha-5);
+  --focus-ring: var(--focus-magenta);
 }
 
 :root {
@@ -229,6 +239,9 @@
   --icon-small: 1rem;
   --icon-medium: 1.25rem;
   --icon-large: 1.5rem;
+  --avatar-small: 1.5rem;
+  --avatar-medium: 2.5rem;
+  --avatar-large: 3rem;
   --padding-button-large-horizontal: var(--spacing-medium);
   --padding-button-large-vertical: var(--spacing-medium);
   --padding-button-medium-horizontal: var(--spacing-small);
@@ -241,6 +254,7 @@
   --padding-input-small-horizontal: var(--spacing-small);
   --radius-small: 0.25rem;
   --radius-large: 1rem;
+  --radius-round: 100vmax;
   --radius-input-medium: var(--radius-small);
   --radius-input-small: var(--radius-small);
   --spacing-tiny: 0.25rem;
@@ -250,7 +264,8 @@
   --spacing-large: 1.5rem;
 }
 
-body {
+body,
+[data-theme] {
   --text-default: var(--neutral-12);
   --text-inverse: var(--neutral-1);
   --text-subtle: var(--neutral-11);
@@ -262,6 +277,9 @@ body {
   --background-solid: var(--neutral-9);
   --background-subtle: var(--neutral-2);
   --border-element: var(--neutral-alpha-7);
+  --border-element-hover: var(--neutral-alpha-8);
+  --border-input-hover: var(--neutral-alpha-8);
+  --border-input-focus: var(--magenta-8);
   --border-input: var(--border-element);
   --border-subtle: var(--neutral-alpha-3);
   --magenta: var(--magenta-9);
@@ -273,11 +291,15 @@ body,
   --button-ghost-icon: var(--icon);
   --button-ghost-text: var(--text-default);
   --button-outline-border: var(--border-element);
+  --button-outline-hover-border: var(--border-element-hover);
+  --button-outline-hover-fill: var(--neutral-alpha-4);
   --button-outline-icon: var(--icon);
   --button-outline-text: var(--text-default);
-  --button-solid-fill: var(--neutral-alpha-3);
+  --button-solid-fill: var(--neutral-alpha-9);
   --button-solid-icon: var(--icon);
   --button-solid-text: var(--text-default);
+  --button-solid-hover-fill: var(--neutral-alpha-10);
+  --button-solid-hover-text: var(--text-default);
   --colored-text-default: var(--text-default);
   --colored-text-inverse: var(--neutral-inverse);
   --colored-text-link: var(--magenta-alpha-11);
@@ -289,16 +311,21 @@ body,
   --button-ghost-icon: var(--magenta-11);
   --button-ghost-text: var(--magenta-12);
   --button-outline-border: var(--magenta-alpha-7);
+  --button-outline-hover-border: var(--magenta-alpha-8);
+  --button-outline-hover-fill: var(--magenta-alpha-4);
   --button-outline-icon: var(--magenta-alpha-11);
   --button-outline-text: var(--magenta-alpha-12);
   --button-solid-fill: var(--magenta-alpha-9);
   --button-solid-icon: var(--magenta-inverse);
   --button-solid-text: var(--magenta-inverse);
+  --button-solid-hover-fill: var(--magenta-alpha-10);
+  --button-solid-hover-text: var(--magenta-inverse);
   --colored-text-default: var(--magenta-alpha-11);
   --colored-text-inverse: var(--magenta-inverse);
   --colored-text-link: var(--magenta-alpha-11);
   --colored-text-subtle: var(--magenta-alpha-9);
   --pure: var(--magenta-9);
+  --focus-ring: var(--focus-magenta);
 }
 
 [data-color="cyan"] {
@@ -306,6 +333,8 @@ body,
   --button-ghost-icon: var(--cyan-11);
   --button-ghost-text: var(--cyan-12);
   --button-outline-border: var(--cyan-alpha-7);
+  --button-outline-hover-border: var(--cyan-alpha-8);
+  --button-outline-hover-fill: var(--cyan-alpha-4);
   --button-outline-icon: var(--cyan-alpha-11);
   --button-outline-text: var(--cyan-alpha-12);
   --button-solid-fill: var(--cyan-alpha-9);
@@ -316,13 +345,17 @@ body,
   --colored-text-link: var(--cyan-alpha-11);
   --colored-text-subtle: var(--cyan-alpha-9);
   --pure: var(--cyan-9);
+  --focus-ring: var(--focus-cyan);
 }
+
 
 [data-color="yellow"] {
   --background-solid: var(--yellow-9);
   --button-ghost-icon: var(--yellow-11);
   --button-ghost-text: var(--yellow-12);
   --button-outline-border: var(--yellow-alpha-7);
+  --button-outline-hover-border: var(--yellow-alpha-8);
+  --button-outline-hover-fill: var(--yellow-alpha-4);
   --button-outline-icon: var(--yellow-alpha-11);
   --button-outline-text: var(--yellow-alpha-12);
   --button-solid-fill: var(--yellow-alpha-9);
@@ -333,6 +366,7 @@ body,
   --colored-text-link: var(--yellow-alpha-11);
   --colored-text-subtle: var(--yellow-alpha-9);
   --pure: var(--yellow-9);
+  --focus-ring: var(--focus-yellow);
 }
 
 :root,
@@ -353,6 +387,12 @@ body,
   [data-color="yellow"] {
     --pure: hsl(60deg 100% 50%);
   }
+}
+
+:root {
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-squish-5: cubic-bezier(.5,-.9,.1,1.5);
+  --speed-standard: 150ms;
 }
 
 :root {

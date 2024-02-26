@@ -1,5 +1,5 @@
 
 vite: bin/vite dev
 web: bin/rails s
-storybook: STORYBOOK=true yarn storybook --no-open
+# storybook: STORYBOOK=true yarn storybook --no-open
 worker: bundle exec sidekiq -c 1

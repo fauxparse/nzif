@@ -3,6 +3,7 @@ import { Settings } from 'luxon';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { MantineProvider } from '@mantine/core';
 
 import { client } from '../graphql';
 
@@ -13,12 +14,19 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 
 // Import the generated route tree
 import { routeTree } from '../routeTree.gen';
-import { AuthenticationProvider } from '@/services/Authentication';
+import {
+  AuthenticationContext,
+  AuthenticationContextType,
+  AuthenticationProvider,
+} from '@/services/Authentication';
 
 Settings.defaultZone = 'Pacific/Auckland';
 
 // Create a new router instance
-const router = createRouter({ routeTree });
+const router = createRouter({
+  routeTree,
+  context: { auth: { user: null, loading: true } as AuthenticationContextType },
+});
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {
@@ -33,11 +41,15 @@ createRoot(document.getElementById('root') as HTMLElement).render(
       <Helmet>
         <title>NZIF: New Zealand Improv Festival 2023</title>
       </Helmet>
-      <ApolloProvider client={client}>
-        <AuthenticationProvider>
-          <RouterProvider router={router} />
-        </AuthenticationProvider>
-      </ApolloProvider>
+      <MantineProvider>
+        <ApolloProvider client={client}>
+          <AuthenticationProvider>
+            <AuthenticationContext.Consumer>
+              {(auth) => <RouterProvider router={router} context={{ auth: { ...auth } }} />}
+            </AuthenticationContext.Consumer>
+          </AuthenticationProvider>
+        </ApolloProvider>
+      </MantineProvider>
     </HelmetProvider>
   </React.StrictMode>
 );

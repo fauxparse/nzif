@@ -11,23 +11,24 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LogoutImport } from './routes/logout'
 import { Route as LayoutImport } from './routes/_layout'
-import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as LayoutIndexImport } from './routes/_layout.index'
-import { Route as AuthenticatedProfileImport } from './routes/_authenticated/profile'
+import { Route as LayoutAuthenticatedImport } from './routes/_layout/_authenticated'
 import { Route as AuthSignupImport } from './routes/_auth/signup'
 import { Route as AuthLoginImport } from './routes/_auth/login'
+import { Route as LayoutAuthenticatedProfileImport } from './routes/_layout/_authenticated/profile'
 
 // Create/Update Routes
 
-const LayoutRoute = LayoutImport.update({
-  id: '/_layout',
+const LogoutRoute = LogoutImport.update({
+  path: '/logout',
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthenticatedRoute = AuthenticatedImport.update({
-  id: '/_authenticated',
+const LayoutRoute = LayoutImport.update({
+  id: '/_layout',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -41,9 +42,9 @@ const LayoutIndexRoute = LayoutIndexImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const AuthenticatedProfileRoute = AuthenticatedProfileImport.update({
-  path: '/profile',
-  getParentRoute: () => AuthenticatedRoute,
+const LayoutAuthenticatedRoute = LayoutAuthenticatedImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => LayoutRoute,
 } as any)
 
 const AuthSignupRoute = AuthSignupImport.update({
@@ -56,6 +57,13 @@ const AuthLoginRoute = AuthLoginImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
+const LayoutAuthenticatedProfileRoute = LayoutAuthenticatedProfileImport.update(
+  {
+    path: '/profile',
+    getParentRoute: () => LayoutAuthenticatedRoute,
+  } as any,
+)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -64,12 +72,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
     }
-    '/_authenticated': {
-      preLoaderRoute: typeof AuthenticatedImport
-      parentRoute: typeof rootRoute
-    }
     '/_layout': {
       preLoaderRoute: typeof LayoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/logout': {
+      preLoaderRoute: typeof LogoutImport
       parentRoute: typeof rootRoute
     }
     '/_auth/login': {
@@ -80,13 +88,17 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignupImport
       parentRoute: typeof AuthImport
     }
-    '/_authenticated/profile': {
-      preLoaderRoute: typeof AuthenticatedProfileImport
-      parentRoute: typeof AuthenticatedImport
+    '/_layout/_authenticated': {
+      preLoaderRoute: typeof LayoutAuthenticatedImport
+      parentRoute: typeof LayoutImport
     }
     '/_layout/': {
       preLoaderRoute: typeof LayoutIndexImport
       parentRoute: typeof LayoutImport
+    }
+    '/_layout/_authenticated/profile': {
+      preLoaderRoute: typeof LayoutAuthenticatedProfileImport
+      parentRoute: typeof LayoutAuthenticatedImport
     }
   }
 }
@@ -95,8 +107,11 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   AuthRoute.addChildren([AuthLoginRoute, AuthSignupRoute]),
-  AuthenticatedRoute.addChildren([AuthenticatedProfileRoute]),
-  LayoutRoute.addChildren([LayoutIndexRoute]),
+  LayoutRoute.addChildren([
+    LayoutAuthenticatedRoute.addChildren([LayoutAuthenticatedProfileRoute]),
+    LayoutIndexRoute,
+  ]),
+  LogoutRoute,
 ])
 
 /* prettier-ignore-end */
