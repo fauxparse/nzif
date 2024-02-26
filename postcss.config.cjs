@@ -1,9 +1,19 @@
-const postcssNesting = require('postcss-nested');
-const postcssImport = require('postcss-import');
-const combineSelectors = require('postcss-combine-duplicated-selectors');
-const customMedia = require('postcss-custom-media');
-const importGlob = require('postcss-import-ext-glob');
-
 module.exports = {
-  plugins: [importGlob(), postcssImport(), customMedia(), postcssNesting(), combineSelectors()],
+  plugins: {
+    'postcss-nested': {},
+    'postcss-import': {},
+    'postcss-combine-duplicated-selectors': {},
+    'postcss-custom-media': {},
+    'postcss-import-ext-glob': {},
+    'postcss-preset-mantine': {},
+    'postcss-simple-vars': {
+      variables: {
+        'mantine-breakpoint-xs': '36em',
+        'mantine-breakpoint-sm': '48em',
+        'mantine-breakpoint-md': '62em',
+        'mantine-breakpoint-lg': '75em',
+        'mantine-breakpoint-xl': '88em',
+      },
+    },
+  }
 };

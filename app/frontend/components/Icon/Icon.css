@@ -1,0 +1,41 @@
+:where(.icon) {
+  display: block;
+  flex: 0 0 var(--icon-size);
+  width: var(--icon-size);
+  height: var(--icon-size);
+  color: var(--icon);
+  fill: currentcolor;
+
+  path {
+    fill: inherit;
+    stroke: inherit;
+
+    &:not([fill]) {
+      fill: currentcolor;
+    }
+
+    &:not([stroke]) {
+      stroke: none;
+    }
+  }
+
+  &:where([data-size="small"]) {
+    --icon-size: var(--icon-small);
+  }
+
+  &:where([data-size="medium"]) {
+    --icon-size: var(--icon-medium);
+  }
+
+  &:where([data-size="large"]) {
+    --icon-size: var(--icon-large);
+  }
+
+  g[stroke] path {
+    stroke: inherit;
+  }
+
+  g[fill] path {
+    fill: inherit;
+  }
+}

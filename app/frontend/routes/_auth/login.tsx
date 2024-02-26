@@ -1,13 +1,17 @@
 import { useAuthentication, LogInVariables } from '@/services/Authentication';
-import { Link, createFileRoute } from '@tanstack/react-router';
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
 import { DeepKeys, FieldApi, FormApi, createFormFactory, useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 import { z } from 'zod';
-import Box from '@/components/Box';
 import { ChangeEvent, ComponentPropsWithoutRef } from 'react';
+import { Input, TextInput, Box, Button } from '@mantine/core';
 
 const LogIn = () => {
   const { logIn, loading, error } = useAuthentication();
+
+  const navigate = useNavigate();
+
+  const search = Route.useSearch();
 
   const form = useForm({
     defaultValues: {
@@ -15,10 +19,13 @@ const LogIn = () => {
       password: '',
     },
     validatorAdapter: zodValidator,
-    onSubmit: async ({ value }) => logIn(value),
+    onSubmit: async ({ value }) =>
+      logIn(value).then(({ data }) => {
+        if (data) {
+          setTimeout(() => navigate({ to: search.redirect || '/' }));
+        }
+      }),
   });
-
-  const search = Route.useSearch();
 
   return (
     <form.Provider>
@@ -31,14 +38,14 @@ const LogIn = () => {
         }}
       >
         <fieldset disabled={loading || undefined}>
-          {error && <p>{error}</p>}
           <form.Field name="email" validators={{ onChange: z.string() }}>
             {(field) => (
-              <Box
-                as="input"
+              <TextInput
+                label="Your email address"
                 type="email"
-                placeholder="Email"
+                placeholder="yes@and.com"
                 autoFocus
+                error={error}
                 id={field.name}
                 name={field.name}
                 value={field.state.value}
@@ -49,7 +56,14 @@ const LogIn = () => {
           </form.Field>
           <form.Field name="password" validators={{ onChange: z.string() }}>
             {(field) => (
-              <input
+              <TextInput
+                label={
+                  <>
+                    <span>Your password</span>
+                    <span style={{ justifySelf: 'end' }}>Forgot your password?</span>
+                  </>
+                }
+                labelProps={{ display: 'contents' }}
                 type="password"
                 placeholder="Password"
                 id={field.name}
@@ -60,7 +74,7 @@ const LogIn = () => {
               />
             )}
           </form.Field>
-          <button type="submit">Log in</button>
+          <Button type="submit">Log in</Button>
         </fieldset>
       </form>
       <Link to="/signup" search={search}>
