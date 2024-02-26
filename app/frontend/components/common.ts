@@ -1,4 +1,4 @@
-export type Colorway = 'neutral' | 'magenta' | 'cyan' | 'yellow';
+export type Colorway = 'neutral' | 'primary' | 'magenta' | 'cyan' | 'yellow';
 
 export type ColorwayProps = {
   color?: Colorway;

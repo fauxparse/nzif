@@ -9,6 +9,7 @@ import { useAuthentication } from '@/services/Authentication';
 import SearchIcon from '@/icons/SearchIcon';
 import Button from '@/components/Button';
 import MenuIcon from '@/icons/MenuIcon';
+import TextInput from '../TextInput';
 
 type HeaderProps = ComponentProps<'header'>;
 
@@ -28,7 +29,12 @@ const Header: React.FC<HeaderProps> = ({ className, ...props }) => {
           2024
         </h1>
         <div className="header__right">
-          <Button left={<SearchIcon />}>Search</Button>
+          <TextInput
+            className="search"
+            type="search"
+            leftSection={<SearchIcon />}
+            placeholder="Search…"
+          />
           <Link to="/profile">
             <Avatar size="large" user={user} />
           </Link>
