@@ -9,7 +9,7 @@ import Button from '@/components/Button';
 import Logo from '@/components/Logo';
 import AtSignIcon from '@/icons/AtSignIcon';
 import KeyIcon from '@/icons/KeyIcon';
-import XIcon from '@/icons/XIcon';
+import XIcon from '@/icons/CloseIcon';
 
 const LogIn = () => {
   const { logIn, loading, error } = useAuthentication();

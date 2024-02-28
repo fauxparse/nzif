@@ -1,0 +1,150 @@
+.container {
+  container-type: inline-size;
+}
+
+.layout__main {
+  &:has(.hero) {
+    display: grid;
+    align-items: center;
+    align-self: stretch;
+  }
+}
+
+.hero {
+  @container (max-width: 768px) {
+    &.hero {
+      grid-template: "title" auto "dates" auto "buttons" auto / 1fr;
+      row-gap: var(--spacing-small);
+
+      h1 {
+        text-align: center;
+      }
+
+      .hero__year {
+        inset: auto 0 0;
+
+        span {
+          display: inline;
+        }
+      }
+
+      .hero__nzif {
+        font-size: 3rem;
+        line-height: 0.8;
+
+        span {
+          display: inline;
+        }
+      }
+
+      .hero__dates {
+        font-size: 1.25rem;
+        text-align: center;
+
+        span {
+          display: inline;
+
+          &:not(:last-child)::after {
+            content: " • ";
+          }
+        }
+      }
+
+      .hero__buttons {
+        p {
+          margin-bottom: var(--spacing-small);
+          font-size: var(--font-size-medium);
+        }
+      }
+    }
+  }
+
+  display: grid;
+  grid-template: "title buttons" 1fr "dates buttons" auto / 1fr 1fr;
+  row-gap: 0;
+  align-items: end;
+  max-width: 50rem;
+  margin: 0 auto;
+  padding-block: 4rem;
+  column-gap: 4rem;
+
+  h1 {
+    position: relative;
+    grid-area: title;
+    margin: 0;
+    text-align: right;
+
+    span {
+      mix-blend-mode: var(--blend-mode);
+    }
+  }
+
+  &__year {
+    position: absolute;
+    top: -2rem;
+    right: -2rem;
+    font-weight: var(--font-weight-black);
+    font-size: 10rem;
+    line-height: 0.8;
+    opacity: 0.5;
+
+    span {
+      display: block;
+
+      &:first-child {
+        color: var(--yellow-alpha-9);
+      }
+
+      &:last-child {
+        color: var(--magenta-alpha-9);
+      }
+    }
+  }
+
+  &__nzif {
+    color: var(--cyan-alpha-9);
+    font-weight: --var(--font-weight-bold);
+    font-size: 4rem;
+    line-height: 1;
+    text-transform: lowercase;
+
+    span {
+      display: block;
+    }
+  }
+
+  &__dates {
+    grid-area: dates;
+    color: var(--text-subtle);
+    font-weight: var(--font-weight-bold);
+    font-size: 1.5rem;
+    line-height: 2rem;
+    text-align: right;
+
+    span {
+      display: block;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    grid-area: buttons;
+    gap: var(--spacing-medium);
+    text-align: center;
+
+    p {
+      margin: 0;
+      color: var(--text-subtle);
+      font-size: 1.25rem;
+    }
+
+    [data-variant="solid"] {
+      --button-font-size: 1.25rem;
+      --button-line-height: 2rem;
+    }
+  }
+}
+
+/* .hero {
+} */

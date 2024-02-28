@@ -25,7 +25,10 @@ Settings.defaultZone = 'Pacific/Auckland';
 // Create a new router instance
 const router = createRouter({
   routeTree,
-  context: { auth: { user: null, loading: true } as AuthenticationContextType },
+  context: {
+    auth: { user: null, loading: true } as AuthenticationContextType,
+    client
+  },
 });
 
 // Register the router instance for type safety
@@ -45,7 +48,7 @@ createRoot(document.getElementById('root') as HTMLElement).render(
         <ApolloProvider client={client}>
           <AuthenticationProvider>
             <AuthenticationContext.Consumer>
-              {(auth) => <RouterProvider router={router} context={{ auth: { ...auth } }} />}
+              {(auth) => <RouterProvider router={router} context={{ auth: { ...auth }, client }} />}
             </AuthenticationContext.Consumer>
           </AuthenticationProvider>
         </ApolloProvider>

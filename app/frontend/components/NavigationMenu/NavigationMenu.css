@@ -1,0 +1,45 @@
+.button--menu {
+  g, path {
+    transition: transform 0.5s var(--ease-squish-5);
+    transform-origin: center;
+  }
+
+  &[aria-expanded="true"] {
+    g {
+      transform: rotate(225deg);
+    }
+
+    path {
+      &:nth-child(1) {
+        transform: translateY(7.25px);
+      }
+
+      &:nth-child(2) {
+        transform: rotate(90deg);
+      }
+
+      &:nth-child(3) {
+        transform: translateY(-7.25px) scale(0);
+      }
+    }
+  }
+}
+
+.mantine-Overlay-root {
+  position: absolute;
+  inset: 0;
+  z-index: var(--overlay-z-index);
+  background: var(--overlay-bg, rgb(0 0 0 / 0.6));
+  pointer-events: auto;
+
+  &:where([data-fixed]) {
+    position: fixed;
+  }
+
+  &:where([data-center]) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+

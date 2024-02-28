@@ -1,5 +1,9 @@
 /* stylelint-disable no-duplicate-selectors */
 
+:root {
+  --mantine-scale: 1;
+}
+
 :root,
 [data-theme="light"] {
   --blend-mode: multiply;
@@ -10,8 +14,7 @@
 }
 
 :root,
-:where([data-theme="light"]),
-:where([data-theme="dark"]) :where([data-theme="invert"]) {
+:where([data-theme="light"]) {
   --cyan-1: hsl(195 67% 99%);
   --cyan-10: hsl(191 93% 38%);
   --cyan-11: hsl(192 81% 33%);
@@ -122,8 +125,7 @@
   --focus-ring: var(--focus-magenta);
 }
 
-:where([data-theme="dark"]),
-:where([data-theme="light"]) :where([data-theme="invert"]) {
+:where([data-theme="dark"]) {
   --cyan-1: hsl(196 41% 7%);
   --cyan-10: hsl(191 71% 48%);
   --cyan-11: hsl(190 75% 60%);

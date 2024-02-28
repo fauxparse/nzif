@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { ComponentProps } from 'react';
+import { ComponentProps, forwardRef, useRef } from 'react';
 
 import './Header.css';
 import Waves from './Waves';
@@ -10,17 +10,25 @@ import SearchIcon from '@/icons/SearchIcon';
 import Button from '@/components/Button';
 import MenuIcon from '@/icons/MenuIcon';
 import TextInput from '../TextInput';
+import NavigationMenu from '../NavigationMenu';
+import UserMenu from './UserMenu';
+import { mergeRefs } from 'react-merge-refs';
+import useTheme from '@/hooks/useTheme';
 
 type HeaderProps = ComponentProps<'header'>;
 
-const Header: React.FC<HeaderProps> = ({ className, ...props }) => {
+const Header = forwardRef<HTMLElement, HeaderProps>(({ className, ...props }, ref) => {
   const { user, logOut } = useAuthentication();
 
+  const ownRef = useRef<HTMLElement>(null);
+
+  const theme = useTheme(ownRef);
+
   return (
-    <header className={clsx('header', className)}>
-      <div className="container" data-theme="invert">
+    <header ref={mergeRefs([ref, ownRef])} className={clsx('header', className)}>
+      <div className="container" data-theme={theme === 'dark' ? 'light' : 'dark'}>
         <div className="header__left">
-          <Button rel="menu" variant="ghost" left={<MenuIcon />} />
+          <NavigationMenu />
         </div>
         <h1 className="header__title">
           <abbr title="New Zealand Improv Festival">
@@ -35,14 +43,12 @@ const Header: React.FC<HeaderProps> = ({ className, ...props }) => {
             leftSection={<SearchIcon />}
             placeholder="Search…"
           />
-          <Link to="/profile">
-            <Avatar size="large" user={user} />
-          </Link>
+          <UserMenu />
         </div>
       </div>
       <Waves />
     </header>
   );
-};
+});
 
 export default Header;
