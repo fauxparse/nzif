@@ -42,7 +42,8 @@
     }
   }
 
-  &:has(.button__content:empty) {
+  &:has(.button__content:empty),
+  &:has(>.icon:first-child:last-child) {
     border-radius: var(--radius-round);
   }
 
@@ -78,6 +79,17 @@
     &:active {
       --button-border-color: var(--button-outline-hover-border);
       --button-background: var(--button-outline-hover-fill);
+    }
+  }
+
+  &[data-variant="close"] {
+    --button-text: var(--text-subtle);
+
+    opacity: 0.75;
+
+    &:hover,
+    &:active {
+      opacity: 1;
     }
   }
 

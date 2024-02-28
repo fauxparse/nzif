@@ -12,7 +12,7 @@ import { PropsWithChildren, ReactNode } from 'react';
 import './Button.css';
 import clsx from 'clsx';
 
-export type ButtonVariant = 'solid' | 'outline' | 'ghost';
+export type ButtonVariant = 'solid' | 'outline' | 'ghost' | 'close';
 
 export type ButtonProps = PropsWithChildren &
   Omit<BoxProps, 'left' | 'right'> &

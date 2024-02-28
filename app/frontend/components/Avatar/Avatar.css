@@ -6,6 +6,8 @@
   overflow: hidden;
   width: var(--avatar-size);
   height: var(--avatar-size);
+  padding: 0;
+  border: 0;
   border-radius: var(--radius-round);
   background-color: var(--background-solid);
   color: var(--text-subtle);
