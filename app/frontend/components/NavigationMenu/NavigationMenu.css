@@ -1,4 +1,6 @@
 .button--menu {
+  margin-left: calc(var(--button-padding-inline) * -1);
+
   g, path {
     transition: transform 0.5s var(--ease-squish-5);
     transform-origin: center;

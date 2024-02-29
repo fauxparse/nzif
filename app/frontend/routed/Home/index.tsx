@@ -1,10 +1,11 @@
 import useFestival from '@/hooks/useFestival';
-import { createFileRoute } from '@tanstack/react-router';
-import './_layout.index.css';
+import { Link } from '@tanstack/react-router';
 import Button from '@/components/Button';
 import BATSIcon from '@/icons/BATSIcon';
 
-const Index = () => {
+import './Home.css';
+
+export const Home = () => {
   const festival = useFestival();
 
   return (
@@ -33,7 +34,7 @@ const Index = () => {
           <Button size="large" variant="solid" color="magenta">
             Register for workshops
           </Button>
-          <Button size="large" variant="outline">
+          <Button component={Link} to="/workshops" size="large" variant="outline">
             Browse the programme
           </Button>
           <Button size="large" variant="outline" left={<BATSIcon size="large" />}>
@@ -44,7 +45,3 @@ const Index = () => {
     </div>
   );
 };
-
-export const Route = createFileRoute('/_layout/')({
-  component: Index,
-});

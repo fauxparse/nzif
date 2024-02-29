@@ -12,13 +12,16 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LogoutImport } from './routes/logout'
-import { Route as LayoutImport } from './routes/_layout'
+import { Route as PublicImport } from './routes/_public'
 import { Route as AuthImport } from './routes/_auth'
-import { Route as LayoutIndexImport } from './routes/_layout.index'
-import { Route as LayoutAuthenticatedImport } from './routes/_layout/_authenticated'
+import { Route as PublicIndexImport } from './routes/_public.index'
+import { Route as PublicAuthenticatedImport } from './routes/_public/_authenticated'
 import { Route as AuthSignupImport } from './routes/_auth/signup'
 import { Route as AuthLoginImport } from './routes/_auth/login'
-import { Route as LayoutAuthenticatedProfileImport } from './routes/_layout/_authenticated/profile'
+import { Route as PublicActivityTypeRouteImport } from './routes/_public/$activityType/route'
+import { Route as PublicActivityTypeIndexImport } from './routes/_public/$activityType/index'
+import { Route as PublicAuthenticatedProfileImport } from './routes/_public/_authenticated/profile'
+import { Route as PublicActivityTypeSlugImport } from './routes/_public/$activityType/$slug'
 
 // Create/Update Routes
 
@@ -27,8 +30,8 @@ const LogoutRoute = LogoutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const LayoutRoute = LayoutImport.update({
-  id: '/_layout',
+const PublicRoute = PublicImport.update({
+  id: '/_public',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -37,14 +40,14 @@ const AuthRoute = AuthImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const LayoutIndexRoute = LayoutIndexImport.update({
+const PublicIndexRoute = PublicIndexImport.update({
   path: '/',
-  getParentRoute: () => LayoutRoute,
+  getParentRoute: () => PublicRoute,
 } as any)
 
-const LayoutAuthenticatedRoute = LayoutAuthenticatedImport.update({
+const PublicAuthenticatedRoute = PublicAuthenticatedImport.update({
   id: '/_authenticated',
-  getParentRoute: () => LayoutRoute,
+  getParentRoute: () => PublicRoute,
 } as any)
 
 const AuthSignupRoute = AuthSignupImport.update({
@@ -57,12 +60,27 @@ const AuthLoginRoute = AuthLoginImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
-const LayoutAuthenticatedProfileRoute = LayoutAuthenticatedProfileImport.update(
+const PublicActivityTypeRouteRoute = PublicActivityTypeRouteImport.update({
+  path: '/$activityType',
+  getParentRoute: () => PublicRoute,
+} as any)
+
+const PublicActivityTypeIndexRoute = PublicActivityTypeIndexImport.update({
+  path: '/',
+  getParentRoute: () => PublicActivityTypeRouteRoute,
+} as any)
+
+const PublicAuthenticatedProfileRoute = PublicAuthenticatedProfileImport.update(
   {
     path: '/profile',
-    getParentRoute: () => LayoutAuthenticatedRoute,
+    getParentRoute: () => PublicAuthenticatedRoute,
   } as any,
 )
+
+const PublicActivityTypeSlugRoute = PublicActivityTypeSlugImport.update({
+  path: '/$slug',
+  getParentRoute: () => PublicActivityTypeRouteRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -72,13 +90,17 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
     }
-    '/_layout': {
-      preLoaderRoute: typeof LayoutImport
+    '/_public': {
+      preLoaderRoute: typeof PublicImport
       parentRoute: typeof rootRoute
     }
     '/logout': {
       preLoaderRoute: typeof LogoutImport
       parentRoute: typeof rootRoute
+    }
+    '/_public/$activityType': {
+      preLoaderRoute: typeof PublicActivityTypeRouteImport
+      parentRoute: typeof PublicImport
     }
     '/_auth/login': {
       preLoaderRoute: typeof AuthLoginImport
@@ -88,17 +110,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignupImport
       parentRoute: typeof AuthImport
     }
-    '/_layout/_authenticated': {
-      preLoaderRoute: typeof LayoutAuthenticatedImport
-      parentRoute: typeof LayoutImport
+    '/_public/_authenticated': {
+      preLoaderRoute: typeof PublicAuthenticatedImport
+      parentRoute: typeof PublicImport
     }
-    '/_layout/': {
-      preLoaderRoute: typeof LayoutIndexImport
-      parentRoute: typeof LayoutImport
+    '/_public/': {
+      preLoaderRoute: typeof PublicIndexImport
+      parentRoute: typeof PublicImport
     }
-    '/_layout/_authenticated/profile': {
-      preLoaderRoute: typeof LayoutAuthenticatedProfileImport
-      parentRoute: typeof LayoutAuthenticatedImport
+    '/_public/$activityType/$slug': {
+      preLoaderRoute: typeof PublicActivityTypeSlugImport
+      parentRoute: typeof PublicActivityTypeRouteImport
+    }
+    '/_public/_authenticated/profile': {
+      preLoaderRoute: typeof PublicAuthenticatedProfileImport
+      parentRoute: typeof PublicAuthenticatedImport
+    }
+    '/_public/$activityType/': {
+      preLoaderRoute: typeof PublicActivityTypeIndexImport
+      parentRoute: typeof PublicActivityTypeRouteImport
     }
   }
 }
@@ -107,9 +137,13 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   AuthRoute.addChildren([AuthLoginRoute, AuthSignupRoute]),
-  LayoutRoute.addChildren([
-    LayoutAuthenticatedRoute.addChildren([LayoutAuthenticatedProfileRoute]),
-    LayoutIndexRoute,
+  PublicRoute.addChildren([
+    PublicActivityTypeRouteRoute.addChildren([
+      PublicActivityTypeSlugRoute,
+      PublicActivityTypeIndexRoute,
+    ]),
+    PublicAuthenticatedRoute.addChildren([PublicAuthenticatedProfileRoute]),
+    PublicIndexRoute,
   ]),
   LogoutRoute,
 ])

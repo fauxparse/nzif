@@ -1,54 +1,79 @@
-import clsx from 'clsx';
-import { ComponentProps, forwardRef, useRef } from 'react';
+import { ReactNode, forwardRef, useEffect, useRef, useState } from 'react';
+import Breadcrumbs from './Breadcrumbs';
 
 import './Header.css';
-import Waves from './Waves';
-import { Link } from '@tanstack/react-router';
-import Avatar from '../Avatar';
-import { useAuthentication } from '@/services/Authentication';
-import SearchIcon from '@/icons/SearchIcon';
-import Button from '@/components/Button';
-import MenuIcon from '@/icons/MenuIcon';
-import TextInput from '../TextInput';
-import NavigationMenu from '../NavigationMenu';
-import UserMenu from './UserMenu';
+import { debounce, isString } from 'lodash-es';
+import { useTitle } from '@/hooks/useRoutesWithTitles';
+import Scrollable from '../Scrollable';
 import { mergeRefs } from 'react-merge-refs';
-import useTheme from '@/hooks/useTheme';
 
-type HeaderProps = ComponentProps<'header'>;
+type HeaderSlot = ReactNode | false;
 
-const Header = forwardRef<HTMLElement, HeaderProps>(({ className, ...props }, ref) => {
-  const { user, logOut } = useAuthentication();
+type HeaderProps = {
+  breadcrumbs?: HeaderSlot;
+  actions?: HeaderSlot;
+  title?: HeaderSlot;
+  tabs?: HeaderSlot;
+};
 
-  const ownRef = useRef<HTMLElement>(null);
+const Header = forwardRef<HTMLElement, HeaderProps>(
+  (
+    { title = <DefaultTitle />, breadcrumbs = <Breadcrumbs />, actions = false, tabs = false },
+    ref
+  ) => {
+    const ownRef = useRef<HTMLElement>(null);
 
-  const theme = useTheme(ownRef);
+    useEffect(() => {
+      if (!ownRef.current) return;
 
-  return (
-    <header ref={mergeRefs([ref, ownRef])} className={clsx('header', className)}>
-      <div className="container" data-theme={theme === 'dark' ? 'light' : 'dark'}>
-        <div className="header__left">
-          <NavigationMenu />
+      const resizeObserver = new ResizeObserver(
+        debounce(
+          (entries) => {
+            const el = entries[0].target as HTMLElement;
+            el.style.setProperty('--header-height', `${entries[0].contentRect.height}px`);
+          },
+          100,
+          { trailing: true }
+        )
+      );
+
+      resizeObserver.observe(ownRef.current);
+
+      return () => {
+        resizeObserver.disconnect();
+      };
+    }, []);
+
+    return (
+      <header ref={mergeRefs([ref, ownRef])} className="header">
+        <div className="container">
+          {(breadcrumbs || actions) && (
+            <div className="header__top-outer">
+              <div className="header__top">
+                <div className="header__breadcrumbs">{breadcrumbs}</div>
+                <div className="header__actions">{actions}</div>
+              </div>
+            </div>
+          )}
+          {title && (
+            <div className="header__title">{isString(title) ? <h1>{title}</h1> : title}</div>
+          )}
+          {tabs && (
+            <Scrollable className="header__bottom-outer" orientation="horizontal">
+              <div className="header__bottom">
+                <div className="header__tabs">{tabs}</div>
+              </div>
+            </Scrollable>
+          )}
         </div>
-        <h1 className="header__title">
-          <abbr title="New Zealand Improv Festival">
-            NZ<b>IF</b>
-          </abbr>{' '}
-          2024
-        </h1>
-        <div className="header__right">
-          <TextInput
-            className="search"
-            type="search"
-            leftSection={<SearchIcon />}
-            placeholder="Search…"
-          />
-          <UserMenu />
-        </div>
-      </div>
-      <Waves />
-    </header>
-  );
-});
+      </header>
+    );
+  }
+);
+
+const DefaultTitle = () => {
+  const title = useTitle();
+  return <h1>{title}</h1>;
+};
 
 export default Header;

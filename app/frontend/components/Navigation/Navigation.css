@@ -1,0 +1,138 @@
+:root {
+  --navigation-height: 5rem;
+}
+
+.navigation {
+  position: relative;
+  z-index: var(--z-index-navigation);
+  display: grid;
+  place-items: center;
+  height: var(--navigation-height);
+  margin-bottom: -1rem;
+  padding-block-end: var(--spacing-base);
+
+  > .container {
+    display: grid;
+    grid-template: "left center right" auto / 1fr auto 1fr;
+    gap: var(--spacing-base);
+    align-items: center;
+  }
+
+  &__left {
+    grid-area: left;
+    justify-self: start;
+  }
+
+  &__right {
+    display: flex;
+    grid-area: right;
+    gap: var(--spacing-base);
+    justify-content: flex-end;
+    align-items: center;
+    justify-self: stretch;
+  }
+
+  h1 {
+    grid-area: center;
+    margin: 0;
+    color: var(--neutral-12);
+    font-weight: var(--font-weight-medium);
+    font-size: 2rem;
+
+    abbr {
+      color: var(--magenta);
+      font-weight: var(--font-weight-black);
+      text-decoration: none;
+      text-transform: lowercase;
+
+      b {
+        color: var(--neutral-12);
+        font-weight: inherit;
+      }
+    }
+  }
+
+  &__waves {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: var(--navigation-height);
+    pointer-events: none;
+
+    path {
+      fill: var(--pure);
+      mix-blend-mode: var(--blend-mode);
+    }
+  }
+
+
+  .search {
+    --focus-width: 0rem;
+
+    position: relative;
+    display: grid;
+    flex: 0 0 2.5rem;
+    overflow: hidden;
+    height: 2.5rem;
+    border-radius: var(--radius-round);
+    box-shadow: 0 0 0 var(--focus-width) var(--focus-ring);
+    transition: all 0.5s var(--ease-squish-3);
+
+    &:focus-within {
+      --focus-width: 0.25rem;
+
+      flex-grow: 1;
+    }
+
+    .mantine-Input {
+      &-wrapper {
+        --input-padding-inline: 0.625rem;
+        --focus-width: 0;
+
+        position: absolute;
+        inset: 0;
+        border-radius: var(--radius-round);
+        background-color: transparent;
+        transition: background-color 0.5s var(--ease-standard);
+
+        &:focus-within {
+          background-color: var(--background-input);
+        }
+      }
+
+      &-input {
+        cursor: pointer;
+
+        &:focus {
+          cursor: auto;
+        }
+      }
+    }
+
+    @media (width <= 400px) {
+      display: none;
+    }
+  }
+}
+
+.mantine-Menu {
+  &-dropdown {
+    position: absolute;
+    padding: var(--spacing-base);
+    border: 0;
+    border-radius: var(--radius-small);
+    background: var(--background-subtle);
+    box-shadow: var(--shadow-large);
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &-arrow {
+    z-index: -1;
+    border: 0;
+    background-color: inherit;
+  }
+}

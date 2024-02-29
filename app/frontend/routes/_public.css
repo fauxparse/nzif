@@ -1,18 +1,18 @@
 .layout {
   display: grid;
-  grid-template: "header" auto "main" 1fr "footer" auto / 1fr;
+  grid-template: "navigation" auto "main" 1fr "footer" auto / 1fr;
   align-items: start;
   justify-items: stretch;
   min-height: 100vh;
 
-  &__header {
-    grid-area: header;
+  &__navigation {
+    grid-area: navigation;
   }
 
   &__main {
     display: grid;
     grid-area: main;
-    justify-items: center;
+    justify-items: stretch;
   }
 
   &__footer {

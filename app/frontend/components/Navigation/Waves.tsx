@@ -2,6 +2,7 @@ import { debounce, drop, range } from 'lodash-es';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createNoise2D } from 'simplex-noise';
 import { spline } from '@georgedoescode/spline';
+import { useReducedMotion } from 'framer-motion';
 
 const noise = createNoise2D();
 
@@ -34,6 +35,8 @@ const Waves = () => {
   const [width, setWidth] = useState(1000);
 
   const paths = useRef<SVGPathElement[]>([]);
+
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     if (!svg) return;
@@ -90,7 +93,9 @@ const Waves = () => {
           paths.current[i].setAttribute('d', `M${layer.points[0].x} 0L${path.substring(1)}V0Z`);
         }
       });
-      frame = requestAnimationFrame(animate);
+      if (!reducedMotion) {
+        frame = requestAnimationFrame(animate);
+      }
     };
 
     frame = requestAnimationFrame(animate);
@@ -98,12 +103,12 @@ const Waves = () => {
     return () => {
       cancelAnimationFrame(frame);
     };
-  }, [layers]);
+  }, [layers, reducedMotion]);
 
   return (
     <svg
       ref={setSvg}
-      className="header__waves"
+      className="navigation__waves"
       viewBox={`0 0 ${width} 80`}
       role="presentation"
       preserveAspectRatio="none"

@@ -19,6 +19,8 @@ import {
   AuthenticationContextType,
   AuthenticationProvider,
 } from '@/services/Authentication';
+import { RouterContext } from '@/routes/__root';
+import { CurrentFestival } from '@/hooks/useFestival';
 
 Settings.defaultZone = 'Pacific/Auckland';
 
@@ -27,8 +29,9 @@ const router = createRouter({
   routeTree,
   context: {
     auth: { user: null, loading: true } as AuthenticationContextType,
-    client
-  },
+    client,
+    festival: {} as CurrentFestival,
+  } as RouterContext,
 });
 
 // Register the router instance for type safety
@@ -42,13 +45,21 @@ createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <HelmetProvider>
       <Helmet>
-        <title>NZIF: New Zealand Improv Festival 2023</title>
+        <title>NZIF: New Zealand Improv Festival</title>
       </Helmet>
       <MantineProvider>
         <ApolloProvider client={client}>
           <AuthenticationProvider>
             <AuthenticationContext.Consumer>
-              {(auth) => <RouterProvider router={router} context={{ auth: { ...auth }, client }} />}
+              {(auth) => (
+                <RouterProvider
+                  router={router}
+                  context={{
+                    auth: { ...auth },
+                    client,
+                  }}
+                />
+              )}
             </AuthenticationContext.Consumer>
           </AuthenticationProvider>
         </ApolloProvider>

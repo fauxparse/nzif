@@ -1,9 +1,7 @@
-import './Header.css';
 import Avatar from '@/components/Avatar';
 import Menu from '@/components/Menu';
 import { useAuthentication } from '@/services/Authentication';
 import {
-  Popover,
   List as BaseList,
   createPolymorphicComponent,
   ListItemProps,

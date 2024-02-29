@@ -8,7 +8,7 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { CurrentFestival, CurrentFestivalQuery, FestivalProvider } from '@/hooks/useFestival';
 
 const Root = () => {
-  const festival = Route.useLoaderData();
+  const { festival } = Route.useRouteContext();
 
   return (
     <FestivalProvider festival={festival}>
@@ -18,16 +18,23 @@ const Root = () => {
   );
 };
 
-type RouterContext = {
+export type RouterContext = {
   auth: AuthenticationContextType;
   client: ApolloClient<NormalizedCacheObject>;
+  festival: CurrentFestival;
+  year: string;
+  getTitle?: (data: unknown) => string;
 };
 
 export const Route = createRootRouteWithContext<RouterContext>()({
-  component: Root,
-  loader: async ({ context: { client } }) => {
-    const { data } = await client.query({ query: CurrentFestivalQuery });
-    return data.festival as CurrentFestival;
+  beforeLoad: async ({ context }) => {
+    const { data } = await context.client.query({ query: CurrentFestivalQuery });
+    return {
+      festival: data.festival as CurrentFestival,
+      year: String(data.festival.id),
+      getTitle: () => `NZIF ${data.festival.id}`,
+    };
   },
+  component: Root,
   staleTime: Infinity,
 });
