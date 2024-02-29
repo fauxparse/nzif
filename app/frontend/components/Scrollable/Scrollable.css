@@ -1,0 +1,129 @@
+:where(.scrollable) {
+  --scrollable-edge-color: var(--background-app);
+  --scrollable-edge-size: 1rem;
+  --scrollable-gradient-size: 2rem;
+  --scrollable-gradient-direction: to bottom;
+  --start-edge: 0;
+  --end-edge: 0;
+
+  position: relative;
+  display: grid;
+  place-content: stretch;
+
+  :where(.scrollable__content) {
+    overflow-y: auto;
+  }
+
+  :where(.scrollable__edge) {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    background: linear-gradient(
+      var(--scrollable-gradient-direction),
+      var(--scrollable-edge-color),
+      transparent
+    );
+    pointer-events: none;
+    transition: opacity var(--speed-standard) var(--ease-standard);
+  }
+
+  &::before {
+    opacity: var(--start-edge);
+  }
+
+  &::after {
+    opacity: var(--end-edge);
+  }
+
+  &:where([data-orientation="vertical"]) {
+    :where(.scrollable__content) {
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    :where(.scrollable__edge) {
+      &:where([data-edge="start"]) {
+        margin-block-end: calc(var(--scrollable-edge-size) * -1);
+      }
+
+      &:where([data-edge="end"]) {
+        margin-block-start: calc(var(--scrollable-edge-size) * -1);
+      }
+    }
+
+    &::before,
+    &::after {
+      inset-inline-start: 0;
+      inset-inline-end: 0;
+      block-size: var(--scrollable-gradient-size);
+    }
+
+    &::before {
+      --scrollable-gradient-direction: to bottom;
+
+      inset-block-start: 0;
+    }
+
+    &::after {
+      --scrollable-gradient-direction: to top;
+
+      inset-block-end: 0;
+    }
+  }
+
+  &:where([data-orientation="horizontal"]) {
+    :where(.scrollable__content) {
+      flex-direction: row;
+      overflow-x: auto;
+
+      > * {
+        flex-shrink: 0;
+      }
+    }
+
+    :where(.scrollable__edge) {
+      &:where([data-edge="start"]) {
+        margin-inline-end: calc(var(--scrollable-edge-size) * -1);
+      }
+
+      &:where([data-edge="end"]) {
+        margin-inline-start: calc(var(--scrollable-edge-size) * -1);
+      }
+    }
+
+    &::before,
+    &::after {
+      inset-block-start: 0;
+      inset-block-end: 0;
+      inline-size: var(--scrollable-gradient-size);
+    }
+
+    &::before {
+      --scrollable-gradient-direction: calc(90deg);
+
+      inset-inline-start: 0;
+    }
+
+    &::after {
+      --scrollable-gradient-direction: calc(-90deg);
+
+      inset-inline-end: 0;
+    }
+  }
+}
+
+:where(.scrollable__content) {
+  display: flex;
+  align-items: stretch;
+  padding: 0.001rem;
+
+  :where(.scrollable__edge) {
+    flex: 0 0 var(--scrollable-edge-size);
+  }
+}

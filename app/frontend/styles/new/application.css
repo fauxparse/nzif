@@ -29,6 +29,7 @@ body {
   width: 100%;
   max-width: var(--max-width);
   padding-inline: var(--container-padding-horizontal);
+  container-type: inline-size;
 }
 
 .visually-hidden {

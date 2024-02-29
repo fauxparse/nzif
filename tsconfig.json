@@ -24,7 +24,8 @@
       {
         "name": "@0no-co/graphqlsp",
         "schema": "./app/frontend/graphql/schema.graphql",
-        "tadaOutputLocation": "./app/frontend/graphql/graphql-env.d.ts"
+        "tadaOutputLocation": "./app/frontend/graphql/graphql-env.d.ts",
+        "trackFieldUsage": false,
       }
     ]
   },
