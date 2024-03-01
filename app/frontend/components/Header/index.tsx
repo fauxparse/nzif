@@ -1,4 +1,12 @@
-import { ReactNode, forwardRef, useEffect, useRef, useState } from 'react';
+import {
+  ComponentProps,
+  ComponentPropsWithoutRef,
+  ReactNode,
+  forwardRef,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import Breadcrumbs from './Breadcrumbs';
 
 import './Header.css';
@@ -6,19 +14,37 @@ import { debounce, isString } from 'lodash-es';
 import { useTitle } from '@/hooks/useRoutesWithTitles';
 import Scrollable from '../Scrollable';
 import { mergeRefs } from 'react-merge-refs';
+import { ImageProps } from '@mantine/core';
+import BlurrableImage from '../BlurrableImage';
+import clsx from 'clsx';
 
 type HeaderSlot = ReactNode | false;
 
-type HeaderProps = {
+type BaseHeaderProps = {
   breadcrumbs?: HeaderSlot;
   actions?: HeaderSlot;
   title?: HeaderSlot;
   tabs?: HeaderSlot;
+  background?: {
+    src: ImageProps['src'];
+    blurhash: string;
+  };
 };
+
+type HeaderProps = Omit<ComponentPropsWithoutRef<'header'>, keyof BaseHeaderProps> &
+  BaseHeaderProps;
 
 const Header = forwardRef<HTMLElement, HeaderProps>(
   (
-    { title = <DefaultTitle />, breadcrumbs = <Breadcrumbs />, actions = false, tabs = false },
+    {
+      title = <DefaultTitle />,
+      breadcrumbs = <Breadcrumbs />,
+      actions = false,
+      tabs = false,
+      background,
+      className,
+      ...props
+    },
     ref
   ) => {
     const ownRef = useRef<HTMLElement>(null);
@@ -45,7 +71,14 @@ const Header = forwardRef<HTMLElement, HeaderProps>(
     }, []);
 
     return (
-      <header ref={mergeRefs([ref, ownRef])} className="header">
+      <header ref={mergeRefs([ref, ownRef])} className={clsx('header', className)} {...props}>
+        {background && (
+          <BlurrableImage
+            className="header__background"
+            src={background.src}
+            blurhash={background.blurhash}
+          />
+        )}
         <div className="container">
           {(breadcrumbs || actions) && (
             <div className="header__top-outer">

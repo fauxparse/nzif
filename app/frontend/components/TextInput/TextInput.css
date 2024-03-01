@@ -28,7 +28,7 @@
         --focus-width: 0.25rem;
       }
 
-      &:has([data-position="right"]>.icon:first-child:last-child) {
+      &:has([data-position="right"]>.icon:only-child) {
         .mantine-Input-input {
           margin-inline-end: calc(var(--icon-padding-size) * -1);
           padding-inline-end: calc(var(--icon-padding-size) + var(--input-padding-inline));
@@ -55,7 +55,7 @@
       display: flex;
 
       &[data-position="left"] {
-        &:has(.icon:first-child:last-child) {
+        &:has(.icon:only-child) {
           padding-inline-start: var(--input-padding-inline);
 
           + input {
@@ -66,7 +66,7 @@
       }
 
       &[data-position="right"] {
-        &:has(>.icon:first-child:last-child) {
+        &:has(>.icon:only-child) {
           padding-inline-end: var(--input-padding-inline);
         }
       }

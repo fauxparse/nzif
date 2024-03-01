@@ -1,0 +1,34 @@
+.blurrable-image {
+  overflow: hidden;
+  width: 100%;
+  border-radius: inherit;
+
+  &__blurred {
+    position: relative;
+
+    canvas {
+      position: absolute;
+      inset: 0;
+      object-fit: cover;
+      object-position: center;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__image {
+    position: absolute;
+    inset: 0;
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-standard);
+
+    &--loaded {
+      opacity: 1;
+    }
+  }
+}

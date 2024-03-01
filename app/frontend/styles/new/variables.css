@@ -7,10 +7,12 @@
 :root,
 [data-theme="light"] {
   --blend-mode: multiply;
+  --header-image-blend-mode: screen;
 }
 
 [data-theme="dark"] {
   --blend-mode: screen;
+  --header-image-blend-mode: multiply;
 }
 
 :root,
@@ -280,6 +282,7 @@ body,
   --background-inverse: var(--neutral-12);
   --background-solid: var(--neutral-9);
   --background-subtle: var(--neutral-2);
+  --background-selected: var(--magenta-9);
   --border-element: var(--neutral-alpha-7);
   --border-element-hover: var(--neutral-alpha-8);
   --border-input-hover: var(--neutral-alpha-8);
@@ -331,6 +334,8 @@ body,
   --colored-text-subtle: var(--magenta-alpha-9);
   --pure: var(--magenta-9);
   --focus-ring: var(--focus-magenta);
+  --border-element: var(--magenta-7);
+  --border-subtle: var(--magenta-alpha-6);
 }
 
 [data-color="cyan"] {
@@ -351,6 +356,8 @@ body,
   --colored-text-subtle: var(--cyan-alpha-9);
   --pure: var(--cyan-9);
   --focus-ring: var(--focus-cyan);
+  --border-element: var(--cyan-7);
+  --border-subtle: var(--cyan-alpha-6);
 }
 
 
@@ -372,6 +379,8 @@ body,
   --colored-text-subtle: var(--yellow-alpha-9);
   --pure: var(--yellow-9);
   --focus-ring: var(--focus-yellow);
+  --border-element: var(--yellow-7);
+  --border-subtle: var(--yellow-alpha-6);
 }
 
 :root,
@@ -380,7 +389,7 @@ body,
   --padding-input-vertical: var(--padding-input-medium-vertical);
 }
 
-[data-mode="dark"] {
+[data-theme="dark"] {
   [data-color="magenta"] {
     --pure: hsl(300deg 100% 50%);
   }
