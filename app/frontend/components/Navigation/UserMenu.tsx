@@ -9,6 +9,7 @@ import {
 } from '@mantine/core';
 import { Link } from '@tanstack/react-router';
 import UserIcon from '@/icons/UserIcon';
+import Switch from '../Switch';
 
 const List = createPolymorphicComponent<'ul', ListProps>(BaseList);
 const ListItem = createPolymorphicComponent<'li', ListItemProps>(BaseList.Item);
@@ -42,6 +43,9 @@ const UserMenu: React.FC = () => {
       <Menu.Dropdown>
         <Menu.Item component={Link} to="/profile" leftSection={<UserIcon />}>
           My profile
+        </Menu.Item>
+        <Menu.Item component="label" rightSection={<Switch />}>
+          Dark mode
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item component={Link} to="/logout">

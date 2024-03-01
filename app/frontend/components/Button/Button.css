@@ -43,7 +43,7 @@
   }
 
   &:has(.button__content:empty),
-  &:has(>.icon:first-child:last-child) {
+  &:has(>.icon:only-child) {
     border-radius: var(--radius-round);
   }
 

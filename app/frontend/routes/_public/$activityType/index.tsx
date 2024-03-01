@@ -4,9 +4,11 @@ import { Container, Tabs } from '@mantine/core';
 import Header from '@/components/Header';
 
 import './$activityType.css';
-import { ACTIVITY_TYPES } from '@/constants/activityTypes';
-import Button from '@/components/Button';
-import ActivityTypeTabs from '@/components/molecules/ActivityTypeTabs';
+import { ACTIVITY_TYPES, PluralActivityType } from '@/constants/activityTypes';
+import Body from '@/components/Body';
+import ActivityTypeTabs, { tabSwitchDirection } from '@/components/molecules/ActivityTypeTabs';
+import { AnimatePresence } from 'framer-motion';
+import { usePrevious } from '@mantine/hooks';
 
 const AssociatedActivityFragment = graphql(`
   fragment AssociatedActivity on Activity @_unmask {
@@ -85,6 +87,12 @@ const Component = () => {
 
   const navigate = useNavigate();
 
+  const activityType = params.activityType as PluralActivityType;
+
+  const previousActivityType = usePrevious(activityType);
+
+  const direction = tabSwitchDirection(previousActivityType, activityType);
+
   return (
     <>
       <Header
@@ -99,20 +107,24 @@ const Component = () => {
           />
         }
       />
-      <Container>
-        <ul>
-          {activities.map((activity) => (
-            <li key={activity.id}>
-              <Link
-                to="/$activityType/$slug"
-                params={{ activityType: plural, slug: activity.slug }}
-              >
-                {activity.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Container>
+      <AnimatePresence initial={false} mode="popLayout" custom={direction}>
+        <Body key={params.activityType} direction={direction}>
+          <Container>
+            <ul>
+              {activities.map((activity) => (
+                <li key={activity.id}>
+                  <Link
+                    to="/$activityType/$slug"
+                    params={{ activityType: plural, slug: activity.slug }}
+                  >
+                    {activity.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </Body>
+      </AnimatePresence>
     </>
   );
 };

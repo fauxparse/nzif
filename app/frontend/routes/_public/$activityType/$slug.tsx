@@ -9,10 +9,14 @@ import {
   PluralActivityType,
   getActivityTypeFromPlural,
 } from '@/constants/activityTypes';
+import Body from '@/components/Body';
+import Switch from '@/components/Switch';
 
 const ActivityDetailsQuery = graphql(`
   query ActivityDetails($year: String!, $type: ActivityType!, $slug: String!) {
     festival(year: $year) {
+      id
+
       activity(type: $type, slug: $slug) {
         id
         name
@@ -21,6 +25,12 @@ const ActivityDetailsQuery = graphql(`
         presenters {
           id
           name
+        }
+
+        picture {
+          id
+          large
+          blurhash
         }
       }
     }
@@ -33,10 +43,24 @@ const Component = () => {
 
   const activity = Route.useLoaderData();
 
+  if (!activity) return null;
+
   return (
     <>
-      <Header />
-      <div style={{ height: '300vh', background: 'linear-gradient(to bottom, red, blue)' }} />
+      <Header
+        background={
+          activity.picture?.large
+            ? {
+                src: activity.picture.large,
+                blurhash: activity.picture.blurhash,
+              }
+            : undefined
+        }
+        data-color="magenta"
+      />
+      <Body>
+        <div className="container" />
+      </Body>
     </>
   );
 };

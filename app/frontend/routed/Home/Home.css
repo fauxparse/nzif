@@ -7,6 +7,10 @@
     display: grid;
     align-items: center;
     align-self: stretch;
+
+    .container {
+      margin: 0 auto;
+    }
   }
 }
 
@@ -15,8 +19,10 @@
     &.hero {
       grid-template: "title" auto "dates" auto "buttons" auto / 1fr;
       row-gap: var(--spacing-small);
+      justify-items: center;
 
       h1 {
+        max-width: 24rem;
         text-align: center;
       }
 

@@ -1,6 +1,6 @@
+import { Direction } from '@/components/RouteTransition/types';
 import { ACTIVITY_TYPES, PluralActivityType } from '@/constants/activityTypes';
 import { Tabs } from '@mantine/core';
-import { useNavigate } from '@tanstack/react-router';
 
 type ActivityTypeTabsProps = {
   value: PluralActivityType;
@@ -18,5 +18,18 @@ const ActivityTypeTabs: React.FC<ActivityTypeTabsProps> = ({ value, onChange }) 
     </Tabs.List>
   </Tabs>
 );
+
+export const tabSwitchDirection = (
+  previous: PluralActivityType | undefined,
+  next: PluralActivityType
+): Direction => {
+  if (!previous) return 'left';
+
+  const keys = Object.keys(ACTIVITY_TYPES);
+  const previousIndex = keys.indexOf(previous);
+  const nextIndex = keys.indexOf(next);
+
+  return previousIndex > nextIndex ? 'right' : 'left';
+};
 
 export default ActivityTypeTabs;

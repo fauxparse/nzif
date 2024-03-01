@@ -5,12 +5,15 @@ import { Fragment } from 'react';
 
 const Breadcrumbs: React.FC = () => {
   const breadcrumbs = useBreadcrumbs();
+
   return (
-    <div className="page-header__breadcrumbs">
+    <div className="breadcrumbs">
       {breadcrumbs.map((crumb, index) => (
         <Fragment key={crumb.pathname}>
           {index > 0 && <ChevronRightIcon />}
-          <Link {...crumb.link}>{crumb.title}</Link>
+          <Link {...crumb.link} className="breadcrumb">
+            {crumb.title}
+          </Link>
         </Fragment>
       ))}
     </div>
