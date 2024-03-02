@@ -4,6 +4,9 @@ import Button from '@/components/Button';
 import BATSIcon from '@/icons/BATSIcon';
 
 import './Home.css';
+import ThemeIcon from '@/icons/ThemeIcon';
+import { useState } from 'react';
+import useTheme from '@/hooks/useTheme';
 
 export const Home = () => {
   const festival = useFestival();

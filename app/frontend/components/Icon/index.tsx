@@ -48,6 +48,7 @@ export const createIcon = <const T extends CreateIconOptions>(options: T) =>
           className={clsx('icon', className)}
           data-variant={variant || DEFAULT_VARIANT}
           data-size={size}
+          data-icon={options.displayName}
           component="svg"
           role="img"
           aria-describedby={descriptionId}

@@ -7,7 +7,7 @@ import TextInput from '../TextInput';
 import NavigationMenu from '../NavigationMenu';
 import UserMenu from './UserMenu';
 import { mergeRefs } from 'react-merge-refs';
-import useTheme from '@/hooks/useTheme';
+import { useCurrentTheme } from '@/hooks/useTheme';
 
 import './Navigation.css';
 
@@ -18,7 +18,7 @@ const Navigation = forwardRef<HTMLElement, NavigationProps>(({ className, ...pro
 
   const ownRef = useRef<HTMLElement>(null);
 
-  const theme = useTheme(ownRef);
+  const theme = useCurrentTheme(ownRef);
 
   return (
     <header ref={mergeRefs([ref, ownRef])} className={clsx('navigation', className)}>
