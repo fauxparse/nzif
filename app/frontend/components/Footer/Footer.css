@@ -33,6 +33,11 @@
   }
 
   section {
+    .button {
+      --button-ghost-text: var(--text-subtle);
+      --button-ghost-icon: var(--text-subtle);
+    }
+
     a {
       display: block;
       color: inherit;
@@ -41,6 +46,10 @@
       &:hover {
         color: var(--text-default);
       }
+    }
+
+    p {
+      margin: 0 0 var(--spacing-medium);
     }
   }
 }

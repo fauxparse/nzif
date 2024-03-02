@@ -38,4 +38,53 @@
   g[fill] path {
     fill: inherit;
   }
+
+  &[data-icon="ThemeIcon"] {
+    --pos: 0;
+    --arc-radius: 10px;
+
+    * {
+      transition: transform 0.5s var(--ease-squish-5), opacity 0.5s var(--ease-standard);
+    }
+
+    circle {
+      &.sun {
+        fill: currentcolor;
+        transition-delay: calc(var(--pos) * 0.25s);
+        transform: scale(calc((var(--pos) * 8 + 10) / 18));
+      }
+
+      &.shadow {
+        transition-delay: calc(var(--pos) * 0.5s);
+        transform: rotate(calc(120deg - var(--pos) * 88deg));
+        transform-origin: var(--arc-radius) calc(var(--arc-radius) / 2);
+      }
+    }
+
+    path {
+      --i: 0;
+
+      opacity: calc(1 - var(--pos));
+      fill: none;
+      stroke: currentcolor;
+      transition-delay: calc((1 - var(--pos)) * var(--i) * 0.05s + 0.1s);
+      transform: rotate(calc(var(--i) * 45deg)) translateX(calc(var(--pos) * -2px));
+      transform-origin: 0 0;
+      stroke-linecap: round;
+      stroke-width: 2px;
+
+      &:nth-child(1) { --i: 0; }
+      &:nth-child(2) { --i: 1; }
+      &:nth-child(3) { --i: 2; }
+      &:nth-child(4) { --i: 3; }
+      &:nth-child(5) { --i: 4; }
+      &:nth-child(6) { --i: 5; }
+      &:nth-child(7) { --i: 6; }
+      &:nth-child(8) { --i: 7; }
+    }
+
+    body[data-theme="dark"] & {
+      --pos: 1;
+    }
+  }
 }

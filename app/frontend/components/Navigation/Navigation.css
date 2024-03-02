@@ -62,6 +62,7 @@
 
     path {
       fill: var(--pure);
+      transition: fill var(--theme-transition-speed) var(--ease-standard);
       mix-blend-mode: var(--blend-mode);
     }
   }

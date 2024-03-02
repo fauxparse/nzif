@@ -6,9 +6,17 @@ import { AuthenticationContextType } from '@/services/Authentication';
 
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { CurrentFestival, CurrentFestivalQuery, FestivalProvider } from '@/hooks/useFestival';
+import useTheme from '@/hooks/useTheme';
+import { useEffect } from 'react';
 
 const Root = () => {
   const { festival } = Route.useRouteContext();
+
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    document.body.setAttribute('data-theme', theme);
+  }, [theme]);
 
   return (
     <FestivalProvider festival={festival}>
