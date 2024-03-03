@@ -1,5 +1,6 @@
 module.exports = {
   plugins: {
+    'postcss-for': {},
     'postcss-nested': {},
     'postcss-import': {},
     'postcss-combine-duplicated-selectors': {},

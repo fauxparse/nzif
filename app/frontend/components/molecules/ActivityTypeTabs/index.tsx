@@ -1,6 +1,6 @@
 import { Direction } from '@/components/helpers/RouteTransition/types';
 import { ACTIVITY_TYPES, PluralActivityType } from '@/constants/activityTypes';
-import { Tabs } from '@mantine/core';
+import { Tabs } from '@/components/molecules/Tabs';
 
 type ActivityTypeTabsProps = {
   value: PluralActivityType;

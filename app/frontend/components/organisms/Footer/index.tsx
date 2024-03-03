@@ -5,6 +5,7 @@ import './Footer.css';
 import Button from '../../atoms/Button';
 import useTheme from '@/hooks/useTheme';
 import ThemeIcon from '@/icons/ThemeIcon';
+import { motion } from 'framer-motion';
 
 type FooterProps = ComponentProps<'footer'>;
 
@@ -12,7 +13,7 @@ const Footer: React.FC<FooterProps> = ({ className, ...props }) => {
   const { toggle } = useTheme();
 
   return (
-    <footer className={clsx('footer', className)}>
+    <motion.footer layout="position" className={clsx('footer', className)}>
       <div className="container">
         <section>
           <a href="#">Frequently-asked questions</a>
@@ -30,7 +31,7 @@ const Footer: React.FC<FooterProps> = ({ className, ...props }) => {
           </Button>
         </section>
       </div>
-    </footer>
+    </motion.footer>
   );
 };
 
