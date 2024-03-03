@@ -1,0 +1,90 @@
+.tabs {
+  &__root {
+    --tab-background: transparent;
+    --tab-color: var(--text-subtle);
+    --tab-active-color: var(--text-default);
+    --tab-hover-color: var(--text-default);
+    --tab-hover-background: var(--background-element-hover);
+
+    display: contents;
+  }
+
+  &__list {
+    display: grid;
+    grid-auto-columns: max-content;
+    grid-auto-flow: column;
+
+    @for $i from 1 to 20 {
+      &:has(.tabs__tab:nth-of-type($i)) {
+        --tab-count: $i;
+      }
+    }
+
+    &[data-grow="true"] {
+      grid-template-columns: repeat(var(--tab-count, 0), auto);
+      justify-content: stretch;
+    }
+  }
+
+  &__tab {
+    position: relative;
+    display: flex;
+    grid-row: 1;
+    gap: var(--spacing-small);
+    align-items: center;
+    padding: var(--tab-padding-block-start) var(--tab-padding-inline) var(--tab-padding-block-end);
+    border: 0;
+    background-color: var(--tab-background);
+    color: var(--tab-color);
+    box-shadow: none;
+    font: inherit;
+    font-weight: var(--font-weight-normal);
+    text-align: center;
+    cursor: pointer;
+
+    @for $i from 1 to 20 {
+      &:nth-of-type($i) {
+        grid-column: $i;
+
+        &[aria-selected="true"] {
+          ~ .tabs__highlight {
+            grid-column: $i;
+          }
+        }
+      }
+    }
+
+    > span {
+      &:not([data-position]) {
+        flex: 1;
+      }
+    }
+
+    &[aria-selected="true"] {
+      color: var(--tab-active-color);
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: var(--text-default);
+    }
+
+    &:focus-visible {
+      background-color: var(--tab-hover-background);
+      outline: none;
+    }
+  }
+
+  &__highlight {
+    position: relative;
+    grid-row: 1;
+    grid-column: 1;
+    align-self: end;
+    justify-self: stretch;
+    width: 100%;
+    height: var(--tab-highlight-height);
+    margin: 0;
+    border: 0;
+    background: var(--tab-highlight-color);
+  }
+}

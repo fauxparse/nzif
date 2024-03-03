@@ -51,7 +51,15 @@
     grid-area: bottom;
     margin-inline: calc(var(--container-padding-horizontal) * -1);
     margin-bottom: calc(var(--border-thin) * -1);
-    padding-inline: var(--container-padding-horizontal);
+    padding-inline: calc(var(--container-padding-horizontal) / 2);
+
+    &:has(.tabs__list[data-grow="true"]) {
+      padding-inline: 0;
+    }
+  }
+
+  &__bottom {
+    min-width: 100%;
   }
 
   &__actions {
