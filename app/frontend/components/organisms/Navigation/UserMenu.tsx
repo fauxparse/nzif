@@ -1,18 +1,9 @@
-import Avatar from '@/components/Avatar';
-import Menu from '@/components/Menu';
+import Avatar from '@/components/atoms/Avatar';
+import Menu from '@/components/molecules/Menu';
 import { useAuthentication } from '@/services/Authentication';
-import {
-  List as BaseList,
-  createPolymorphicComponent,
-  ListItemProps,
-  ListProps,
-} from '@mantine/core';
 import { Link } from '@tanstack/react-router';
 import UserIcon from '@/icons/UserIcon';
-import Switch from '../Switch';
-
-const List = createPolymorphicComponent<'ul', ListProps>(BaseList);
-const ListItem = createPolymorphicComponent<'li', ListItemProps>(BaseList.Item);
+import Switch from '@/components/atoms/Switch';
 
 const UserMenu: React.FC = () => {
   const { user, logOut } = useAuthentication();

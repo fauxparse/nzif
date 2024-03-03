@@ -12,10 +12,10 @@ import Breadcrumbs from './Breadcrumbs';
 import './Header.css';
 import { debounce, isString } from 'lodash-es';
 import { useTitle } from '@/hooks/useRoutesWithTitles';
-import Scrollable from '../Scrollable';
+import Scrollable from '@/components/helpers/Scrollable';
 import { mergeRefs } from 'react-merge-refs';
 import { ImageProps } from '@mantine/core';
-import BlurrableImage from '../BlurrableImage';
+import BlurrableImage from '@/components/molecules/BlurrableImage';
 import clsx from 'clsx';
 
 type HeaderSlot = ReactNode | false;

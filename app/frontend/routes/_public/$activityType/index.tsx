@@ -1,11 +1,11 @@
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
 import { graphql } from '@/graphql';
 import { Container, Tabs } from '@mantine/core';
-import Header from '@/components/Header';
+import Header from '@/components/organisms/Header';
 
 import './$activityType.css';
 import { ACTIVITY_TYPES, PluralActivityType } from '@/constants/activityTypes';
-import Body from '@/components/Body';
+import Body from '@/components/organisms/Body';
 import ActivityTypeTabs, { tabSwitchDirection } from '@/components/molecules/ActivityTypeTabs';
 import { AnimatePresence } from 'framer-motion';
 import { usePrevious } from '@mantine/hooks';

@@ -10,6 +10,7 @@
   padding-top: var(--spacing-large);
   border-bottom: var(--border-thin) solid var(--border-subtle);
   background: var(--background-app);
+  transition: var(--theme-transition);
   container-type: inline-sizing;
 
   &:has(.mantine-Tabs-root) {
@@ -82,6 +83,7 @@
     z-index: -1;
     background: var(--background-solid);
     opacity: 0.5;
+    transition: var(--theme-transition);
 
     .blurrable-image__blurred,
     .blurrable-image__image {

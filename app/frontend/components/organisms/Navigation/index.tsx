@@ -3,13 +3,14 @@ import { ComponentProps, forwardRef, useRef } from 'react';
 import Waves from './Waves';
 import { useAuthentication } from '@/services/Authentication';
 import SearchIcon from '@/icons/SearchIcon';
-import TextInput from '../TextInput';
-import NavigationMenu from '../NavigationMenu';
+import TextInput from '@/components/atoms/TextInput';
+import NavigationMenu from '@/components/organisms/NavigationMenu';
 import UserMenu from './UserMenu';
 import { mergeRefs } from 'react-merge-refs';
 import { useCurrentTheme } from '@/hooks/useTheme';
 
 import './Navigation.css';
+import { Link } from '@tanstack/react-router';
 
 type NavigationProps = ComponentProps<'header'>;
 
@@ -27,10 +28,12 @@ const Navigation = forwardRef<HTMLElement, NavigationProps>(({ className, ...pro
           <NavigationMenu />
         </div>
         <h1 className="navigation__title">
-          <abbr title="New Zealand Improv Festival">
-            NZ<b>IF</b>
-          </abbr>{' '}
-          2024
+          <Link to="/">
+            <abbr title="New Zealand Improv Festival">
+              NZ<b>IF</b>
+            </abbr>{' '}
+            2024
+          </Link>
         </h1>
         <div className="navigation__right">
           <TextInput

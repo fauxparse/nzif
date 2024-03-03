@@ -1,6 +1,6 @@
 import MenuIcon from '@/icons/MenuIcon';
-import Button from '@/components/Button';
-import Drawer from '@/components/Drawer';
+import Button from '@/components/atoms/Button';
+import Drawer from '@/components/molecules/Drawer';
 import { useDisclosure } from '@mantine/hooks';
 
 import './NavigationMenu.css';

@@ -1,8 +1,11 @@
 import clsx from 'clsx';
 import { MotionProps, motion } from 'framer-motion';
 import { ComponentPropsWithoutRef, forwardRef } from 'react';
-import { Direction } from '../RouteTransition/types';
-import { RouteTransitionVariants, TransitionProps } from '../RouteTransition/AnimatedOutlet';
+import { Direction } from '../../helpers/RouteTransition/types';
+import {
+  RouteTransitionVariants,
+  TransitionProps,
+} from '../../helpers/RouteTransition/AnimatedOutlet';
 
 import './Body.css';
 

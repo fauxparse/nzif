@@ -3,14 +3,14 @@ import { ResultOf, graphql } from '@/graphql';
 import { useBreadcrumbs } from '@/hooks/useRoutesWithTitles';
 import { Fragment } from 'react';
 import ChevronRightIcon from '@/icons/ChevronRightIcon';
-import Header from '@/components/Header';
+import Header from '@/components/organisms/Header';
 import {
   ACTIVITY_TYPES,
   PluralActivityType,
   getActivityTypeFromPlural,
 } from '@/constants/activityTypes';
-import Body from '@/components/Body';
-import Switch from '@/components/Switch';
+import Body from '@/components/organisms/Body';
+import Switch from '@/components/atoms/Switch';
 
 const ActivityDetailsQuery = graphql(`
   query ActivityDetails($year: String!, $type: ActivityType!, $slug: String!) {

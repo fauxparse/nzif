@@ -1,11 +1,11 @@
-import Navigation from '@/components/Navigation';
+import Navigation from '@/components/organisms/Navigation';
 import { createFileRoute } from '@tanstack/react-router';
 
 import './_public.css';
-import Footer from '@/components/Footer';
+import Footer from '@/components/organisms/Footer';
 import { Helmet } from 'react-helmet-async';
 import { useTitle } from '@/hooks/useRoutesWithTitles';
-import RouteTransition from '@/components/RouteTransition';
+import RouteTransition from '@/components/helpers/RouteTransition';
 
 export const Route = createFileRoute('/_public')({
   component: () => {

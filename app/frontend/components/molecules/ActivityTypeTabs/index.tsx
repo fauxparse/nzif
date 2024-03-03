@@ -1,4 +1,4 @@
-import { Direction } from '@/components/RouteTransition/types';
+import { Direction } from '@/components/helpers/RouteTransition/types';
 import { ACTIVITY_TYPES, PluralActivityType } from '@/constants/activityTypes';
 import { Tabs } from '@mantine/core';
 

@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { getActivityTypeLabelFromPlural, isPluralActivityType } from '@/constants/activityTypes';
-import RouteTransition from '@/components/RouteTransition';
+import RouteTransition from '@/components/helpers/RouteTransition';
 
 export const Route = createFileRoute('/_public/$activityType')({
   beforeLoad: ({ params }) => {

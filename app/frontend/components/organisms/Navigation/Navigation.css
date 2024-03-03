@@ -39,6 +39,11 @@
     font-weight: var(--font-weight-medium);
     font-size: 2rem;
 
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
     abbr {
       color: var(--magenta);
       font-weight: var(--font-weight-black);

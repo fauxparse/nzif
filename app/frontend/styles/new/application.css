@@ -3,7 +3,7 @@
 @import url("@/styles/new/shadows.css");
 
 :root {
-  --theme-transition-speed: 0.5s;
+  --theme-transition-speed: 0.25s;
   --theme-transition:
     background-color var(--theme-transition-speed) var(--ease-standard),
     color var(--theme-transition-speed) var(--ease-standard);
