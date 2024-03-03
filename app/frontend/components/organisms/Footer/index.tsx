@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { ComponentProps } from 'react';
 
 import './Footer.css';
-import Button from '../Button';
+import Button from '../../atoms/Button';
 import useTheme from '@/hooks/useTheme';
 import ThemeIcon from '@/icons/ThemeIcon';
 

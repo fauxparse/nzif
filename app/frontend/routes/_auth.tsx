@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
-import Logo from '@/components/Logo';
+import Logo from '@/components/atoms/Logo';
 
 import './_auth/_auth.css';
 

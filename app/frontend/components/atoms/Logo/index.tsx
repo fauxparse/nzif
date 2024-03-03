@@ -7,8 +7,6 @@ import { LogoProps } from './Logo.types';
 
 import './Logo.css';
 
-import './spline.d.ts';
-
 const POINTS = [
   { x: 300, y: 85 },
   { x: 490, y: 110 },

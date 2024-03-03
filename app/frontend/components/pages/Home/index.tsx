@@ -1,6 +1,6 @@
 import useFestival from '@/hooks/useFestival';
 import { Link } from '@tanstack/react-router';
-import Button from '@/components/Button';
+import Button from '@/components/atoms/Button';
 import BATSIcon from '@/icons/BATSIcon';
 
 import './Home.css';

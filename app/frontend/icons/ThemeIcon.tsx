@@ -1,4 +1,4 @@
-import { createIcon } from '@/components/Icon';
+import { createIcon } from '@/components/atoms/Icon';
 
 export default createIcon({
   title: 'Theme',
