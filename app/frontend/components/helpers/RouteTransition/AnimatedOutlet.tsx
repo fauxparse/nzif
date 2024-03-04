@@ -68,7 +68,7 @@ const AnimatedOutlet = forwardRef<HTMLDivElement, AnimatedOutletProps>(
     }
 
     return (
-      <motion.div ref={ref} custom={direction} {...TransitionProps} {...props}>
+      <motion.div ref={ref} className="outlet" custom={direction} {...TransitionProps} {...props}>
         <RouterContext.Provider value={renderedContext.current}>
           <Outlet />
         </RouterContext.Provider>

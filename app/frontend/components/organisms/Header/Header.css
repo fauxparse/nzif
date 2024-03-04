@@ -5,13 +5,14 @@
   position: relative;
   z-index: var(--z-index-header);
   display: grid;
-  justify-items: center;
+  grid-template-rows: max(var(--header-height), max-content);
+  grid-template-columns: subgrid;
+  grid-column: full-bleed;
   min-height: var(--header-min-height);
   padding-top: var(--spacing-large);
   border-bottom: var(--border-thin) solid var(--border-subtle);
   background: var(--background-app);
   transition: var(--theme-transition);
-  container-type: inline-sizing;
 
   &:has(.mantine-Tabs-root) {
     position: sticky;
@@ -20,16 +21,14 @@
 
   > .container {
     display: grid;
-    grid-template:
-      "top" 1fr
-      "title" auto
-      "bottom" auto / auto auto;
+    grid-template-rows: [all-start top-start] 1fr [top-end title-start] auto [title-end bottom-start] auto [bottom-end all-end];
     grid-template-columns: 1fr;
+    grid-column: main;
     gap: 0;
   }
 
   &__top-outer {
-    grid-area: top;
+    grid-row: top;
   }
 
   &__top {
@@ -42,13 +41,8 @@
     min-height: 2.5rem;
   }
 
-  &__middle {
-    grid-area: middle;
-    margin-bottom: var(--spacing-base);
-  }
-
   &__bottom-outer {
-    grid-area: bottom;
+    grid-row: bottom;
     margin-inline: calc(var(--container-padding-horizontal) * -1);
     margin-bottom: calc(var(--border-thin) * -1);
     padding-inline: calc(var(--container-padding-horizontal) / 2);
@@ -68,9 +62,9 @@
   }
 
   &__title {
-    grid-area: title;
+    grid-row: title;
     margin-bottom: var(--spacing-base);
-    container-type: inline-sizing;
+    container-type: inline-size;
 
     h1 {
       margin: 0;
