@@ -23,7 +23,7 @@ type CreateIconOptions = {
   title?: string;
 };
 
-type IconSize = 'small' | 'medium' | 'large';
+type IconSize = 'small' | 'medium' | 'large' | 'huge';
 
 type IconProps<T extends CreateIconOptions> = Omit<BoxProps, 'title'> & {
   variant?: T extends { path: PathDefinitions } ? keyof T['path'] : typeof DEFAULT_VARIANT;

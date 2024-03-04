@@ -1,4 +1,4 @@
-query Search($query: String!, $only: [SearchType!]) {
+query Search($query!: String!, $only: [SearchType!]) {
   search(query: $query, only: $only) {
     id
     title

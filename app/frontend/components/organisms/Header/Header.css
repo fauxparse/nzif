@@ -90,7 +90,7 @@
     inset: 0;
     z-index: -1;
     background: var(--background-solid);
-    opacity: 0.5;
+    opacity: 0.25;
     transition: var(--theme-transition);
 
     .blurrable-image__blurred,

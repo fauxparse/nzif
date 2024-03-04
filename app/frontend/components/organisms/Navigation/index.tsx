@@ -5,6 +5,7 @@ import { useAuthentication } from '@/services/Authentication';
 import SearchIcon from '@/icons/SearchIcon';
 import TextInput from '@/components/atoms/TextInput';
 import NavigationMenu from '@/components/organisms/NavigationMenu';
+import Search from '@/components/organisms/Search';
 import UserMenu from './UserMenu';
 import { mergeRefs } from 'react-merge-refs';
 import { useCurrentTheme } from '@/hooks/useTheme';
@@ -36,12 +37,7 @@ const Navigation = forwardRef<HTMLElement, NavigationProps>(({ className, ...pro
           </Link>
         </h1>
         <div className="navigation__right">
-          <TextInput
-            className="search"
-            type="search"
-            leftSection={<SearchIcon />}
-            placeholder="Search…"
-          />
+          <Search />
           <UserMenu />
         </div>
       </div>
