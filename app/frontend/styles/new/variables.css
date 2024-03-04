@@ -422,10 +422,12 @@ body,
 
 :root {
   --max-width: 64rem;
+  --gutter-width: var(--spacing-large);
   --container-padding-horizontal: var(--spacing-large);
 
   @media only screen and (max-width: 500px) {
     --max-width: 25rem;
+    --gutter-width: var(--spacing-medium);
     --container-padding-horizontal: var(--spacing-medium);
   }
 }

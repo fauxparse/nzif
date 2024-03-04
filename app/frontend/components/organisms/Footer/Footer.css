@@ -1,7 +1,5 @@
 .footer {
   position: relative;
-  display: grid;
-  place-items: center;
   background-color: var(--neutral-3);
   color: var(--text-subtle);
   font-size: var(--font-size-small);

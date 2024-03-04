@@ -32,10 +32,11 @@ body {
   transition: var(--theme-transition);
 }
 
+.layout {
+  display: grid;
+}
+
 .container {
-  width: 100%;
-  max-width: var(--max-width);
-  padding-inline: var(--container-padding-horizontal);
   container-type: inline-size;
 }
 

@@ -1,21 +1,56 @@
 .layout {
   display: grid;
-  grid-template: "navigation" auto "main" 1fr "footer" auto / 1fr;
+  grid-template-rows: [navigation-start] auto [navigation-end main-start] 1fr [main-end footer-start] auto [footer-end];
+  grid-template-columns: [full-bleed-start] 1fr var(--gutter-width) [main-start] min(var(--max-width), calc(100vw - var(--gutter-width) * 2)) [main-end] var(--gutter-width) 1fr [full-bleed-end];
+  align-content: stretch;
+  justify-content: stretch;
   align-items: start;
   justify-items: stretch;
   min-height: 100vh;
 
+  > * {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: full-bleed;
+
+    > .container {
+      grid-column: main;
+    }
+  }
+
   &__navigation {
-    grid-area: navigation;
+    grid-row: navigation;
   }
 
   &__main {
-    display: grid;
-    grid-area: main;
-    justify-items: stretch;
+    grid-row: main;
+    grid-column: full-bleed;
+    align-content: start;
+    align-self: stretch;
+
+    .container {
+      display: grid;
+      grid-column: main;
+    }
   }
 
   &__footer {
-    grid-area: footer;
+    grid-row: footer;
+  }
+
+  .body {
+    display: grid;
+    grid-column: full-bleed;
+
+    > .container {
+      grid-column: main;
+    }
+  }
+
+  .outlet {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: full-bleed;
+    align-self: stretch;
   }
 }
