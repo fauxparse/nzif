@@ -71,55 +71,6 @@
       mix-blend-mode: var(--blend-mode);
     }
   }
-
-
-  .search {
-    --focus-width: 0rem;
-
-    position: relative;
-    display: grid;
-    flex: 0 0 2.5rem;
-    overflow: hidden;
-    height: 2.5rem;
-    border-radius: var(--radius-round);
-    box-shadow: 0 0 0 var(--focus-width) var(--focus-ring);
-    transition: all 0.5s var(--ease-squish-3);
-
-    &:focus-within {
-      --focus-width: 0.25rem;
-
-      flex-grow: 1;
-    }
-
-    .mantine-Input {
-      &-wrapper {
-        --input-padding-inline: 0.625rem;
-        --focus-width: 0;
-
-        position: absolute;
-        inset: 0;
-        border-radius: var(--radius-round);
-        background-color: transparent;
-        transition: background-color 0.5s var(--ease-standard);
-
-        &:focus-within {
-          background-color: var(--background-input);
-        }
-      }
-
-      &-input {
-        cursor: pointer;
-
-        &:focus {
-          cursor: auto;
-        }
-      }
-    }
-
-    @media (width <= 400px) {
-      display: none;
-    }
-  }
 }
 
 .mantine-Menu {

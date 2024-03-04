@@ -6,6 +6,10 @@
   color: var(--icon);
   fill: currentcolor;
 
+  p & {
+    display: inline-block;
+  }
+
   path {
     fill: inherit;
     stroke: inherit;
@@ -29,6 +33,10 @@
 
   &:where([data-size="large"]) {
     --icon-size: var(--icon-large);
+  }
+
+  &:where([data-size="huge"]) {
+    --icon-size: var(--icon-huge);
   }
 
   g[stroke] path {
