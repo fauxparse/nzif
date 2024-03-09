@@ -7,7 +7,7 @@ import { AuthenticationContextType } from '@/services/Authentication';
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { CurrentFestival, CurrentFestivalQuery, FestivalProvider } from '@/hooks/useFestival';
 import useTheme from '@/hooks/useTheme';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 
 const Root = () => {
   const { festival } = Route.useRouteContext();
@@ -21,7 +21,9 @@ const Root = () => {
   return (
     <FestivalProvider festival={festival}>
       <Outlet />
-      <TanStackRouterDevtools />
+      <Suspense fallback={null}>
+        <TanStackRouterDevtools />
+      </Suspense>
     </FestivalProvider>
   );
 };

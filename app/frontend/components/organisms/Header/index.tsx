@@ -93,8 +93,10 @@ const Header = forwardRef<HTMLElement, HeaderProps>(
           )}
           {tabs && (
             <Scrollable className="header__bottom-outer" orientation="horizontal">
-              <div className="header__bottom">
-                <div className="header__tabs">{tabs}</div>
+              <div className="header__bottom-outer">
+                <div className="header__bottom">
+                  <div className="header__tabs">{tabs}</div>
+                </div>
               </div>
             </Scrollable>
           )}

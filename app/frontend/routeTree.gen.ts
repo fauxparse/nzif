@@ -19,9 +19,10 @@ import { Route as PublicAuthenticatedImport } from './routes/_public/_authentica
 import { Route as AuthSignupImport } from './routes/_auth/signup'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as PublicActivityTypeRouteImport } from './routes/_public/$activityType/route'
-import { Route as PublicActivityTypeIndexImport } from './routes/_public/$activityType/index'
 import { Route as PublicAuthenticatedProfileImport } from './routes/_public/_authenticated/profile'
+import { Route as PublicActivityTypeListImport } from './routes/_public/$activityType/_list'
 import { Route as PublicActivityTypeSlugImport } from './routes/_public/$activityType/$slug'
+import { Route as PublicActivityTypeListIndexImport } from './routes/_public/$activityType/_list.index'
 
 // Create/Update Routes
 
@@ -65,11 +66,6 @@ const PublicActivityTypeRouteRoute = PublicActivityTypeRouteImport.update({
   getParentRoute: () => PublicRoute,
 } as any)
 
-const PublicActivityTypeIndexRoute = PublicActivityTypeIndexImport.update({
-  path: '/',
-  getParentRoute: () => PublicActivityTypeRouteRoute,
-} as any)
-
 const PublicAuthenticatedProfileRoute = PublicAuthenticatedProfileImport.update(
   {
     path: '/profile',
@@ -77,10 +73,21 @@ const PublicAuthenticatedProfileRoute = PublicAuthenticatedProfileImport.update(
   } as any,
 )
 
+const PublicActivityTypeListRoute = PublicActivityTypeListImport.update({
+  id: '/_list',
+  getParentRoute: () => PublicActivityTypeRouteRoute,
+} as any)
+
 const PublicActivityTypeSlugRoute = PublicActivityTypeSlugImport.update({
   path: '/$slug',
   getParentRoute: () => PublicActivityTypeRouteRoute,
 } as any)
+
+const PublicActivityTypeListIndexRoute =
+  PublicActivityTypeListIndexImport.update({
+    path: '/',
+    getParentRoute: () => PublicActivityTypeListRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -122,13 +129,17 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicActivityTypeSlugImport
       parentRoute: typeof PublicActivityTypeRouteImport
     }
+    '/_public/$activityType/_list': {
+      preLoaderRoute: typeof PublicActivityTypeListImport
+      parentRoute: typeof PublicActivityTypeRouteImport
+    }
     '/_public/_authenticated/profile': {
       preLoaderRoute: typeof PublicAuthenticatedProfileImport
       parentRoute: typeof PublicAuthenticatedImport
     }
-    '/_public/$activityType/': {
-      preLoaderRoute: typeof PublicActivityTypeIndexImport
-      parentRoute: typeof PublicActivityTypeRouteImport
+    '/_public/$activityType/_list/': {
+      preLoaderRoute: typeof PublicActivityTypeListIndexImport
+      parentRoute: typeof PublicActivityTypeListImport
     }
   }
 }
@@ -140,7 +151,9 @@ export const routeTree = rootRoute.addChildren([
   PublicRoute.addChildren([
     PublicActivityTypeRouteRoute.addChildren([
       PublicActivityTypeSlugRoute,
-      PublicActivityTypeIndexRoute,
+      PublicActivityTypeListRoute.addChildren([
+        PublicActivityTypeListIndexRoute,
+      ]),
     ]),
     PublicAuthenticatedRoute.addChildren([PublicAuthenticatedProfileRoute]),
     PublicIndexRoute,
