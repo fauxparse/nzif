@@ -22,6 +22,11 @@ input ActivityAttributes {
   suitability: String
 }
 
+type ActivityCount {
+  count: Int!
+  id: ActivityType!
+}
+
 type ActivityPicture {
   blurhash: String!
   id: ID!
@@ -256,6 +261,7 @@ input FeedbackAttributes {
 type Festival {
   activities(type: ActivityType): [Activity!]!
   activity(slug: String!, type: ActivityType!): Activity
+  activityCounts: [ActivityCount!]!
   balance: Balance!
   earlybirdClosesAt: ISO8601DateTime
   earlybirdOpensAt: ISO8601DateTime

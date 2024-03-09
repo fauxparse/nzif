@@ -1,14 +1,14 @@
 export type Colorway = 'neutral' | 'primary' | 'magenta' | 'cyan' | 'yellow';
 
-export type ColorwayProps = {
+export interface ColorwayProps {
   color?: Colorway;
-};
+}
 
 export type Size = 'small' | 'medium' | 'large';
 
-export type SizeProps = {
+export interface SizeProps {
   size?: Size;
-};
+}
 
 export type VariantProps<T> = {
   variant?: T;

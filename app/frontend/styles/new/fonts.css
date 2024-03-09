@@ -51,7 +51,7 @@ body {
   --line-height-tiny: 1rem;
   --line-height-small: 1.5rem;
   --line-height-medium: 1.5rem;
-  --line-height-large: 2rem;
+  --line-height-large: 1.5rem;
   --line-height-xl: 2.5rem;
 
   --font-stack: system, -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI",

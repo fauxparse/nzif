@@ -6,7 +6,8 @@
   "scripts": {
     "codegen": "graphql-codegen --config codegen.ts",
     "contentful": "graphql-codegen --config contentful.ts",
-    "types": "bundle exec rails graphql:schema:dump && yarn codegen",
+    "schema": "bundle exec rails graphql:schema:dump",
+    "types": "schema && codegen",
     "storybook": "STORYBOOK=1 storybook dev -p 6006",
     "build-storybook": "STORYBOOK=1 storybook build",
     "test": "vitest",
@@ -107,7 +108,7 @@
     "@stripe/stripe-js": "^2.1.1",
     "@tanstack/react-form": "^0.13.6",
     "@tanstack/react-query": "^4.29.7",
-    "@tanstack/react-router": "^1.16.6",
+    "@tanstack/react-router": "^1.19.2",
     "@tanstack/react-table": "^8.9.1",
     "@tanstack/router-devtools": "^1.16.6",
     "@tanstack/router-vite-plugin": "^1.16.5",

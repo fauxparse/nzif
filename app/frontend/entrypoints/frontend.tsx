@@ -32,6 +32,7 @@ const router = createRouter({
     client,
     festival: {} as CurrentFestival,
   } as RouterContext,
+  // defaultPendingComponent: () => <>Loading…</>,
 });
 
 // Register the router instance for type safety

@@ -1,17 +1,16 @@
-import { useMatches, useMatch, Outlet, getRouterContext } from '@tanstack/react-router';
-import { AnimatePresence, motion, useIsPresent } from 'framer-motion';
-import { cloneDeep, last } from 'lodash-es';
-import { forwardRef, useContext, useEffect, useMemo, useRef } from 'react';
+import { useMatches, useMatch } from '@tanstack/react-router';
+import { AnimatePresence } from 'framer-motion';
+import { useMemo } from 'react';
 import AnimatedOutlet from './AnimatedOutlet';
-import { usePrevious } from '@mantine/hooks';
 import { Direction } from './types';
 import usePreviousDistinct from '@/hooks/usePreviousDistinct';
 
 type RouteTransitionProps = {
   direction?: Direction;
+  routeKey?: string;
 };
 
-const RouteTransition: React.FC<RouteTransitionProps> = ({ direction }) => {
+const RouteTransition: React.FC<RouteTransitionProps> = ({ direction, routeKey }) => {
   const matches = useMatches();
   const match = useMatch({ strict: false });
   const nextMatchIndex = matches.findIndex((d) => d.id === match.id) + 1;
@@ -31,7 +30,7 @@ const RouteTransition: React.FC<RouteTransitionProps> = ({ direction }) => {
 
   return (
     <AnimatePresence mode="popLayout" initial={false} custom={dir}>
-      <AnimatedOutlet key={nextMatch?.routeId} direction={dir} />
+      <AnimatedOutlet key={routeKey ?? nextMatch?.routeId} direction={dir} />
     </AnimatePresence>
   );
 };

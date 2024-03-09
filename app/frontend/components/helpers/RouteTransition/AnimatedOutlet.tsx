@@ -1,4 +1,4 @@
-import { getRouterContext, Outlet } from '@tanstack/react-router';
+import { getRouterContext, Outlet, useMatches } from '@tanstack/react-router';
 import { useIsPresent, motion, MotionProps, Variants } from 'framer-motion';
 import { cloneDeep } from 'lodash-es';
 import { forwardRef, useContext, useRef } from 'react';
@@ -55,21 +55,32 @@ export const TransitionProps = {
 
 const AnimatedOutlet = forwardRef<HTMLDivElement, AnimatedOutletProps>(
   ({ direction, ...props }, ref) => {
-    const RouterContext = getRouterContext();
-
-    const routerContext = useContext(RouterContext);
-
-    const renderedContext = useRef(routerContext);
-
     const isPresent = useIsPresent();
 
+    const matches = useMatches();
+    const prevMatches = useRef(matches);
+
+    const RouterContext = getRouterContext();
+    const routerContext = useContext(RouterContext);
+
+    let renderedContext = routerContext;
+
     if (isPresent) {
-      renderedContext.current = cloneDeep(routerContext);
+      prevMatches.current = cloneDeep(matches);
+    } else {
+      renderedContext = cloneDeep(routerContext);
+      renderedContext.__store.state.matches = [
+        ...matches.map((m, i) => ({
+          ...(prevMatches.current[i] || m),
+          id: m.id,
+        })),
+        ...prevMatches.current.slice(matches.length),
+      ];
     }
 
     return (
       <motion.div ref={ref} className="outlet" custom={direction} {...TransitionProps} {...props}>
-        <RouterContext.Provider value={renderedContext.current}>
+        <RouterContext.Provider value={renderedContext}>
           <Outlet />
         </RouterContext.Provider>
       </motion.div>

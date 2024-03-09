@@ -18,9 +18,6 @@
 :root,
 :where([data-theme="light"]) {
   --cyan-1: hsl(195 67% 99%);
-  --cyan-10: hsl(191 93% 38%);
-  --cyan-11: hsl(192 81% 33%);
-  --cyan-12: hsl(192 69% 17%);
   --cyan-2: hsl(187 53% 97%);
   --cyan-3: hsl(184 69% 92%);
   --cyan-4: hsl(187 71% 88%);
@@ -29,11 +26,11 @@
   --cyan-7: hsl(189 58% 68%);
   --cyan-8: hsl(189 60% 53%);
   --cyan-9: hsl(191 100% 39%);
+  --cyan-10: hsl(191 93% 38%);
+  --cyan-11: hsl(192 81% 33%);
+  --cyan-12: hsl(192 69% 17%);
   --cyan-inverse: var(--cyan-1);
   --cyan-alpha-1: hsl(195 100% 40% / 0.02);
-  --cyan-alpha-10: hsl(191 100% 36% / 0.97);
-  --cyan-alpha-11: hsl(192 100% 28% / 0.94);
-  --cyan-alpha-12: hsl(192 100% 12% / 0.95);
   --cyan-alpha-2: hsl(187 100% 35% / 0.05);
   --cyan-alpha-3: hsl(184 100% 41% / 0.13);
   --cyan-alpha-4: hsl(187 100% 42% / 0.21);
@@ -42,11 +39,11 @@
   --cyan-alpha-7: hsl(189 100% 37% / 0.51);
   --cyan-alpha-8: hsl(189 100% 38% / 0.76);
   --cyan-alpha-9: hsl(191 100% 39%);
+  --cyan-alpha-10: hsl(191 100% 36% / 0.97);
+  --cyan-alpha-11: hsl(192 100% 28% / 0.94);
+  --cyan-alpha-12: hsl(192 100% 12% / 0.95);
   --cyan-inverse-subtle: var(--cyan-2);
   --magenta-1: hsl(340 100% 99%);
-  --magenta-10: hsl(336 73% 54%);
-  --magenta-11: hsl(336 75% 45%);
-  --magenta-12: hsl(332 63% 24%);
   --magenta-2: hsl(343 78% 98%);
   --magenta-3: hsl(341 100% 96%);
   --magenta-4: hsl(341 94% 93%);
@@ -55,11 +52,11 @@
   --magenta-7: hsl(338 60% 80%);
   --magenta-8: hsl(336 55% 73%);
   --magenta-9: hsl(336 80% 58%);
+  --magenta-10: hsl(336 73% 54%);
+  --magenta-11: hsl(336 75% 45%);
+  --magenta-12: hsl(332 63% 24%);
   --magenta-inverse: var(--magenta-1);
   --magenta-alpha-1: hsl(340 100% 50% / 0.01);
-  --magenta-alpha-10: hsl(332 100% 42% / 0.8);
-  --magenta-alpha-11: hsl(336 100% 38% / 0.89);
-  --magenta-alpha-12: hsl(333 100% 16% / 0.91);
   --magenta-alpha-2: hsl(343 100% 44% / 0.03);
   --magenta-alpha-3: hsl(341 100% 50% / 0.09);
   --magenta-alpha-4: hsl(340 100% 49% / 0.14);
@@ -68,11 +65,11 @@
   --magenta-alpha-7: hsl(338 100% 37% / 0.33);
   --magenta-alpha-8: hsl(336 100% 36% / 0.42);
   --magenta-alpha-9: hsl(336 100% 44% / 0.76);
+  --magenta-alpha-10: hsl(332 100% 42% / 0.8);
+  --magenta-alpha-11: hsl(336 100% 38% / 0.89);
+  --magenta-alpha-12: hsl(333 100% 16% / 0.91);
   --magenta-inverse-subtle: var(--magenta-2);
   --neutral-1: hsl(240 20% 99%);
-  --neutral-10: hsl(226 5% 53%);
-  --neutral-11: hsl(220 6% 40%);
-  --neutral-12: hsl(210 13% 13%);
   --neutral-2: hsl(240 20% 98%);
   --neutral-3: hsl(240 11% 95%);
   --neutral-4: hsl(240 10% 92%);
@@ -81,11 +78,11 @@
   --neutral-7: hsl(233 10% 82%);
   --neutral-8: hsl(231 10% 75%);
   --neutral-9: hsl(231 6% 57%);
+  --neutral-10: hsl(226 5% 53%);
+  --neutral-11: hsl(220 6% 40%);
+  --neutral-12: hsl(210 13% 13%);
   --neutral-inverse: var(--neutral-1);
   --neutral-alpha-1: hsl(240 100% 17% / 0.01);
-  --neutral-alpha-10: hsl(224 100% 5% / 0.05);
-  --neutral-alpha-11: hsl(219 100% 4% / 0.62);
-  --neutral-alpha-12: hsl(207 100% 2% / 0.89);
   --neutral-alpha-2: hsl(240 100% 17% / 0.02);
   --neutral-alpha-3: hsl(240 100% 10% / 0.06);
   --neutral-alpha-4: hsl(240 100% 9% / 0.09);
@@ -94,10 +91,10 @@
   --neutral-alpha-7: hsl(232 100% 9% / 0.2);
   --neutral-alpha-8: hsl(230 100% 9% / 0.27);
   --neutral-alpha-9: hsl(230 100% 6% / 0.45);
+  --neutral-alpha-10: hsl(224 100% 5% / 0.05);
+  --neutral-alpha-11: hsl(219 100% 4% / 0.62);
+  --neutral-alpha-12: hsl(207 100% 2% / 0.89);
   --yellow-1: hsl(60 50% 98%);
-  --yellow-10: hsl(52 100% 50%);
-  --yellow-11: hsl(41 100% 31%);
-  --yellow-12: hsl(42 39% 20%);
   --yellow-2: hsl(54 91% 95%);
   --yellow-3: hsl(56 100% 86%);
   --yellow-4: hsl(53 100% 79%);
@@ -106,11 +103,11 @@
   --yellow-7: hsl(46 70% 65%);
   --yellow-8: hsl(45 65% 53%);
   --yellow-9: hsl(53 100% 58%);
+  --yellow-10: hsl(52 100% 50%);
+  --yellow-11: hsl(41 100% 31%);
+  --yellow-12: hsl(42 39% 20%);
   --yellow-inverse: var(--yellow-1);
   --yellow-alpha-1: hsl(60 100% 33% / 0.02);
-  --yellow-alpha-10: hsl(52 100% 50%);
-  --yellow-alpha-11: hsl(41 100% 31%);
-  --yellow-alpha-12: hsl(42 100% 9% / 0.88);
   --yellow-alpha-2: hsl(54 100% 48% / 0.09);
   --yellow-alpha-3: hsl(56 100% 50% / 0.28);
   --yellow-alpha-4: hsl(53 100% 50% / 0.42);
@@ -119,6 +116,9 @@
   --yellow-alpha-7: hsl(46 100% 41% / 0.6);
   --yellow-alpha-8: hsl(45 100% 39% / 0.78);
   --yellow-alpha-9: hsl(53 100% 50% / 0.84);
+  --yellow-alpha-10: hsl(52 100% 50%);
+  --yellow-alpha-11: hsl(41 100% 31%);
+  --yellow-alpha-12: hsl(42 100% 9% / 0.88);
   --yellow-inverse-subtle: var(--yellow-2);
   --translucent: hsla(240 20% 99% / 0.25);
   --focus-magenta: var(--magenta-alpha-3);
@@ -129,9 +129,6 @@
 
 :where([data-theme="dark"]) {
   --cyan-1: hsl(196 41% 7%);
-  --cyan-10: hsl(191 71% 48%);
-  --cyan-11: hsl(190 75% 60%);
-  --cyan-12: hsl(190 80% 84%);
   --cyan-2: hsl(199 33% 9%);
   --cyan-3: hsl(193 74% 12%);
   --cyan-4: hsl(193 100% 14%);
@@ -140,11 +137,11 @@
   --cyan-7: hsl(193 75% 28%);
   --cyan-8: hsl(192 80% 34%);
   --cyan-9: hsl(191 100% 39%);
+  --cyan-10: hsl(191 71% 48%);
+  --cyan-11: hsl(190 75% 60%);
+  --cyan-12: hsl(190 80% 84%);
   --cyan-inverse: var(--cyan-12);
   --cyan-alpha-1: hsl(205 100% 48% / 0.04);
-  --cyan-alpha-10: hsl(191 100% 58% / 0.8);
-  --cyan-alpha-11: hsl(190 99% 66% / 0.9);
-  --cyan-alpha-12: hsl(190 97% 86% / 0.97);
   --cyan-alpha-2: hsl(199 98% 48% / 0.07);
   --cyan-alpha-3: hsl(195 100% 50% / 0.16);
   --cyan-alpha-4: hsl(196 100% 50% / 0.23);
@@ -153,11 +150,11 @@
   --cyan-alpha-7: hsl(193 100% 54% / 0.46);
   --cyan-alpha-8: hsl(192 100% 53% / 0.58);
   --cyan-alpha-9: hsl(191 100% 50% / 0.76);
+  --cyan-alpha-10: hsl(191 100% 58% / 0.8);
+  --cyan-alpha-11: hsl(190 99% 66% / 0.9);
+  --cyan-alpha-12: hsl(190 97% 86% / 0.97);
   --cyan-inverse-subtle: var(--cyan-11);
   --magenta-1: hsl(338 19% 8%);
-  --magenta-10: hsl(338 82% 63%);
-  --magenta-11: hsl(345 100% 79%);
-  --magenta-12: hsl(330 91% 91%);
   --magenta-2: hsl(337 25% 10%);
   --magenta-3: hsl(333 45% 15%);
   --magenta-4: hsl(331 62% 19%);
@@ -166,11 +163,11 @@
   --magenta-7: hsl(335 45% 36%);
   --magenta-8: hsl(336 45% 48%);
   --magenta-9: hsl(336 80% 58%);
+  --magenta-10: hsl(338 82% 63%);
+  --magenta-11: hsl(345 100% 79%);
+  --magenta-12: hsl(330 91% 91%);
   --magenta-inverse: var(--magenta-12);
   --magenta-alpha-1: hsl(337 91% 51% / 0.04);
-  --magenta-alpha-10: hsl(338 100% 67% / 0.93);
-  --magenta-alpha-11: hsl(345 100% 79% / 0.99);
-  --magenta-alpha-12: hsl(330 100% 92% / 0.99);
   --magenta-alpha-2: hsl(337 88% 57% / 0.07);
   --magenta-alpha-3: hsl(333 99% 58% / 0.16);
   --magenta-alpha-4: hsl(331 98% 54% / 0.25);
@@ -179,11 +176,11 @@
   --magenta-alpha-7: hsl(335 98% 66% / 0.5);
   --magenta-alpha-8: hsl(336 99% 68% / 0.67);
   --magenta-alpha-9: hsl(336 99% 63% / 0.91);
+  --magenta-alpha-10: hsl(338 100% 67% / 0.93);
+  --magenta-alpha-11: hsl(345 100% 79% / 0.99);
+  --magenta-alpha-12: hsl(330 100% 92% / 0.99);
   --magenta-inverse-subtle: var(--magenta-11);
   --neutral-1: hsl(240 6% 7%);
-  --neutral-10: hsl(222 5% 49%);
-  --neutral-11: hsl(216 7% 71%);
-  --neutral-12: hsl(220 9% 94%);
   --neutral-2: hsl(220 6% 10%);
   --neutral-3: hsl(225 6% 14%);
   --neutral-4: hsl(210 7% 16%);
@@ -192,11 +189,11 @@
   --neutral-7: hsl(213 8% 28%);
   --neutral-8: hsl(212 8% 38%);
   --neutral-9: hsl(219 6% 44%);
+  --neutral-10: hsl(222 5% 49%);
+  --neutral-11: hsl(216 7% 71%);
+  --neutral-12: hsl(220 9% 94%);
   --neutral-inverse: var(--neutral-1);
   --neutral-alpha-1: hsl(0 0 0% / 0);
-  --neutral-alpha-10: hsl(220 86% 95% / 0.48);
-  --neutral-alpha-11: hsl(212 87% 97% / 0.71);
-  --neutral-alpha-12: hsl(220 100% 99% / 0.94);
   --neutral-alpha-2: hsl(174 63% 91% / 0.04);
   --neutral-alpha-3: hsl(211 66% 92% / 0.08);
   --neutral-alpha-4: hsl(198 73% 90% / 0.11);
@@ -205,10 +202,10 @@
   --neutral-alpha-7: hsl(208 100% 93% / 0.25);
   --neutral-alpha-8: hsl(208 100% 93% / 0.36);
   --neutral-alpha-9: hsl(216 88% 93% / 0.48);
+  --neutral-alpha-10: hsl(220 86% 95% / 0.48);
+  --neutral-alpha-11: hsl(212 87% 97% / 0.71);
+  --neutral-alpha-12: hsl(220 100% 99% / 0.94);
   --yellow-1: hsl(47 29% 6%);
-  --yellow-10: hsl(60 100% 67%);
-  --yellow-11: hsl(53 90% 62%);
-  --yellow-12: hsl(53 79% 84%);
   --yellow-2: hsl(45 29% 8%);
   --yellow-3: hsl(45 80% 10%);
   --yellow-4: hsl(48 100% 11%);
@@ -217,11 +214,11 @@
   --yellow-7: hsl(46 63% 25%);
   --yellow-8: hsl(45 60% 32%);
   --yellow-9: hsl(53 100% 58%);
+  --yellow-10: hsl(60 100% 67%);
+  --yellow-11: hsl(53 90% 62%);
+  --yellow-12: hsl(53 79% 84%);
   --yellow-inverse: var(--yellow-1);
   --yellow-alpha-1: hsl(23 100% 41% / 0.02);
-  --yellow-alpha-10: hsl(60 100% 67%);
-  --yellow-alpha-11: hsl(53 99% 64% / 0.96);
-  --yellow-alpha-12: hsl(53 97% 86% / 0.96);
   --yellow-alpha-2: hsl(43 100% 49% / 0.04);
   --yellow-alpha-3: hsl(40 100% 50% / 0.12);
   --yellow-alpha-4: hsl(43 100% 50% / 0.16);
@@ -230,6 +227,9 @@
   --yellow-alpha-7: hsl(46 98% 56% / 0.36);
   --yellow-alpha-8: hsl(45 98% 59% / 0.48);
   --yellow-alpha-9: hsl(53 100% 58%);
+  --yellow-alpha-10: hsl(60 100% 67%);
+  --yellow-alpha-11: hsl(53 99% 64% / 0.96);
+  --yellow-alpha-12: hsl(53 97% 86% / 0.96);
   --yellow-inverse-subtle: var(--yellow-2);
   --translucent: hsla(240 6% 7% / 0.25);
   --focus-magenta: var(--magenta-alpha-5);
@@ -323,6 +323,7 @@ body,
 [data-color="magenta"],
 [data-color="primary"] {
   --background-solid: var(--magenta-9);
+  --background-light: var(--magenta-3);
   --button-ghost-icon: var(--magenta-11);
   --button-ghost-text: var(--magenta-12);
   --button-outline-border: var(--magenta-alpha-7);
@@ -346,7 +347,8 @@ body,
 }
 
 [data-color="cyan"] {
-  --background-solid: var(--cyan-alpha-9);
+  --background-solid: var(--cyan-9);
+  --background-light: var(--cyan-3);
   --button-ghost-icon: var(--cyan-11);
   --button-ghost-text: var(--cyan-12);
   --button-outline-border: var(--cyan-alpha-7);
@@ -370,6 +372,7 @@ body,
 
 [data-color="yellow"] {
   --background-solid: var(--yellow-9);
+  --background-light: var(--yellow-3);
   --button-ghost-icon: var(--yellow-11);
   --button-ghost-text: var(--yellow-12);
   --button-outline-border: var(--yellow-alpha-7);

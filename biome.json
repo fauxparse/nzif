@@ -36,7 +36,8 @@
         "useValidAnchor": "off"
       },
       "correctness": {
-        "useExhaustiveDependencies": "off"
+        "useExhaustiveDependencies": "off",
+        "noUnusedVariables": "error"
       },
       "suspicious": {
         "noArrayIndexKey": "off",

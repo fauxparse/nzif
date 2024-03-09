@@ -1,0 +1,49 @@
+.body,
+.mantine-Container-root {
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+.mantine-Container-root {
+  grid-column: full-bleed;
+}
+
+.activity-list {
+  display: grid;
+  grid-template-columns: subgrid;
+  container-type: inline-sizing;
+
+  &__activities {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+    grid-column: main;
+    grid-gap: var(--spacing-base);
+    min-height: 25vh;
+  }
+}
+
+.activity-card {
+  display: grid;
+  grid-template:
+    "picture" auto
+    "title" auto
+    "presenters" auto
+    / 1fr;
+  overflow: hidden;
+  border-radius: var(--radius-small);
+  box-shadow: var(--shadow-medium), inset 0 0 0 1px var(--border-subtle);
+
+  .card__picture {
+    display: grid;
+    grid-area: picture;
+    aspect-ratio: 16 / 9;
+    mix-blend-mode: var(--blend-mode);
+  }
+
+  .card__title {
+    padding: var(--spacing-small) var(--spacing-base);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-large);
+    line-height: 1.5rem;
+  }
+}

@@ -9,6 +9,7 @@ module Types
       argument :slug, String, required: true
       argument :type, Types::ActivityTypeType, required: true
     end
+    field :activity_counts, [Types::ActivityCountType], null: false
     field :balance, Types::BalanceType, null: false
     field :earlybird_closes_at, GraphQL::Types::ISO8601DateTime, null: true
     field :earlybird_opens_at, GraphQL::Types::ISO8601DateTime, null: true
@@ -86,6 +87,12 @@ module Types
       dataloader
         .with(Sources::Simple, context:, model: Session)
         .load(Session.decode_id(id))
+    end
+
+    def activity_counts
+      Activity.descendants.map do |type|
+        { type:, festival: object }
+      end
     end
   end
 end
