@@ -1,19 +1,19 @@
-import clsx from 'clsx';
-import { ComponentProps } from 'react';
-
-import './Footer.css';
-import Button from '../../atoms/Button';
 import useTheme from '@/hooks/useTheme';
 import ThemeIcon from '@/icons/ThemeIcon';
-import { motion } from 'framer-motion';
+import clsx from 'clsx';
+import { MotionProps, motion } from 'framer-motion';
+import type { ComponentPropsWithoutRef } from 'react';
+import Button from '@/components/atoms/Button';
 
-type FooterProps = ComponentProps<'footer'>;
+import './Footer.css';
+
+type FooterProps = Omit<ComponentPropsWithoutRef<'footer'>, keyof MotionProps>;
 
 const Footer: React.FC<FooterProps> = ({ className, ...props }) => {
   const { toggle } = useTheme();
 
   return (
-    <motion.footer layout="position" className={clsx('footer', className)}>
+    <motion.footer layout="position" className={clsx('footer', className)} {...props}>
       <div className="container">
         <section>
           <a href="#">Frequently-asked questions</a>
@@ -26,7 +26,7 @@ const Footer: React.FC<FooterProps> = ({ className, ...props }) => {
         </section>
         <section>
           <p>&copy; 2024 New Zealand Improvisation Trust</p>
-          <Button variant="ghost" size="small" left={<ThemeIcon />} onClick={toggle}>
+          <Button variant="ghost" size="small" leftSection={<ThemeIcon />} onClick={toggle}>
             Switch theme
           </Button>
         </section>

@@ -81,6 +81,10 @@
     opacity: 0.25;
     transition: var(--theme-transition);
 
+    &.blurrable-image {
+      position: absolute;
+    }
+
     .blurrable-image__blurred,
     .blurrable-image__image {
       filter: grayscale(100%) contrast(200%);

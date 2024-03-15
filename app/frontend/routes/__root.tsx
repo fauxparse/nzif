@@ -1,13 +1,13 @@
-import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
+import type { CurrentFestival } from '@/hooks/useFestival';
+import { CurrentFestivalQuery, FestivalProvider } from '@/hooks/useFestival';
+import useTheme from '@/hooks/useTheme';
+import type { AuthenticationContextType } from '@/services/Authentication';
+import type { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
+import { Suspense, useEffect } from 'react';
 
 import '@/styles/new/application.css';
-import { AuthenticationContextType } from '@/services/Authentication';
-
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import { CurrentFestival, CurrentFestivalQuery, FestivalProvider } from '@/hooks/useFestival';
-import useTheme from '@/hooks/useTheme';
-import { Suspense, useEffect } from 'react';
 
 const Root = () => {
   const { festival } = Route.useRouteContext();

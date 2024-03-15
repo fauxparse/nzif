@@ -23,8 +23,11 @@ const RouteTransition: React.FC<RouteTransitionProps> = ({ direction, routeKey }
   const dir = useMemo(() => {
     if (direction !== undefined) return direction;
 
-    const previousLength = previousMatchId?.split('/')?.length || 0;
-    const newLength = nextMatchId?.split('/')?.length || 0;
+    const oldId = previousMatchId?.replace(/\/_[^\/]+/g, '') || '';
+    const newId = nextMatchId.replace(/\/_[^\/]+/g, '');
+
+    const previousLength = oldId.split('/')?.length || 0;
+    const newLength = newId.split('/')?.length || 0;
     return newLength < previousLength ? 'right' : 'left';
   }, [direction, nextMatchId, previousMatchId]);
 

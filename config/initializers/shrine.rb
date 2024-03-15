@@ -10,6 +10,10 @@ external = Shrine::Storage::S3.new(
   bucket: Rails.application.credentials.dig(:storage, :bucket), # required
   access_key_id: Rails.application.credentials.dig(:storage, :key),
   secret_access_key: Rails.application.credentials.dig(:storage, :secret),
+  upload_options: {
+    acl: 'public-read',
+    expires_in: 24 * 60 * 60,
+  },
 )
 
 Shrine.storages = {

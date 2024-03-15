@@ -1,6 +1,11 @@
 import { motion } from 'framer-motion';
 import { ResultOf, graphql, readFragment } from '@/graphql';
 import BlurrableImage from '@/components/molecules/BlurrableImage';
+import Skeleton from '@/components/helpers/Skeleton';
+import { Session } from '@/graphql/types';
+import { Box } from '@mantine/core';
+import { Link, ToOptions } from '@tanstack/react-router';
+import Card from '@/components/molecules/Card';
 
 const ActivityCardPresenterFragment = graphql(`
   fragment ActivityCardPresenter on Person {
@@ -53,25 +58,47 @@ export const ActivityCardFragment = graphql(
   [ActivityCardPresenterFragment, ActivityCardPictureFragment]
 );
 
-export type ActivityCardActivity = ResultOf<typeof ActivityCardFragment>;
+export type ActivityCardSession = Pick<
+  Session,
+  keyof ResultOf<typeof ActivityCardFragment>['sessions'][number]
+>;
+
+export type ActivityCardActivity = Omit<ResultOf<typeof ActivityCardFragment>, 'sessions'> & {
+  sessions: ActivityCardSession[];
+};
 
 type ActivityCardProps = {
   activity: ActivityCardActivity;
+  loading?: boolean;
 };
 
-const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
+const ActivityCard: React.FC<ActivityCardProps> = ({ activity, loading = false }) => {
   const picture = readFragment(ActivityCardPictureFragment, activity.picture);
   const presenters = readFragment(ActivityCardPresenterFragment, activity.presenters);
 
   return (
-    <motion.article className="card activity-card">
-      <div className="card__picture">
+    <Card
+      component={Link}
+      to="/$activityType/$slug"
+      params={((current) => ({ ...current, slug: activity.slug })) as ToOptions['params']}
+      className="card activity-card"
+    >
+      <Skeleton visible={loading} className="card__picture">
         {picture && (
           <BlurrableImage src={picture.medium} blurhash={picture.blurhash} alt={activity.name} />
         )}
+      </Skeleton>
+      <div className="card__title">
+        {loading ? (
+          <>
+            <Skeleton height="1rem" width="100%" />
+            <Skeleton height="1rem" width="60%" mt="0.5rem" />
+          </>
+        ) : (
+          activity.name
+        )}
       </div>
-      <div className="card__title">{activity.name}</div>
-    </motion.article>
+    </Card>
   );
 };
 

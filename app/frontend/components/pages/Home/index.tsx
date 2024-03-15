@@ -1,18 +1,15 @@
 import useFestival from '@/hooks/useFestival';
-import { Link } from '@tanstack/react-router';
+import { Link, LinkComponent } from '@tanstack/react-router';
 import Button from '@/components/atoms/Button';
 import BATSIcon from '@/icons/BATSIcon';
 
 import './Home.css';
-import ThemeIcon from '@/icons/ThemeIcon';
-import { useState } from 'react';
-import useTheme from '@/hooks/useTheme';
 
 export const Home = () => {
   const festival = useFestival();
 
   return (
-    <div className="container">
+    <div className="body">
       <div className="hero">
         <h1>
           <span className="hero__year">
@@ -37,10 +34,17 @@ export const Home = () => {
           <Button size="large" variant="solid" color="magenta">
             Register for workshops
           </Button>
-          <Button component={Link} to="/workshops" size="large" variant="outline">
+
+          <Button
+            renderRoot={(props) => (
+              <Link to="/$activityType" params={{ activityType: 'workshops' }} {...props} />
+            )}
+            size="large"
+            variant="outline"
+          >
             Browse the programme
           </Button>
-          <Button size="large" variant="outline" left={<BATSIcon size="large" />}>
+          <Button size="large" variant="outline" leftSection={<BATSIcon size="large" />}>
             Book tickets
           </Button>
         </div>

@@ -1,11 +1,11 @@
+import { getPluralFromActivityType } from '@/constants/activityTypes';
+import type { ResultOf } from '@/graphql';
+import type { ActivityType } from '@/graphql/types';
+import SearchIcon from '@/icons/SearchIcon';
+import { Highlight } from '@mantine/core';
+import { Link } from '@tanstack/react-router';
 import { forwardRef } from 'react';
 import SearchQuery from './query';
-import { ResultOf } from '@/graphql';
-import SearchIcon from '@/icons/SearchIcon';
-import { Link, LinkProps } from '@tanstack/react-router';
-import { ACTIVITY_TYPES, getPluralFromActivityType } from '@/constants/activityTypes';
-import { ActivityType } from '@/graphql/types';
-import { Highlight } from '@mantine/core';
 
 export type Result = ResultOf<typeof SearchQuery>['search'][number];
 
@@ -22,7 +22,6 @@ const SearchResult = forwardRef<HTMLAnchorElement, SearchResultProps>(
       <Link
         {...linkProps(result)}
         className="search-result"
-        href={result.url}
         ref={ref}
         id={`${result.id}`}
         data-selected={active || undefined}
@@ -43,15 +42,18 @@ const SearchResult = forwardRef<HTMLAnchorElement, SearchResultProps>(
   }
 );
 
-export const linkProps = (result: Result): Pick<LinkProps, 'to' | 'params'> => {
+export const linkProps = (result: Result) => {
   if ('activity' in result) {
     const activityType = getPluralFromActivityType(result.activity.type as ActivityType);
-    return { to: '/$activityType/$slug', params: { activityType, slug: result.activity.slug } };
+    return {
+      to: '/$activityType/$slug',
+      params: { activityType, slug: result.activity.slug },
+    };
   }
 
   // TODO: handle other types of results
 
-  return { to: '/', params: {} };
+  return { to: '/', params: true };
 };
 
 export default SearchResult;

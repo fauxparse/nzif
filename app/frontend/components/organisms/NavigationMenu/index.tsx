@@ -13,7 +13,7 @@ const NavigationMenu: React.FC = () => {
       <Button
         className="button--menu"
         variant="ghost"
-        left={<MenuIcon />}
+        leftSection={<MenuIcon />}
         aria-expanded={opened}
         onClick={open}
       />

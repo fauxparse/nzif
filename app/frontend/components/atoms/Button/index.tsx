@@ -1,27 +1,19 @@
-import {
-  Box,
-  BoxProps,
-  ButtonGroup,
-  PolymorphicFactory,
-  polymorphicFactory,
-  useProps,
-} from '@mantine/core';
-import { ColorwayProps, SizeProps, VariantProps } from '@/components/common';
-import { PropsWithChildren, ReactNode } from 'react';
+import type { ColorwayProps, SizeProps, VariantProps } from '@/components/common';
+import { Box, ButtonGroup, polymorphicFactory, useProps } from '@mantine/core';
+import type { BoxProps, ButtonProps as BaseButtonProps, PolymorphicFactory } from '@mantine/core';
+import type { PropsWithChildren, ReactNode } from 'react';
 
-import './Button.css';
 import clsx from 'clsx';
+import './Button.css';
 
 export type ButtonVariant = 'solid' | 'outline' | 'ghost' | 'close';
 
 export type ButtonProps = PropsWithChildren &
-  Omit<BoxProps, 'left' | 'right'> &
+  BoxProps &
   ColorwayProps &
   SizeProps &
-  VariantProps<ButtonVariant> & {
-    left?: ReactNode;
-    right?: ReactNode;
-  };
+  VariantProps<ButtonVariant> &
+  Pick<BaseButtonProps, 'leftSection' | 'rightSection'>;
 
 type ButtonFactory = PolymorphicFactory<{
   props: ButtonProps;
@@ -47,8 +39,8 @@ const Button = polymorphicFactory<ButtonFactory>(
       size,
       variant,
       color,
-      left,
-      right,
+      leftSection,
+      rightSection,
       children,
       ...props
     } = useProps('Button', defaultProps, _props);
@@ -64,17 +56,17 @@ const Button = polymorphicFactory<ButtonFactory>(
         data-size={size}
         {...props}
       >
-        {left && (
+        {leftSection && (
           <Box component="span" className="button__left">
-            {left}
+            {leftSection}
           </Box>
         )}
         <Box component="span" className="button__content">
           {children}
         </Box>
-        {right && (
+        {rightSection && (
           <Box component="span" className="button__right">
-            {right}
+            {rightSection}
           </Box>
         )}
       </Box>
