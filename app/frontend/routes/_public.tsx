@@ -1,11 +1,11 @@
+import RouteTransition from '@/components/helpers/RouteTransition';
+import Footer from '@/components/organisms/Footer';
 import Navigation from '@/components/organisms/Navigation';
+import { useTitle } from '@/hooks/useRoutesWithTitles';
 import { createFileRoute } from '@tanstack/react-router';
+import { Helmet } from 'react-helmet-async';
 
 import './_public.css';
-import Footer from '@/components/organisms/Footer';
-import { Helmet } from 'react-helmet-async';
-import { useTitle } from '@/hooks/useRoutesWithTitles';
-import RouteTransition from '@/components/helpers/RouteTransition';
 
 export const Route = createFileRoute('/_public')({
   component: () => {
@@ -24,4 +24,5 @@ export const Route = createFileRoute('/_public')({
       </div>
     );
   },
+  notFoundComponent: () => <h1>not found</h1>,
 });

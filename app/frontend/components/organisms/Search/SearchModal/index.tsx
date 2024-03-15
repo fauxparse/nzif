@@ -1,20 +1,21 @@
 import Button from '@/components/atoms/Button';
-import TextInput from '@/components/atoms/TextInput';
-import CloseIcon from '@/icons/CloseIcon';
-import SearchIcon from '@/icons/SearchIcon';
-import { Modal, ModalProps } from '@mantine/core';
-import { getHotkeyHandler, useDebouncedValue } from '@mantine/hooks';
-import { CSSProperties, useEffect, useRef, useState } from 'react';
-import SearchQuery from './query';
-import { useLazyQuery, useQuery } from '@apollo/client';
-import { ResultOf } from '@/graphql';
-import SearchResult, { Result, linkProps } from './SearchResult';
-import { useNavigate } from '@tanstack/react-router';
-import { getPluralFromActivityType } from '@/constants/activityTypes';
-import { ActivityType } from '@/graphql/types';
 import Kbd from '@/components/atoms/Kbd';
-import TipIcon from '@/icons/TipIcon';
+import TextInput from '@/components/atoms/TextInput';
+import type { ResultOf } from '@/graphql';
+import CloseIcon from '@/icons/CloseIcon';
 import NoResultsIcon from '@/icons/NoResultsIcon';
+import SearchIcon from '@/icons/SearchIcon';
+import TipIcon from '@/icons/TipIcon';
+import { useLazyQuery } from '@apollo/client';
+import { Modal } from '@mantine/core';
+import type { ModalProps } from '@mantine/core';
+import { getHotkeyHandler, useDebouncedValue } from '@mantine/hooks';
+import { useNavigate } from '@tanstack/react-router';
+import { useEffect, useState } from 'react';
+import type { CSSProperties } from 'react';
+import type { Result } from './SearchResult';
+import SearchResult, { linkProps } from './SearchResult';
+import SearchQuery from './query';
 
 type SearchModalProps = ModalProps & {
   maxResults?: number;
@@ -93,7 +94,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ maxResults = 5, opened, onClo
             variant="ghost"
             size="large"
             aria-label="Close"
-            left={<CloseIcon />}
+            leftSection={<CloseIcon />}
             onClick={onClose}
           />
         }

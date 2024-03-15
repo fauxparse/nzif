@@ -121,6 +121,7 @@
   --yellow-alpha-12: hsl(42 100% 9% / 0.88);
   --yellow-inverse-subtle: var(--yellow-2);
   --translucent: hsla(240 20% 99% / 0.25);
+  --background-translucent: hsla(240 20% 99% / 0.85);
   --focus-magenta: var(--magenta-alpha-3);
   --focus-cyan: var(--cyan-alpha-3);
   --focus-yellow: var(--yellow-alpha-3);
@@ -231,7 +232,8 @@
   --yellow-alpha-11: hsl(53 99% 64% / 0.96);
   --yellow-alpha-12: hsl(53 97% 86% / 0.96);
   --yellow-inverse-subtle: var(--yellow-2);
-  --translucent: hsla(240 6% 7% / 0.25);
+  --translucent: hsla(240 6% 7% / 0.85);
+  --background-translucent: hsla(240 0% 0% / 0.85);
   --focus-magenta: var(--magenta-alpha-5);
   --focus-cyan: var(--cyan-alpha-5);
   --focus-yellow: var(--yellow-alpha-5);
@@ -278,7 +280,6 @@ body,
   --text-subtle: var(--neutral-11);
   --icon: var(--text-subtle);
   --background-app: var(--neutral-1);
-  --background-translucent: hsla(240 20% 99% / 0.85);
   --background-element: var(--neutral-3);
   --background-element-hover: var(--neutral-4);
   --background-input: var(--background-app);
@@ -293,10 +294,6 @@ body,
   --border-input: var(--border-element);
   --border-subtle: var(--neutral-alpha-6);
   --magenta: var(--magenta-9);
-}
-
-[data-theme="dark"] {
-  --background-translucent: hsla(240 6% 7% / 0.85);
 }
 
 body,
@@ -436,6 +433,7 @@ body,
 }
 
 :root {
+  --z-index-sticky: 10;
   --z-index-header: 10;
   --z-index-navigation: 20;
   --z-index-modal: 100;

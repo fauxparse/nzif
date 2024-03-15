@@ -1,11 +1,11 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { Container } from '@mantine/core';
-import Header from '@/components/organisms/Header';
-import { PluralActivityType } from '@/constants/activityTypes';
-import Body from '@/components/organisms/Body';
-import ActivityTypeTabs, { tabSwitchDirection } from '@/components/molecules/ActivityTypeTabs';
-import { usePrevious } from '@mantine/hooks';
 import RouteTransition from '@/components/helpers/RouteTransition';
+import ActivityTypeTabs, { tabSwitchDirection } from '@/components/molecules/ActivityTypeTabs';
+import Body from '@/components/organisms/Body';
+import Header from '@/components/organisms/Header';
+import type { PluralActivityType } from '@/constants/activityTypes';
+import { Container } from '@mantine/core';
+import { usePrevious } from '@mantine/hooks';
+import { Outlet, createFileRoute, useNavigate } from '@tanstack/react-router';
 
 const Component = () => {
   const params = Route.useParams();
@@ -30,7 +30,7 @@ const Component = () => {
         }
       />
       <Body>
-        <RouteTransition direction={direction} routeKey={plural} />
+        <Outlet />
       </Body>
     </Container>
   );
@@ -38,4 +38,5 @@ const Component = () => {
 
 export const Route = createFileRoute('/_public/$activityType/_list')({
   component: Component,
+  pendingComponent: () => <div style={{ height: '100vh' }} />,
 });

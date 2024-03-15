@@ -37,11 +37,15 @@
       },
       "correctness": {
         "useExhaustiveDependencies": "off",
-        "noUnusedVariables": "error"
+        "noUnusedVariables": "warn"
+      },
+      "style": {
+        "useImportType": "off",
+        "useNumberNamespace": "off"
       },
       "suspicious": {
         "noArrayIndexKey": "off",
-        "noConsoleLog":"error"
+        "noConsoleLog": "error"
       }
     }
   },

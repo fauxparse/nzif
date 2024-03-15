@@ -51,6 +51,7 @@
 
   display: grid;
   grid-template: "title buttons" 1fr "dates buttons" auto / 1fr 1fr;
+  grid-column: main;
   row-gap: 0;
   align-items: end;
   align-self: center;

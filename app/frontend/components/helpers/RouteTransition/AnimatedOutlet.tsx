@@ -1,8 +1,9 @@
-import { getRouterContext, Outlet, useMatches } from '@tanstack/react-router';
-import { useIsPresent, motion, MotionProps, Variants } from 'framer-motion';
+import { Outlet, getRouterContext, useMatches } from '@tanstack/react-router';
+import type { MotionProps, Variants } from 'framer-motion';
+import { motion, useIsPresent } from 'framer-motion';
 import { cloneDeep } from 'lodash-es';
 import { forwardRef, useContext, useRef } from 'react';
-import { Direction } from './types';
+import type { Direction } from './types';
 
 type AnimatedOutletProps = MotionProps & {
   direction?: Direction;
@@ -45,11 +46,6 @@ export const TransitionProps = {
   transition: {
     type: 'spring',
     bounce: 0.2,
-  },
-  style: {
-    display: 'grid',
-    alignSelf: 'stretch',
-    justifySelf: 'stretch',
   },
 } as const;
 

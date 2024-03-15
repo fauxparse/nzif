@@ -1,0 +1,6 @@
+.card {
+  border-radius: var(--radius-small);
+  color: inherit;
+  box-shadow: var(--shadow-medium), inset 0 0 0 1px var(--border-subtle);
+  text-decoration: none;
+}
