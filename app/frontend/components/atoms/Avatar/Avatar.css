@@ -43,6 +43,12 @@
     font-size: var(--font-size-medium);
   }
 
+  &:where([data-size="xl"]) {
+    --avatar-size: var(--avatar-xl);
+
+    font-size: var(--font-size-large);
+  }
+
   img {
     display: block;
     object-fit: cover;

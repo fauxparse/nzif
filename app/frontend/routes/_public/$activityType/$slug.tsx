@@ -1,68 +1,13 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { ResultOf, graphql } from '@/graphql';
-import { useBreadcrumbs } from '@/hooks/useRoutesWithTitles';
-import { Fragment } from 'react';
-import ChevronRightIcon from '@/icons/ChevronRightIcon';
-import Header from '@/components/organisms/Header';
-import {
-  ACTIVITY_TYPES,
-  PluralActivityType,
-  getActivityTypeFromPlural,
-} from '@/constants/activityTypes';
-import Body from '@/components/organisms/Body';
-import Switch from '@/components/atoms/Switch';
-
-const ActivityDetailsQuery = graphql(`
-  query ActivityDetails($year: String!, $type: ActivityType!, $slug: String!) {
-    festival(year: $year) {
-      id
-
-      activity(type: $type, slug: $slug) {
-        id
-        name
-        description
-
-        presenters {
-          id
-          name
-        }
-
-        picture {
-          id
-          large
-          blurhash
-        }
-      }
-    }
-  }
-`);
+import { Await, createFileRoute, defer, notFound } from '@tanstack/react-router';
+import { ResultOf } from '@/graphql';
+import { Suspense } from 'react';
+import { PluralActivityType, getActivityTypeFromPlural } from '@/constants/activityTypes';
+import ActivityDetails, { ActivityDetailsQuery } from '@/components/pages/ActivityDetails';
 
 const Component = () => {
-  const context = Route.useRouteContext();
-  const breadcrumbs = useBreadcrumbs();
+  const { activity } = Route.useLoaderData();
 
-  const activity = Route.useLoaderData();
-
-  if (!activity) return null;
-
-  return (
-    <>
-      <Header
-        background={
-          activity.picture?.large
-            ? {
-                src: activity.picture.large,
-                blurhash: activity.picture.blurhash,
-              }
-            : undefined
-        }
-        data-color="magenta"
-      />
-      <Body>
-        <div className="container" />
-      </Body>
-    </>
-  );
+  return <ActivityDetails activity={activity} />;
 };
 
 export const Route = createFileRoute('/_public/$activityType/$slug')({
@@ -78,16 +23,35 @@ export const Route = createFileRoute('/_public/$activityType/$slug')({
 
     const type = getActivityTypeFromPlural(activityType as PluralActivityType);
 
-    const { data } = await client.query({
-      query: ActivityDetailsQuery,
-      variables: {
-        year,
-        type,
-        slug,
-      },
-    });
+    const activity = await client
+      .query({
+        query: ActivityDetailsQuery,
+        variables: {
+          year,
+          type,
+          slug,
+        },
+      })
+      .then(({ data }) => data.festival.activity);
 
-    return data.festival.activity;
+    if (!activity) throw notFound();
+
+    return { activity };
   },
   component: Component,
+  pendingComponent: ({ params }) => (
+    <ActivityDetails
+      activity={{
+        id: 'loading',
+        name: 'Loading…',
+        sessions: [],
+        presenters: [],
+        picture: null,
+        description: '',
+        type: getActivityTypeFromPlural(params.type),
+        bookingLink: null,
+      }}
+      loading
+    />
+  ),
 });

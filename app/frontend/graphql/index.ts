@@ -9,11 +9,23 @@ import createCache from './cache';
 
 import { initGraphQLTada } from 'gql.tada';
 import type { introspection } from './graphql-env.d.ts';
+import { ActivityType, FestivalState, JobState, PaymentState, PaymentType, Permission, RegistrationPhase, Role, SearchType } from './types';
 
 export const graphql = initGraphQLTada<{
   introspection: introspection;
   scalars: {
     DateTime: DateTime;
+    ISO8601DateTime: DateTime;
+    ISO8601Date: DateTime;
+    ActivityType: ActivityType;
+    FestivalState: FestivalState;
+    JobState: JobState;
+    PaymentState: PaymentState;
+    PaymentType: PaymentType;
+    Permission: Permission;
+    RegistrationPhase: RegistrationPhase;
+    Role: Role;
+    SearchType: SearchType;
   };
 }>();
 

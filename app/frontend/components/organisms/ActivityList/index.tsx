@@ -17,6 +17,8 @@ const ActivityList: React.FC<ActivityListProps> = ({ type, activities, loading =
   const endTime =
     type === ActivityType.Workshop && activities.length > 0 && activities[0].sessions[0].endsAt;
 
+  console.table(days);
+
   return (
     <>
       {days.map(([date, activities]) => (
