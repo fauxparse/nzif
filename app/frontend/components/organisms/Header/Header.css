@@ -91,6 +91,10 @@
       mix-blend-mode: var(--header-image-blend-mode);
     }
   }
+
+  .mantine-Skeleton-root {
+    mix-blend-mode: var(--blend-mode);
+  }
 }
 
 .breadcrumbs {

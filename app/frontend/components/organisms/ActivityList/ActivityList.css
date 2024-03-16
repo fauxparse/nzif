@@ -43,27 +43,18 @@
 }
 
 .activity-card {
-  display: grid;
-  grid-template:
-    "picture" auto
-    "title" auto
-    "presenters" auto
-    / 1fr;
-  overflow: hidden;
+  .card__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-tiny);
 
-  .card__picture {
-    display: grid;
-    grid-area: picture;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    aspect-ratio: 16 / 9;
-    mix-blend-mode: var(--blend-mode);
+    &::after {
+      content: '';
+      flex: 1;
+    }
   }
 
-  .card__title {
-    padding: var(--spacing-small) var(--spacing-base);
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-large);
-    line-height: 1.5rem;
+  .card__tags {
+    order: 1;
   }
 }

@@ -49,3 +49,16 @@ body {
   white-space: nowrap;
   clip-path: inset(50%);
 }
+
+::selection {
+  background: var(--focus-magenta);
+}
+
+a {
+  color: var(--link);
+
+  &:hover,
+  &:active {
+    color: var(--link-hover);
+  }
+}

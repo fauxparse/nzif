@@ -7,12 +7,6 @@
   --body-blend-mode: plus-lighter;
 }
 
-
 .body {
   mix-blend-mode: var(--body-blend-mode);
-
-  > .container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-  }
 }

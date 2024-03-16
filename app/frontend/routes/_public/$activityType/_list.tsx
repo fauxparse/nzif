@@ -11,9 +11,9 @@ const Component = () => {
   const params = Route.useParams();
   const plural = params.activityType as PluralActivityType;
   const navigate = useNavigate();
-  const activityType = params.activityType as PluralActivityType;
-  const previousActivityType = usePrevious(activityType);
-  const direction = tabSwitchDirection(previousActivityType, activityType);
+  // const activityType = params.activityType as PluralActivityType;
+  // const previousActivityType = usePrevious(activityType);
+  // const direction = tabSwitchDirection(previousActivityType, activityType);
 
   return (
     <Container>

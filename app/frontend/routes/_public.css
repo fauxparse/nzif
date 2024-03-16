@@ -38,6 +38,14 @@
         flex: 1;
       }
     }
+
+    p {
+      margin: 0 0 0.75em;
+
+      &:last-child {
+        margin-block-end: 0;
+      }
+    }
   }
 
   &__footer {
@@ -50,4 +58,11 @@
       grid-column: main;
     }
   }
+}
+
+.mantine-Image-root {
+  display: block;
+  flex: 0;
+  object-fit: var(--image-object-fit, cover);
+  width: 100%;
 }

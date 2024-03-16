@@ -47,12 +47,14 @@ body {
   --font-size-medium: 1rem;
   --font-size-large: 1.25rem;
   --font-size-xl: 1.5rem;
+  --font-size-legible: 1.25rem;
 
   --line-height-tiny: 1rem;
   --line-height-small: 1.5rem;
   --line-height-medium: 1.5rem;
   --line-height-large: 1.5rem;
   --line-height-xl: 2.5rem;
+  --line-height-legible: 2rem;
 
   --font-stack: system, -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI",
     "Helvetica Neue", "Lucida Grande", sans-serif;

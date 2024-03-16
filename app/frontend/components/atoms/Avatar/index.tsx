@@ -14,12 +14,13 @@ type AvatarUser = {
   profile: {
     name: string;
     picture: {
-      small: string;
+      small?: string;
+      medium?: string;
     } | null;
   } | null;
 };
 
-type AvatarSize = 'small' | 'medium' | 'large';
+type AvatarSize = 'small' | 'medium' | 'large' | 'xl';
 
 const DEFAULT_SIZE = 'medium';
 
@@ -44,7 +45,7 @@ const Avatar = createPolymorphicComponent<
           className={clsx('avatar', className)}
           {...props}
           data-size={size}
-          src={user?.profile?.picture?.small ?? null}
+          src={user?.profile?.picture?.medium ?? user?.profile?.picture?.small ?? null}
           alt={name}
         >
           {userInitials || <UserIcon />}

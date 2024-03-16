@@ -250,6 +250,7 @@
   --avatar-small: 1.5rem;
   --avatar-medium: 2.5rem;
   --avatar-large: 3rem;
+  --avatar-xl: 6rem;
   --padding-button-large-horizontal: var(--spacing-medium);
   --padding-button-large-vertical: var(--spacing-medium);
   --padding-button-medium-horizontal: var(--spacing-small);
@@ -294,6 +295,8 @@ body,
   --border-input: var(--border-element);
   --border-subtle: var(--neutral-alpha-6);
   --magenta: var(--magenta-9);
+  --link: var(--magenta-11);
+  --link-hover: var(--magenta-12);
 }
 
 body,
@@ -364,6 +367,8 @@ body,
   --focus-ring: var(--focus-cyan);
   --border-element: var(--cyan-7);
   --border-subtle: var(--cyan-alpha-6);
+  --link: var(--cyan-11);
+  --link-hover: var(--cyan-12);
 }
 
 
@@ -388,6 +393,8 @@ body,
   --focus-ring: var(--focus-yellow);
   --border-element: var(--yellow-7);
   --border-subtle: var(--yellow-alpha-6);
+  --link: var(--yellow-11);
+  --link-hover: var(--yellow-12);
 }
 
 :root,
