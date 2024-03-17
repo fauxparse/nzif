@@ -1,28 +1,28 @@
-import { ApolloProvider } from '@apollo/client';
-import { Settings } from 'luxon';
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { MantineProvider } from '@mantine/core';
-
-import { client } from '../graphql';
-
-import '@formatjs/intl-numberformat/locale-data/en';
-import '@formatjs/intl-numberformat/polyfill';
-
-import { RouterProvider, createRouter } from '@tanstack/react-router';
-
-// Import the generated route tree
-import { routeTree } from '../routeTree.gen';
+import { CurrentFestival } from '@/hooks/useFestival';
+import { RouterContext } from '@/routes/__root';
 import {
   AuthenticationContext,
   AuthenticationContextType,
   AuthenticationProvider,
 } from '@/services/Authentication';
-import { RouterContext } from '@/routes/__root';
-import { CurrentFestival } from '@/hooks/useFestival';
+import { ApolloProvider } from '@apollo/client';
+import '@formatjs/intl-numberformat/locale-data/en';
+import '@formatjs/intl-numberformat/polyfill';
+import { MantineProvider } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
+import { RouterProvider, createRouter } from '@tanstack/react-router';
+import { Settings as LuxonSettings } from 'luxon';
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { client } from '../graphql';
 
-Settings.defaultZone = 'Pacific/Auckland';
+// Import the generated route tree
+import { routeTree } from '../routeTree.gen';
+
+import '@mantine/notifications/styles.css';
+
+LuxonSettings.defaultZone = 'Pacific/Auckland';
 
 // Create a new router instance
 const router = createRouter({
@@ -49,6 +49,7 @@ createRoot(document.getElementById('root') as HTMLElement).render(
         <title>NZIF: New Zealand Improv Festival</title>
       </Helmet>
       <MantineProvider>
+        <Notifications />
         <ApolloProvider client={client}>
           <AuthenticationProvider>
             <AuthenticationContext.Consumer>

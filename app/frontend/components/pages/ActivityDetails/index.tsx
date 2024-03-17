@@ -8,13 +8,13 @@ import CalendarIcon from '@/icons/CalendarIcon';
 import LocationIcon from '@/icons/LocationIcon';
 import { Container, Image } from '@mantine/core';
 import { map, range, uniqBy } from 'lodash-es';
-import { DateTime } from 'luxon';
 
-import './ActivityDetails.css';
-import ShowIcon from '@/icons/ShowIcon';
-import Markdown from '@/components/helpers/Markdown';
 import Avatar from '@/components/atoms/Avatar';
+import ShareButton from '@/components/atoms/ShareButton';
+import Markdown from '@/components/helpers/Markdown';
+import ShowIcon from '@/icons/ShowIcon';
 import { Fragment } from 'react';
+import './ActivityDetails.css';
 
 const ActivityPresenterFragment = graphql(`
   fragment ActivityPresenter on Person {
@@ -105,6 +105,11 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, loading }) 
             : undefined
         }
         data-color={loading ? 'neutral' : 'magenta'}
+        actions={
+          <>
+            <ShareButton />
+          </>
+        }
         title={
           <>
             <h1>{activityName}</h1>
