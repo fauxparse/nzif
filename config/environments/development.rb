@@ -79,4 +79,6 @@ Rails.application.configure do
   config.active_job.queue_adapter = :sidekiq
   config.active_job.queue_name_prefix = 'nzif'
   config.active_job.queue_name_delimiter = '_'
+
+  config.hosts << 'nzif.ngrok.io'
 end

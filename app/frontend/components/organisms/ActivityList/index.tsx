@@ -1,8 +1,8 @@
-import ActivityCard, { ActivityCardActivity } from './ActivityCard';
-import { ActivityType } from '@/graphql/types';
-import { useActivityGroups } from './useActivityGroups';
-import { DateTime } from 'luxon';
 import Skeleton from '@/components/helpers/Skeleton';
+import { ActivityType } from '@/graphql/types';
+import { DateTime } from 'luxon';
+import ActivityCard, { ActivityCardActivity } from './ActivityCard';
+import { useActivityGroups } from './useActivityGroups';
 
 import './ActivityList.css';
 
@@ -16,8 +16,6 @@ const ActivityList: React.FC<ActivityListProps> = ({ type, activities, loading =
   const days = useActivityGroups(activities);
   const endTime =
     type === ActivityType.Workshop && activities.length > 0 && activities[0].sessions[0].endsAt;
-
-  console.table(days);
 
   return (
     <>

@@ -3,6 +3,7 @@
 @import url("@/styles/new/shadows.css");
 
 :root {
+  --mantine-spacing-md: var(--spacing-base);
   --theme-transition-speed: 0.25s;
   --theme-transition:
     background-color var(--theme-transition-speed) var(--ease-standard),
@@ -65,5 +66,44 @@ a {
   &:hover,
   &:active {
     color: var(--link-hover);
+  }
+}
+
+.mantine-Notification {
+  &-root {
+    display: grid;
+    grid-template-columns: 1fr var(--icon-medium);
+    align-items: center;
+    padding: var(--spacing-base);
+    border-radius: var(--radius-small);
+    background-color: var(--background-translucent);
+    color: var(--text-subtle);
+    box-shadow: var(--shadow-large), 0 0 0 var(--border-thin) var(--modal-border);
+    column-gap: var(--spacing-base);
+  }
+
+  &-title,
+  &-description {
+    grid-column: 1;
+  }
+
+  &-closeButton {
+    display: flex;
+    grid-row: 1 / -1;
+    grid-column: 2;
+    align-self: start;
+    justify-self: center;
+    margin: calc(var(--spacing-tiny) * -1) calc(var(--spacing-small) * -1);
+    padding: var(--spacing-small);
+    border: 0;
+    border-radius: var(--radius-round);
+    background: none;
+    color: var(--text-subtle);
+    box-shadow: none;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--text-default);
+    }
   }
 }

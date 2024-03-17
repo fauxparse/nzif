@@ -1,18 +1,16 @@
-import { motion } from 'framer-motion';
-import { ResultOf, graphql, readFragment } from '@/graphql';
-import BlurrableImage from '@/components/molecules/BlurrableImage';
-import Skeleton from '@/components/helpers/Skeleton';
-import { Session } from '@/graphql/types';
-import { Box } from '@mantine/core';
-import { Link, ToOptions } from '@tanstack/react-router';
-import Card from '@/components/molecules/Card';
-import sentence from '@/util/sentence';
-import Badge from '@/components/atoms/Badge';
+import Placename from '@/components/atoms/Placename';
 import Tag from '@/components/atoms/Tag';
+import Skeleton from '@/components/helpers/Skeleton';
+import BlurrableImage from '@/components/molecules/BlurrableImage';
+import Card from '@/components/molecules/Card';
+import { ResultOf, graphql, readFragment } from '@/graphql';
+import { Session } from '@/graphql/types';
 import ShowIcon from '@/icons/ShowIcon';
 import WorkshopIcon from '@/icons/WorkshopIcon';
+import sentence from '@/util/sentence';
+import { Link, ToOptions } from '@tanstack/react-router';
 import { map, uniqBy } from 'lodash-es';
-import Placename from '@/components/atoms/Placename';
+import { useMemo } from 'react';
 
 const ActivityCardPresenterFragment = graphql(`
   fragment ActivityCardPresenter on Person {
@@ -101,11 +99,15 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, loading = false }
   const isEnsemble =
     activity.type === 'Show' && presenters[0].name === 'New Zealand Improv Festival';
 
-  const locations = uniqBy(map(presenters, 'city'), 'id').filter(Boolean) as {
-    id: string;
-    name: string;
-    traditionalName: string;
-  }[];
+  const locations = useMemo(
+    () =>
+      uniqBy(map(presenters, 'city'), 'id').filter(Boolean) as {
+        id: string;
+        name: string;
+        traditionalName: string;
+      }[],
+    [presenters]
+  );
 
   const presenterNames = isEnsemble
     ? 'NZIF Ensemble'
