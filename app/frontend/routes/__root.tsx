@@ -1,8 +1,8 @@
 import type { CurrentFestival } from '@/hooks/useFestival';
 import { CurrentFestivalQuery, FestivalProvider } from '@/hooks/useFestival';
-import useTheme from '@/hooks/useTheme';
 import type { AuthenticationContextType } from '@/services/Authentication';
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import { useMantineColorScheme } from '@mantine/core';
 import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { Suspense, useEffect } from 'react';
@@ -12,11 +12,11 @@ import '@/styles/new/application.css';
 const Root = () => {
   const { festival } = Route.useRouteContext();
 
-  const { theme } = useTheme();
+  const { colorScheme } = useMantineColorScheme();
 
   useEffect(() => {
-    document.body.setAttribute('data-theme', theme);
-  }, [theme]);
+    document.body.setAttribute('data-theme', colorScheme);
+  }, [colorScheme]);
 
   return (
     <FestivalProvider festival={festival}>

@@ -6,7 +6,8 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.stylelint": "explicit",
     "source.fixAll.biomejs": "explicit",
-    "source.organizeImports.biome": "explicit"
+    "source.organizeImports.biome": "explicit",
+    "source.removeUnusedImports": "explicit"
   },
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
@@ -21,6 +22,24 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     "**/.ruby-lsp": true,
-    "**/node_modules": true
-  }
+    "**/node_modules": true,
+    "app/frontend/molecules": true,
+    "app/frontend/organisms": true,
+    "app/frontend/pages": true,
+    "app/frontend/helpers": true,
+    "app/frontend/atoms": true,
+    ".storybook": true,
+    ".cicada": true,
+    "_templates": true
+  },
+  "hide-files.files": [
+    "app/frontend/molecules",
+    "app/frontend/organisms",
+    "app/frontend/pages",
+    "app/frontend/helpers",
+    "app/frontend/atoms",
+    ".storybook",
+    ".cicada",
+    "_templates"
+  ]
 }
