@@ -5,7 +5,8 @@
   "postcss.validate": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.stylelint": "explicit",
-    "source.fixAll.biomejs": "explicit"
+    "source.fixAll.biomejs": "explicit",
+    "source.organizeImports.biome": "explicit"
   },
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,

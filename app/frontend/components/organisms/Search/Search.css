@@ -64,6 +64,12 @@
 
     p {
       margin: 0;
+
+      .icon {
+        vertical-align: baseline;
+        width: 1em;
+        height: 1em;
+      }
     }
   }
 
@@ -160,7 +166,7 @@
     max-height: var(--modal-content-max-height, calc(100dvh - var(--modal-y-offset) * 2));
     border-radius: var(--modal-border-radius);
     background-color: var(--background-app);
-    box-shadow: var(--shadow-xl);
+    box-shadow: var(--shadow-xl), 0 0 0 var(--border-thin) var(--modal-border);
     outline: 0;
     text-decoration: none;
     pointer-events: auto;

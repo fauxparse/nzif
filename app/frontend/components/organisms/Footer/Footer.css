@@ -44,6 +44,16 @@
       &:hover {
         color: var(--text-default);
       }
+
+      .icon {
+        display: inline-block;
+        vertical-align: baseline;
+        width: 1em;
+        height: 1em;
+        margin-left: 1ch;
+        color: inherit;
+        opacity: 0.5;
+      }
     }
 
     p {
