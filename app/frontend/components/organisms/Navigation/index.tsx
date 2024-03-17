@@ -1,9 +1,6 @@
 import clsx from 'clsx';
 import { ComponentProps, forwardRef, useRef } from 'react';
 import Waves from './Waves';
-import { useAuthentication } from '@/services/Authentication';
-import SearchIcon from '@/icons/SearchIcon';
-import TextInput from '@/components/atoms/TextInput';
 import NavigationMenu from '@/components/organisms/NavigationMenu';
 import Search from '@/components/organisms/Search';
 import UserMenu from './UserMenu';
@@ -12,15 +9,16 @@ import { useCurrentTheme } from '@/hooks/useTheme';
 
 import './Navigation.css';
 import { Link } from '@tanstack/react-router';
+import useFestival from '@/hooks/useFestival';
 
 type NavigationProps = ComponentProps<'header'>;
 
 const Navigation = forwardRef<HTMLElement, NavigationProps>(({ className, ...props }, ref) => {
-  const { user, logOut } = useAuthentication();
-
   const ownRef = useRef<HTMLElement>(null);
 
   const theme = useCurrentTheme(ownRef);
+
+  const festival = useFestival();
 
   return (
     <header ref={mergeRefs([ref, ownRef])} className={clsx('navigation', className)}>
@@ -33,7 +31,7 @@ const Navigation = forwardRef<HTMLElement, NavigationProps>(({ className, ...pro
             <abbr title="New Zealand Improv Festival">
               NZ<b>IF</b>
             </abbr>{' '}
-            2024
+            {festival.id}
           </Link>
         </h1>
         <div className="navigation__right">

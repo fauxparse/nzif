@@ -9,14 +9,14 @@ import {
 } from 'react';
 import Breadcrumbs from './Breadcrumbs';
 
-import './Header.css';
-import { debounce, isString } from 'lodash-es';
-import { useTitle } from '@/hooks/useRoutesWithTitles';
 import Scrollable from '@/components/helpers/Scrollable';
-import { mergeRefs } from 'react-merge-refs';
-import { ImageProps } from '@mantine/core';
 import BlurrableImage from '@/components/molecules/BlurrableImage';
+import { useTitle } from '@/hooks/useRoutesWithTitles';
+import { ImageProps } from '@mantine/core';
 import clsx from 'clsx';
+import { debounce, isString } from 'lodash-es';
+import { mergeRefs } from 'react-merge-refs';
+import './Header.css';
 
 type HeaderSlot = ReactNode | false;
 
@@ -24,6 +24,7 @@ type BaseHeaderProps = {
   breadcrumbs?: HeaderSlot;
   actions?: HeaderSlot;
   title?: HeaderSlot;
+  children?: HeaderSlot;
   tabs?: HeaderSlot;
   background?: {
     src: ImageProps['src'];
@@ -40,6 +41,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(
       title = <DefaultTitle />,
       breadcrumbs = <Breadcrumbs />,
       actions = false,
+      children = false,
       tabs = false,
       background,
       className,
@@ -88,8 +90,11 @@ const Header = forwardRef<HTMLElement, HeaderProps>(
               </div>
             </div>
           )}
-          {title && (
-            <div className="header__title">{isString(title) ? <h1>{title}</h1> : title}</div>
+          {(title || children) && (
+            <div className="header__title">
+              {isString(title) ? <h1>{title}</h1> : title}
+              {children}
+            </div>
           )}
           {tabs && (
             <Scrollable className="header__bottom-outer" orientation="horizontal">

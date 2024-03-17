@@ -19,6 +19,7 @@ import { Route as PublicAuthenticatedImport } from './routes/_public/_authentica
 import { Route as AuthSignupImport } from './routes/_auth/signup'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as PublicActivityTypeRouteImport } from './routes/_public/$activityType/route'
+import { Route as PublicAboutSlugImport } from './routes/_public/about.$slug'
 import { Route as PublicAuthenticatedProfileImport } from './routes/_public/_authenticated/profile'
 import { Route as PublicActivityTypeListImport } from './routes/_public/$activityType/_list'
 import { Route as PublicActivityTypeSlugImport } from './routes/_public/$activityType/$slug'
@@ -63,6 +64,11 @@ const AuthLoginRoute = AuthLoginImport.update({
 
 const PublicActivityTypeRouteRoute = PublicActivityTypeRouteImport.update({
   path: '/$activityType',
+  getParentRoute: () => PublicRoute,
+} as any)
+
+const PublicAboutSlugRoute = PublicAboutSlugImport.update({
+  path: '/about/$slug',
   getParentRoute: () => PublicRoute,
 } as any)
 
@@ -137,6 +143,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicAuthenticatedProfileImport
       parentRoute: typeof PublicAuthenticatedImport
     }
+    '/_public/about/$slug': {
+      preLoaderRoute: typeof PublicAboutSlugImport
+      parentRoute: typeof PublicImport
+    }
     '/_public/$activityType/_list/': {
       preLoaderRoute: typeof PublicActivityTypeListIndexImport
       parentRoute: typeof PublicActivityTypeListImport
@@ -157,6 +167,7 @@ export const routeTree = rootRoute.addChildren([
     ]),
     PublicAuthenticatedRoute.addChildren([PublicAuthenticatedProfileRoute]),
     PublicIndexRoute,
+    PublicAboutSlugRoute,
   ]),
   LogoutRoute,
 ])
