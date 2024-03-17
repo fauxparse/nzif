@@ -1,8 +1,8 @@
 import Button from '@/components/atoms/Button';
 import { Page, useFooterLinksQuery } from '@/contentful/types';
-import useTheme from '@/hooks/useTheme';
 import ExternalLinkIcon from '@/icons/ExternalLinkIcon';
 import ThemeIcon from '@/icons/ThemeIcon';
+import { useMantineColorScheme } from '@mantine/core';
 import { Link } from '@tanstack/react-router';
 import clsx from 'clsx';
 import { MotionProps, motion } from 'framer-motion';
@@ -17,7 +17,7 @@ const isPageLink = (link: { __typename: string } | null): link is Page =>
 type FooterProps = Omit<ComponentPropsWithoutRef<'footer'>, keyof MotionProps>;
 
 const Footer: React.FC<FooterProps> = ({ className, ...props }) => {
-  const { toggle } = useTheme();
+  const { toggleColorScheme } = useMantineColorScheme();
 
   const { data } = useFooterLinksQuery({ context: { clientName: 'contentful' } });
 
@@ -54,7 +54,12 @@ const Footer: React.FC<FooterProps> = ({ className, ...props }) => {
         </section>
         <section>
           <p>&copy; 2024 New Zealand Improvisation Trust</p>
-          <Button variant="ghost" size="small" leftSection={<ThemeIcon />} onClick={toggle}>
+          <Button
+            variant="ghost"
+            size="small"
+            leftSection={<ThemeIcon />}
+            onClick={toggleColorScheme}
+          >
             Switch theme
           </Button>
         </section>
