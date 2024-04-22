@@ -1,27 +1,31 @@
+import * as path from 'node:path';
+import MillionLint from '@million/lint';
 import yaml from '@modyfi/vite-plugin-yaml';
-import react from '@vitejs/plugin-react';
 import { TanStackRouterVite } from '@tanstack/router-vite-plugin';
-import * as path from 'path';
+import react from '@vitejs/plugin-react';
 import ruby from 'vite-plugin-ruby';
 import { configDefaults, defineConfig } from 'vitest/config';
+
+const plugins = [
+  MillionLint.vite(),
+  ...(process.env.STORYBOOK ? [] : [ruby()]),
+  react(),
+  yaml(),
+  TanStackRouterVite({
+    routesDirectory: path.resolve(__dirname, './app/frontend/routes'),
+    generatedRouteTree: path.resolve(__dirname, './app/frontend/routeTree.gen.ts'),
+    quoteStyle: 'single'
+  })
+];
 
 export default defineConfig({
   resolve: {
     alias: {
       '@config': path.resolve(__dirname, './config'),
-      '@': path.resolve(__dirname, './app/frontend'),
-    },
+      '@': path.resolve(__dirname, './app/frontend')
+    }
   },
-  plugins: [
-    ...(process.env.STORYBOOK ? [] : [ruby()]),
-    react(),
-    yaml(),
-    TanStackRouterVite({
-      routesDirectory: path.resolve(__dirname, './app/frontend/routes'),
-      generatedRouteTree: path.resolve(__dirname, './app/frontend/routeTree.gen.ts'),
-      quoteStyle: 'single',
-    }),
-  ],
+  plugins: plugins,
   test: {
     globals: true,
     css: true,
@@ -29,11 +33,11 @@ export default defineConfig({
     setupFiles: 'tests/setup.ts',
     coverage: {
       provider: 'c8',
-      exclude: [...(configDefaults.coverage.exclude || []), '**/tests/setup.ts'],
+      exclude: [...(configDefaults.coverage.exclude || []), '**/tests/setup.ts']
     },
-    threads: false,
+    threads: false
   },
   define: {
-    STRIPE_PUBLIC_KEY: '"process.env.STRIPE_PUBLISHABLE_KEY"',
-  },
+    STRIPE_PUBLIC_KEY: '"process.env.STRIPE_PUBLISHABLE_KEY"'
+  }
 });

@@ -1,8 +1,14 @@
-import { PropsWithChildren, createContext, useCallback, useContext, useState } from 'react';
-import { FragmentOf, ResultOf, VariablesOf, graphql, readFragment } from '@/graphql';
-import { useQuery, useMutation, useApolloClient, FetchResult } from '@apollo/client';
-import { User, UserLoginPayload } from '@/graphql/types';
+import { FragmentOf, ResultOf, VariablesOf, graphql } from '@/graphql';
 import { clearAuthenticationInfo, saveAuthenticationInfo } from '@/graphql/authentication';
+import { FetchResult, useApolloClient, useMutation, useQuery } from '@apollo/client';
+import {
+  PropsWithChildren,
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 
 const AuthenticatedUserFragment = graphql(
   `#graphql
@@ -110,10 +116,10 @@ export const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }
     onError: (error) => setError(error.message),
   });
 
-  const logIn = (variables: LogInVariables) => {
+  const logIn = useCallback((variables: LogInVariables) => {
     setError(null);
     return doLogIn({ variables });
-  };
+  }, []);
 
   const [logOut] = useMutation(LogOut, {
     update: () => {
@@ -124,16 +130,19 @@ export const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }
 
   const loading = authLoading || loggingIn;
 
+  const value = useMemo(
+    () => ({
+      user: data?.user ?? null,
+      loading,
+      error,
+      logIn,
+      logOut,
+    }),
+    [data, loading, error, logIn, logOut]
+  );
+
   return (
-    <AuthenticationContext.Provider
-      value={{
-        user: data?.user ?? null,
-        loading,
-        error,
-        logIn,
-        logOut,
-      }}
-    >
+    <AuthenticationContext.Provider value={value}>
       {authLoading ? null : children}
     </AuthenticationContext.Provider>
   );
