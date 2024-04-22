@@ -1,8 +1,8 @@
-import { debounce, drop, range } from 'lodash-es';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { createNoise2D } from 'simplex-noise';
 import { spline } from '@georgedoescode/spline';
 import { useReducedMotion } from 'framer-motion';
+import { debounce, range } from 'lodash-es';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { createNoise2D } from 'simplex-noise';
 
 const noise = createNoise2D();
 

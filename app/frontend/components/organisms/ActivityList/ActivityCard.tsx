@@ -97,7 +97,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, loading = false }
   const presenters = readFragment(ActivityCardPresenterFragment, activity.presenters);
 
   const isEnsemble =
-    activity.type === 'Show' && presenters[0].name === 'New Zealand Improv Festival';
+    activity.type === 'Show' && presenters[0]?.name === 'New Zealand Improv Festival';
 
   const locations = useMemo(
     () =>
