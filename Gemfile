@@ -85,7 +85,6 @@ gem 'icalendar', '~> 2.9'
 
 gem 'rest-client'
 
-gem 'pry', '~> 0.14.2'
 gem 'raygun4ruby'
 
 gem 'money', '~> 6.16'
@@ -133,6 +132,9 @@ group :development do
   gem 'seed-fu', '~> 2.3'
 
   gem 'letter_opener'
+
+  gem 'ruby-lsp-rails', '~>0.3.6'
+  gem 'solargraph', '~>0.50.0'
 end
 
 group :test do
