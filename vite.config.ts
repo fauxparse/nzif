@@ -1,5 +1,4 @@
 import * as path from 'node:path';
-import MillionLint from '@million/lint';
 import yaml from '@modyfi/vite-plugin-yaml';
 import { TanStackRouterVite } from '@tanstack/router-vite-plugin';
 import react from '@vitejs/plugin-react';
@@ -7,7 +6,6 @@ import ruby from 'vite-plugin-ruby';
 import { configDefaults, defineConfig } from 'vitest/config';
 
 const plugins = [
-  MillionLint.vite(),
   ...(process.env.STORYBOOK ? [] : [ruby()]),
   react(),
   yaml(),

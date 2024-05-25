@@ -1,10 +1,8 @@
+import { RouterContext } from '@/RouterContext';
+import { client } from '@/graphql';
 import { CurrentFestival } from '@/hooks/useFestival';
-import { RouterContext } from '@/routes/__root';
-import {
-  AuthenticationContext,
-  AuthenticationContextType,
-  AuthenticationProvider,
-} from '@/services/Authentication';
+import { AuthenticationContext, AuthenticationProvider } from '@/services/Authentication';
+import { AuthenticationContextType } from '@/services/Authentication';
 import { ApolloProvider } from '@apollo/client';
 import '@formatjs/intl-numberformat/locale-data/en';
 import '@formatjs/intl-numberformat/polyfill';
@@ -15,17 +13,15 @@ import { Settings as LuxonSettings } from 'luxon';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { client } from '../graphql';
-
-// Import the generated route tree
-import { routeTree } from '../routeTree.gen';
 
 import '@mantine/notifications/styles.css';
 
 LuxonSettings.defaultZone = 'Pacific/Auckland';
 
+import { routeTree } from '@/routeTree.gen';
+
 // Create a new router instance
-const router = createRouter({
+export const router = createRouter({
   routeTree,
   context: {
     auth: { user: null, loading: true } as AuthenticationContextType,
