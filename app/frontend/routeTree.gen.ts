@@ -12,8 +12,10 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LogoutImport } from './routes/logout'
+import { Route as AdminImport } from './routes/admin'
 import { Route as PublicImport } from './routes/_public'
 import { Route as AuthImport } from './routes/_auth'
+import { Route as AdminIndexImport } from './routes/admin/index'
 import { Route as PublicIndexImport } from './routes/_public.index'
 import { Route as PublicAuthenticatedImport } from './routes/_public/_authenticated'
 import { Route as AuthSignupImport } from './routes/_auth/signup'
@@ -32,6 +34,11 @@ const LogoutRoute = LogoutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AdminRoute = AdminImport.update({
+  path: '/admin',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const PublicRoute = PublicImport.update({
   id: '/_public',
   getParentRoute: () => rootRoute,
@@ -40,6 +47,11 @@ const PublicRoute = PublicImport.update({
 const AuthRoute = AuthImport.update({
   id: '/_auth',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AdminIndexRoute = AdminIndexImport.update({
+  path: '/',
+  getParentRoute: () => AdminRoute,
 } as any)
 
 const PublicIndexRoute = PublicIndexImport.update({
@@ -107,6 +119,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicImport
       parentRoute: typeof rootRoute
     }
+    '/admin': {
+      preLoaderRoute: typeof AdminImport
+      parentRoute: typeof rootRoute
+    }
     '/logout': {
       preLoaderRoute: typeof LogoutImport
       parentRoute: typeof rootRoute
@@ -130,6 +146,10 @@ declare module '@tanstack/react-router' {
     '/_public/': {
       preLoaderRoute: typeof PublicIndexImport
       parentRoute: typeof PublicImport
+    }
+    '/admin/': {
+      preLoaderRoute: typeof AdminIndexImport
+      parentRoute: typeof AdminImport
     }
     '/_public/$activityType/$slug': {
       preLoaderRoute: typeof PublicActivityTypeSlugImport
@@ -169,6 +189,7 @@ export const routeTree = rootRoute.addChildren([
     PublicIndexRoute,
     PublicAboutSlugRoute,
   ]),
+  AdminRoute.addChildren([AdminIndexRoute]),
   LogoutRoute,
 ])
 

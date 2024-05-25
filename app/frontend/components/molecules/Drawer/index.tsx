@@ -1,21 +1,22 @@
-import React from 'react';
 import {
-  factory,
-  Factory,
-  getDefaultZIndex,
-  useProps,
-  ModalBaseCloseButtonProps,
-  ModalBaseOverlayProps,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
   DrawerOverlay,
-  DrawerTitle,
   DrawerRoot,
   DrawerRootProps,
+  DrawerTitle,
+  Factory,
+  ModalBaseCloseButtonProps,
+  ModalBaseOverlayProps,
+  factory,
+  getDefaultZIndex,
+  useProps,
 } from '@mantine/core';
-import DrawerHeader from './Header';
+import React from 'react';
+import DrawerContext from './Context';
 import './Drawer.css';
+import DrawerHeader from './Header';
 
 export interface DrawerProps extends DrawerRootProps {
   /** Drawer title */
@@ -72,25 +73,28 @@ export const Drawer = factory<DrawerFactory>((_props, ref) => {
     withCloseButton,
     closeButtonProps,
     children,
+    onClose,
     ...others
   } = useProps('Drawer', defaultProps, _props);
 
   const hasHeader = !!title || withCloseButton;
 
   return (
-    <DrawerRoot ref={ref} {...others}>
-      {withOverlay && <DrawerOverlay {...overlayProps} />}
-      <DrawerContent>
-        {hasHeader && (
-          <DrawerHeader title={title}>
-            {title && <DrawerTitle className="drawer__title">{title}</DrawerTitle>}
-            {withCloseButton && <DrawerCloseButton {...closeButtonProps} />}
-          </DrawerHeader>
-        )}
+    <DrawerContext.Provider value={{ close: () => onClose() }}>
+      <DrawerRoot ref={ref} onClose={onClose} {...others}>
+        {withOverlay && <DrawerOverlay {...overlayProps} />}
+        <DrawerContent>
+          {hasHeader && (
+            <DrawerHeader title={title}>
+              {title && <DrawerTitle className="drawer__title">{title}</DrawerTitle>}
+              {withCloseButton && <DrawerCloseButton {...closeButtonProps} />}
+            </DrawerHeader>
+          )}
 
-        <DrawerBody className="drawer__body">{children}</DrawerBody>
-      </DrawerContent>
-    </DrawerRoot>
+          <DrawerBody className="drawer__body">{children}</DrawerBody>
+        </DrawerContent>
+      </DrawerRoot>
+    </DrawerContext.Provider>
   );
 });
 
