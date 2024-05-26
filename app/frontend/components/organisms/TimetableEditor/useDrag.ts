@@ -8,6 +8,7 @@ type DragState =
     }
   | {
       state: 'dragging';
+      moved: boolean;
       laidOutSession: LaidOutSession;
       offset: number;
       rect: Rect;
@@ -42,6 +43,7 @@ export const useDrag = ({ columns }: UseDragOptions) => {
           const { rect } = action.laidOutSession;
           return {
             state: 'dragging',
+            moved: false,
             laidOutSession: action.laidOutSession,
             rect,
             offset: action.cell.column - rect.start.column,
@@ -55,6 +57,7 @@ export const useDrag = ({ columns }: UseDragOptions) => {
           const right = left + width;
           const newState: DragState = {
             ...state,
+            moved: true,
             rect: {
               start: { row, column: left },
               end: { row, column: right },

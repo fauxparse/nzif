@@ -9,19 +9,25 @@ import '@formatjs/intl-numberformat/polyfill';
 import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Settings as LuxonSettings } from 'luxon';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { theme } from '../theme';
 
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
 import '@mantine/notifications/styles.css';
 
 LuxonSettings.defaultZone = 'Pacific/Auckland';
+dayjs.extend(customParseFormat);
 
 import { routeTree } from '@/routeTree.gen';
 
 // Create a new router instance
-export const router = createRouter({
+const router = createRouter({
   routeTree,
   context: {
     auth: { user: null, loading: true } as AuthenticationContextType,
@@ -44,7 +50,7 @@ createRoot(document.getElementById('root') as HTMLElement).render(
       <Helmet>
         <title>NZIF: New Zealand Improv Festival</title>
       </Helmet>
-      <MantineProvider>
+      <MantineProvider theme={theme}>
         <Notifications />
         <ApolloProvider client={client}>
           <AuthenticationProvider>

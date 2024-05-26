@@ -20,19 +20,19 @@ export const TimetableActivityFragment = graphql(
     slug
 
     ... on Workshop {
-      tutors {
+      presenters {
         ...TimetableCast
       }
     }
 
     ... on Show {
-      directors {
+      presenters {
         ...TimetableCast
       }
     }
 
     ... on SocialEvent {
-      organisers {
+      presenters {
         ...TimetableCast
       }
     }
@@ -48,6 +48,7 @@ export const TimetableSessionFragment = graphql(
     startsAt
     endsAt
     activityType
+    capacity
 
     activity {
       ...TimetableActivity
@@ -90,4 +91,34 @@ export const TimetableQuery = graphql(
   }
 `,
   [TimetableSessionFragment]
+);
+
+export const PresenterSearchQuery = graphql(
+  `#graphql
+  query PresenterSearch($query: String!) {
+    search(query: $query, only: Person) {
+      ...on PersonResult {
+        person {
+          ...TimetableCast
+        }
+      }
+    }
+  }
+  `,
+  [TimetableCastFragment]
+);
+
+export const ActivitySearchQuery = graphql(
+  `#graphql
+  query ActivitySearch($query: String!, $activityType: ActivityType!) {
+    search(query: $query, only: Activity, activityType: $activityType) {
+      ...on ActivityResult {
+        activity {
+          ...TimetableActivity
+        }
+      }
+    }
+  }
+  `,
+  [TimetableActivityFragment]
 );

@@ -1,14 +1,12 @@
 import Button from '@/components/atoms/Button';
 import Kbd from '@/components/atoms/Kbd';
-import TextInput from '@/components/atoms/TextInput';
 import type { ResultOf } from '@/graphql';
 import CloseIcon from '@/icons/CloseIcon';
 import NoResultsIcon from '@/icons/NoResultsIcon';
 import SearchIcon from '@/icons/SearchIcon';
 import TipIcon from '@/icons/TipIcon';
 import { useLazyQuery } from '@apollo/client';
-import { Modal } from '@mantine/core';
-import type { ModalProps } from '@mantine/core';
+import { Modal, ModalProps, TextInput } from '@mantine/core';
 import { getHotkeyHandler, useDebouncedValue } from '@mantine/hooks';
 import { useNavigate } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';

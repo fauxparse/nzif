@@ -1,0 +1,85 @@
+.root {
+  --button-background: transparent;
+  --button-background-hover: var(--neutral-alpha-4);
+  --button-border-color: var(--neutral-alpha-7);
+  --button-text: var(--text-default);
+  --button-block-size: 2.5rem;
+  --button-padding-inline: 0.4375rem;
+  --button-text-hover: var(--button-text);
+
+  &:active {
+    --button-background: var(--button-background-hover);
+    --button-text: var(--button-text-hover);
+
+    filter: brightness(0.875);
+  }
+
+  &[data-size="xs"] {
+    --button-block-size: 1.5rem;
+    --button-padding-inline: 0.375rem;
+  }
+
+  &[data-size="sm"] {
+    --button-block-size: 2rem;
+    --button-padding-inline: 0.375rem;
+  }
+
+  &[data-size="md"] {
+    --button-block-size: 2.5rem;
+    --button-padding-inline: 0.4375rem;
+  }
+
+  &[data-size="lg"] {
+    --button-block-size: 3rem;
+    --button-padding-inline: 0.6875rem;
+  }
+
+  &[data-variant="default"] {
+    --button-background: transparent;
+    --button-background-hover: var(--neutral-alpha-4);
+    --button-border-color: var(--neutral-alpha-7);
+    --button-text: var(--text-default);
+  }
+
+  &[data-variant="filled"] {
+    --button-background: var(--button-solid-fill);
+    --button-border-color: var(--button-background);
+    --button-text: var(--button-solid-text);
+    --button-background-hover: var(--button-solid-hover-fill);
+    --button-text-hover: var(--button-solid-hover-text);
+
+    &:hover,
+    &:active {
+      --button-border-color: var(--button-solid-hover-fill);
+    }
+  }
+
+  &[data-variant="light"] {
+    --button-background: var(--background-light);
+    --button-text: var(--colored-text-default);
+    --button-background-hover: var(--background-light-hover);
+    --button-border-color: transparent;
+  }
+
+  &[data-variant="outline"],
+  &[data-variant="subtle"],
+  &[data-variant="transparent"],
+  &[data-variant="white"] {
+    --button-border-color: transparent;
+    --button-text: var(--colored-text-subtle);
+    --button-background-hover: var(--button-outline-hover-fill);
+    --button-text-hover: var(--colored-text-subtle);
+  }
+
+  &[data-variant="outline"] {
+    --button-border-color: var(--pure);
+  }
+
+  &[data-variant="transparent"] {
+    --button-background-hover: transparent;
+  }
+}
+
+.label {
+  padding-inline: var(--button-padding-x);
+}

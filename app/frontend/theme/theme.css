@@ -1,0 +1,68 @@
+:root[data-mantine-color-scheme] body {
+  --input-bd: var(--border-input);
+  --input-bd-hover: var(--border-input-hover);
+  --input-bd-focus: var(--border-input-focus);
+  --mantine-primary-color-filled: var(--magenta-9);
+  --popover-shadow: var(--shadow-base);
+}
+
+.mantine-SegmentedControl-input[data-focus-ring='auto']:focus:focus-visible + .mantine-SegmentedControl-label {
+  outline-color: var(--border-input-focus);
+}
+
+.mantine-Button-root {
+  &.mantine-active:active {
+    transform: none;
+  }
+}
+
+.mantine-Checkbox-root {
+  .mantine-Checkbox-icon {
+    width: 1rem;
+    opacity: 1;
+    cursor: pointer;
+    fill: none;
+    stroke: currentcolor;
+    transition: none;
+    transform: none;
+
+    .checked {
+      stroke-dasharray: 1 100;
+      stroke-dashoffset: -1;
+    }
+
+    .indeterminate {
+      opacity: 0;
+    }
+  }
+
+  input:checked ~ .mantine-Checkbox-icon .checked {
+    transition: stroke-dashoffset var(--speed-standard) var(--ease-accelerate);
+    stroke-dashoffset: 0;
+  }
+
+  input[data-indeterminate] ~ .mantine-Checkbox-icon .indeterminate {
+    opacity: 1;
+  }
+}
+
+.mantine-Modal-root {
+  .mantine-Modal-header {
+    padding: var(--spacing-base) var(--spacing-small) var(--spacing-small) var(--spacing-base);
+  }
+
+  .mantine-Modal-title {
+    font-size: var(--font-size-large);
+    line-height: var(--line-height-large);
+  }
+
+  .mantine-Modal-close {
+    --cb-size: calc(var(--icon-medium) + var(--spacing-small) * 2);
+
+    border-radius: 100%;
+  }
+
+  .mantine-Modal-body {
+    padding: var(--spacing-small) var(--spacing-base) var(--spacing-base);
+  }
+}

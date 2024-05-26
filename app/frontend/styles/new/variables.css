@@ -93,7 +93,7 @@
   --neutral-alpha-7: hsl(232 100% 9% / 0.2);
   --neutral-alpha-8: hsl(230 100% 9% / 0.27);
   --neutral-alpha-9: hsl(230 100% 6% / 0.45);
-  --neutral-alpha-10: hsl(224 100% 5% / 0.05);
+  --neutral-alpha-10: hsl(224 100% 5% / 0.49);
   --neutral-alpha-11: hsl(219 100% 4% / 0.62);
   --neutral-alpha-12: hsl(207 100% 2% / 0.89);
   --yellow-1: hsl(60 50% 98%);
@@ -306,11 +306,14 @@ body,
 body,
 [data-color="neutral"] {
   --background-solid: var(--neutral-9);
+  --background-light: var(--neutral-3);
+  --background-light-hover: var(--neutral-4);
   --button-ghost-icon: var(--icon);
   --button-ghost-text: var(--text-default);
   --button-outline-border: var(--border-element);
   --button-outline-hover-border: var(--border-element-hover);
   --button-outline-hover-fill: var(--neutral-alpha-4);
+  --button-outline-active-fill: var(--neutral-alpha-5);
   --button-outline-icon: var(--icon);
   --button-outline-text: var(--text-default);
   --button-solid-fill: var(--neutral-alpha-9);
@@ -328,6 +331,7 @@ body,
 [data-color="primary"] {
   --background-solid: var(--magenta-9);
   --background-light: var(--magenta-3);
+  --background-light-hover: var(--magenta-4);
   --button-ghost-icon: var(--magenta-11);
   --button-ghost-text: var(--magenta-12);
   --button-outline-border: var(--magenta-alpha-7);
@@ -353,6 +357,7 @@ body,
 [data-color="cyan"] {
   --background-solid: var(--cyan-9);
   --background-light: var(--cyan-3);
+  --background-light-hover: var(--cyan-4);
   --button-ghost-icon: var(--cyan-11);
   --button-ghost-text: var(--cyan-12);
   --button-outline-border: var(--cyan-alpha-7);
@@ -363,6 +368,8 @@ body,
   --button-solid-fill: var(--cyan-alpha-9);
   --button-solid-icon: var(--cyan-inverse);
   --button-solid-text: var(--cyan-inverse);
+  --button-solid-hover-fill: var(--cyan-alpha-10);
+  --button-solid-hover-text: var(--cyan-inverse);
   --colored-text-default: var(--cyan-alpha-11);
   --colored-text-inverse: var(--cyan-inverse);
   --colored-text-link: var(--cyan-alpha-11);
@@ -379,6 +386,7 @@ body,
 [data-color="yellow"] {
   --background-solid: var(--yellow-9);
   --background-light: var(--yellow-3);
+  --background-light-hover: var(--yellow-4);
   --button-ghost-icon: var(--yellow-11);
   --button-ghost-text: var(--yellow-12);
   --button-outline-border: var(--yellow-alpha-7);
@@ -388,7 +396,9 @@ body,
   --button-outline-text: var(--yellow-alpha-12);
   --button-solid-fill: var(--yellow-alpha-9);
   --button-solid-icon: var(--yellow-inverse);
-  --button-solid-text: var(--yellow-inverse);
+  --button-solid-text: var(--yellow-11);
+  --button-solid-hover-fill: var(--yellow-alpha-10);
+  --button-solid-hover-text: var(--yellow-inverse);
   --colored-text-default: var(--yellow-alpha-11);
   --colored-text-inverse: var(--yellow-inverse);
   --colored-text-link: var(--yellow-alpha-11);
@@ -428,6 +438,7 @@ body,
   --ease-squish-3: cubic-bezier(.5,-.5,.1,1.5);
   --ease-squish-4: cubic-bezier(.5,-.7,.1,1.5);
   --ease-squish-5: cubic-bezier(.5,-.9,.1,1.5);
+  --ease-accelerate: cubic-bezier(0.3, 0.0, 0.8, 0.15);
   --speed-standard: 150ms;
   --speed-slow: 300ms;
 }

@@ -9,21 +9,25 @@ export const ACTIVITY_TYPES = {
     type: ActivityType.Workshop,
     label: 'Workshops',
     icon: WorkshopIcon,
+    color: 'cyan',
   },
   shows: {
     type: ActivityType.Show,
     label: 'Shows',
     icon: ShowIcon,
+    color: 'magenta',
   },
   'social-events': {
     type: ActivityType.SocialEvent,
     label: 'Social events',
     icon: SocialEventIcon,
+    color: 'yellow',
   },
   conferences: {
     type: ActivityType.Conference,
     label: 'Conference',
     icon: ConferenceIcon,
+    color: 'yellow',
   },
 } as const;
 
@@ -39,3 +43,13 @@ export const getActivityTypeLabelFromPlural = (plural: PluralActivityType) =>
 
 export const getPluralFromActivityType = (type: ActivityType) =>
   Object.entries(ACTIVITY_TYPES).find(([, { type: t }]) => t === type)?.[0] as PluralActivityType;
+
+export const getActivityColor = (type: ActivityType) => {
+  const plural = getPluralFromActivityType(type);
+  return ACTIVITY_TYPES[plural].color;
+};
+
+export const getActivityIcon = (type: ActivityType) => {
+  const plural = getPluralFromActivityType(type);
+  return ACTIVITY_TYPES[plural].icon;
+};

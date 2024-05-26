@@ -1,5 +1,13 @@
 import { FragmentOf } from 'gql.tada';
-import { TimetableSessionFragment } from './queries';
+import {
+  TimetableActivityFragment,
+  TimetableCastFragment,
+  TimetableSessionFragment,
+} from './queries';
+
+export type Session = FragmentOf<typeof TimetableSessionFragment>;
+export type Presenter = FragmentOf<typeof TimetableCastFragment>;
+export type Activity = FragmentOf<typeof TimetableActivityFragment>;
 
 export type Cell = {
   row: number;
@@ -12,7 +20,7 @@ export type Rect = {
 };
 
 export type LaidOutSession = {
-  session: FragmentOf<typeof TimetableSessionFragment>;
+  session: Session;
   rect: Rect;
   track: number;
 };

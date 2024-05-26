@@ -1,15 +1,14 @@
-import { useAuthentication } from '@/services/Authentication';
-import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
-import { useForm } from '@tanstack/react-form';
-import { zodValidator } from '@tanstack/zod-form-adapter';
-import { z } from 'zod';
-import { ChangeEvent } from 'react';
-import TextInput from '@/components/atoms/TextInput';
 import Button from '@/components/atoms/Button';
 import Logo from '@/components/atoms/Logo';
 import AtSignIcon from '@/icons/AtSignIcon';
 import KeyIcon from '@/icons/KeyIcon';
-import XIcon from '@/icons/CloseIcon';
+import { useAuthentication } from '@/services/Authentication';
+import { TextInput } from '@mantine/core';
+import { useForm } from '@tanstack/react-form';
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-form-adapter';
+import { ChangeEvent } from 'react';
+import { z } from 'zod';
 
 const LogIn = () => {
   const { logIn, loading, error } = useAuthentication();
