@@ -3,7 +3,7 @@ module Sources
     attr_reader :type
 
     def fetch(festival_ids)
-      records = Venue.all
+      records = Venue.order(position: :asc).all
       festival_ids.map { records }
     end
   end

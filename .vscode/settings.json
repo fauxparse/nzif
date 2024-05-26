@@ -25,7 +25,6 @@
     "**/node_modules": true,
     "app/frontend/molecules": true,
     "app/frontend/organisms": true,
-    "app/frontend/pages": true,
     "app/frontend/helpers": true,
     "app/frontend/atoms": true,
     ".storybook": true,
