@@ -1,0 +1,104 @@
+.session-modal {
+  form {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: var(--spacing-medium);
+  }
+
+  &__date-and-time {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    row-gap: var(--spacing-medium);
+    column-gap: var(--spacing-small);
+  }
+
+  &__date {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+    align-items: center;
+
+    > :first-child:last-of-type {
+      grid-column: 1 / -1;
+    }
+  }
+
+  &__time {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+    align-items: center;
+  }
+
+  &__venues {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: var(--spacing-small);
+  }
+
+  &__participants {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    gap: var(--spacing-medium);
+    align-items: center;
+  }
+}
+
+.presenter-picker {
+  &__input {
+    &:has(:focus) {
+      .mantine-InputPlaceholder-placeholder {
+        display: none;
+      }
+    }
+
+    [data-position="left"] {
+      align-self: start;
+      margin-top: calc(1rem + 3px - var(--icon-medium) / 2);
+    }
+  }
+}
+
+.activity-picker {
+  &__value {
+    display: grid;
+    grid-template: "icon name name" auto "icon edit remove" auto / var(--icon-large) 1fr 1fr;
+    gap: var(--spacing-small);
+    align-items: start;
+    padding: var(--spacing-small);
+    border: 1px solid var(--border-element);
+    border-radius: var(--radius-small);
+    background-color: var(--background-light);
+    color: var(--colored-text-default);
+
+    .icon {
+      grid-area: icon;
+      width: var(--icon-large);
+      height: var(--icon-large);
+      color: var(--colored-text-default);
+    }
+
+    p {
+      grid-area: name;
+      font-weight: var(--font-weight-medium);
+      font-size: var(--font-size-legible);
+    }
+  }
+
+  &__option {
+    .mantine-Combobox-option & {
+      flex-wrap: nowrap;
+    }
+
+    .icon {
+      flex: 0 0 var(--icon-medium);
+      color: inherit;
+    }
+
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}

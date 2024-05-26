@@ -7,6 +7,7 @@
   --top: calc(var(--navigation-height) - 1rem);
   --column-group-width: calc(var(--column-width) * var(--granularity));
   --row-header-width: calc(var(--column-group-width) * 2);
+  --drag-enabled: true;
 
   --z-block: 0;
   --z-selection: 1;
@@ -23,7 +24,8 @@
     grid-template-rows: var(--column-header-height) repeat(var(--rows), auto);
     grid-template-columns: var(--row-header-width) repeat(var(--columns), var(--column-width)) 1fr;
     align-self: start;
-    background: repeating-linear-gradient(to bottom, transparent 0, transparent 0.25rem, var(--background-app) 0, var(--background-app) 0.5rem), linear-gradient(to right, var(--border-subtle) 0, var(--border-subtle) 1px, transparent 0);
+    background-color: var(--background-app);
+    background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 0.25rem, var(--background-app) 0, var(--background-app) 0.5rem), linear-gradient(to right, var(--border-subtle) 0, var(--border-subtle) 1px, transparent 0);
     background-position: 0 0, calc(var(--row-header-width) - 1px) 0;
     background-size: var(--column-group-width) 100%;
     background-repeat: repeat-x;
@@ -39,6 +41,7 @@
       min-height: var(--column-header-height);
       border-bottom: 1px solid var(--border-element);
       background: var(--background-app);
+      color: var(--text-subtle);
 
       :has([data-meridiem]) + :has([data-meridiem]) {
         .meridiem {
@@ -95,23 +98,23 @@
           justify-content: end;
           align-items: center;
           margin-inline: var(--spacing-small);
+          font-size: var(--font-size-large);
           line-height: 1;
         }
 
-        .weekday {
-          font-weight: var(--font-weight-medium);
+        .weekday--short {
+          display: none;
           font-size: var(--font-size-large);
+        }
+
+        .weekday {
           text-transform: uppercase;
         }
 
         .day {
-          width: 2em;
           color: var(--text-subtle);
-          font-weight: var(--font-weight-bold);
-          font-size: 3rem;
-          text-align: right;
-          opacity: 0.25;
-          margin-inline-start: -1.75em;
+          font-size: var(--font-size-large);
+          opacity: 0.5;
         }
       }
     }
@@ -164,11 +167,11 @@
       border-radius: var(--radius-small);
       background: var(--background-light);
       color: var(--colored-text-default);
-      font-size: var(--font-size-small);
 
       p {
         overflow: hidden;
         margin: 0;
+        font-size: var(--font-size-small);
         text-overflow: ellipsis;
         white-space: nowrap;
 
@@ -178,6 +181,10 @@
           line-height: var(--line-height-tiny);
         }
       }
+    }
+
+    &__time {
+      display: none;
     }
 
     &__edge {
@@ -191,6 +198,77 @@
       &:last-child {
         right: 0;
         left: auto;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .grid {
+      --row-header-width: 3.75rem;
+      --drag-enabled: false;
+
+      grid-template-rows: repeat(var(--rows), auto);
+      grid-template-columns: var(--row-header-width) calc(100vw - var(--row-header-width));
+      row-gap: var(--spacing-large);
+      width: 100vw;
+      background: none;
+
+      &__columns {
+        display: none;
+      }
+
+      &__row {
+        grid-template-rows: unset;
+        grid-auto-rows: auto;
+        row-gap: var(--spacing-small);
+        border: 0;
+        padding-inline-end: var(--spacing-large);
+
+        &-header {
+          grid-row: 1 / span var(--sessions);
+          border: 0;
+          background: none;
+
+          .date {
+            flex-direction: column;
+            line-height: 0.9;
+          }
+
+          .weekday--short {
+            display: block;
+            font-size: var(--font-size-small);
+            text-transform: uppercase;
+          }
+
+          .weekday {
+            display: none;
+          }
+
+          .day {
+            width: auto;
+            margin: 0;
+            font-size: var(--font-size-xl);
+            text-align: center;
+          }
+        }
+      }
+
+      .timetable-editor__session {
+        display: contents;
+        grid-row: auto !important;
+        grid-column: 2 !important;
+
+        &__content {
+          position: static;
+        }
+
+        &__edge {
+          display: none;
+        }
+
+        &__time {
+          display: block;
+        }
       }
     }
   }

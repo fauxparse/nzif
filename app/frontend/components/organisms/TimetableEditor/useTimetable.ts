@@ -1,11 +1,12 @@
+import { ActivityType } from '@/graphql/types';
 import useFestival from '@/hooks/useFestival';
 import { useResizeObserver } from '@mantine/hooks';
 import { ResultOf } from 'gql.tada';
 import { mapValues } from 'lodash-es';
 import { DateTime } from 'luxon';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { TimetableQuery } from './queries';
-import { Cell, LaidOutSession, normalizeRect } from './types';
+import { Cell, LaidOutSession, Session, normalizeRect } from './types';
 import { useDrag } from './useDrag';
 import { useLaidOutSessions } from './useLaidOutSessions';
 import { useResize } from './useResize';
@@ -15,19 +16,21 @@ type UseTimetableOptions = {
   startHour: number;
   endHour: number;
   granularity: number;
+  onSelect: (session: Session) => void;
 };
 
 const defaultOptions = {
   startHour: 9,
   endHour: 1,
   granularity: 4,
+  onSelect: () => {},
 } as const;
 
 export const useTimetable = (
   data: ResultOf<typeof TimetableQuery> | undefined,
   options: Partial<UseTimetableOptions> = {}
 ) => {
-  const { startHour, endHour, granularity } = { ...defaultOptions, ...options };
+  const { startHour, endHour, granularity, onSelect } = { ...defaultOptions, ...options };
 
   const festival = useFestival();
 
@@ -75,8 +78,8 @@ export const useTimetable = (
 
   const sessions = useMemo(() => data?.festival.timetable.sessions || [], [data]);
 
-  const cellFromMouseEvent = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>): Cell => {
+  const cellFromPointerEvent = useCallback(
+    (event: React.PointerEvent<HTMLDivElement>): Cell => {
       const el = event.currentTarget.closest('.grid__row') as HTMLDivElement;
       const row = parseInt(el.dataset.row || '0', 10);
       const x = event.clientX - el.getBoundingClientRect().left - rowHeaderWidth;
@@ -97,28 +100,28 @@ export const useTimetable = (
 
   const { dragging, start: startDrag, move: moveDrag, end: endDrag } = useDrag({ columns });
 
-  const rowMouseDown = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
+  const rowPointerDown = useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
       if (selection.state === 'selecting') return;
 
       if (event.button !== 0) return;
 
-      const cell = cellFromMouseEvent(event);
+      const cell = cellFromPointerEvent(event);
       startSelection(cell);
 
-      const mouseUp = () => {
+      const pointerUp = () => {
         endSelection();
-        window.removeEventListener('mouseup', mouseUp);
+        window.removeEventListener('pointerup', pointerUp);
       };
 
-      window.addEventListener('mouseup', mouseUp);
+      window.addEventListener('pointerup', pointerUp);
     },
-    [selection, cellFromMouseEvent, startSelection, endSelection]
+    [selection, cellFromPointerEvent, startSelection, endSelection]
   );
 
-  const rowMouseMove = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
-      const cell = cellFromMouseEvent(event);
+  const rowPointerMove = useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
+      const cell = cellFromPointerEvent(event);
 
       if (resizing.state === 'resizing') {
         moveResize(cell);
@@ -128,40 +131,69 @@ export const useTimetable = (
         moveSelection(cell);
       }
     },
-    [resizing, dragging, selection, cellFromMouseEvent, moveResize, moveDrag, moveSelection]
+    [resizing, dragging, selection, cellFromPointerEvent, moveResize, moveDrag, moveSelection]
   );
 
   const laidOutSessions = useLaidOutSessions(sessions, { rows, dateTimeToCell });
 
-  const resizeMouseDown = useCallback(
-    (laidOutSession: LaidOutSession, e: React.MouseEvent<HTMLDivElement>) => {
-      const cell = cellFromMouseEvent(e);
+  const resizePointerDown = useCallback(
+    (laidOutSession: LaidOutSession, e: React.PointerEvent<HTMLDivElement>) => {
+      const cell = cellFromPointerEvent(e);
       startResize(laidOutSession, cell);
-      const mouseUp = () => {
+      const pointerUp = () => {
         endResize();
-        window.removeEventListener('mouseup', mouseUp);
+        window.removeEventListener('pointerup', pointerUp);
       };
 
-      window.addEventListener('mouseup', mouseUp);
+      window.addEventListener('pointerup', pointerUp);
       e.stopPropagation();
     },
-    [cellFromMouseEvent, startResize, endResize]
+    [cellFromPointerEvent, startResize, endResize]
   );
 
-  const dragMouseDown = useCallback(
-    (laidOutSession: LaidOutSession, e: React.MouseEvent<HTMLDivElement>) => {
-      const cell = cellFromMouseEvent(e);
+  const dragPointerDown = useCallback(
+    (laidOutSession: LaidOutSession, e: React.PointerEvent<HTMLDivElement>) => {
+      const cell = cellFromPointerEvent(e);
+
+      const dragEnabled = getComputedStyle(e.currentTarget).getPropertyValue('--drag-enabled');
+
+      if (dragEnabled === 'false') return;
+
       startDrag(laidOutSession, cell);
-      const mouseUp = () => {
+      const pointerUp = () => {
         endDrag();
-        window.removeEventListener('mouseup', mouseUp);
+        window.removeEventListener('pointerup', pointerUp);
       };
 
-      window.addEventListener('mouseup', mouseUp);
+      window.addEventListener('pointerup', pointerUp);
       e.stopPropagation();
     },
-    [cellFromMouseEvent, startDrag, endDrag]
+    [cellFromPointerEvent, startDrag, endDrag]
   );
+
+  useEffect(() => {
+    if (selection.state !== 'selected') return;
+
+    const startsAt = cellToDateTime(selection.rect.start);
+    const endsAt = cellToDateTime({ ...selection.rect.end, column: selection.rect.end.column + 1 });
+
+    console.log(
+      startsAt.toLocaleString(DateTime.DATETIME_MED),
+      endsAt.toLocaleString(DateTime.DATETIME_MED)
+    );
+
+    const session: Session = {
+      id: '',
+      startsAt,
+      endsAt,
+      venue: null,
+      activity: null,
+      activityType: ActivityType.Workshop,
+      capacity: 16,
+    };
+
+    onSelect(session);
+  }, [selection, onSelect]);
 
   return {
     startsAt,
@@ -174,12 +206,12 @@ export const useTimetable = (
     dateTimeToCell,
     topLeft,
     firstColumn,
-    rowMouseDown,
-    rowMouseMove,
-    resizeMouseDown,
-    dragMouseDown,
+    rowPointerDown,
+    rowPointerMove,
+    startResize: resizePointerDown,
+    startDrag: dragPointerDown,
     resizing: resizing.state === 'resizing' ? resizing.laidOutSession.session : null,
-    dragging: dragging.state === 'dragging' ? dragging : null,
+    dragging: dragging.state === 'dragging' && dragging.moved ? dragging : null,
     selection:
       selection.state === 'idle' || (selection.state === 'selecting' && !selection.moved)
         ? null

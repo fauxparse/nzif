@@ -1,13 +1,17 @@
 import { Box } from '@mantine/core';
+import { LayoutGroup } from 'framer-motion';
 import { ResultOf } from 'gql.tada';
 import { range } from 'lodash-es';
 import { DateTime } from 'luxon';
+import { BaseBlock, Block } from './Block';
 import { TimetableQuery } from './queries';
+import { LaidOutSession, Session } from './types';
 import { useTimetable } from './useTimetable';
 
-import { BaseBlock, Block } from './Block';
+import { useDisclosure } from '@mantine/hooks';
+import { useCallback, useState } from 'react';
+import { SessionModal } from './SessionModal';
 import './TimetableEditor.css';
-import { LaidOutSession } from './types';
 
 type TimetableEditorProps = {
   loading?: boolean;
@@ -15,6 +19,14 @@ type TimetableEditorProps = {
 };
 
 export const TimetableEditor: React.FC<TimetableEditorProps> = ({ data }) => {
+  const [editing, setEditing] = useState<Session | null>(null);
+  const [opened, { open, close }] = useDisclosure(false);
+
+  const editSession = useCallback((session: Session) => {
+    setEditing(session);
+    setTimeout(open, 100);
+  }, []);
+
   const {
     startsAt,
     startHour,
@@ -24,15 +36,17 @@ export const TimetableEditor: React.FC<TimetableEditorProps> = ({ data }) => {
     columns,
     topLeft,
     firstColumn,
-    rowMouseDown,
-    rowMouseMove,
-    resizeMouseDown,
-    dragMouseDown,
+    rowPointerDown,
+    rowPointerMove,
+    startResize,
+    startDrag,
     selection,
     sessions,
     resizing,
     dragging,
-  } = useTimetable(data);
+  } = useTimetable(data, {
+    onSelect: editSession,
+  });
 
   return (
     <Box
@@ -69,26 +83,30 @@ export const TimetableEditor: React.FC<TimetableEditorProps> = ({ data }) => {
               className="grid__row"
               key={row}
               style={{ gridRow: row + 2 }}
-              __vars={{ '--tracks': String(tracks) }}
+              __vars={{ '--tracks': String(tracks), '--sessions': String(day.length) }}
               data-row={row}
-              onMouseDown={rowMouseDown}
-              onMouseMove={rowMouseMove}
+              onPointerDown={rowPointerDown}
+              onPointerMove={rowPointerMove}
             >
               <Box className="grid__row-header">
                 <TimetableDate date={startsAt.plus({ days: row })} />
               </Box>
-              {day.map(({ session, track, rect }) => (
-                <Block
-                  key={session.id}
-                  session={session}
-                  track={track}
-                  rect={rect}
-                  resizing={resizing?.id === session.id}
-                  dragging={!!dragging && dragging.laidOutSession.session.id === session.id}
-                  onStartResize={resizeMouseDown}
-                  onStartDrag={dragMouseDown}
-                />
-              ))}
+              <LayoutGroup>
+                {day.map(({ session, track, rect }) => (
+                  <Block
+                    key={session.id}
+                    session={session}
+                    track={track}
+                    rect={rect}
+                    resizing={resizing?.id === session.id}
+                    dragging={!!dragging && dragging.laidOutSession.session.id === session.id}
+                    animate={!dragging && !resizing}
+                    onStartResize={startResize}
+                    onStartDrag={startDrag}
+                    onClick={editSession}
+                  />
+                ))}
+              </LayoutGroup>
             </Box>
           );
         })}
@@ -108,16 +126,26 @@ export const TimetableEditor: React.FC<TimetableEditorProps> = ({ data }) => {
             session={dragging.laidOutSession.session}
             rect={dragging.rect}
             style={{ gridRow: dragging.rect.start.row + 2 }}
+            animate={false}
             data-ghost
           />
         )}
       </Box>
+      {editing && (
+        <SessionModal
+          session={editing}
+          venues={data?.festival?.venues || []}
+          opened={opened}
+          onClose={close}
+        />
+      )}
     </Box>
   );
 };
 
 const TimetableDate = ({ date }: { date: DateTime }) => (
   <span className="date">
+    <span className="weekday--short">{date.toFormat('ccc')}</span>
     <span className="weekday">{date.toFormat('cccc')}</span>
     <span className="day">{date.toFormat('d')}</span>
   </span>
