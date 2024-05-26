@@ -2,9 +2,12 @@ import RouteTransition from '@/components/helpers/RouteTransition';
 import Navigation from '@/components/organisms/Navigation';
 import { useTitle } from '@/hooks/useRoutesWithTitles';
 import { createFileRoute, redirect } from '@tanstack/react-router';
+import { isEmpty } from 'lodash-es';
 import { Helmet } from 'react-helmet-async';
 
-import { isEmpty } from 'lodash-es';
+import { Permission } from '@/graphql/types';
+import { hasPermission, useAuthentication } from '@/services/Authentication';
+import { PropsWithChildren, useMemo } from 'react';
 import './_admin.css';
 
 export const Route = createFileRoute('/admin')({
@@ -39,3 +42,18 @@ export const Route = createFileRoute('/admin')({
   },
   notFoundComponent: () => <h1>not found</h1>,
 });
+
+export const RequirePermission: React.FC<PropsWithChildren<{ permission: Permission }>> = ({
+  permission,
+  children,
+}) => {
+  const { user } = useAuthentication();
+
+  const cleared = useMemo(() => hasPermission(permission, user), [permission, user]);
+
+  if (!cleared) {
+    return <div>Not allowed</div>;
+  }
+
+  return <>{children}</>;
+};

@@ -105,7 +105,7 @@
   --yellow-7: hsl(46 70% 65%);
   --yellow-8: hsl(45 65% 53%);
   --yellow-9: hsl(53 100% 58%);
-  --yellow-10: hsl(52 100% 50%);
+  --yellow-10: hsl(52 100% 40%);
   --yellow-11: hsl(41 100% 31%);
   --yellow-12: hsl(42 39% 20%);
   --yellow-inverse: var(--yellow-1);
@@ -118,7 +118,7 @@
   --yellow-alpha-7: hsl(46 100% 41% / 0.6);
   --yellow-alpha-8: hsl(45 100% 39% / 0.78);
   --yellow-alpha-9: hsl(53 100% 50% / 0.84);
-  --yellow-alpha-10: hsl(52 100% 50%);
+  --yellow-alpha-10: hsl(52 100% 40%);
   --yellow-alpha-11: hsl(41 100% 31%);
   --yellow-alpha-12: hsl(42 100% 9% / 0.88);
   --yellow-inverse-subtle: var(--yellow-2);
@@ -392,7 +392,7 @@ body,
   --colored-text-default: var(--yellow-alpha-11);
   --colored-text-inverse: var(--yellow-inverse);
   --colored-text-link: var(--yellow-alpha-11);
-  --colored-text-subtle: var(--yellow-alpha-9);
+  --colored-text-subtle: var(--yellow-alpha-10);
   --pure: var(--yellow-9);
   --focus-ring: var(--focus-yellow);
   --border-element: var(--yellow-7);

@@ -1,0 +1,209 @@
+.timetable-editor {
+  --granularity: 4;
+  --columns: calc((var(--endHour, 25) - var(--startHour, 9)) * var(--granularity));
+  --column-width: 1.5rem;
+  --column-header-height: 4rem;
+  --row-height: 4rem;
+  --top: calc(var(--navigation-height) - 1rem);
+  --column-group-width: calc(var(--column-width) * var(--granularity));
+  --row-header-width: calc(var(--column-group-width) * 2);
+
+  --z-block: 0;
+  --z-selection: 1;
+  --z-row-header: 2;
+  --z-column-header: 3;
+  --z-top-left: 4;
+
+  display: grid;
+  flex: 1;
+  padding-top: var(--top);
+
+  .grid {
+    display: grid;
+    grid-template-rows: var(--column-header-height) repeat(var(--rows), auto);
+    grid-template-columns: var(--row-header-width) repeat(var(--columns), var(--column-width)) 1fr;
+    align-self: start;
+    background: repeating-linear-gradient(to bottom, transparent 0, transparent 0.25rem, var(--background-app) 0, var(--background-app) 0.5rem), linear-gradient(to right, var(--border-subtle) 0, var(--border-subtle) 1px, transparent 0);
+    background-position: 0 0, calc(var(--row-header-width) - 1px) 0;
+    background-size: var(--column-group-width) 100%;
+    background-repeat: repeat-x;
+    user-select: none;
+
+    &__columns {
+      position: sticky;
+      top: var(--top);
+      z-index: var(--z-column-header);
+      display: grid;
+      grid-template-columns: subgrid;
+      grid-column: 1 / -1;
+      min-height: var(--column-header-height);
+      border-bottom: 1px solid var(--border-element);
+      background: var(--background-app);
+
+      :has([data-meridiem]) + :has([data-meridiem]) {
+        .meridiem {
+          display: none;
+        }
+      }
+
+      :has([data-meridiem="AM"]) + :has([data-meridiem="PM"]) {
+        .meridiem {
+          display: inline;
+        }
+      }
+    }
+
+    &__column-header {
+      display: grid;
+      justify-content: start;
+      align-items: end;
+      padding: var(--spacing-tiny);
+
+      &:first-of-type {
+        z-index: var(--z-top-left);
+        padding: 0;
+        background: var(--background-app);
+      }
+    }
+
+    &__row {
+      display: grid;
+      grid-template-rows: repeat(var(--tracks, 1), var(--row-height)) 0.5rem;
+      grid-template-columns: subgrid;
+      grid-column: 1 / -1;
+      min-height: var(--row-height);
+      border-bottom: 1px solid var(--border-subtle);
+      cursor: cell;
+
+      &-header {
+        position: sticky;
+        left: 0;
+        z-index: var(--z-row-header);
+        display: flex;
+        grid-row: 1 / -1;
+        justify-content: end;
+        align-items: start;
+        padding: var(--spacing-tiny);
+        border-right: 1px solid var(--border-element);
+        background: var(--background-app);
+        color: var(--text-subtle);
+        cursor: default;
+
+        .date {
+          display: flex;
+          gap: var(--spacing-tiny);
+          justify-content: end;
+          align-items: center;
+          margin-inline: var(--spacing-small);
+          line-height: 1;
+        }
+
+        .weekday {
+          font-weight: var(--font-weight-medium);
+          font-size: var(--font-size-large);
+          text-transform: uppercase;
+        }
+
+        .day {
+          width: 2em;
+          color: var(--text-subtle);
+          font-weight: var(--font-weight-bold);
+          font-size: 3rem;
+          text-align: right;
+          opacity: 0.25;
+          margin-inline-start: -1.75em;
+        }
+      }
+    }
+
+    &[data-dragging] .grid__row {
+      cursor: grabbing;
+    }
+
+    &__selection {
+      z-index: var(--z-selection);
+      margin: 1px 2px 2px 1px;
+      border-radius: var(--radius-small);
+      background: var(--focus-ring);
+      pointer-events: none;
+    }
+  }
+
+  &__session {
+    position: relative;
+    z-index: var(--z-block);
+    grid-row: 1 / -1;
+    cursor: grab;
+    pointer-events: auto;
+
+    &[data-resizing] {
+      z-index: var(--z-selection);
+      cursor: ew-resize;
+    }
+
+    &[data-dragging] {
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    &[data-ghost] {
+      z-index: var(--z-selection);
+      cursor: grabbing;
+      pointer-events: none;
+
+      .timetable-editor__session__content {
+        box-shadow: var(--shadow-large);
+      }
+    }
+
+    &__content {
+      position: absolute;
+      inset: 1px 2px 2px 1px;
+      padding: var(--spacing-tiny);
+      border: var(--border-thin) solid var(--border-element);
+      border-radius: var(--radius-small);
+      background: var(--background-light);
+      color: var(--colored-text-default);
+      font-size: var(--font-size-small);
+
+      p {
+        overflow: hidden;
+        margin: 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        ~ p {
+          color: var(--colored-text-subtle);
+          font-size: var(--font-size-tiny);
+          line-height: var(--line-height-tiny);
+        }
+      }
+    }
+
+    &__edge {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: var(--spacing-small);
+      cursor: ew-resize;
+
+      &:last-child {
+        right: 0;
+        left: auto;
+      }
+    }
+  }
+}
+
+body:has(.timetable-editor) {
+  overflow-x: unset;
+
+  .layout__navigation {
+    position: fixed;
+    right: 0;
+    left: 0;
+    grid-template-columns: [full-bleed-start] var(--gutter-width) [main-start] min(var(--max-width), calc(100vw - var(--gutter-width) * 2)) [main-end] var(--gutter-width) [full-bleed-end];
+    width: 100vw;
+  }
+}
