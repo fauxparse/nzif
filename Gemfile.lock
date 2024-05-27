@@ -639,6 +639,7 @@ DEPENDENCIES
   jbuilder
   letter_opener
   mailsafe
+  matrix
   money (~> 6.16)
   money-rails (~> 1.12)
   pg (~> 1.1)
