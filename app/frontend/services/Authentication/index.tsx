@@ -27,6 +27,7 @@ const AuthenticatedUserFragment = graphql(
       name
 
       picture {
+        id
         small
       }
     }

@@ -15,6 +15,6 @@ const Component: React.FC = () => {
   );
 };
 
-export const Route = createFileRoute('/admin/activities/timetable')({
+export const Route = createFileRoute('/admin/timetable')({
   component: Component,
 });
