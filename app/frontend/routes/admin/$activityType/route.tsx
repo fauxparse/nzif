@@ -3,7 +3,7 @@ import NotFound from '@/components/pages/NotFound';
 import { getActivityTypeLabelFromPlural, isPluralActivityType } from '@/constants/activityTypes';
 import { createFileRoute, notFound } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/_public/$activityType')({
+export const Route = createFileRoute('/admin/$activityType')({
   beforeLoad: ({ params }) => {
     const { activityType } = params;
 

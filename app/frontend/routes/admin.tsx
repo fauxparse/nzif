@@ -1,13 +1,13 @@
 import RouteTransition from '@/components/helpers/RouteTransition';
 import Navigation from '@/components/organisms/Navigation';
+import { Permission } from '@/graphql/types';
 import { useTitle } from '@/hooks/useRoutesWithTitles';
+import { hasPermission, useAuthentication } from '@/services/Authentication';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { isEmpty } from 'lodash-es';
+import { PropsWithChildren, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-import { Permission } from '@/graphql/types';
-import { hasPermission, useAuthentication } from '@/services/Authentication';
-import { PropsWithChildren, useMemo } from 'react';
 import './_admin.css';
 
 export const Route = createFileRoute('/admin')({

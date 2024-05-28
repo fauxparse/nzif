@@ -17,11 +17,13 @@ import { Route as PublicImport } from './routes/_public'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as AdminIndexImport } from './routes/admin/index'
 import { Route as PublicIndexImport } from './routes/_public.index'
+import { Route as AdminTimetableImport } from './routes/admin/timetable'
 import { Route as PublicAuthenticatedImport } from './routes/_public/_authenticated'
 import { Route as AuthSignupImport } from './routes/_auth/signup'
 import { Route as AuthLoginImport } from './routes/_auth/login'
+import { Route as AdminActivityTypeRouteImport } from './routes/admin/$activityType/route'
 import { Route as PublicActivityTypeRouteImport } from './routes/_public/$activityType/route'
-import { Route as AdminActivitiesTimetableImport } from './routes/admin/activities/timetable'
+import { Route as AdminActivityTypeSlugImport } from './routes/admin/$activityType/$slug'
 import { Route as PublicAboutSlugImport } from './routes/_public/about.$slug'
 import { Route as PublicAuthenticatedProfileImport } from './routes/_public/_authenticated/profile'
 import { Route as PublicActivityTypeListImport } from './routes/_public/$activityType/_list'
@@ -60,6 +62,11 @@ const PublicIndexRoute = PublicIndexImport.update({
   getParentRoute: () => PublicRoute,
 } as any)
 
+const AdminTimetableRoute = AdminTimetableImport.update({
+  path: '/timetable',
+  getParentRoute: () => AdminRoute,
+} as any)
+
 const PublicAuthenticatedRoute = PublicAuthenticatedImport.update({
   id: '/_authenticated',
   getParentRoute: () => PublicRoute,
@@ -75,14 +82,19 @@ const AuthLoginRoute = AuthLoginImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
+const AdminActivityTypeRouteRoute = AdminActivityTypeRouteImport.update({
+  path: '/$activityType',
+  getParentRoute: () => AdminRoute,
+} as any)
+
 const PublicActivityTypeRouteRoute = PublicActivityTypeRouteImport.update({
   path: '/$activityType',
   getParentRoute: () => PublicRoute,
 } as any)
 
-const AdminActivitiesTimetableRoute = AdminActivitiesTimetableImport.update({
-  path: '/activities/timetable',
-  getParentRoute: () => AdminRoute,
+const AdminActivityTypeSlugRoute = AdminActivityTypeSlugImport.update({
+  path: '/$slug',
+  getParentRoute: () => AdminActivityTypeRouteRoute,
 } as any)
 
 const PublicAboutSlugRoute = PublicAboutSlugImport.update({
@@ -137,6 +149,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicActivityTypeRouteImport
       parentRoute: typeof PublicImport
     }
+    '/admin/$activityType': {
+      preLoaderRoute: typeof AdminActivityTypeRouteImport
+      parentRoute: typeof AdminImport
+    }
     '/_auth/login': {
       preLoaderRoute: typeof AuthLoginImport
       parentRoute: typeof AuthImport
@@ -148,6 +164,10 @@ declare module '@tanstack/react-router' {
     '/_public/_authenticated': {
       preLoaderRoute: typeof PublicAuthenticatedImport
       parentRoute: typeof PublicImport
+    }
+    '/admin/timetable': {
+      preLoaderRoute: typeof AdminTimetableImport
+      parentRoute: typeof AdminImport
     }
     '/_public/': {
       preLoaderRoute: typeof PublicIndexImport
@@ -173,9 +193,9 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicAboutSlugImport
       parentRoute: typeof PublicImport
     }
-    '/admin/activities/timetable': {
-      preLoaderRoute: typeof AdminActivitiesTimetableImport
-      parentRoute: typeof AdminImport
+    '/admin/$activityType/$slug': {
+      preLoaderRoute: typeof AdminActivityTypeSlugImport
+      parentRoute: typeof AdminActivityTypeRouteImport
     }
     '/_public/$activityType/_list/': {
       preLoaderRoute: typeof PublicActivityTypeListIndexImport
@@ -199,7 +219,11 @@ export const routeTree = rootRoute.addChildren([
     PublicIndexRoute,
     PublicAboutSlugRoute,
   ]),
-  AdminRoute.addChildren([AdminIndexRoute, AdminActivitiesTimetableRoute]),
+  AdminRoute.addChildren([
+    AdminActivityTypeRouteRoute.addChildren([AdminActivityTypeSlugRoute]),
+    AdminTimetableRoute,
+    AdminIndexRoute,
+  ]),
   LogoutRoute,
 ])
 
