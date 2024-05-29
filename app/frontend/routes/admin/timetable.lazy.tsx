@@ -3,7 +3,7 @@ import { TimetableQuery } from '@/components/organisms/TimetableEditor/queries';
 import { Permission } from '@/graphql/types';
 import { RequirePermission } from '@/routes/admin';
 import { useQuery } from '@apollo/client';
-import { createFileRoute } from '@tanstack/react-router';
+import { createLazyFileRoute } from '@tanstack/react-router';
 
 const Component: React.FC = () => {
   const { loading, data } = useQuery(TimetableQuery);
@@ -15,6 +15,6 @@ const Component: React.FC = () => {
   );
 };
 
-export const Route = createFileRoute('/admin/timetable')({
+export const Route = createLazyFileRoute('/admin/timetable')({
   component: Component,
 });

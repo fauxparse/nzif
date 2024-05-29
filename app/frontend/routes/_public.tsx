@@ -5,7 +5,7 @@ import { useTitle } from '@/hooks/useRoutesWithTitles';
 import { createFileRoute } from '@tanstack/react-router';
 import { Helmet } from 'react-helmet-async';
 
-import './_public.css';
+import '@/styles/new/public.css';
 
 export const Route = createFileRoute('/_public')({
   component: () => {

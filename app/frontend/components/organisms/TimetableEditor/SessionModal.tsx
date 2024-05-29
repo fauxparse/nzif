@@ -136,6 +136,7 @@ export const SessionModal: React.FC<SessionModalProps> = ({
               <ActivityPicker
                 value={field.state.value}
                 activityType={session.activityType}
+                startsAt={session.startsAt}
                 onDetailsClick={console.log}
                 onAddActivity={console.log}
                 onChange={field.handleChange}
