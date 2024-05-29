@@ -1,15 +1,18 @@
-import { getActivityColor } from '@/constants/activityTypes';
+import { getActivityColor, getPluralFromActivityType } from '@/constants/activityTypes';
 import { ActivityType } from '@/graphql/types';
 import { ActivityIcon } from '@/icons/ActivityIcon';
 import PlusIcon from '@/icons/PlusIcon';
 import { useLazyQuery } from '@apollo/client';
 import { Box, Button, Combobox, Group, Text, TextInput, useCombobox } from '@mantine/core';
+import { Link } from '@tanstack/react-router';
+import { DateTime } from 'luxon';
 import { useEffect, useRef, useState } from 'react';
 import { ActivitySearchQuery } from './queries';
 import { Activity } from './types';
 
 type ActivityPickerProps = {
   value: Activity | null;
+  startsAt?: DateTime;
   activityType: ActivityType;
   onDetailsClick: (activity: Activity) => void;
   onAddActivity: (activity: Activity) => void;
@@ -19,6 +22,7 @@ type ActivityPickerProps = {
 export const ActivityPicker: React.FC<ActivityPickerProps> = ({
   value,
   activityType,
+  startsAt,
   onDetailsClick,
   onAddActivity,
   onChange,
@@ -102,6 +106,10 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
             <ActivityIcon activityType={value.type} />
             <Text className="activity-picker__value__name">{value.name}</Text>
             <Button
+              component={Link}
+              to="/admin/$activityType/$slug"
+              params={{ activityType: getPluralFromActivityType(value.type), slug: value.slug }}
+              search={startsAt ? { session: startsAt.toISODate() } : {}}
               type="button"
               variant="filled"
               size="sm"

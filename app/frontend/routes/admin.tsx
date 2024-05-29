@@ -8,7 +8,7 @@ import { isEmpty } from 'lodash-es';
 import { PropsWithChildren, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-import './_admin.css';
+import '@/styles/new/admin.css';
 
 export const Route = createFileRoute('/admin')({
   component: () => {
