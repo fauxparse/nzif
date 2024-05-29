@@ -143,78 +143,135 @@ const PublicActivityTypeListIndexRoute =
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: ''
       preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
     }
     '/_public': {
+      id: '/_public'
+      path: ''
+      fullPath: ''
       preLoaderRoute: typeof PublicImport
       parentRoute: typeof rootRoute
     }
     '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
       preLoaderRoute: typeof AdminImport
       parentRoute: typeof rootRoute
     }
     '/logout': {
+      id: '/logout'
+      path: '/logout'
+      fullPath: '/logout'
       preLoaderRoute: typeof LogoutImport
       parentRoute: typeof rootRoute
     }
     '/_public/$activityType': {
+      id: '/_public/$activityType'
+      path: '/$activityType'
+      fullPath: '/$activityType'
       preLoaderRoute: typeof PublicActivityTypeRouteImport
       parentRoute: typeof PublicImport
     }
     '/admin/$activityType': {
+      id: '/admin/$activityType'
+      path: '/$activityType'
+      fullPath: '/admin/$activityType'
       preLoaderRoute: typeof AdminActivityTypeRouteImport
       parentRoute: typeof AdminImport
     }
     '/_auth/login': {
+      id: '/_auth/login'
+      path: '/login'
+      fullPath: '/login'
       preLoaderRoute: typeof AuthLoginImport
       parentRoute: typeof AuthImport
     }
     '/_auth/signup': {
+      id: '/_auth/signup'
+      path: '/signup'
+      fullPath: '/signup'
       preLoaderRoute: typeof AuthSignupImport
       parentRoute: typeof AuthImport
     }
     '/_public/_authenticated': {
+      id: '/_public/_authenticated'
+      path: ''
+      fullPath: ''
       preLoaderRoute: typeof PublicAuthenticatedImport
       parentRoute: typeof PublicImport
     }
     '/admin/timetable': {
+      id: '/admin/timetable'
+      path: '/timetable'
+      fullPath: '/admin/timetable'
       preLoaderRoute: typeof AdminTimetableLazyImport
       parentRoute: typeof AdminImport
     }
     '/_public/': {
+      id: '/_public/'
+      path: '/'
+      fullPath: '/'
       preLoaderRoute: typeof PublicIndexImport
       parentRoute: typeof PublicImport
     }
     '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexImport
       parentRoute: typeof AdminImport
     }
     '/_public/$activityType/$slug': {
+      id: '/_public/$activityType/$slug'
+      path: '/$slug'
+      fullPath: '/$activityType/$slug'
       preLoaderRoute: typeof PublicActivityTypeSlugImport
       parentRoute: typeof PublicActivityTypeRouteImport
     }
     '/_public/$activityType/_list': {
+      id: '/_public/$activityType/_list'
+      path: ''
+      fullPath: '/$activityType'
       preLoaderRoute: typeof PublicActivityTypeListImport
       parentRoute: typeof PublicActivityTypeRouteImport
     }
     '/_public/_authenticated/profile': {
+      id: '/_public/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
       preLoaderRoute: typeof PublicAuthenticatedProfileImport
       parentRoute: typeof PublicAuthenticatedImport
     }
     '/_public/about/$slug': {
+      id: '/_public/about/$slug'
+      path: '/about/$slug'
+      fullPath: '/about/$slug'
       preLoaderRoute: typeof PublicAboutSlugImport
       parentRoute: typeof PublicImport
     }
     '/admin/$activityType/$slug': {
+      id: '/admin/$activityType/$slug'
+      path: '/$slug'
+      fullPath: '/admin/$activityType/$slug'
       preLoaderRoute: typeof AdminActivityTypeSlugImport
       parentRoute: typeof AdminActivityTypeRouteImport
     }
     '/admin/$activityType/': {
+      id: '/admin/$activityType/'
+      path: '/'
+      fullPath: '/admin/$activityType/'
       preLoaderRoute: typeof AdminActivityTypeIndexImport
       parentRoute: typeof AdminActivityTypeRouteImport
     }
     '/_public/$activityType/_list/': {
+      id: '/_public/$activityType/_list/'
+      path: '/'
+      fullPath: '/$activityType/'
       preLoaderRoute: typeof PublicActivityTypeListIndexImport
       parentRoute: typeof PublicActivityTypeListImport
     }
@@ -223,28 +280,147 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren([
-  AuthRoute.addChildren([AuthLoginRoute, AuthSignupRoute]),
-  PublicRoute.addChildren([
-    PublicActivityTypeRouteRoute.addChildren([
+export const routeTree = rootRoute.addChildren({
+  AuthRoute: AuthRoute.addChildren({ AuthLoginRoute, AuthSignupRoute }),
+  PublicRoute: PublicRoute.addChildren({
+    PublicActivityTypeRouteRoute: PublicActivityTypeRouteRoute.addChildren({
       PublicActivityTypeSlugRoute,
-      PublicActivityTypeListRoute.addChildren([
+      PublicActivityTypeListRoute: PublicActivityTypeListRoute.addChildren({
         PublicActivityTypeListIndexRoute,
-      ]),
-    ]),
-    PublicAuthenticatedRoute.addChildren([PublicAuthenticatedProfileRoute]),
+      }),
+    }),
+    PublicAuthenticatedRoute: PublicAuthenticatedRoute.addChildren({
+      PublicAuthenticatedProfileRoute,
+    }),
     PublicIndexRoute,
     PublicAboutSlugRoute,
-  ]),
-  AdminRoute.addChildren([
-    AdminActivityTypeRouteRoute.addChildren([
+  }),
+  AdminRoute: AdminRoute.addChildren({
+    AdminActivityTypeRouteRoute: AdminActivityTypeRouteRoute.addChildren({
       AdminActivityTypeSlugRoute,
       AdminActivityTypeIndexRoute,
-    ]),
+    }),
     AdminTimetableLazyRoute,
     AdminIndexRoute,
-  ]),
+  }),
   LogoutRoute,
-])
+})
 
 /* prettier-ignore-end */
+
+/* ROUTE_MANIFEST_START
+{
+  "routes": {
+    "__root__": {
+      "filePath": "__root.tsx",
+      "children": [
+        "/_auth",
+        "/_public",
+        "/admin",
+        "/logout"
+      ]
+    },
+    "/_auth": {
+      "filePath": "_auth.tsx",
+      "children": [
+        "/_auth/login",
+        "/_auth/signup"
+      ]
+    },
+    "/_public": {
+      "filePath": "_public.tsx",
+      "children": [
+        "/_public/$activityType",
+        "/_public/_authenticated",
+        "/_public/",
+        "/_public/about/$slug"
+      ]
+    },
+    "/admin": {
+      "filePath": "admin.tsx",
+      "children": [
+        "/admin/$activityType",
+        "/admin/timetable",
+        "/admin/"
+      ]
+    },
+    "/logout": {
+      "filePath": "logout.tsx"
+    },
+    "/_public/$activityType": {
+      "filePath": "_public/$activityType/route.tsx",
+      "parent": "/_public",
+      "children": [
+        "/_public/$activityType/$slug",
+        "/_public/$activityType/_list"
+      ]
+    },
+    "/admin/$activityType": {
+      "filePath": "admin/$activityType/route.tsx",
+      "parent": "/admin",
+      "children": [
+        "/admin/$activityType/$slug",
+        "/admin/$activityType/"
+      ]
+    },
+    "/_auth/login": {
+      "filePath": "_auth/login.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/signup": {
+      "filePath": "_auth/signup.tsx",
+      "parent": "/_auth"
+    },
+    "/_public/_authenticated": {
+      "filePath": "_public/_authenticated.tsx",
+      "parent": "/_public",
+      "children": [
+        "/_public/_authenticated/profile"
+      ]
+    },
+    "/admin/timetable": {
+      "filePath": "admin/timetable.lazy.tsx",
+      "parent": "/admin"
+    },
+    "/_public/": {
+      "filePath": "_public.index.tsx",
+      "parent": "/_public"
+    },
+    "/admin/": {
+      "filePath": "admin/index.tsx",
+      "parent": "/admin"
+    },
+    "/_public/$activityType/$slug": {
+      "filePath": "_public/$activityType/$slug.tsx",
+      "parent": "/_public/$activityType"
+    },
+    "/_public/$activityType/_list": {
+      "filePath": "_public/$activityType/_list.tsx",
+      "parent": "/_public/$activityType",
+      "children": [
+        "/_public/$activityType/_list/"
+      ]
+    },
+    "/_public/_authenticated/profile": {
+      "filePath": "_public/_authenticated/profile.tsx",
+      "parent": "/_public/_authenticated"
+    },
+    "/_public/about/$slug": {
+      "filePath": "_public/about.$slug.tsx",
+      "parent": "/_public"
+    },
+    "/admin/$activityType/$slug": {
+      "filePath": "admin/$activityType/$slug.tsx",
+      "parent": "/admin/$activityType"
+    },
+    "/admin/$activityType/": {
+      "filePath": "admin/$activityType/index.tsx",
+      "parent": "/admin/$activityType"
+    },
+    "/_public/$activityType/_list/": {
+      "filePath": "_public/$activityType/_list.index.tsx",
+      "parent": "/_public/$activityType/_list"
+    }
+  }
+}
+ROUTE_MANIFEST_END */
