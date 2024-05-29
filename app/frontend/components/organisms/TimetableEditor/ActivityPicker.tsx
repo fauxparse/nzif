@@ -14,7 +14,6 @@ type ActivityPickerProps = {
   value: Activity | null;
   startsAt?: DateTime;
   activityType: ActivityType;
-  onDetailsClick: (activity: Activity) => void;
   onAddActivity: (type: ActivityType, attributes: Partial<ActivityAttributes>) => Promise<Activity>;
   onChange: (value: Activity | null) => void;
 };
@@ -23,7 +22,6 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
   value,
   activityType,
   startsAt,
-  onDetailsClick,
   onAddActivity,
   onChange,
 }) => {
@@ -85,17 +83,21 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
         .then(onChange)
         .finally(() => {
           setBusy(false);
-          setQuery('');
         });
     } else {
       onChange(options.find((activity) => activity.id === id) || null);
     }
+    setQuery('');
   };
 
   const handleValueRemove = () => {
     setQuery('');
     onChange(null);
   };
+
+  useEffect(() => {
+    if (!query) setOptions([]);
+  }, [query]);
 
   return (
     <Combobox
@@ -114,16 +116,15 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
               params={{ activityType: value.type, slug: value.slug }}
               search={startsAt ? { session: startsAt.toISODate() } : {}}
               type="button"
-              variant="filled"
+              variant="outline"
               size="sm"
               data-color={activityColor(value.type)}
-              onClick={() => onDetailsClick(value)}
             >
               Details
             </Button>
             <Button
               type="button"
-              variant="filled"
+              variant="outline"
               size="sm"
               data-color={activityColor(value.type)}
               onClick={handleValueRemove}
@@ -133,6 +134,8 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
           </Box>
         ) : (
           <TextInput
+            autoFocus
+            data-autofocus
             size="md"
             className="activity-picker__input"
             value={query}

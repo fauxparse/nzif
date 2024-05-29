@@ -1,16 +1,23 @@
 import { Modal, ModalProps } from '@/components/molecules/Modal';
-import { ActivityAttributes, ActivityType, MultipleSessionAttributes } from '@/graphql/types';
+import {
+  ActivityAttributes,
+  ActivityType,
+  MultipleSessionAttributes,
+  SessionAttributes,
+} from '@/graphql/types';
 import useFestival from '@/hooks/useFestival';
 import CalendarIcon from '@/icons/CalendarIcon';
 import ClockIcon from '@/icons/ClockIcon';
 import LocationIcon from '@/icons/LocationIcon';
 import UsersIcon from '@/icons/UsersIcon';
+import { FetchResult } from '@apollo/client';
 import {
   Alert,
   Box,
   Button,
   Checkbox,
   Collapse,
+  Group,
   NumberInput,
   SegmentedControl,
   Select,
@@ -18,16 +25,16 @@ import {
 } from '@mantine/core';
 import { DatePickerInput, TimeInput } from '@mantine/dates';
 import { createFormFactory } from '@tanstack/react-form';
-import { DateTime } from 'luxon';
-import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityPicker } from './ActivityPicker';
-import { Activity, Session } from './types';
-
-import { FetchResult } from '@apollo/client';
 import { ResultOf } from 'gql.tada';
 import { range } from 'lodash-es';
+import { DateTime } from 'luxon';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useConfirmation } from '../ConfirmationModal';
+import { ActivityPicker } from './ActivityPicker';
+import { CreateSessionsMutation, DestroySessionMutation, UpdateSessionMutation } from './queries';
+import { Activity, Session } from './types';
+
 import './SessionModal.css';
-import { CreateSessionsMutation } from './queries';
 
 type SessionModalProps = ModalProps & {
   session: Session;
@@ -39,6 +46,13 @@ type SessionModalProps = ModalProps & {
     type: ActivityType,
     attributes: Partial<ActivityAttributes>
   ) => Promise<Activity>;
+  onUpdateSession: (
+    id: Session['id'],
+    attributes: Partial<SessionAttributes>
+  ) => Promise<FetchResult<ResultOf<typeof UpdateSessionMutation>>>;
+  onDeleteSession: (
+    sessionId: Session['id']
+  ) => Promise<FetchResult<ResultOf<typeof DestroySessionMutation>>>;
 };
 
 type SessionWithMultipleVenues = Session & { venues: string[] };
@@ -61,12 +75,16 @@ export const SessionModal: React.FC<SessionModalProps> = ({
   venues,
   onCreateSessions,
   onCreateActivity,
+  onUpdateSession,
+  onDeleteSession,
   onClose,
   ...props
 }) => {
   const [session, setSession] = useState(initial);
 
   const festival = useFestival();
+
+  const { confirm } = useConfirmation();
 
   useEffect(() => {
     if (initial) setSession(initial);
@@ -89,11 +107,26 @@ export const SessionModal: React.FC<SessionModalProps> = ({
         festivalId: festival.id,
         venueIds: value.venues,
         activityId:
-          (datesCount === 1 && value.venues.length <= 1 && String(value.activity?.id)) || null,
+          (datesCount === 1 && value.venues.length <= 1 && value.activity && value.activity.id) ||
+          null,
         capacity: value.activityType === ActivityType.Workshop ? value.capacity : null,
       }).then(onClose);
     },
     [festival, close]
+  );
+
+  const updateSession = useCallback(
+    (value: SessionWithMultipleVenues) => {
+      onUpdateSession(session.id, {
+        activityType: value.activityType,
+        startsAt: value.startsAt,
+        endsAt: value.endsAt,
+        venueId: value.venue?.id || null,
+        activityId: value.activity?.id || null,
+        capacity: value.activityType === ActivityType.Workshop ? value.capacity : null,
+      }).then(onClose);
+    },
+    [onUpdateSession, session.id, onClose]
   );
 
   const form = formFactory.useForm({
@@ -109,19 +142,19 @@ export const SessionModal: React.FC<SessionModalProps> = ({
       },
     },
     onSubmit: ({ value }) => {
-      createSessions(value);
+      if (session.id) {
+        updateSession(value);
+      } else {
+        createSessions(value);
+      }
     },
   });
 
   const sessionCount = form.useStore(({ values: { startsAt, endsAt, venues } }) =>
     endsAt
-      ? Math.max(
-          endsAt
-            .minus({ days: endsAt.hour < startsAt.hour ? 1 : 0 })
-            .startOf('day')
-            .diff(startsAt.startOf('day'), 'days').days + 1,
-          1
-        ) * Math.max(venues.length, 1) || 1
+      ? (endsAt.startOf('day').diff(startsAt.startOf('day'), 'days').days +
+          (endsAt.hour < startsAt.hour ? 0 : 1)) *
+        Math.max(venues.length, 1)
       : 0
   );
 
@@ -132,11 +165,29 @@ export const SessionModal: React.FC<SessionModalProps> = ({
 
   const [isFormValid, isFormDirty] = form.useStore((state) => [state.isFormValid, state.isTouched]);
 
+  const activityType = form.useStore((state) => state.values.activityType);
+
+  const activity = form.useStore((state) => state.values.activity);
+
+  const startsAt = form.useStore((state) => state.values.startsAt);
+
+  const deleteClicked = useCallback(() => {
+    confirm({
+      title: 'Delete session',
+      children: 'Are you sure you want to delete this session?',
+      confirm: 'Delete',
+    })
+      .then(() => {
+        onDeleteSession(session.id);
+        onClose();
+      })
+      .catch(() => {});
+  }, [session.id, onDeleteSession, onClose, confirm]);
+
   return (
     <Modal
       className="session-modal"
       title={`${!session.id ? 'New' : 'Edit'} session`}
-      centered
       onClose={onClose}
       {...props}
     >
@@ -161,7 +212,7 @@ export const SessionModal: React.FC<SessionModalProps> = ({
                 ].map((type) => ({
                   label: type.replace(/Event$/, ''),
                   value: type,
-                  disabled: !!session.activity && session.activity.type !== type,
+                  disabled: !!activity && activity.type !== type,
                 }))}
                 onChange={(value) => field.handleChange(value as ActivityType)}
               />
@@ -174,9 +225,8 @@ export const SessionModal: React.FC<SessionModalProps> = ({
             {(field) => (
               <ActivityPicker
                 value={field.state.value}
-                activityType={session.activityType}
-                startsAt={session.startsAt}
-                onDetailsClick={console.log}
+                activityType={activityType}
+                startsAt={startsAt}
                 onAddActivity={onCreateActivity}
                 onChange={field.handleChange}
               />
@@ -202,10 +252,23 @@ export const SessionModal: React.FC<SessionModalProps> = ({
                   leftSection={<CalendarIcon />}
                   onChange={(value) => {
                     if (value) {
-                      const t = DateTime.fromJSDate(value);
-                      field.handleChange(
-                        field.getValue().set({ year: t.year, month: t.month, day: t.day })
-                      );
+                      const d = DateTime.fromJSDate(value);
+                      const startsAt = field
+                        .getValue()
+                        .set({ year: d.year, month: d.month, day: d.day });
+
+                      if (session.id || !multipleDates) {
+                        const endsAt = form.getFieldValue('endsAt');
+                        const newEndDate = startsAt.set({
+                          hour: endsAt.hour,
+                          minute: endsAt.minute,
+                        });
+                        form.setFieldValue('endsAt', startsAt.plus({ years: 1 }));
+                        field.handleChange(startsAt);
+                        form.setFieldValue('endsAt', newEndDate, { touch: true });
+                      } else {
+                        field.handleChange(startsAt);
+                      }
                     }
                   }}
                 />
@@ -338,15 +401,26 @@ export const SessionModal: React.FC<SessionModalProps> = ({
             </Collapse>
           )}
         </form.Subscribe>
-        {session.id ? (
-          <Button variant="filled" type="submit" disabled={!isFormValid || !isFormDirty}>
-            Save session
-          </Button>
-        ) : (
-          <Button variant="filled" type="submit" disabled={!isFormValid}>
-            {`Add ${sessionCount === 1 ? 'session' : `${sessionCount} sessions`}`}
-          </Button>
-        )}
+        <Group className="session-modal__buttons">
+          {session.id ? (
+            <Button type="button" variant="outline" onClick={deleteClicked}>
+              Delete
+            </Button>
+          ) : (
+            <Button type="button" onClick={onClose}>
+              Cancel
+            </Button>
+          )}
+          {session.id ? (
+            <Button variant="filled" type="submit" disabled={!isFormValid || !isFormDirty}>
+              Save session
+            </Button>
+          ) : (
+            <Button variant="filled" type="submit" disabled={!isFormValid}>
+              {`Add ${sessionCount === 1 ? 'session' : `${sessionCount} sessions`}`}
+            </Button>
+          )}
+        </Group>
       </form>
     </Modal>
   );

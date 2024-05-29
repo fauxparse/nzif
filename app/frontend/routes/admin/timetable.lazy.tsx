@@ -2,8 +2,10 @@ import { TimetableEditor } from '@/components/organisms/TimetableEditor';
 import {
   CreateActivityMutation,
   CreateSessionsMutation,
+  DestroySessionMutation,
   TimetableQuery,
   TimetableSessionFragment,
+  UpdateSessionMutation,
 } from '@/components/organisms/TimetableEditor/queries';
 import { Activity } from '@/components/organisms/TimetableEditor/types';
 import {
@@ -11,10 +13,12 @@ import {
   ActivityType,
   MultipleSessionAttributes,
   Permission,
+  Scalars,
+  SessionAttributes,
 } from '@/graphql/types';
 import useFestival from '@/hooks/useFestival';
 import { RequirePermission } from '@/routes/admin';
-import { useMutation, useQuery } from '@apollo/client';
+import { Reference, useMutation, useQuery } from '@apollo/client';
 import { createLazyFileRoute } from '@tanstack/react-router';
 import { uniqueId } from 'lodash-es';
 import { useCallback } from 'react';
@@ -94,6 +98,47 @@ const Component: React.FC = () => {
     [createSessionsMutation]
   );
 
+  const [updateSessionMutation] = useMutation(UpdateSessionMutation);
+
+  const updateSession = useCallback(
+    (id: Scalars['ID'], attributes: Partial<SessionAttributes>) =>
+      updateSessionMutation({
+        variables: { id, attributes },
+        update: (cache, { data }) => {
+          if (!data?.updateSession) return;
+
+          cache.writeFragment({
+            fragment: TimetableSessionFragment,
+            fragmentName: 'TimetableSession',
+            data: data.updateSession.session,
+            id: data.updateSession.session.id,
+          });
+        },
+      }),
+    [updateSessionMutation]
+  );
+
+  const [destroySessionMutation] = useMutation(DestroySessionMutation);
+
+  const deleteSession = useCallback(
+    (id: Scalars['ID']) =>
+      destroySessionMutation({
+        variables: { id },
+        update: (cache, { data }) => {
+          if (!data?.destroySession) return;
+
+          cache.modify({
+            id: cache.identify({ __typename: 'Timetable', id: festival.id }),
+            fields: {
+              sessions: (existing, { readField }) =>
+                existing.filter((session: Reference) => readField('id', session) !== id),
+            },
+          });
+        },
+      }),
+    [destroySessionMutation, festival.id]
+  );
+
   return (
     <RequirePermission permission={Permission.Activities}>
       <TimetableEditor
@@ -101,6 +146,8 @@ const Component: React.FC = () => {
         data={data}
         onCreateSessions={createSessions}
         onCreateActivity={createActivity}
+        onUpdateSession={updateSession}
+        onDeleteSession={deleteSession}
       />
     </RequirePermission>
   );

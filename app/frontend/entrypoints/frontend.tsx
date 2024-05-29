@@ -24,6 +24,7 @@ import '@mantine/notifications/styles.css';
 LuxonSettings.defaultZone = 'Pacific/Auckland';
 dayjs.extend(customParseFormat);
 
+import { ConfirmationModalProvider } from '@/components/organisms/ConfirmationModal';
 import { routeTree } from '@/routeTree.gen';
 
 // Create a new router instance
@@ -51,22 +52,24 @@ createRoot(document.getElementById('root') as HTMLElement).render(
         <title>NZIF: New Zealand Improv Festival</title>
       </Helmet>
       <MantineProvider theme={theme}>
-        <Notifications />
-        <ApolloProvider client={client}>
-          <AuthenticationProvider>
-            <AuthenticationContext.Consumer>
-              {(auth) => (
-                <RouterProvider
-                  router={router}
-                  context={{
-                    auth: { ...auth },
-                    client,
-                  }}
-                />
-              )}
-            </AuthenticationContext.Consumer>
-          </AuthenticationProvider>
-        </ApolloProvider>
+        <ConfirmationModalProvider>
+          <Notifications />
+          <ApolloProvider client={client}>
+            <AuthenticationProvider>
+              <AuthenticationContext.Consumer>
+                {(auth) => (
+                  <RouterProvider
+                    router={router}
+                    context={{
+                      auth: { ...auth },
+                      client,
+                    }}
+                  />
+                )}
+              </AuthenticationContext.Consumer>
+            </AuthenticationProvider>
+          </ApolloProvider>
+        </ConfirmationModalProvider>
       </MantineProvider>
     </HelmetProvider>
   </React.StrictMode>

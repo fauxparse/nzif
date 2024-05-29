@@ -9,9 +9,11 @@ module Mutations
 
       def resolve(attributes:)
         festival = ::Festival.find(attributes[:festival_id])
+        venue_ids = attributes[:venue_ids]
+        venue_ids << nil if venue_ids.empty?
 
         sessions = attributes[:time_ranges].flat_map do |time_session|
-          attributes[:venue_ids].map do |venue_id|
+          venue_ids.map do |venue_id|
             perform(::Sessions::Create, festival:,
               attributes: {
                 **time_session,

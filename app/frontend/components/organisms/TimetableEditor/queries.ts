@@ -94,7 +94,7 @@ export const TimetableQuery = graphql(
 );
 
 export const PresenterSearchQuery = graphql(
-  `#graphql
+  `
   query PresenterSearch($query: String!) {
     search(query: $query, only: Person) {
       ...on PersonResult {
@@ -109,7 +109,7 @@ export const PresenterSearchQuery = graphql(
 );
 
 export const ActivitySearchQuery = graphql(
-  `#graphql
+  `
   query ActivitySearch($query: String!, $activityType: ActivityType!) {
     search(query: $query, only: Activity, activityType: $activityType) {
       ...on ActivityResult {
@@ -124,7 +124,7 @@ export const ActivitySearchQuery = graphql(
 );
 
 export const CreateActivityMutation = graphql(
-  `#graphql
+  `
   mutation CreateActivity($festivalId: ID!, $type: ActivityType!, $attributes: ActivityAttributes!) {
     createActivity(festivalId: $festivalId, type: $type, attributes: $attributes) {
       activity {
@@ -137,7 +137,7 @@ export const CreateActivityMutation = graphql(
 );
 
 export const CreateSessionsMutation = graphql(
-  `#graphql
+  `
   mutation CreateSessions($attributes: MultipleSessionAttributes!) {
     createSessions(attributes: $attributes) {
       sessions {
@@ -148,3 +148,22 @@ export const CreateSessionsMutation = graphql(
   `,
   [TimetableSessionFragment]
 );
+
+export const UpdateSessionMutation = graphql(
+  `
+  mutation UpdateSession($id: ID!, $attributes: SessionAttributes!) {
+    updateSession(id: $id, attributes: $attributes) {
+      session {
+        ...TimetableSession
+      }
+    }
+  }
+  `,
+  [TimetableSessionFragment]
+);
+
+export const DestroySessionMutation = graphql(`
+  mutation DestroySession($id: ID!) {
+    destroySession(id: $id)
+  }
+`);
