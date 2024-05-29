@@ -1,19 +1,14 @@
-import RouteTransition from '@/components/helpers/RouteTransition';
-import ActivityTypeTabs, { tabSwitchDirection } from '@/components/molecules/ActivityTypeTabs';
+import ActivityTypeTabs from '@/components/molecules/ActivityTypeTabs';
 import Body from '@/components/organisms/Body';
 import Header from '@/components/organisms/Header';
-import type { PluralActivityType } from '@/constants/activityTypes';
+import { pluralFromActivityType } from '@/constants/activityTypes';
+import { ActivityType } from '@/graphql/types';
 import { Container } from '@mantine/core';
-import { usePrevious } from '@mantine/hooks';
 import { Outlet, createFileRoute, useNavigate } from '@tanstack/react-router';
 
 const Component = () => {
-  const params = Route.useParams();
-  const plural = params.activityType as PluralActivityType;
+  const activityType = Route.useParams().activityType as ActivityType;
   const navigate = useNavigate();
-  // const activityType = params.activityType as PluralActivityType;
-  // const previousActivityType = usePrevious(activityType);
-  // const direction = tabSwitchDirection(previousActivityType, activityType);
 
   return (
     <Container>
@@ -21,10 +16,13 @@ const Component = () => {
         title="Festival programme"
         tabs={
           <ActivityTypeTabs
-            value={plural}
+            value={activityType}
             onChange={(value) => {
               if (!value) return;
-              navigate({ to: '/$activityType', params: { activityType: value } });
+              navigate({
+                to: '/$activityType',
+                params: { activityType: pluralFromActivityType(value) },
+              });
             }}
           />
         }

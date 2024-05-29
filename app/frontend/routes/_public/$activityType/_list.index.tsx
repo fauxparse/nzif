@@ -1,6 +1,6 @@
 import type { ActivityCardActivity } from '@/components/organisms/ActivityList/ActivityCard';
 import { ActivityCardFragment } from '@/components/organisms/ActivityList/ActivityCard';
-import { ACTIVITY_TYPES } from '@/constants/activityTypes';
+import { activityTypeFromPlural } from '@/constants/activityTypes';
 import type { PluralActivityType } from '@/constants/activityTypes';
 import { graphql, readFragment } from '@/graphql';
 import { createFileRoute, useMatch } from '@tanstack/react-router';
@@ -56,13 +56,12 @@ const useDummyActivities = (festival: CurrentFestival, type: ActivityType) => {
 const LoadingState = () => {
   const { festival } = Route.useRouteContext();
 
-  const { activityType: plural } = useMatch({ from: '/_public/$activityType/_list/' }).params;
+  const activityType = useMatch({ from: '/_public/$activityType/_list/' }).params
+    .activityType as ActivityType;
 
-  const type = ACTIVITY_TYPES[plural as PluralActivityType].type;
+  const dummyActivities = useDummyActivities(festival, activityType);
 
-  const dummyActivities = useDummyActivities(festival, type);
-
-  return <ActivityList loading type={type} activities={dummyActivities} />;
+  return <ActivityList loading type={activityType} activities={dummyActivities} />;
 };
 
 const Component = () => {
@@ -70,7 +69,7 @@ const Component = () => {
 
   const { activityType: plural } = useMatch({ from: '/_public/$activityType/_list/' }).params;
 
-  const type = ACTIVITY_TYPES[plural as PluralActivityType].type;
+  const type = activityTypeFromPlural(plural as PluralActivityType);
 
   return <ActivityList type={type} activities={activities} />;
 };
@@ -78,11 +77,11 @@ const Component = () => {
 export const Route = createFileRoute('/_public/$activityType/_list/')({
   component: Component,
   loader: async ({ params, context }) => {
-    const plural = params.activityType as PluralActivityType;
-    const activityType = ACTIVITY_TYPES[plural].type;
-
     const activities = await context.client
-      .query({ query: ActivitiesQuery, variables: { activityType } })
+      .query({
+        query: ActivitiesQuery,
+        variables: { activityType: params.activityType as ActivityType },
+      })
       .then(
         ({ data }) =>
           readFragment(ActivityCardFragment, data.festival.activities) as ActivityCardActivity[]

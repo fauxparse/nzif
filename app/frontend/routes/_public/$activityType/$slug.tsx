@@ -1,8 +1,7 @@
-import { Await, createFileRoute, defer, notFound } from '@tanstack/react-router';
-import { ResultOf } from '@/graphql';
-import { Suspense } from 'react';
-import { PluralActivityType, getActivityTypeFromPlural } from '@/constants/activityTypes';
 import ActivityDetails, { ActivityDetailsQuery } from '@/components/pages/ActivityDetails';
+import { ResultOf } from '@/graphql';
+import { ActivityType } from '@/graphql/types';
+import { createFileRoute, notFound } from '@tanstack/react-router';
 
 const Component = () => {
   const { activity } = Route.useLoaderData();
@@ -17,18 +16,15 @@ export const Route = createFileRoute('/_public/$activityType/$slug')({
         activity?.name,
     };
   },
-  loader: async ({ params, context }) => {
-    const { activityType, slug } = params;
+  loader: async ({ params: { activityType, slug }, context }) => {
     const { client, year } = context;
-
-    const type = getActivityTypeFromPlural(activityType as PluralActivityType);
 
     const activity = await client
       .query({
         query: ActivityDetailsQuery,
         variables: {
           year,
-          type,
+          type: activityType as ActivityType,
           slug,
         },
       })
@@ -39,7 +35,7 @@ export const Route = createFileRoute('/_public/$activityType/$slug')({
     return { activity };
   },
   component: Component,
-  pendingComponent: ({ params }) => (
+  pendingComponent: ({ params: { activityType } }) => (
     <ActivityDetails
       activity={{
         id: 'loading',
@@ -48,7 +44,7 @@ export const Route = createFileRoute('/_public/$activityType/$slug')({
         presenters: [],
         picture: null,
         description: '',
-        type: getActivityTypeFromPlural(params.type),
+        type: activityType,
         bookingLink: null,
       }}
       loading

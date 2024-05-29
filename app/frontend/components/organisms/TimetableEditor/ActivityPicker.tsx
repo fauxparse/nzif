@@ -1,4 +1,8 @@
-import { getActivityColor, getPluralFromActivityType } from '@/constants/activityTypes';
+import {
+  activityColor,
+  activityTypeLabel,
+  pluralFromActivityType,
+} from '@/constants/activityTypes';
 import { ActivityType } from '@/graphql/types';
 import { ActivityIcon } from '@/icons/ActivityIcon';
 import PlusIcon from '@/icons/PlusIcon';
@@ -102,18 +106,18 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
     >
       <Combobox.Target>
         {value ? (
-          <Box className="activity-picker__value" data-color={getActivityColor(value.type)}>
+          <Box className="activity-picker__value" data-color={activityColor(value.type)}>
             <ActivityIcon activityType={value.type} />
             <Text className="activity-picker__value__name">{value.name}</Text>
             <Button
               component={Link}
               to="/admin/$activityType/$slug"
-              params={{ activityType: getPluralFromActivityType(value.type), slug: value.slug }}
+              params={{ activityType: pluralFromActivityType(value.type), slug: value.slug }}
               search={startsAt ? { session: startsAt.toISODate() } : {}}
               type="button"
               variant="filled"
               size="sm"
-              data-color={getActivityColor(value.type)}
+              data-color={activityColor(value.type)}
               onClick={() => onDetailsClick(value)}
             >
               Details
@@ -122,7 +126,7 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
               type="button"
               variant="filled"
               size="sm"
-              data-color={getActivityColor(value.type)}
+              data-color={activityColor(value.type)}
               onClick={handleValueRemove}
             >
               Remove
@@ -135,7 +139,7 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
             value={query}
             onClick={() => combobox.toggleDropdown()}
             leftSection={<ActivityIcon activityType={activityType} />}
-            placeholder="Add an activity…"
+            placeholder={`Add a ${activityTypeLabel(activityType)}…`}
             onChange={(e) => {
               setQuery(e.currentTarget.value);
               handleSearch(e.currentTarget.value);

@@ -1,26 +1,31 @@
 import RouteTransition from '@/components/helpers/RouteTransition';
 import NotFound from '@/components/pages/NotFound';
-import { getActivityTypeLabelFromPlural, isPluralActivityType } from '@/constants/activityTypes';
+import {
+  PluralActivityType,
+  activityTypeFromPlural,
+  activityTypeLabel,
+  isPluralActivityType,
+  pluralFromActivityType,
+} from '@/constants/activityTypes';
 import { createFileRoute, notFound } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/admin/$activityType')({
-  beforeLoad: ({ params }) => {
-    const { activityType } = params;
-
-    if (!isPluralActivityType(activityType)) {
-      return {
-        getTitle: () => 'Not found',
-      };
+  parseParams: ({ activityType: plural }) => {
+    if (!isPluralActivityType(plural)) {
+      throw notFound();
     }
-
-    return {
-      getTitle: () => getActivityTypeLabelFromPlural(activityType),
-    };
+    return { activityType: activityTypeFromPlural(plural as PluralActivityType) };
   },
+  stringifyParams: ({ activityType }) => ({
+    activityType: pluralFromActivityType(activityType),
+  }),
+  beforeLoad: ({ params }) => ({
+    getTitle: () => activityTypeLabel(params.activityType),
+  }),
   loader: async ({ params }) => {
     const { activityType } = params;
 
-    if (!isPluralActivityType(activityType)) {
+    if (!activityType) {
       throw notFound();
     }
   },

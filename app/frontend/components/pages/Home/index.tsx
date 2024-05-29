@@ -1,8 +1,9 @@
-import useFestival from '@/hooks/useFestival';
-import { Link, LinkComponent } from '@tanstack/react-router';
 import Button from '@/components/atoms/Button';
+import useFestival from '@/hooks/useFestival';
 import BATSIcon from '@/icons/BATSIcon';
+import { Link } from '@tanstack/react-router';
 
+import { ActivityType } from '@/graphql/types';
 import './Home.css';
 
 export const Home = () => {
@@ -37,7 +38,11 @@ export const Home = () => {
 
           <Button
             renderRoot={(props) => (
-              <Link to="/$activityType" params={{ activityType: 'workshops' }} {...props} />
+              <Link
+                to="/$activityType"
+                params={{ activityType: ActivityType.Workshop }}
+                {...props}
+              />
             )}
             size="large"
             variant="outline"

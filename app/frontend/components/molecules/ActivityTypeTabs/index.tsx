@@ -1,11 +1,11 @@
+import Badge from '@/components/atoms/Badge';
 import { Direction } from '@/components/helpers/RouteTransition/types';
-import { ACTIVITY_TYPES, PluralActivityType } from '@/constants/activityTypes';
 import { Tabs } from '@/components/molecules/Tabs';
-import { graphql, ResultOf } from '@/graphql';
+import { ACTIVITY_TYPES } from '@/constants/activityTypes';
+import { ResultOf, graphql } from '@/graphql';
+import { ActivityType } from '@/graphql/types';
 import { useQuery } from '@apollo/client';
 import { useMemo } from 'react';
-import { ActivityType } from '@/graphql/types';
-import Badge from '@/components/atoms/Badge';
 
 const ActivityCountsQuery = graphql(`
   query ActivityCounts {
@@ -23,8 +23,8 @@ const ActivityCountsQuery = graphql(`
 type CountRow = ResultOf<typeof ActivityCountsQuery>['festival']['activityCounts'][number];
 
 type ActivityTypeTabsProps = {
-  value: PluralActivityType;
-  onChange: (value: PluralActivityType | null) => void;
+  value: ActivityType;
+  onChange: (value: ActivityType | null) => void;
 };
 
 const ActivityTypeTabs: React.FC<ActivityTypeTabsProps> = ({ value, onChange }) => {
@@ -40,12 +40,12 @@ const ActivityTypeTabs: React.FC<ActivityTypeTabsProps> = ({ value, onChange }) 
   );
 
   return (
-    <Tabs value={value} onChange={(value) => onChange(value as PluralActivityType | null)}>
+    <Tabs value={value} onChange={(value) => onChange(value as ActivityType | null)}>
       <Tabs.List>
         {Object.entries(ACTIVITY_TYPES).map(([key, { label, type, icon: Icon }]) => (
           <Tabs.Tab
             key={key}
-            value={key}
+            value={type}
             leftSection={<Icon />}
             rightSection={
               counts[type] && (
@@ -64,8 +64,8 @@ const ActivityTypeTabs: React.FC<ActivityTypeTabsProps> = ({ value, onChange }) 
 };
 
 export const tabSwitchDirection = (
-  previous: PluralActivityType | undefined,
-  next: PluralActivityType
+  previous: ActivityType | undefined,
+  next: ActivityType
 ): Direction => {
   if (!previous) return 'left';
 
