@@ -3,53 +3,56 @@ import ConferenceIcon from '@/icons/ConferenceIcon';
 import ShowIcon from '@/icons/ShowIcon';
 import SocialEventIcon from '@/icons/SocialEventIcon';
 import WorkshopIcon from '@/icons/WorkshopIcon';
+import { mapKeys } from 'lodash-es';
 
 export const ACTIVITY_TYPES = {
-  workshops: {
+  [ActivityType.Workshop]: {
     type: ActivityType.Workshop,
     label: 'Workshops',
+    plural: 'workshops',
     icon: WorkshopIcon,
     color: 'cyan',
   },
-  shows: {
+  [ActivityType.Show]: {
     type: ActivityType.Show,
     label: 'Shows',
+    plural: 'shows',
     icon: ShowIcon,
     color: 'magenta',
   },
-  'social-events': {
+  [ActivityType.SocialEvent]: {
     type: ActivityType.SocialEvent,
     label: 'Social events',
+    plural: 'social-events',
     icon: SocialEventIcon,
     color: 'yellow',
   },
-  conferences: {
+  [ActivityType.Conference]: {
     type: ActivityType.Conference,
     label: 'Conference',
+    plural: 'conferences',
     icon: ConferenceIcon,
     color: 'yellow',
   },
 } as const;
 
-export type PluralActivityType = keyof typeof ACTIVITY_TYPES;
+export type PluralActivityType = (typeof ACTIVITY_TYPES)[ActivityType]['plural'];
 
-export const isPluralActivityType = (s: string): s is PluralActivityType => s in ACTIVITY_TYPES;
+const BY_PLURAL = mapKeys(ACTIVITY_TYPES, ({ plural }) => plural) as Record<
+  PluralActivityType,
+  (typeof ACTIVITY_TYPES)[ActivityType]
+>;
 
-export const getActivityTypeFromPlural = (plural: PluralActivityType) =>
-  ACTIVITY_TYPES[plural].type;
+export const isPluralActivityType = (s: string): s is PluralActivityType => s in BY_PLURAL;
 
-export const getActivityTypeLabelFromPlural = (plural: PluralActivityType) =>
-  ACTIVITY_TYPES[plural].label;
+export const activityTypeFromPlural = (plural: PluralActivityType) => BY_PLURAL[plural]?.type;
 
-export const getPluralFromActivityType = (type: ActivityType) =>
-  Object.entries(ACTIVITY_TYPES).find(([, { type: t }]) => t === type)?.[0] as PluralActivityType;
+export const activityTypeLabelFromPlural = (plural: PluralActivityType) => BY_PLURAL[plural].label;
 
-export const getActivityColor = (type: ActivityType) => {
-  const plural = getPluralFromActivityType(type);
-  return ACTIVITY_TYPES[plural].color;
-};
+export const pluralFromActivityType = (type: ActivityType) => ACTIVITY_TYPES[type].plural;
 
-export const getActivityIcon = (type: ActivityType) => {
-  const plural = getPluralFromActivityType(type);
-  return ACTIVITY_TYPES[plural].icon;
-};
+export const activityColor = (type: ActivityType) => ACTIVITY_TYPES[type].color;
+
+export const activityIcon = (type: ActivityType) => ACTIVITY_TYPES[type].icon;
+
+export const activityTypeLabel = (type: ActivityType) => ACTIVITY_TYPES[type].label;

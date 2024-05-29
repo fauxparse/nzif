@@ -1,4 +1,4 @@
-import { getPluralFromActivityType } from '@/constants/activityTypes';
+import { pluralFromActivityType } from '@/constants/activityTypes';
 import type { ResultOf } from '@/graphql';
 import type { ActivityType } from '@/graphql/types';
 import SearchIcon from '@/icons/SearchIcon';
@@ -44,7 +44,7 @@ const SearchResult = forwardRef<HTMLAnchorElement, SearchResultProps>(
 
 export const linkProps = (result: Result) => {
   if ('activity' in result) {
-    const activityType = getPluralFromActivityType(result.activity.type as ActivityType);
+    const activityType = pluralFromActivityType(result.activity.type as ActivityType);
     return {
       to: '/$activityType/$slug',
       params: { activityType, slug: result.activity.slug },

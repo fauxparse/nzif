@@ -1,4 +1,4 @@
-import { getActivityColor } from '@/constants/activityTypes';
+import { activityColor } from '@/constants/activityTypes';
 import { Box, BoxProps, Text } from '@mantine/core';
 import { HTMLMotionProps, motion } from 'framer-motion';
 import React, { PropsWithChildren, forwardRef } from 'react';
@@ -31,7 +31,7 @@ export const BaseBlock = forwardRef<HTMLDivElement, BaseBlockProps>(
         gridColumnEnd: rect.end.column + 3,
       }}
       transition={animate ? { type: 'spring', stiffness: 500, damping: 30 } : { duration: 0 }}
-      data-color={getActivityColor(session.activityType)}
+      data-color={activityColor(session.activityType)}
       {...props}
     >
       <motion.div layout="position" className="timetable-editor__session__content">

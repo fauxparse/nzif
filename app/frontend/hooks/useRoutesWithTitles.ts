@@ -1,7 +1,6 @@
-import { rootRouteId, useRouter, useRouterState } from '@tanstack/react-router';
-import { cloneDeep, last } from 'lodash-es';
+import { rootRouteId, useRouterState } from '@tanstack/react-router';
+import { last } from 'lodash-es';
 import { useMemo } from 'react';
-import { route } from 'react-router-typesafe-routes/dom';
 
 type WithTitle<M, T = unknown> = M & {
   routeContext: {
@@ -50,7 +49,7 @@ export const useBreadcrumbs = (includeCurrent = false) => {
     title: route.routeContext.getTitle(route.loaderData),
     pathname: route.pathname,
     link: {
-      to: route.routeId === rootRouteId ? '/' : route.pathname,
+      to: route.routeId === rootRouteId ? '/' : route.routeId.replace(/\/_[^/]+/g, ''),
       params: route.params,
     },
   }));

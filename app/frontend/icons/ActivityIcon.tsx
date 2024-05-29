@@ -1,4 +1,4 @@
-import { getActivityIcon } from '@/constants/activityTypes';
+import { activityIcon } from '@/constants/activityTypes';
 import { ActivityType } from '@/graphql/types';
 import { BoxProps } from '@mantine/core';
 
@@ -7,6 +7,6 @@ type ActivityIconProps = BoxProps & {
 };
 
 export const ActivityIcon: React.FC<ActivityIconProps> = ({ activityType, ...props }) => {
-  const Icon = getActivityIcon(activityType);
+  const Icon = activityIcon(activityType);
   return <Icon {...props} />;
 };
