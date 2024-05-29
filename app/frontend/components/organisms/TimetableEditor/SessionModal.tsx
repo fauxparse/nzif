@@ -1,5 +1,5 @@
 import { Modal, ModalProps } from '@/components/molecules/Modal';
-import { ActivityType } from '@/graphql/types';
+import { ActivityAttributes, ActivityType, MultipleSessionAttributes } from '@/graphql/types';
 import useFestival from '@/hooks/useFestival';
 import CalendarIcon from '@/icons/CalendarIcon';
 import ClockIcon from '@/icons/ClockIcon';
@@ -19,15 +19,26 @@ import {
 import { DatePickerInput, TimeInput } from '@mantine/dates';
 import { createFormFactory } from '@tanstack/react-form';
 import { DateTime } from 'luxon';
-import React, { useEffect, useState } from 'react';
-import { Session } from './types';
-
+import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityPicker } from './ActivityPicker';
+import { Activity, Session } from './types';
+
+import { FetchResult } from '@apollo/client';
+import { ResultOf } from 'gql.tada';
+import { range } from 'lodash-es';
 import './SessionModal.css';
+import { CreateSessionsMutation } from './queries';
 
 type SessionModalProps = ModalProps & {
   session: Session;
   venues: NonNullable<Session['venue']>[];
+  onCreateSessions: (
+    attributes: MultipleSessionAttributes
+  ) => Promise<FetchResult<ResultOf<typeof CreateSessionsMutation>>>;
+  onCreateActivity: (
+    type: ActivityType,
+    attributes: Partial<ActivityAttributes>
+  ) => Promise<Activity>;
 };
 
 type SessionWithMultipleVenues = Session & { venues: string[] };
@@ -48,15 +59,42 @@ const formFactory = createFormFactory<SessionWithMultipleVenues>({
 export const SessionModal: React.FC<SessionModalProps> = ({
   session: initial,
   venues,
+  onCreateSessions,
+  onCreateActivity,
+  onClose,
   ...props
 }) => {
   const [session, setSession] = useState(initial);
+
+  const festival = useFestival();
 
   useEffect(() => {
     if (initial) setSession(initial);
   }, [initial]);
 
-  const festival = useFestival();
+  const createSessions = useCallback(
+    (value: SessionWithMultipleVenues) => {
+      const { startsAt, endsAt } = value;
+      const datesCount =
+        endsAt.startOf('day').diff(startsAt.startOf('day'), 'days').days +
+        (endsAt.hour < startsAt.hour ? 0 : 1);
+      const timeRanges = range(datesCount).map((i) => ({
+        startsAt: startsAt.plus({ days: i }),
+        endsAt: endsAt.plus({ days: i - datesCount + 1 }),
+      }));
+
+      onCreateSessions({
+        activityType: value.activityType,
+        timeRanges,
+        festivalId: festival.id,
+        venueIds: value.venues,
+        activityId:
+          (datesCount === 1 && value.venues.length <= 1 && String(value.activity?.id)) || null,
+        capacity: value.activityType === ActivityType.Workshop ? value.capacity : null,
+      }).then(onClose);
+    },
+    [festival, close]
+  );
 
   const form = formFactory.useForm({
     defaultValues: {
@@ -71,7 +109,7 @@ export const SessionModal: React.FC<SessionModalProps> = ({
       },
     },
     onSubmit: ({ value }) => {
-      console.log({ value });
+      createSessions(value);
     },
   });
 
@@ -99,6 +137,7 @@ export const SessionModal: React.FC<SessionModalProps> = ({
       className="session-modal"
       title={`${!session.id ? 'New' : 'Edit'} session`}
       centered
+      onClose={onClose}
       {...props}
     >
       <form
@@ -138,7 +177,7 @@ export const SessionModal: React.FC<SessionModalProps> = ({
                 activityType={session.activityType}
                 startsAt={session.startsAt}
                 onDetailsClick={console.log}
-                onAddActivity={console.log}
+                onAddActivity={onCreateActivity}
                 onChange={field.handleChange}
               />
             )}
@@ -252,16 +291,17 @@ export const SessionModal: React.FC<SessionModalProps> = ({
             <form.Field name="venues">
               {(field) => (
                 <>
-                  {venues.map((venue, i) => (
+                  {venues.map((venue) => (
                     <Checkbox
                       key={venue.id}
                       checked={field.state.value.includes(String(venue.id))}
                       onChange={(e) => {
-                        if (e.target.checked) {
-                          field.pushValue(String(venue.id));
+                        if (e.currentTarget.checked) {
+                          field.handleChange([...field.state.value, String(venue.id)]);
                         } else {
-                          const index = field.state.value.indexOf(String(venue.id));
-                          if (index > -1) field.removeValue(index);
+                          field.handleChange(
+                            field.state.value.filter((v) => v !== String(venue.id))
+                          );
                         }
                       }}
                       label={venue.room || venue.building}
@@ -272,26 +312,32 @@ export const SessionModal: React.FC<SessionModalProps> = ({
             </form.Field>
           )}
         </div>
-        <form.Field name="capacity">
-          {(field) => (
-            <Box className="session-modal__participants">
-              <NumberInput
-                value={field.state.value ?? ''}
-                min={0}
-                max={100}
-                leftSection={<UsersIcon />}
-                onChange={(value: string | number | null) => {
-                  if (!value && value !== 0) {
-                    field.handleChange(null);
-                  } else {
-                    field.handleChange(parseInt(String(value), 10));
-                  }
-                }}
-              />
-              <Text>participants max</Text>
-            </Box>
+        <form.Subscribe<ActivityType> selector={(state) => state.values.activityType}>
+          {(activityType) => (
+            <Collapse in={activityType === ActivityType.Workshop}>
+              <form.Field name="capacity">
+                {(field) => (
+                  <Box className="session-modal__participants">
+                    <NumberInput
+                      value={field.state.value ?? ''}
+                      min={0}
+                      max={100}
+                      leftSection={<UsersIcon />}
+                      onChange={(value: string | number | null) => {
+                        if (!value && value !== 0) {
+                          field.handleChange(null);
+                        } else {
+                          field.handleChange(parseInt(String(value), 10));
+                        }
+                      }}
+                    />
+                    <Text>participants max</Text>
+                  </Box>
+                )}
+              </form.Field>
+            </Collapse>
           )}
-        </form.Field>
+        </form.Subscribe>
         {session.id ? (
           <Button variant="filled" type="submit" disabled={!isFormValid || !isFormDirty}>
             Save session

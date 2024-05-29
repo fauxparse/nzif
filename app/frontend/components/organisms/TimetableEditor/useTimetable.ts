@@ -94,6 +94,7 @@ export const useTimetable = (
     start: startSelection,
     move: moveSelection,
     end: endSelection,
+    clear: clearSelection,
   } = useSelection();
 
   const { resizing, start: startResize, move: moveResize, end: endResize } = useResize();
@@ -177,11 +178,6 @@ export const useTimetable = (
     const startsAt = cellToDateTime(selection.rect.start);
     const endsAt = cellToDateTime({ ...selection.rect.end, column: selection.rect.end.column + 1 });
 
-    console.log(
-      startsAt.toLocaleString(DateTime.DATETIME_MED),
-      endsAt.toLocaleString(DateTime.DATETIME_MED)
-    );
-
     const session: Session = {
       id: '',
       startsAt,
@@ -216,6 +212,7 @@ export const useTimetable = (
       selection.state === 'idle' || (selection.state === 'selecting' && !selection.moved)
         ? null
         : normalizeRect(selection.rect),
+    clearSelection,
     sessions:
       resizing.state === 'resizing'
         ? mapValues(laidOutSessions, (group) =>

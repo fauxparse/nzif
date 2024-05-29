@@ -85,6 +85,12 @@
     }
   }
 
+  &__input {
+    .mantine-Loader-root {
+      --loader-color: var(--border-element);
+    }
+  }
+
   &__option {
     .mantine-Combobox-option & {
       flex-wrap: nowrap;

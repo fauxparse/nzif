@@ -8,21 +8,21 @@ import { mapKeys } from 'lodash-es';
 export const ACTIVITY_TYPES = {
   [ActivityType.Workshop]: {
     type: ActivityType.Workshop,
-    label: 'Workshops',
+    label: 'Workshop',
     plural: 'workshops',
     icon: WorkshopIcon,
     color: 'cyan',
   },
   [ActivityType.Show]: {
     type: ActivityType.Show,
-    label: 'Shows',
+    label: 'Show',
     plural: 'shows',
     icon: ShowIcon,
     color: 'magenta',
   },
   [ActivityType.SocialEvent]: {
     type: ActivityType.SocialEvent,
-    label: 'Social events',
+    label: 'Social event',
     plural: 'social-events',
     icon: SocialEventIcon,
     color: 'yellow',
@@ -49,7 +49,7 @@ export const activityTypeFromPlural = (plural: PluralActivityType) => BY_PLURAL[
 
 export const activityTypeLabelFromPlural = (plural: PluralActivityType) => BY_PLURAL[plural].label;
 
-export const pluralFromActivityType = (type: ActivityType) => ACTIVITY_TYPES[type].plural;
+export const pluralFromActivityType = (type: ActivityType) => ACTIVITY_TYPES[type]?.plural;
 
 export const activityColor = (type: ActivityType) => ACTIVITY_TYPES[type].color;
 

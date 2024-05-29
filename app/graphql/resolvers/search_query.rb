@@ -38,7 +38,7 @@ module Resolvers
     end
 
     def activity_scope
-      scope = authorized_scope(Activity, type: :relation)
+      scope = authorized_scope(Activity, type: :relation).where(festival: current_festival)
       scope = scope.by_type(activity_type) if activity_type.present?
       scope
     end

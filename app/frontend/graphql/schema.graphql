@@ -386,7 +386,9 @@ type MoveWaitlistParticipantPayload {
 }
 
 input MultipleSessionAttributes {
+  activityId: ID
   activityType: ActivityType!
+  capacity: Int
   festivalId: ID!
   timeRanges: [TimeRangeAttributes!]!
   venueIds: [ID!]!

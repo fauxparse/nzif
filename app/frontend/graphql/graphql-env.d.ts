@@ -2047,6 +2047,14 @@ export type introspection = {
         "name": "MultipleSessionAttributes",
         "inputFields": [
           {
+            "name": "activityId",
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID",
+              "ofType": null
+            }
+          },
+          {
             "name": "activityType",
             "type": {
               "kind": "NON_NULL",
@@ -2055,6 +2063,14 @@ export type introspection = {
                 "name": "ActivityType",
                 "ofType": null
               }
+            }
+          },
+          {
+            "name": "capacity",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
             }
           },
           {
