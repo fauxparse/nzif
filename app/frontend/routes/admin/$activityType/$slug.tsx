@@ -1,5 +1,4 @@
 import { ActivityDetailsQuery } from '@/components/pages/ActivityDetails';
-import { PluralActivityType, activityTypeFromPlural } from '@/constants/activityTypes';
 import { ResultOf } from '@/graphql';
 import { Text } from '@mantine/core';
 import { createFileRoute, notFound } from '@tanstack/react-router';
@@ -21,14 +20,12 @@ export const Route = createFileRoute('/admin/$activityType/$slug')({
     const { activityType, slug } = params;
     const { client, year } = context;
 
-    const type = activityTypeFromPlural(activityType as PluralActivityType);
-
     const activity = await client
       .query({
         query: ActivityDetailsQuery,
         variables: {
           year,
-          type,
+          type: activityType,
           slug,
         },
       })
@@ -39,5 +36,5 @@ export const Route = createFileRoute('/admin/$activityType/$slug')({
     return { activity };
   },
   component: Component,
-  pendingComponent: ({ params }) => <Text>Loading…</Text>,
+  pendingComponent: () => <Text>Loading…</Text>,
 });
