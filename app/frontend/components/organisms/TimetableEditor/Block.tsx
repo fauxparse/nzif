@@ -32,6 +32,7 @@ export const BaseBlock = forwardRef<HTMLDivElement, BaseBlockProps>(
       }}
       transition={animate ? { type: 'spring', stiffness: 500, damping: 30 } : { duration: 0 }}
       data-color={activityColor(session.activityType)}
+      data-empty={!session.activity || undefined}
       {...props}
     >
       <motion.div layout="position" className="timetable-editor__session__content">

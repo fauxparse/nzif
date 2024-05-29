@@ -42,6 +42,12 @@
     gap: var(--spacing-medium);
     align-items: center;
   }
+
+  &__buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-medium);
+  }
 }
 
 .presenter-picker {

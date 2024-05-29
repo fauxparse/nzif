@@ -1,4 +1,10 @@
-import { ActivityAttributes, ActivityType, MultipleSessionAttributes } from '@/graphql/types';
+import {
+  ActivityAttributes,
+  ActivityType,
+  MultipleSessionAttributes,
+  Scalars,
+  SessionAttributes,
+} from '@/graphql/types';
 import { Box } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { LayoutGroup } from 'framer-motion';
@@ -8,7 +14,12 @@ import { DateTime } from 'luxon';
 import { useCallback, useState } from 'react';
 import { BaseBlock, Block } from './Block';
 import { SessionModal } from './SessionModal';
-import { CreateSessionsMutation, TimetableQuery } from './queries';
+import {
+  CreateSessionsMutation,
+  DestroySessionMutation,
+  TimetableQuery,
+  UpdateSessionMutation,
+} from './queries';
 import { Activity, LaidOutSession, Session } from './types';
 import { useTimetable } from './useTimetable';
 
@@ -25,12 +36,21 @@ type TimetableEditorProps = {
   onCreateSessions: (
     attributes: MultipleSessionAttributes
   ) => Promise<FetchResult<ResultOf<typeof CreateSessionsMutation>>>;
+  onUpdateSession: (
+    id: Scalars['ID'],
+    attributes: Partial<SessionAttributes>
+  ) => Promise<FetchResult<ResultOf<typeof UpdateSessionMutation>>>;
+  onDeleteSession: (
+    id: Scalars['ID']
+  ) => Promise<FetchResult<ResultOf<typeof DestroySessionMutation>>>;
 };
 
 export const TimetableEditor: React.FC<TimetableEditorProps> = ({
   data,
   onCreateSessions,
   onCreateActivity,
+  onUpdateSession,
+  onDeleteSession,
 }) => {
   const [editing, setEditing] = useState<Session | null>(null);
   const [opened, { open, close }] = useDisclosure(false);
@@ -156,6 +176,8 @@ export const TimetableEditor: React.FC<TimetableEditorProps> = ({
           }}
           onCreateSessions={onCreateSessions}
           onCreateActivity={onCreateActivity}
+          onUpdateSession={onUpdateSession}
+          onDeleteSession={onDeleteSession}
         />
       )}
     </Box>
