@@ -1,24 +1,37 @@
+import { ActivityAttributes, ActivityType, MultipleSessionAttributes } from '@/graphql/types';
 import { Box } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { LayoutGroup } from 'framer-motion';
 import { ResultOf } from 'gql.tada';
 import { range } from 'lodash-es';
 import { DateTime } from 'luxon';
+import { useCallback, useState } from 'react';
 import { BaseBlock, Block } from './Block';
-import { TimetableQuery } from './queries';
-import { LaidOutSession, Session } from './types';
+import { SessionModal } from './SessionModal';
+import { CreateSessionsMutation, TimetableQuery } from './queries';
+import { Activity, LaidOutSession, Session } from './types';
 import { useTimetable } from './useTimetable';
 
-import { useDisclosure } from '@mantine/hooks';
-import { useCallback, useState } from 'react';
-import { SessionModal } from './SessionModal';
+import { FetchResult } from '@apollo/client';
 import './TimetableEditor.css';
 
 type TimetableEditorProps = {
   loading?: boolean;
   data: ResultOf<typeof TimetableQuery> | undefined;
+  onCreateActivity: (
+    type: ActivityType,
+    attributes: Partial<ActivityAttributes>
+  ) => Promise<Activity>;
+  onCreateSessions: (
+    attributes: MultipleSessionAttributes
+  ) => Promise<FetchResult<ResultOf<typeof CreateSessionsMutation>>>;
 };
 
-export const TimetableEditor: React.FC<TimetableEditorProps> = ({ data }) => {
+export const TimetableEditor: React.FC<TimetableEditorProps> = ({
+  data,
+  onCreateSessions,
+  onCreateActivity,
+}) => {
   const [editing, setEditing] = useState<Session | null>(null);
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -41,6 +54,7 @@ export const TimetableEditor: React.FC<TimetableEditorProps> = ({ data }) => {
     startResize,
     startDrag,
     selection,
+    clearSelection,
     sessions,
     resizing,
     dragging,
@@ -136,7 +150,12 @@ export const TimetableEditor: React.FC<TimetableEditorProps> = ({ data }) => {
           session={editing}
           venues={data?.festival?.venues || []}
           opened={opened}
-          onClose={close}
+          onClose={() => {
+            close();
+            clearSelection();
+          }}
+          onCreateSessions={onCreateSessions}
+          onCreateActivity={onCreateActivity}
         />
       )}
     </Box>

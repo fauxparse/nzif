@@ -38,6 +38,7 @@ RSpec.describe Mutations::Sessions::CreateMultiple, type: :mutation do
             ends_at: (ends_at + 1.day).iso8601,
           },
         ],
+        capacity: 15,
       },
     }
   end
@@ -47,6 +48,11 @@ RSpec.describe Mutations::Sessions::CreateMultiple, type: :mutation do
 
     it 'creates multiple sessions' do
       expect { result }.to change(Session, :count).by(2)
+    end
+
+    it 'saves the capacity' do
+      result
+      expect(Session.last.capacity).to eq 15
     end
   end
 end

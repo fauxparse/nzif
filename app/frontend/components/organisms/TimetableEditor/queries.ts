@@ -122,3 +122,29 @@ export const ActivitySearchQuery = graphql(
   `,
   [TimetableActivityFragment]
 );
+
+export const CreateActivityMutation = graphql(
+  `#graphql
+  mutation CreateActivity($festivalId: ID!, $type: ActivityType!, $attributes: ActivityAttributes!) {
+    createActivity(festivalId: $festivalId, type: $type, attributes: $attributes) {
+      activity {
+        ...TimetableActivity
+      }
+    }
+  }
+  `,
+  [TimetableActivityFragment]
+);
+
+export const CreateSessionsMutation = graphql(
+  `#graphql
+  mutation CreateSessions($attributes: MultipleSessionAttributes!) {
+    createSessions(attributes: $attributes) {
+      sessions {
+        ...TimetableSession
+      }
+    }
+  }
+  `,
+  [TimetableSessionFragment]
+);

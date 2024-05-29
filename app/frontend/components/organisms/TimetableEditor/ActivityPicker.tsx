@@ -1,13 +1,9 @@
-import {
-  activityColor,
-  activityTypeLabel,
-  pluralFromActivityType,
-} from '@/constants/activityTypes';
-import { ActivityType } from '@/graphql/types';
+import { activityColor, activityTypeLabel } from '@/constants/activityTypes';
+import { ActivityAttributes, ActivityType } from '@/graphql/types';
 import { ActivityIcon } from '@/icons/ActivityIcon';
 import PlusIcon from '@/icons/PlusIcon';
 import { useLazyQuery } from '@apollo/client';
-import { Box, Button, Combobox, Group, Text, TextInput, useCombobox } from '@mantine/core';
+import { Box, Button, Combobox, Group, Loader, Text, TextInput, useCombobox } from '@mantine/core';
 import { Link } from '@tanstack/react-router';
 import { DateTime } from 'luxon';
 import { useEffect, useRef, useState } from 'react';
@@ -19,7 +15,7 @@ type ActivityPickerProps = {
   startsAt?: DateTime;
   activityType: ActivityType;
   onDetailsClick: (activity: Activity) => void;
-  onAddActivity: (activity: Activity) => void;
+  onAddActivity: (type: ActivityType, attributes: Partial<ActivityAttributes>) => Promise<Activity>;
   onChange: (value: Activity | null) => void;
 };
 
@@ -31,6 +27,8 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
   onAddActivity,
   onChange,
 }) => {
+  const [busy, setBusy] = useState(false);
+
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
     onDropdownOpen: () => combobox.updateSelectedOptionIndex('active'),
@@ -55,7 +53,8 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
   const handleSearch = (query: string) => {
     abort.current?.abort();
     abort.current = new AbortController();
-    search({ variables: { query, activityType } });
+    setBusy(true);
+    search({ variables: { query, activityType } }).finally(() => setBusy(false));
   };
 
   useEffect(() => {
@@ -78,16 +77,16 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
   }, [data]);
 
   const handleValueSelect = (id: string) => {
-    setQuery('');
     combobox.closeDropdown();
 
     if (id === 'add') {
-      onAddActivity({
-        id: query,
-        name: query,
-        type: activityType,
-        slug: '',
-      });
+      setBusy(true);
+      onAddActivity(activityType, { name: query })
+        .then(onChange)
+        .finally(() => {
+          setBusy(false);
+          setQuery('');
+        });
     } else {
       onChange(options.find((activity) => activity.id === id) || null);
     }
@@ -112,7 +111,7 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
             <Button
               component={Link}
               to="/admin/$activityType/$slug"
-              params={{ activityType: pluralFromActivityType(value.type), slug: value.slug }}
+              params={{ activityType: value.type, slug: value.slug }}
               search={startsAt ? { session: startsAt.toISODate() } : {}}
               type="button"
               variant="filled"
@@ -139,6 +138,7 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
             value={query}
             onClick={() => combobox.toggleDropdown()}
             leftSection={<ActivityIcon activityType={activityType} />}
+            rightSection={busy && <Loader size="sm" />}
             placeholder={`Add a ${activityTypeLabel(activityType)}…`}
             onChange={(e) => {
               setQuery(e.currentTarget.value);
