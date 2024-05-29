@@ -1,4 +1,6 @@
 import { ActionList } from '@/components/molecules/ActionList';
+import { Permission } from '@/graphql/types';
+import CalendarIcon from '@/icons/CalendarIcon';
 import DashboardIcon from '@/icons/DashboardIcon';
 import { useAuthentication } from '@/services/Authentication';
 import { Title } from '@mantine/core';
@@ -7,7 +9,7 @@ import { isEmpty } from 'lodash-es';
 import { NavigationItem } from './NavigationItem';
 
 export const AdminNavigation = () => {
-  const { user } = useAuthentication();
+  const { user, hasPermission } = useAuthentication();
 
   if (isEmpty(user?.permissions)) return null;
 
@@ -20,6 +22,11 @@ export const AdminNavigation = () => {
         <NavigationItem component={Link} to="/admin" leftSection={<DashboardIcon />}>
           Dashboard
         </NavigationItem>
+        {hasPermission(Permission.Activities) && (
+          <NavigationItem component={Link} to="/admin/timetable" leftSection={<CalendarIcon />}>
+            Timetable
+          </NavigationItem>
+        )}
       </ActionList>
     </div>
   );
