@@ -13,7 +13,7 @@ import {
 import { Permission } from '@/graphql/types';
 import { isEmpty, memoize } from 'lodash-es';
 
-import PERMISSIONS from './permissions.json';
+import PERMISSIONS from '../../../../config/permissions.yml';
 
 const AuthenticatedUserFragment = graphql(
   `#graphql
@@ -85,6 +85,7 @@ export type AuthenticationContextType = {
   error: string | null;
   logIn: (variables: LogInVariables) => Promise<FetchResult<ResultOf<typeof LogIn>>>;
   logOut: () => Promise<FetchResult<ResultOf<typeof LogOut>>>;
+  hasPermission: (permission: Permission) => boolean;
 };
 
 export type LogInVariables = VariablesOf<typeof LogIn>;
@@ -95,6 +96,7 @@ export const AuthenticationContext = createContext<AuthenticationContextType>({
   error: null,
   logIn: () => Promise.resolve({}),
   logOut: () => Promise.resolve({}),
+  hasPermission: () => false,
 });
 
 export const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -136,6 +138,11 @@ export const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }
 
   const loading = authLoading || loggingIn;
 
+  const hasPermissionTo = useCallback(
+    (permission: Permission) => hasPermission(permission, data?.user || null),
+    [data]
+  );
+
   const value = useMemo(
     () => ({
       user: data?.user ?? null,
@@ -143,6 +150,7 @@ export const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }
       error,
       logIn,
       logOut,
+      hasPermission: hasPermissionTo,
     }),
     [data, loading, error, logIn, logOut]
   );
