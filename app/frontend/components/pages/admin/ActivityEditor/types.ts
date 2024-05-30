@@ -5,4 +5,4 @@ export type Activity = NonNullable<ResultOf<typeof ActivityDetailsQuery>['festiv
 
 export type Session = Activity['sessions'][number];
 
-export type ActivityDetails = Pick<Activity, 'name' | 'slug'>;
+export type ActivityDetails = Pick<Activity, 'name' | 'slug' | 'description'>;

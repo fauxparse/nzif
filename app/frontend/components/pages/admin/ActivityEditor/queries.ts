@@ -11,6 +11,7 @@ export const ActivityDetailsQuery = graphql(
         name
         slug
         type
+        description
 
         ...on Workshop {
           tutors {
@@ -74,6 +75,17 @@ export const UpdateActivityDetailsMutation = graphql(`
         name
         slug
         type
+      }
+    }
+  }
+`);
+
+export const UpdateActivityMutation = graphql(`
+  mutation AdminUpdateActivityMutation($id: ID!, $attributes: ActivityAttributes!) {
+    updateActivity(id: $id, attributes: $attributes) {
+      activity {
+        id
+      description
       }
     }
   }
