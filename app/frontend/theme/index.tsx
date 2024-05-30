@@ -1,3 +1,5 @@
+import { CheckboxIcon } from '@/icons/CheckboxIcon';
+import CloseIcon from '@/icons/CloseIcon';
 import {
   Checkbox,
   Input,
@@ -12,10 +14,9 @@ import {
   rem,
 } from '@mantine/core';
 import { DatePickerInput, TimeInput } from '@mantine/dates';
+import ActionIcon from './components/ActionIcon';
 import Button from './components/Button';
 
-import { CheckboxIcon } from '@/icons/CheckboxIcon';
-import CloseIcon from '@/icons/CloseIcon';
 import './theme.css';
 
 export const theme = createTheme({
@@ -43,6 +44,7 @@ export const theme = createTheme({
     base: rem(16),
   },
   components: {
+    ActionIcon,
     Button,
     Checkbox: Checkbox.extend({
       defaultProps: {

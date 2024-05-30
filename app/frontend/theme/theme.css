@@ -10,7 +10,8 @@
   outline-color: var(--border-input-focus);
 }
 
-.mantine-Button-root {
+.mantine-Button-root,
+.mantine-ActionIcon-root {
   &.mantine-active:active {
     transform: none;
   }

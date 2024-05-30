@@ -25,12 +25,14 @@ import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AdminActivityTypeRouteImport } from './routes/admin/$activityType/route'
 import { Route as PublicActivityTypeRouteImport } from './routes/_public/$activityType/route'
 import { Route as AdminActivityTypeIndexImport } from './routes/admin/$activityType/index'
-import { Route as AdminActivityTypeSlugImport } from './routes/admin/$activityType/$slug'
 import { Route as PublicAboutSlugImport } from './routes/_public/about.$slug'
 import { Route as PublicAuthenticatedProfileImport } from './routes/_public/_authenticated/profile'
 import { Route as PublicActivityTypeListImport } from './routes/_public/$activityType/_list'
 import { Route as PublicActivityTypeSlugImport } from './routes/_public/$activityType/$slug'
+import { Route as AdminActivityTypeSlugRouteImport } from './routes/admin/$activityType/$slug/route'
+import { Route as AdminActivityTypeSlugIndexImport } from './routes/admin/$activityType/$slug/index'
 import { Route as PublicActivityTypeListIndexImport } from './routes/_public/$activityType/_list.index'
+import { Route as AdminActivityTypeSlugSessionImport } from './routes/admin/$activityType/$slug/$session'
 
 // Create Virtual Routes
 
@@ -105,11 +107,6 @@ const AdminActivityTypeIndexRoute = AdminActivityTypeIndexImport.update({
   getParentRoute: () => AdminActivityTypeRouteRoute,
 } as any)
 
-const AdminActivityTypeSlugRoute = AdminActivityTypeSlugImport.update({
-  path: '/$slug',
-  getParentRoute: () => AdminActivityTypeRouteRoute,
-} as any)
-
 const PublicAboutSlugRoute = PublicAboutSlugImport.update({
   path: '/about/$slug',
   getParentRoute: () => PublicRoute,
@@ -132,10 +129,30 @@ const PublicActivityTypeSlugRoute = PublicActivityTypeSlugImport.update({
   getParentRoute: () => PublicActivityTypeRouteRoute,
 } as any)
 
+const AdminActivityTypeSlugRouteRoute = AdminActivityTypeSlugRouteImport.update(
+  {
+    path: '/$slug',
+    getParentRoute: () => AdminActivityTypeRouteRoute,
+  } as any,
+)
+
+const AdminActivityTypeSlugIndexRoute = AdminActivityTypeSlugIndexImport.update(
+  {
+    path: '/',
+    getParentRoute: () => AdminActivityTypeSlugRouteRoute,
+  } as any,
+)
+
 const PublicActivityTypeListIndexRoute =
   PublicActivityTypeListIndexImport.update({
     path: '/',
     getParentRoute: () => PublicActivityTypeListRoute,
+  } as any)
+
+const AdminActivityTypeSlugSessionRoute =
+  AdminActivityTypeSlugSessionImport.update({
+    path: '/$session',
+    getParentRoute: () => AdminActivityTypeSlugRouteRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -226,6 +243,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexImport
       parentRoute: typeof AdminImport
     }
+    '/admin/$activityType/$slug': {
+      id: '/admin/$activityType/$slug'
+      path: '/$slug'
+      fullPath: '/admin/$activityType/$slug'
+      preLoaderRoute: typeof AdminActivityTypeSlugRouteImport
+      parentRoute: typeof AdminActivityTypeRouteImport
+    }
     '/_public/$activityType/$slug': {
       id: '/_public/$activityType/$slug'
       path: '/$slug'
@@ -254,13 +278,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicAboutSlugImport
       parentRoute: typeof PublicImport
     }
-    '/admin/$activityType/$slug': {
-      id: '/admin/$activityType/$slug'
-      path: '/$slug'
-      fullPath: '/admin/$activityType/$slug'
-      preLoaderRoute: typeof AdminActivityTypeSlugImport
-      parentRoute: typeof AdminActivityTypeRouteImport
-    }
     '/admin/$activityType/': {
       id: '/admin/$activityType/'
       path: '/'
@@ -268,12 +285,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminActivityTypeIndexImport
       parentRoute: typeof AdminActivityTypeRouteImport
     }
+    '/admin/$activityType/$slug/$session': {
+      id: '/admin/$activityType/$slug/$session'
+      path: '/$session'
+      fullPath: '/admin/$activityType/$slug/$session'
+      preLoaderRoute: typeof AdminActivityTypeSlugSessionImport
+      parentRoute: typeof AdminActivityTypeSlugRouteImport
+    }
     '/_public/$activityType/_list/': {
       id: '/_public/$activityType/_list/'
       path: '/'
       fullPath: '/$activityType/'
       preLoaderRoute: typeof PublicActivityTypeListIndexImport
       parentRoute: typeof PublicActivityTypeListImport
+    }
+    '/admin/$activityType/$slug/': {
+      id: '/admin/$activityType/$slug/'
+      path: '/'
+      fullPath: '/admin/$activityType/$slug/'
+      preLoaderRoute: typeof AdminActivityTypeSlugIndexImport
+      parentRoute: typeof AdminActivityTypeSlugRouteImport
     }
   }
 }
@@ -297,7 +328,11 @@ export const routeTree = rootRoute.addChildren({
   }),
   AdminRoute: AdminRoute.addChildren({
     AdminActivityTypeRouteRoute: AdminActivityTypeRouteRoute.addChildren({
-      AdminActivityTypeSlugRoute,
+      AdminActivityTypeSlugRouteRoute:
+        AdminActivityTypeSlugRouteRoute.addChildren({
+          AdminActivityTypeSlugSessionRoute,
+          AdminActivityTypeSlugIndexRoute,
+        }),
       AdminActivityTypeIndexRoute,
     }),
     AdminTimetableLazyRoute,
@@ -390,6 +425,14 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "admin/index.tsx",
       "parent": "/admin"
     },
+    "/admin/$activityType/$slug": {
+      "filePath": "admin/$activityType/$slug/route.tsx",
+      "parent": "/admin/$activityType",
+      "children": [
+        "/admin/$activityType/$slug/$session",
+        "/admin/$activityType/$slug/"
+      ]
+    },
     "/_public/$activityType/$slug": {
       "filePath": "_public/$activityType/$slug.tsx",
       "parent": "/_public/$activityType"
@@ -409,17 +452,21 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_public/about.$slug.tsx",
       "parent": "/_public"
     },
-    "/admin/$activityType/$slug": {
-      "filePath": "admin/$activityType/$slug.tsx",
-      "parent": "/admin/$activityType"
-    },
     "/admin/$activityType/": {
       "filePath": "admin/$activityType/index.tsx",
       "parent": "/admin/$activityType"
     },
+    "/admin/$activityType/$slug/$session": {
+      "filePath": "admin/$activityType/$slug/$session.tsx",
+      "parent": "/admin/$activityType/$slug"
+    },
     "/_public/$activityType/_list/": {
       "filePath": "_public/$activityType/_list.index.tsx",
       "parent": "/_public/$activityType/_list"
+    },
+    "/admin/$activityType/$slug/": {
+      "filePath": "admin/$activityType/$slug/index.tsx",
+      "parent": "/admin/$activityType/$slug"
     }
   }
 }

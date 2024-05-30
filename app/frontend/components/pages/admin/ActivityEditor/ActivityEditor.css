@@ -1,0 +1,85 @@
+.activity-editor {
+  &__header {
+    &__name {
+      font-size: var(--header-title-font-size);
+      line-height: var(--header-title-line-height);
+    }
+
+    &__url {
+      align-items: center;
+
+      p {
+        height: 2rem;
+        margin: 0;
+        color: var(--text-subtle);
+        line-height: 2rem;
+      }
+
+      .mantine-Input-wrapper {
+        height: 2rem;
+      }
+
+      .mantine-Loader-root {
+        --loader-color: var(--border-element);
+
+        transition: opacity var(--speed-standard) var(--ease-standard);
+      }
+
+      input {
+        height: 2rem;
+        min-height: 0;
+        padding-block: 0;
+        border-width: 0 0 1px;
+        border-radius: 0;
+        background: transparent;
+        padding-inline-start: var(--spacing-tiny);
+      }
+    }
+  }
+
+  &__edit {
+    grid-column: main;
+  }
+}
+
+.in-place-edit {
+  display: flex;
+  gap: var(--spacing-medium);
+  align-items: center;
+
+  & &__input,
+  & &__input .mantine-Input-wrapper,
+  & &__input textarea,
+  & &__text {
+    display: block;
+    height: auto;
+    min-height: 1.5em;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    color: inherit;
+    box-shadow: none;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    resize: none;
+  }
+
+  & &__input {
+    flex: 0 0 100%;
+
+    & textarea {
+      width: 100%;
+
+      &:focus-visible {
+        outline: none;
+      }
+    }
+  }
+
+  &__icon {
+    flex: 0 0 1rem;
+    width: 1rem;
+    height: 1rem;
+  }
+}

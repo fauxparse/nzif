@@ -1,6 +1,10 @@
 .header {
   --header-min-height: 15rem;
   --header-height: var(--header-min-height);
+  --header-title-font-size: 2rem;
+
+  /* --header-title-font-size: clamp(2rem, 8cqw, 3rem); */
+  --header-title-line-height: 1.2;
 
   position: relative;
   z-index: var(--z-index-header);
@@ -43,6 +47,7 @@
 
   &__bottom-outer {
     grid-row: bottom;
+    min-width: 100%;
     margin-bottom: calc(var(--border-thin) * -1);
   }
 
@@ -63,8 +68,8 @@
     h1 {
       margin: 0;
       font-weight: var(--font-weight-medium);
-      font-size: clamp(2rem, 8cqw, 3rem);
-      line-height: 1.2;
+      font-size: var(--header-title-size);
+      line-height: var(--header-title-line-height);
     }
   }
 

@@ -16,7 +16,7 @@ const useRoutesWithTitles = () => {
   type MatchedRoute = (typeof matches)[number];
 
   const hasTitle = (match: MatchedRoute): match is WithTitle<MatchedRoute> =>
-    'getTitle' in match.routeContext;
+    !!match.routeContext && 'getTitle' in match.routeContext;
 
   const routesWithTitles = matches.filter(hasTitle);
 
