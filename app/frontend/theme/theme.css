@@ -67,3 +67,52 @@
     padding: var(--spacing-small) var(--spacing-base) var(--spacing-base);
   }
 }
+
+.mantine-Notifications-notification.mantine-Notification {
+  &-root {
+    display: grid;
+    grid-template-columns: 1fr var(--icon-medium);
+    align-items: center;
+    padding: var(--spacing-base);
+    border: 1px solid var(--border-subtle);
+    background-color: var(--background-subtle);
+    color: var(--text-subtle);
+    box-shadow: var(--shadow-large), 0 0 0 var(--border-thin) var(--modal-border);
+    column-gap: var(--spacing-base);
+
+    &::before {
+      display: none;
+    }
+
+    .mantine-Notification {
+      &-title,
+      &-description {
+        grid-column: 1;
+        font-size: var(--font-size-medium);
+        line-height: var(--line-height-medium);
+      }
+    }
+
+    .mantine-CloseButton-root {
+      --cb-radius:var(--radius-round);
+
+      grid-row: 1 / -1;
+      grid-column: 2;
+      align-self: start;
+      justify-self: center;
+      border: 0;
+      background: none;
+      color: var(--text-subtle);
+      box-shadow: none;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--text-default);
+      }
+
+      svg {
+        --cb-icon-size: var(--icon-medium);
+      }
+    }
+  }
+}
