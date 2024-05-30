@@ -1,12 +1,27 @@
-import { ActivityDetailsQuery } from '@/components/pages/ActivityDetails';
+import { ActivityEditor } from '@/components/pages/admin/ActivityEditor';
+import { ActivityDetailsQuery } from '@/components/pages/admin/ActivityEditor/queries';
 import { ResultOf } from '@/graphql';
 import { Text } from '@mantine/core';
-import { createFileRoute, notFound } from '@tanstack/react-router';
+import { createFileRoute, notFound, useChildMatches } from '@tanstack/react-router';
+import { DateTime } from 'luxon';
 
 const Component = () => {
   const { activity } = Route.useLoaderData();
 
-  return <Text>{activity.name}</Text>;
+  const matches = useChildMatches();
+
+  if (!activity) throw notFound();
+
+  const sessionStartsAt =
+    (matches.find((match) => 'session' in match.params)?.params as { session: DateTime })
+      ?.session ?? null;
+
+  const session =
+    (sessionStartsAt &&
+      activity.sessions.find((s) => s.startsAt.hasSame(sessionStartsAt, 'day'))) ??
+    null;
+
+  return <ActivityEditor activity={activity} session={session} />;
 };
 
 export const Route = createFileRoute('/admin/$activityType/$slug')({

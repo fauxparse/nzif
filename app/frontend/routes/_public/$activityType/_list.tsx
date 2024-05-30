@@ -1,9 +1,7 @@
 import ActivityTypeTabs from '@/components/molecules/ActivityTypeTabs';
 import Body from '@/components/organisms/Body';
 import Header from '@/components/organisms/Header';
-import { pluralFromActivityType } from '@/constants/activityTypes';
 import { ActivityType } from '@/graphql/types';
-import { Container } from '@mantine/core';
 import { Outlet, createFileRoute, useNavigate } from '@tanstack/react-router';
 
 const Component = () => {
@@ -11,7 +9,7 @@ const Component = () => {
   const navigate = useNavigate();
 
   return (
-    <Container>
+    <>
       <Header
         title="Festival programme"
         tabs={
@@ -21,7 +19,7 @@ const Component = () => {
               if (!value) return;
               navigate({
                 to: '/$activityType',
-                params: { activityType: pluralFromActivityType(value) },
+                params: { activityType: value },
               });
             }}
           />
@@ -30,7 +28,7 @@ const Component = () => {
       <Body>
         <Outlet />
       </Body>
-    </Container>
+    </>
   );
 };
 

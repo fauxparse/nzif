@@ -6,7 +6,7 @@ import { ResultOf, graphql, readFragment } from '@/graphql';
 import { usePlacenames } from '@/hooks/usePlacenames';
 import CalendarIcon from '@/icons/CalendarIcon';
 import LocationIcon from '@/icons/LocationIcon';
-import { Container, Image } from '@mantine/core';
+import { Image } from '@mantine/core';
 import { map, range, uniqBy } from 'lodash-es';
 
 import Avatar from '@/components/atoms/Avatar';
@@ -93,7 +93,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, loading }) 
   const venues = uniqBy(map(activity.sessions, 'venue').filter(Boolean), 'id');
 
   return (
-    <Container>
+    <>
       <Header
         className="activity-details__header"
         background={
@@ -233,7 +233,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, loading }) 
           </div>
         </div>
       </Body>
-    </Container>
+    </>
   );
 };
 

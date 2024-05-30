@@ -6,6 +6,7 @@
   --button-block-size: 2.5rem;
   --button-padding-inline: 0.4375rem;
   --button-text-hover: var(--button-text);
+  --button-border-radius: var(--radius-small);
 
   &:active {
     --button-background: var(--button-background-hover);
