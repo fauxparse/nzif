@@ -21,17 +21,21 @@ import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { HeadingNode, QuoteNode } from '@lexical/rich-text';
 import { EditorState } from 'lexical';
-import ToolbarPlugin from './plugins/ToolbarPlugin';
-import theme from './theme';
-
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import './Editor.css';
+import { FloatingLinkEditorPlugin } from './plugins/FloatingLinkEditorPlugin';
 import { PeriodicSavePlugin, PeriodicSavePluginRef } from './plugins/PeriodicSavePlugin';
+import { ToolbarPlugin } from './plugins/ToolbarPlugin';
+import TreeViewPlugin from './plugins/TreeViewPlugin';
+
+import LinkPlugin from './plugins/LinkPlugin';
+import theme from './theme';
 
 const TRANSFORMERS = [
   UNORDERED_LIST,
@@ -50,10 +54,11 @@ const TRANSFORMERS = [
 
 type EditorProps = {
   value: string;
+  debug?: boolean;
   onChange: (value: string) => void;
 };
 
-export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
+export const Editor: React.FC<EditorProps> = ({ value, debug, onChange }) => {
   const initialConfig = {
     editorState: () => {
       $convertFromMarkdownString(value, TRANSFORMERS);
@@ -81,30 +86,52 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
     [onChange]
   );
 
+  const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
+  const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
+
+  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
+    if (_floatingAnchorElem !== null) {
+      setFloatingAnchorElem(_floatingAnchorElem);
+    }
+  };
+
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <div className="editor">
+      <div
+        className="editor"
+        onBlur={(event: React.FocusEvent<HTMLElement>) => {
+          if (
+            !event.relatedTarget?.closest('.editor') &&
+            !event.relatedTarget?.closest('.link-editor')
+          ) {
+            editor.current?.save();
+          }
+        }}
+      >
         <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-        <ToolbarPlugin />
+        <ToolbarPlugin setLinkEditMode={setIsLinkEditMode} />
         <PeriodicSavePlugin ref={editor} onSave={handleSave} />
-        <div className="editor__inner">
+        <div ref={onRef} className="editor__inner">
           <RichTextPlugin
-            contentEditable={
-              <ContentEditable
-                className="editor__input"
-                onBlur={() => {
-                  editor.current?.save();
-                }}
-              />
-            }
+            contentEditable={<ContentEditable className="editor__input" />}
             placeholder={<Placeholder />}
             ErrorBoundary={LexicalErrorBoundary}
           />
+          <LinkPlugin />
+          <ListPlugin />
           <HistoryPlugin />
           <AutoFocusPlugin />
           <OnChangePlugin onChange={handleChange} />
+          {floatingAnchorElem && (
+            <FloatingLinkEditorPlugin
+              anchorElem={floatingAnchorElem}
+              isLinkEditMode={isLinkEditMode}
+              setIsLinkEditMode={setIsLinkEditMode}
+            />
+          )}
         </div>
       </div>
+      {debug && import.meta.env.MODE === 'development' && <TreeViewPlugin />}
     </LexicalComposer>
   );
 };

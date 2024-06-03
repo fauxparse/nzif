@@ -422,3 +422,27 @@ pre::-webkit-scrollbar-thumb {
     user-select: none;
   }
 }
+
+
+.link-editor {
+  --border-input: transparent;
+  --border-input-focus: transparent;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  border-radius: var(--radius-small);
+  background-color: #fff;
+  box-shadow: 0 5px 10px rgb(0 0 0 / 0.3);
+  opacity: 0;
+  transition: opacity 0.5s;
+  will-change: transform;
+
+  &__link {
+    padding-inline: var(--spacing-base);
+    text-decoration: none;
+  }
+}
