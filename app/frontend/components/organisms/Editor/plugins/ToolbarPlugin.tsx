@@ -6,34 +6,72 @@
  *
  */
 import BoldIcon from '@/icons/BoldIcon';
-import CenterAlignIcon from '@/icons/CenterAlignIcon';
+import BulletListIcon from '@/icons/BulletListIcon';
+import HeadingIcon from '@/icons/HeadingIcon';
 import ItalicIcon from '@/icons/ItalicIcon';
-import LeftAlignIcon from '@/icons/LeftAlignIcon';
+import LinkIcon from '@/icons/LinkIcon';
+import NumberedListIcon from '@/icons/NumberedListIcon';
+import QuoteIcon from '@/icons/QuoteIcon';
 import RedoIcon from '@/icons/RedoIcon';
-import RightAlignIcon from '@/icons/RightAlignIcon';
 import StrikethroughIcon from '@/icons/StrikethroughIcon';
 import UnderlineIcon from '@/icons/UnderlineIcon';
 import UndoIcon from '@/icons/UndoIcon';
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
+import {
+  $isListNode,
+  INSERT_ORDERED_LIST_COMMAND,
+  INSERT_UNORDERED_LIST_COMMAND,
+  ListNode,
+} from '@lexical/list';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { mergeRegister } from '@lexical/utils';
+import {
+  $createHeadingNode,
+  $createQuoteNode,
+  $isHeadingNode,
+  HeadingTagType,
+} from '@lexical/rich-text';
+import { $setBlocksType } from '@lexical/selection';
+import { $findMatchingParent, $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
 import { ActionIcon } from '@mantine/core';
 import {
+  $createParagraphNode,
   $getSelection,
   $isRangeSelection,
+  $isRootOrShadowRoot,
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
-  FORMAT_ELEMENT_COMMAND,
+  COMMAND_PRIORITY_CRITICAL,
   FORMAT_TEXT_COMMAND,
   REDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
 } from 'lexical';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
+import { getSelectedNode } from '../utils/getSelectedNode';
 
 const LowPriority = 1;
 
-export default function ToolbarPlugin() {
+const blockTypeToBlockName = {
+  bullet: 'Bulleted List',
+  check: 'Checklist',
+  h1: 'Heading 1',
+  h2: 'Heading 2',
+  h3: 'Heading 3',
+  h4: 'Heading 4',
+  h5: 'Heading 5',
+  h6: 'Heading 6',
+  number: 'Numbered List',
+  paragraph: 'Normal',
+  quote: 'Quote',
+} as const;
+
+type ToolbarPluginProps = {
+  setLinkEditMode: Dispatch<boolean>;
+};
+
+export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ setLinkEditMode }) => {
   const [editor] = useLexicalComposerContext();
+  const [activeEditor, setActiveEditor] = useState(editor);
   const toolbarRef = useRef(null);
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
@@ -41,6 +79,8 @@ export default function ToolbarPlugin() {
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
+  const [isLink, setIsLink] = useState(false);
+  const [blockType, setBlockType] = useState<keyof typeof blockTypeToBlockName>('paragraph');
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -50,8 +90,53 @@ export default function ToolbarPlugin() {
       setIsItalic(selection.hasFormat('italic'));
       setIsUnderline(selection.hasFormat('underline'));
       setIsStrikethrough(selection.hasFormat('strikethrough'));
+
+      const node = getSelectedNode(selection);
+      const parent = node.getParent();
+      setIsLink($isLinkNode(parent) || $isLinkNode(node));
+
+      const anchorNode = selection.anchor.getNode();
+      let element =
+        anchorNode.getKey() === 'root'
+          ? anchorNode
+          : $findMatchingParent(anchorNode, (e) => {
+              const parent = e.getParent();
+              return parent !== null && $isRootOrShadowRoot(parent);
+            });
+
+      if (element === null) {
+        element = anchorNode.getTopLevelElementOrThrow();
+      }
+
+      const elementKey = element.getKey();
+      const elementDOM = activeEditor.getElementByKey(elementKey);
+
+      if (elementDOM !== null) {
+        if ($isListNode(element)) {
+          const parentList = $getNearestNodeOfType<ListNode>(anchorNode, ListNode);
+          const type = parentList ? parentList.getListType() : element.getListType();
+          setBlockType(type);
+        } else {
+          const type = $isHeadingNode(element) ? element.getTag() : element.getType();
+          if (type in blockTypeToBlockName) {
+            setBlockType(type as keyof typeof blockTypeToBlockName);
+          }
+        }
+      }
     }
   }, []);
+
+  useEffect(() => {
+    return editor.registerCommand(
+      SELECTION_CHANGE_COMMAND,
+      (_payload, newEditor) => {
+        $updateToolbar();
+        setActiveEditor(newEditor);
+        return false;
+      },
+      COMMAND_PRIORITY_CRITICAL
+    );
+  }, [editor, $updateToolbar]);
 
   useEffect(() => {
     return mergeRegister(
@@ -87,6 +172,63 @@ export default function ToolbarPlugin() {
     );
   }, [editor, $updateToolbar]);
 
+  const insertLink = useCallback(() => {
+    if (!isLink) {
+      setLinkEditMode(true);
+      editor.dispatchCommand(TOGGLE_LINK_COMMAND, 'https://');
+    } else {
+      setLinkEditMode(false);
+      editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
+    }
+  }, [editor, isLink, setLinkEditMode]);
+
+  const formatParagraph = () => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        $setBlocksType(selection, () => $createParagraphNode());
+      }
+    });
+  };
+
+  const formatHeading = (headingSize: HeadingTagType) => {
+    if (blockType !== headingSize) {
+      editor.update(() => {
+        const selection = $getSelection();
+        $setBlocksType(selection, () => $createHeadingNode(headingSize));
+      });
+    } else {
+      formatParagraph();
+    }
+  };
+
+  const formatBulletList = () => {
+    if (blockType !== 'bullet') {
+      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
+    } else {
+      formatParagraph();
+    }
+  };
+
+  const formatNumberedList = () => {
+    if (blockType !== 'number') {
+      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
+    } else {
+      formatParagraph();
+    }
+  };
+
+  const formatQuote = () => {
+    if (blockType !== 'quote') {
+      editor.update(() => {
+        const selection = $getSelection();
+        $setBlocksType(selection, () => $createQuoteNode());
+      });
+    } else {
+      formatParagraph();
+    }
+  };
+
   return (
     <div className="editor__toolbar" ref={toolbarRef}>
       <ActionIcon.Group>
@@ -107,6 +249,32 @@ export default function ToolbarPlugin() {
           }}
         >
           <RedoIcon />
+        </ActionIcon>
+      </ActionIcon.Group>
+      <ActionIcon.Group>
+        <ActionIcon
+          aria-label="Heading"
+          aria-pressed={blockType === 'h3'}
+          onClick={() => formatHeading('h3')}
+        >
+          <HeadingIcon />
+        </ActionIcon>
+        <ActionIcon
+          aria-label="Bullet list"
+          aria-pressed={blockType === 'bullet'}
+          onClick={formatBulletList}
+        >
+          <BulletListIcon />
+        </ActionIcon>
+        <ActionIcon
+          aria-label="Numbered list"
+          aria-pressed={blockType === 'number'}
+          onClick={formatNumberedList}
+        >
+          <NumberedListIcon />
+        </ActionIcon>
+        <ActionIcon aria-label="Quote" aria-pressed={blockType === 'quote'} onClick={formatQuote}>
+          <QuoteIcon />
         </ActionIcon>
       </ActionIcon.Group>
       <ActionIcon.Group>
@@ -148,31 +316,10 @@ export default function ToolbarPlugin() {
         </ActionIcon>
       </ActionIcon.Group>
       <ActionIcon.Group>
-        <ActionIcon
-          aria-label="Align left"
-          onClick={() => {
-            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left');
-          }}
-        >
-          <LeftAlignIcon />
-        </ActionIcon>
-        <ActionIcon
-          aria-label="Align center"
-          onClick={() => {
-            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center');
-          }}
-        >
-          <CenterAlignIcon />
-        </ActionIcon>
-        <ActionIcon
-          aria-label="Align right"
-          onClick={() => {
-            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right');
-          }}
-        >
-          <RightAlignIcon />
+        <ActionIcon aria-label="Link" aria-pressed={isLink} onClick={insertLink}>
+          <LinkIcon />
         </ActionIcon>
       </ActionIcon.Group>
     </div>
   );
-}
+};
