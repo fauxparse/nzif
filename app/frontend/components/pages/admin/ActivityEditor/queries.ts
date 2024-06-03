@@ -17,6 +17,10 @@ export const ActivityDetailsQuery = graphql(
           tutors {
             id
             name
+            picture {
+              id
+              small
+            }
           }
         }
 
@@ -85,7 +89,7 @@ export const UpdateActivityMutation = graphql(`
     updateActivity(id: $id, attributes: $attributes) {
       activity {
         id
-      description
+        description
       }
     }
   }

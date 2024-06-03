@@ -38,7 +38,11 @@
   }
 
   &__edit {
+    display: grid;
     grid-column: main;
+    row-gap: var(--spacing-large);
+    max-width: 60rem;
+    padding-block: var(--spacing-large);
   }
 }
 

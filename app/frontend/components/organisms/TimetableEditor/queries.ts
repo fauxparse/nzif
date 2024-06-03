@@ -4,10 +4,6 @@ export const TimetableCastFragment = graphql(`
   fragment TimetableCast on Person @_unmask {
     id
     name
-    picture {
-      id
-      small
-    }
   }
 `);
 
