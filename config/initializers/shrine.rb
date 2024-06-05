@@ -2,7 +2,7 @@ require 'shrine'
 require 'shrine/storage/file_system'
 require 'shrine/storage/s3'
 
-local = Shrine::Storage::FileSystem.new('public', prefix: 'uploads')
+# local = Shrine::Storage::FileSystem.new('public', prefix: 'uploads')
 external = Shrine::Storage::S3.new(
   force_path_style: false,
   endpoint: Rails.application.credentials.dig(:storage, :endpoint),
@@ -25,3 +25,4 @@ Shrine.storages = {
 Shrine.plugin :activerecord
 Shrine.plugin :derivatives, create_on_promote: true
 Shrine.plugin :validation_helpers
+Shrine.plugin :url_options, store: { expires_in: 1.week.to_i }
