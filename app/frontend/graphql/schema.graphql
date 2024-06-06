@@ -20,6 +20,7 @@ input ActivityAttributes {
   profileIds: [ID!]
   slug: String
   suitability: String
+  uploadedPicture: UploadedFile
 }
 
 type ActivityCount {
@@ -1010,6 +1011,13 @@ type UpdateUserPayload {
 }
 
 scalar Upload
+
+input UploadedFile {
+  filename: String!
+  id: String!
+  mimeType: String
+  size: Int!
+}
 
 type User {
   activities: [Activity!]!

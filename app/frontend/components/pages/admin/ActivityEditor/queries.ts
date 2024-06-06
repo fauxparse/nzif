@@ -13,6 +13,11 @@ export const ActivityDetailsQuery = graphql(
         type
         description
 
+        picture {
+          id
+          large
+        }
+
         ...on Workshop {
           tutors {
             id
@@ -90,6 +95,28 @@ export const UpdateActivityMutation = graphql(`
       activity {
         id
         description
+        picture {
+          id
+          large
+        }
+
+        ...on Workshop {
+          tutors {
+            id
+            name
+            picture {
+              id
+              small
+            }
+          }
+        }
+
+        ...on Show {
+          directors {
+            id
+            name
+          }
+        }
       }
     }
   }

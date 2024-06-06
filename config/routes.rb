@@ -1,6 +1,8 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  mount Shrine.presign_endpoint(:cache) => '/s3/params'
+
   unless Rails.env.production?
     mount GraphiQL::Rails::Engine, at: '/graphiql',
       graphql_path: '/graphql'

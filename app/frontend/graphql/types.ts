@@ -43,6 +43,7 @@ export type ActivityAttributes = {
   profileIds: InputMaybe<Array<Scalars['ID']>>;
   slug: InputMaybe<Scalars['String']>;
   suitability: InputMaybe<Scalars['String']>;
+  uploadedPicture: InputMaybe<UploadedFile>;
 };
 
 export type ActivityCount = {
@@ -1216,6 +1217,13 @@ export type UpdateUserDetailsPayload = {
 export type UpdateUserPayload = {
   __typename: 'UpdateUserPayload';
   user: User;
+};
+
+export type UploadedFile = {
+  filename: Scalars['String'];
+  id: Scalars['String'];
+  mimeType: InputMaybe<Scalars['String']>;
+  size: Scalars['Int'];
 };
 
 export type User = {

@@ -8,5 +8,6 @@ module Types
     argument :profile_ids, [ID], required: false
     argument :slug, String, required: false
     argument :suitability, String, required: false
+    argument :uploaded_picture, Types::UploadedFile, required: false
   end
 end

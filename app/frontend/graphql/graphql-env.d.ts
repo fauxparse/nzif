@@ -256,6 +256,14 @@ export type introspection = {
               "name": "String",
               "ofType": null
             }
+          },
+          {
+            "name": "uploadedPicture",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UploadedFile",
+              "ofType": null
+            }
           }
         ]
       },
@@ -6392,6 +6400,53 @@ export type introspection = {
       {
         "kind": "SCALAR",
         "name": "Upload"
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UploadedFile",
+        "inputFields": [
+          {
+            "name": "filename",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "mimeType",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "size",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            }
+          }
+        ]
       },
       {
         "kind": "OBJECT",

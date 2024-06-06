@@ -5,7 +5,6 @@ module Activities
     def call
       authorize! activity, to: :update?
       activity.transaction do
-        Rails.logger.info attributes.inspect
         assign_attributes
         activity.save!
       end
