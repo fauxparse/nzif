@@ -43,7 +43,7 @@ const ShowCasts: React.FC<ShowCastsProps> = ({ show }) => {
       {casts.map((session) => (
         <>
           {casts.length > 1 && <h3>{session.startsAt.plus(0).toFormat('EEEE d MMMM')}</h3>}
-          <dl>
+          <dl key={session.id}>
             {ROLES.map(
               (role) =>
                 !isEmpty(session[role]) && (

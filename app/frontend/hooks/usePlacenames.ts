@@ -1,4 +1,4 @@
-import { uniqBy } from "lodash-es";
+import { uniqBy } from 'lodash-es';
 
 type Placename = {
   id: string | number;
@@ -8,15 +8,15 @@ type Placename = {
 
 type Locatable = {
   city: Placename | null;
-  country: Placename | null
-}
+  country: Placename | null;
+};
 
-const USE_CITIES = new Set<Placename['id']>(['NZ', 'AU'])
+const USE_CITIES = new Set<Placename['id']>(['NZ', 'AU']);
 
 export const usePlacenames = (locatables: Locatable[]): Placename[] =>
   uniqBy(
     locatables
-      .filter(({ city, country}) => !!city || !!country)
+      .filter(({ city, country }) => !!city || !!country)
       .map(({ city, country }) => (!country || USE_CITIES.has(country.id) ? city : country))
       .filter(Boolean) as Placename[],
     'id'

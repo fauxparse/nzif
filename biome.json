@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/1.8.0/schema.json",
   "organizeImports": {
     "enabled": true
   },
@@ -15,7 +15,7 @@
   "javascript": {
     "formatter": {
       "quoteStyle": "single",
-      "trailingComma": "es5",
+      "trailingCommas": "es5",
       "semicolons": "always",
       "lineWidth": 100
     }
@@ -50,6 +50,12 @@
     }
   },
   "files": {
-    "ignore": ["*.typegen.ts", "*.gen.ts", "graphql-env.d.ts"]
+    "ignore": [
+      "*.typegen.ts",
+      "*.gen.ts",
+      "graphql-env.d.ts",
+      "app/frontend/graphql/types.ts",
+      "app/frontend/graphql/schema.json"
+    ]
   }
 }

@@ -49,7 +49,6 @@ const Steps: React.FC = () => {
     <div className="registration__steps" style={{ '--step-count': length - 1 } as CSSProperties}>
       {REGISTRATION_STEPS.slice(0, -1).map(({ label, path }, index) => {
         const attrs = {
-          key: path,
           className: 'registration__step',
           'data-step-count': length,
           'aria-selected': path === current.path,
@@ -57,9 +56,9 @@ const Steps: React.FC = () => {
         };
 
         return index < currentIndex ? (
-          <Link to={`/${festival?.id}${path}`} {...attrs} />
+          <Link key={path} to={`/${festival?.id}${path}`} {...attrs} />
         ) : (
-          <div {...attrs} />
+          <div key={path} {...attrs} />
         );
       })}
     </div>
