@@ -1,6 +1,7 @@
+import { ImageUploader } from '@/components/molecules/ImageUploader';
 import { PersonPicker } from '@/components/molecules/PersonPicker';
 import { Editor } from '@/components/organisms/Editor';
-import { ActivityAttributes, ActivityType } from '@/graphql/types';
+import { ActivityAttributes, ActivityType, UploadedFile } from '@/graphql/types';
 import { useMutation } from '@apollo/client';
 import { notifications } from '@mantine/notifications';
 import { createFormFactory } from '@tanstack/react-form';
@@ -12,13 +13,18 @@ type EditProps = {
   activity: Activity;
 };
 
-const formFactory = createFormFactory<ActivityDetails>({
+type WithUploadedPicture<T> = T & {
+  uploadedPicture: UploadedFile | null;
+};
+
+const formFactory = createFormFactory<WithUploadedPicture<ActivityDetails>>({
   defaultValues: {
     name: '',
     type: ActivityType.Workshop,
     slug: '',
     description: '',
     presenters: [],
+    uploadedPicture: null,
   },
 });
 
@@ -45,15 +51,23 @@ export const Edit: React.FC<EditProps> = ({ activity }) => {
   const hasPresenters = isWorkshop(activity) || isShow(activity);
 
   const form = formFactory.useForm({
-    defaultValues: getDefaultValuesFromActivity(activity),
-    onSubmit: ({ value }) => {
-      const attributes = pick(value, ['description']) as ActivityAttributes;
+    defaultValues: { ...getDefaultValuesFromActivity(activity), uploadedPicture: null },
+    onSubmit: async ({ value }) => {
+      const attributes = {} as ActivityAttributes;
 
-      if (hasPresenters) {
+      if (form.state.fieldMeta.description.isDirty) {
+        attributes.description = value.description;
+      }
+
+      if (hasPresenters && form.state.fieldMeta.presenters.isDirty) {
         attributes.profileIds = value.presenters.map((presenter) => presenter.id);
       }
 
-      updateMutation({
+      if (value.uploadedPicture && form.state.fieldMeta.uploadedPicture.isDirty) {
+        attributes.uploadedPicture = value.uploadedPicture;
+      }
+
+      await updateMutation({
         variables: {
           id: activity.id,
           attributes,
@@ -72,6 +86,7 @@ export const Edit: React.FC<EditProps> = ({ activity }) => {
         },
       }).then(() => {
         notifications.show({ message: 'Changes saved' });
+        form.setFieldValue('uploadedPicture', null);
       });
     },
   });
@@ -98,6 +113,19 @@ export const Edit: React.FC<EditProps> = ({ activity }) => {
             value={field.state.value || ''}
             onChange={(value) => {
               if (field.state.value === value) return;
+              field.handleChange(value);
+              form.handleSubmit();
+            }}
+          />
+        )}
+      </form.Field>
+      <form.Field name="uploadedPicture">
+        {(field) => (
+          <ImageUploader
+            width={1920}
+            height={1080}
+            value={activity.picture?.large ?? null}
+            onChange={(value) => {
               field.handleChange(value);
               form.handleSubmit();
             }}

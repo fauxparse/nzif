@@ -1,0 +1,60 @@
+.image-uploader {
+  --image-uploader-border-radius: var(--radius-small);
+
+  position: relative;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  border: var(--border-thin) solid var(--border-input);
+  border-radius: var(--image-uploader-border-radius);
+  aspect-ratio: var(--aspect-ratio);
+
+  &__preview {
+    grid-area: 1 / 1;
+    width: 100%;
+    height: auto;
+    border-radius: calc(var(--image-uploader-border-radius) - var(--border-thin));
+    opacity: var(--progress);
+    filter: grayscale(calc(1 - var(--progress)));
+    pointer-events: none;
+    transition: opacity var(--speed-slow) var(--ease-standard);
+    transition-property: opacity, filter;
+
+    + .image-uploader__target {
+      opacity: 0;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__target {
+    --divider-border-style: hidden;
+
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    grid-area: 1 / 1;
+    gap: var(--spacing-medium);
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(ellipse at center, var(--background-app) 25%, transparent);
+    text-align: center;
+    transition: opacity var(--speed-standard) var(--ease-standard);
+
+    p {
+      margin: 0;
+      color: var(--text-subtle);
+    }
+  }
+
+  [type="file"] {
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+}
