@@ -58,3 +58,94 @@
     opacity: 0;
   }
 }
+
+.crop-modal {
+  .mantine-Modal-body {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: var(--spacing-base);
+    overflow: hidden;
+  }
+
+  &__image {
+    position: relative;
+    user-select: none;
+  }
+
+  &__preview {
+    display: block;
+    max-width: 75vw;
+    max-height: 75vh;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: var(--background-app);
+    opacity: 0.75;
+    pointer-events: none;
+    clip-path: polygon(0% 0%, 0% 100%, var(--left) 100%, var(--left) var(--top), calc(var(--left) + var(--width)) var(--top), calc(var(--left) + var(--width)) calc(var(--top) + var(--height)), var(--left) calc(var(--top) + var(--height)), var(--left) 100%, 100% 100%, 100% 0%);
+  }
+
+  &__frame {
+    position: absolute;
+    top: var(--top);
+    left: var(--left);
+    width: var(--width);
+    height: var(--height);
+    border: var(--border-thin) solid var(--border-element);
+    cursor: move;
+  }
+
+  &__handle {
+    position: absolute;
+    width: 11px;
+    height: 11px;
+    margin: -5px;
+    background-color: var(--text-subtle);
+    box-shadow: 0 0 0 1px var(--background-app);
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: -1rem;
+      border-radius: var(--radius-round);
+    }
+
+    &[data-x="left"] {
+      left: 0;
+
+      &[data-y="top"] {
+        cursor: nwse-resize;
+      }
+
+      &[data-y="bottom"] {
+        cursor: nesw-resize;
+      }
+    }
+
+    &[data-x="right"] {
+      right: 0;
+
+      &[data-y="top"] {
+        cursor: nesw-resize;
+      }
+
+      &[data-y="bottom"] {
+        cursor: nwse-resize;
+      }
+    }
+
+    &[data-y="top"] {
+      top: 0;
+    }
+
+    &[data-y="bottom"] {
+      bottom: 0;
+    }
+  }
+
+  &__buttons {
+    justify-content: end;
+  }
+}

@@ -1,13 +1,13 @@
 import { isEqual } from 'lodash-es';
-import { useReducer } from 'react';
-import { Cell, LaidOutSession } from './types';
+import { useEffect, useReducer } from 'react';
+import { Cell, LaidOutSession, Rect, Session, normalizeRect } from './types';
 
 type ResizeState =
   | {
       state: 'idle';
     }
   | {
-      state: 'resizing';
+      state: 'resizing' | 'ending';
       laidOutSession: LaidOutSession;
       start: Cell;
       end: Cell;
@@ -30,7 +30,11 @@ type ResizeAction =
       type: 'cancel';
     };
 
-export const useResize = () => {
+type UseResizeOptions = {
+  onResize: (session: Session, rect: Rect) => void;
+};
+
+export const useResize = ({ onResize }: UseResizeOptions) => {
   const [resizing, dispatch] = useReducer(
     (state: ResizeState, action: ResizeAction): ResizeState => {
       switch (action.type) {
@@ -51,6 +55,11 @@ export const useResize = () => {
             end: action.cell,
           };
         case 'end':
+          if (state.state !== 'resizing') return state;
+          return {
+            ...state,
+            state: 'ending',
+          };
         case 'cancel':
           return { state: 'idle' };
         default:
@@ -59,6 +68,13 @@ export const useResize = () => {
     },
     { state: 'idle' }
   );
+
+  useEffect(() => {
+    if (resizing.state === 'ending') {
+      onResize(resizing.laidOutSession.session, normalizeRect(resizing));
+      dispatch({ type: 'cancel' });
+    }
+  }, [resizing]);
 
   return {
     resizing,

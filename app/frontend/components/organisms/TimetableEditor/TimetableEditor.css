@@ -123,6 +123,10 @@
       cursor: grabbing;
     }
 
+    &[data-resizing] .grid__row {
+      cursor: ew-resize;
+    }
+
     &__selection {
       z-index: var(--z-selection);
       margin: 1px 2px 2px 1px;
@@ -141,7 +145,7 @@
 
     &[data-resizing] {
       z-index: var(--z-selection);
-      cursor: ew-resize;
+      pointer-events: none;
     }
 
     &[data-dragging] {

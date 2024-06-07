@@ -6,6 +6,7 @@ import { acceptedBy } from './acceptedBy';
 import { useUpload } from './useUpload';
 
 import './ImageUploader.css';
+import { CropModal } from './CropModal';
 
 type ImageUploaderProps = {
   value: string | UploadedFile | null;
@@ -30,6 +31,8 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
 
   const [src, setSrc] = useState<string | null>(null);
 
+  const [fileToResize, setFileToResize] = useState<File | null>(null);
+
   useEffect(() => {
     if (!value) setSrc(null);
     if (isString(value)) setSrc(value);
@@ -37,14 +40,6 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
 
   const dragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-  }, []);
-
-  const updatePreview = useCallback((file: File) => {
-    if (!window.FileReader) return;
-
-    const fileReader = new FileReader();
-    fileReader.addEventListener('load', () => setSrc(fileReader.result as string));
-    fileReader.readAsDataURL(file);
   }, []);
 
   const drop = useCallback(
@@ -58,11 +53,10 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
       ).filter(Boolean) as File[];
 
       if (file && acceptedBy(accept, file)) {
-        updatePreview(file);
-        upload(file).then(onChange);
+        setFileToResize(file);
       }
     },
-    [accept, upload, updatePreview]
+    [accept, upload]
   );
 
   const [percentage, setPercentage] = useState(0);
@@ -82,6 +76,15 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
         // TODO: Handle error
       });
   }, [uppy]);
+
+  const cropped = (blob: Blob) => {
+    const name = fileToResize?.name || 'image.jpg';
+    setSrc(URL.createObjectURL(blob));
+    upload(blob, name).then((value) => {
+      onChange(value);
+      setFileToResize(null);
+    });
+  };
 
   return (
     <Box className="image-uploader" __vars={{ '--aspect-ratio': aspectRatio }}>
@@ -109,6 +112,9 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           Browse for an image
         </Button>
       </Box>
+      {width && height && (
+        <CropModal file={fileToResize} width={width} height={height} onCropped={cropped} />
+      )}
     </Box>
   );
 };

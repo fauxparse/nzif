@@ -80,6 +80,7 @@ export const TimetableEditor: React.FC<TimetableEditorProps> = ({
     dragging,
   } = useTimetable(data, {
     onSelect: editSession,
+    onChange: onUpdateSession,
   });
 
   return (
@@ -93,7 +94,11 @@ export const TimetableEditor: React.FC<TimetableEditorProps> = ({
         '--columns': String(columns),
       }}
     >
-      <Box className="grid" data-dragging={!!dragging || undefined}>
+      <Box
+        className="grid"
+        data-dragging={!!dragging || undefined}
+        data-resizing={!!resizing || undefined}
+      >
         <Box className="grid__columns">
           <Box ref={topLeft} className="grid__row-header grid__column-header" />
           {range(columns / granularity).map((column) => (

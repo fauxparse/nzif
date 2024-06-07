@@ -13,11 +13,11 @@ export const useUpload = () => {
   const [uploading, setUploading] = useState(false);
 
   const upload = useCallback(
-    (file: File) =>
+    (file: File | Blob, name: string) =>
       new Promise<UploadedFile>((resolve, reject) => {
         setUploading(true);
         uppy.addFile({
-          name: file.name,
+          name,
           type: file.type,
           data: file,
         });

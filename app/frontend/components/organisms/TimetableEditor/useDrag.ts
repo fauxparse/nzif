@@ -1,6 +1,6 @@
 import { isEqual } from 'lodash-es';
-import { useReducer } from 'react';
-import { Cell, LaidOutSession, Rect } from './types';
+import { useEffect, useReducer } from 'react';
+import { Cell, LaidOutSession, Rect, Session } from './types';
 
 type DragState =
   | {
@@ -11,6 +11,11 @@ type DragState =
       moved: boolean;
       laidOutSession: LaidOutSession;
       offset: number;
+      rect: Rect;
+    }
+  | {
+      state: 'ended';
+      laidOutSession: LaidOutSession;
       rect: Rect;
     };
 
@@ -33,9 +38,10 @@ type DragAction =
 
 type UseDragOptions = {
   columns: number;
+  onDrop: (session: Session, rect: Rect) => void;
 };
 
-export const useDrag = ({ columns }: UseDragOptions) => {
+export const useDrag = ({ columns, onDrop }: UseDragOptions) => {
   const [dragging, dispatch] = useReducer(
     (state: DragState, action: DragAction): DragState => {
       switch (action.type) {
@@ -66,6 +72,8 @@ export const useDrag = ({ columns }: UseDragOptions) => {
           return isEqual(newState, state) ? state : newState;
         }
         case 'end':
+          if (state.state !== 'dragging') return state;
+          return { ...state, state: 'ended' };
         case 'cancel':
           return { state: 'idle' };
         default:
@@ -75,12 +83,21 @@ export const useDrag = ({ columns }: UseDragOptions) => {
     { state: 'idle' }
   );
 
+  useEffect(() => {
+    if (dragging.state === 'ended') {
+      onDrop(dragging.laidOutSession.session, dragging.rect);
+      dispatch({ type: 'cancel' });
+    }
+  }, [dragging, onDrop]);
+
   return {
     dragging,
     start: (laidOutSession: LaidOutSession, cell: Cell) =>
       dispatch({ type: 'start', laidOutSession, cell }),
     move: (cell: Cell) => dispatch({ type: 'move', cell }),
-    end: () => dispatch({ type: 'end' }),
+    end: () => {
+      dispatch({ type: 'end' });
+    },
     cancel: () => dispatch({ type: 'cancel' }),
   };
 };
