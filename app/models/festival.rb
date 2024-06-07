@@ -17,6 +17,10 @@ class Festival < ApplicationRecord
   validates :end_date, presence: true, date: { after: :start_date, same_year: :start_date }
   validates :year, uniqueness: { conditions: -> { with_year } }
 
+  def self.current
+    find(ENV['CURRENT_FESTIVAL'] || Time.zone.today.year)
+  end
+
   def self.find(year)
     by_year(year).first!
   end

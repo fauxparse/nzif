@@ -9,7 +9,7 @@ module Mutations
     object_class Types::BaseObject
 
     def current_festival
-      context[:current_festival] ||= Festival.upcoming.first
+      context[:current_festival] ||= Festival.current
     end
 
     def current_registration
