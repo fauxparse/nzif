@@ -35,3 +35,5 @@ export const normalizeRect = (rect: Rect): Rect => ({
     column: Math.max(rect.start.column, rect.end.column),
   },
 });
+
+export const rightOf = (cell: Cell) => ({ row: cell.row, column: cell.column + 1 });

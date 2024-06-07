@@ -7,7 +7,7 @@ import {
   TimetableSessionFragment,
   UpdateSessionMutation,
 } from '@/components/organisms/TimetableEditor/queries';
-import { Activity } from '@/components/organisms/TimetableEditor/types';
+import { Activity, Session } from '@/components/organisms/TimetableEditor/types';
 import {
   ActivityAttributes,
   ActivityType,
@@ -101,8 +101,9 @@ const Component: React.FC = () => {
   const [updateSessionMutation] = useMutation(UpdateSessionMutation);
 
   const updateSession = useCallback(
-    (id: Scalars['ID'], attributes: Partial<SessionAttributes>) =>
-      updateSessionMutation({
+    (id: Scalars['ID'], attributes: Partial<SessionAttributes>) => {
+      const session = data?.festival?.timetable?.sessions?.find((s) => s.id === id);
+      return updateSessionMutation({
         variables: { id, attributes },
         update: (cache, { data }) => {
           if (!data?.updateSession) return;
@@ -111,10 +112,22 @@ const Component: React.FC = () => {
             fragment: TimetableSessionFragment,
             fragmentName: 'TimetableSession',
             data: data.updateSession.session,
-            id: data.updateSession.session.id,
+            id: cache.identify(data.updateSession.session),
           });
         },
-      }),
+        optimisticResponse: session
+          ? {
+              updateSession: {
+                session: {
+                  __typename: 'Session',
+                  ...session,
+                  ...attributes,
+                } as Session,
+              },
+            }
+          : undefined,
+      });
+    },
     [updateSessionMutation]
   );
 

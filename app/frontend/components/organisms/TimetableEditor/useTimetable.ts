@@ -1,4 +1,4 @@
-import { ActivityType } from '@/graphql/types';
+import { ActivityType, SessionAttributes } from '@/graphql/types';
 import useFestival from '@/hooks/useFestival';
 import { useResizeObserver } from '@mantine/hooks';
 import { ResultOf } from 'gql.tada';
@@ -6,7 +6,7 @@ import { mapValues } from 'lodash-es';
 import { DateTime } from 'luxon';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { TimetableQuery } from './queries';
-import { Cell, LaidOutSession, Session, normalizeRect } from './types';
+import { Cell, LaidOutSession, Rect, Session, normalizeRect, rightOf } from './types';
 import { useDrag } from './useDrag';
 import { useLaidOutSessions } from './useLaidOutSessions';
 import { useResize } from './useResize';
@@ -17,6 +17,7 @@ type UseTimetableOptions = {
   endHour: number;
   granularity: number;
   onSelect: (session: Session) => void;
+  onChange: (id: Session['id'], attributes: Partial<SessionAttributes>) => void;
 };
 
 const defaultOptions = {
@@ -24,13 +25,14 @@ const defaultOptions = {
   endHour: 1,
   granularity: 4,
   onSelect: () => {},
+  onChange: () => {},
 } as const;
 
 export const useTimetable = (
   data: ResultOf<typeof TimetableQuery> | undefined,
   options: Partial<UseTimetableOptions> = {}
 ) => {
-  const { startHour, endHour, granularity, onSelect } = { ...defaultOptions, ...options };
+  const { startHour, endHour, granularity, onSelect, onChange } = { ...defaultOptions, ...options };
 
   const festival = useFestival();
 
@@ -97,9 +99,28 @@ export const useTimetable = (
     clear: clearSelection,
   } = useSelection();
 
-  const { resizing, start: startResize, move: moveResize, end: endResize } = useResize();
+  const moveSession = useCallback(
+    (session: Session, rect: Rect) => {
+      const startsAt = cellToDateTime(rect.start);
+      const endsAt = cellToDateTime(rightOf(rect.end));
+      onChange(session.id, { startsAt, endsAt });
+    },
+    [onChange]
+  );
 
-  const { dragging, start: startDrag, move: moveDrag, end: endDrag } = useDrag({ columns });
+  const {
+    resizing,
+    start: startResize,
+    move: moveResize,
+    end: endResize,
+  } = useResize({ onResize: moveSession });
+
+  const {
+    dragging,
+    start: startDrag,
+    move: moveDrag,
+    end: endDrag,
+  } = useDrag({ columns, onDrop: moveSession });
 
   const rowPointerDown = useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {
@@ -141,7 +162,9 @@ export const useTimetable = (
     (laidOutSession: LaidOutSession, e: React.PointerEvent<HTMLDivElement>) => {
       const cell = cellFromPointerEvent(e);
       startResize(laidOutSession, cell);
-      const pointerUp = () => {
+      const pointerUp = (e: PointerEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
         endResize();
         window.removeEventListener('pointerup', pointerUp);
       };
@@ -218,7 +241,10 @@ export const useTimetable = (
         ? mapValues(laidOutSessions, (group) =>
             group.map((s) =>
               s.session.id === resizing.laidOutSession.session.id
-                ? { ...s, rect: normalizeRect(resizing) }
+                ? {
+                    ...s,
+                    rect: normalizeRect(resizing),
+                  }
                 : s
             )
           )
