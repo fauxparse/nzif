@@ -14,8 +14,7 @@ module Types
     authorize :user, through: :current_user
 
     def current_festival
-      # context[:current_festival] ||= Festival.upcoming.first
-      context[:current_festival] ||= Festival.order(start_date: :desc).first
+      context[:current_festival] ||= Festival.current
     end
 
     # add a method helper to get the current_user from the context
