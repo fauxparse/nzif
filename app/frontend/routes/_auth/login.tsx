@@ -4,11 +4,18 @@ import AtSignIcon from '@/icons/AtSignIcon';
 import KeyIcon from '@/icons/KeyIcon';
 import { useAuthentication } from '@/services/Authentication';
 import { TextInput } from '@mantine/core';
-import { useForm } from '@tanstack/react-form';
+import { createFormFactory } from '@tanstack/react-form';
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 import { ChangeEvent } from 'react';
 import { z } from 'zod';
+
+const formFactory = createFormFactory<{ email: string; password: string }>({
+  defaultValues: {
+    email: '',
+    password: '',
+  },
+});
 
 const LogIn = () => {
   const { logIn, loading, error } = useAuthentication();
@@ -17,7 +24,7 @@ const LogIn = () => {
 
   const search = Route.useSearch();
 
-  const form = useForm({
+  const form = formFactory.useForm({
     defaultValues: {
       email: '',
       password: '',
@@ -32,7 +39,7 @@ const LogIn = () => {
   });
 
   return (
-    <form.Provider>
+    <>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -91,7 +98,7 @@ const LogIn = () => {
       <Link to="/signup" search={search}>
         Sign up
       </Link>
-    </form.Provider>
+    </>
   );
 };
 
