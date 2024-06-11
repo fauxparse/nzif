@@ -16,10 +16,10 @@ module Searchable
         }
     end
 
-    # rubocop:disable Metrics/MethodLength
     def tsearch_options
       {
         prefix: true,
+        any_word: true,
         dictionary: 'english',
         tsvector_column: 'searchable',
         highlight: {
@@ -31,6 +31,5 @@ module Searchable
         },
       }
     end
-    # rubocop:enable Metrics/MethodLength
   end
 end

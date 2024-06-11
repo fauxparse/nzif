@@ -24,6 +24,7 @@ import {
 export const graphql = initGraphQLTada<{
   introspection: introspection;
   scalars: {
+    Country: string;
     DateTime: DateTime;
     ISO8601DateTime: DateTime;
     ISO8601Date: DateTime;

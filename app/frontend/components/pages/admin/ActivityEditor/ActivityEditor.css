@@ -39,10 +39,29 @@
 
   &__edit {
     display: grid;
+    grid-template-columns: 1fr;
     grid-column: main;
+    gap: var(--spacing-large);
     row-gap: var(--spacing-large);
-    max-width: 60rem;
+    align-items: start;
     padding-block: var(--spacing-large);
+
+    .presenters {
+      grid-column: 1;
+    }
+
+    @media (min-width: 60rem) {
+      grid-template-columns: 3fr 2fr;
+
+      .editor {
+        align-self: stretch;
+      }
+
+      .activity-editor__picture {
+        grid-row: 1;
+        grid-column: 2;
+      }
+    }
   }
 }
 

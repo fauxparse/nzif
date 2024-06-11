@@ -34,6 +34,8 @@ import { PeriodicSavePlugin, PeriodicSavePluginRef } from './plugins/PeriodicSav
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
 import TreeViewPlugin from './plugins/TreeViewPlugin';
 
+import { Box, BoxProps } from '@mantine/core';
+import clsx from 'clsx';
 import LinkPlugin from './plugins/LinkPlugin';
 import theme from './theme';
 
@@ -52,13 +54,21 @@ const TRANSFORMERS = [
   LINK,
 ];
 
-type EditorProps = {
+type EditorProps = BoxProps & {
   value: string;
   debug?: boolean;
+  placeholder?: string;
   onChange: (value: string) => void;
 };
 
-export const Editor: React.FC<EditorProps> = ({ value, debug, onChange }) => {
+export const Editor: React.FC<EditorProps> = ({
+  className,
+  placeholder,
+  value,
+  debug,
+  onChange,
+  ...props
+}) => {
   const initialConfig = {
     editorState: () => {
       $convertFromMarkdownString(value, TRANSFORMERS);
@@ -97,8 +107,8 @@ export const Editor: React.FC<EditorProps> = ({ value, debug, onChange }) => {
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <div
-        className="editor"
+      <Box
+        className={clsx('editor', className)}
         onBlur={(event: React.FocusEvent<HTMLElement>) => {
           if (
             !event.relatedTarget?.closest('.editor') &&
@@ -107,6 +117,7 @@ export const Editor: React.FC<EditorProps> = ({ value, debug, onChange }) => {
             editor.current?.save();
           }
         }}
+        {...props}
       >
         <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
         <ToolbarPlugin setLinkEditMode={setIsLinkEditMode} />
@@ -114,7 +125,9 @@ export const Editor: React.FC<EditorProps> = ({ value, debug, onChange }) => {
         <div ref={onRef} className="editor__inner">
           <RichTextPlugin
             contentEditable={<ContentEditable className="editor__input" />}
-            placeholder={<Placeholder />}
+            placeholder={
+              <div className="editor__placeholder">{placeholder || 'Enter some text…'}</div>
+            }
             ErrorBoundary={LexicalErrorBoundary}
           />
           <LinkPlugin />
@@ -130,10 +143,8 @@ export const Editor: React.FC<EditorProps> = ({ value, debug, onChange }) => {
             />
           )}
         </div>
-      </div>
+      </Box>
       {debug && import.meta.env.MODE === 'development' && <TreeViewPlugin />}
     </LexicalComposer>
   );
 };
-
-const Placeholder = () => <div className="editor__placeholder">Enter some rich text...</div>;

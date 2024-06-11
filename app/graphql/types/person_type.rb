@@ -1,8 +1,7 @@
 module Types
   class PersonType < Types::BaseObject
     field :bio, String, null: false
-    field :city, Types::PlacenameType, null: true
-    field :country, Types::PlacenameType, null: true
+    field :city, Types::CityType, null: true
     field :id, ID, null: false
     field :name, String, null: false
     field :phone, String, null: true
@@ -24,14 +23,8 @@ module Types
 
     delegate :city, to: :object
 
-    def country
-      return unless object.country?
-
-      Placename.new(
-        id: object.country.alpha2,
-        english: object.country.common_name,
-        traditional: object.country.alpha2 == 'NZ' ? 'Aotearoa' : nil,
-      )
+    def city
+      object.city && dataloader.with(Sources::Cities, context:).load(object.city)
     end
 
     def bio

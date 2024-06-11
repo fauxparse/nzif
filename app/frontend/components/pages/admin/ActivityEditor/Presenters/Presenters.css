@@ -1,0 +1,58 @@
+.presenters {
+  display: grid;
+  row-gap: var(--spacing-large);
+  margin-block: var(--spacing-large);
+
+  .presenter-details {
+    display: grid;
+    grid-template: "name name" auto "bio picture" auto "city picture" auto / 1fr 10rem;
+    gap: var(--spacing-medium);
+    align-items: start;
+
+    &__name {
+      grid-area: name;
+    }
+
+    &__bio {
+      grid-area: bio;
+
+      .editor__input {
+        min-height: 6rem;
+      }
+    }
+
+    &__picture {
+      grid-area: picture;
+    }
+
+    &__city {
+      grid-area: city;
+    }
+  }
+}
+
+.presenter-search {
+  &__input {
+    .mantine-Loader-root {
+      --loader-color: var(--border-element);
+    }
+  }
+
+  &__option {
+    .mantine-Combobox-option & {
+      flex-wrap: nowrap;
+    }
+
+    .icon {
+      flex: 0 0 var(--icon-medium);
+      color: inherit;
+    }
+
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+

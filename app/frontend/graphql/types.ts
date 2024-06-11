@@ -160,6 +160,20 @@ export type Cart = {
   workshopsCount: Scalars['Int'];
 };
 
+export type City = {
+  __typename: 'City';
+  country: Scalars['Country'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  traditionalNames: Array<Scalars['String']>;
+};
+
+export type CityAttributes = {
+  country: Scalars['String'];
+  name: Scalars['String'];
+  traditionalNames: InputMaybe<Array<Scalars['String']>>;
+};
+
 export type Conference = Activity & {
   __typename: 'Conference';
   bookingLink: Maybe<Scalars['String']>;
@@ -785,8 +799,7 @@ export type PermissionDefinition = {
 export type Person = {
   __typename: 'Person';
   bio: Scalars['String'];
-  city: Maybe<Placename>;
-  country: Maybe<Placename>;
+  city: Maybe<City>;
   id: Scalars['ID'];
   name: Scalars['String'];
   phone: Maybe<Scalars['String']>;
@@ -797,8 +810,7 @@ export type Person = {
 
 export type PersonAttributes = {
   bio: InputMaybe<Scalars['String']>;
-  city: InputMaybe<Scalars['String']>;
-  country: InputMaybe<Scalars['Country']>;
+  city: InputMaybe<CityAttributes>;
   name: InputMaybe<Scalars['String']>;
   phone: InputMaybe<Scalars['String']>;
   picture: InputMaybe<Scalars['Upload']>;
@@ -812,14 +824,6 @@ export type PersonResult = SearchResult & {
   person: Person;
   title: Scalars['String'];
   url: Scalars['String'];
-};
-
-export type Placename = {
-  __typename: 'Placename';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  raw: Scalars['String'];
-  traditionalName: Maybe<Scalars['String']>;
 };
 
 export type Preference = {
@@ -862,6 +866,7 @@ export type PromoteWaitlistParticipantPayload = {
 
 export type Query = {
   __typename: 'Query';
+  cities: Maybe<Array<City>>;
   directoryResult: Maybe<Session>;
   directorySearch: Array<Person>;
   festival: Festival;

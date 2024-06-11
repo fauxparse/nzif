@@ -40,7 +40,7 @@
     gap: var(--spacing-medium);
     justify-content: center;
     align-items: center;
-    background: radial-gradient(ellipse at center, var(--background-app) 25%, transparent);
+    background: color(from var(--background-app) srgb r g b / 0.85);
     text-align: center;
     transition: opacity var(--speed-standard) var(--ease-standard);
 
