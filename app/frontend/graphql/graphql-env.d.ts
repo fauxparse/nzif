@@ -820,6 +820,109 @@ export type introspection = {
       },
       {
         "kind": "OBJECT",
+        "name": "City",
+        "fields": [
+          {
+            "name": "country",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Country",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "name",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "traditionalNames",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "CityAttributes",
+        "inputFields": [
+          {
+            "name": "country",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "name",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "traditionalNames",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
         "name": "Conference",
         "fields": [
           {
@@ -3968,16 +4071,7 @@ export type introspection = {
             "name": "city",
             "type": {
               "kind": "OBJECT",
-              "name": "Placename",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
-            "name": "country",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Placename",
+              "name": "City",
               "ofType": null
             },
             "args": []
@@ -4060,16 +4154,8 @@ export type introspection = {
           {
             "name": "city",
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            }
-          },
-          {
-            "name": "country",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Country",
+              "kind": "INPUT_OBJECT",
+              "name": "CityAttributes",
               "ofType": null
             }
           },
@@ -4175,58 +4261,6 @@ export type introspection = {
             "name": "SearchResult"
           }
         ]
-      },
-      {
-        "kind": "OBJECT",
-        "name": "Placename",
-        "fields": [
-          {
-            "name": "id",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "name",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "raw",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "traditionalName",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "args": []
-          }
-        ],
-        "interfaces": []
       },
       {
         "kind": "OBJECT",
@@ -4418,6 +4452,21 @@ export type introspection = {
         "kind": "OBJECT",
         "name": "Query",
         "fields": [
+          {
+            "name": "cities",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "City",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
           {
             "name": "directoryResult",
             "type": {

@@ -1,5 +1,23 @@
 import { graphql } from '@/graphql';
 
+export const PresenterDetailsFragment = graphql(`
+  fragment PresenterDetails on Person @_unmask {
+    id
+    name
+    bio
+    picture {
+      id
+      medium
+    }
+    city {
+      id
+      name
+      traditionalNames
+      country
+    }
+  }
+`);
+
 export const ActivityDetailsQuery = graphql(
   `
   query AdminActivityDetailsQuery($year: String!, $type: ActivityType!, $slug: String!) {
@@ -20,19 +38,13 @@ export const ActivityDetailsQuery = graphql(
 
         ...on Workshop {
           tutors {
-            id
-            name
-            picture {
-              id
-              small
-            }
+            ...PresenterDetails
           }
         }
 
         ...on Show {
           directors {
-            id
-            name
+            ...PresenterDetails
           }
         }
 
@@ -73,7 +85,8 @@ export const ActivityDetailsQuery = graphql(
       }
     }
   }
-`
+`,
+  [PresenterDetailsFragment]
 );
 
 export const UpdateActivityDetailsMutation = graphql(`

@@ -32,7 +32,7 @@ import {
 } from '@lexical/rich-text';
 import { $setBlocksType } from '@lexical/selection';
 import { $findMatchingParent, $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
-import { ActionIcon } from '@mantine/core';
+import { ActionIcon, ActionIconProps } from '@mantine/core';
 import {
   $createParagraphNode,
   $getSelection,
@@ -46,7 +46,14 @@ import {
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
 } from 'lexical';
-import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  ComponentPropsWithoutRef,
+  Dispatch,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { getSelectedNode } from '../utils/getSelectedNode';
 
 const LowPriority = 1;
@@ -90,11 +97,9 @@ export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ setLinkEditMode })
       setIsItalic(selection.hasFormat('italic'));
       setIsUnderline(selection.hasFormat('underline'));
       setIsStrikethrough(selection.hasFormat('strikethrough'));
-
       const node = getSelectedNode(selection);
       const parent = node.getParent();
       setIsLink($isLinkNode(parent) || $isLinkNode(node));
-
       const anchorNode = selection.anchor.getNode();
       let element =
         anchorNode.getKey() === 'root'
@@ -103,14 +108,11 @@ export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ setLinkEditMode })
               const parent = e.getParent();
               return parent !== null && $isRootOrShadowRoot(parent);
             });
-
       if (element === null) {
         element = anchorNode.getTopLevelElementOrThrow();
       }
-
       const elementKey = element.getKey();
       const elementDOM = activeEditor.getElementByKey(elementKey);
-
       if (elementDOM !== null) {
         if ($isListNode(element)) {
           const parentList = $getNearestNodeOfType<ListNode>(anchorNode, ListNode);
@@ -232,7 +234,7 @@ export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ setLinkEditMode })
   return (
     <div className="editor__toolbar" ref={toolbarRef}>
       <ActionIcon.Group>
-        <ActionIcon
+        <ToolbarButton
           disabled={!canUndo}
           aria-label="Undo"
           onClick={() => {
@@ -240,8 +242,8 @@ export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ setLinkEditMode })
           }}
         >
           <UndoIcon />
-        </ActionIcon>
-        <ActionIcon
+        </ToolbarButton>
+        <ToolbarButton
           disabled={!canRedo}
           aria-label="Redo"
           onClick={() => {
@@ -249,36 +251,40 @@ export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ setLinkEditMode })
           }}
         >
           <RedoIcon />
-        </ActionIcon>
+        </ToolbarButton>
       </ActionIcon.Group>
       <ActionIcon.Group>
-        <ActionIcon
+        <ToolbarButton
           aria-label="Heading"
           aria-pressed={blockType === 'h3'}
           onClick={() => formatHeading('h3')}
         >
           <HeadingIcon />
-        </ActionIcon>
-        <ActionIcon
+        </ToolbarButton>
+        <ToolbarButton
           aria-label="Bullet list"
           aria-pressed={blockType === 'bullet'}
           onClick={formatBulletList}
         >
           <BulletListIcon />
-        </ActionIcon>
-        <ActionIcon
+        </ToolbarButton>
+        <ToolbarButton
           aria-label="Numbered list"
           aria-pressed={blockType === 'number'}
           onClick={formatNumberedList}
         >
           <NumberedListIcon />
-        </ActionIcon>
-        <ActionIcon aria-label="Quote" aria-pressed={blockType === 'quote'} onClick={formatQuote}>
+        </ToolbarButton>
+        <ToolbarButton
+          aria-label="Quote"
+          aria-pressed={blockType === 'quote'}
+          onClick={formatQuote}
+        >
           <QuoteIcon />
-        </ActionIcon>
+        </ToolbarButton>
       </ActionIcon.Group>
       <ActionIcon.Group>
-        <ActionIcon
+        <ToolbarButton
           aria-label="Bold"
           aria-pressed={isBold}
           onClick={() => {
@@ -286,8 +292,8 @@ export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ setLinkEditMode })
           }}
         >
           <BoldIcon />
-        </ActionIcon>
-        <ActionIcon
+        </ToolbarButton>
+        <ToolbarButton
           aria-label="Italic"
           aria-pressed={isItalic}
           onClick={() => {
@@ -295,8 +301,8 @@ export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ setLinkEditMode })
           }}
         >
           <ItalicIcon />
-        </ActionIcon>
-        <ActionIcon
+        </ToolbarButton>
+        <ToolbarButton
           aria-label="Underline"
           aria-pressed={isUnderline}
           onClick={() => {
@@ -304,8 +310,8 @@ export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ setLinkEditMode })
           }}
         >
           <UnderlineIcon />
-        </ActionIcon>
-        <ActionIcon
+        </ToolbarButton>
+        <ToolbarButton
           aria-label="Strikethrough"
           aria-pressed={isStrikethrough}
           onClick={() => {
@@ -313,13 +319,17 @@ export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ setLinkEditMode })
           }}
         >
           <StrikethroughIcon />
-        </ActionIcon>
+        </ToolbarButton>
       </ActionIcon.Group>
       <ActionIcon.Group>
-        <ActionIcon aria-label="Link" aria-pressed={isLink} onClick={insertLink}>
+        <ToolbarButton aria-label="Link" aria-pressed={isLink} onClick={insertLink}>
           <LinkIcon />
-        </ActionIcon>
+        </ToolbarButton>
       </ActionIcon.Group>
     </div>
   );
 };
+
+const ToolbarButton: React.FC<ActionIconProps & ComponentPropsWithoutRef<'button'>> = (props) => (
+  <ActionIcon variant="transparent" data-color="neutral" {...props} />
+);

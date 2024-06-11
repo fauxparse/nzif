@@ -162,6 +162,19 @@ type Cart {
   workshopsCount: Int!
 }
 
+type City {
+  country: Country!
+  id: ID!
+  name: String!
+  traditionalNames: [String!]!
+}
+
+input CityAttributes {
+  country: String!
+  name: String!
+  traditionalNames: [String!]
+}
+
 type Conference implements Activity {
   bookingLink: String
   description: String
@@ -571,8 +584,7 @@ type PermissionDefinition {
 
 type Person {
   bio: String!
-  city: Placename
-  country: Placename
+  city: City
   id: ID!
   name: String!
   phone: String
@@ -583,8 +595,7 @@ type Person {
 
 input PersonAttributes {
   bio: String
-  city: String
-  country: Country
+  city: CityAttributes
   name: String
   phone: String
   picture: Upload
@@ -597,13 +608,6 @@ type PersonResult implements SearchResult {
   person: Person!
   title: String!
   url: String!
-}
-
-type Placename {
-  id: ID!
-  name: String!
-  raw: String!
-  traditionalName: String
 }
 
 type Preference {
@@ -654,6 +658,7 @@ type PromoteWaitlistParticipantPayload {
 }
 
 type Query {
+  cities: [City!]
   directoryResult(id: ID!, time: ISO8601DateTime!): Session
   directorySearch(query: String!): [Person!]!
   festival(year: String): Festival!

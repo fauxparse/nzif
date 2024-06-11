@@ -1,20 +1,16 @@
 import { ImageUploader } from '@/components/molecules/ImageUploader';
-import { PersonPicker } from '@/components/molecules/PersonPicker';
 import { Editor } from '@/components/organisms/Editor';
-import { ActivityAttributes, ActivityType, UploadedFile } from '@/graphql/types';
+import { ActivityAttributes, ActivityType } from '@/graphql/types';
 import { useMutation } from '@apollo/client';
 import { notifications } from '@mantine/notifications';
 import { createFormFactory } from '@tanstack/react-form';
 import { pick } from 'lodash-es';
+import { Presenters } from './Presenters';
 import { UpdateActivityMutation } from './queries';
-import { Activity, ActivityDetails, isShow, isWorkshop } from './types';
+import { Activity, ActivityDetails, WithUploadedPicture, isShow, isWorkshop } from './types';
 
 type EditProps = {
   activity: Activity;
-};
-
-type WithUploadedPicture<T> = T & {
-  uploadedPicture: UploadedFile | null;
 };
 
 const formFactory = createFormFactory<WithUploadedPicture<ActivityDetails>>({
@@ -32,15 +28,9 @@ const getDefaultValuesFromActivity = (activity: Activity): ActivityDetails => {
   const result = pick(activity, ['name', 'type', 'slug', 'description']) as ActivityDetails;
 
   if (isWorkshop(activity)) {
-    result.presenters = activity.tutors.map((presenter) => ({
-      id: presenter.id,
-      name: presenter.name,
-    }));
+    result.presenters = activity.tutors;
   } else if (isShow(activity)) {
-    result.presenters = activity.directors.map((presenter) => ({
-      id: presenter.id,
-      name: presenter.name,
-    }));
+    result.presenters = activity.directors;
   }
   return result;
 };
@@ -93,7 +83,7 @@ export const Edit: React.FC<EditProps> = ({ activity }) => {
 
   return (
     <div className="activity-editor__edit">
-      {hasPresenters && (
+      {/* {hasPresenters && (
         <form.Field name="presenters">
           {(field) => (
             <PersonPicker
@@ -106,7 +96,7 @@ export const Edit: React.FC<EditProps> = ({ activity }) => {
             />
           )}
         </form.Field>
-      )}
+      )} */}
       <form.Field name="description">
         {(field) => (
           <Editor
@@ -119,9 +109,19 @@ export const Edit: React.FC<EditProps> = ({ activity }) => {
           />
         )}
       </form.Field>
+      {hasPresenters && (
+        <Presenters
+          title={isShow(activity) ? 'Directors' : 'Tutors'}
+          presenters={form.state.values.presenters}
+          onAddPresenter={console.log}
+          onUpdatePresenter={console.log}
+          onRemovePresenter={console.log}
+        />
+      )}
       <form.Field name="uploadedPicture">
         {(field) => (
           <ImageUploader
+            className="activity-editor__picture"
             width={1920}
             height={1080}
             value={activity.picture?.large ?? null}

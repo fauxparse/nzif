@@ -97,6 +97,15 @@ CREATE FUNCTION public.f_unaccent(text) RETURNS text
 
 
 --
+-- Name: join_traditional_names(text[]); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.join_traditional_names(text[]) RETURNS text
+    LANGUAGE sql IMMUTABLE PARALLEL SAFE
+    AS $_$SELECT array_to_string($1, ' ')$_$;
+
+
+--
 -- Name: my_concat(text, text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -343,6 +352,39 @@ CREATE SEQUENCE public.cast_id_seq
 --
 
 ALTER SEQUENCE public.cast_id_seq OWNED BY public."cast".id;
+
+
+--
+-- Name: cities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cities (
+    id bigint NOT NULL,
+    name character varying,
+    traditional_names character varying[] DEFAULT '{}'::character varying[] NOT NULL,
+    country character varying(2),
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: cities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.cities_id_seq OWNED BY public.cities.id;
 
 
 --
@@ -1031,6 +1073,13 @@ ALTER TABLE ONLY public."cast" ALTER COLUMN id SET DEFAULT nextval('public.cast_
 
 
 --
+-- Name: cities id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cities ALTER COLUMN id SET DEFAULT nextval('public.cities_id_seq'::regclass);
+
+
+--
 -- Name: feedback id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1209,6 +1258,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 ALTER TABLE ONLY public."cast"
     ADD CONSTRAINT cast_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cities cities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cities
+    ADD CONSTRAINT cities_pkey PRIMARY KEY (id);
 
 
 --
@@ -2020,7 +2077,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230927061247'),
 ('20231003055221'),
 ('20231006212429'),
-('20231009211805');
+('20231009211805'),
+('20240608234005');
 
 
 SET statement_timeout = 0;
