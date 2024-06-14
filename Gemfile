@@ -100,7 +100,7 @@ gem 'redcarpet', '~> 3.6'
 gem 'clicksend_client', github: 'ClickSend/clicksend-ruby'
 gem 'phony', '~> 2.20'
 
-gem 'prawn'
+gem 'prawn', '~> 2.5.0'
 
 gem 'matrix'
 
