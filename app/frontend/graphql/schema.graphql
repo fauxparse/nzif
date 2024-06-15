@@ -600,6 +600,7 @@ input PersonAttributes {
   phone: String
   picture: Upload
   pronouns: String
+  uploadedPicture: UploadedFile
 }
 
 type PersonResult implements SearchResult {

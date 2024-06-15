@@ -15,6 +15,7 @@ type ConfirmationModalContextType = {
 type ConfirmationModalProps = ModalProps & {
   confirm?: string;
   cancel?: string;
+  countdown?: number;
   onConfirm: () => void;
   onCancel: () => void;
 };
@@ -24,6 +25,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   children,
   confirm = 'OK',
   cancel = 'Cancel',
+  countdown = 3,
   onConfirm,
   onCancel,
   ...props
@@ -35,7 +37,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       <Button type="button" onClick={onCancel}>
         {cancel}
       </Button>
-      <CountdownButton type="button" variant="filled" onClick={onConfirm}>
+      <CountdownButton type="button" variant="filled" seconds={countdown} onClick={onConfirm}>
         {confirm}
       </CountdownButton>
     </Group>
@@ -59,7 +61,9 @@ export const ConfirmationModalProvider: React.FC<PropsWithChildren> = ({ childre
         setModalProps(options);
         setPromise([resolve, reject]);
         open();
-      }).finally(close),
+      })
+        .catch(() => {})
+        .finally(close),
     []
   );
 

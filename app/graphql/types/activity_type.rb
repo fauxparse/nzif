@@ -40,7 +40,7 @@ module Types
       object.picture && object
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def missing_info
       [].tap do |missing|
         missing << 'Description' if object.description.blank?
@@ -50,7 +50,7 @@ module Types
         missing << 'Suitability' if object.is_a?(Workshop) && object.suitability.blank?
       end
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/PerceivedComplexity
 
     orphan_types(
       ShowType,

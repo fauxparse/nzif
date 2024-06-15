@@ -4,6 +4,7 @@ export const PresenterDetailsFragment = graphql(`
   fragment PresenterDetails on Person @_unmask {
     id
     name
+    pronouns
     bio
     picture {
       id
@@ -36,16 +37,8 @@ export const ActivityDetailsQuery = graphql(
           large
         }
 
-        ...on Workshop {
-          tutors {
-            ...PresenterDetails
-          }
-        }
-
-        ...on Show {
-          directors {
-            ...PresenterDetails
-          }
+        presenters {
+          ...PresenterDetails
         }
 
         sessions {
@@ -53,7 +46,6 @@ export const ActivityDetailsQuery = graphql(
           startsAt
           endsAt
           capacity
-
 
           participants {
             id
@@ -102,7 +94,8 @@ export const UpdateActivityDetailsMutation = graphql(`
   }
 `);
 
-export const UpdateActivityMutation = graphql(`
+export const UpdateActivityMutation = graphql(
+  `
   mutation AdminUpdateActivityMutation($id: ID!, $attributes: ActivityAttributes!) {
     updateActivity(id: $id, attributes: $attributes) {
       activity {
@@ -113,24 +106,49 @@ export const UpdateActivityMutation = graphql(`
           large
         }
 
-        ...on Workshop {
-          tutors {
-            id
-            name
-            picture {
-              id
-              small
-            }
-          }
-        }
-
-        ...on Show {
-          directors {
-            id
-            name
-          }
+        presenters {
+          ...PresenterDetails
         }
       }
     }
   }
-`);
+`,
+  [PresenterDetailsFragment]
+);
+
+export const PresenterDetailsQuery = graphql(
+  `
+  query PresenterDetails($id: ID!) {
+    person(id: $id) {
+      ...PresenterDetails
+    }
+  }
+  `,
+  [PresenterDetailsFragment]
+);
+
+export const AddPresenterByNameMutation = graphql(
+  `
+  mutation AddPresenterByName($name: String!) {
+    createPerson(attributes: { name: $name }) {
+      profile {
+        ...PresenterDetails
+      }
+    }
+  }
+  `,
+  [PresenterDetailsFragment]
+);
+
+export const UpdatePresenterMutation = graphql(
+  `
+  mutation UpdatePresenter($id: ID!, $attributes: PersonAttributes!) {
+    updatePerson(id: $id, attributes: $attributes) {
+      profile {
+        ...PresenterDetails
+      }
+    }
+  }
+  `,
+  [PresenterDetailsFragment]
+);

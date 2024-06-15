@@ -4190,6 +4190,14 @@ export type introspection = {
               "name": "String",
               "ofType": null
             }
+          },
+          {
+            "name": "uploadedPicture",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UploadedFile",
+              "ofType": null
+            }
           }
         ]
       },

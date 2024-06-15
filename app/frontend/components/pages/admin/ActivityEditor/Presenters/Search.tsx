@@ -6,6 +6,7 @@ import UserIcon from '@/icons/UserIcon';
 import { useLazyQuery } from '@apollo/client';
 import { Combobox, Group, Loader, Text, TextInput, useCombobox } from '@mantine/core';
 import { useEffect, useRef, useState } from 'react';
+import { PresenterDetailsQuery } from '../queries';
 import { Presenter } from '../types';
 
 type SearchProps = {
@@ -51,9 +52,20 @@ export const Search: React.FC<SearchProps> = ({ existing, onSelect }) => {
     ]);
   }, [data]);
 
+  const [findPerson] = useLazyQuery(PresenterDetailsQuery);
+
   const handleValueSelect = (id: string) => {
     setQuery('');
     combobox.closeDropdown();
+    if (id === 'add') {
+      // TODO
+    } else {
+      findPerson({ variables: { id } }).then(({ data }) => {
+        if (data?.person) {
+          onSelect(data.person);
+        }
+      });
+    }
   };
 
   return (

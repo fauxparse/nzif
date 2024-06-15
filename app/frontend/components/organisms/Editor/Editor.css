@@ -1,6 +1,6 @@
 .editor {
   --editor-padding-block: var(--spacing-medium);
-  --editor-padding-inline: var(--spacing-large);
+  --editor-padding-inline: 2.375rem;
 
   position: relative;
   display: grid;
@@ -51,7 +51,7 @@
   &__input {
     position: relative;
     min-height: 16rem;
-    padding: var(--editor-padding-block) var(--editor-padding-inline);
+    padding: var(--editor-padding-block) var(--editor-padding-inline) calc(var(--editor-padding-block) * 2);
     border: 0;
     border-radius: var(--radius-small);
     outline: 0;

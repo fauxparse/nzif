@@ -1,13 +1,16 @@
 import { ImageUploader } from '@/components/molecules/ImageUploader';
 import { Editor } from '@/components/organisms/Editor';
 import { ActivityAttributes, ActivityType } from '@/graphql/types';
+import useFestival from '@/hooks/useFestival';
 import { useMutation } from '@apollo/client';
 import { notifications } from '@mantine/notifications';
 import { createFormFactory } from '@tanstack/react-form';
-import { pick } from 'lodash-es';
+import { ResultOf } from 'gql.tada';
+import { isEmpty, isEqual, pick } from 'lodash-es';
+import { useRef } from 'react';
 import { Presenters } from './Presenters';
-import { UpdateActivityMutation } from './queries';
-import { Activity, ActivityDetails, WithUploadedPicture, isShow, isWorkshop } from './types';
+import { ActivityDetailsQuery, UpdateActivityMutation } from './queries';
+import { Activity, ActivityDetails, WithUploadedPicture, isShow } from './types';
 
 type EditProps = {
   activity: Activity;
@@ -25,37 +28,40 @@ const formFactory = createFormFactory<WithUploadedPicture<ActivityDetails>>({
 });
 
 const getDefaultValuesFromActivity = (activity: Activity): ActivityDetails => {
-  const result = pick(activity, ['name', 'type', 'slug', 'description']) as ActivityDetails;
-
-  if (isWorkshop(activity)) {
-    result.presenters = activity.tutors;
-  } else if (isShow(activity)) {
-    result.presenters = activity.directors;
-  }
-  return result;
+  return pick(activity, ['name', 'type', 'slug', 'description', 'presenters']) as ActivityDetails;
 };
 
 export const Edit: React.FC<EditProps> = ({ activity }) => {
+  const festival = useFestival();
+
   const [updateMutation] = useMutation(UpdateActivityMutation);
 
-  const hasPresenters = isWorkshop(activity) || isShow(activity);
+  const hasPresenters = true;
+
+  const lastSaved = useRef<
+    Activity | NonNullable<ResultOf<typeof UpdateActivityMutation>['updateActivity']>['activity']
+  >(activity);
 
   const form = formFactory.useForm({
     defaultValues: { ...getDefaultValuesFromActivity(activity), uploadedPicture: null },
     onSubmit: async ({ value }) => {
       const attributes = {} as ActivityAttributes;
 
-      if (form.state.fieldMeta.description.isDirty) {
+      if (value.description !== lastSaved.current.description) {
         attributes.description = value.description;
       }
 
-      if (hasPresenters && form.state.fieldMeta.presenters.isDirty) {
-        attributes.profileIds = value.presenters.map((presenter) => presenter.id);
+      const previousIds = lastSaved.current.presenters.map((presenter) => presenter.id);
+      const newIds = value.presenters.map((presenter) => presenter.id);
+      if (!isEqual(previousIds, newIds)) {
+        attributes.profileIds = newIds;
       }
 
       if (value.uploadedPicture && form.state.fieldMeta.uploadedPicture.isDirty) {
         attributes.uploadedPicture = value.uploadedPicture;
       }
+
+      if (isEmpty(attributes)) return;
 
       await updateMutation({
         variables: {
@@ -63,46 +69,42 @@ export const Edit: React.FC<EditProps> = ({ activity }) => {
           attributes,
         },
         update: (cache, { data }) => {
-          if (!data?.updateActivity?.activity) return;
-
-          const updated = data.updateActivity.activity;
-
-          cache.modify({
-            id: cache.identify(activity),
-            fields: {
-              description: () => updated.description,
+          const variables = { year: festival.id, type: activity.type, slug: activity.slug };
+          const current = cache.readQuery({ query: ActivityDetailsQuery, variables });
+          if (!current?.festival?.activity || !data?.updateActivity?.activity) return;
+          cache.writeQuery({
+            query: ActivityDetailsQuery,
+            variables,
+            data: {
+              ...current,
+              festival: {
+                ...current.festival,
+                activity: {
+                  ...current.festival.activity,
+                  ...data.updateActivity.activity,
+                },
+              },
             },
           });
         },
-      }).then(() => {
-        notifications.show({ message: 'Changes saved' });
-        form.setFieldValue('uploadedPicture', null);
+      }).then(({ data }) => {
+        if (data?.updateActivity?.activity) {
+          lastSaved.current = data.updateActivity.activity;
+          notifications.show({ message: 'Changes saved' });
+          form.setFieldValue('uploadedPicture', null);
+        }
       });
     },
   });
 
   return (
     <div className="activity-editor__edit">
-      {/* {hasPresenters && (
-        <form.Field name="presenters">
-          {(field) => (
-            <PersonPicker
-              value={field.state.value}
-              allowAdd
-              onChange={(value) => {
-                field.handleChange(value);
-                form.handleSubmit();
-              }}
-            />
-          )}
-        </form.Field>
-      )} */}
       <form.Field name="description">
         {(field) => (
           <Editor
             value={field.state.value || ''}
             onChange={(value) => {
-              if (field.state.value === value) return;
+              if (value === field.state.value) return;
               field.handleChange(value);
               form.handleSubmit();
             }}
@@ -110,13 +112,22 @@ export const Edit: React.FC<EditProps> = ({ activity }) => {
         )}
       </form.Field>
       {hasPresenters && (
-        <Presenters
-          title={isShow(activity) ? 'Directors' : 'Tutors'}
-          presenters={form.state.values.presenters}
-          onAddPresenter={console.log}
-          onUpdatePresenter={console.log}
-          onRemovePresenter={console.log}
-        />
+        <form.Field name="presenters">
+          {(field) => (
+            <Presenters
+              title={isShow(activity) ? 'Directors' : 'Tutors'}
+              presenters={field.state.value}
+              onAddPresenter={(presenter) => {
+                field.pushValue(presenter);
+                form.handleSubmit();
+              }}
+              onRemovePresenter={(presenter) => {
+                field.handleChange((current) => current.filter((p) => p.id !== presenter.id));
+                form.handleSubmit();
+              }}
+            />
+          )}
+        </form.Field>
       )}
       <form.Field name="uploadedPicture">
         {(field) => (
