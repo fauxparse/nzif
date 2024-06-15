@@ -815,6 +815,7 @@ export type PersonAttributes = {
   phone: InputMaybe<Scalars['String']>;
   picture: InputMaybe<Scalars['Upload']>;
   pronouns: InputMaybe<Scalars['String']>;
+  uploadedPicture: InputMaybe<UploadedFile>;
 };
 
 export type PersonResult = SearchResult & {

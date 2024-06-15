@@ -6,5 +6,6 @@ module Types
     argument :phone, String, required: false
     argument :picture, ApolloUploadServer::Upload, required: false
     argument :pronouns, String, required: false
+    argument :uploaded_picture, Types::UploadedFile, required: false
   end
 end

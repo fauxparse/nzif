@@ -102,7 +102,15 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
         />
       )}
       <Box className="image-uploader__target" onDragOver={dragOver} onDrop={drop}>
-        <input type="file" id={id} accept={accept} />
+        <input
+          type="file"
+          id={id}
+          accept={accept}
+          onChange={(e) => {
+            const [file] = e.currentTarget.files || [];
+            setFileToResize(file);
+          }}
+        />
         {compact ? (
           <ActionIcon component="label" variant="transparent" data-color="neutral" htmlFor={id}>
             <ImageIcon />

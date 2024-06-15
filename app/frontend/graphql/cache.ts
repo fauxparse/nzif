@@ -53,6 +53,20 @@ const cache = () =>
           },
         },
       },
+      Show: {
+        fields: {
+          directors: {
+            merge: (_, incoming) => incoming,
+          },
+        },
+      },
+      Workshop: {
+        fields: {
+          tutors: {
+            merge: (_, incoming) => incoming,
+          },
+        },
+      },
     } satisfies TypePolicies),
   });
 

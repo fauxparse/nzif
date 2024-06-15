@@ -29,4 +29,16 @@ class Profile < ApplicationRecord
       SQL
     )
   }
+
+  def uploaded_picture=(value)
+    self.picture = {
+      id: value[:id],
+      storage: 'cache',
+      metadata: {
+        size: value[:size],
+        filename: value[:filename],
+        mime_type: value[:mime_type],
+      },
+    }
+  end
 end

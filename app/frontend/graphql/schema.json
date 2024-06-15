@@ -6275,6 +6275,18 @@
               "defaultValue": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "uploadedPicture",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "UploadedFile",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "enumValues": null

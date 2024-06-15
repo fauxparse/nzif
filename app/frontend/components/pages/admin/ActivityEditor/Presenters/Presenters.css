@@ -5,12 +5,16 @@
 
   .presenter-details {
     display: grid;
-    grid-template: "name name" auto "bio picture" auto "city picture" auto / 1fr 10rem;
+    grid-template: "picture name pronouns" auto "picture city city" auto "picture bio bio" auto "picture buttons buttons" auto / 10rem 2fr 1fr;
     gap: var(--spacing-medium);
     align-items: start;
 
     &__name {
       grid-area: name;
+    }
+
+    &__pronouns {
+      grid-area: pronouns;
     }
 
     &__bio {
@@ -27,6 +31,10 @@
 
     &__city {
       grid-area: city;
+    }
+
+    &__buttons {
+      grid-area: buttons;
     }
   }
 }
