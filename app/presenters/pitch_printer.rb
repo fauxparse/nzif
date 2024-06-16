@@ -23,7 +23,10 @@ class PitchPrinter
     end
 
     pitches.each.with_index do |pitch, i|
-      pdf.start_new_page unless i.zero?
+      if i.positive?
+        pdf.start_new_page
+        pdf.start_new_page if pdf.page_number.even?
+      end
       pitches_by_page << [pdf.page_number, pitch]
 
       print_pitch(pitch)
