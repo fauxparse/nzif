@@ -68,7 +68,7 @@
     h1 {
       margin: 0;
       font-weight: var(--font-weight-medium);
-      font-size: var(--header-title-size);
+      font-size: var(--header-title-font-size);
       line-height: var(--header-title-line-height);
     }
   }

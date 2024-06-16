@@ -7,21 +7,24 @@ import { configDefaults, defineConfig } from 'vitest/config';
 
 const plugins = [
   ...(process.env.STORYBOOK ? [] : [ruby()]),
-  react(),
-  yaml(),
   TanStackRouterVite({
     routesDirectory: path.resolve(__dirname, './app/frontend/routes'),
     generatedRouteTree: path.resolve(__dirname, './app/frontend/routeTree.gen.ts'),
-    quoteStyle: 'single'
-  })
+    quoteStyle: 'single',
+    experimental: {
+      enableCodeSplitting: true,
+    },
+  }),
+  react(),
+  yaml(),
 ];
 
 export default defineConfig({
   resolve: {
     alias: {
       '@config': path.resolve(__dirname, './config'),
-      '@': path.resolve(__dirname, './app/frontend')
-    }
+      '@': path.resolve(__dirname, './app/frontend'),
+    },
   },
   plugins: plugins,
   test: {
@@ -31,11 +34,11 @@ export default defineConfig({
     setupFiles: 'tests/setup.ts',
     coverage: {
       provider: 'c8',
-      exclude: [...(configDefaults.coverage.exclude || []), '**/tests/setup.ts']
+      exclude: [...(configDefaults.coverage.exclude || []), '**/tests/setup.ts'],
     },
-    threads: false
+    threads: false,
   },
   define: {
-    STRIPE_PUBLIC_KEY: '"process.env.STRIPE_PUBLISHABLE_KEY"'
-  }
+    STRIPE_PUBLIC_KEY: '"process.env.STRIPE_PUBLISHABLE_KEY"',
+  },
 });

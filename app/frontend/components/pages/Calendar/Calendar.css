@@ -1,0 +1,38 @@
+.calendar {
+  &__day {
+    display: flex;
+    flex-direction: column;
+    grid-column: main;
+    gap: var(--spacing-small);
+    margin-block-end: var(--spacing-large);
+  }
+
+  &__event {
+    --icon: var(--colored-text-subtle);
+
+    display: grid;
+    grid-template: "icon title" auto "none details" auto / var(--icon-medium) 1fr;
+    padding: var(--spacing-small) var(--spacing-medium);
+    border-radius: var(--radius-small);
+    background-color: var(--background-light);
+    color: var(--colored-text-subtle);
+    column-gap: var(--spacing-medium);
+
+    > h4 {
+      grid-area: title;
+      color: var(--colored-text-default);
+      font-weight: var(--font-weight-medium);
+      font-size: var(--font-size-legible);
+      line-height: var(--line-height-large);
+    }
+
+    > .icon {
+      grid-area: icon;
+      margin-block: calc((var(--line-height-large) - var(--icon-medium)) / 2);
+    }
+
+    &__details {
+      grid-area: details;
+    }
+  }
+}

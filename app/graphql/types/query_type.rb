@@ -35,7 +35,9 @@ module Types
     field :directory_result, resolver: Resolvers::DirectoryResult, authenticate: false
     field :directory_search, resolver: Resolvers::DirectorySearch, authenticate: false
 
-    field :cities, [CityType], authenticate: false
+    field :cities, [CityType], null: false, authenticate: false
+
+    field :calendar, [CalendarSessionType], null: false, authenticate: false
 
     def festival(year: nil)
       if year
@@ -77,6 +79,10 @@ module Types
 
     def cities
       City.all
+    end
+
+    def calendar
+      PersonalCalendar.new(festival: Festival.current, user: context[:current_resource]).sessions
     end
   end
 end

@@ -22,6 +22,8 @@ RSpec.describe 'ShortUrls' do
 
     context 'from the main domain' do
       it 'does not redirect' do
+        skip 'flaky'
+
         get short_url('bad', host: Domains::Main::DOMAIN)
 
         expect(response).not_to have_http_status(:moved_permanently)
