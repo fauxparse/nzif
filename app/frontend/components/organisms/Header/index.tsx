@@ -1,18 +1,10 @@
-import {
-  ComponentProps,
-  ComponentPropsWithoutRef,
-  ReactNode,
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { ComponentPropsWithoutRef, ReactNode, forwardRef, useEffect, useRef } from 'react';
 import Breadcrumbs from './Breadcrumbs';
 
 import Scrollable from '@/components/helpers/Scrollable';
 import BlurrableImage from '@/components/molecules/BlurrableImage';
 import { useTitle } from '@/hooks/useRoutesWithTitles';
-import { ImageProps } from '@mantine/core';
+import { ImageProps, Title } from '@mantine/core';
 import clsx from 'clsx';
 import { debounce, isString } from 'lodash-es';
 import { mergeRefs } from 'react-merge-refs';
@@ -92,7 +84,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(
           )}
           {(title || children) && (
             <div className="header__title">
-              {isString(title) ? <h1>{title}</h1> : title}
+              {isString(title) ? <Title order={1}>{title}</Title> : title}
               {children}
             </div>
           )}

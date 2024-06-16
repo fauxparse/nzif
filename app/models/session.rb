@@ -36,7 +36,7 @@ class Session < ApplicationRecord
   end
 
   def activity_type=(value)
-    super value.to_s
+    super(value.to_s)
   end
 
   def self.role_type
@@ -53,6 +53,22 @@ class Session < ApplicationRecord
 
   def sessions
     [self]
+  end
+
+  def show?
+    activity_type == Show
+  end
+
+  def workshop?
+    activity_type == Workshop
+  end
+
+  def social_event?
+    activity_type == SocialEvent
+  end
+
+  def conference?
+    activity_type == Conference
   end
 
   private

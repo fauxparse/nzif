@@ -1,4 +1,5 @@
 import { activityColor } from '@/constants/activityTypes';
+import { formatSessionTime } from '@/util/formatSessionTime';
 import { Box, BoxProps, Text } from '@mantine/core';
 import { HTMLMotionProps, motion } from 'framer-motion';
 import React, { PropsWithChildren, forwardRef } from 'react';
@@ -87,14 +88,4 @@ const Edge: React.FC<BoxProps & { onPointerDown: React.PointerEventHandler<HTMLD
   props
 ) => {
   return <Box className="timetable-editor__session__edge" {...props} />;
-};
-
-const formatSessionTime = (session: Session) => {
-  const { startsAt, endsAt } = session;
-  const straddles = Math.floor(startsAt.hour / 12) !== Math.floor(endsAt.hour / 12);
-  const startTime = startsAt.toFormat(
-    `h${startsAt.minute === 0 ? '' : ':mm'}${straddles ? 'a' : ''}`
-  );
-  const endTime = endsAt.toFormat(`h${endsAt.minute === 0 ? '' : ':mm'}a`);
-  return `${startTime} – ${endTime}`;
 };

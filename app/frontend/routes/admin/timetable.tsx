@@ -19,7 +19,7 @@ import {
 import useFestival from '@/hooks/useFestival';
 import { RequirePermission } from '@/routes/admin';
 import { Reference, useMutation, useQuery } from '@apollo/client';
-import { createLazyFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { uniqueId } from 'lodash-es';
 import { useCallback } from 'react';
 
@@ -166,6 +166,6 @@ const Component: React.FC = () => {
   );
 };
 
-export const Route = createLazyFileRoute('/admin/timetable')({
+export const Route = createFileRoute('/admin/timetable')({
   component: Component,
 });
