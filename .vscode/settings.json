@@ -22,7 +22,7 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     "**/.ruby-lsp": true,
-    "**/node_modules": true,
+    "**/node_modules": false,
     "app/frontend/molecules": true,
     "app/frontend/organisms": true,
     "app/frontend/helpers": true,
@@ -40,5 +40,6 @@
     ".storybook",
     ".cicada",
     "_templates"
-  ]
+  ],
+  "explorerExclude.backup": {}
 }
