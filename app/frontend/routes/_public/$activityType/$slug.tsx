@@ -1,53 +1,32 @@
-import ActivityDetails, { ActivityDetailsQuery } from '@/components/pages/ActivityDetails';
-import { ResultOf } from '@/graphql';
-import { ActivityType } from '@/graphql/types';
-import { createFileRoute, notFound } from '@tanstack/react-router';
-
-const Component = () => {
-  const { activity } = Route.useLoaderData();
-
-  return <ActivityDetails activity={activity} />;
-};
+import { ActivityDetails } from '@/components/pages/ActivityDetails';
+import { ActivityDetailsQuery } from '@/components/pages/ActivityDetails/queries';
+import { useQuery } from '@apollo/client';
+import { createFileRoute } from '@tanstack/react-router';
+import { useMemo } from 'react';
 
 export const Route = createFileRoute('/_public/$activityType/$slug')({
-  beforeLoad: () => {
-    return {
-      getTitle: (activity: ResultOf<typeof ActivityDetailsQuery>['festival']['activity']) =>
-        activity?.name,
-    };
-  },
-  loader: async ({ params: { activityType, slug }, context }) => {
-    const { client, year } = context;
+  component: () => {
+    const { festival } = Route.useRouteContext();
+    const { activityType, slug } = Route.useParams();
+    const { loading, data } = useQuery(ActivityDetailsQuery, {
+      variables: { year: festival.id, type: activityType, slug },
+    });
 
-    const activity = await client
-      .query({
-        query: ActivityDetailsQuery,
-        variables: {
-          year,
-          type: activityType as ActivityType,
-          slug,
+    const activity = useMemo(
+      () =>
+        data?.festival.activity || {
+          id: 'loading',
+          name: 'Loading…',
+          sessions: [],
+          presenters: [],
+          picture: null,
+          description: '',
+          type: activityType,
+          bookingLink: null,
         },
-      })
-      .then(({ data }) => data.festival.activity);
+      [loading, data]
+    );
 
-    if (!activity) throw notFound();
-
-    return { activity };
+    return <ActivityDetails activity={activity} loading={loading} />;
   },
-  component: Component,
-  pendingComponent: ({ params: { activityType } }) => (
-    <ActivityDetails
-      activity={{
-        id: 'loading',
-        name: 'Loading…',
-        sessions: [],
-        presenters: [],
-        picture: null,
-        description: '',
-        type: activityType,
-        bookingLink: null,
-      }}
-      loading
-    />
-  ),
 });

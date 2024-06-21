@@ -1,6 +1,6 @@
 import './NotFound.css';
 
-const NotFound = () => (
+export const NotFound = () => (
   <div className="body">
     <div className="not-found" data-color="primary">
       <h1>Oops!</h1>
@@ -8,5 +8,3 @@ const NotFound = () => (
     </div>
   </div>
 );
-
-export default NotFound;

@@ -13,7 +13,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  Country: String;
+  Country: string;
   /** An ISO 8601-encoded datetime */
   ISO8601DateTime: DateTime;
   ISODate: DateTime;

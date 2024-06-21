@@ -42,7 +42,6 @@
     line-height: var(--line-height-medium);
     column-gap: var(--spacing-base);
     margin-block-start: var(--spacing-base);
-    margin-inline-start: calc(var(--spacing-base) * -2 - var(--avatar-xl));
 
     > :not(.avatar) {
       grid-column: 2;

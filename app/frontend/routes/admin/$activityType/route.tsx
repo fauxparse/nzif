@@ -1,5 +1,5 @@
-import RouteTransition from '@/components/helpers/RouteTransition';
-import NotFound from '@/components/pages/NotFound';
+import { RouteTransition } from '@/components/helpers/RouteTransition';
+import { NotFound } from '@/components/pages/NotFound';
 import {
   PluralActivityType,
   activityTypeFromPlural,
