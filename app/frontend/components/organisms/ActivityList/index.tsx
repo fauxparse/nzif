@@ -12,7 +12,11 @@ type ActivityListProps = {
   loading?: boolean;
 };
 
-const ActivityList: React.FC<ActivityListProps> = ({ type, activities, loading = false }) => {
+export const ActivityList: React.FC<ActivityListProps> = ({
+  type,
+  activities,
+  loading = false,
+}) => {
   const days = useActivityGroups(activities);
   const endTime =
     type === ActivityType.Workshop && activities.length > 0 && activities[0].sessions[0].endsAt;
@@ -49,5 +53,3 @@ const ActivityList: React.FC<ActivityListProps> = ({ type, activities, loading =
     </>
   );
 };
-
-export default ActivityList;

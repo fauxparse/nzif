@@ -1,96 +1,33 @@
-import Placename from '@/components/atoms/Placename';
-import Skeleton, { ParagraphSkeleton } from '@/components/helpers/Skeleton';
-import Body from '@/components/organisms/Body';
-import Header from '@/components/organisms/Header';
-import { ResultOf, graphql, readFragment } from '@/graphql';
-import { usePlacenames } from '@/hooks/usePlacenames';
-import CalendarIcon from '@/icons/CalendarIcon';
-import LocationIcon from '@/icons/LocationIcon';
-import { Image } from '@mantine/core';
-import { map, range, uniqBy } from 'lodash-es';
-
 import Avatar from '@/components/atoms/Avatar';
 import ShareButton from '@/components/atoms/ShareButton';
 import Markdown from '@/components/helpers/Markdown';
+import Skeleton, { ParagraphSkeleton } from '@/components/helpers/Skeleton';
+import Body from '@/components/organisms/Body';
+import Header from '@/components/organisms/Header';
+import { readFragment } from '@/graphql';
+import { usePlacenames } from '@/hooks/usePlacenames';
+import CalendarIcon from '@/icons/CalendarIcon';
+import LocationIcon from '@/icons/LocationIcon';
 import ShowIcon from '@/icons/ShowIcon';
+import { Image } from '@mantine/core';
+import { map, range, uniqBy } from 'lodash-es';
 import { Fragment } from 'react';
+import { ActivityPresenterFragment } from './queries';
+import { Activity } from './types';
+
 import './ActivityDetails.css';
-
-const ActivityPresenterFragment = graphql(`
-  fragment ActivityPresenter on Person {
-    id
-    name
-    bio
-    city {
-      id
-      name
-      traditionalName
-    }
-    country {
-      id
-      name
-      traditionalName
-    }
-    picture {
-      id
-      medium
-    }
-  }
-`);
-
-export const ActivityDetailsQuery = graphql(
-  `#graphql
-  query ActivityDetails($year: String!, $type: ActivityType!, $slug: String!) {
-    festival(year: $year) {
-      id
-
-      activity(type: $type, slug: $slug) {
-        id
-        type
-        name
-        description
-        bookingLink
-
-        presenters {
-          ...ActivityPresenter
-        }
-
-        picture {
-          id
-          large
-          blurhash
-        }
-
-        sessions {
-          id
-          startsAt
-          endsAt
-
-          venue {
-            id
-            room
-            building
-          }
-        }
-      }
-    }
-  }
-`,
-  [ActivityPresenterFragment]
-);
-
-type Activity = NonNullable<ResultOf<typeof ActivityDetailsQuery>['festival']['activity']>;
+import Placename from '@/components/atoms/Placename';
 
 type ActivityDetailsProps = {
   activity: Activity;
   loading?: boolean;
 };
 
-const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, loading }) => {
+export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, loading }) => {
   const activityName = loading ? <Skeleton height="1em" width="12em" /> : activity.name;
   const activityPresenters = readFragment(ActivityPresenterFragment, activity.presenters);
-  const placenames = usePlacenames(activityPresenters);
   const venues = uniqBy(map(activity.sessions, 'venue').filter(Boolean), 'id');
+  const placenames = usePlacenames(activityPresenters);
 
   return (
     <>
@@ -124,7 +61,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, loading }) 
               {loading ? (
                 <Skeleton height="1.5em" width="8em" radius="0.75em" />
               ) : (
-                placenames.map((placename) => <Placename key={placename.id} {...placename} />)
+                placenames.map((placename) => <Placename key={placename.name} {...placename} />)
               )}
             </div>
           </>
@@ -236,5 +173,3 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, loading }) 
     </>
   );
 };
-
-export default ActivityDetails;

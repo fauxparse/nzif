@@ -1,4 +1,4 @@
-import RouteTransition from '@/components/helpers/RouteTransition';
+import { RouteTransition } from '@/components/helpers/RouteTransition';
 import Body from '@/components/organisms/Body';
 import usePreviousDistinct from '@/hooks/usePreviousDistinct';
 import { useMemo } from 'react';

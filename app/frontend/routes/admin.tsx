@@ -1,4 +1,4 @@
-import RouteTransition from '@/components/helpers/RouteTransition';
+import { RouteTransition } from '@/components/helpers/RouteTransition';
 import Navigation from '@/components/organisms/Navigation';
 import { Permission } from '@/graphql/types';
 import { useTitle } from '@/hooks/useRoutesWithTitles';

@@ -25,7 +25,7 @@ const config: CodegenConfig = {
         scalars: {
           ISO8601DateTime: 'luxon#DateTime',
           ISODate: 'luxon#DateTime',
-          Country: 'String',
+          Country: 'string',
           Upload: 'File',
           Money: 'number',
         },

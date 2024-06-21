@@ -1,16 +1,16 @@
-import { useMatches, useMatch } from '@tanstack/react-router';
+import usePreviousDistinct from '@/hooks/usePreviousDistinct';
+import { useMatch, useMatches } from '@tanstack/react-router';
 import { AnimatePresence } from 'framer-motion';
 import { useMemo } from 'react';
 import AnimatedOutlet from './AnimatedOutlet';
 import { Direction } from './types';
-import usePreviousDistinct from '@/hooks/usePreviousDistinct';
 
 type RouteTransitionProps = {
   direction?: Direction;
   routeKey?: string;
 };
 
-const RouteTransition: React.FC<RouteTransitionProps> = ({ direction, routeKey }) => {
+export const RouteTransition: React.FC<RouteTransitionProps> = ({ direction, routeKey }) => {
   const matches = useMatches();
   const match = useMatch({ strict: false });
   const nextMatchIndex = matches.findIndex((d) => d.id === match.id) + 1;
@@ -24,7 +24,7 @@ const RouteTransition: React.FC<RouteTransitionProps> = ({ direction, routeKey }
     if (direction !== undefined) return direction;
 
     const oldId = previousMatchId?.replace(/\/_[^\/]+/g, '') || '';
-    const newId = nextMatchId.replace(/\/_[^\/]+/g, '');
+    const newId = nextMatchId?.replace(/\/_[^\/]+/g, '') || '';
 
     const previousLength = oldId.split('/')?.length || 0;
     const newLength = newId.split('/')?.length || 0;
@@ -37,5 +37,3 @@ const RouteTransition: React.FC<RouteTransitionProps> = ({ direction, routeKey }
     </AnimatePresence>
   );
 };
-
-export default RouteTransition;

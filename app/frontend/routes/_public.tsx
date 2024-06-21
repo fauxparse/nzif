@@ -1,4 +1,4 @@
-import RouteTransition from '@/components/helpers/RouteTransition';
+import { RouteTransition } from '@/components/helpers/RouteTransition';
 import Footer from '@/components/organisms/Footer';
 import Navigation from '@/components/organisms/Navigation';
 import { useTitle } from '@/hooks/useRoutesWithTitles';

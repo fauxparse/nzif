@@ -43,6 +43,10 @@
 }
 
 .activity-card {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--background-subtle);
   transform: translate3d(0, 0, 0);
 
   .card__content {
@@ -53,6 +57,14 @@
     &::after {
       content: '';
       flex: 1;
+    }
+  }
+
+  &[data-loading="true"] {
+    .card__picture {
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+      mix-blend-mode: var(--blend-mode);
     }
   }
 
