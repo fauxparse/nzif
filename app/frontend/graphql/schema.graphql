@@ -322,7 +322,7 @@ enum FestivalState {
 """
 An ISO 8601-encoded datetime
 """
-scalar ISO8601DateTime
+scalar ISO8601DateTime @specifiedBy(url: "https://tools.ietf.org/html/rfc3339")
 
 scalar ISODate
 
@@ -448,6 +448,7 @@ type Mutation {
   resetPasswordAndLogIn(password: String!, passwordConfirmation: String!, resetPasswordToken: String!): ResetPasswordAndLogInPayload
   saveFeedback(attributes: FeedbackAttributes!, sessionId: ID!): SaveFeedbackPayload
   sendMessage(content: String!, sessionId: ID!, subject: String!): SendMessagePayload
+  setSessionVisibility(hidden: Boolean!, sessionId: ID!): CalendarSession
   updateActivity(attributes: ActivityAttributes!, id: ID!): UpdateActivityPayload
   updatePayment(attributes: PaymentAttributes!, id: ID!): UpdatePaymentPayload
   updatePerson(attributes: PersonAttributes!, id: ID!): UpdatePersonPayload

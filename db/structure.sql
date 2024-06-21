@@ -363,8 +363,8 @@ CREATE TABLE public.cities (
     name character varying,
     traditional_names character varying[] DEFAULT '{}'::character varying[] NOT NULL,
     country character varying(2),
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -456,6 +456,38 @@ CREATE SEQUENCE public.festivals_id_seq
 --
 
 ALTER SEQUENCE public.festivals_id_seq OWNED BY public.festivals.id;
+
+
+--
+-- Name: hidden_sessions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.hidden_sessions (
+    id bigint NOT NULL,
+    session_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: hidden_sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.hidden_sessions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: hidden_sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.hidden_sessions_id_seq OWNED BY public.hidden_sessions.id;
 
 
 --
@@ -1094,6 +1126,13 @@ ALTER TABLE ONLY public.festivals ALTER COLUMN id SET DEFAULT nextval('public.fe
 
 
 --
+-- Name: hidden_sessions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.hidden_sessions ALTER COLUMN id SET DEFAULT nextval('public.hidden_sessions_id_seq'::regclass);
+
+
+--
 -- Name: messages id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1282,6 +1321,14 @@ ALTER TABLE ONLY public.feedback
 
 ALTER TABLE ONLY public.festivals
     ADD CONSTRAINT festivals_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: hidden_sessions hidden_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.hidden_sessions
+    ADD CONSTRAINT hidden_sessions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1489,6 +1536,27 @@ CREATE UNIQUE INDEX index_feedback_on_registration_id_and_session_id ON public.f
 --
 
 CREATE INDEX index_feedback_on_session_id ON public.feedback USING btree (session_id);
+
+
+--
+-- Name: index_hidden_sessions_on_session_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_hidden_sessions_on_session_id ON public.hidden_sessions USING btree (session_id);
+
+
+--
+-- Name: index_hidden_sessions_on_session_id_and_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_hidden_sessions_on_session_id_and_user_id ON public.hidden_sessions USING btree (session_id, user_id);
+
+
+--
+-- Name: index_hidden_sessions_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_hidden_sessions_on_user_id ON public.hidden_sessions USING btree (user_id);
 
 
 --
@@ -1964,6 +2032,22 @@ ALTER TABLE ONLY public.placements
 
 
 --
+-- Name: hidden_sessions fk_rails_9d7a005f99; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.hidden_sessions
+    ADD CONSTRAINT fk_rails_9d7a005f99 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: hidden_sessions fk_rails_a1debd137d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.hidden_sessions
+    ADD CONSTRAINT fk_rails_a1debd137d FOREIGN KEY (session_id) REFERENCES public.sessions(id);
+
+
+--
 -- Name: placements fk_rails_a3075eb6ce; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2078,7 +2162,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20231003055221'),
 ('20231006212429'),
 ('20231009211805'),
-('20240608234005');
+('20240608234005'),
+('20240616030719');
 
 
 SET statement_timeout = 0;

@@ -50,5 +50,7 @@ module Types
     field :send_message, mutation: Mutations::Messages::Send
 
     field :save_feedback, mutation: Mutations::Feedback::Save
+
+    field :set_session_visibility, mutation: Mutations::Calendar::SetSessionVisibility
   end
 end

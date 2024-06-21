@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :profiles, through: :ownerships
   has_many :activity_owners, as: :user # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :activities, through: :activity_owners, source_type: 'Activity'
+  has_many :hidden_sessions, dependent: :destroy
 
   before_validation :populate_profile
 

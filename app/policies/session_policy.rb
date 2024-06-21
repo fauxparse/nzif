@@ -10,4 +10,12 @@ class SessionPolicy < ApplicationPolicy
   def message?
     cast?
   end
+
+  def hide?
+    !record.workshop?
+  end
+
+  def show?
+    !record.workshop?
+  end
 end

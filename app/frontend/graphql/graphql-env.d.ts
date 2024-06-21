@@ -3305,6 +3305,38 @@ export type introspection = {
             ]
           },
           {
+            "name": "setSessionVisibility",
+            "type": {
+              "kind": "OBJECT",
+              "name": "CalendarSession",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "hidden",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  }
+                }
+              },
+              {
+                "name": "sessionId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "updateActivity",
             "type": {
               "kind": "OBJECT",

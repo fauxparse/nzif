@@ -42,7 +42,7 @@ gem 'bootsnap', require: false
 gem 'vite_rails', '~> 3.0'
 
 gem 'apollo_upload_server', '2.1'
-gem 'graphql', '~> 2.0'
+gem 'graphql', '~> 2.3.5'
 gem 'graphql_devise', '~> 1.2'
 
 gem 'auto_strip_attributes', '~> 2.6'

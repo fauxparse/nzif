@@ -438,6 +438,7 @@ export type Mutation = {
   resetPasswordAndLogIn: Maybe<ResetPasswordAndLogInPayload>;
   saveFeedback: Maybe<SaveFeedbackPayload>;
   sendMessage: Maybe<SendMessagePayload>;
+  setSessionVisibility: Maybe<CalendarSession>;
   updateActivity: Maybe<UpdateActivityPayload>;
   updatePayment: Maybe<UpdatePaymentPayload>;
   updatePerson: Maybe<UpdatePersonPayload>;
@@ -639,6 +640,12 @@ export type MutationSendMessageArgs = {
   content: Scalars['String'];
   sessionId: Scalars['ID'];
   subject: Scalars['String'];
+};
+
+
+export type MutationSetSessionVisibilityArgs = {
+  hidden: Scalars['Boolean'];
+  sessionId: Scalars['ID'];
 };
 
 
