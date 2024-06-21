@@ -5,7 +5,6 @@ import useFestival from '@/hooks/useFestival';
 import { gql } from '@apollo/client';
 import { Options, documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, Document, Text } from '@contentful/rich-text-types';
-import { Container } from '@mantine/core';
 import { deburr, kebabCase } from 'lodash-es';
 import { Helmet } from 'react-helmet-async';
 
@@ -57,7 +56,7 @@ const StaticPage: React.FC<StaticPageProps> = ({ page }) => {
   const document: Document | undefined = page?.body?.json;
 
   return (
-    <Container>
+    <>
       <Helmet>
         <title>
           {page.title} for NZIF {festival.id}
@@ -82,7 +81,7 @@ const StaticPage: React.FC<StaticPageProps> = ({ page }) => {
           )}
         </div>
       </Body>
-    </Container>
+    </>
   );
 };
 
