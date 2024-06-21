@@ -1,10 +1,13 @@
 class PersonalCalendar
-  attr_reader :festival, :registration
+  attr_reader :festival, :user, :registration
 
   def initialize(festival:, user:)
     @festival = festival
-    @registration = user && festival.registrations.includes(:sessions,
-      waitlist: :session).find_by(user:)
+    @user = user
+    @registration =
+      user && festival.registrations
+        .includes(:sessions, waitlist: :session)
+        .find_by(user:)
   end
 
   def sessions
@@ -13,30 +16,45 @@ class PersonalCalendar
 
   private
 
+  def festival_sessions
+    @festival_sessions ||=
+      festival
+        .sessions
+        .joins(
+          <<~SQL.squish,
+            LEFT OUTER JOIN hidden_sessions
+            ON hidden_sessions.session_id = sessions.id
+          SQL
+        )
+        .where(hidden_sessions: { user_id: [nil, user.id] })
+        .select('sessions.*, (hidden_sessions.id IS NOT NULL) AS hidden')
+        .all
+  end
+
   def all_sessions
     (shows + social_events + conferences + registered_workshops)
   end
 
-  def wrap(sessions, hidden: false, waitlisted: false)
+  def wrap(sessions, waitlisted: false)
     sessions.select(&:activity_id?).map do |session|
       Hashie::Mash.new(
         session:,
-        hidden:,
+        hidden: session.respond_to?(:hidden) ? session.hidden : false,
         waitlisted:,
       )
     end
   end
 
   def shows
-    wrap(festival.sessions.select(&:show?))
+    wrap(festival_sessions.select(&:show?))
   end
 
   def social_events
-    wrap(festival.sessions.select(&:social_event?))
+    wrap(festival_sessions.select(&:social_event?))
   end
 
   def conferences
-    wrap(festival.sessions.select(&:conference?))
+    wrap(festival_sessions.select(&:conference?))
   end
 
   def registered_workshops

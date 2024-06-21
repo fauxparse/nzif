@@ -8,31 +8,50 @@
   }
 
   &__event {
-    --icon: var(--colored-text-subtle);
-
     display: grid;
-    grid-template: "icon title" auto "none details" auto / var(--icon-medium) 1fr;
+    grid-template: "icon title hide" auto "bats details ." auto / var(--icon-medium) 1fr auto;
     padding: var(--spacing-small) var(--spacing-medium);
     border-radius: var(--radius-small);
     background-color: var(--background-light);
     color: var(--colored-text-subtle);
     column-gap: var(--spacing-medium);
 
+    &[data-hidden] {
+      background-color: var(--background-subtle);
+    }
+
     > h4 {
       grid-area: title;
+      margin: 0;
       color: var(--colored-text-default);
       font-weight: var(--font-weight-medium);
       font-size: var(--font-size-legible);
       line-height: var(--line-height-large);
     }
 
-    > .icon {
+    .icon {
       grid-area: icon;
       margin-block: calc((var(--line-height-large) - var(--icon-medium)) / 2);
+      color: inherit;
     }
 
     &__details {
       grid-area: details;
+
+      p {
+        margin: 0;
+      }
+    }
+
+    &__hide {
+      grid-area: hide;
+      margin: calc(var(--button-padding-inline) * -1);
+    }
+
+    &__not-at-bats {
+      grid-area: bats;
+      color: var(--colored-text-subtle);
+      cursor: help;
     }
   }
 }

@@ -31,3 +31,12 @@ query Calendar {
   }
 }
 `);
+
+export const SetSessionVisibilityMutation = graphql(`
+  mutation SetSessionVisibility($sessionId: ID!, $hidden: Boolean!) {
+    setSessionVisibility(sessionId: $sessionId, hidden: $hidden) {
+      id
+      hidden
+    }
+  }
+`);
