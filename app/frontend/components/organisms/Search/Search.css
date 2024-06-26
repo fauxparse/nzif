@@ -12,6 +12,7 @@
   .mantine-Modal-body {
     display: grid;
     grid-template-rows: auto calc(var(--search-result-height) * var(--max-results) + var(--results-list-padding) * 2);
+    padding: 0;
   }
 
   .mantine-Input-wrapper {
@@ -24,9 +25,14 @@
     --input-bg: transparent !important;
     --input-radius: var(--paper-radius) var(--paper-radius) 0 0;
 
+    padding: var(--spacing-small);
     border-bottom: var(--border-thin) solid var(--border-subtle);
     background-color: transparent;
     box-shadow: none;
+
+    [data-position="left"] {
+      margin-left: var(--spacing-tiny);
+    }
 
     [data-position="right"] {
       margin-right: var(--spacing-small);
