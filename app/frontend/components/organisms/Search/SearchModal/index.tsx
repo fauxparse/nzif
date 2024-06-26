@@ -1,12 +1,10 @@
-import Button from '@/components/atoms/Button';
-import Kbd from '@/components/atoms/Kbd';
 import type { ResultOf } from '@/graphql';
 import CloseIcon from '@/icons/CloseIcon';
 import NoResultsIcon from '@/icons/NoResultsIcon';
 import SearchIcon from '@/icons/SearchIcon';
 import TipIcon from '@/icons/TipIcon';
 import { useLazyQuery } from '@apollo/client';
-import { Modal, ModalProps, TextInput } from '@mantine/core';
+import { ActionIcon, Kbd, Modal, ModalProps, TextInput } from '@mantine/core';
 import { getHotkeyHandler, useDebouncedValue } from '@mantine/hooks';
 import { useNavigate } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
@@ -85,16 +83,20 @@ const SearchModal: React.FC<SearchModalProps> = ({ maxResults = 5, opened, onClo
         id="search"
         placeholder="Search..."
         value={query}
+        size="md"
         onChange={(e) => setQuery(e.currentTarget.value)}
         leftSection={<SearchIcon />}
         rightSection={
-          <Button
-            variant="ghost"
-            size="large"
+          <ActionIcon
+            variant="subtle"
+            data-color="neutral"
+            radius="lg"
+            size="lg"
             aria-label="Close"
-            leftSection={<CloseIcon />}
             onClick={onClose}
-          />
+          >
+            <CloseIcon />
+          </ActionIcon>
         }
         role="searchbox"
         aria-owns={results.length ? results.map((r) => r.id).join(' ') : undefined}

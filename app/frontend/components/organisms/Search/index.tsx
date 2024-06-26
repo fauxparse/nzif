@@ -1,6 +1,5 @@
-import Button from '@/components/atoms/Button';
 import SearchIcon from '@/icons/SearchIcon';
-import type { ButtonProps } from '@mantine/core';
+import { ActionIcon, ButtonProps } from '@mantine/core';
 import { useDisclosure, useHotkeys } from '@mantine/hooks';
 import { forwardRef } from 'react';
 import SearchModal from './SearchModal';
@@ -16,13 +15,15 @@ const SearchButton = forwardRef<HTMLButtonElement, SearchButtonProps>(({ classNa
 
   return (
     <>
-      <Button
+      <ActionIcon
         ref={ref}
-        variant="ghost"
-        leftSection={<SearchIcon />}
+        variant="subtle"
+        data-color="neutral"
         aria-label="Search"
         onClick={open}
-      />
+      >
+        <SearchIcon />
+      </ActionIcon>
       <SearchModal opened={opened} onClose={close} />
     </>
   );

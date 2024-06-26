@@ -116,3 +116,16 @@
     }
   }
 }
+
+[data-theme] .mantine-Kbd-root {
+  display: inline-block;
+  vertical-align: baseline;
+  min-width: 1.5rem;
+  padding-inline: var(--spacing-tiny);
+  border: var(--border-thin) solid var(--border-element);
+  border-radius: 0.25rem;
+  background-color: var(--background-element);
+  box-shadow: 0 0.125rem 0 0 var(--border-element);
+  font-weight: var(--font-weight-medium);
+  font-family: monospace;
+}
