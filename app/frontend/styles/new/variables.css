@@ -303,7 +303,7 @@ body,
   --border-subtle: var(--neutral-alpha-6);
   --magenta: var(--magenta-9);
   --link: var(--magenta-11);
-  --link-hover: var(--magenta-12);
+  --link-hover: var(--magenta-10);
 }
 
 body,
@@ -357,6 +357,8 @@ body,
   --focus-ring: var(--focus-magenta);
   --border-element: var(--magenta-7);
   --border-subtle: var(--magenta-alpha-6);
+  --link: var(--magenta-11);
+  --link-hover: var(--magenta-12);
 }
 
 [data-color="cyan"] {

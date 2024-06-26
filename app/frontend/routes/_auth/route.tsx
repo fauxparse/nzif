@@ -1,19 +1,9 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
-import Logo from '@/components/atoms/Logo';
-
-import './_auth/_auth.css';
+import { Authentication } from '@/components/layouts/Authentication';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
 type AuthSearch = {
   redirect?: string;
 };
-
-const Authentication = () => (
-  <div className="authentication">
-    <div className="container">
-      <Outlet />
-    </div>
-  </div>
-);
 
 export const Route = createFileRoute('/_auth')({
   component: Authentication,
