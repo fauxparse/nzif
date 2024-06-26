@@ -14,13 +14,15 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as LogoutImport } from './routes/logout'
 import { Route as AdminImport } from './routes/admin'
 import { Route as PublicImport } from './routes/_public'
-import { Route as AuthImport } from './routes/_auth'
+import { Route as AuthRouteImport } from './routes/_auth/route'
 import { Route as AdminIndexImport } from './routes/admin/index'
 import { Route as PublicIndexImport } from './routes/_public.index'
 import { Route as AdminTimetableImport } from './routes/admin/timetable'
 import { Route as PublicAuthenticatedImport } from './routes/_public/_authenticated'
 import { Route as AuthSignupImport } from './routes/_auth/signup'
+import { Route as AuthResetpasswordImport } from './routes/_auth/reset_password'
 import { Route as AuthLoginImport } from './routes/_auth/login'
+import { Route as AuthForgotImport } from './routes/_auth/forgot'
 import { Route as AdminActivityTypeRouteImport } from './routes/admin/$activityType/route'
 import { Route as PublicActivityTypeRouteImport } from './routes/_public/$activityType/route'
 import { Route as AdminActivityTypeIndexImport } from './routes/admin/$activityType/index'
@@ -51,7 +53,7 @@ const PublicRoute = PublicImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthRoute = AuthImport.update({
+const AuthRouteRoute = AuthRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRoute,
 } as any)
@@ -78,12 +80,22 @@ const PublicAuthenticatedRoute = PublicAuthenticatedImport.update({
 
 const AuthSignupRoute = AuthSignupImport.update({
   path: '/signup',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthResetpasswordRoute = AuthResetpasswordImport.update({
+  path: '/reset_password',
+  getParentRoute: () => AuthRouteRoute,
 } as any)
 
 const AuthLoginRoute = AuthLoginImport.update({
   path: '/login',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthForgotRoute = AuthForgotImport.update({
+  path: '/forgot',
+  getParentRoute: () => AuthRouteRoute,
 } as any)
 
 const AdminActivityTypeRouteRoute = AdminActivityTypeRouteImport.update({
@@ -163,7 +175,7 @@ declare module '@tanstack/react-router' {
       id: '/_auth'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof AuthImport
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRoute
     }
     '/_public': {
@@ -201,19 +213,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminActivityTypeRouteImport
       parentRoute: typeof AdminImport
     }
+    '/_auth/forgot': {
+      id: '/_auth/forgot'
+      path: '/forgot'
+      fullPath: '/forgot'
+      preLoaderRoute: typeof AuthForgotImport
+      parentRoute: typeof AuthRouteImport
+    }
     '/_auth/login': {
       id: '/_auth/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof AuthLoginImport
-      parentRoute: typeof AuthImport
+      parentRoute: typeof AuthRouteImport
+    }
+    '/_auth/reset_password': {
+      id: '/_auth/reset_password'
+      path: '/reset_password'
+      fullPath: '/reset_password'
+      preLoaderRoute: typeof AuthResetpasswordImport
+      parentRoute: typeof AuthRouteImport
     }
     '/_auth/signup': {
       id: '/_auth/signup'
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof AuthSignupImport
-      parentRoute: typeof AuthImport
+      parentRoute: typeof AuthRouteImport
     }
     '/_public/_authenticated': {
       id: '/_public/_authenticated'
@@ -319,7 +345,12 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
-  AuthRoute: AuthRoute.addChildren({ AuthLoginRoute, AuthSignupRoute }),
+  AuthRouteRoute: AuthRouteRoute.addChildren({
+    AuthForgotRoute,
+    AuthLoginRoute,
+    AuthResetpasswordRoute,
+    AuthSignupRoute,
+  }),
   PublicRoute: PublicRoute.addChildren({
     PublicActivityTypeRouteRoute: PublicActivityTypeRouteRoute.addChildren({
       PublicActivityTypeSlugRoute,
@@ -364,9 +395,11 @@ export const routeTree = rootRoute.addChildren({
       ]
     },
     "/_auth": {
-      "filePath": "_auth.tsx",
+      "filePath": "_auth/route.tsx",
       "children": [
+        "/_auth/forgot",
         "/_auth/login",
+        "/_auth/reset_password",
         "/_auth/signup"
       ]
     },
@@ -406,8 +439,16 @@ export const routeTree = rootRoute.addChildren({
         "/admin/$activityType/"
       ]
     },
+    "/_auth/forgot": {
+      "filePath": "_auth/forgot.tsx",
+      "parent": "/_auth"
+    },
     "/_auth/login": {
       "filePath": "_auth/login.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/reset_password": {
+      "filePath": "_auth/reset_password.tsx",
       "parent": "/_auth"
     },
     "/_auth/signup": {

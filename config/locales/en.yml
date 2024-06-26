@@ -52,3 +52,7 @@ en:
     formats:
       friendly: '%A %-d %B, %l:%M %p'
       short: '%l:%M %p'
+
+  graphql_devise:
+    sessions:
+      bad_credentials: 'Sorry, we couldn’t log you in. Please try again.'

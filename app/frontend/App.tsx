@@ -15,7 +15,7 @@ rg4js('enableCrashReporting', import.meta.env.PROD);
 const App: React.FC = () => (
   <QueryClientProvider client={queryClient}>
     <PortalManager>
-      <AuthenticationProvider>
+      <AuthenticationProvider key="auth">
         <PlacenameProvider>
           <Routes />
         </PlacenameProvider>
