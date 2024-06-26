@@ -1,7 +1,7 @@
 import * as path from 'node:path';
 import yaml from '@modyfi/vite-plugin-yaml';
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
-import react from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react-swc';
 import ruby from 'vite-plugin-ruby';
 import { configDefaults, defineConfig } from 'vitest/config';
 

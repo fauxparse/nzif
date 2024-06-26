@@ -30,14 +30,6 @@
     ".cicada": true,
     "_templates": true
   },
-  "hide-files.files": [
-    "app/frontend/molecules",
-    "app/frontend/organisms",
-    "app/frontend/pages",
-    "app/frontend/helpers",
-    "app/frontend/atoms",
-    ".cicada",
-    "_templates"
-  ],
+  "hide-files.files": ["old", ".cicada", "_templates"],
   "explorerExclude.backup": {}
 }
