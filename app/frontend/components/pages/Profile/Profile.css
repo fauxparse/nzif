@@ -1,0 +1,67 @@
+.profile {
+  &__form {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-column: main;
+    row-gap: var(--spacing-large);
+    margin: 0;
+    padding: var(--spacing-large) 0;
+
+    h3 {
+      font-size: var(--font-size-large);
+      line-height: var(--line-height-large);
+    }
+
+    &:not(:last-of-type) {
+      border-bottom: var(--border-thin) solid var(--border-subtle);
+    }
+
+    fieldset {
+      display: contents;
+    }
+
+    @media (min-width: 768px) {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      column-gap: var(--spacing-large);
+
+      .mantine-InputWrapper {
+        &-root {
+          display: grid;
+          grid-template-columns: subgrid;
+          grid-column: 2 / span 2;
+          row-gap: var(--spacing-small);
+        }
+
+        &-description {
+          grid-column: 1 / span 2;
+          order: 1;
+        }
+      }
+
+      .image-uploader {
+        grid-row: 1 / span 3;
+        grid-column: 4;
+        align-self: start;
+      }
+
+      .mantine-Input-wrapper,
+      .mantine-TextInput-error,
+      .city-picker {
+        grid-column: 1 / span 2;
+
+        .mantine-InputWrapper-root {
+          grid-column: 1 / -1;
+        }
+
+        &:has([type="password"]),
+        &:has([type="tel"]) {
+          grid-column: 1;
+        }
+      }
+
+      .form__buttons {
+        grid-column: 2;
+      }
+    }
+  }
+}
