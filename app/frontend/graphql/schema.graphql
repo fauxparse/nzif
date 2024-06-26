@@ -452,6 +452,7 @@ type Mutation {
   updateActivity(attributes: ActivityAttributes!, id: ID!): UpdateActivityPayload
   updatePayment(attributes: PaymentAttributes!, id: ID!): UpdatePaymentPayload
   updatePerson(attributes: PersonAttributes!, id: ID!): UpdatePersonPayload
+  updateProfile(attributes: ProfileAttributes!): Person
   updateRegistrationUserDetails(attributes: UserDetailsAttributes!, registrationId: ID): UpdateUserDetailsPayload
   updateSession(attributes: SessionAttributes!, id: ID!): UpdateSessionPayload
   updateSetting(id: String!, value: SettingValue!): UpdateSettingPayload
@@ -624,6 +625,17 @@ type Preference {
   position: Int!
   slot: Slot!
   workshop: Workshop!
+}
+
+input ProfileAttributes {
+  bio: String
+  city: CityAttributes
+  email: String
+  name: String
+  phone: String
+  picture: Upload
+  pronouns: String
+  uploadedPicture: UploadedFile
 }
 
 input ProfileMergeAttributes {
@@ -1047,6 +1059,8 @@ type User {
 input UserAttributes {
   email: String
   name: String
+  password: String
+  passwordConfirmation: String
   permissions: [Permission!]
 }
 

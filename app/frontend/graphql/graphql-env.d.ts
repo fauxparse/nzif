@@ -3433,6 +3433,27 @@ export type introspection = {
             ]
           },
           {
+            "name": "updateProfile",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Person",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "attributes",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "ProfileAttributes",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "updateRegistrationUserDetails",
             "type": {
               "kind": "OBJECT",
@@ -4411,6 +4432,76 @@ export type introspection = {
           }
         ],
         "interfaces": []
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "ProfileAttributes",
+        "inputFields": [
+          {
+            "name": "bio",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "city",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "CityAttributes",
+              "ofType": null
+            }
+          },
+          {
+            "name": "email",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "name",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "phone",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "picture",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Upload",
+              "ofType": null
+            }
+          },
+          {
+            "name": "pronouns",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "uploadedPicture",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UploadedFile",
+              "ofType": null
+            }
+          }
+        ]
       },
       {
         "kind": "INPUT_OBJECT",
@@ -6733,6 +6824,22 @@ export type introspection = {
           },
           {
             "name": "name",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "password",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "passwordConfirmation",
             "type": {
               "kind": "SCALAR",
               "name": "String",

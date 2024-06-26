@@ -442,6 +442,7 @@ export type Mutation = {
   updateActivity: Maybe<UpdateActivityPayload>;
   updatePayment: Maybe<UpdatePaymentPayload>;
   updatePerson: Maybe<UpdatePersonPayload>;
+  updateProfile: Maybe<Person>;
   updateRegistrationUserDetails: Maybe<UpdateUserDetailsPayload>;
   updateSession: Maybe<UpdateSessionPayload>;
   updateSetting: Maybe<UpdateSettingPayload>;
@@ -667,6 +668,11 @@ export type MutationUpdatePersonArgs = {
 };
 
 
+export type MutationUpdateProfileArgs = {
+  attributes: ProfileAttributes;
+};
+
+
 export type MutationUpdateRegistrationUserDetailsArgs = {
   attributes: UserDetailsAttributes;
   registrationId: InputMaybe<Scalars['ID']>;
@@ -848,6 +854,17 @@ export type Preference = {
   position: Scalars['Int'];
   slot: Slot;
   workshop: Workshop;
+};
+
+export type ProfileAttributes = {
+  bio: InputMaybe<Scalars['String']>;
+  city: InputMaybe<CityAttributes>;
+  email: InputMaybe<Scalars['String']>;
+  name: InputMaybe<Scalars['String']>;
+  phone: InputMaybe<Scalars['String']>;
+  picture: InputMaybe<Scalars['Upload']>;
+  pronouns: InputMaybe<Scalars['String']>;
+  uploadedPicture: InputMaybe<UploadedFile>;
 };
 
 export type ProfileMergeAttributes = {
@@ -1262,6 +1279,8 @@ export type User = {
 export type UserAttributes = {
   email: InputMaybe<Scalars['String']>;
   name: InputMaybe<Scalars['String']>;
+  password: InputMaybe<Scalars['String']>;
+  passwordConfirmation: InputMaybe<Scalars['String']>;
   permissions: InputMaybe<Array<Permission>>;
 };
 

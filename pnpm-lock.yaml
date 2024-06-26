@@ -99,8 +99,8 @@ dependencies:
     specifier: ^2.1.1
     version: 2.1.1
   '@tanstack/react-form':
-    specifier: ^0.23.2
-    version: 0.23.2(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^0.23.3
+    version: 0.23.3(react-dom@18.2.0)(react@18.2.0)
   '@tanstack/react-query':
     specifier: ^4.29.7
     version: 4.29.7(react-dom@18.2.0)(react@18.2.0)
@@ -117,8 +117,8 @@ dependencies:
     specifier: ^1.39.8
     version: 1.39.9(vite@5.3.1)
   '@tanstack/zod-form-adapter':
-    specifier: ^0.23.2
-    version: 0.23.2(zod@3.23.8)
+    specifier: ^0.23.3
+    version: 0.23.3(zod@3.23.8)
   '@uppy/aws-s3':
     specifier: ^3.6.2
     version: 3.6.2(@uppy/core@3.12.0)
@@ -6305,8 +6305,8 @@ packages:
       '@swc/counter': 0.1.3
     dev: true
 
-  /@tanstack/form-core@0.23.2:
-    resolution: {integrity: sha512-gkkIWJEHakniPT7j5+myErDE92wrzYlIYR4tBpeFXHuOTnPhdPUjDb/rv8ekz8SqdG2HEfvlbzilMa+zo1ACuw==}
+  /@tanstack/form-core@0.23.3:
+    resolution: {integrity: sha512-unm9IoFZQTNF8thAwWcQSolAzqVHZ7WqDxsCDazDqhrWXoWu1VfDcqKML6MBjaoUxLTictjHg/akrnXtEggnZw==}
     dependencies:
       '@tanstack/store': 0.5.0
     dev: false
@@ -6320,12 +6320,12 @@ packages:
     resolution: {integrity: sha512-GXG4b5hV2Loir+h2G+RXhJdoZhJLnrBWsuLB2r0qBRyhWuXq9w/dWxzvpP89H0UARlH6Mr9DiVj4SMtpkF/aUA==}
     dev: false
 
-  /@tanstack/react-form@0.23.2(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-j7e5/+LUjz4ZOw7slO9x3mtCTM7H3mc3ibHm4qYrC0ZWwBz2zhZC3bpbwVvNVlCWuSRZJwjFRfjMgCemKB+Tgg==}
+  /@tanstack/react-form@0.23.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-Gy+nlOXmiT+2mvHNKCBzZ3g7MxhmdJnVRlX5IzGtA9KTFvHzJ+QC0MWdZ3kxb6xyOBT+0+LGNiiBiAY70gGtAw==}
     peerDependencies:
       react: ^17.0.0 || ^18.0.0
     dependencies:
-      '@tanstack/form-core': 0.23.2
+      '@tanstack/form-core': 0.23.3
       '@tanstack/react-store': 0.5.0(react-dom@18.2.0)(react@18.2.0)
       decode-formdata: 0.7.5
       react: 18.2.0
@@ -6474,12 +6474,12 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /@tanstack/zod-form-adapter@0.23.2(zod@3.23.8):
-    resolution: {integrity: sha512-RQFJ8s8Pa/fK/Wz+Nj/wOdSbH4TQFMp581qHR27ID6WzZqhMqo/GG12eyMSxDmcgxVyTjehou5jHn4mtyib55g==}
+  /@tanstack/zod-form-adapter@0.23.3(zod@3.23.8):
+    resolution: {integrity: sha512-qiTpqcLjPl25TKjBfxKpyOY/YeyZsKjhDpihjYQd+X6CgUmnnapODxSpnxbp95PCMspG/tu88sK/DTvu7WUewA==}
     peerDependencies:
       zod: ^3.x
     dependencies:
-      '@tanstack/form-core': 0.23.2
+      '@tanstack/form-core': 0.23.3
       zod: 3.23.8
     dev: false
 

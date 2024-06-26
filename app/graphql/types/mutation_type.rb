@@ -52,5 +52,7 @@ module Types
     field :save_feedback, mutation: Mutations::Feedback::Save
 
     field :set_session_visibility, mutation: Mutations::Calendar::SetSessionVisibility
+
+    field :update_profile, mutation: Mutations::Profile::Update
   end
 end
