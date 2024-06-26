@@ -27,7 +27,6 @@
     "app/frontend/organisms": true,
     "app/frontend/helpers": true,
     "app/frontend/atoms": true,
-    ".storybook": true,
     ".cicada": true,
     "_templates": true
   },
@@ -37,7 +36,6 @@
     "app/frontend/pages",
     "app/frontend/helpers",
     "app/frontend/atoms",
-    ".storybook",
     ".cicada",
     "_templates"
   ],
