@@ -7,11 +7,18 @@
 
   > .container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--spacing-large);
     align-items: start;
     padding-block-start: var(--spacing-base);
     padding-block-end: 4rem;
+
+    section:last-child {
+      display: flex;
+      flex-direction: column;
+      grid-column: -3 / span 2;
+      align-items: end;
+    }
 
     @media (width <= 768px) {
       grid-template-columns: 1fr 1fr;
