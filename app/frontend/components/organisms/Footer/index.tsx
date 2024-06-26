@@ -6,7 +6,7 @@ import { useMantineColorScheme } from '@mantine/core';
 import { Link } from '@tanstack/react-router';
 import clsx from 'clsx';
 import { MotionProps, motion } from 'framer-motion';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
 
 import './Footer.css';
@@ -17,7 +17,18 @@ const isPageLink = (link: { __typename: string } | null): link is Page =>
 type FooterProps = Omit<ComponentPropsWithoutRef<'footer'>, keyof MotionProps>;
 
 const Footer: React.FC<FooterProps> = ({ className, ...props }) => {
-  const { toggleColorScheme } = useMantineColorScheme();
+  const { colorScheme, toggleColorScheme, setColorScheme } = useMantineColorScheme();
+
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const toggleTheme = () => {
+    if (timer.current) clearTimeout(timer.current);
+    const nextTheme = colorScheme === 'dark' ? 'light' : 'dark';
+    document.body.setAttribute('data-theme', nextTheme);
+    timer.current = setTimeout(() => {
+      setColorScheme(nextTheme);
+    }, 1000);
+  };
 
   const { data } = useFooterLinksQuery({ context: { clientName: 'contentful' } });
 
@@ -53,12 +64,13 @@ const Footer: React.FC<FooterProps> = ({ className, ...props }) => {
           </a>
         </section>
         <section>
-          <p>&copy; 2024 New Zealand Improvisation Trust</p>
+          <p>&copy; 2024 New Zealand Improv Trust</p>
           <Button
             variant="ghost"
+            data-color="neutral"
             size="small"
-            leftSection={<ThemeIcon />}
-            onClick={toggleColorScheme}
+            leftSection={<ThemeIcon key="theme" />}
+            onClick={toggleTheme}
           >
             Switch theme
           </Button>

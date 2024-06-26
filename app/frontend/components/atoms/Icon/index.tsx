@@ -1,5 +1,5 @@
 import { Box, BoxProps } from '@mantine/core';
-import { isString, uniqueId } from 'lodash-es';
+import { isString } from 'lodash-es';
 import { ReactNode, isValidElement } from 'react';
 
 import clsx from 'clsx';
@@ -41,8 +41,6 @@ export const createIcon = <const T extends CreateIconOptions>(options: T) =>
         ? options.path[variant || DEFAULT_VARIANT] || null
         : options.path;
 
-      const descriptionId = uniqueId(options.displayName);
-
       return (
         <Box
           className={clsx('icon', className)}
@@ -51,13 +49,10 @@ export const createIcon = <const T extends CreateIconOptions>(options: T) =>
           data-icon={options.displayName}
           component="svg"
           role="img"
-          aria-describedby={descriptionId}
+          aria-description={title || options.title || options.displayName}
           viewBox={options.viewBox || '20 20 20 20'}
           {...props}
         >
-          <text className="visually-hidden" id={descriptionId}>
-            {title || options.title || options.displayName}
-          </text>
           {isString(path) ? <path d={path} fillRule="evenodd" /> : path}
         </Box>
       );
