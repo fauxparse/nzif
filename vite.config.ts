@@ -6,7 +6,7 @@ import ruby from 'vite-plugin-ruby';
 import { configDefaults, defineConfig } from 'vitest/config';
 
 const plugins = [
-  ...(process.env.STORYBOOK ? [] : [ruby()]),
+  ruby(),
   TanStackRouterVite({
     routesDirectory: path.resolve(__dirname, './app/frontend/routes'),
     generatedRouteTree: path.resolve(__dirname, './app/frontend/routeTree.gen.ts'),
