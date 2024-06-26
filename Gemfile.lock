@@ -275,7 +275,7 @@ GEM
     graphiql-rails (1.9.0)
       railties
       sprockets-rails
-    graphql (2.3.5)
+    graphql (2.3.6)
       base64
     graphql_devise (1.5.0)
       devise_token_auth (>= 0.1.43, < 2.0)
@@ -670,8 +670,8 @@ DEPENDENCIES
   geocoder (~> 1.8)
   geokit-rails (~> 2.5)
   graphiql-rails
-  graphql (~> 2.3.5)
-  graphql_devise (~> 1.2)
+  graphql (~> 2.3.6)
+  graphql_devise (~> 1.5.0)
   hashid-rails (~> 1.4)
   hashie (~> 5.0)
   i18n-active_record

@@ -42,8 +42,8 @@ gem 'bootsnap', require: false
 gem 'vite_rails', '~> 3.0'
 
 gem 'apollo_upload_server', '2.1'
-gem 'graphql', '~> 2.3.5'
-gem 'graphql_devise', '~> 1.2'
+gem 'graphql', '~> 2.3.6'
+gem 'graphql_devise', '~> 1.5.0'
 
 gem 'auto_strip_attributes', '~> 2.6'
 gem 'hashid-rails', '~> 1.4'
