@@ -8,21 +8,28 @@ import { ActionIcon, Kbd, Modal, ModalProps, TextInput } from '@mantine/core';
 import { getHotkeyHandler, useDebouncedValue } from '@mantine/hooks';
 import { useNavigate } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import type { CSSProperties } from 'react';
-import type { Result } from './SearchResult';
-import SearchResult, { linkProps } from './SearchResult';
-import SearchQuery from './query';
+import { SearchQuery } from '../queries';
+import { SearchResult } from '../types';
+import { linkProps } from './Result';
+import { Result } from './Result';
 
 type SearchModalProps = ModalProps & {
   maxResults?: number;
 };
 
-const SearchModal: React.FC<SearchModalProps> = ({ maxResults = 5, opened, onClose, ...props }) => {
+const SearchModal: React.FC<SearchModalProps> = ({
+  maxResults = 10,
+  opened,
+  onClose,
+  ...props
+}) => {
   const [query, setQuery] = useState('');
 
   const [debouncedQuery] = useDebouncedValue(query, 300);
 
-  const [doSearch] = useLazyQuery(SearchQuery);
+  const [doSearch] = useLazyQuery(SearchQuery, {
+    fetchPolicy: 'network-only',
+  });
 
   const [results, setResults] = useState<ResultOf<typeof SearchQuery>['search']>([]);
 
@@ -37,7 +44,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ maxResults = 5, opened, onClo
 
   useEffect(() => {
     if (debouncedQuery) {
-      doSearch({ variables: { query: debouncedQuery } }).then(({ data }) => {
+      doSearch({ variables: { query: debouncedQuery.trim() } }).then(({ data }) => {
         setResults((data?.search || []).slice(0, maxResults));
         setActiveIndex(0);
       });
@@ -50,7 +57,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ maxResults = 5, opened, onClo
 
   const navigate = useNavigate();
 
-  const navigateToResult = (result: Result) => {
+  const navigateToResult = (result: SearchResult) => {
     onClose();
     navigate(linkProps(result) as Parameters<typeof navigate>[0]);
   };
@@ -70,7 +77,6 @@ const SearchModal: React.FC<SearchModalProps> = ({ maxResults = 5, opened, onClo
       opened={opened}
       onClose={onClose}
       withCloseButton={false}
-      style={{ '--max-results': maxResults } as CSSProperties}
       role="search"
       onKeyDown={getHotkeyHandler([
         ['ArrowDown', () => setActiveIndex((i) => Math.min(i + 1, results.length - 1))],
@@ -106,8 +112,8 @@ const SearchModal: React.FC<SearchModalProps> = ({ maxResults = 5, opened, onClo
         results.length ? (
           <div className="search-modal__results" role="menu">
             {results.map((result) => (
-              <SearchResult
-                key={result.url}
+              <Result
+                key={result.id}
                 result={result}
                 active={activeResult === result}
                 queryParts={queryParts}

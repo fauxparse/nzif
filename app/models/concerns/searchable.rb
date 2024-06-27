@@ -19,7 +19,7 @@ module Searchable
     def tsearch_options
       {
         prefix: true,
-        any_word: true,
+        any_word: false,
         dictionary: 'english',
         tsvector_column: 'searchable',
         highlight: {

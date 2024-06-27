@@ -13,7 +13,7 @@ module Types
     end
 
     def description
-      ''
+      [person.city, person.country].compact.join(', ')
     end
 
     def url

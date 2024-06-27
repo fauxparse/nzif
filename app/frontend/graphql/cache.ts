@@ -24,6 +24,9 @@ const cache = () =>
           people: {
             merge: (_, incoming) => incoming,
           },
+          search: {
+            merge: (_, incoming) => incoming,
+          },
         },
       },
       ActivityPicture: {

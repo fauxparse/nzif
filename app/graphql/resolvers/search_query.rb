@@ -5,10 +5,10 @@ module Resolvers
     argument :activity_type, Types::ActivityTypeType, required: false
     argument :limit, Integer, required: false
     argument :only, [Types::SearchTypeType], required: false,
-      default_value: %i[activity person page]
+      default_value: %i[person activity venue page]
     argument :query, String, required: true
 
-    def resolve(query:, only:, activity_type: nil, limit: 10)
+    def resolve(query:, only:, activity_type: nil, limit: 50)
       @activity_type = activity_type
 
       only.flat_map do |type|
@@ -58,7 +58,7 @@ module Resolvers
     end
 
     def page_matches(query:, limit:)
-      contentful.entries(content_type: 'page', query:, include: limit).map do |entry|
+      contentful.entries(content_type: 'page', query:, include: [limit, 10].min).map do |entry|
         Hashie::Mash.new(slug: entry.slug, title: entry.title, lede: content_field(entry, :lede))
       end
     end
