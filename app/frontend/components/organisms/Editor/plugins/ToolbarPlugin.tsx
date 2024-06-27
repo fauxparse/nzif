@@ -32,7 +32,7 @@ import {
 } from '@lexical/rich-text';
 import { $setBlocksType } from '@lexical/selection';
 import { $findMatchingParent, $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
-import { ActionIcon, ActionIconProps } from '@mantine/core';
+import { ActionIcon, ActionIconProps, Collapse } from '@mantine/core';
 import {
   $createParagraphNode,
   $getSelection,
@@ -73,10 +73,11 @@ const blockTypeToBlockName = {
 } as const;
 
 type ToolbarPluginProps = {
+  show: boolean;
   setLinkEditMode: Dispatch<boolean>;
 };
 
-export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ setLinkEditMode }) => {
+export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ show, setLinkEditMode }) => {
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState(editor);
   const toolbarRef = useRef(null);
@@ -232,101 +233,103 @@ export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ setLinkEditMode })
   };
 
   return (
-    <div className="editor__toolbar" ref={toolbarRef}>
-      <ActionIcon.Group>
-        <ToolbarButton
-          disabled={!canUndo}
-          aria-label="Undo"
-          onClick={() => {
-            editor.dispatchCommand(UNDO_COMMAND, undefined);
-          }}
-        >
-          <UndoIcon />
-        </ToolbarButton>
-        <ToolbarButton
-          disabled={!canRedo}
-          aria-label="Redo"
-          onClick={() => {
-            editor.dispatchCommand(REDO_COMMAND, undefined);
-          }}
-        >
-          <RedoIcon />
-        </ToolbarButton>
-      </ActionIcon.Group>
-      <ActionIcon.Group>
-        <ToolbarButton
-          aria-label="Heading"
-          aria-pressed={blockType === 'h3'}
-          onClick={() => formatHeading('h3')}
-        >
-          <HeadingIcon />
-        </ToolbarButton>
-        <ToolbarButton
-          aria-label="Bullet list"
-          aria-pressed={blockType === 'bullet'}
-          onClick={formatBulletList}
-        >
-          <BulletListIcon />
-        </ToolbarButton>
-        <ToolbarButton
-          aria-label="Numbered list"
-          aria-pressed={blockType === 'number'}
-          onClick={formatNumberedList}
-        >
-          <NumberedListIcon />
-        </ToolbarButton>
-        <ToolbarButton
-          aria-label="Quote"
-          aria-pressed={blockType === 'quote'}
-          onClick={formatQuote}
-        >
-          <QuoteIcon />
-        </ToolbarButton>
-      </ActionIcon.Group>
-      <ActionIcon.Group>
-        <ToolbarButton
-          aria-label="Bold"
-          aria-pressed={isBold}
-          onClick={() => {
-            editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
-          }}
-        >
-          <BoldIcon />
-        </ToolbarButton>
-        <ToolbarButton
-          aria-label="Italic"
-          aria-pressed={isItalic}
-          onClick={() => {
-            editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
-          }}
-        >
-          <ItalicIcon />
-        </ToolbarButton>
-        <ToolbarButton
-          aria-label="Underline"
-          aria-pressed={isUnderline}
-          onClick={() => {
-            editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
-          }}
-        >
-          <UnderlineIcon />
-        </ToolbarButton>
-        <ToolbarButton
-          aria-label="Strikethrough"
-          aria-pressed={isStrikethrough}
-          onClick={() => {
-            editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough');
-          }}
-        >
-          <StrikethroughIcon />
-        </ToolbarButton>
-      </ActionIcon.Group>
-      <ActionIcon.Group>
-        <ToolbarButton aria-label="Link" aria-pressed={isLink} onClick={insertLink}>
-          <LinkIcon />
-        </ToolbarButton>
-      </ActionIcon.Group>
-    </div>
+    <Collapse in={show}>
+      <div className="editor__toolbar" ref={toolbarRef}>
+        <ActionIcon.Group>
+          <ToolbarButton
+            disabled={!canUndo}
+            aria-label="Undo"
+            onClick={() => {
+              editor.dispatchCommand(UNDO_COMMAND, undefined);
+            }}
+          >
+            <UndoIcon />
+          </ToolbarButton>
+          <ToolbarButton
+            disabled={!canRedo}
+            aria-label="Redo"
+            onClick={() => {
+              editor.dispatchCommand(REDO_COMMAND, undefined);
+            }}
+          >
+            <RedoIcon />
+          </ToolbarButton>
+        </ActionIcon.Group>
+        <ActionIcon.Group>
+          <ToolbarButton
+            aria-label="Heading"
+            aria-pressed={blockType === 'h3'}
+            onClick={() => formatHeading('h3')}
+          >
+            <HeadingIcon />
+          </ToolbarButton>
+          <ToolbarButton
+            aria-label="Bullet list"
+            aria-pressed={blockType === 'bullet'}
+            onClick={formatBulletList}
+          >
+            <BulletListIcon />
+          </ToolbarButton>
+          <ToolbarButton
+            aria-label="Numbered list"
+            aria-pressed={blockType === 'number'}
+            onClick={formatNumberedList}
+          >
+            <NumberedListIcon />
+          </ToolbarButton>
+          <ToolbarButton
+            aria-label="Quote"
+            aria-pressed={blockType === 'quote'}
+            onClick={formatQuote}
+          >
+            <QuoteIcon />
+          </ToolbarButton>
+        </ActionIcon.Group>
+        <ActionIcon.Group>
+          <ToolbarButton
+            aria-label="Bold"
+            aria-pressed={isBold}
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
+            }}
+          >
+            <BoldIcon />
+          </ToolbarButton>
+          <ToolbarButton
+            aria-label="Italic"
+            aria-pressed={isItalic}
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
+            }}
+          >
+            <ItalicIcon />
+          </ToolbarButton>
+          <ToolbarButton
+            aria-label="Underline"
+            aria-pressed={isUnderline}
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
+            }}
+          >
+            <UnderlineIcon />
+          </ToolbarButton>
+          <ToolbarButton
+            aria-label="Strikethrough"
+            aria-pressed={isStrikethrough}
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough');
+            }}
+          >
+            <StrikethroughIcon />
+          </ToolbarButton>
+        </ActionIcon.Group>
+        <ActionIcon.Group>
+          <ToolbarButton aria-label="Link" aria-pressed={isLink} onClick={insertLink}>
+            <LinkIcon />
+          </ToolbarButton>
+        </ActionIcon.Group>
+      </div>
+    </Collapse>
   );
 };
 

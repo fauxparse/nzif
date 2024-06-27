@@ -7,7 +7,7 @@ import EditIcon from '@/icons/EditIcon';
 import LinkIcon from '@/icons/LinkIcon';
 import { useMutation } from '@apollo/client';
 import { ActionIcon, Badge, Group, Loader, Text, TextInput } from '@mantine/core';
-import { createFormFactory } from '@tanstack/react-form';
+import { useForm } from '@tanstack/react-form';
 import { useNavigate } from '@tanstack/react-router';
 import { pick } from 'lodash-es';
 import { DateTime } from 'luxon';
@@ -24,8 +24,6 @@ type ActivityEditorHeaderProps = {
 
 type HeaderDetails = Pick<Activity, 'name' | 'slug'>;
 
-const formFactory = createFormFactory<HeaderDetails>({});
-
 export const ActivityEditorHeader: React.FC<ActivityEditorHeaderProps> = ({
   activity,
   session,
@@ -39,7 +37,7 @@ export const ActivityEditorHeader: React.FC<ActivityEditorHeaderProps> = ({
 
   const [busy, setBusy] = useState(false);
 
-  const form = formFactory.useForm({
+  const form = useForm({
     defaultValues: activity,
     onSubmit: ({ value }) => {
       setBusy(true);

@@ -3,9 +3,8 @@
   --editor-padding-inline: 2.375rem;
 
   position: relative;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  row-gap: var(--spacing-small);
+  display: flex;
+  flex-direction: column;
   border: var(--border-thin) solid var(--border-input);
   border-radius: var(--radius-small);
   color: var(--text-default);
@@ -17,6 +16,7 @@
     gap: var(--spacing-small);
     align-items: center;
     padding: var(--spacing-tiny);
+    padding-bottom: 0;
     border-bottom: var(--border-thin) solid var(--border-input);
     border-radius: var(--radius-inside-small) var(--radius-inside-small) 0 0;
     background: var(--background-subtle);
@@ -42,8 +42,8 @@
 
   &__inner {
     position: relative;
-    display: grid;
-    align-items: stretch;
+    flex: 1;
+    overflow: auto;
     border-radius: 0 0 var(--radius-small-inner) var(--radius-small-inner);
     background: transparent;
   }
@@ -176,8 +176,6 @@ h1 {
 .editor-code {
   position: relative;
   display: block;
-
-  /* white-space: pre; */
   overflow-x: auto;
   margin: 0;
   margin-top: 8px;
@@ -462,3 +460,4 @@ pre::-webkit-scrollbar-thumb {
     text-decoration: none;
   }
 }
+

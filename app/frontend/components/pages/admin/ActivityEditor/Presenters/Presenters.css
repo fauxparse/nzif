@@ -19,10 +19,9 @@
 
     &__bio {
       grid-area: bio;
-
-      .editor__input {
-        min-height: 6rem;
-      }
+      min-height: 6rem;
+      max-height: 10rem;
+      resize: vertical;
     }
 
     &__picture {

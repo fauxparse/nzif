@@ -6,10 +6,9 @@ import { CityAttributes, PersonAttributes } from '@/graphql/types';
 import TrashIcon from '@/icons/TrashIcon';
 import { useMutation } from '@apollo/client';
 import { Box, Button, TextInput } from '@mantine/core';
-import { createFormFactory } from '@tanstack/react-form';
-import { isEmpty } from 'lodash-es';
-import { useRef } from 'react';
-import { PresenterDetailsFragment, UpdatePresenterMutation } from '../queries';
+import { useForm } from '@tanstack/react-form';
+import { isEmpty, pickBy } from 'lodash-es';
+import { UpdatePresenterMutation } from '../queries';
 import { Presenter, WithUploadedPicture } from '../types';
 
 export type Fields = WithUploadedPicture<
@@ -21,22 +20,8 @@ type PresenterDetailsProps = {
   onRemove: (presenter: Presenter) => void;
 };
 
-const formFactory = createFormFactory<Fields>({
-  defaultValues: {
-    id: '',
-    name: '',
-    pronouns: '',
-    bio: '',
-    city: null,
-    country: null,
-    uploadedPicture: null,
-  },
-});
-
 export const PresenterDetails: React.FC<PresenterDetailsProps> = ({ presenter, onRemove }) => {
   const [updateMutation] = useMutation(UpdatePresenterMutation);
-
-  const lastSaved = useRef(presenter);
 
   const update = (attributes: Partial<PersonAttributes>) =>
     updateMutation({
@@ -44,20 +29,9 @@ export const PresenterDetails: React.FC<PresenterDetailsProps> = ({ presenter, o
         id: presenter.id,
         attributes,
       },
-      update: (cache, { data }) => {
-        if (data?.updatePerson?.profile) {
-          cache.writeFragment({
-            id: cache.identify(data.updatePerson.profile),
-            fragment: PresenterDetailsFragment,
-            data: data.updatePerson.profile,
-          });
-        }
-      },
-    }).then(({ data }) => {
-      if (data?.updatePerson?.profile) lastSaved.current = data.updatePerson.profile;
     });
 
-  const form = formFactory.useForm({
+  const form = useForm({
     asyncDebounceMs: 1000,
     defaultValues: {
       id: presenter.id,
@@ -67,34 +41,14 @@ export const PresenterDetails: React.FC<PresenterDetailsProps> = ({ presenter, o
       city: presenter.city?.name ?? null,
       country: presenter.city?.country ?? null,
       uploadedPicture: null,
-    },
-    validators: {
-      onChangeAsync: () => {
-        form.handleSubmit();
-        return undefined;
-      },
-      onChange: ({ value }) => {
-        if (value.bio !== lastSaved.current.bio || value.city !== lastSaved.current.city?.name) {
-          form.handleSubmit();
-        }
-        return undefined;
-      },
-    },
-    onSubmit: async ({ value }) => {
-      const attributes: Partial<PersonAttributes> = {};
+    } as Fields,
+    onSubmit: async ({ value, formApi }) => {
+      const attributes = pickBy(
+        value,
+        (_, key) => formApi.getFieldMeta(key as keyof Fields)?.isDirty
+      ) as Partial<PersonAttributes>;
 
-      const presenter = lastSaved.current;
-
-      if (value.name !== presenter.name) {
-        attributes.name = value.name;
-      }
-      if (value.pronouns !== presenter.pronouns) {
-        attributes.pronouns = value.pronouns;
-      }
-      if (value.bio !== presenter.bio) {
-        attributes.bio = value.bio;
-      }
-      if ((value.city ?? null) !== (presenter.city?.name ?? null)) {
+      if (attributes.city) {
         attributes.city =
           value.city && value.country
             ? ({
@@ -110,6 +64,7 @@ export const PresenterDetails: React.FC<PresenterDetailsProps> = ({ presenter, o
 
       if (!isEmpty(attributes)) {
         await update(attributes);
+        form.reset();
       }
     },
   });
@@ -122,7 +77,7 @@ export const PresenterDetails: React.FC<PresenterDetailsProps> = ({ presenter, o
     confirm({
       title: 'Remove presenter',
       children: `Are you sure you want to remove ${name}?`,
-      countdown: 0,
+      countdown: 3,
     }).then(() => onRemove(presenter));
   };
 
@@ -136,6 +91,7 @@ export const PresenterDetails: React.FC<PresenterDetailsProps> = ({ presenter, o
             placeholder="Name"
             value={field.state.value}
             onChange={(e) => field.handleChange(e.currentTarget.value)}
+            onBlur={() => form.handleSubmit()}
           />
         )}
       </form.Field>
@@ -147,6 +103,7 @@ export const PresenterDetails: React.FC<PresenterDetailsProps> = ({ presenter, o
             placeholder="Pronouns"
             value={field.state.value || ''}
             onChange={(e) => field.handleChange(e.currentTarget.value)}
+            onBlur={() => form.handleSubmit()}
           />
         )}
       </form.Field>
@@ -155,6 +112,7 @@ export const PresenterDetails: React.FC<PresenterDetailsProps> = ({ presenter, o
           <Editor
             className="presenter-details__bio"
             placeholder="Presenter bio"
+            toolbar={false}
             value={field.state.value || ''}
             onChange={(value) => {
               if (value === field.state.value) return;
@@ -172,7 +130,10 @@ export const PresenterDetails: React.FC<PresenterDetailsProps> = ({ presenter, o
             width={512}
             height={512}
             value={presenter.picture?.medium ?? null}
-            onChange={field.handleChange}
+            onChange={(value) => {
+              field.handleChange(value);
+              form.handleSubmit();
+            }}
           />
         )}
       </form.Field>

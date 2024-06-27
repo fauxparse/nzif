@@ -1,26 +1,9 @@
+import { ActivityDetailsQuery } from '@/components/pages/admin/ActivityEditor/queries';
+import useFestival from '@/hooks/useFestival';
+import { useQuery } from '@apollo/client';
 import { Text } from '@mantine/core';
-import { createFileRoute, useLoaderData, useNavigate } from '@tanstack/react-router';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { DateTime } from 'luxon';
-import { useEffect } from 'react';
-
-const Component = () => {
-  const navigate = useNavigate();
-
-  const { activity } = useLoaderData({ from: '/admin/$activityType/$slug' });
-
-  const params = Route.useParams();
-  const session = activity.sessions.find((s) => s.startsAt.hasSame(params.session, 'day')) ?? null;
-
-  useEffect(() => {
-    if (!session) {
-      navigate({ to: '/admin/$activityType/$slug', params });
-    }
-  }, [session]);
-
-  if (!session) return null;
-
-  return <Text>{session.startsAt.toLocaleString()}</Text>;
-};
 
 export const Route = createFileRoute('/admin/$activityType/$slug/$session')({
   parseParams: ({ session }) => ({
@@ -29,6 +12,25 @@ export const Route = createFileRoute('/admin/$activityType/$slug/$session')({
   stringifyParams: ({ session }) => ({
     session: session.toISODate() || '',
   }),
-  component: Component,
-  pendingComponent: () => <Text>Loading…</Text>,
+  component: () => {
+    const navigate = useNavigate();
+    const festival = useFestival();
+    const params = Route.useParams();
+
+    const { loading, data } = useQuery(ActivityDetailsQuery, {
+      variables: { year: festival.id, type: params.activityType, slug: params.slug },
+    });
+
+    const session =
+      data?.festival?.activity?.sessions.find((s) => s.startsAt.hasSame(params.session, 'day')) ??
+      null;
+
+    if (!loading && !session) {
+      navigate({ to: '/admin/$activityType/$slug', params });
+    }
+
+    if (!session) return null;
+
+    return <Text>{session.startsAt.toLocaleString()}</Text>;
+  },
 });
