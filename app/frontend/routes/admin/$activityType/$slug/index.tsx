@@ -1,16 +1,25 @@
 import { Edit } from '@/components/pages/admin/ActivityEditor/Edit';
-import { Text } from '@mantine/core';
-import { createFileRoute, useLoaderData } from '@tanstack/react-router';
-
-const Component = () => {
-  const { activity } = useLoaderData({ from: '/admin/$activityType/$slug' });
-
-  if (!activity) return null;
-
-  return <Edit activity={activity} />;
-};
+import { ActivityDetailsQuery } from '@/components/pages/admin/ActivityEditor/queries';
+import useFestival from '@/hooks/useFestival';
+import { useQuery } from '@apollo/client';
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/admin/$activityType/$slug/')({
-  component: Component,
-  pendingComponent: () => <Text>Loading…</Text>,
+  component: () => {
+    const { activityType, slug } = Route.useParams();
+    const festival = useFestival();
+
+    const { loading, data } = useQuery(ActivityDetailsQuery, {
+      variables: {
+        year: festival.id,
+        type: activityType,
+        slug,
+      },
+    });
+    const activity = data?.festival?.activity;
+
+    if (loading || !activity) return null;
+
+    return <Edit activity={activity} />;
+  },
 });

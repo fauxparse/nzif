@@ -23,149 +23,147 @@ import { createFileRoute } from '@tanstack/react-router';
 import { uniqueId } from 'lodash-es';
 import { useCallback } from 'react';
 
-const Component: React.FC = () => {
-  const { loading, data } = useQuery(TimetableQuery);
+export const Route = createFileRoute('/admin/timetable')({
+  component: () => {
+    const { loading, data } = useQuery(TimetableQuery);
 
-  const festival = useFestival();
+    const festival = useFestival();
 
-  const [createActivityMutation] = useMutation(CreateActivityMutation);
+    const [createActivityMutation] = useMutation(CreateActivityMutation);
 
-  const createActivity = useCallback(
-    (type: ActivityType, attributes: Partial<ActivityAttributes>) =>
-      new Promise<Activity>((resolve, reject) => {
-        createActivityMutation({
-          variables: {
-            festivalId: festival.id,
-            type,
-            attributes,
-          },
-        })
-          .then((result) => {
-            const activity = result.data?.createActivity?.activity;
-            if (activity) {
-              resolve(activity);
-            } else {
-              reject();
-            }
+    const createActivity = useCallback(
+      (type: ActivityType, attributes: Partial<ActivityAttributes>) =>
+        new Promise<Activity>((resolve, reject) => {
+          createActivityMutation({
+            variables: {
+              festivalId: festival.id,
+              type,
+              attributes,
+            },
           })
-          .catch(reject);
-      }),
-    [createActivityMutation]
-  );
+            .then((result) => {
+              const activity = result.data?.createActivity?.activity;
+              if (activity) {
+                resolve(activity);
+              } else {
+                reject();
+              }
+            })
+            .catch(reject);
+        }),
+      [createActivityMutation]
+    );
 
-  const [createSessionsMutation] = useMutation(CreateSessionsMutation);
+    const [createSessionsMutation] = useMutation(CreateSessionsMutation);
 
-  const createSessions = useCallback(
-    (attributes: MultipleSessionAttributes) =>
-      createSessionsMutation({
-        variables: { attributes },
-        update: (cache, { data }) => {
-          if (!data?.createSessions) return;
+    const createSessions = useCallback(
+      (attributes: MultipleSessionAttributes) =>
+        createSessionsMutation({
+          variables: { attributes },
+          update: (cache, { data }) => {
+            if (!data?.createSessions) return;
 
-          const refs = data.createSessions.sessions.map((session) =>
+            const refs = data.createSessions.sessions.map((session) =>
+              cache.writeFragment({
+                fragment: TimetableSessionFragment,
+                fragmentName: 'TimetableSession',
+                data: session,
+                id: session.id,
+              })
+            );
+
+            cache.modify({
+              id: cache.identify({ __typename: 'Timetable', id: festival.id }),
+              fields: {
+                sessions: (existing) => [...existing, ...refs],
+              },
+            });
+          },
+          optimisticResponse: {
+            createSessions: {
+              sessions: attributes.timeRanges.flatMap(({ startsAt, endsAt }) =>
+                attributes.venueIds.map((venueId) => ({
+                  __typename: 'Session',
+                  id: uniqueId('session_'),
+                  startsAt,
+                  endsAt,
+                  activityType: attributes.activityType,
+                  venue: data?.festival?.venues?.find((venue) => venue.id === venueId) || null,
+                  activity: null,
+                  capacity: null,
+                }))
+              ),
+            },
+          },
+        }),
+      [createSessionsMutation]
+    );
+
+    const [updateSessionMutation] = useMutation(UpdateSessionMutation);
+
+    const updateSession = useCallback(
+      (id: Scalars['ID'], attributes: Partial<SessionAttributes>) => {
+        const session = data?.festival?.timetable?.sessions?.find((s) => s.id === id);
+        return updateSessionMutation({
+          variables: { id, attributes },
+          update: (cache, { data }) => {
+            if (!data?.updateSession) return;
+
             cache.writeFragment({
               fragment: TimetableSessionFragment,
               fragmentName: 'TimetableSession',
-              data: session,
-              id: session.id,
-            })
-          );
-
-          cache.modify({
-            id: cache.identify({ __typename: 'Timetable', id: festival.id }),
-            fields: {
-              sessions: (existing) => [...existing, ...refs],
-            },
-          });
-        },
-        optimisticResponse: {
-          createSessions: {
-            sessions: attributes.timeRanges.flatMap(({ startsAt, endsAt }) =>
-              attributes.venueIds.map((venueId) => ({
-                __typename: 'Session',
-                id: uniqueId('session_'),
-                startsAt,
-                endsAt,
-                activityType: attributes.activityType,
-                venue: data?.festival?.venues?.find((venue) => venue.id === venueId) || null,
-                activity: null,
-                capacity: null,
-              }))
-            ),
+              data: data.updateSession.session,
+              id: cache.identify(data.updateSession.session),
+            });
           },
-        },
-      }),
-    [createSessionsMutation]
-  );
+          optimisticResponse: session
+            ? {
+                updateSession: {
+                  session: {
+                    __typename: 'Session',
+                    ...session,
+                    ...attributes,
+                  } as Session,
+                },
+              }
+            : undefined,
+        });
+      },
+      [updateSessionMutation]
+    );
 
-  const [updateSessionMutation] = useMutation(UpdateSessionMutation);
+    const [destroySessionMutation] = useMutation(DestroySessionMutation);
 
-  const updateSession = useCallback(
-    (id: Scalars['ID'], attributes: Partial<SessionAttributes>) => {
-      const session = data?.festival?.timetable?.sessions?.find((s) => s.id === id);
-      return updateSessionMutation({
-        variables: { id, attributes },
-        update: (cache, { data }) => {
-          if (!data?.updateSession) return;
+    const deleteSession = useCallback(
+      (id: Scalars['ID']) =>
+        destroySessionMutation({
+          variables: { id },
+          update: (cache, { data }) => {
+            if (!data?.destroySession) return;
 
-          cache.writeFragment({
-            fragment: TimetableSessionFragment,
-            fragmentName: 'TimetableSession',
-            data: data.updateSession.session,
-            id: cache.identify(data.updateSession.session),
-          });
-        },
-        optimisticResponse: session
-          ? {
-              updateSession: {
-                session: {
-                  __typename: 'Session',
-                  ...session,
-                  ...attributes,
-                } as Session,
+            cache.modify({
+              id: cache.identify({ __typename: 'Timetable', id: festival.id }),
+              fields: {
+                sessions: (existing, { readField }) =>
+                  existing.filter((session: Reference) => readField('id', session) !== id),
               },
-            }
-          : undefined,
-      });
-    },
-    [updateSessionMutation]
-  );
+            });
+          },
+        }),
+      [destroySessionMutation, festival.id]
+    );
 
-  const [destroySessionMutation] = useMutation(DestroySessionMutation);
-
-  const deleteSession = useCallback(
-    (id: Scalars['ID']) =>
-      destroySessionMutation({
-        variables: { id },
-        update: (cache, { data }) => {
-          if (!data?.destroySession) return;
-
-          cache.modify({
-            id: cache.identify({ __typename: 'Timetable', id: festival.id }),
-            fields: {
-              sessions: (existing, { readField }) =>
-                existing.filter((session: Reference) => readField('id', session) !== id),
-            },
-          });
-        },
-      }),
-    [destroySessionMutation, festival.id]
-  );
-
-  return (
-    <RequirePermission permission={Permission.Activities}>
-      <TimetableEditor
-        loading={loading}
-        data={data}
-        onCreateSessions={createSessions}
-        onCreateActivity={createActivity}
-        onUpdateSession={updateSession}
-        onDeleteSession={deleteSession}
-      />
-    </RequirePermission>
-  );
-};
-
-export const Route = createFileRoute('/admin/timetable')({
-  component: Component,
+    return (
+      <RequirePermission permission={Permission.Activities}>
+        <TimetableEditor
+          loading={loading}
+          data={data}
+          onCreateSessions={createSessions}
+          onCreateActivity={createActivity}
+          onUpdateSession={updateSession}
+          onDeleteSession={deleteSession}
+        />
+      </RequirePermission>
+    );
+  },
 });

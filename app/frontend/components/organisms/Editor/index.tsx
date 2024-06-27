@@ -58,6 +58,7 @@ type EditorProps = BoxProps & {
   value: string;
   debug?: boolean;
   placeholder?: string;
+  toolbar?: boolean;
   onChange: (value: string) => void;
 };
 
@@ -66,6 +67,7 @@ export const Editor: React.FC<EditorProps> = ({
   placeholder,
   value,
   debug,
+  toolbar = true,
   onChange,
   ...props
 }) => {
@@ -120,7 +122,7 @@ export const Editor: React.FC<EditorProps> = ({
         {...props}
       >
         <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-        <ToolbarPlugin setLinkEditMode={setIsLinkEditMode} />
+        <ToolbarPlugin show={toolbar} setLinkEditMode={setIsLinkEditMode} />
         <PeriodicSavePlugin ref={editor} onSave={handleSave} />
         <div ref={onRef} className="editor__inner">
           <RichTextPlugin

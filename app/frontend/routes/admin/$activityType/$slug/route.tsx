@@ -1,28 +1,11 @@
 import { ActivityEditor } from '@/components/pages/admin/ActivityEditor';
 import { ActivityDetailsQuery } from '@/components/pages/admin/ActivityEditor/queries';
 import { ResultOf } from '@/graphql';
+import useFestival from '@/hooks/useFestival';
+import { useQuery } from '@apollo/client';
 import { Text } from '@mantine/core';
 import { createFileRoute, notFound, useChildMatches } from '@tanstack/react-router';
 import { DateTime } from 'luxon';
-
-const Component = () => {
-  const { activity } = Route.useLoaderData();
-
-  const matches = useChildMatches();
-
-  if (!activity) throw notFound();
-
-  const sessionStartsAt =
-    (matches.find((match) => 'session' in match.params)?.params as { session: DateTime })
-      ?.session ?? null;
-
-  const session =
-    (sessionStartsAt &&
-      activity.sessions.find((s) => s.startsAt.hasSame(sessionStartsAt, 'day'))) ??
-    null;
-
-  return <ActivityEditor activity={activity} session={session} />;
-};
 
 export const Route = createFileRoute('/admin/$activityType/$slug')({
   beforeLoad: () => {
@@ -31,25 +14,32 @@ export const Route = createFileRoute('/admin/$activityType/$slug')({
         activity?.name,
     };
   },
-  loader: async ({ params, context }) => {
-    const { activityType, slug } = params;
-    const { client, year } = context;
+  component: () => {
+    const festival = useFestival();
+    const { activityType, slug } = Route.useParams();
 
-    const activity = await client
-      .query({
-        query: ActivityDetailsQuery,
-        variables: {
-          year,
-          type: activityType,
-          slug,
-        },
-      })
-      .then(({ data }) => data.festival.activity);
+    const { loading, data } = useQuery(ActivityDetailsQuery, {
+      variables: { year: festival.id, type: activityType, slug },
+    });
 
-    if (!activity) throw notFound();
+    const activity = data?.festival?.activity;
 
-    return { activity };
+    const matches = useChildMatches();
+
+    if (!loading && !activity) throw notFound();
+
+    if (!activity) return null;
+
+    const sessionStartsAt =
+      (matches.find((match) => 'session' in match.params)?.params as { session: DateTime })
+        ?.session ?? null;
+
+    const session =
+      (sessionStartsAt &&
+        activity.sessions.find((s) => s.startsAt.hasSame(sessionStartsAt, 'day'))) ??
+      null;
+
+    return <ActivityEditor activity={activity} session={session} />;
   },
-  component: Component,
   pendingComponent: () => <Text>Loading…</Text>,
 });

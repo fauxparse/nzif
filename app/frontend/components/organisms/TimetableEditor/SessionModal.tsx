@@ -24,7 +24,7 @@ import {
   Text,
 } from '@mantine/core';
 import { DatePickerInput, TimeInput } from '@mantine/dates';
-import { createFormFactory } from '@tanstack/react-form';
+import { useForm } from '@tanstack/react-form';
 import { ResultOf } from 'gql.tada';
 import { range } from 'lodash-es';
 import { DateTime } from 'luxon';
@@ -56,19 +56,6 @@ type SessionModalProps = ModalProps & {
 };
 
 type SessionWithMultipleVenues = Session & { venues: string[] };
-
-const formFactory = createFormFactory<SessionWithMultipleVenues>({
-  defaultValues: {
-    id: '',
-    startsAt: DateTime.now(),
-    endsAt: DateTime.now(),
-    venue: null,
-    activity: null,
-    activityType: ActivityType.Workshop,
-    capacity: 16,
-    venues: [] as string[],
-  },
-});
 
 export const SessionModal: React.FC<SessionModalProps> = ({
   session: initial,
@@ -129,11 +116,11 @@ export const SessionModal: React.FC<SessionModalProps> = ({
     [onUpdateSession, session.id, onClose]
   );
 
-  const form = formFactory.useForm({
+  const form = useForm({
     defaultValues: {
       ...session,
       venues: session.venue ? [String(session.venue.id)] : [],
-    },
+    } as SessionWithMultipleVenues,
     validators: {
       onChange: ({ value: { startsAt, endsAt } }) => {
         if (startsAt > endsAt) {

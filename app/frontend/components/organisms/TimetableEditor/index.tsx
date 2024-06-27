@@ -5,6 +5,7 @@ import {
   Scalars,
   SessionAttributes,
 } from '@/graphql/types';
+import { FetchResult } from '@apollo/client';
 import { Box } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { LayoutGroup } from 'framer-motion';
@@ -23,7 +24,6 @@ import {
 import { Activity, LaidOutSession, Session } from './types';
 import { useTimetable } from './useTimetable';
 
-import { FetchResult } from '@apollo/client';
 import './TimetableEditor.css';
 
 type TimetableEditorProps = {
