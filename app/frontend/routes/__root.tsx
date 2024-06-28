@@ -7,6 +7,7 @@ import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { Suspense, useEffect } from 'react';
 
 import '@/styles/new/application.css';
+import { NotFound } from '@/components/pages/NotFound';
 
 const Root = () => {
   const { festival } = Route.useRouteContext();
@@ -38,4 +39,5 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   },
   component: Root,
   staleTime: Infinity,
+  errorComponent: NotFound,
 });

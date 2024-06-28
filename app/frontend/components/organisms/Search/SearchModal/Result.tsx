@@ -58,11 +58,11 @@ export const linkProps = (result: SearchResult): LinkProps => {
         to: '/$activityType/$slug',
         params: { activityType: result.activity.type, slug: result.activity.slug },
       };
-    // case 'PersonResult':
-    //   return {
-    //     to: '/people/$id',
-    //     params: { id: result.person.id },
-    //   };
+    case 'PersonResult':
+      return {
+        to: '/people/$id',
+        params: { id: result.person.id },
+      };
     // case 'VenueResult':
     //   return {
     //     to: '/venues/$id',

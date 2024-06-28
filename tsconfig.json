@@ -10,7 +10,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
@@ -31,7 +31,7 @@
       }
     ]
   },
-  "include": ["./app/frontend", "./config/roles.yml", "./vite-env.d.ts"],
+  "include": ["./app/frontend", "./config/roles.yml", "./vite-env.d.ts", "src/Badge.fixture.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "ts-node": {
     "esm": true,

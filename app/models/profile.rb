@@ -8,6 +8,7 @@ class Profile < ApplicationRecord
   has_many :activities, through: :cast, source: :activity
   has_many :ownerships, dependent: :destroy, inverse_of: :profile
   has_many :owners, through: :ownerships, source: :user
+  has_many :profile_activities # rubocop:disable Rails/HasManyOrHasOneDependent
 
   NAME_FORMAT = /(CB|([^\s]+(\s+[^\s]+)+))/i
 

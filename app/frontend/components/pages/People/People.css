@@ -1,0 +1,44 @@
+.person {
+  &__photo {
+    width: 8rem;
+    margin-block: var(--spacing-medium);
+  }
+
+  &__bio {
+    @container body (width > 30rem) {
+      grid-template-columns: 1fr 10rem;
+    }
+
+    display: grid;
+    grid-column: main;
+    gap: var(--spacing-large);
+    place-content: start;
+    padding: var(--spacing-large) 0;
+
+    p {
+      max-width: 30em;
+    }
+  }
+
+  &__appearances {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    grid-column: 1 / -1;
+    gap: var(--spacing-medium);
+    justify-content: start;
+    margin-bottom: var(--spacing-huge);
+
+    .mantine-Badge-root {
+      background-color: var(--background-app);
+    }
+
+    h3 {
+      grid-column: 1 / -1;
+      margin-top: var(--spacing-large);
+    }
+  }
+
+  &__appearance {
+    max-width: 16rem;
+  }
+}

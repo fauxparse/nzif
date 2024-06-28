@@ -1,5 +1,6 @@
 module Types
   class PersonType < Types::BaseObject
+    field :appearances, [Types::AppearanceType], null: false
     field :bio, String, null: false
     field :city, Types::CityType, null: true
     field :id, ID, null: false
@@ -33,6 +34,12 @@ module Types
 
     def user
       object.user_id && dataloader.with(Sources::ProfileUser, context:).load(object.id)
+    end
+
+    def appearances
+      dataloader
+        .with(Sources::AppearancesByPresenter, context:, festival: Festival.current)
+        .load(object.id)
     end
   end
 end

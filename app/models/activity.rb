@@ -12,6 +12,7 @@ class Activity < ApplicationRecord
   has_many :sessions, inverse_of: :activity, dependent: :nullify
   has_many :slots, through: :sessions
   has_many :activity_owners, as: :activity # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :profile_activities # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :owners, through: :activity_owners, source: :user
   has_many :feedback, through: :sessions
 
