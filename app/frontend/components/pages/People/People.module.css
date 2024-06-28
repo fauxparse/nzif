@@ -1,0 +1,38 @@
+.section {
+  grid-column: main;
+  margin-block: var(--spacing-large);
+}
+
+.people {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: var(--spacing-large);
+  margin-block: var(--spacing-large);
+}
+
+.person {
+  color: var(--text-default);
+
+  &:hover {
+    color: var(--text-default);
+  }
+}
+
+.portrait {
+  object-fit: cover;
+  object-position: center;
+  aspect-ratio: 16 / 9;
+}
+
+.portraitPlaceholder {
+  display: grid;
+  place-content: center;
+  background: var(--background-subtle);
+  aspect-ratio: 16 / 9;
+}
+
+.personName {
+  font-weight: var(--font-weight-medium);
+  text-align: center;
+  padding-block-start: var(--spacing-small);
+}

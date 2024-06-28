@@ -7,6 +7,13 @@
   --button-padding-inline: 0.4375rem;
   --button-text-hover: var(--button-text);
   --button-border-radius: var(--radius-small);
+  --ai-size: var(--button-block-size);
+  --ai-bg: var(--button-background);
+  --ai-hover: var(--button-background-hover);
+  --ai-color: var(--button-text);
+  --ai-hover-color: var(--button-text-hover);
+  --ai-bd: 1px solid var(--button-border-color);
+  --ai-radius: var(--radius-round);
 
   &:active {
     --button-background: var(--button-background-hover);
@@ -83,4 +90,8 @@
 
 .label {
   padding-inline: var(--button-padding-x);
+}
+
+.icon {
+  --icon: currentcolor;
 }

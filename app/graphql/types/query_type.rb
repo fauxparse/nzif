@@ -65,8 +65,8 @@ module Types
     end
 
     def person(id:)
-      # authorized_scope(Profile, type: :relation).find(id)
-      Profile.find(id)
+      authorized_scope(Profile, type: :relation).find(id)
+      # Profile.find(id)
     end
 
     def permissions

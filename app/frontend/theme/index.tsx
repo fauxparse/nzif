@@ -1,6 +1,9 @@
 import { CheckboxIcon } from '@/icons/CheckboxIcon';
 import CloseIcon from '@/icons/CloseIcon';
 import {
+  ActionIcon,
+  Button,
+  Card,
   Checkbox,
   Input,
   Modal,
@@ -14,10 +17,10 @@ import {
   rem,
 } from '@mantine/core';
 import { DatePickerInput, TimeInput } from '@mantine/dates';
-import ActionIcon from './components/ActionIcon';
-import Button from './components/Button';
 
 import './theme.css';
+import buttonClasses from './components/Button.module.css';
+import cardClasses from './components/Card.module.css';
 
 export const theme = createTheme({
   fontFamily: '"DIN Round Pro", sans-serif',
@@ -44,8 +47,48 @@ export const theme = createTheme({
     base: rem(16),
   },
   components: {
-    ActionIcon,
-    Button,
+    ActionIcon: ActionIcon.extend({
+      classNames: buttonClasses,
+      defaultProps: {
+        size: 'md',
+        'data-color': 'primary',
+      },
+      vars: () => ({
+        root: {
+          '--ai-size': 'var(--button-block-size)',
+          '--ai-bg': 'var(--button-background)',
+          '--ai-hover': 'var(--button-background-hover)',
+          '--ai-color': 'var(--button-text)',
+          '--ai-hover-color': 'var(--button-text-hover)',
+          '--ai-bd': '1px solid var(--button-border-color)',
+          '--ai-radius': 'var(--radius-round)',
+        },
+        icon: {
+          '--icon': 'currentColor',
+        },
+      }),
+    }),
+    Button: Button.extend({
+      classNames: buttonClasses,
+      defaultProps: {
+        size: 'md',
+        'data-color': 'primary',
+      },
+      vars: () => ({
+        root: {
+          '--button-height': 'var(--button-block-size)',
+          '--button-padding-x': 'var(--button-padding-inline)',
+          '--button-bg': 'var(--button-background)',
+          '--button-hover': 'var(--button-background-hover)',
+          '--button-color': 'var(--button-text)',
+          '--button-hover-color': 'var(--button-text-hover)',
+          '--button-bd': '1px solid var(--button-border-color)',
+        },
+      }),
+    }),
+    Card: Card.extend({
+      classNames: cardClasses,
+    }),
     Checkbox: Checkbox.extend({
       defaultProps: {
         icon: CheckboxIcon,

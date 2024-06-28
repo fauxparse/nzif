@@ -24,8 +24,11 @@ import { Route as AuthResetpasswordImport } from './routes/_auth/reset_password'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AuthForgotImport } from './routes/_auth/forgot'
 import { Route as AdminActivityTypeRouteImport } from './routes/admin/$activityType/route'
+import { Route as PublicPeopleRouteImport } from './routes/_public/people/route'
 import { Route as PublicActivityTypeRouteImport } from './routes/_public/$activityType/route'
 import { Route as AdminActivityTypeIndexImport } from './routes/admin/$activityType/index'
+import { Route as PublicPeopleIndexImport } from './routes/_public/people/index'
+import { Route as PublicPeopleIdImport } from './routes/_public/people/$id'
 import { Route as PublicAboutSlugImport } from './routes/_public/about.$slug'
 import { Route as PublicAuthenticatedProfileImport } from './routes/_public/_authenticated/profile'
 import { Route as PublicAuthenticatedCalendarImport } from './routes/_public/_authenticated/calendar'
@@ -103,6 +106,11 @@ const AdminActivityTypeRouteRoute = AdminActivityTypeRouteImport.update({
   getParentRoute: () => AdminRoute,
 } as any)
 
+const PublicPeopleRouteRoute = PublicPeopleRouteImport.update({
+  path: '/people',
+  getParentRoute: () => PublicRoute,
+} as any)
+
 const PublicActivityTypeRouteRoute = PublicActivityTypeRouteImport.update({
   path: '/$activityType',
   getParentRoute: () => PublicRoute,
@@ -111,6 +119,16 @@ const PublicActivityTypeRouteRoute = PublicActivityTypeRouteImport.update({
 const AdminActivityTypeIndexRoute = AdminActivityTypeIndexImport.update({
   path: '/',
   getParentRoute: () => AdminActivityTypeRouteRoute,
+} as any)
+
+const PublicPeopleIndexRoute = PublicPeopleIndexImport.update({
+  path: '/',
+  getParentRoute: () => PublicPeopleRouteRoute,
+} as any)
+
+const PublicPeopleIdRoute = PublicPeopleIdImport.update({
+  path: '/$id',
+  getParentRoute: () => PublicPeopleRouteRoute,
 } as any)
 
 const PublicAboutSlugRoute = PublicAboutSlugImport.update({
@@ -204,6 +222,13 @@ declare module '@tanstack/react-router' {
       path: '/$activityType'
       fullPath: '/$activityType'
       preLoaderRoute: typeof PublicActivityTypeRouteImport
+      parentRoute: typeof PublicImport
+    }
+    '/_public/people': {
+      id: '/_public/people'
+      path: '/people'
+      fullPath: '/people'
+      preLoaderRoute: typeof PublicPeopleRouteImport
       parentRoute: typeof PublicImport
     }
     '/admin/$activityType': {
@@ -311,6 +336,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicAboutSlugImport
       parentRoute: typeof PublicImport
     }
+    '/_public/people/$id': {
+      id: '/_public/people/$id'
+      path: '/$id'
+      fullPath: '/people/$id'
+      preLoaderRoute: typeof PublicPeopleIdImport
+      parentRoute: typeof PublicPeopleRouteImport
+    }
+    '/_public/people/': {
+      id: '/_public/people/'
+      path: '/'
+      fullPath: '/people/'
+      preLoaderRoute: typeof PublicPeopleIndexImport
+      parentRoute: typeof PublicPeopleRouteImport
+    }
     '/admin/$activityType/': {
       id: '/admin/$activityType/'
       path: '/'
@@ -357,6 +396,10 @@ export const routeTree = rootRoute.addChildren({
       PublicActivityTypeListRoute: PublicActivityTypeListRoute.addChildren({
         PublicActivityTypeListIndexRoute,
       }),
+    }),
+    PublicPeopleRouteRoute: PublicPeopleRouteRoute.addChildren({
+      PublicPeopleIdRoute,
+      PublicPeopleIndexRoute,
     }),
     PublicAuthenticatedRoute: PublicAuthenticatedRoute.addChildren({
       PublicAuthenticatedCalendarRoute,
@@ -407,6 +450,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_public.tsx",
       "children": [
         "/_public/$activityType",
+        "/_public/people",
         "/_public/_authenticated",
         "/_public/",
         "/_public/about/$slug"
@@ -429,6 +473,14 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_public/$activityType/$slug",
         "/_public/$activityType/_list"
+      ]
+    },
+    "/_public/people": {
+      "filePath": "_public/people/route.tsx",
+      "parent": "/_public",
+      "children": [
+        "/_public/people/$id",
+        "/_public/people/"
       ]
     },
     "/admin/$activityType": {
@@ -505,6 +557,14 @@ export const routeTree = rootRoute.addChildren({
     "/_public/about/$slug": {
       "filePath": "_public/about.$slug.tsx",
       "parent": "/_public"
+    },
+    "/_public/people/$id": {
+      "filePath": "_public/people/$id.tsx",
+      "parent": "/_public/people"
+    },
+    "/_public/people/": {
+      "filePath": "_public/people/index.tsx",
+      "parent": "/_public/people"
     },
     "/admin/$activityType/": {
       "filePath": "admin/$activityType/index.tsx",

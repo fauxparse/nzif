@@ -16,6 +16,7 @@ module Types
     field :end_date, Types::ISODate, null: false
     field :general_opens_at, GraphQL::Types::ISO8601DateTime, null: true
     field :payments, [Types::PaymentType]
+    field :people, [Types::PersonType], null: false
     field :registration_phase, Types::RegistrationPhaseType, null: false
     field :registrations, [Types::RegistrationType], null: false do
       argument :name, String, required: false
@@ -93,6 +94,12 @@ module Types
       Activity.descendants.map do |type|
         { type:, festival: object }
       end
+    end
+
+    def people
+      dataloader
+        .with(Sources::FestivalPresenters, context:)
+        .load(object.id)
     end
   end
 end

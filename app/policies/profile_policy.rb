@@ -4,7 +4,7 @@ class ProfilePolicy < ApplicationPolicy
   end
 
   def show?
-    user.people? || (user.id == record&.user_id)
+    index? || (user.id == record&.user_id)
   end
 
   def create?
@@ -18,8 +18,11 @@ class ProfilePolicy < ApplicationPolicy
   scope_for :relation do |relation|
     next relation if user.admin? || user.activities.exists?
 
-    # Don't list users at all if you're not an admin
-    relation.where('1 = 0')
+    # Only list presenters if you're not an admin
+    relation
+      .joins('LEFT OUTER JOIN "cast" ON "cast"."profile_id" = "profiles"."id"')
+      .group('"profiles"."id"')
+      .having('COUNT("cast"."id") > 0')
   end
 
   scope_for :data, :attributes do |data, with_record: nil|
