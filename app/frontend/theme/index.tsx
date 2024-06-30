@@ -1,12 +1,16 @@
-import { CheckboxIcon } from '@/icons/CheckboxIcon';
+import CheckboxIcon from '@/icons/CheckboxIcon';
 import CloseIcon from '@/icons/CloseIcon';
 import {
   ActionIcon,
+  Badge,
   Button,
   Card,
   Checkbox,
+  CloseButton,
   Input,
+  Kbd,
   Modal,
+  Overlay,
   Pill,
   PillGroup,
   PillsInput,
@@ -19,8 +23,14 @@ import {
 import { DatePickerInput, TimeInput } from '@mantine/dates';
 
 import './theme.css';
+
+import badgeClasses from './components/Badge.module.css';
 import buttonClasses from './components/Button.module.css';
 import cardClasses from './components/Card.module.css';
+import checkboxClasses from './components/Checkbox.module.css';
+import inputClasses from './components/Input.module.css';
+import kbdClasses from './components/Kbd.module.css';
+import modalClasses from './components/Modal.module.css';
 
 export const theme = createTheme({
   fontFamily: '"DIN Round Pro", sans-serif',
@@ -51,16 +61,16 @@ export const theme = createTheme({
       classNames: buttonClasses,
       defaultProps: {
         size: 'md',
-        'data-color': 'primary',
+        variant: 'transparent',
+        'data-color': 'neutral',
       },
       vars: () => ({
         root: {
-          '--ai-size': 'var(--button-block-size)',
           '--ai-bg': 'var(--button-background)',
           '--ai-hover': 'var(--button-background-hover)',
           '--ai-color': 'var(--button-text)',
-          '--ai-hover-color': 'var(--button-text-hover)',
-          '--ai-bd': '1px solid var(--button-border-color)',
+          '--ai-hover-color': 'var(--button-text)',
+          '--ai-bd': 'var(--button-border-width) solid var(--button-border-color)',
           '--ai-radius': 'var(--radius-round)',
         },
         icon: {
@@ -68,30 +78,50 @@ export const theme = createTheme({
         },
       }),
     }),
-    Button: Button.extend({
-      classNames: buttonClasses,
+    Badge: Badge.extend({
+      classNames: badgeClasses,
       defaultProps: {
         size: 'md',
+        radius: 'xl',
         'data-color': 'primary',
       },
       vars: () => ({
         root: {
-          '--button-height': 'var(--button-block-size)',
-          '--button-padding-x': 'var(--button-padding-inline)',
+          '--badge-bg': 'var(--badge-background)',
+          '--badge-bd': 'var(--badge-border-width) solid var(--badge-border-color)',
+          '--badge-color': 'var(--badge-text)',
+          '--badge-dot-color': 'var(--background-solid)',
+        },
+      }),
+    }),
+    Button: Button.extend({
+      classNames: buttonClasses,
+      defaultProps: {
+        size: 'md',
+        'data-color': 'neutral',
+      },
+      vars: () => ({
+        root: {
+          '--button-bd': 'var(--button-border-width) solid var(--button-border-color)',
           '--button-bg': 'var(--button-background)',
           '--button-hover': 'var(--button-background-hover)',
           '--button-color': 'var(--button-text)',
-          '--button-hover-color': 'var(--button-text-hover)',
-          '--button-bd': '1px solid var(--button-border-color)',
         },
       }),
     }),
     Card: Card.extend({
       classNames: cardClasses,
+      defaultProps: {
+        radius: 'md',
+        shadow: 'sm',
+        withBorder: true,
+      },
     }),
     Checkbox: Checkbox.extend({
+      classNames: checkboxClasses,
       defaultProps: {
         icon: CheckboxIcon,
+        size: 'md',
       },
       vars: () => ({
         root: {
@@ -99,12 +129,21 @@ export const theme = createTheme({
         },
       }),
     }),
+    CloseButton: CloseButton.extend({
+      classNames: buttonClasses,
+      defaultProps: {
+        radius: 'round',
+        variant: 'transparent',
+        icon: <CloseIcon />,
+      },
+    }),
     DatePickerInput: DatePickerInput.extend({
       defaultProps: {
         size: 'md',
       },
     }),
     Input: Input.extend({
+      classNames: inputClasses,
       defaultProps: {
         size: 'md',
       },
@@ -113,21 +152,23 @@ export const theme = createTheme({
           '--input-bd': 'var(--border-input)',
           '--input-bd-hover': 'var(--border-input-hover)',
           '--input-bd-focus': 'var(--border-input-focus)',
-          '--input-height-md': rem(40),
           '--input-padding': 'calc(var(--spacing-medium) - 1px)',
         },
       },
     }),
+    Kbd: Kbd.extend({
+      classNames: kbdClasses,
+    }),
     Modal: Modal.extend({
+      classNames: modalClasses,
       defaultProps: {
-        closeButtonProps: {
-          icon: <CloseIcon />,
-        },
+        radius: 'md',
       },
-      styles: {
-        content: {
-          borderRadius: 'var(--radius-medium)',
-        },
+    }),
+    Overlay: Overlay.extend({
+      defaultProps: {
+        color: 'var(--scrim)',
+        backgroundOpacity: 1,
       },
     }),
     Pill: Pill.extend({

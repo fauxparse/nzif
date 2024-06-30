@@ -1,97 +1,119 @@
 .root {
-  --button-background: transparent;
-  --button-background-hover: var(--neutral-alpha-4);
-  --button-border-color: var(--neutral-alpha-7);
-  --button-text: var(--text-default);
-  --button-block-size: 2.5rem;
-  --button-padding-inline: 0.4375rem;
-  --button-text-hover: var(--button-text);
-  --button-border-radius: var(--radius-small);
-  --ai-size: var(--button-block-size);
-  --ai-bg: var(--button-background);
-  --ai-hover: var(--button-background-hover);
-  --ai-color: var(--button-text);
-  --ai-hover-color: var(--button-text-hover);
-  --ai-bd: 1px solid var(--button-border-color);
-  --ai-radius: var(--radius-round);
-
-  &:active {
-    --button-background: var(--button-background-hover);
-    --button-text: var(--button-text-hover);
-
-    filter: brightness(0.875);
-  }
-
-  &[data-size="xs"] {
-    --button-block-size: 1.5rem;
-    --button-padding-inline: 0.375rem;
-  }
-
-  &[data-size="sm"] {
-    --button-block-size: 2rem;
-    --button-padding-inline: 0.375rem;
-  }
-
-  &[data-size="md"] {
-    --button-block-size: 2.5rem;
-    --button-padding-inline: 0.4375rem;
-  }
-
-  &[data-size="lg"] {
-    --button-block-size: 3rem;
-    --button-padding-inline: 0.6875rem;
-  }
-
-  &[data-variant="default"] {
+  [data-theme] & {
+    --button-height-xs: 1.5rem;
+    --button-height-sm: 2rem;
+    --button-height-md: 2.5rem;
+    --button-height-lg: 3rem;
+    --button-height-xl: 3.5rem;
+    --button-padding-x-xs: calc(var(--spacing-tiny) - var(--button-border-width));
+    --button-padding-x-sm: calc(var(--spacing-tiny) - var(--button-border-width));
+    --button-padding-x-md: calc(var(--spacing-small) - var(--button-border-width));
+    --button-padding-x-lg: calc(var(--spacing-medium) - var(--button-border-width));
+    --button-padding-x-xl: calc(var(--spacing-base) - var(--button-border-width));
+    --button-padding-x-compact-xs: calc(var(--spacing-tiny) - var(--button-border-width));
+    --button-padding-x-compact-sm: calc(var(--spacing-tiny) - var(--button-border-width));
+    --button-padding-x-compact-md: calc(var(--spacing-tiny) - var(--button-border-width));
+    --button-padding-x-compact-lg: calc(var(--spacing-small) - var(--button-border-width));
+    --button-padding-x-compact-xl: calc(var(--spacing-medium) - var(--button-border-width));
+    --button-border-width: 1px;
+    --button-border-color: var(--border-element);
     --button-background: transparent;
-    --button-background-hover: var(--neutral-alpha-4);
-    --button-border-color: var(--neutral-alpha-7);
-    --button-text: var(--text-default);
-  }
-
-  &[data-variant="filled"] {
-    --button-background: var(--button-solid-fill);
-    --button-border-color: var(--button-background);
-    --button-text: var(--button-solid-text);
-    --button-background-hover: var(--button-solid-hover-fill);
-    --button-text-hover: var(--button-solid-hover-text);
-
-    &:hover,
-    &:active {
-      --button-border-color: var(--button-solid-hover-fill);
-    }
-  }
-
-  &[data-variant="light"] {
-    --button-background: var(--background-light);
-    --button-text: var(--colored-text-default);
-    --button-background-hover: var(--background-light-hover);
-    --button-border-color: transparent;
-  }
-
-  &[data-variant="outline"],
-  &[data-variant="subtle"],
-  &[data-variant="transparent"],
-  &[data-variant="white"] {
-    --button-border-color: transparent;
-    --button-text: var(--colored-text-subtle);
     --button-background-hover: var(--button-outline-hover-fill);
-    --button-text-hover: var(--colored-text-subtle);
-  }
+    --button-background-active: var(--button-outline-active-fill);
+    --button-text: var(--colored-text-default);
 
-  &[data-variant="outline"] {
-    --button-border-color: var(--pure);
-  }
+    --ai-size-xs: var(--button-height-xs);
+    --ai-size-sm: var(--button-height-sm);
+    --ai-size-md: var(--button-height-md);
+    --ai-size-lg: var(--button-height-lg);
+    --ai-size-xl: var(--button-height-xl);
+    --ai-size-compact-xs: 0.875rem;
+    --ai-size-compact-sm: 1rem;
+    --ai-size-compact-md: 1.25rem;
+    --ai-size-compact-lg: 1.5rem;
+    --ai-size-compact-xl: 2rem;
 
-  &[data-variant="transparent"] {
-    --button-background-hover: transparent;
+    --icon: var(--button-text);
+
+    &[data-variant="filled"] {
+      --button-border-width: 0px;
+      --button-background: var(--button-solid-fill);
+      --button-background-hover: var(--button-solid-hover-fill);
+      --button-background-active: var(--button-solid-hover-fill);
+      --button-text: var(--button-solid-text);
+    }
+
+    &[data-variant="outline"] {
+      --button-border-color: currentcolor;
+    }
+
+    &[data-variant="light"] {
+      --button-border-width: 0px;
+      --button-background: var(--background-light);
+      --button-background-hover: var(--background-light-hover);
+    }
+
+    &[data-variant="subtle"] {
+      --button-border-width: 0px;
+      --button-background: transparent;
+      --button-background-hover: var(--background-light-hover);
+    }
+
+    &[data-variant="transparent"] {
+      --button-border-width: 0px;
+      --button-background: transparent;
+      --button-background-hover: transparent;
+      --button-background-active: transparent;
+
+      &:focus-visible {
+        --button-background-hover: var(--background-light-hover);
+      }
+    }
+
+    &[data-variant="white"] {
+      --button-border-width: 0px;
+      --button-background: var(--background-app);
+      --button-background-hover: var(--background-subtle);
+    }
+
+    &:active {
+      background-color: var(--button-background-active);
+      transform: none;
+    }
+
+    &:focus-visible {
+      background-color: var(--button-background-hover);
+      outline: none;
+    }
+
+    &[data-with-left-section] {
+      padding-inline-start: var(--button-padding-x);
+    }
+
+    &[data-with-right-section] {
+      padding-inline-end: var(--button-padding-x);
+    }
+
+    &:disabled:not([data-loading]),
+    &[data-disabled]:not([data-loading]) {
+      border: var(--button-bd);
+      background: var(--button-background);
+      color: var(--button-text);
+      opacity: 0.5;
+      filter: grayscale(1);
+      mix-blend-mode: var(--blend-mode);
+    }
   }
 }
 
 .label {
-  padding-inline: var(--button-padding-x);
+  [data-theme] & {
+    padding-inline: calc(var(--button-padding-x) + var(--button-border-width));
+  }
 }
 
-.icon {
-  --icon: currentcolor;
+.section {
+  [data-theme] & {
+    margin-inline: 0;
+  }
 }

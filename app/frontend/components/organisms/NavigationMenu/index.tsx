@@ -13,7 +13,7 @@ const NavigationMenu: React.FC = () => {
     <>
       <ActionIcon
         className="button--menu"
-        variant="subtle"
+        variant="transparent"
         data-color="neutral"
         aria-expanded={opened}
         onClick={open}

@@ -1,87 +1,95 @@
 .root {
+  [data-theme] & {
+    --badge-height-xs: 1rem;
+    --badge-height-sm: 1.25rem;
+    --badge-height-md: 1.5rem;
+    --badge-height-lg: 2rem;
+    --badge-height-xl: 2.5rem;
 
-  --badge-height-xs: 1rem;
-  --badge-height-sm: 1.25rem;
-  --badge-height-md: 1.5rem;
-  --badge-height-lg: 2rem;
-  --badge-height-xl: 2.5rem;
+    --badge-fz-xs: var(--font-size-tiny);
+    --badge-fz-sm: var(--font-size-small);
+    --badge-fz-md: var(--font-size-medium);
+    --badge-fz-lg: var(--font-size-large);
+    --badge-fz-xl: var(--font-size-xl);
 
-  --badge-fz-xs: var(--font-size-tiny);
-  --badge-fz-sm: var(--font-size-small);
-  --badge-fz-md: var(--font-size-medium);
-  --badge-fz-lg: var(--font-size-large);
-  --badge-fz-xl: var(--font-size-xl);
+    --badge-padding-x-xs: var(--spacing-tiny);
+    --badge-padding-x-sm: var(--spacing-small);
+    --badge-padding-x-md: var(--spacing-medium);
+    --badge-padding-x-lg: var(--spacing-base);
+    --badge-padding-x-xl: var(--spacing-large);
 
-  --badge-padding-x-xs: var(--spacing-tiny);
-  --badge-padding-x-sm: var(--spacing-small);
-  --badge-padding-x-md: var(--spacing-medium);
-  --badge-padding-x-lg: var(--spacing-base);
-  --badge-padding-x-xl: var(--spacing-lg);
+    --badge-border-width: var(--border-thin);
+    --badge-border-color: var(--border-element);
+    --badge-background: transparent;
+    --badge-text: var(--colored-text-default);
 
-  --badge-border-width: var(--border-thin);
-  --badge-height: var(--badge-height-md);
-  --badge-fz: var(--badge-fz-md);
-  --badge-padding-x: var(--badge-padding-x-md);
-  --badge-radius: var(--radius-round);
-  --badge-lh: calc(var(--badge-height) - var(--badge-border-width) * 2);
-  --badge-bg: var(--background-solid);
-  --badge-color: var(--colored-text-inverse);
-  --badge-bd: var(--badge-border-width) solid transparent;
+    --icon: currentcolor;
 
-  font-weight: var(--font-weight-medium);
-  letter-spacing: 0;
-  text-transform: none;
+    gap: calc(var(--badge-padding-x) / 2);
+    padding-inline: 0;
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0;
 
-  &:where([data-circle]) {
-    width: var(--badge-height);
-    padding-inline: calc(var(--badge-border-width) * 2);
-  }
-}
+    &:where([data-circle]) {
+      padding-inline: calc(var(--badge-border-width) * 2);
+    }
 
-.root--dot {
-  --badge-dot-size: calc(var(--badge-height) / 3.4);
+    &[data-variant="filled"] {
+      --badge-border-width: 0px;
+      --badge-background: var(--background-solid);
+      --badge-text: var(--colored-text-inverse);
+    }
 
-  @mixin where-light {
-    border-color: var(--mantine-color-gray-4);
-    background-color: var(--mantine-color-white);
-    color: var(--mantine-color-black);
-  }
+    &[data-variant="outline"] {
+      --badge-border-color: currentcolor;
+      --badge-background: var(--background-app);
+    }
 
-  @mixin where-dark {
-    border-color: var(--mantine-color-dark-5);
-    background-color: var(--mantine-color-dark-5);
-    color: var(--mantine-color-white);
-  }
+    &[data-variant="light"] {
+      --badge-border-width: 0px;
+      --badge-background: var(--background-light);
+      --badge-text: var(--colored-text-default);
+    }
 
-  &::before {
-    content: '';
-    display: block;
-    width: var(--badge-dot-size);
-    height: var(--badge-dot-size);
-    border-radius: var(--badge-dot-size);
-    background-color: var(--badge-dot-color);
-    margin-inline-end: var(--badge-dot-size);
+    &[data-variant="transparent"] {
+      --badge-border-width: 0px;
+      --badge-background: transparent;
+      --badge-text: var(--colored-text-default);
+    }
+
+    &[data-variant="white"] {
+      --badge-border-width: 0px;
+      --badge-background: var(--background-app);
+      --badge-text: var(--colored-text-default);
+    }
+
+    &[data-variant="dot"] {
+      --badge-text: var(--text-default);
+    }
   }
 }
 
 .label {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  [data-theme] & {
+    padding-inline: 0;
+
+    &:first-child {
+      padding-inline-start: var(--badge-padding-x);
+    }
+
+    &:last-child {
+      padding-inline-end: var(--badge-padding-x);
+    }
+  }
 }
 
 .section {
-  --badge-section-margin: calc(var(--mantine-spacing-xs) / 2);
+  [data-theme] & {
+    margin-inline: 0;
 
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-
-  &:where([data-position='left']) {
-    margin-inline-end: var(--badge-section-margin);
-  }
-
-  &:where([data-position='right']) {
-    margin-inline-start: var(--badge-section-margin);
+    button {
+      margin-inline: calc((var(--badge-height) - var(--ai-size)) / 2);
+    }
   }
 }
+

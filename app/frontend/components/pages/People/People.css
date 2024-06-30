@@ -28,10 +28,6 @@
     justify-content: start;
     margin-bottom: var(--spacing-huge);
 
-    .mantine-Badge-root {
-      background-color: var(--background-app);
-    }
-
     h3 {
       grid-column: 1 / -1;
       margin-top: var(--spacing-large);

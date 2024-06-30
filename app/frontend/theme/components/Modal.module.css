@@ -1,0 +1,18 @@
+.header {
+  [data-theme] & {
+    padding: var(--spacing-base) var(--spacing-small) var(--spacing-small) var(--spacing-base);
+  }
+}
+
+.title {
+  [data-theme] & {
+    font-size: var(--font-size-large);
+    line-height: var(--line-height-large);
+  }
+}
+
+.body {
+  [data-theme] & {
+    padding: var(--spacing-small) var(--spacing-base) var(--spacing-base);
+  }
+}

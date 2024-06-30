@@ -129,6 +129,7 @@
   --focus-yellow: var(--yellow-alpha-3);
   --focus-ring: var(--focus-magenta);
   --modal-border: hsla(240 0% 100% / 0);
+  --scrim: hsl(207 100% 2% / 0.5);
 }
 
 :where([data-theme="dark"]) {
@@ -221,7 +222,7 @@
   --yellow-10: hsl(60 100% 67%);
   --yellow-11: hsl(53 90% 62%);
   --yellow-12: hsl(53 79% 84%);
-  --yellow-inverse: var(--yellow-1);
+  --yellow-inverse: var(--yellow-12);
   --yellow-alpha-1: hsl(23 100% 41% / 0.02);
   --yellow-alpha-2: hsl(43 100% 49% / 0.04);
   --yellow-alpha-3: hsl(40 100% 50% / 0.12);
@@ -242,14 +243,20 @@
   --focus-yellow: var(--yellow-alpha-5);
   --focus-ring: var(--focus-magenta);
   --modal-border: var(--border-subtle);
+  --scrim: hsl(240 6% 7% / 0.75);
 }
 
 :root {
   --border-thin: 0.0625rem;
   --border-thick: 0.25rem;
-  --icon-small: 1rem;
-  --icon-medium: 1.25rem;
-  --icon-large: 1.5rem;
+  --icon-xs: 0.875rem;
+  --icon-sm: 1rem;
+  --icon-md: 1.25rem;
+  --icon-lg: 1.5rem;
+  --icon-xl: 2rem;
+  --icon-small: var(--icon-sm);
+  --icon-medium: var(--icon-md);
+  --icon-large: var(--icon-lg);
   --icon-huge: 4rem;
   --avatar-small: 1.5rem;
   --avatar-medium: 2.5rem;
@@ -269,6 +276,7 @@
   --radius-medium: 0.5rem;
   --radius-large: 1rem;
   --radius-round: 100vmax;
+  --mantine-radius-round: 100vmax;
   --radius-input-medium: var(--radius-small);
   --radius-input-small: var(--radius-small);
   --radius-inside-small: calc(var(--radius-small) - var(--border-thin));
@@ -323,7 +331,7 @@ body,
   --button-outline-text: var(--text-default);
   --button-solid-fill: var(--neutral-alpha-9);
   --button-solid-icon: var(--icon);
-  --button-solid-text: var(--text-default);
+  --button-solid-text: var(--neutral-inverse);
   --button-solid-hover-fill: var(--neutral-alpha-10);
   --button-solid-hover-text: var(--text-default);
   --colored-text-default: var(--text-default);
@@ -343,6 +351,7 @@ body,
   --button-outline-border: var(--magenta-alpha-7);
   --button-outline-hover-border: var(--magenta-alpha-8);
   --button-outline-hover-fill: var(--magenta-alpha-4);
+  --button-outline-active-fill: var(--magenta-alpha-5);
   --button-outline-icon: var(--magenta-alpha-11);
   --button-outline-text: var(--magenta-alpha-12);
   --button-solid-fill: var(--magenta-alpha-9);
@@ -367,11 +376,13 @@ body,
   --background-light: var(--cyan-3);
   --background-light-hover: var(--cyan-4);
   --background-subtle: var(--cyan-2);
+  --background-selected: var(--cyan-9);
   --button-ghost-icon: var(--cyan-11);
   --button-ghost-text: var(--cyan-12);
   --button-outline-border: var(--cyan-alpha-7);
   --button-outline-hover-border: var(--cyan-alpha-8);
   --button-outline-hover-fill: var(--cyan-alpha-4);
+  --button-outline-active-fill: var(--cyan-alpha-5);
   --button-outline-icon: var(--cyan-alpha-11);
   --button-outline-text: var(--cyan-alpha-12);
   --button-solid-fill: var(--cyan-alpha-9);
@@ -397,16 +408,18 @@ body,
   --background-light: var(--yellow-3);
   --background-light-hover: var(--yellow-4);
   --background-subtle: var(--yellow-2);
+  --background-selected: var(--yellow-9);
   --button-ghost-icon: var(--yellow-11);
   --button-ghost-text: var(--yellow-12);
   --button-outline-border: var(--yellow-alpha-7);
   --button-outline-hover-border: var(--yellow-alpha-8);
   --button-outline-hover-fill: var(--yellow-alpha-4);
+  --button-outline-active-fill: var(--yellow-alpha-5);
   --button-outline-icon: var(--yellow-alpha-11);
   --button-outline-text: var(--yellow-alpha-12);
   --button-solid-fill: var(--yellow-alpha-9);
   --button-solid-icon: var(--yellow-inverse);
-  --button-solid-text: var(--yellow-11);
+  --button-solid-text: var(--yellow-12);
   --button-solid-hover-fill: var(--yellow-alpha-10);
   --button-solid-hover-text: var(--yellow-inverse);
   --colored-text-default: var(--yellow-alpha-11);

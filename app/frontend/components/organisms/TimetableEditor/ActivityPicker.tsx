@@ -1,6 +1,6 @@
 import { activityColor, activityTypeLabel } from '@/constants/activityTypes';
 import { ActivityAttributes, ActivityType } from '@/graphql/types';
-import { ActivityIcon } from '@/icons/ActivityIcon';
+import ActivityIcon from '@/icons/ActivityIcon';
 import PlusIcon from '@/icons/PlusIcon';
 import { useLazyQuery } from '@apollo/client';
 import { Box, Button, Combobox, Group, Loader, Text, TextInput, useCombobox } from '@mantine/core';

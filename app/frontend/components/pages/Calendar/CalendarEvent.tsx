@@ -1,6 +1,6 @@
 import { activityColor } from '@/constants/activityTypes';
 import { ActivityType } from '@/graphql/types';
-import { ActivityIcon } from '@/icons/ActivityIcon';
+import ActivityIcon from '@/icons/ActivityIcon';
 import BATSIcon from '@/icons/BATSIcon';
 import EyeIcon from '@/icons/EyeIcon';
 import { formatSessionTime } from '@/util/formatSessionTime';

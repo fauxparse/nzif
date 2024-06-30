@@ -1,5 +1,5 @@
 .button--menu {
-  margin-left: calc(var(--button-padding-inline) * -1);
+  margin-left: calc((var(--ai-size) - var(--icon-medium)) / -2);
 
   g, path {
     transition: transform 0.5s var(--ease-squish-5);
