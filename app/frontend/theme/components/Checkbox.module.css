@@ -1,0 +1,58 @@
+.root {
+  [data-theme] & {
+    &:has(input[data-color="neutral"]) {
+      --background-selected: var(--neutral-9);
+    }
+
+    &:has(input[data-color="cyan"]) {
+      --background-selected: var(--cyan-9);
+    }
+
+    &:has(input[data-color="yellow"]) {
+      --background-selected: var(--yellow-9);
+    }
+  }
+}
+
+.inner {
+  [data-theme] & {
+    input:checked ~ .icon [data-component="checked"] {
+      transition: stroke-dashoffset var(--speed-standard) var(--ease-accelerate);
+      stroke-dashoffset: 0;
+    }
+
+    input[data-indeterminate] ~ .icon [data-component="indeterminate"] {
+      opacity: 1;
+    }
+  }
+}
+
+.input {
+  [data-theme] & {
+    cursor: pointer;
+  }
+}
+
+.icon {
+  [data-theme] & {
+    width: calc(var(--checkbox-size) * 2 / 3);
+    opacity: 1;
+    cursor: pointer;
+    transition: none;
+    transform: none;
+
+    path {
+      fill: none;
+      stroke: currentcolor;
+    }
+
+    [data-component="checked"] {
+      stroke-dasharray: 1 100;
+      stroke-dashoffset: -1;
+    }
+
+    [data-component="indeterminate"] {
+      opacity: 0;
+    }
+  }
+}

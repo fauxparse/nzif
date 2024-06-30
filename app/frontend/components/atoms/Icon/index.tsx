@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import './Icon.css';
 
 const DEFAULT_VARIANT = 'outline' as const;
-const DEFAULT_SIZE = 'medium' as const;
+const DEFAULT_SIZE = 'md' as const;
 
 type ViewBox = `${number} ${number} ${number} ${number}`;
 
@@ -23,9 +23,9 @@ type CreateIconOptions = {
   title?: string;
 };
 
-export type IconSize = 'small' | 'medium' | 'large' | 'huge';
+export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-export type IconProps<T extends CreateIconOptions> = Omit<BoxProps, 'title'> & {
+export type IconProps<T extends CreateIconOptions = CreateIconOptions> = Omit<BoxProps, 'title'> & {
   variant?: T extends { path: PathDefinitions } ? keyof T['path'] : typeof DEFAULT_VARIANT;
   title?: string;
   size?: IconSize;

@@ -1,4 +1,4 @@
-import { ActivityIcon } from '@/icons/ActivityIcon';
+import ActivityIcon from '@/icons/ActivityIcon';
 import LocationIcon from '@/icons/LocationIcon';
 import PageIcon from '@/icons/PageIcon';
 import SearchIcon from '@/icons/SearchIcon';

@@ -17,7 +17,7 @@ const SearchButton = forwardRef<HTMLButtonElement, SearchButtonProps>(({ classNa
     <>
       <ActionIcon
         ref={ref}
-        variant="subtle"
+        variant="transparent"
         data-color="neutral"
         aria-label="Search"
         onClick={open}

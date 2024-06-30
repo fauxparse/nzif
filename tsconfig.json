@@ -18,6 +18,7 @@
     "jsx": "react-jsx",
     "paths": {
       "@config/*": ["./config/*"],
+      "@ladle/*": ["./.ladle/*"],
       "@/*": ["./app/frontend/*"]
     },
     "types": ["@modyfi/vite-plugin-yaml/modules", "vite/client"],
@@ -31,7 +32,7 @@
       }
     ]
   },
-  "include": ["./app/frontend", "./config/roles.yml", "./vite-env.d.ts", "src/Badge.fixture.tsx"],
+  "include": ["./app/frontend", "./config/roles.yml", "./vite-env.d.ts", ".ladle"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "ts-node": {
     "esm": true,

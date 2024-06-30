@@ -30,7 +30,6 @@ export const Appearances: React.FC<AppearancesProps> = ({ title, appearances }) 
             >
               <Image src={activity.picture.medium} alt={activity.name} />
               <Badge
-                size="lg"
                 variant="outline"
                 data-color="primary"
                 pos="absolute"

@@ -1,0 +1,23 @@
+.root {
+  [data-theme] & {
+    --input-height-xs: 1.5rem;
+    --input-height-sm: 2rem;
+    --input-height-md: 2.5rem;
+    --input-height-lg: 3rem;
+    --input-height-xl: 3.5rem;
+
+  }
+}
+
+.wrapper {
+  &[data-variant="filled"] {
+    --border-input: transparent;
+    --border-input-hover: transparent;
+  }
+
+  &[data-variant="unstyled"] {
+    --border-input: transparent;
+    --border-input-hover: transparent;
+    --border-input-focus: transparent;
+  }
+}
