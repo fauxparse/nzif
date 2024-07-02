@@ -1,0 +1,55 @@
+.modal {
+  :has(> &) {
+    margin-top: 0;
+  }
+}
+
+.input {
+  box-shadow: none;
+  outline: none;
+
+  :has(> &) {
+    padding: var(--space-2);
+    border-bottom: var(--border-thin) solid var(--border-element);
+  }
+}
+
+.results {
+  padding: var(--space-2);
+  column-gap: var(--space-3);
+}
+
+.result {
+  display: grid;
+  grid-template-columns: calc(var(--space-5) + var(--space-2)) 1fr;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-small);
+  color: var(--gray-12);
+  text-decoration: none;
+
+  &:hover,
+  &[data-selected] {
+    background: var(--accent-a2);
+    color: var(--accent-11);
+
+    .resultDescription {
+      color: var(--accent-10);
+    }
+  }
+
+  mark {
+    background: var(--yellow-a5);
+  }
+}
+
+.resultTitle {
+  grid-column: 2;
+  font-weight: var(--font-weight-medium);
+}
+
+.resultDescription {
+  grid-column: 2;
+  color: var(--gray-11);
+  font-size: var(--font-size-2);
+}

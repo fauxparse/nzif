@@ -1,14 +1,14 @@
 import { ParagraphSkeleton } from '@/components/helpers/Skeleton';
 import Body from '@/components/organisms/Body';
 import Header from '@/components/organisms/Header';
+import { ActivityType } from '@/graphql/types';
 import Markdown from '@/helpers/Markdown';
 import { Image, Skeleton, Text } from '@mantine/core';
 import React, { useMemo } from 'react';
+import { Appearances } from './Appearances';
 import { Appearance, Person as PersonType } from './types';
 
 import './People.css';
-import { ActivityType } from '@/graphql/types';
-import { Appearances } from './Appearances';
 
 type PersonProps = {
   person: PersonType;

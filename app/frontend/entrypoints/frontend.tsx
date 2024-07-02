@@ -6,8 +6,11 @@ import { AuthenticationContextType } from '@/services/Authentication';
 import { ApolloProvider } from '@apollo/client';
 import '@formatjs/intl-numberformat/locale-data/en';
 import '@formatjs/intl-numberformat/polyfill';
+import { ConfirmationModalProvider } from '@/components/organisms/ConfirmationModal';
+import { routeTree } from '@/routeTree.gen';
 import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
+import { Theme } from '@radix-ui/themes';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -15,17 +18,12 @@ import { Settings as LuxonSettings } from 'luxon';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { theme } from '../theme';
 
-import '@mantine/core/styles.css';
-import '@mantine/dates/styles.css';
-import '@mantine/notifications/styles.css';
+import '@radix-ui/themes/styles.css';
+import '@/styles/new/application.css';
 
 LuxonSettings.defaultZone = 'Pacific/Auckland';
 dayjs.extend(customParseFormat);
-
-import { ConfirmationModalProvider } from '@/components/organisms/ConfirmationModal';
-import { routeTree } from '@/routeTree.gen';
 
 // Create a new router instance
 const router = createRouter({
@@ -51,26 +49,28 @@ createRoot(document.getElementById('root') as HTMLElement).render(
       <Helmet>
         <title>NZIF: New Zealand Improv Festival</title>
       </Helmet>
-      <MantineProvider theme={theme}>
-        <ConfirmationModalProvider>
-          <Notifications />
-          <ApolloProvider client={client}>
-            <AuthenticationProvider>
-              <AuthenticationContext.Consumer>
-                {(auth) => (
-                  <RouterProvider
-                    router={router}
-                    context={{
-                      auth: { ...auth },
-                      client,
-                    }}
-                  />
-                )}
-              </AuthenticationContext.Consumer>
-            </AuthenticationProvider>
-          </ApolloProvider>
-        </ConfirmationModalProvider>
-      </MantineProvider>
+      <Theme accentColor="crimson" grayColor="mauve" panelBackground="solid" radius="small">
+        <MantineProvider>
+          <ConfirmationModalProvider>
+            <Notifications />
+            <ApolloProvider client={client}>
+              <AuthenticationProvider>
+                <AuthenticationContext.Consumer>
+                  {(auth) => (
+                    <RouterProvider
+                      router={router}
+                      context={{
+                        auth: { ...auth },
+                        client,
+                      }}
+                    />
+                  )}
+                </AuthenticationContext.Consumer>
+              </AuthenticationProvider>
+            </ApolloProvider>
+          </ConfirmationModalProvider>
+        </MantineProvider>
+      </Theme>
     </HelmetProvider>
   </React.StrictMode>
 );

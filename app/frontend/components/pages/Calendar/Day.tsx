@@ -1,4 +1,6 @@
-import { Badge, Box, Button, Collapse, Group, Skeleton, Text, Title } from '@mantine/core';
+import { Collapsible } from '@/components/helpers/Collapsible';
+import { Skeleton } from '@mantine/core';
+import { Button, Flex, Heading, Section } from '@radix-ui/themes';
 import { partition } from 'lodash-es';
 import { DateTime } from 'luxon';
 import pluralize from 'pluralize';
@@ -18,40 +20,34 @@ export const Day: React.FC<DayProps> = ({ date, loading, sessions }) => {
   const [hidden, visible] = useMemo(() => partition(sessions, 'hidden'), [sessions]);
 
   return (
-    <Box component="section" className="calendar__day">
-      <Title order={2}>
+    <Section py="4">
+      <Heading as="h2" mb="4">
         {date.toLocaleString({ weekday: 'long', month: 'long', day: 'numeric' })}
-      </Title>
+      </Heading>
       {loading ? (
         sessions.map((session) => <Skeleton key={session.id} height={90} radius="sm" />)
       ) : (
         <>
           {sessions.map((session) => (
-            <Collapse key={session.id} in={showAll || !session.hidden}>
+            <Collapsible key={session.id} open={showAll || !session.hidden}>
               <CalendarEvent {...session} />
-            </Collapse>
+            </Collapsible>
           ))}
-          <Collapse in={hidden.length > 0}>
-            <Group align="baseline" justify="end" gap="var(--spacing-tiny)">
+          <Collapsible open={hidden.length > 0}>
+            <Flex justify="center">
               {showAll ? (
-                <Button variant="transparent" size="compact-sm" onClick={() => setShowAll(false)}>
+                <Button variant="outline" size="2" color="gray" onClick={() => setShowAll(false)}>
                   Collapse hidden events
                 </Button>
               ) : (
-                <>
-                  <Badge circle size="md">
-                    {hidden.length}
-                  </Badge>
-                  <Text size="sm">{`hidden ${pluralize('event', hidden.length)}`}</Text>
-                  <Button variant="transparent" size="compact-sm" onClick={() => setShowAll(true)}>
-                    Show all
-                  </Button>
-                </>
+                <Button variant="outline" size="2" color="gray" onClick={() => setShowAll(true)}>
+                  {`Show ${hidden.length} hidden ${pluralize('event', hidden.length)}`}
+                </Button>
               )}
-            </Group>
-          </Collapse>
+            </Flex>
+          </Collapsible>
         </>
       )}
-    </Box>
+    </Section>
   );
 };

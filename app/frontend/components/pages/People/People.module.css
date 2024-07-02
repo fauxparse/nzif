@@ -10,14 +10,6 @@
   margin-block: var(--spacing-large);
 }
 
-.person {
-  color: var(--text-default);
-
-  &:hover {
-    color: var(--text-default);
-  }
-}
-
 .portrait {
   object-fit: cover;
   object-position: center;

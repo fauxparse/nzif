@@ -1,9 +1,9 @@
-import Button from '@/components/atoms/Button';
+import { ActivityType } from '@/graphql/types';
 import useFestival from '@/hooks/useFestival';
 import BATSIcon from '@/icons/BATSIcon';
+import { Button } from '@radix-ui/themes';
 import { Link } from '@tanstack/react-router';
 
-import { ActivityType } from '@/graphql/types';
 import './Home.css';
 
 export const Home = () => {
@@ -32,24 +32,17 @@ export const Home = () => {
             A week of local, national, and international improvisation at BATS&nbsp;Theatre in
             Wellington.
           </p>
-          <Button size="large" variant="solid" color="magenta">
+          <Button size="4" variant="solid">
             Register for workshops
           </Button>
 
-          <Button
-            renderRoot={(props) => (
-              <Link
-                to="/$activityType"
-                params={{ activityType: ActivityType.Workshop }}
-                {...props}
-              />
-            )}
-            size="large"
-            variant="outline"
-          >
-            Browse the programme
+          <Button asChild size="3" variant="outline">
+            <Link to="/$activityType" params={{ activityType: ActivityType.Workshop }}>
+              Browse the programme
+            </Link>
           </Button>
-          <Button size="large" variant="outline" leftSection={<BATSIcon size="large" />}>
+          <Button size="3" variant="outline">
+            <BATSIcon size="lg" />
             Book tickets
           </Button>
         </div>

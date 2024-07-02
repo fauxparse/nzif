@@ -1,17 +1,15 @@
 import Body from '@/components/organisms/Body';
 import Header from '@/components/organisms/Header';
+import { ActivityType } from '@/graphql/types';
+import { useFestivalDates } from '@/hooks/useFestival';
 import ShareIcon from '@/icons/ShareIcon';
 import { useMutation, useQuery } from '@apollo/client';
-import { ActionIcon } from '@mantine/core';
+import { IconButton } from '@radix-ui/themes';
 import { groupBy, range, sortBy, values } from 'lodash-es';
 import { useCallback, useMemo } from 'react';
 import { CalendarProvider } from './Context';
 import { Day } from './Day';
 import { CalendarQuery, SetSessionVisibilityMutation } from './queries';
-
-import './Calendar.css';
-import { ActivityType } from '@/graphql/types';
-import { useFestivalDates } from '@/hooks/useFestival';
 import { CalendarSession } from './types';
 
 export const Calendar: React.FC = () => {
@@ -92,26 +90,24 @@ export const Calendar: React.FC = () => {
 
   return (
     <CalendarProvider show={show} hide={hide}>
-      <div className="calendar">
-        <Header
-          title="My calendar"
-          actions={
-            <ActionIcon variant="subtle" data-color="neutral">
-              <ShareIcon />
-            </ActionIcon>
-          }
-        />
-        <Body className="calendar">
-          {days.map((day) => (
-            <Day
-              loading={loading}
-              key={day[0].session.startsAt.toISODate()}
-              date={day[0].session.startsAt}
-              sessions={day as CalendarSession[]}
-            />
-          ))}
-        </Body>
-      </div>
+      <Header
+        title="My calendar"
+        actions={
+          <IconButton variant="ghost" radius="full" size="3">
+            <ShareIcon />
+          </IconButton>
+        }
+      />
+      <Body className="calendar">
+        {days.map((day) => (
+          <Day
+            loading={loading}
+            key={day[0].session.startsAt.toISODate()}
+            date={day[0].session.startsAt}
+            sessions={day as CalendarSession[]}
+          />
+        ))}
+      </Body>
     </CalendarProvider>
   );
 };

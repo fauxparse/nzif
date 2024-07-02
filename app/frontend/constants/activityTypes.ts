@@ -18,7 +18,7 @@ export const ACTIVITY_TYPES = {
     label: 'Show',
     plural: 'shows',
     icon: ShowIcon,
-    color: 'magenta',
+    color: 'crimson',
   },
   [ActivityType.SocialEvent]: {
     type: ActivityType.SocialEvent,

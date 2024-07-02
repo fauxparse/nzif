@@ -1,10 +1,10 @@
-:where(.icon) {
+.icon {
+  --icon-size: 1.25rem;
+
   display: block;
   flex: 0 0 var(--icon-size);
   width: var(--icon-size);
   height: var(--icon-size);
-  color: var(--icon);
-  fill: currentcolor;
 
   p & {
     display: inline-block;
@@ -23,28 +23,24 @@
     }
   }
 
-  &:where([data-size="xs"]) {
-    --icon-size: var(--icon-xs);
+  &[data-size="1"] {
+    --icon-size: 1rem;
   }
 
-  &:where([data-size="sm"]) {
-    --icon-size: var(--icon-sm);
+  &[data-size="2"] {
+    --icon-size: 1.25rem;
   }
 
-  &:where([data-size="md"]) {
-    --icon-size: var(--icon-md);
+  &[data-size="3"] {
+    --icon-size: 1.5rem;
   }
 
-  &:where([data-size="lg"]) {
-    --icon-size: var(--icon-lg);
+  &[data-size="4"] {
+    --icon-size: 2.5rem;
   }
 
-  &:where([data-size="xl"]) {
-    --icon-size: var(--icon-xl);
-  }
-
-  &:where([data-size="huge"]) {
-    --icon-size: var(--icon-huge);
+  &[data-accent-color] {
+    color: var(--accent-a11);
   }
 
   g[stroke] path {
@@ -64,13 +60,13 @@
     }
 
     circle {
-      &.sun {
+      &[data-component="sun"] {
         fill: currentcolor;
         transition-delay: calc(var(--pos) * 0.25s);
         transform: scale(calc((var(--pos) * 8 + 10) / 18));
       }
 
-      &.shadow {
+      &[data-component="shadow"] {
         transition-delay: calc(var(--pos) * 0.5s);
         transform: rotate(calc(120deg - var(--pos) * 88deg));
         transform-origin: var(--arc-radius) calc(var(--arc-radius) / 2);

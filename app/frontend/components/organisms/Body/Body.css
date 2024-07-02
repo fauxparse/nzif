@@ -8,7 +8,6 @@
 }
 
 .body {
-  mix-blend-mode: var(--body-blend-mode);
   container-name: body;
   container-type: inline-size;
 

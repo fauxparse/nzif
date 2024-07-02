@@ -1,46 +1,48 @@
-import clsx from 'clsx';
-import { ComponentProps, forwardRef, useRef } from 'react';
-import Waves from './Waves';
 import NavigationMenu from '@/components/organisms/NavigationMenu';
 import Search from '@/components/organisms/Search';
-import UserMenu from './UserMenu';
-import { mergeRefs } from 'react-merge-refs';
-import { useCurrentTheme } from '@/hooks/useTheme';
-
-import './Navigation.css';
-import { Link } from '@tanstack/react-router';
 import useFestival from '@/hooks/useFestival';
+import { Link } from '@tanstack/react-router';
+import clsx from 'clsx';
+import { ComponentProps, forwardRef, useRef } from 'react';
+import { mergeRefs } from 'react-merge-refs';
+import UserMenu from './UserMenu';
+import Waves from './Waves';
+
+import { Heading, Theme, useThemeContext } from '@radix-ui/themes';
+import classes from './Navigation.module.css';
 
 type NavigationProps = ComponentProps<'header'>;
 
 const Navigation = forwardRef<HTMLElement, NavigationProps>(({ className, ...props }, ref) => {
   const ownRef = useRef<HTMLElement>(null);
 
-  const theme = useCurrentTheme(ownRef);
-
   const festival = useFestival();
 
+  const { appearance } = useThemeContext();
+
   return (
-    <header ref={mergeRefs([ref, ownRef])} className={clsx('navigation', className)}>
-      <div className="container" data-theme={theme === 'dark' ? 'light' : 'dark'}>
-        <div className="navigation__left">
-          <NavigationMenu />
+    <Theme appearance={appearance === 'dark' ? 'light' : 'dark'}>
+      <header ref={mergeRefs([ref, ownRef])} className={clsx(classes.navigation, className)}>
+        <div className={classes.container}>
+          <div className={classes.left}>
+            <NavigationMenu />
+          </div>
+          <Heading as="h1" className={classes.title}>
+            <Link to="/">
+              <abbr title="New Zealand Improv Festival">
+                NZ<b>IF</b>
+              </abbr>{' '}
+              {festival.id}
+            </Link>
+          </Heading>
+          <div className={classes.right}>
+            <Search />
+            <UserMenu />
+          </div>
         </div>
-        <h1 className="navigation__title">
-          <Link to="/">
-            <abbr title="New Zealand Improv Festival">
-              NZ<b>IF</b>
-            </abbr>{' '}
-            {festival.id}
-          </Link>
-        </h1>
-        <div className="navigation__right">
-          <Search />
-          <UserMenu />
-        </div>
-      </div>
-      <Waves />
-    </header>
+        <Waves />
+      </header>
+    </Theme>
   );
 });
 

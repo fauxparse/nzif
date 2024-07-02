@@ -1,13 +1,11 @@
 import { RouterContext } from '@/RouterContext';
+import { NotFound } from '@/components/pages/NotFound';
 import type { CurrentFestival } from '@/hooks/useFestival';
 import { CurrentFestivalQuery, FestivalProvider } from '@/hooks/useFestival';
 import { useMantineColorScheme } from '@mantine/core';
 import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { Suspense, useEffect } from 'react';
-
-import '@/styles/new/application.css';
-import { NotFound } from '@/components/pages/NotFound';
 
 const Root = () => {
   const { festival } = Route.useRouteContext();

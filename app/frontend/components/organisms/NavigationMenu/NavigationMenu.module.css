@@ -1,6 +1,4 @@
-.button--menu {
-  margin-left: calc((var(--ai-size) - var(--icon-medium)) / -2);
-
+.menuButton {
   g, path {
     transition: transform 0.5s var(--ease-squish-5);
     transform-origin: center;
@@ -26,22 +24,3 @@
     }
   }
 }
-
-.mantine-Overlay-root {
-  position: absolute;
-  inset: 0;
-  z-index: var(--overlay-z-index);
-  background: var(--overlay-bg, rgb(0 0 0 / 0.6));
-  pointer-events: auto;
-
-  &:where([data-fixed]) {
-    position: fixed;
-  }
-
-  &:where([data-center]) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-

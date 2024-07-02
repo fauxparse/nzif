@@ -1,8 +1,8 @@
+import { IconProps } from '@/components/atoms/Icon';
 import { activityIcon } from '@/constants/activityTypes';
 import { ActivityType } from '@/graphql/types';
-import { BoxProps } from '@mantine/core';
 
-type ActivityIconProps = BoxProps & {
+type ActivityIconProps = IconProps & {
   activityType: ActivityType;
 };
 

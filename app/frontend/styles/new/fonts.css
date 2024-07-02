@@ -60,5 +60,16 @@ body {
     "Helvetica Neue", "Lucida Grande", sans-serif;
   --font-family-base: "DIN Round Pro", var(--font-stack);
 
+
   font: var(--font-weight-regular) 1em / 1.5 var(--font-family-base);
+}
+
+.radix-themes {
+  --font-family-base: "DIN Round Pro", var(--font-stack);
+  --default-font-family:  var(--font-family-base);
+  --heading-font-family:  var(--font-family-base);
+  --code-font-family:     var(--font-family-base);
+  --strong-font-family:   var(--font-family-base);
+  --em-font-family:       var(--font-family-base);
+  --quote-font-family:    var(--font-family-base);
 }
