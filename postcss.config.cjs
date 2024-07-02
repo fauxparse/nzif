@@ -1,5 +1,8 @@
 module.exports = {
   plugins: {
+    '@csstools/postcss-global-data': {
+      files: ['app/frontend/styles/new/breakpoints.css']
+    },
     'postcss-for': {},
     'postcss-nested': {},
     'postcss-import': {},
