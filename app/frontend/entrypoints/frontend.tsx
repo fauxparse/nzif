@@ -10,7 +10,6 @@ import { ConfirmationModalProvider } from '@/components/organisms/ConfirmationMo
 import { routeTree } from '@/routeTree.gen';
 import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
-import { Theme } from '@radix-ui/themes';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -21,6 +20,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 import '@radix-ui/themes/styles.css';
 import '@/styles/new/application.css';
+import { ThemeProvider } from '@/services/Themes';
 
 LuxonSettings.defaultZone = 'Pacific/Auckland';
 dayjs.extend(customParseFormat);
@@ -49,7 +49,7 @@ createRoot(document.getElementById('root') as HTMLElement).render(
       <Helmet>
         <title>NZIF: New Zealand Improv Festival</title>
       </Helmet>
-      <Theme accentColor="crimson" grayColor="mauve" panelBackground="solid" radius="small">
+      <ThemeProvider>
         <MantineProvider>
           <ConfirmationModalProvider>
             <Notifications />
@@ -70,7 +70,7 @@ createRoot(document.getElementById('root') as HTMLElement).render(
             </ApolloProvider>
           </ConfirmationModalProvider>
         </MantineProvider>
-      </Theme>
+      </ThemeProvider>
     </HelmetProvider>
   </React.StrictMode>
 );

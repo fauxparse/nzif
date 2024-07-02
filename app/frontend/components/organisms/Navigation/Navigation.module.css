@@ -23,7 +23,7 @@
   margin-bottom: -1rem;
   padding-block-end: var(--spacing-base);
 
-  [data-is-root-theme]:has(&),
+  [data-is-root-theme]:has(> &),
   [data-is-root-theme] {
     display: contents;
   }

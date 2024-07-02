@@ -1,0 +1,53 @@
+.list {
+  --action-list-item-padding-x: var(--space-2);
+  --action-list-item-padding-y: var(--space-1);
+  --action-list-item-color: var(--accent-11);
+  --action-list-item-hover-color: var(--accent-12);
+  --action-list-item-hover: var(--accent-5);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+
+  &:where([data-variant="subtle"]) {
+    --action-list-item-hover: transparent;
+  }
+}
+
+.item {
+  --icon: currentcolor;
+
+  display: grid;
+  grid-template: "icon label" auto / var(--space-5) 1fr;
+  gap: var(--space-2);
+  align-items: center;
+  margin: 0;
+  padding: var(--action-list-item-padding-y) var(--action-list-item-padding-x) var(--action-list-item-padding-y) var(--space-1);
+  border-radius: var(--radius-small);
+  color: var(--action-list-item-color);
+  font-size: var(--font-size-medium);
+  line-height: var(--line-height-medium);
+  text-decoration: none;
+
+  &:where(button, a) {
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--action-list-item-hover);
+      color: var(--action-list-item-hover-color);
+    }
+  }
+}
+
+.icon {
+  grid-area: icon;
+  justify-self: center;
+}
+
+.label {
+  display: flex;
+  grid-area: label;
+  justify-content: space-between;
+  align-items: center;
+}

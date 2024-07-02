@@ -440,20 +440,6 @@ body,
   --padding-input-vertical: var(--padding-input-medium-vertical);
 }
 
-[data-theme="dark"] {
-  [data-color="magenta"] {
-    --pure: hsl(300deg 100% 50%);
-  }
-
-  [data-color="cyan"] {
-    --pure: hsl(180deg 100% 50%);
-  }
-
-  [data-color="yellow"] {
-    --pure: hsl(60deg 100% 50%);
-  }
-}
-
 :root {
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-squish-1: cubic-bezier(.5,-.1,.1,1.5);

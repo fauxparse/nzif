@@ -1,10 +1,13 @@
-@import url("@/styles/new/variables.css");
 @import url("@/styles/new/fonts.css");
-@import url("@/styles/new/shadows.css");
+@import url("@/styles/new/variables.css");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 :root {
-  --mantine-spacing-md: var(--spacing-base);
-  --theme-transition-speed: 0.25s;
   --theme-transition:
     background-color var(--theme-transition-speed) var(--ease-standard),
     color var(--theme-transition-speed) var(--ease-standard);
@@ -22,19 +25,9 @@
   }
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--background-app);
-  color: var(--text-default);
-  font-family: "DIN Round Pro", sans-serif;
-  transition: var(--theme-transition);
 }
 
 .layout {
@@ -44,6 +37,42 @@ body {
 .container {
   container-type: inline-size;
 }
+
+.radix-themes {
+  --cursor-button: pointer;
+  --cursor-checkbox: pointer;
+  --cursor-disabled: default;
+  --cursor-link: pointer;
+  --cursor-menu-item: pointer;
+  --cursor-radio: pointer;
+  --cursor-slider-thumb: grab;
+  --cursor-slider-thumb-active: grabbing;
+  --cursor-switch: pointer;
+
+  transition: var(--theme-transition);
+}
+
+.rt-BaseDialogOverlay {
+  z-index: var(--z-index-modal);
+}
+
+/*
+@import url("@/styles/new/shadows.css");
+
+:root {
+  --mantine-spacing-md: var(--spacing-base);
+  --theme-transition-speed: 0.25s;
+
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  font-family: "DIN Round Pro", sans-serif;
+}
+
 
 .visually-hidden {
   position: absolute;
@@ -82,4 +111,4 @@ a {
 
 .rt-BaseDialogOverlay {
   z-index: var(--z-index-modal);
-}
+} */
