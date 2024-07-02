@@ -1,0 +1,10 @@
+.body {
+  display: grid;
+  grid-template-columns: var(--layout-columns);
+  container-name: body;
+  container-type: inline-size;
+
+  > section {
+    grid-column: main;
+  }
+}

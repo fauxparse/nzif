@@ -19,6 +19,7 @@
     "@biomejs/biome": "1.8.0",
     "@cicadahq/cicada": "^0.1.50",
     "@contentful/rich-text-types": "^16.0.3",
+    "@csstools/postcss-global-data": "^2.1.1",
     "@graphql-codegen/add": "^4.0.1",
     "@graphql-codegen/cli": "3.3.1",
     "@graphql-codegen/client-preset": "3.0.1",

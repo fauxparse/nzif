@@ -289,6 +289,9 @@ devDependencies:
   '@contentful/rich-text-types':
     specifier: ^16.0.3
     version: 16.0.3
+  '@csstools/postcss-global-data':
+    specifier: ^2.1.1
+    version: 2.1.1(postcss@8.4.27)
   '@graphql-codegen/add':
     specifier: ^4.0.1
     version: 4.0.1(graphql@16.6.0)
@@ -1698,6 +1701,15 @@ packages:
     dependencies:
       '@csstools/css-parser-algorithms': 2.1.0(@csstools/css-tokenizer@2.1.0)
       '@csstools/css-tokenizer': 2.1.0
+    dev: true
+
+  /@csstools/postcss-global-data@2.1.1(postcss@8.4.27):
+    resolution: {integrity: sha512-tihdBLogY2G5jgUSu2jKSEVeOcnWqsz6k7UmPM7+ezhuV9FP5MIyX35Hc/YvqipQLRNsfBj9wRkBvsE7k1GM8A==}
+    engines: {node: ^14 || ^16 || >=18}
+    peerDependencies:
+      postcss: ^8.4
+    dependencies:
+      postcss: 8.4.27
     dev: true
 
   /@csstools/selector-specificity@2.2.0(postcss-selector-parser@6.0.11):
