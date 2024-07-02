@@ -1,49 +1,56 @@
-import Avatar from '@/components/atoms/Avatar';
-import Menu from '@/components/molecules/Menu';
-import { useAuthentication } from '@/services/Authentication';
-import { Link } from '@tanstack/react-router';
 import UserIcon from '@/icons/UserIcon';
-import Switch from '@/components/atoms/Switch';
+import { useAuthentication } from '@/services/Authentication';
+import { Avatar, DropdownMenu, IconButton, Text, Theme, useThemeContext } from '@radix-ui/themes';
+import { Link } from '@tanstack/react-router';
 
 const UserMenu: React.FC = () => {
   const { user, logOut } = useAuthentication();
 
+  const { appearance } = useThemeContext();
+
   if (!user) {
     return (
-      <Link to="/login">
-        <Avatar size="medium" user={user} />
-      </Link>
+      <IconButton variant="ghost" radius="full" size="4" color="gray" asChild>
+        <Link to="/login">
+          <UserIcon color="gray" />
+        </Link>
+      </IconButton>
     );
   }
 
   return (
-    <Menu
-      width="max-content"
-      withArrow
-      arrowSize={12}
-      arrowOffset={15}
-      arrowRadius={2}
-      position="bottom-end"
-      returnFocus
-      shadow="md"
-      transitionProps={{ transition: 'pop-top-right' }}
-    >
-      <Menu.Target>
-        <Avatar component="button" size="medium" user={user} />
-      </Menu.Target>
-      <Menu.Dropdown>
-        <Menu.Item component={Link} to="/profile" leftSection={<UserIcon />}>
-          My profile
-        </Menu.Item>
-        <Menu.Item component="label" rightSection={<Switch />}>
-          Dark mode
-        </Menu.Item>
-        <Menu.Divider />
-        <Menu.Item component={Link} to="/logout">
-          Log out
-        </Menu.Item>
-      </Menu.Dropdown>
-    </Menu>
+    <Theme appearance={appearance === 'dark' ? 'light' : 'dark'}>
+      <DropdownMenu.Root>
+        <Theme appearance={appearance}>
+          <DropdownMenu.Trigger>
+            <Avatar
+              src={user.profile?.picture?.small}
+              fallback={
+                user.profile?.name
+                  ?.split(/\s+/)
+                  .map((x) => x[0])
+                  .join('') || ''
+              }
+              alt={user.profile?.name}
+              size="4"
+              radius="full"
+              asChild
+            >
+              <button type="button" />
+            </Avatar>
+          </DropdownMenu.Trigger>
+        </Theme>
+        <DropdownMenu.Content variant="soft" style={{ zIndex: 'var(--z-index-popover)' }}>
+          <DropdownMenu.Item asChild>
+            <Link to="/profile">
+              <Text color="gray">Your profile</Text>
+            </Link>
+          </DropdownMenu.Item>
+          <DropdownMenu.Separator />
+          <DropdownMenu.Item color="crimson">Log out</DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+    </Theme>
   );
 };
 

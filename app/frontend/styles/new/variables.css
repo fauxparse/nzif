@@ -483,4 +483,5 @@ body,
   --z-index-header: 10;
   --z-index-navigation: 20;
   --z-index-modal: 100;
+  --z-index-popover: 200;
 }
