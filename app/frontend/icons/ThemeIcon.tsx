@@ -9,7 +9,7 @@ export default createIcon({
       <defs>
         <mask id="moon">
           <rect x="-10" y="-10" width="20" height="20" fill="white" />
-          <circle className="shadow" cx="0" cy="0" r="7" fill="black" />
+          <circle data-component="shadow" cx="0" cy="0" r="7" fill="black" />
         </mask>
 
         <filter id="blur" colorInterpolationFilters="sRGB">
@@ -22,7 +22,7 @@ export default createIcon({
 
       <g filter="url(#blur)">
         <g mask="url(#moon)">
-          <circle className="sun" cx="0" cy="0" r="9" />
+          <circle data-component="sun" cx="0" cy="0" r="9" />
         </g>
       </g>
 

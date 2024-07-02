@@ -46,6 +46,8 @@ export const PersonQuery = graphql(`
 export const AllPresentersQuery = graphql(`
   query AllPresenters {
     festival {
+      id
+
       people {
         id
         name

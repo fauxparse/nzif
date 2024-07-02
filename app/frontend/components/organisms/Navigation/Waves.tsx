@@ -4,6 +4,8 @@ import { debounce, range } from 'lodash-es';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createNoise2D } from 'simplex-noise';
 
+import classes from './Navigation.module.css';
+
 const noise = createNoise2D();
 
 const WAVELENGTH = 300;
@@ -108,7 +110,7 @@ const Waves = () => {
   return (
     <svg
       ref={setSvg}
-      className="navigation__waves"
+      className={classes.waves}
       viewBox={`0 0 ${width} 80`}
       role="presentation"
       preserveAspectRatio="none"

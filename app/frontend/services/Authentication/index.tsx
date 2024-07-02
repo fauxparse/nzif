@@ -1,7 +1,7 @@
-import { ResultOf, VariablesOf } from '@/graphql';
+import { ResultOf, VariablesOf, client } from '@/graphql';
 import { clearAuthenticationInfo, saveAuthenticationInfo } from '@/graphql/authentication';
 import { Permission } from '@/graphql/types';
-import { useApolloClient, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import {
   PropsWithChildren,
   createContext,
@@ -43,8 +43,6 @@ export const AuthenticationContext = createContext<AuthenticationContextType>({
 
 export const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const { loading: authLoading, data } = useQuery(CurrentUser);
-
-  const client = useApolloClient();
 
   const [error, setError] = useState<string | null>(null);
 

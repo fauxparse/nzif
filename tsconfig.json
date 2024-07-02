@@ -29,6 +29,10 @@
         "tadaOutputLocation": "./app/frontend/graphql/graphql-env.d.ts",
         "trackFieldUsage": false,
         "shouldCheckForColocatedFragments": false
+      },
+      {
+        "name": "typescript-plugin-css-modules",
+        "goToDefinition": true
       }
     ]
   },
