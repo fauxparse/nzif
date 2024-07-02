@@ -1,0 +1,9 @@
+.footer {
+  background-color: var(--gray-3);
+  padding-block-start: var(--space-5);
+  padding-block-end: var(--space-9);
+
+  p:first-child {
+    margin-block-start: 0;
+  }
+}

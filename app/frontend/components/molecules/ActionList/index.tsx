@@ -1,20 +1,22 @@
-import { Box, BoxProps } from '@mantine/core';
+import { Box, BoxProps } from '@radix-ui/themes';
+import clsx from 'clsx';
 import React, { PropsWithChildren } from 'react';
 import { ActionListItem } from './Item';
 
-import clsx from 'clsx';
-import './ActionList.css';
+import classes from './ActionList.module.css';
 
-type ActionListProps = PropsWithChildren<BoxProps>;
+type ActionListProps = PropsWithChildren<BoxProps> & {
+  variant?: 'default' | 'subtle';
+};
 
 type ActionList = React.FC<ActionListProps> & {
   Item: typeof ActionListItem;
 };
 
 export const ActionList: ActionList = Object.assign(
-  ({ className, children, ...props }: ActionListProps) => {
+  ({ className, variant = 'default', children, ...props }: ActionListProps) => {
     return (
-      <Box className={clsx('action-list', className)} {...props}>
+      <Box className={clsx(classes.list, className)} data-variant={variant} {...props}>
         {children}
       </Box>
     );
