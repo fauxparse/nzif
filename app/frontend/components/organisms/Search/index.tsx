@@ -62,13 +62,13 @@ const SearchButton = forwardRef<HTMLButtonElement, SearchButtonProps>(({ classNa
   return (
     <Theme appearance={appearance === 'dark' ? 'light' : 'dark'}>
       <Dialog.Root open={opened} onOpenChange={(opened) => (opened ? open : close)()}>
-        <Dialog.Trigger>
-          <Theme appearance={appearance}>
+        <Theme appearance={appearance}>
+          <Dialog.Trigger>
             <IconButton ref={ref} variant="ghost" size="4" radius="full" color="gray">
               <SearchIcon />
             </IconButton>
-          </Theme>
-        </Dialog.Trigger>
+          </Dialog.Trigger>
+        </Theme>
         <Dialog.Content className={classes.modal} asChild>
           <motion.div layoutId="search-results" layout="size" style={{ borderRadius: 9 }}>
             <VisuallyHidden>

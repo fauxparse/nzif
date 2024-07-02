@@ -1,6 +1,7 @@
 import NavigationMenu from '@/components/organisms/NavigationMenu';
 import Search from '@/components/organisms/Search';
 import useFestival from '@/hooks/useFestival';
+import { Heading, Theme, useThemeContext } from '@radix-ui/themes';
 import { Link } from '@tanstack/react-router';
 import clsx from 'clsx';
 import { ComponentProps, forwardRef, useRef } from 'react';
@@ -8,7 +9,6 @@ import { mergeRefs } from 'react-merge-refs';
 import UserMenu from './UserMenu';
 import Waves from './Waves';
 
-import { Heading, Theme, useThemeContext } from '@radix-ui/themes';
 import classes from './Navigation.module.css';
 
 type NavigationProps = ComponentProps<'header'>;
