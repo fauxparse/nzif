@@ -48,6 +48,7 @@ body {
   --cursor-slider-thumb: grab;
   --cursor-slider-thumb-active: grabbing;
   --cursor-switch: pointer;
+  --color-background: var(--background-app);
 
   transition: var(--theme-transition);
 }
@@ -55,60 +56,3 @@ body {
 .rt-BaseDialogOverlay {
   z-index: var(--z-index-modal);
 }
-
-/*
-@import url("@/styles/new/shadows.css");
-
-:root {
-  --mantine-spacing-md: var(--spacing-base);
-  --theme-transition-speed: 0.25s;
-
-}
-
-
-body {
-  margin: 0;
-  padding: 0;
-  background-color: white;
-  font-family: "DIN Round Pro", sans-serif;
-}
-
-
-.visually-hidden {
-  position: absolute;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  width: 1px;
-  height: 1px;
-  white-space: nowrap;
-  clip-path: inset(50%);
-}
-
-::selection {
-  background: var(--focus-magenta);
-}
-
-a {
-  color: var(--link);
-
-  &:hover,
-  &:active {
-    color: var(--link-hover);
-  }
-}
-
-.radix-themes {
-  --cursor-button: pointer;
-  --cursor-checkbox: pointer;
-  --cursor-disabled: default;
-  --cursor-link: pointer;
-  --cursor-menu-item: pointer;
-  --cursor-radio: pointer;
-  --cursor-slider-thumb: grab;
-  --cursor-slider-thumb-active: grabbing;
-  --cursor-switch: pointer;
-}
-
-.rt-BaseDialogOverlay {
-  z-index: var(--z-index-modal);
-} */

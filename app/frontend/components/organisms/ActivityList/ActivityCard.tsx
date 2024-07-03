@@ -1,14 +1,7 @@
-import Placename from '@/components/atoms/Placename';
-import Tag from '@/components/atoms/Tag';
-import BlurrableImage from '@/components/molecules/BlurrableImage';
-import Card from '@/components/molecules/Card';
 import { ResultOf, readFragment } from '@/graphql';
 import { Session } from '@/graphql/types';
-import ShowIcon from '@/icons/ShowIcon';
-import WorkshopIcon from '@/icons/WorkshopIcon';
 import sentence from '@/util/sentence';
-import { Skeleton } from '@mantine/core';
-import { Link } from '@tanstack/react-router';
+import { AspectRatio, Card, Flex, Inset, Skeleton, Text } from '@radix-ui/themes';
 import { map, uniqBy } from 'lodash-es';
 import { useMemo } from 'react';
 import {
@@ -16,6 +9,11 @@ import {
   ActivityCardPictureFragment,
   ActivityCardPresenterFragment,
 } from './queries';
+
+import Placename from '@/components/atoms/Placename';
+import BlurrableImage from '@/components/molecules/BlurrableImage';
+import { Link } from '@tanstack/react-router';
+import classes from './ActivityCard.module.css';
 
 export type ActivityCardSession = Pick<
   Session,
@@ -34,7 +32,8 @@ type ActivityCardProps = {
   loading?: boolean;
 };
 
-const ActivityCard: React.FC<ActivityCardProps> = ({ activity, loading = false }) => {
+const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
+  const loading = false;
   const picture = readFragment(ActivityCardPictureFragment, activity.picture);
   const presenters = readFragment(ActivityCardPresenterFragment, activity.presenters);
 
@@ -57,14 +56,43 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, loading = false }
     : sentence(presenters.map((presenter) => presenter.name));
 
   return (
-    <Card
-      component={Link}
-      to="/$activityType/$slug"
-      params={{ slug: activity.slug }}
-      className="card activity-card"
-      data-loading={loading}
-    >
-      <Skeleton
+    <Card size="2" variant="classic" data-loading={loading}>
+      <Inset side="top" mb="2">
+        <Skeleton loading={loading}>
+          <AspectRatio ratio={16 / 9}>
+            <Link
+              to="/$activityType/$slug"
+              params={{ activityType: activity.type, slug: activity.slug }}
+            >
+              {picture && (
+                <BlurrableImage
+                  src={picture.medium}
+                  blurhash={picture.blurhash}
+                  alt={activity.name}
+                />
+              )}
+            </Link>
+          </AspectRatio>
+        </Skeleton>
+      </Inset>
+      <Flex direction="column" gap="1">
+        <Skeleton loading={loading}>
+          <Text className={classes.title} size="4" weight="medium">
+            {activity.name}
+          </Text>
+        </Skeleton>
+        <Skeleton loading={loading}>
+          <Text className={classes.presenters} size="3">
+            {presenterNames}
+          </Text>
+          <Flex gap="1" wrap="wrap">
+            {locations.map((city) => (
+              <Placename key={city.id} city={city} />
+            ))}
+          </Flex>
+        </Skeleton>
+      </Flex>
+      {/* <Skeleton
         visible={loading}
         animate={loading}
         className="card__picture"
@@ -107,7 +135,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, loading = false }
             </Tag>
           )}
         </div>
-      </div>
+      </div> */}
     </Card>
   );
 };

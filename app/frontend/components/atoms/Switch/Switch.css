@@ -6,7 +6,7 @@
   --track-active: var(--background-selected);
   --track-active-hover: var(--background-selected);
   --thumb-size: 1rem;
-  --thumb: var(--background-app);
+  --thumb: var(--color-background);
   --thumb-color: var(--thumb);
   --thumb-position: 0%;
   --thumb-transition-duration: 0.2s;

@@ -1,0 +1,117 @@
+.header {
+  --header-min-height: 15rem;
+  --header-height: var(--header-min-height);
+  --header-title-font-size: clamp(2rem, 8cqw, 3rem);
+  --header-title-line-height: 1.2;
+
+  position: relative;
+  z-index: var(--z-index-header);
+  display: grid;
+  grid-template-rows: max(var(--header-height), max-content);
+  grid-template-columns: var(--layout-columns);
+  min-height: var(--header-min-height);
+  padding-top: var(--spacing-large);
+  border-bottom: var(--border-thin) solid var(--border-subtle);
+  background: var(--color-background);
+  transition: var(--theme-transition);
+}
+
+.container {
+  display: grid;
+  grid-template-rows: [all-start top-start] 1fr [top-end title-start] auto [title-end bottom-start] auto [bottom-end all-end];
+  grid-template-columns: 1fr;
+  grid-column: main;
+  gap: 0;
+}
+
+.title {
+  grid-row: title;
+  margin-bottom: var(--spacing-base);
+  container-type: inline-size;
+
+  h1 {
+    margin: 0;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--header-title-font-size);
+    line-height: var(--header-title-line-height);
+  }
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--background-solid);
+  opacity: 0.25;
+  transition: var(--theme-transition);
+
+  [class*="blurrable-image"] {
+    position: absolute;
+
+    [class*="blurrable-image__blurred"],
+    [class*="blurrable-image__image"] {
+      filter: grayscale(100%) contrast(200%);
+      mix-blend-mode: var(--header-image-blend-mode);
+    }
+  }
+}
+
+.topOuter {
+  grid-row: top;
+}
+
+.top {
+  position: sticky;
+  top: var(--spacing-small);
+  display: grid;
+  grid-template: "breadcrumbs actions" auto / auto auto;
+  gap: var(--spacing-large);
+  align-items: center;
+  min-height: 2.5rem;
+}
+
+.bottomOuter {
+  grid-row: bottom;
+  min-width: 100%;
+  margin-inline: calc(var(--gutter-width) * -1);
+  margin-block-end: calc(var(--border-thin) * -1);
+
+  > div {
+    padding-inline: var(--gutter-width);
+  }
+}
+
+.bottom {
+  min-width: 100%;
+}
+
+.actions {
+  grid-area: actions;
+  justify-self: end;
+}
+
+.tabs {
+  /* grid-area: tabs; */
+}
+
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  grid-area: breadcrumbs;
+  gap: 1ch;
+  align-items: center;
+  mix-blend-mode: var(--blend-mode);
+
+  .breadcrumb {
+    color: var(--text-subtle);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--text-default);
+    }
+  }
+
+  .icon {
+    color: var(--border-element);
+  }
+}

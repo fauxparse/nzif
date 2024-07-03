@@ -40,7 +40,7 @@
     gap: var(--spacing-medium);
     justify-content: center;
     align-items: center;
-    background: color(from var(--background-app) srgb r g b / 0.85);
+    background: color(from var(--color-background) srgb r g b / 0.85);
     text-align: center;
     transition: opacity var(--speed-standard) var(--ease-standard);
 
@@ -81,7 +81,7 @@
   &__overlay {
     position: absolute;
     inset: 0;
-    background-color: var(--background-app);
+    background-color: var(--color-background);
     opacity: 0.75;
     pointer-events: none;
     clip-path: polygon(0% 0%, 0% 100%, var(--left) 100%, var(--left) var(--top), calc(var(--left) + var(--width)) var(--top), calc(var(--left) + var(--width)) calc(var(--top) + var(--height)), var(--left) calc(var(--top) + var(--height)), var(--left) 100%, 100% 100%, 100% 0%);
@@ -103,7 +103,7 @@
     height: 11px;
     margin: -5px;
     background-color: var(--text-subtle);
-    box-shadow: 0 0 0 1px var(--background-app);
+    box-shadow: 0 0 0 1px var(--color-background);
 
     &::before {
       content: "";

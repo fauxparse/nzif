@@ -1,5 +1,5 @@
 :where(.scrollable) {
-  --scrollable-edge-color: var(--background-app);
+  --scrollable-edge-color: var(--color-background);
   --scrollable-edge-size: 1rem;
   --scrollable-gradient-size: 2rem;
   --scrollable-gradient-direction: to bottom;

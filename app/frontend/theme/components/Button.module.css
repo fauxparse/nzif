@@ -72,7 +72,7 @@
 
     &[data-variant="white"] {
       --button-border-width: 0px;
-      --button-background: var(--background-app);
+      --button-background: var(--color-background);
       --button-background-hover: var(--background-subtle);
     }
 

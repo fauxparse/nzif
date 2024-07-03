@@ -15,7 +15,7 @@
   min-height: var(--header-min-height);
   padding-top: var(--spacing-large);
   border-bottom: var(--border-thin) solid var(--border-subtle);
-  background: var(--background-app);
+  background: var(--color-background);
   transition: var(--theme-transition);
 
   &:has(.mantine-Tabs-root) {

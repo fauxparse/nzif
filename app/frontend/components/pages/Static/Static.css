@@ -75,7 +75,7 @@
 
       .icon {
         border-radius: var(--radius-round);
-        background: var(--background-app);
+        background: var(--color-background);
         color: var(--text-subtle);
         box-shadow: 0 0 0 var(--border-thin) var(--border-subtle);
         transition: rotate var(--speed-slow) var(--ease-squish-1);

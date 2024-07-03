@@ -42,7 +42,7 @@
 
     &[data-variant="outline"] {
       --badge-border-color: currentcolor;
-      --badge-background: var(--background-app);
+      --badge-background: var(--color-background);
     }
 
     &[data-variant="light"] {
@@ -59,7 +59,7 @@
 
     &[data-variant="white"] {
       --badge-border-width: 0px;
-      --badge-background: var(--background-app);
+      --badge-background: var(--color-background);
       --badge-text: var(--colored-text-default);
     }
 

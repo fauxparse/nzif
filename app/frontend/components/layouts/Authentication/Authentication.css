@@ -10,7 +10,7 @@
 
     position: absolute;
     inset: 0;
-    background: var(--background-app);
+    background: var(--color-background);
     opacity: 0.5;
 
     &__blob {
