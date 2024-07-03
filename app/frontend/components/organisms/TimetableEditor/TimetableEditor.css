@@ -24,8 +24,8 @@
     grid-template-rows: var(--column-header-height) repeat(var(--rows), auto);
     grid-template-columns: var(--row-header-width) repeat(var(--columns), var(--column-width)) 1fr;
     align-self: start;
-    background-color: var(--background-app);
-    background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 0.25rem, var(--background-app) 0, var(--background-app) 0.5rem), linear-gradient(to right, var(--border-subtle) 0, var(--border-subtle) 1px, transparent 0);
+    background-color: var(--color-background);
+    background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 0.25rem, var(--color-background) 0, var(--color-background) 0.5rem), linear-gradient(to right, var(--border-subtle) 0, var(--border-subtle) 1px, transparent 0);
     background-position: 0 0, calc(var(--row-header-width) - 1px) 0;
     background-size: var(--column-group-width) 100%;
     background-repeat: repeat-x;
@@ -40,7 +40,7 @@
       grid-column: 1 / -1;
       min-height: var(--column-header-height);
       border-bottom: 1px solid var(--border-element);
-      background: var(--background-app);
+      background: var(--color-background);
       color: var(--text-subtle);
 
       :has([data-meridiem]) + :has([data-meridiem]) {
@@ -65,7 +65,7 @@
       &:first-of-type {
         z-index: var(--z-top-left);
         padding: 0;
-        background: var(--background-app);
+        background: var(--color-background);
       }
     }
 
@@ -88,7 +88,7 @@
         align-items: start;
         padding: var(--spacing-tiny);
         border-right: 1px solid var(--border-element);
-        background: var(--background-app);
+        background: var(--color-background);
         color: var(--text-subtle);
         cursor: default;
 

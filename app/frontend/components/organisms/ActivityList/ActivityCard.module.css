@@ -1,0 +1,13 @@
+.card {
+
+}
+
+.title {
+  display: block;
+  color: var(--gray-12);
+}
+
+.presenters {
+  display: block;
+  color: var(--gray-11);
+}

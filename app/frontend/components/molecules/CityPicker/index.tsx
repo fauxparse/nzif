@@ -1,6 +1,7 @@
 import CloseIcon from '@/icons/CloseIcon';
 import LocationIcon from '@/icons/LocationIcon';
 import PlusIcon from '@/icons/PlusIcon';
+import { CitiesQuery } from '@/services/Placenames/queries';
 import { useQuery } from '@apollo/client';
 import {
   ActionIcon,
@@ -18,7 +19,6 @@ import { getName as getCountryName } from 'country-list';
 import { deburr, sortBy } from 'lodash-es';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { CountryPicker } from './CountryPicker';
-import { CitiesQuery } from './queries';
 import { Placename, SearchableOption } from './types';
 import { useAutocomplete } from './useAutocomplete';
 

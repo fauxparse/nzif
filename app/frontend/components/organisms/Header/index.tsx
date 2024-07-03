@@ -1,14 +1,14 @@
-import { ComponentPropsWithoutRef, ReactNode, forwardRef, useEffect, useRef } from 'react';
-import Breadcrumbs from './Breadcrumbs';
-
 import Scrollable from '@/components/helpers/Scrollable';
 import BlurrableImage from '@/components/molecules/BlurrableImage';
 import { useTitle } from '@/hooks/useRoutesWithTitles';
-import { ImageProps, Title } from '@mantine/core';
+import { Heading } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { debounce, isString } from 'lodash-es';
+import { ComponentPropsWithoutRef, ReactNode, forwardRef, useEffect, useRef } from 'react';
 import { mergeRefs } from 'react-merge-refs';
-import './Header.css';
+import Breadcrumbs from './Breadcrumbs';
+
+import classes from './Header.module.css';
 
 type HeaderSlot = ReactNode | false;
 
@@ -19,7 +19,7 @@ type BaseHeaderProps = {
   children?: HeaderSlot;
   tabs?: HeaderSlot;
   background?: {
-    src: ImageProps['src'];
+    src: string;
     blurhash: string;
   };
 };
@@ -65,35 +65,33 @@ const Header = forwardRef<HTMLElement, HeaderProps>(
     }, []);
 
     return (
-      <header ref={mergeRefs([ref, ownRef])} className={clsx('header', className)} {...props}>
+      <header ref={mergeRefs([ref, ownRef])} className={clsx(classes.header, className)} {...props}>
         {background && (
           <BlurrableImage
-            className="header__background"
+            className={classes.background}
             src={background.src}
             blurhash={background.blurhash}
           />
         )}
-        <div className="container">
+        <div className={classes.container}>
           {(breadcrumbs || actions) && (
-            <div className="header__top-outer">
-              <div className="header__top">
-                <div className="header__breadcrumbs">{breadcrumbs}</div>
-                <div className="header__actions">{actions}</div>
+            <div className={classes.topOuter}>
+              <div className={classes.top}>
+                {breadcrumbs}
+                <div className={classes.actions}>{actions}</div>
               </div>
             </div>
           )}
           {(title || children) && (
-            <div className="header__title">
-              {isString(title) ? <Title order={1}>{title}</Title> : title}
+            <div className={classes.title}>
+              {isString(title) ? <Heading as="h1">{title}</Heading> : title}
               {children}
             </div>
           )}
           {tabs && (
-            <Scrollable className="header__bottom-outer" orientation="horizontal">
-              <div className="header__bottom-outer">
-                <div className="header__bottom">
-                  <div className="header__tabs">{tabs}</div>
-                </div>
+            <Scrollable className={classes.bottomOuter} orientation="horizontal">
+              <div className={classes.bottom}>
+                <div className={classes.tabs}>{tabs}</div>
               </div>
             </Scrollable>
           )}

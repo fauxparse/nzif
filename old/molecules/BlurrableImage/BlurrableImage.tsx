@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react';
+import React, { ComponentPropsWithoutRef, useEffect, useState } from 'react';
 import { Blurhash } from 'react-blurhash';
 import { useIntersectionObserver } from 'usehooks-ts';
 
@@ -10,9 +10,7 @@ type BlurrableImageProps = ComponentPropsWithoutRef<'img'> & {
 };
 
 const BlurrableImage: React.FC<BlurrableImageProps> = ({ className, blurhash, src, ...props }) => {
-  const container = useRef<HTMLDivElement | null>(null);
-
-  const { isIntersecting = false } = useIntersectionObserver(container, {}) ?? {};
+  const { isIntersecting, ref } = useIntersectionObserver({});
 
   const [visible, setVisible] = useState(false);
 
@@ -29,7 +27,7 @@ const BlurrableImage: React.FC<BlurrableImageProps> = ({ className, blurhash, sr
   };
 
   return (
-    <div className={clsx('blurrable-image', className)} ref={container}>
+    <div className={clsx('blurrable-image', className)} ref={ref}>
       {blurhash && (
         <Blurhash
           className="blurrable-image__blurred"

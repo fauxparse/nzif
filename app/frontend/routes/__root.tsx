@@ -2,6 +2,7 @@ import { RouterContext } from '@/RouterContext';
 import { NotFound } from '@/components/pages/NotFound';
 import type { CurrentFestival } from '@/hooks/useFestival';
 import { CurrentFestivalQuery, FestivalProvider } from '@/hooks/useFestival';
+import { PlacenamesProvider } from '@/services/Placenames';
 import { useMantineColorScheme } from '@mantine/core';
 import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
@@ -17,12 +18,14 @@ const Root = () => {
   }, [colorScheme]);
 
   return (
-    <FestivalProvider festival={festival}>
-      <Outlet />
-      <Suspense fallback={null}>
-        <TanStackRouterDevtools />
-      </Suspense>
-    </FestivalProvider>
+    <PlacenamesProvider>
+      <FestivalProvider festival={festival}>
+        <Outlet />
+        <Suspense fallback={null}>
+          <TanStackRouterDevtools />
+        </Suspense>
+      </FestivalProvider>
+    </PlacenamesProvider>
   );
 };
 

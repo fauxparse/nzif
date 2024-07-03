@@ -47,7 +47,7 @@
     height: var(--modal-content-height, auto);
     max-height: var(--modal-content-max-height, calc(100dvh - var(--modal-y-offset) * 2));
     border-radius: var(--modal-border-radius);
-    background-color: var(--background-app);
+    background-color: var(--color-background);
     box-shadow: var(--shadow-xl), 0 0 0 var(--border-thin) var(--modal-border);
     outline: 0;
     text-decoration: none;

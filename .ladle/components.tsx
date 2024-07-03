@@ -42,7 +42,7 @@ const ThemeDetector: React.FC<PropsWithChildren> = ({ children }) => {
 export const argTypes = {
   background: {
     control: { type: 'background' },
-    defaultValue: 'var(--background-app)',
-    options: ['var(--background-app)'],
+    defaultValue: 'var(--color-background)',
+    options: ['var(--color-background)'],
   },
 };
