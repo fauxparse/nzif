@@ -8,6 +8,7 @@ import '@formatjs/intl-numberformat/locale-data/en';
 import '@formatjs/intl-numberformat/polyfill';
 import { ConfirmationModalProvider } from '@/components/organisms/ConfirmationModal';
 import { routeTree } from '@/routeTree.gen';
+import { ThemeProvider } from '@/services/Themes';
 import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
@@ -20,7 +21,6 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 import '@radix-ui/themes/styles.css';
 import '@/styles/new/application.css';
-import { ThemeProvider } from '@/services/Themes';
 
 LuxonSettings.defaultZone = 'Pacific/Auckland';
 dayjs.extend(customParseFormat);

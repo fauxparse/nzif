@@ -1,0 +1,14 @@
+.popover {
+  width: 22rem;
+  text-wrap: balance;
+
+  &:has(.arrow) {
+    overflow: visible;
+  }
+}
+
+.arrow {
+  z-index: -1;
+  filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.1));
+  fill: var(--color-background);
+}
