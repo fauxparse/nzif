@@ -1,0 +1,51 @@
+.day {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: full-bleed;
+
+  &:last-of-type {
+    padding-block-end: var(--space-9);
+  }
+
+  .dayHeader {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-index-sticky);
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: full-bleed;
+    background-color: var(--background-translucent);
+    backdrop-filter: blur(6px);
+  }
+
+  .activities {
+    grid-column: main;
+  }
+}
+
+.card {
+  display: grid;
+  grid-template-rows: auto 1fr auto minmax(1.5rem, min-content);
+  grid-template-columns: 1fr;
+  gap: var(--space-2);
+}
+
+.topSection {
+  position: relative;
+}
+
+.badges {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+}
+
+.title {
+  display: block;
+  color: var(--gray-12);
+}
+
+.presenters {
+  display: block;
+  color: var(--gray-11);
+}
