@@ -11,17 +11,21 @@ type PlacenameProps = BadgeProps & {
 const USE_CITIES = new Set<City['country']>(['NZ', 'AU']);
 
 const Placename = ({ city, ...props }: PlacenameProps) => {
-  const { showTraditionalNames } = usePlacenames();
+  const { showTraditionalNames, showPopup } = usePlacenames();
 
-  const displayName = USE_CITIES.has(city.country)
+  const showCity = USE_CITIES.has(city.country) || city.traditionalNames.length;
+
+  const displayName = showCity
     ? (showTraditionalNames && city.traditionalNames[0]) || city.name
     : getName(city.country);
 
   return displayName ? (
     <Badge asChild radius="full" size="1">
-      <Flex align="center" pr="3">
-        <LocationIcon variant="filled" size="1" />
-        <Text size="2">{displayName}</Text>
+      <Flex asChild align="center" pr="3">
+        <button type="button" onClick={(e) => showPopup({ city, anchor: e.currentTarget })}>
+          <LocationIcon variant="filled" size="1" />
+          <Text size="2">{displayName}</Text>
+        </button>
       </Flex>
     </Badge>
   ) : null;

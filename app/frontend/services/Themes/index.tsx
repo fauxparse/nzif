@@ -15,7 +15,6 @@ export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
         accentColor="crimson"
         grayColor="mauve"
         panelBackground="solid"
-        radius="small"
       >
         <Helmet>
           <body data-theme={isDarkMode ? 'dark' : 'light'} />
