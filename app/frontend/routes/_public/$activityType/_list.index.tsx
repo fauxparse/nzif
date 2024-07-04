@@ -1,29 +1,27 @@
 import { ActivityList } from '@/components/organisms/ActivityList';
 import { ActivityCardActivity } from '@/components/organisms/ActivityList/ActivityCard';
-import { ActivitiesQuery, ActivityCardFragment } from '@/components/organisms/ActivityList/queries';
+import { ActivitiesQuery } from '@/components/organisms/ActivityList/queries';
 import { useDummyActivities } from '@/components/organisms/ActivityList/useDummyActivities';
-import { readFragment } from '@/graphql';
+import { ActivityType } from '@/graphql/types';
 import { useQuery } from '@apollo/client';
-import { createFileRoute, useMatch } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { useMemo } from 'react';
 
-import './$activityType.css';
+export const Component: React.FC<{ activityType: ActivityType }> = ({ activityType }) => {
+  const { festival } = Route.useRouteContext();
 
-export const Route = createFileRoute('/_public/$activityType/_list/')({
-  component: () => {
-    const { festival } = Route.useRouteContext();
+  const dummyActivities = useDummyActivities(festival, activityType);
 
-    const { activityType } = useMatch({ from: '/_public/$activityType/_list/' }).params;
+  const { loading, data } = useQuery(ActivitiesQuery, {
+    variables: { activityType },
+  });
 
-    const dummyActivities = useDummyActivities(festival, activityType);
+  const activities = useMemo<ActivityCardActivity[]>(() => {
+    if (loading || !data) return dummyActivities;
+    return data.festival.activities as ActivityCardActivity[];
+  }, [loading, data]);
 
-    const { loading, data } = useQuery(ActivitiesQuery, { variables: { activityType } });
+  return <ActivityList type={activityType} loading={loading} activities={activities} />;
+};
 
-    const activities = useMemo<ActivityCardActivity[]>(() => {
-      if (loading || !data) return dummyActivities;
-      return readFragment(ActivityCardFragment, data.festival.activities) as ActivityCardActivity[];
-    }, [loading, data]);
-
-    return <ActivityList type={activityType} loading={loading} activities={activities} />;
-  },
-});
+export const Route = createFileRoute('/_public/$activityType/_list/')({});

@@ -1,11 +1,10 @@
 import Skeleton from '@/components/helpers/Skeleton';
 import { ActivityType } from '@/graphql/types';
-import { DateTime } from 'luxon';
+import { Box, Flex, Grid, Text } from '@radix-ui/themes';
 import ActivityCard, { ActivityCardActivity } from './ActivityCard';
 import { useActivityGroups } from './useActivityGroups';
 
-import './ActivityList.css';
-import { Grid } from '@radix-ui/themes';
+import classes from './ActivityList.module.css';
 
 type ActivityListProps = {
   type: ActivityType;
@@ -25,26 +24,34 @@ export const ActivityList: React.FC<ActivityListProps> = ({
   return (
     <>
       {days.map(([date, activities]) => (
-        <section key={date.toISO()} className="activity-list__day">
-          <div className="activity-list__day-header">
-            <div className="activity-list__date">
-              {loading ? (
-                <Skeleton height="1em" width="7em" />
-              ) : (
-                date.toLocaleString(DateTime.DATE_FULL)
+        <section key={date.toISO()} className={classes.day}>
+          <Box className={classes.dayHeader}>
+            <Flex
+              pt={{ initial: '3', sm: '6' }}
+              pb="3"
+              gridColumn="main"
+              justify="between"
+              direction={{ initial: 'column', sm: 'row' }}
+            >
+              <Text size="5" weight="medium">
+                {loading ? <Skeleton height="1em" width="7em" /> : date.toFormat('EEEE, d MMMM')}
+              </Text>
+              {endTime && (
+                <Text size={{ initial: '4', sm: '5' }} color="gray">
+                  {loading ? (
+                    <Skeleton height="1em" width="7em" />
+                  ) : (
+                    `${date.toFormat('h:mma')}–${endTime.toFormat('h:mma')}`
+                  )}
+                </Text>
               )}
-            </div>
-            {endTime && (
-              <div className="activity-list__time">
-                {loading ? (
-                  <Skeleton height="1em" width="7em" />
-                ) : (
-                  `${date.toFormat('h:mma')}–${endTime.toFormat('h:mma')}`
-                )}
-              </div>
-            )}
-          </div>
-          <Grid columns={{ initial: '1', xs: '2', sm: '3', md: '4', lg: '4' }} gap="4">
+            </Flex>
+          </Box>
+          <Grid
+            className={classes.activities}
+            columns={{ initial: '1', xs: '2', sm: '3', md: '4', lg: '4' }}
+            gap="4"
+          >
             {activities.map(({ activity }) => (
               <ActivityCard key={activity.id} activity={activity} loading={loading} />
             ))}

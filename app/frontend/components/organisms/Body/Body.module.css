@@ -4,7 +4,7 @@
   container-name: body;
   container-type: inline-size;
 
-  > section {
+  :where(> section) {
     grid-column: main;
   }
 }

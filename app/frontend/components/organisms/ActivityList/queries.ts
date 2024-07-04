@@ -1,7 +1,7 @@
 import { graphql } from '@/graphql';
 
 export const ActivityCardPresenterFragment = graphql(`
-  fragment ActivityCardPresenter on Person {
+  fragment ActivityCardPresenter on Person @_unmask {
     id
     name
     city {
@@ -14,7 +14,7 @@ export const ActivityCardPresenterFragment = graphql(`
 `);
 
 export const ActivityCardPictureFragment = graphql(`
-  fragment ActivityCardPicture on ActivityPicture {
+  fragment ActivityCardPicture on ActivityPicture @_unmask {
     id
     medium
     blurhash
@@ -23,7 +23,7 @@ export const ActivityCardPictureFragment = graphql(`
 
 export const ActivityCardFragment = graphql(
   `
-  fragment ActivityCard on Activity {
+  fragment ActivityCard on Activity @_unmask {
     id
     name
     type
