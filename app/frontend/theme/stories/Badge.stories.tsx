@@ -1,41 +1,22 @@
 import CloseIcon from '@/icons/CloseIcon';
-import { icon, namedIcon } from '@ladle/helpers/icons';
+import { color } from '@ladle/helpers/color';
 import type { Story, StoryDefault } from '@ladle/react';
-import { ActionIcon, Badge, BadgeProps } from '@mantine/core';
+import { Badge, BadgeProps, IconButton } from '@radix-ui/themes';
 
-type BadgeStoryProps = Pick<BadgeProps, 'size' | 'variant' | 'radius' | 'circle'> & {
+type BadgeStoryProps = Pick<BadgeProps, 'size' | 'variant' | 'color' | 'radius'> & {
   close: boolean;
-  color: string;
   label: string;
-  leftSection: string;
-  rightSection: string;
+  icon: string;
 };
 
-const BadgeStory: Story<BadgeStoryProps> = ({
-  close,
-  color,
-  label,
-  leftSection,
-  rightSection,
-  size,
-  ...props
-}) => (
-  <Badge
-    size={size}
-    data-color={color}
-    leftSection={namedIcon(leftSection)}
-    rightSection={
-      close ? (
-        <ActionIcon size={`compact-${size}`} data-color={color} variant="transparent">
-          <CloseIcon />
-        </ActionIcon>
-      ) : (
-        namedIcon(rightSection)
-      )
-    }
-    {...props}
-  >
+const BadgeStory: Story<BadgeStoryProps> = ({ close, label, icon, size, ...props }) => (
+  <Badge size={size} {...props}>
     {label}
+    {close && (
+      <IconButton variant="solid" size="1">
+        <CloseIcon />
+      </IconButton>
+    )}
   </Badge>
 );
 
@@ -44,50 +25,37 @@ export { BadgeStory as Badge };
 export default {
   title: 'Atoms',
   args: {
-    circle: false,
     close: false,
     color: 'primary',
     label: 'Badge text',
-    radius: 'xl',
+    radius: 'full',
     size: 'md',
     variant: 'default',
   },
   argTypes: {
-    circle: {
-      control: {
-        type: 'boolean',
-      },
-    },
     close: {
       control: {
         type: 'boolean',
       },
     },
-    color: {
-      control: {
-        type: 'select',
-      },
-      options: ['neutral', 'primary', 'cyan', 'magenta', 'yellow'],
-    },
-    leftSection: icon,
+    color,
     radius: {
       control: {
         type: 'select',
       },
-      options: ['xs', 'sm', 'md', 'lg', 'xl'],
+      options: ['none', 'small', 'medium', 'large', 'full'],
     },
-    rightSection: icon,
     size: {
       control: {
         type: 'select',
       },
-      options: ['xs', 'sm', 'md', 'lg', 'xl'],
+      options: ['1', '2', '3'],
     },
     variant: {
       control: {
         type: 'select',
       },
-      options: ['default', 'filled', 'light', 'outline', 'dot', 'transparent', 'white'],
+      options: ['solid', 'soft', 'surface', 'outline'],
     },
   },
 } satisfies StoryDefault;

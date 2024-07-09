@@ -36,7 +36,7 @@
       }
     ]
   },
-  "include": ["./app/frontend", "./config/roles.yml", "./vite-env.d.ts", ".ladle"],
+  "include": ["./app/frontend", "./config/roles.yml", "./vite-env.d.ts", ".ladle/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "ts-node": {
     "esm": true,
