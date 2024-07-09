@@ -1,43 +1,31 @@
-import { theme } from '@/theme';
-import { GlobalProvider, useLadleContext } from '@ladle/react';
-import { MantineProvider, useMantineColorScheme } from '@mantine/core';
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { ThemeProvider } from '@/services/Themes';
+import { GlobalProvider } from '@ladle/react';
+import { HelmetProvider } from 'react-helmet-async';
+// import { PropsWithChildren, useEffect } from 'react';
 
-import '@mantine/core/styles.css';
-import '@mantine/dates/styles.css';
-import '@mantine/notifications/styles.css';
+import '@radix-ui/themes/styles.css';
 import '@/styles/new/application.css';
 
-const getColorSchemeFromDocument = () =>
-  (document.documentElement.getAttribute('data-theme') || 'auto') as 'auto' | 'light' | 'dark';
+// const getColorSchemeFromDocument = () =>
+//   (document.documentElement.getAttribute('data-theme') || 'auto') as 'auto' | 'light' | 'dark';
 
-export const Provider: GlobalProvider = ({ children }) => {
-  const [defaultColorScheme] = useState(getColorSchemeFromDocument);
+export const Provider: GlobalProvider = ({ children }) => (
+  <HelmetProvider>
+    <ThemeProvider>{children}</ThemeProvider>
+  </HelmetProvider>
+);
 
-  return (
-    <MantineProvider theme={theme} defaultColorScheme={defaultColorScheme}>
-      <ThemeDetector>{children}</ThemeDetector>
-    </MantineProvider>
-  );
-};
+// const ThemeDetector: React.FC<PropsWithChildren> = ({ children }) => {
+//   const {
+//     globalState: { theme },
+//   } = useLadleContext();
 
-const ThemeDetector: React.FC<PropsWithChildren> = ({ children }) => {
-  const { setColorScheme } = useMantineColorScheme();
+//   useEffect(() => {
+//     document.body.setAttribute('data-theme', theme);
+//   }, [theme]);
 
-  const {
-    globalState: { theme },
-  } = useLadleContext();
-
-  useEffect(() => {
-    setColorScheme(theme);
-  }, [theme]);
-
-  useEffect(() => {
-    document.body.setAttribute('data-theme', theme);
-  }, [theme]);
-
-  return <>{children}</>;
-};
+//   return <>{children}</>;
+// };
 
 export const argTypes = {
   background: {
