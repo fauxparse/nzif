@@ -25,9 +25,11 @@
   margin: 0;
   padding: var(--action-list-item-padding-y) var(--action-list-item-padding-x) var(--action-list-item-padding-y) var(--space-1);
   border-radius: var(--radius-small);
+  background-color: transparent;
   color: var(--action-list-item-color);
   font-size: var(--font-size-medium);
   line-height: var(--line-height-medium);
+  text-align: start;
   text-decoration: none;
 
   &:where(button, a) {

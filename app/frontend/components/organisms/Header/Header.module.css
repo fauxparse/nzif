@@ -92,6 +92,9 @@
 
 .tabs {
   /* grid-area: tabs; */
+  ul {
+    box-shadow: none;
+  }
 }
 
 .breadcrumbs {

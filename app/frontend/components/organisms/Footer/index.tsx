@@ -1,7 +1,6 @@
 import { ActionList } from '@/components/molecules/ActionList';
 import { Page, useFooterLinksQuery } from '@/contentful/types';
 import ExternalLinkIcon from '@/icons/ExternalLinkIcon';
-import ThemeIcon from '@/icons/ThemeIcon';
 import { useDarkMode } from '@/services/Themes';
 import { Grid, Theme } from '@radix-ui/themes';
 import { Link } from '@tanstack/react-router';
@@ -39,49 +38,41 @@ const Footer: React.FC<FooterProps> = ({ className, ...props }) => {
           <section>
             <ActionList variant="subtle">
               {links.map((link) => (
-                <ActionList.Item
-                  key={link.sys.id}
-                  as={Link}
-                  to="/about/$slug"
-                  params={{ slug: link.slug }}
-                  icon={<PageIcon />}
-                >
-                  {link.title}
+                <ActionList.Item key={link.sys.id} asChild>
+                  <Link to="/about/$slug" params={{ slug: link.slug }}>
+                    <PageIcon />
+                    <span>{link.title}</span>
+                  </Link>
                 </ActionList.Item>
               ))}
             </ActionList>
           </section>
           <section>
             <ActionList variant="subtle">
-              <ActionList.Item
-                as="a"
-                href="https://www.facebook.com/groups/NZIFGreenRoom"
-                target="_blank"
-                rel="noopener noreferrer"
-                icon={<ExternalLinkIcon />}
-              >
-                NZIF Green Room
+              <ActionList.Item asChild>
+                <a
+                  href="https://www.facebook.com/groups/NZIFGreenRoom"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLinkIcon />
+                  NZIF Green Room
+                </a>
               </ActionList.Item>
-              <ActionList.Item
-                as="a"
-                href="https://improvfest.printmighty.co.nz/"
-                target="_blank"
-                rel="noopener noreferrer"
-                icon={<ExternalLinkIcon />}
-              >
-                Get merch
+              <ActionList.Item asChild>
+                <a
+                  href="https://improvfest.printmighty.co.nz/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLinkIcon />
+                  Get merch
+                </a>
               </ActionList.Item>
             </ActionList>
           </section>
           <section>
-            <ActionList variant="subtle">
-              <ActionList.Item as="div" color="neutral" icon={<span>&copy;</span>}>
-                2024 New Zealand Improv Trust
-              </ActionList.Item>
-              <ActionList.Item variant="ghost" icon={<ThemeIcon />} onClick={toggle}>
-                Switch theme
-              </ActionList.Item>
-            </ActionList>
+            <p>2024 New Zealand Improv Trust</p>
           </section>
         </Grid>
       </motion.footer>

@@ -1,0 +1,51 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--color-overlay);
+}
+
+.content {
+  --drawer-padding-x: var(--space-6);
+  --drawer-padding-y: var(--space-6);
+  --inset-padding-top: var(--drawer-padding-y);
+  --inset-padding-right: var(--drawer-padding-x);
+  --inset-padding-bottom: var(--drawer-padding-y);
+  --inset-padding-left: var(--drawer-padding-x);
+
+  position: fixed;
+  display: flex;
+  overflow: auto;
+  padding: var(--drawer-padding-y) var(--drawer-padding-x);
+  background-color: var(--color-panel);
+  box-shadow: var(--shadow-6);
+
+  &[data-origin="top"],
+  &[data-origin="bottom"] {
+    right: 0;
+    left: 0;
+    flex-direction: row;
+  }
+
+  &[data-origin="right"],
+  &[data-origin="left"] {
+    top: 0;
+    bottom: 0;
+    flex-direction: column;
+  }
+
+  &[data-origin="top"] {
+    top: 0;
+  }
+
+  &[data-origin="right"] {
+    right: 0;
+  }
+
+  &[data-origin="bottom"] {
+    bottom: 0;
+  }
+
+  &[data-origin="left"] {
+    left: 0;
+  }
+}
