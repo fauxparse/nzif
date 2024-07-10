@@ -1,4 +1,4 @@
-import { Box, BoxProps } from '@radix-ui/themes';
+import { Box, BoxProps, Theme, ThemeProps } from '@radix-ui/themes';
 import clsx from 'clsx';
 import React, { PropsWithChildren } from 'react';
 import { ActionListItem } from './Item';
@@ -7,6 +7,7 @@ import classes from './ActionList.module.css';
 
 type ActionListProps = PropsWithChildren<BoxProps> & {
   variant?: 'default' | 'subtle';
+  color?: ThemeProps['accentColor'];
 };
 
 type ActionList = React.FC<ActionListProps> & {
@@ -14,11 +15,18 @@ type ActionList = React.FC<ActionListProps> & {
 };
 
 export const ActionList: ActionList = Object.assign(
-  ({ className, variant = 'default', children, ...props }: ActionListProps) => {
+  ({ className, variant = 'default', color = 'gray', children, ...props }: ActionListProps) => {
     return (
-      <Box className={clsx(classes.list, className)} data-variant={variant} {...props}>
-        {children}
-      </Box>
+      <Theme asChild accentColor={color}>
+        <Box
+          className={clsx(classes.list, className)}
+          role="menu"
+          data-variant={variant}
+          {...props}
+        >
+          {children}
+        </Box>
+      </Theme>
     );
   },
   {

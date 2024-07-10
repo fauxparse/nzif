@@ -24,3 +24,38 @@
     }
   }
 }
+
+.drawer {
+  &[data-origin] {
+    --drawer-padding-x: 2.75rem;
+  }
+
+  &::after {
+    content: "";
+    flex: 1;
+  }
+
+  [data-is-root-theme] {
+    overflow: visible;
+  }
+}
+
+.items {
+  align-items: stretch;
+  padding-inline: var(--space-2);
+}
+
+.sectionHeading {
+  margin-bottom: var(--space-2);
+  color: var(--gray-10);
+  font-weight: normal;
+  font-size: var(--font-size-2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+}
