@@ -54,5 +54,5 @@ body {
 }
 
 .rt-BaseDialogOverlay {
-  z-index: var(--z-index-modal);
+  /* z-index: var(--z-index-modal); */
 }

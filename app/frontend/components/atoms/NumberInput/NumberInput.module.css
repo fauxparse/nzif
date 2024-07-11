@@ -1,0 +1,33 @@
+.root {
+  input {
+    text-align: center;
+  }
+}
+
+.slot {
+  align-items: stretch;
+  padding: 0;
+
+  &[data-side="left"] {
+    border-right: 1px solid var(--gray-a7);
+  }
+
+  &[data-side="right"] {
+    border-left: 1px solid var(--gray-a7);
+  }
+}
+
+.button {
+  width: auto;
+  height: auto;
+  background-color: transparent;
+  color: var(--gray-11);
+  aspect-ratio: 1;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: var(--gray-12);
+  }
+
+}

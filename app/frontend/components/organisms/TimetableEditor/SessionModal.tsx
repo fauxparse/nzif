@@ -1,4 +1,4 @@
-import { Modal, ModalProps } from '@/components/molecules/Modal';
+import { ACTIVITY_TYPES } from '@/constants/activityTypes';
 import {
   ActivityAttributes,
   ActivityType,
@@ -6,37 +6,36 @@ import {
   SessionAttributes,
 } from '@/graphql/types';
 import useFestival from '@/hooks/useFestival';
-import CalendarIcon from '@/icons/CalendarIcon';
-import ClockIcon from '@/icons/ClockIcon';
-import LocationIcon from '@/icons/LocationIcon';
-import UsersIcon from '@/icons/UsersIcon';
+import CloseIcon from '@/icons/CloseIcon';
 import { FetchResult } from '@apollo/client';
+import { Alert, Checkbox, Collapse } from '@mantine/core';
+import { DialogProps } from '@radix-ui/react-dialog';
 import {
-  Alert,
   Box,
   Button,
-  Checkbox,
-  Collapse,
-  Group,
-  NumberInput,
+  Dialog,
+  Flex,
+  Grid,
   SegmentedControl,
   Select,
   Text,
-} from '@mantine/core';
-import { DatePickerInput, TimeInput } from '@mantine/dates';
+  VisuallyHidden,
+} from '@radix-ui/themes';
 import { useForm } from '@tanstack/react-form';
 import { ResultOf } from 'gql.tada';
 import { range } from 'lodash-es';
 import { DateTime } from 'luxon';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useConfirmation } from '../ConfirmationModal';
-import { ActivityPicker } from './ActivityPicker';
 import { CreateSessionsMutation, DestroySessionMutation, UpdateSessionMutation } from './queries';
 import { Activity, Session } from './types';
 
-import './SessionModal.css';
+import { NumberInput } from '@/components/atoms/NumberInput';
+import { TimeInput } from '@/components/atoms/TimeInput';
+import LocationIcon from '@/icons/LocationIcon';
+import classes from './SessionModal.module.css';
 
-type SessionModalProps = ModalProps & {
+type SessionModalProps = DialogProps & {
   session: Session;
   venues: NonNullable<Session['venue']>[];
   onCreateSessions: (
@@ -64,7 +63,7 @@ export const SessionModal: React.FC<SessionModalProps> = ({
   onCreateActivity,
   onUpdateSession,
   onDeleteSession,
-  onClose,
+  onOpenChange,
   ...props
 }) => {
   const [session, setSession] = useState(initial);
@@ -76,6 +75,8 @@ export const SessionModal: React.FC<SessionModalProps> = ({
   useEffect(() => {
     if (initial) setSession(initial);
   }, [initial]);
+
+  const onClose = () => onOpenChange?.(false);
 
   const createSessions = useCallback(
     (value: SessionWithMultipleVenues) => {
@@ -172,243 +173,298 @@ export const SessionModal: React.FC<SessionModalProps> = ({
   }, [session.id, onDeleteSession, onClose, confirm]);
 
   return (
-    <Modal
-      className="session-modal"
-      title={`${!session.id ? 'New' : 'Edit'} session`}
-      onClose={onClose}
-      {...props}
-    >
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          form.handleSubmit();
-        }}
-      >
-        <div className="session-modal__activity-type">
-          <form.Field name="activityType">
-            {(field) => (
-              <SegmentedControl
-                fullWidth
-                value={field.state.value}
-                data={[
-                  ActivityType.Workshop,
-                  ActivityType.Show,
-                  ActivityType.SocialEvent,
-                  ActivityType.Conference,
-                ].map((type) => ({
-                  label: type.replace(/Event$/, ''),
-                  value: type,
-                  disabled: !!activity && activity.type !== type,
-                }))}
-                onChange={(value) => field.handleChange(value as ActivityType)}
-              />
-            )}
-          </form.Field>
-        </div>
-
-        <Collapse in={sessionCount === 1 && !formErrorMap.onChange}>
-          <form.Field name="activity">
-            {(field) => (
-              <ActivityPicker
-                value={field.state.value}
-                activityType={activityType}
-                startsAt={startsAt}
-                onAddActivity={onCreateActivity}
-                onChange={field.handleChange}
-              />
-            )}
-          </form.Field>
-        </Collapse>
-
-        <Collapse in={!!formErrorMap.onChange}>
-          <Alert color="red" className="session-modal__error">
-            {formErrorMap.onChange}
-          </Alert>
-        </Collapse>
-
-        <div className="session-modal__date-and-time">
-          <div className="session-modal__date">
-            <form.Field name="startsAt">
+    <Dialog.Root onOpenChange={onOpenChange} {...props}>
+      <Dialog.Content>
+        <Dialog.Title>{session.id ? 'Edit session' : 'Add session'}</Dialog.Title>
+        <VisuallyHidden>
+          <Dialog.Description>Session details</Dialog.Description>
+        </VisuallyHidden>
+        <Box asChild className={classes.close}>
+          <Dialog.Close>
+            <CloseIcon />
+          </Dialog.Close>
+        </Box>
+        <Grid asChild gap="4" className={classes.form}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              form.handleSubmit();
+            }}
+          >
+            <form.Field name="activityType">
               {(field) => (
-                <DatePickerInput
-                  value={field.state.value.toJSDate()}
-                  valueFormat="dddd, D MMM"
-                  minDate={festival.startDate.toJSDate()}
-                  maxDate={festival.endDate.toJSDate()}
-                  leftSection={<CalendarIcon />}
-                  onChange={(value) => {
-                    if (value) {
-                      const d = DateTime.fromJSDate(value);
-                      const startsAt = field
-                        .getValue()
-                        .set({ year: d.year, month: d.month, day: d.day });
+                <SegmentedControl.Root
+                  className={classes.full}
+                  size="3"
+                  value={field.state.value}
+                  onValueChange={(value) => field.handleChange(value as ActivityType)}
+                  style={{ pointerEvents: session.activity ? 'none' : 'auto' }}
+                >
+                  {Object.values(ACTIVITY_TYPES).map(({ type, label }) => (
+                    <SegmentedControl.Item key={type} value={type}>
+                      {label}
+                    </SegmentedControl.Item>
+                  ))}
+                </SegmentedControl.Root>
+              )}
+            </form.Field>
 
-                      if (session.id || !multipleDates) {
-                        const endsAt = form.getFieldValue('endsAt');
-                        const newEndDate = startsAt.set({
-                          hour: endsAt.hour,
-                          minute: endsAt.minute,
-                        });
-                        form.setFieldValue('endsAt', startsAt.plus({ years: 1 }));
-                        field.handleChange(startsAt);
-                        form.setFieldValue('endsAt', newEndDate, { touch: true });
-                      } else {
-                        field.handleChange(startsAt);
-                      }
-                    }
-                  }}
+            {/* <Collapse in={sessionCount === 1 && !formErrorMap.onChange}>
+            <form.Field name="activity">
+              {(field) => (
+                <ActivityPicker
+                  value={field.state.value}
+                  activityType={activityType}
+                  startsAt={startsAt}
+                  onAddActivity={onCreateActivity}
+                  onChange={field.handleChange}
                 />
               )}
             </form.Field>
-            {!!session && multipleDates && (
-              <form.Subscribe<DateTime> selector={(state) => state.values.startsAt}>
-                {(minDate) => (
+          </Collapse> */}
+
+            <Collapse in={!!formErrorMap.onChange}>
+              <Alert color="red" className="session-modal__error">
+                {formErrorMap.onChange}
+              </Alert>
+            </Collapse>
+
+            <div className={classes.dateAndTime}>
+              <div className={classes.date}>
+                <form.Field name="startsAt">
+                  {(field) => (
+                    <DatePicker
+                      value={field.state.value}
+                      onChange={(value) => {
+                        if (value) {
+                          const startsAt = field
+                            .getValue()
+                            .set({ year: value.year, month: value.month, day: value.day });
+
+                          if (session.id || !multipleDates) {
+                            const endsAt = form.getFieldValue('endsAt');
+                            const newEndDate = startsAt.set({
+                              hour: endsAt.hour,
+                              minute: endsAt.minute,
+                            });
+                            form.setFieldValue('endsAt', startsAt.plus({ years: 1 }));
+                            field.handleChange(startsAt);
+                            form.setFieldValue('endsAt', newEndDate, { touch: true });
+                          } else {
+                            field.handleChange(startsAt);
+                          }
+                        }
+                      }}
+                    />
+                  )}
+                </form.Field>
+                {!!session && multipleDates && (
+                  <form.Subscribe<DateTime> selector={(state) => state.values.startsAt}>
+                    {(minDate) => (
+                      <>
+                        <Text>to</Text>
+                        <form.Field name="endsAt">
+                          {(field) => (
+                            <DatePicker
+                              value={field.state.value}
+                              onChange={(value) => {
+                                if (value) {
+                                  field.handleChange(
+                                    field
+                                      .getValue()
+                                      .set({ year: value.year, month: value.month, day: value.day })
+                                  );
+                                }
+                              }}
+                            />
+                          )}
+                        </form.Field>
+                      </>
+                    )}
+                  </form.Subscribe>
+                )}
+              </div>
+              <div className={classes.time}>
+                <form.Field name="startsAt">
+                  {(field) => (
+                    <TimeInput
+                      value={field.state.value}
+                      onValueChange={(value) => {
+                        if (value) {
+                          const { hour, minute } = value;
+                          field.handleChange(field.getValue().set({ hour, minute }));
+                          // } else {
+                          //   field.handleChange(null);
+                        }
+                      }}
+                    />
+                    // <TimeInput
+                    //   withSeconds={false}
+                    //   value={field.state.value.toFormat('HH:mm')}
+                    //   leftSection={<ClockIcon />}
+                    //   onChange={(e) => {
+                    //     const t = DateTime.fromFormat(e.currentTarget.value, 'HH:mm');
+                    //     field.handleChange(
+                    //       field.getValue().set({ hour: t.hour, minute: t.minute })
+                    //     );
+                    //   }}
+                    // />
+                  )}
+                </form.Field>
+                <Text>to</Text>
+                <form.Field name="endsAt">
+                  {(field) => (
+                    <TimeInput
+                      value={field.state.value}
+                      onValueChange={(value) => {
+                        if (value) {
+                          const { hour, minute } = value;
+                          field.handleChange(field.getValue().set({ hour, minute }));
+                        }
+                      }}
+                    />
+                  )}
+                </form.Field>
+              </div>
+            </div>
+
+            {session.id ? (
+              <form.Field name="venue">
+                {(field) => (
+                  <Select.Root
+                    size="3"
+                    value={field.state.value?.id}
+                    onValueChange={(id) =>
+                      field.handleChange(venues.find((v) => String(v.id) === id) || null)
+                    }
+                  >
+                    <Select.Trigger>
+                      <Flex align="center" gap="2">
+                        <LocationIcon />
+                        {field.state.value?.room || field.state.value?.building || 'Select venue'}
+                      </Flex>
+                    </Select.Trigger>
+                    <Select.Content>
+                      {venues.map((v) => (
+                        <Select.Item key={v.id} value={String(v.id)}>
+                          {v.room || v.building}
+                        </Select.Item>
+                      ))}
+                    </Select.Content>
+                  </Select.Root>
+                )}
+              </form.Field>
+            ) : (
+              <form.Field name="venues">
+                {(field) => (
                   <>
-                    <Text>to</Text>
-                    <form.Field name="endsAt">
-                      {(field) => (
-                        <DatePickerInput
-                          value={field.state.value.toJSDate()}
-                          valueFormat="dddd, D MMM"
-                          minDate={minDate.toJSDate()}
-                          maxDate={festival.endDate.plus({ days: 1 }).toJSDate()}
-                          leftSection={<CalendarIcon />}
-                          onChange={(value) => {
-                            if (value) {
-                              const t = DateTime.fromJSDate(value);
-                              field.handleChange(
-                                field.getValue().set({ year: t.year, month: t.month, day: t.day })
-                              );
+                    {venues.map((venue) => (
+                      <Checkbox
+                        key={venue.id}
+                        checked={field.state.value.includes(String(venue.id))}
+                        onChange={(e) => {
+                          if (e.currentTarget.checked) {
+                            field.handleChange([...field.state.value, String(venue.id)]);
+                          } else {
+                            field.handleChange(
+                              field.state.value.filter((v) => v !== String(venue.id))
+                            );
+                          }
+                        }}
+                        label={venue.room || venue.building}
+                      />
+                    ))}
+                  </>
+                )}
+              </form.Field>
+            )}
+            <form.Subscribe<ActivityType> selector={(state) => state.values.activityType}>
+              {(activityType) => (
+                <Collapse className={classes.full} in={activityType === ActivityType.Workshop}>
+                  <form.Field name="capacity">
+                    {(field) => (
+                      <Flex align="center" gap="2">
+                        <NumberInput
+                          className={classes.number}
+                          size="3"
+                          value={field.state.value ?? null}
+                          min={0}
+                          max={100}
+                          onValueChange={(value: number | null) => {
+                            if (!value && value !== 0) {
+                              field.handleChange(null);
+                            } else {
+                              field.handleChange(value);
                             }
                           }}
                         />
-                      )}
-                    </form.Field>
-                  </>
-                )}
-              </form.Subscribe>
-            )}
-          </div>
-          <div className="session-modal__time">
-            <form.Field name="startsAt">
-              {(field) => (
-                <TimeInput
-                  withSeconds={false}
-                  value={field.state.value.toFormat('HH:mm')}
-                  leftSection={<ClockIcon />}
-                  onChange={(e) => {
-                    const t = DateTime.fromFormat(e.currentTarget.value, 'HH:mm');
-                    field.handleChange(field.getValue().set({ hour: t.hour, minute: t.minute }));
-                  }}
-                />
+                        <Text>participants max</Text>
+                      </Flex>
+                    )}
+                  </form.Field>
+                </Collapse>
               )}
-            </form.Field>
-            <Text>to</Text>
-            <form.Field name="endsAt">
-              {(field) => (
-                <TimeInput
-                  withSeconds={false}
-                  value={field.state.value.toFormat('HH:mm')}
-                  leftSection={<ClockIcon />}
-                  onChange={(e) => {
-                    const t = DateTime.fromFormat(e.currentTarget.value, 'HH:mm');
-                    field.handleChange(field.getValue().set({ hour: t.hour, minute: t.minute }));
-                  }}
-                />
+            </form.Subscribe>
+            <Flex className={classes.buttons} gap="4" justify="end" align="center">
+              {session.id ? (
+                <Button type="button" size="3" variant="outline" onClick={deleteClicked}>
+                  Delete
+                </Button>
+              ) : (
+                <Button type="button" size="3" onClick={onClose}>
+                  Cancel
+                </Button>
               )}
-            </form.Field>
-          </div>
-        </div>
+              {session.id ? (
+                <Button
+                  variant="solid"
+                  size="3"
+                  type="submit"
+                  disabled={!isFormValid || !isFormDirty}
+                >
+                  Save session
+                </Button>
+              ) : (
+                <Button variant="solid" size="3" type="submit" disabled={!isFormValid}>
+                  {`Add ${sessionCount === 1 ? 'session' : `${sessionCount} sessions`}`}
+                </Button>
+              )}
+            </Flex>
+          </form>
+        </Grid>
+      </Dialog.Content>
+    </Dialog.Root>
+  );
+};
 
-        <div className="session-modal__venues">
-          {session.id ? (
-            <form.Field name="venue">
-              {(field) => (
-                <Select
-                  placeholder="Venue"
-                  searchable
-                  value={field.state.value ? String(field.state.value.id) : null}
-                  leftSection={<LocationIcon />}
-                  data={venues.map((v) => ({ label: v.room || v.building, value: String(v.id) }))}
-                  onChange={(id) =>
-                    field.handleChange(venues.find((v) => String(v.id) === id) || null)
-                  }
-                />
-              )}
-            </form.Field>
-          ) : (
-            <form.Field name="venues">
-              {(field) => (
-                <>
-                  {venues.map((venue) => (
-                    <Checkbox
-                      key={venue.id}
-                      checked={field.state.value.includes(String(venue.id))}
-                      onChange={(e) => {
-                        if (e.currentTarget.checked) {
-                          field.handleChange([...field.state.value, String(venue.id)]);
-                        } else {
-                          field.handleChange(
-                            field.state.value.filter((v) => v !== String(venue.id))
-                          );
-                        }
-                      }}
-                      label={venue.room || venue.building}
-                    />
-                  ))}
-                </>
-              )}
-            </form.Field>
-          )}
-        </div>
-        <form.Subscribe<ActivityType> selector={(state) => state.values.activityType}>
-          {(activityType) => (
-            <Collapse in={activityType === ActivityType.Workshop}>
-              <form.Field name="capacity">
-                {(field) => (
-                  <Box className="session-modal__participants">
-                    <NumberInput
-                      value={field.state.value ?? ''}
-                      min={0}
-                      max={100}
-                      leftSection={<UsersIcon />}
-                      onChange={(value: string | number | null) => {
-                        if (!value && value !== 0) {
-                          field.handleChange(null);
-                        } else {
-                          field.handleChange(parseInt(String(value), 10));
-                        }
-                      }}
-                    />
-                    <Text>participants max</Text>
-                  </Box>
-                )}
-              </form.Field>
-            </Collapse>
-          )}
-        </form.Subscribe>
-        <Group className="session-modal__buttons">
-          {session.id ? (
-            <Button type="button" variant="outline" onClick={deleteClicked}>
-              Delete
-            </Button>
-          ) : (
-            <Button type="button" onClick={onClose}>
-              Cancel
-            </Button>
-          )}
-          {session.id ? (
-            <Button variant="filled" type="submit" disabled={!isFormValid || !isFormDirty}>
-              Save session
-            </Button>
-          ) : (
-            <Button variant="filled" type="submit" disabled={!isFormValid}>
-              {`Add ${sessionCount === 1 ? 'session' : `${sessionCount} sessions`}`}
-            </Button>
-          )}
-        </Group>
-      </form>
-    </Modal>
+type DatePickerProps = {
+  value: DateTime | null;
+  onChange: (value: DateTime) => void;
+};
+
+const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
+  const { startDate, endDate } = useFestival();
+  const dates = useMemo(
+    () => range(endDate.diff(startDate, 'days').days + 1).map((days) => startDate.plus({ days })),
+    [startDate, endDate]
+  );
+
+  const valueChange = (date: string) => {
+    const newValue = DateTime.fromISO(date) || null;
+    onChange(newValue);
+  };
+
+  return (
+    <Select.Root size="3" value={value?.toISODate() || undefined} onValueChange={valueChange}>
+      <Select.Trigger />
+      <Select.Content>
+        {dates.map((date) => (
+          <Select.Item key={date.toISODate()} value={date.toISODate() || ''}>
+            {date.toFormat('cccc, d MMMM')}
+          </Select.Item>
+        ))}
+      </Select.Content>
+    </Select.Root>
   );
 };
