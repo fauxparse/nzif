@@ -1,0 +1,41 @@
+.close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+}
+
+.dateAndTime {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  gap: var(--space-4);
+}
+
+.date,
+.time {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  align-items: center;
+
+  > :first-child:last-of-type {
+    grid-column: 1 / -1;
+  }
+}
+
+.number {
+  min-width: 10rem;
+}
+
+.buttons {
+  grid-column: 1 / -1;
+}

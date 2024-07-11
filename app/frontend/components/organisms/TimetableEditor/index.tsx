@@ -174,10 +174,12 @@ export const TimetableEditor: React.FC<TimetableEditorProps> = ({
         <SessionModal
           session={editing}
           venues={data?.festival?.venues || []}
-          opened={opened}
-          onClose={() => {
-            close();
-            clearSelection();
+          open={opened}
+          onOpenChange={(isOpen) => {
+            if (!isOpen) {
+              close();
+              clearSelection();
+            }
           }}
           onCreateSessions={onCreateSessions}
           onCreateActivity={onCreateActivity}
