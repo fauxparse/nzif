@@ -1,3 +1,7 @@
+import { Checkbox } from '@/components/atoms/Checkbox';
+import { NumberInput } from '@/components/atoms/NumberInput';
+import { TimeInput } from '@/components/atoms/TimeInput';
+import { Collapsible } from '@/components/helpers/Collapsible';
 import { ACTIVITY_TYPES } from '@/constants/activityTypes';
 import {
   ActivityAttributes,
@@ -7,12 +11,13 @@ import {
 } from '@/graphql/types';
 import useFestival from '@/hooks/useFestival';
 import CloseIcon from '@/icons/CloseIcon';
+import LocationIcon from '@/icons/LocationIcon';
 import { FetchResult } from '@apollo/client';
-import { Alert, Checkbox, Collapse } from '@mantine/core';
 import { DialogProps } from '@radix-ui/react-dialog';
 import {
   Box,
   Button,
+  Callout,
   Dialog,
   Flex,
   Grid,
@@ -27,12 +32,11 @@ import { range } from 'lodash-es';
 import { DateTime } from 'luxon';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useConfirmation } from '../ConfirmationModal';
+import { ActivityPicker } from './ActivityPicker';
 import { CreateSessionsMutation, DestroySessionMutation, UpdateSessionMutation } from './queries';
 import { Activity, Session } from './types';
 
-import { NumberInput } from '@/components/atoms/NumberInput';
-import { TimeInput } from '@/components/atoms/TimeInput';
-import LocationIcon from '@/icons/LocationIcon';
+import WarningIcon from '@/icons/WarningIcon';
 import classes from './SessionModal.module.css';
 
 type SessionModalProps = DialogProps & {
@@ -210,25 +214,28 @@ export const SessionModal: React.FC<SessionModalProps> = ({
               )}
             </form.Field>
 
-            {/* <Collapse in={sessionCount === 1 && !formErrorMap.onChange}>
-            <form.Field name="activity">
-              {(field) => (
-                <ActivityPicker
-                  value={field.state.value}
-                  activityType={activityType}
-                  startsAt={startsAt}
-                  onAddActivity={onCreateActivity}
-                  onChange={field.handleChange}
-                />
-              )}
-            </form.Field>
-          </Collapse> */}
+            <Collapsible open={sessionCount === 1 && !formErrorMap.onChange}>
+              <form.Field name="activity">
+                {(field) => (
+                  <ActivityPicker
+                    value={field.state.value}
+                    activityType={activityType}
+                    startsAt={startsAt}
+                    onAddActivity={onCreateActivity}
+                    onChange={field.handleChange}
+                  />
+                )}
+              </form.Field>
+            </Collapsible>
 
-            <Collapse in={!!formErrorMap.onChange}>
-              <Alert color="red" className="session-modal__error">
-                {formErrorMap.onChange}
-              </Alert>
-            </Collapse>
+            <Collapsible open={!!formErrorMap.onChange} gridColumn="1 / -1">
+              <Callout.Root>
+                <Callout.Icon>
+                  <WarningIcon />
+                </Callout.Icon>
+                <Callout.Text>{formErrorMap.onChange}</Callout.Text>
+              </Callout.Root>
+            </Collapsible>
 
             <div className={classes.dateAndTime}>
               <div className={classes.date}>
@@ -358,30 +365,33 @@ export const SessionModal: React.FC<SessionModalProps> = ({
             ) : (
               <form.Field name="venues">
                 {(field) => (
-                  <>
+                  <Box gridColumn="1 / -1">
                     {venues.map((venue) => (
-                      <Checkbox
-                        key={venue.id}
-                        checked={field.state.value.includes(String(venue.id))}
-                        onChange={(e) => {
-                          if (e.currentTarget.checked) {
-                            field.handleChange([...field.state.value, String(venue.id)]);
-                          } else {
-                            field.handleChange(
-                              field.state.value.filter((v) => v !== String(venue.id))
-                            );
-                          }
-                        }}
-                        label={venue.room || venue.building}
-                      />
+                      <Flex asChild align="center" gap="2" key={venue.id}>
+                        <label>
+                          <Checkbox
+                            checked={field.state.value.includes(String(venue.id))}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                field.handleChange([...field.state.value, String(venue.id)]);
+                              } else {
+                                field.handleChange(
+                                  field.state.value.filter((v) => v !== String(venue.id))
+                                );
+                              }
+                            }}
+                          />
+                          <Text>{venue.room || venue.building}</Text>
+                        </label>
+                      </Flex>
                     ))}
-                  </>
+                  </Box>
                 )}
               </form.Field>
             )}
             <form.Subscribe<ActivityType> selector={(state) => state.values.activityType}>
               {(activityType) => (
-                <Collapse className={classes.full} in={activityType === ActivityType.Workshop}>
+                <Collapsible className={classes.full} open={activityType === ActivityType.Workshop}>
                   <form.Field name="capacity">
                     {(field) => (
                       <Flex align="center" gap="2">
@@ -403,7 +413,7 @@ export const SessionModal: React.FC<SessionModalProps> = ({
                       </Flex>
                     )}
                   </form.Field>
-                </Collapse>
+                </Collapsible>
               )}
             </form.Subscribe>
             <Flex className={classes.buttons} gap="4" justify="end" align="center">
