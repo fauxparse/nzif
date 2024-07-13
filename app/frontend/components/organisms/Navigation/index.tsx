@@ -1,5 +1,5 @@
 import NavigationMenu from '@/components/organisms/NavigationMenu';
-import Search from '@/components/organisms/Search';
+import { Search } from '@/components/organisms/Search';
 import useFestival from '@/hooks/useFestival';
 import { useDarkMode } from '@/services/Themes';
 import { Heading, Theme } from '@radix-ui/themes';

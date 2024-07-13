@@ -4,13 +4,20 @@ import PageIcon from '@/icons/PageIcon';
 import SearchIcon from '@/icons/SearchIcon';
 import UserIcon from '@/icons/UserIcon';
 import { useLazyQuery } from '@apollo/client';
-import { LinkProps, useNavigate } from '@tanstack/react-router';
+import { LinkProps, useNavigate as defaultUseNavigate } from '@tanstack/react-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { SearchQuery } from './queries';
 import { SearchResult } from './types';
 
-type UseSearchOptions = {
+export const useRealSearchResults = () =>
+  useLazyQuery(SearchQuery, {
+    fetchPolicy: 'network-only',
+  });
+
+export type UseSearchOptions = {
   maxResults?: number;
+  useSearchResults?: typeof useRealSearchResults;
+  useNavigate?: typeof defaultUseNavigate;
   onResultClick?: (result: MarkedUpSearchResult) => void;
 };
 
@@ -21,16 +28,21 @@ export type MarkedUpSearchResult = {
   icon: React.ReactNode;
 };
 
-export const useSearch = ({ maxResults = 5, onResultClick }: UseSearchOptions = {}) => {
+export const useSearch = ({
+  maxResults = 5,
+  onResultClick,
+  useSearchResults = useRealSearchResults,
+  useNavigate = defaultUseNavigate,
+}: UseSearchOptions = {}) => {
   const [query, setQuery] = useState('');
 
-  const [doSearch] = useLazyQuery(SearchQuery, {
-    fetchPolicy: 'network-only',
-  });
+  const [doSearch] = useSearchResults();
 
   const [results, setResults] = useState<MarkedUpSearchResult[]>([]);
 
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const [loading, setLoading] = useState(false);
 
   const timer = useRef<number | null>(null);
 
@@ -38,8 +50,11 @@ export const useSearch = ({ maxResults = 5, onResultClick }: UseSearchOptions = 
     if (!query) {
       setResults([]);
       setActiveIndex(0);
+      setLoading(false);
       return;
     }
+
+    setLoading(true);
 
     timer.current = window.setTimeout(() => {
       doSearch({ variables: { query: query.trim() } }).then(({ data }) => {
@@ -52,6 +67,7 @@ export const useSearch = ({ maxResults = 5, onResultClick }: UseSearchOptions = 
           }))
         );
         setActiveIndex(0);
+        setLoading(false);
       });
     }, 500);
 
@@ -104,6 +120,7 @@ export const useSearch = ({ maxResults = 5, onResultClick }: UseSearchOptions = 
     nextResult,
     selectActiveResult,
     resultClicked,
+    loading,
   };
 };
 
