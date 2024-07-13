@@ -1,7 +1,8 @@
+import { RealRouterContext } from '@/router';
 import { formatCity } from '@/util/formatCity';
 import { Text } from '@radix-ui/themes';
 import { Link, LinkProps } from '@tanstack/react-router';
-import React, { forwardRef, useEffect, useRef } from 'react';
+import React, { forwardRef, useContext, useEffect, useRef } from 'react';
 import Highlighter from 'react-highlight-words';
 import { mergeRefs } from 'react-merge-refs';
 import type { SearchResult } from './types';
@@ -27,9 +28,20 @@ export const Result = forwardRef<HTMLAnchorElement, SearchResultProps>(
       }
     }, [active]);
 
+    const { realRouter } = useContext(RealRouterContext);
+
+    const LinkComponent = realRouter ? Link : 'a';
+
     return (
-      <Link
-        {...link}
+      <LinkComponent
+        {...(realRouter
+          ? link
+          : {
+              href: link.to?.replaceAll(
+                /\$([^/]+)/g,
+                (_, match) => (link.params?.[match as keyof LinkProps['params']] || '') as string
+              ),
+            })}
         ref={mergeRefs([ref, ownRef])}
         className={classes.result}
         id={`${result.id}`}
@@ -50,7 +62,7 @@ export const Result = forwardRef<HTMLAnchorElement, SearchResultProps>(
             defaultText="(no description)"
           />
         </Text>
-      </Link>
+      </LinkComponent>
     );
   }
 );

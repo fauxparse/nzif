@@ -147,6 +147,7 @@
     "aria-hidden": "^1.2.4",
     "blurhash": "^2.0.5",
     "clsx": "^1.2.1",
+    "cmdk": "^1.0.0",
     "country-list": "^2.3.0",
     "dayjs": "^1.11.10",
     "framer-motion": "11.0.6",
