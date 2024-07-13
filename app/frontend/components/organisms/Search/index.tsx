@@ -2,9 +2,9 @@ import { useDisclosure } from '@/hooks/useDisclosure';
 import CloseIcon from '@/icons/CloseIcon';
 import NoResultsIcon from '@/icons/NoResultsIcon';
 import SearchIcon from '@/icons/SearchIcon';
-import { ButtonProps } from '@mantine/core';
 import {
   Box,
+  ButtonProps,
   Dialog,
   Flex,
   Grid,
