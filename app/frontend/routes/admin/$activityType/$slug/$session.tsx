@@ -1,5 +1,5 @@
 import { ActivityDetailsQuery } from '@/components/pages/admin/ActivityEditor/queries';
-import useFestival from '@/hooks/useFestival';
+import { useFestival } from '@/hooks/useFestival';
 import { useQuery } from '@apollo/client';
 import { Text } from '@mantine/core';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';

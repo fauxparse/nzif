@@ -11,6 +11,8 @@ import { Presenters } from './Presenters';
 import { UpdateActivityMutation } from './queries';
 import { Activity, ActivityDetails, Presenter, WithUploadedPicture, isShow } from './types';
 
+import classes from './ActivityEditor.module.css';
+
 type EditProps = {
   activity: Activity;
 };
@@ -86,7 +88,7 @@ export const Edit: React.FC<EditProps> = ({ activity }) => {
   });
 
   return (
-    <div className="activity-editor__edit">
+    <div className={classes.edit}>
       <form.Field name="description">
         {(field) => (
           <Editor
@@ -114,7 +116,7 @@ export const Edit: React.FC<EditProps> = ({ activity }) => {
       <form.Field name="uploadedPicture">
         {(field) => (
           <ImageUploader
-            className="activity-editor__picture"
+            className={classes.picture}
             width={1920}
             height={1080}
             value={activity.picture?.large ?? null}

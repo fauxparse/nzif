@@ -1,47 +1,28 @@
 import CloseIcon from '@/icons/CloseIcon';
 import LocationIcon from '@/icons/LocationIcon';
-import PlusIcon from '@/icons/PlusIcon';
+import { usePlacenames } from '@/services/Placenames';
 import { CitiesQuery } from '@/services/Placenames/queries';
 import { useQuery } from '@apollo/client';
-import {
-  ActionIcon,
-  Box,
-  Combobox,
-  Input,
-  Loader,
-  Text,
-  TextInput,
-  TextInputProps,
-  useCombobox,
-} from '@mantine/core';
-import clsx from 'clsx';
-import { getName as getCountryName } from 'country-list';
-import { deburr, sortBy } from 'lodash-es';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { CountryPicker } from './CountryPicker';
-import { Placename, SearchableOption } from './types';
+import { Box, Card, Flex, IconButton, Inset, Text } from '@radix-ui/themes';
+import { uniqBy } from 'lodash-es';
+import { CSSProperties, useCallback } from 'react';
+import { CircleFlag } from 'react-circle-flags';
+import { Combobox } from '../Combobox';
+import { ComboboxProps } from '../Combobox/types';
+import { CityPickerOption } from './types';
 import { useAutocomplete } from './useAutocomplete';
 
-import './CityPicker.css';
+import classes from './CityPicker.module.css';
 
-type CityPickerProps = Omit<TextInputProps, 'value' | 'onChange'> & {
-  className?: string;
+type CityPickerProps = Pick<
+  ComboboxProps<CityPickerOption>,
+  'className' | 'size' | 'icon' | 'placeholder'
+> & {
   city: string | null;
   country: string | null;
   limit?: number;
   onChange: (city: string | null, country: string | null) => void;
 };
-
-type CityPickerOption =
-  | {
-      id: string;
-      city: Placename;
-      country: Placename;
-    }
-  | {
-      id: 'add';
-      city: string;
-    };
 
 export const CityPicker: React.FC<CityPickerProps> = ({
   className,
@@ -51,190 +32,186 @@ export const CityPicker: React.FC<CityPickerProps> = ({
   onChange,
   ...props
 }) => {
-  const cityInput = useRef<HTMLInputElement>(null);
+  const { search, countryCode, countryName, cityDisplayName } = usePlacenames();
 
-  const combobox = useCombobox({
-    onDropdownClose: () => combobox.resetSelectedOption(),
-    onDropdownOpen: () => combobox.updateSelectedOptionIndex('active'),
-  });
+  const { data } = useQuery(CitiesQuery);
 
-  const [query, setQuery] = useState<string>('');
+  const cities = data?.cities || [];
 
-  const [custom, setCustom] = useState(false);
+  const { autocomplete } = useAutocomplete();
 
-  const { data, loading } = useQuery(CitiesQuery);
+  const items = useCallback(
+    (query: string) =>
+      new Promise<CityPickerOption[]>((resolve) => {
+        const customised = search(query).map((city) => {
+          const country = countryName(city.country) || '';
+          return {
+            ...city,
+            label: cityDisplayName(city.name, city.country, true),
+            value: `${city.name}|${city.country.toLowerCase()}`,
+            country,
+            countryCode: city.country.toLowerCase(),
+          };
+        });
 
-  const searchable = useMemo(
-    () =>
-      sortBy(
-        data?.cities?.map((city) => ({
-          ...city,
-          search: [city.name, ...city.traditionalNames].map(deburr).join('/'),
-          country: getCountryName(city.country) ?? '',
-        })) || [],
-        'search'
-      ),
-    [data]
+        autocomplete(query)?.then((options) => {
+          resolve(uniqBy([...customised, ...options], 'value'));
+        });
+      }),
+    [cities, search]
   );
 
-  const [optionsFromAutocomplete, setOptionsFromAutocomplete] = useState<SearchableOption[]>([]);
-
-  const { autocomplete, busy } = useAutocomplete();
-
-  useEffect(() => {
-    if (query.length < 3) {
-      setOptionsFromAutocomplete([]);
-      return;
-    }
-    autocomplete(query)?.then(setOptionsFromAutocomplete);
-  }, [autocomplete, query]);
-
-  const options = useMemo<SearchableOption[]>(() => {
-    if (!query) return searchable.slice(0, limit);
-
-    const regexp = new RegExp(deburr(query), 'i');
-
-    return [...searchable, ...optionsFromAutocomplete]
-      .filter((city) => city.search.match(regexp))
-      .slice(0, limit);
-  }, [searchable, query, optionsFromAutocomplete, limit]);
-
-  const selectedOption = useMemo(() => {
-    if (!city) return null;
-
-    return (
-      searchable.find((option) => option.name === city) || {
-        id: 'custom',
-        name: city,
-        country: (country && getCountryName(country)) || '',
-        traditionalNames: [],
-        search: deburr(city),
-      }
-    );
-  }, [searchable, city, country]);
-
-  useEffect(() => {
-    combobox.selectFirstOption();
-  }, [query]);
-
-  const clear = () => {
-    setQuery('');
-    onChange(null, null);
-    setTimeout(() => {
-      cityInput.current?.focus();
-    });
-  };
-
-  const handleValueSelect = (value: string) => {
-    if (value === 'add') {
-      setCustom(true);
-      combobox.closeDropdown();
-    } else {
-      const option = options.find((option) => option.id === value);
-      if (option) {
-        onChange(option.name, option.country);
-      }
-      combobox.closeDropdown();
-    }
-  };
-
-  const handleCountrySelect = (country: string) => {
-    setCustom(false);
-    onChange(query, country);
-  };
-
   return (
-    <Box className={clsx('city-picker', className)}>
-      <Combobox
-        store={combobox}
-        middlewares={{ flip: true, shift: true, inline: false }}
-        onOptionSubmit={(value) => handleValueSelect(value)}
-      >
-        <Combobox.Target>
-          {selectedOption ? (
-            <Input
-              component="div"
-              className="city-picker__selected"
-              size="md"
-              style={{ '--input-height': 'auto' }}
-            >
-              <Option option={selectedOption} />
-              <ActionIcon size="sm" variant="transparent" data-color="neutral" onClick={clear}>
-                <CloseIcon />
-              </ActionIcon>
-            </Input>
-          ) : (
-            <TextInput
-              ref={cityInput}
-              size="md"
-              className="city-picker__city"
-              value={query}
-              leftSection={<LocationIcon />}
-              rightSection={
-                loading || busy ? (
-                  <Loader size="sm" />
-                ) : query ? (
-                  <ActionIcon size="sm" variant="transparent" data-color="neutral" onClick={clear}>
-                    <CloseIcon />
-                  </ActionIcon>
-                ) : null
-              }
-              autoComplete="off"
-              onChange={(e) => {
-                setQuery(e.currentTarget.value);
-                combobox.openDropdown();
-                combobox.updateSelectedOptionIndex();
-              }}
-              onClick={() => combobox.openDropdown()}
-              onFocus={() => combobox.openDropdown()}
-              onBlur={() => combobox.closeDropdown()}
-              __vars={{ '--input-height-md': '66px' }}
-            />
-          )}
-        </Combobox.Target>
-        <Combobox.Dropdown>
-          <Combobox.Options>
-            {options.map((option) => (
-              <Combobox.Option key={option.id} value={option.id}>
-                <Option option={option} />
-              </Combobox.Option>
-            ))}
-            {!options.length &&
-              (query ? (
-                <Combobox.Option value="add">
-                  <div className="city-picker__option">
-                    <PlusIcon />
-                    <Text component="div" className="city-picker__city-name" size="md">
-                      {`Add “${query}”`}
+    <Box className={className}>
+      <Combobox.Root
+        icon={<LocationIcon />}
+        items={items}
+        onSelect={(value) => {
+          if (value) {
+            onChange(value.name, countryCode(value.country));
+          } else {
+            onChange(null, null);
+          }
+        }}
+        {...props}
+        item={({ item, onSelect }) => (
+          <Combobox.Item
+            className={classes.item}
+            item={item}
+            value={item.value}
+            onSelect={() => onSelect(item)}
+            icon={<CircleFlag countryCode={item.countryCode} width={20} height={20} />}
+          >
+            <Text size="3" color="gray">
+              {item.country}
+            </Text>
+          </Combobox.Item>
+        )}
+        input={(props) =>
+          city ? (
+            <Inset style={{ flex: 1 }}>
+              <Card
+                size="1"
+                style={
+                  {
+                    '--card-padding': 'var(--space-2)',
+                    minHeight: 'var(--text-field-height)',
+                  } as CSSProperties
+                }
+              >
+                <Flex gap="3" align="center" className={classes.item}>
+                  {country && (
+                    <CircleFlag countryCode={country.toLowerCase()} width={20} height={20} />
+                  )}
+                  <Box flexGrow="1" asChild>
+                    <Text>{cityDisplayName(city, country || '', true)}</Text>
+                  </Box>
+                  {country && (
+                    <Text size="3" color="gray">
+                      {countryName(country)}
                     </Text>
-                  </div>
-                </Combobox.Option>
-              ) : (
-                <Combobox.Empty>
-                  <Text component="div" className="city-picker__no-results">
-                    No results
-                  </Text>
-                </Combobox.Empty>
-              ))}
-          </Combobox.Options>
-        </Combobox.Dropdown>
-      </Combobox>
-      {custom && <CountryPicker value={null} onChange={handleCountrySelect} />}
+                  )}
+                  <IconButton
+                    variant="ghost"
+                    size="2"
+                    color="gray"
+                    radius="full"
+                    onClick={() => onChange(null, null)}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                </Flex>
+              </Card>
+            </Inset>
+          ) : (
+            <Combobox.Input {...props} />
+          )
+        }
+      />
     </Box>
   );
 };
 
-const Option: React.FC<{ option: SearchableOption }> = ({ option }) => (
-  <div className="city-picker__option">
-    <LocationIcon />
-    <Text component="div" className="city-picker__city-name" size="md">
-      {option.name}
-      {option.traditionalNames.length > 0 && (
-        <small>{` / ${option.traditionalNames.join(' / ')}`}</small>
-      )}
-    </Text>
-    <Text component="div" className="city-picker__country-name" size="sm">
-      {option.country}
-    </Text>
-  </div>
-);
+//         <Combobox.Target>
+//           {selectedOption ? (
+//             <Input
+//               component="div"
+//               className="city-picker__selected"
+//               size="md"
+//               style={{ '--input-height': 'auto' }}
+//             >
+//               <Option option={selectedOption} />
+//               <ActionIcon size="sm" variant="transparent" data-color="neutral" onClick={clear}>
+//                 <CloseIcon />
+//               </ActionIcon>
+//             </Input>
+//           ) : (
+//             <TextInput
+//               ref={cityInput}
+//               size="md"
+//               className="city-picker__city"
+//               value={query}
+//               leftSection={<LocationIcon />}
+//               rightSection={
+//                 loading || busy ? (
+//                   <Loader size="sm" />
+//                 ) : query ? (
+//                   <ActionIcon size="sm" variant="transparent" data-color="neutral" onClick={clear}>
+//                     <CloseIcon />
+//                   </ActionIcon>
+//                 ) : null
+//               }
+//               autoComplete="off"
+//               onChange={(e) => {
+//                 setQuery(e.currentTarget.value);
+//                 combobox.openDropdown();
+//                 combobox.updateSelectedOptionIndex();
+//               }}
+//               onClick={() => combobox.openDropdown()}
+//               onFocus={() => combobox.openDropdown()}
+//               onBlur={() => combobox.closeDropdown()}
+//               __vars={{ '--input-height-md': '66px' }}
+//             />
+//           )}
+//         </Combobox.Target>
+//         <Combobox.Dropdown>
+//           <Combobox.Options>
+//             {options.map((option) => (
+//               <Combobox.Option key={option.id} value={option.id}>
+//                 <Option option={option} />
+//               </Combobox.Option>
+//             ))}
+//             {!options.length &&
+//               (query ? (
+//                 <Combobox.Option value="add">
+//                   <div className="city-picker__option">
+//                     <PlusIcon />
+//                     <Text component="div" className="city-picker__city-name" size="md">
+//                       {`Add “${query}”`}
+//                     </Text>
+//                   </div>
+//                 </Combobox.Option>
+//               ) : (
+//                 <Combobox.Empty>
+//                   <Text component="div" className="city-picker__no-results">
+//                     No results
+//                   </Text>
+//                 </Combobox.Empty>
+//               ))}
+//           </Combobox.Options>
+//         </Combobox.Dropdown>
+
+// const Option: React.FC<{ option: SearchableOption }> = ({ option }) => (
+//   <div className="city-picker__option">
+//     <LocationIcon />
+//     <Text component="div" className="city-picker__city-name" size="md">
+//       {option.name}
+//       {option.traditionalNames.length > 0 && (
+//         <small>{` / ${option.traditionalNames.join(' / ')}`}</small>
+//       )}
+//     </Text>
+//     <Text component="div" className="city-picker__country-name" size="sm">
+//       {option.country}
+//     </Text>
+//   </div>
+// );

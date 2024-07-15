@@ -1,0 +1,5 @@
+.outlet {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: full-bleed;
+}

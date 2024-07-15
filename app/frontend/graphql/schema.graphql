@@ -433,7 +433,7 @@ type Mutation {
   allocateWorkshops: allocateWorkshopsPayload
   approvePayment(id: ID!): ApprovePaymentPayload
   cancelPayment(id: ID!): CancelPaymentPayload
-  createActivity(attributes: ActivityAttributes!, festivalId: ID!, sessionId: ID, type: ActivityType!): CreateActivityPayload
+  createActivity(attributes: ActivityAttributes!, festivalId: ID, sessionId: ID, type: ActivityType!): CreateActivityPayload
   createPerson(attributes: PersonAttributes!): CreatePersonPayload
   createSession(attributes: SessionAttributes!, festivalId: ID!): CreateSessionPayload
   createSessions(attributes: MultipleSessionAttributes!): CreateMultipleSessionsPayload

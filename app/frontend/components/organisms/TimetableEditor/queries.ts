@@ -121,8 +121,8 @@ export const ActivitySearchQuery = graphql(
 
 export const CreateActivityMutation = graphql(
   `
-  mutation CreateActivity($festivalId: ID!, $type: ActivityType!, $attributes: ActivityAttributes!) {
-    createActivity(festivalId: $festivalId, type: $type, attributes: $attributes) {
+  mutation CreateActivity($type: ActivityType!, $attributes: ActivityAttributes!) {
+    createActivity(type: $type, attributes: $attributes) {
       activity {
         ...TimetableActivity
       }

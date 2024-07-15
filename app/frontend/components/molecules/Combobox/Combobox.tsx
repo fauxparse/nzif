@@ -1,7 +1,7 @@
 import NoResultsIcon from '@/icons/NoResultsIcon';
 import SearchIcon from '@/icons/SearchIcon';
 import * as Popover from '@radix-ui/react-popover';
-import { Avatar, Box, Flex, Skeleton, Text } from '@radix-ui/themes';
+import { Avatar, Box, Flex, Skeleton, Text, Theme } from '@radix-ui/themes';
 import { Command } from 'cmdk';
 import { range } from 'lodash-es';
 import { ForwardRefExoticComponent, Fragment, useEffect, useRef } from 'react';
@@ -16,8 +16,9 @@ import { InputWrapper } from './InputWrapper';
 import { ListItem } from './ListItem';
 
 export const Combobox = <Item extends ComboboxItem, Value = Item>({
+  className,
   size = '3',
-  value,
+  value = null,
   items,
   input = (props: ComboboxInputProps<Item, Value>) => {
     const InputComponent = SingleValueInput as ForwardRefExoticComponent<
@@ -53,7 +54,7 @@ export const Combobox = <Item extends ComboboxItem, Value = Item>({
     <Popover.Root modal={false} open={open} onOpenChange={openChanged}>
       <Command filter={async ? () => 1 : undefined}>
         <Popover.Anchor asChild>
-          <InputWrapper {...props} inputRef={inputRef}>
+          <InputWrapper className={className} {...props} inputRef={inputRef}>
             {input({
               inputRef,
               size,
@@ -66,46 +67,52 @@ export const Combobox = <Item extends ComboboxItem, Value = Item>({
           </InputWrapper>
         </Popover.Anchor>
 
-        <Popover.Content
-          className={classes.popup}
-          sideOffset={8}
-          onOpenAutoFocus={(e) => e.preventDefault()}
-          onInteractOutside={(e) => {
-            if (e.target === inputRef.current) e.preventDefault();
-          }}
-        >
-          {open && (
-            <Command.List>
-              {loading && !results.length && (
-                <Command.Loading>
-                  <Empty loading />
-                </Command.Loading>
+        <Popover.Portal>
+          <Theme asChild>
+            <Popover.Content
+              className={classes.popup}
+              sideOffset={8}
+              onOpenAutoFocus={(e) => e.preventDefault()}
+              onInteractOutside={(e) => {
+                if (e.target === inputRef.current) e.preventDefault();
+              }}
+            >
+              {open && (
+                <Command.List>
+                  {loading && !results.length && (
+                    <Command.Loading>
+                      <Empty loading />
+                    </Command.Loading>
+                  )}
+
+                  <Command.Empty>
+                    <Empty loading={loading} hasQuery={!!query} />
+                  </Command.Empty>
+
+                  {results.map((result) => (
+                    <Fragment key={result.id}>
+                      {item({ item: result, onSelect: selected })}
+                    </Fragment>
+                  ))}
+
+                  {enableAdd && onAdd && query && !loading && (
+                    <>
+                      <Command.Separator alwaysRender={results.length > 0} />
+                      <Command.Item
+                        value={query}
+                        onSelect={() => add(query)}
+                        className={clsx(classes.result, classes.addItem)}
+                      >
+                        <PlusIcon />
+                        <Text truncate>Add “{query}”</Text>
+                      </Command.Item>
+                    </>
+                  )}
+                </Command.List>
               )}
-
-              <Command.Empty>
-                <Empty loading={loading} hasQuery={!!query} />
-              </Command.Empty>
-
-              {results.map((result) => (
-                <Fragment key={result.id}>{item({ item: result, onSelect: selected })}</Fragment>
-              ))}
-
-              {enableAdd && onAdd && query && !loading && (
-                <>
-                  <Command.Separator alwaysRender={results.length > 0} />
-                  <Command.Item
-                    value={query}
-                    onSelect={() => add(query)}
-                    className={clsx(classes.result, classes.addItem)}
-                  >
-                    <PlusIcon />
-                    <Text truncate>Add “{query}”</Text>
-                  </Command.Item>
-                </>
-              )}
-            </Command.List>
-          )}
-        </Popover.Content>
+            </Popover.Content>
+          </Theme>
+        </Popover.Portal>
         {!open && <Command.List />}
       </Command>
     </Popover.Root>

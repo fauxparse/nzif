@@ -30,10 +30,12 @@ import CheckIcon from '@/icons/CheckIcon';
 import CloseIcon from '@/icons/CloseIcon';
 import PencilIcon from '@/icons/PencilIcon';
 import TrashIcon from '@/icons/TrashIcon';
-import { ActionIcon, TextInput } from '@mantine/core';
+import { Flex, IconButton, TextField } from '@radix-ui/themes';
 import { getSelectedNode } from '../utils/getSelectedNode';
 import { setFloatingElemPositionForLinkEditor } from '../utils/setFloatingElemPositionForLinkEditor';
 import { sanitizeUrl } from '../utils/url';
+
+import classes from '../Editor.module.css';
 
 function FloatingLinkEditor({
   editor,
@@ -210,84 +212,84 @@ function FloatingLinkEditor({
   };
 
   return (
-    <div ref={editorRef} className="link-editor">
+    <Flex ref={editorRef} className={classes.linkEditor}>
       {isLink ? (
-        isLinkEditMode ? (
-          <>
-            <TextInput
-              type="url"
-              ref={inputRef}
-              size="md"
-              value={editedLinkUrl}
-              onChange={(event) => {
-                setEditedLinkUrl(event.target.value);
-              }}
-              onKeyDown={(event) => {
-                monitorInputInteraction(event);
-              }}
-            />
-            <ActionIcon
-              aria-label="Cancel"
-              variant="transparent"
-              data-color="neutral"
-              tabIndex={0}
-              onMouseDown={(event) => event.preventDefault()}
-              onClick={() => {
-                setIsLinkEditMode(false);
-              }}
-            >
-              <CloseIcon />
-            </ActionIcon>
-            <ActionIcon
-              aria-label="Confirm"
-              variant="transparent"
-              data-color="neutral"
-              tabIndex={0}
-              onMouseDown={(event) => event.preventDefault()}
-              onClick={handleLinkSubmission}
-            >
-              <CheckIcon />
-            </ActionIcon>
-          </>
-        ) : (
-          <>
-            <a
-              className="link-editor__link"
-              href={sanitizeUrl(linkUrl)}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {linkUrl}
-            </a>
-            <ActionIcon
-              aria-label="Edit link"
-              variant="transparent"
-              data-color="neutral"
-              tabIndex={0}
-              onMouseDown={(event) => event.preventDefault()}
-              onClick={() => {
-                setEditedLinkUrl(linkUrl);
-                setIsLinkEditMode(true);
-              }}
-            >
-              <PencilIcon />
-            </ActionIcon>
-            <ActionIcon
-              aria-label="Remove link"
-              variant="transparent"
-              data-color="neutral"
-              tabIndex={0}
-              onMouseDown={(event) => event.preventDefault()}
-              onClick={() => {
-                editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
-              }}
-            >
-              <TrashIcon />
-            </ActionIcon>
-          </>
-        )
+        <TextField.Root
+          type="url"
+          ref={inputRef}
+          size="3"
+          value={editedLinkUrl}
+          readOnly={!isLinkEditMode}
+          onChange={(event) => {
+            setEditedLinkUrl(event.target.value);
+          }}
+          onKeyDown={(event) => {
+            monitorInputInteraction(event);
+          }}
+        >
+          <TextField.Slot side="right" className={classes.toolbarGroup}>
+            {isLinkEditMode ? (
+              <>
+                <IconButton
+                  className={classes.toolbarButton}
+                  aria-label="Cancel"
+                  variant="soft"
+                  color="gray"
+                  tabIndex={0}
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={() => {
+                    setIsLinkEditMode(false);
+                  }}
+                >
+                  <CloseIcon />
+                </IconButton>
+                <IconButton
+                  className={classes.toolbarButton}
+                  aria-label="Confirm"
+                  variant="soft"
+                  color="gray"
+                  tabIndex={0}
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={handleLinkSubmission}
+                >
+                  <CheckIcon />
+                </IconButton>
+              </>
+            ) : (
+              <>
+                <IconButton
+                  className={classes.toolbarButton}
+                  aria-label="Edit link"
+                  variant="soft"
+                  color="gray"
+                  tabIndex={0}
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={() => {
+                    setEditedLinkUrl(linkUrl);
+                    setIsLinkEditMode(true);
+                  }}
+                >
+                  <PencilIcon />
+                </IconButton>
+                <IconButton
+                  className={classes.toolbarButton}
+                  aria-label="Remove link"
+                  variant="soft"
+                  color="gray"
+                  tabIndex={0}
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={() => {
+                    editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
+                  }}
+                >
+                  <TrashIcon />
+                </IconButton>
+              </>
+            )}
+          </TextField.Slot>
+        </TextField.Root>
       ) : null}
-    </div>
+    </Flex>
   );
 }
 

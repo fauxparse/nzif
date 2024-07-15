@@ -62,7 +62,7 @@ export default {
       control: {
         type: 'select',
       },
-      options: ['neutral', 'primary', 'cyan', 'magenta', 'yellow'],
+      options: ['neutral', 'primary', 'cyan', 'crimson', 'yellow'],
     },
     compact: {
       control: {

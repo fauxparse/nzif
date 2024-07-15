@@ -9,7 +9,7 @@ import {
   MultipleSessionAttributes,
   SessionAttributes,
 } from '@/graphql/types';
-import useFestival from '@/hooks/useFestival';
+import { useFestival } from '@/hooks/useFestival';
 import CloseIcon from '@/icons/CloseIcon';
 import LocationIcon from '@/icons/LocationIcon';
 import { FetchResult } from '@apollo/client';
@@ -36,7 +36,9 @@ import { ActivityPicker } from './ActivityPicker';
 import { CreateSessionsMutation, DestroySessionMutation, UpdateSessionMutation } from './queries';
 import { Activity, Session } from './types';
 
+import CalendarIcon from '@/icons/CalendarIcon';
 import WarningIcon from '@/icons/WarningIcon';
+import clsx from 'clsx';
 import classes from './SessionModal.module.css';
 
 type SessionModalProps = DialogProps & {
@@ -214,18 +216,31 @@ export const SessionModal: React.FC<SessionModalProps> = ({
               )}
             </form.Field>
 
-            <Collapsible open={sessionCount === 1 && !formErrorMap.onChange}>
-              <form.Field name="activity">
-                {(field) => (
-                  <ActivityPicker
-                    value={field.state.value}
-                    activityType={activityType}
-                    startsAt={startsAt}
-                    onAddActivity={onCreateActivity}
-                    onChange={field.handleChange}
-                  />
+            <Collapsible
+              className={classes.full}
+              open={sessionCount === 1 && !formErrorMap.onChange}
+            >
+              <form.Subscribe<ActivityType> selector={(state) => state.values.activityType}>
+                {(activityType) => (
+                  <form.Field name="activity">
+                    {(field) => (
+                      <ActivityPicker
+                        value={field.state.value}
+                        activityType={activityType}
+                        startsAt={startsAt}
+                        onAddActivity={onCreateActivity}
+                        onChange={(activity) => {
+                          field.handleChange(activity);
+
+                          if (activity) {
+                            field.form.setFieldValue('activityType', activity.type);
+                          }
+                        }}
+                      />
+                    )}
+                  </form.Field>
                 )}
-              </form.Field>
+              </form.Subscribe>
             </Collapsible>
 
             <Collapsible open={!!formErrorMap.onChange} gridColumn="1 / -1">
@@ -267,29 +282,25 @@ export const SessionModal: React.FC<SessionModalProps> = ({
                   )}
                 </form.Field>
                 {!!session && multipleDates && (
-                  <form.Subscribe<DateTime> selector={(state) => state.values.startsAt}>
-                    {(minDate) => (
-                      <>
-                        <Text>to</Text>
-                        <form.Field name="endsAt">
-                          {(field) => (
-                            <DatePicker
-                              value={field.state.value}
-                              onChange={(value) => {
-                                if (value) {
-                                  field.handleChange(
-                                    field
-                                      .getValue()
-                                      .set({ year: value.year, month: value.month, day: value.day })
-                                  );
-                                }
-                              }}
-                            />
-                          )}
-                        </form.Field>
-                      </>
-                    )}
-                  </form.Subscribe>
+                  <>
+                    <Text>to</Text>
+                    <form.Field name="endsAt">
+                      {(field) => (
+                        <DatePicker
+                          value={field.state.value}
+                          onChange={(value) => {
+                            if (value) {
+                              field.handleChange(
+                                field
+                                  .getValue()
+                                  .set({ year: value.year, month: value.month, day: value.day })
+                              );
+                            }
+                          }}
+                        />
+                      )}
+                    </form.Field>
+                  </>
                 )}
               </div>
               <div className={classes.time}>
@@ -301,22 +312,9 @@ export const SessionModal: React.FC<SessionModalProps> = ({
                         if (value) {
                           const { hour, minute } = value;
                           field.handleChange(field.getValue().set({ hour, minute }));
-                          // } else {
-                          //   field.handleChange(null);
                         }
                       }}
                     />
-                    // <TimeInput
-                    //   withSeconds={false}
-                    //   value={field.state.value.toFormat('HH:mm')}
-                    //   leftSection={<ClockIcon />}
-                    //   onChange={(e) => {
-                    //     const t = DateTime.fromFormat(e.currentTarget.value, 'HH:mm');
-                    //     field.handleChange(
-                    //       field.getValue().set({ hour: t.hour, minute: t.minute })
-                    //     );
-                    //   }}
-                    // />
                   )}
                 </form.Field>
                 <Text>to</Text>
@@ -346,8 +344,8 @@ export const SessionModal: React.FC<SessionModalProps> = ({
                       field.handleChange(venues.find((v) => String(v.id) === id) || null)
                     }
                   >
-                    <Select.Trigger>
-                      <Flex align="center" gap="2">
+                    <Select.Trigger className={clsx(classes.full, classes.trigger)}>
+                      <Flex align="center" gap="3">
                         <LocationIcon />
                         {field.state.value?.room || field.state.value?.building || 'Select venue'}
                       </Flex>
@@ -365,7 +363,7 @@ export const SessionModal: React.FC<SessionModalProps> = ({
             ) : (
               <form.Field name="venues">
                 {(field) => (
-                  <Box gridColumn="1 / -1">
+                  <Box className={classes.full}>
                     {venues.map((venue) => (
                       <Flex asChild align="center" gap="2" key={venue.id}>
                         <label>
@@ -467,7 +465,12 @@ const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
 
   return (
     <Select.Root size="3" value={value?.toISODate() || undefined} onValueChange={valueChange}>
-      <Select.Trigger />
+      <Select.Trigger className={classes.trigger}>
+        <Flex align="center" gap="3">
+          <CalendarIcon />
+          {value?.plus({ seconds: 0 }).toFormat('cccc, d MMMM') || ''}
+        </Flex>
+      </Select.Trigger>
       <Select.Content>
         {dates.map((date) => (
           <Select.Item key={date.toISODate()} value={date.toISODate() || ''}>

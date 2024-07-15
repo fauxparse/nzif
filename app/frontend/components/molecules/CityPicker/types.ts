@@ -1,13 +1,11 @@
-export type Placename = {
-  id: string;
-  name: string;
-  traditionalName: string | null;
-};
+import { Scalars } from '@/graphql/types';
 
-export type SearchableOption = {
-  id: string;
+export type CityPickerOption = {
+  id: Scalars['ID'];
+  label: string;
+  value: string;
   name: string;
   traditionalNames: string[];
   country: string;
-  search: string;
+  countryCode: string;
 };

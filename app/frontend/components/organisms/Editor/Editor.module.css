@@ -1,0 +1,103 @@
+.editor {
+  --editor-padding-block: var(--spacing-medium);
+  --editor-padding-inline: 2.375rem;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: var(--border-thin) solid var(--border-input);
+  border-radius: var(--radius-small);
+  color: var(--text-default);
+  font-size: var(--font-size-medium);
+  line-height: var(--line-height-medium);
+}
+
+.toolbar {
+  align-items: center;
+  padding: var(--space-2);
+  border-bottom: var(--border-thin) solid var(--gray-4);
+  border-radius: var(--radius-inside-small) var(--radius-inside-small) 0 0;
+  background: var(--gray-2);
+
+  .mantine-ActionIcon-root {
+    --radius-round: var(--radius-small);
+
+    &[aria-pressed="true"] {
+      --button-background: var(--button-background-hover);
+
+      background-color: var(--background-element-hover);
+    }
+
+    &:hover {
+      color: var(--text-default);
+    }
+
+    &:disabled {
+      background-color: transparent;
+    }
+  }
+}
+
+.toolbarGroup {
+  gap: var(--space-1);
+}
+
+.toolbarButton {
+  background-color: transparent;
+  color: var(--accent-11);
+
+  &:hover {
+    background-color: var(--accent-3);
+    color: var(--accent-12);
+  }
+
+  &[aria-pressed="true"] {
+    background-color: var(--accent-5);
+    color: var(--accent-11);
+  }
+}
+
+.inner {
+  position: relative;
+  flex: 1;
+  overflow: auto;
+  border-radius: 0 0 var(--radius-small-inner) var(--radius-small-inner);
+  background: transparent;
+}
+
+.input {
+  position: relative;
+  min-height: 16rem;
+  padding: var(--editor-padding-block) var(--editor-padding-inline) calc(var(--editor-padding-block) * 2);
+  border: 0;
+  border-radius: var(--radius-small);
+  outline: 0;
+  tab-size: 4;
+  resize: none;
+  caret-color: var(--text-default);
+}
+
+.placeholder {
+  position: absolute;
+  top: var(--editor-padding-block);
+  left: var(--editor-padding-inline);
+  overflow: hidden;
+  color: var(--text-subtle);
+  pointer-events: none;
+  user-select: none;
+}
+
+.linkEditor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  border-radius: var(--radius-3);
+  background-color: var(--color-panel);
+  box-shadow: var(--shadow-3);
+  opacity: 0;
+  transition: opacity 0.5s;
+  will-change: transform;
+}

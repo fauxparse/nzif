@@ -1,6 +1,6 @@
 import { Edit } from '@/components/pages/admin/ActivityEditor/Edit';
 import { ActivityDetailsQuery } from '@/components/pages/admin/ActivityEditor/queries';
-import useFestival from '@/hooks/useFestival';
+import { useFestival } from '@/hooks/useFestival';
 import { useQuery } from '@apollo/client';
 import { createFileRoute } from '@tanstack/react-router';
 

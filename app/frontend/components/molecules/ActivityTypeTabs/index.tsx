@@ -56,29 +56,6 @@ const ActivityTypeTabs: React.FC<ActivityTypeTabsProps> = ({ value, onChange }) 
       ))}
     </TabNav.Root>
   );
-
-  // return (
-  //   <Tabs value={value} onChange={(value) => onChange(value as ActivityType | null)}>
-  //     <Tabs.List>
-  //       {Object.entries(ACTIVITY_TYPES).map(([key, { label, type, icon: Icon }]) => (
-  //         <Tabs.Tab
-  //           key={key}
-  //           value={type}
-  //           leftSection={<Icon />}
-  //           rightSection={
-  //             counts[type] && (
-  //               <Badge variant="light" circle>
-  //                 {counts[type]}
-  //               </Badge>
-  //             )
-  //           }
-  //         >
-  //           {label}
-  //         </Tabs.Tab>
-  //       ))}
-  //     </Tabs.List>
-  //   </Tabs>
-  // );
 };
 
 export const tabSwitchDirection = (

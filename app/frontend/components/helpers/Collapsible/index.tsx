@@ -28,7 +28,7 @@ export const Collapsible: React.FC<CollapsibleProps> = ({
           initial="out"
           animate="in"
           exit="out"
-          style={{ overflow: 'clip' }}
+          // style={{ overflow: 'clip' }}
         >
           {children}
         </motion.div>

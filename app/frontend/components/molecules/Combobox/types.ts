@@ -16,9 +16,15 @@ export type UseComboboxOptions<Item extends ComboboxItem, Value> = {
   onAdd?: (query: string) => Promise<Item>;
 };
 
-export type ComboboxProps<Item extends ComboboxItem, Value> = UseComboboxOptions<Item, Value> & {
+export type ComboboxProps<Item extends ComboboxItem, Value = Item> = Omit<
+  UseComboboxOptions<Item, Value>,
+  'value'
+> & {
+  className?: string;
   icon?: React.ReactNode;
   size?: '1' | '2' | '3';
+  value?: Value | null;
+  placeholder?: string;
   input?: (props: ComboboxInputProps<Item, Value>) => React.ReactElement;
   item?: (props: ListItemProps<Item>) => React.ReactNode;
 };
@@ -29,7 +35,7 @@ export type ComboboxInputProps<Item extends ComboboxItem, Value> = Omit<
 > & {
   icon?: React.ReactNode;
   inputRef: React.Ref<HTMLInputElement>;
-  value: Value;
+  value?: Value | null;
   query: string;
   onQueryChange: (value: string) => void;
 };
@@ -43,8 +49,10 @@ export type MultipleValueInputProps<
 };
 
 export type ListItemProps<Item extends ComboboxItem> = PropsWithChildren<{
+  className?: string;
   icon?: React.ReactNode;
   item: Item;
+  value?: string;
   onSelect: (item: Item) => void;
 }>;
 

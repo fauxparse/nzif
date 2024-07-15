@@ -4,7 +4,7 @@
 
   &__background {
     --blob-size: 80vmax;
-    --blob-color: var(--magenta-9);
+    --blob-color: var(--crimson-9);
     --blob-offset-x: 0;
     --blob-offset-y: 0;
 
@@ -36,7 +36,7 @@
 
       &:nth-child(2) {
         --blob-size: 200vmax;
-        --blob-color: var(--magenta-9);
+        --blob-color: var(--crimson-9);
         --blob-offset-x: 10%;
         --blob-offset-y: 20%;
 

@@ -2,10 +2,8 @@ import { RouteTransition } from '@/components/helpers/RouteTransition';
 import Body from '@/components/organisms/Body';
 import usePreviousDistinct from '@/hooks/usePreviousDistinct';
 import { useMemo } from 'react';
-import { Activity, Session } from './types';
-
-import './ActivityEditor.css';
 import { ActivityEditorHeader } from './Header';
+import { Activity, Session } from './types';
 
 type ActivityEditorProps = {
   activity: Activity;

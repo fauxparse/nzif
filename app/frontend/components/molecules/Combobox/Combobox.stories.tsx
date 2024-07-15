@@ -127,17 +127,17 @@ export const Custom = () => {
       item={({ item, onSelect }) => (
         <Combobox.Item
           className={classes.result}
-          value={item.label}
+          item={item}
+          icon={
+            <Avatar
+              size="1"
+              radius="full"
+              fallback={item.house}
+              style={{ fontSize: 'var(--font-size-1)' }}
+            />
+          }
           onSelect={() => onSelect(item)}
-        >
-          <Avatar
-            size="1"
-            radius="full"
-            fallback={item.house}
-            style={{ fontSize: 'var(--font-size-1)' }}
-          />
-          <Text truncate>{item.label}</Text>
-        </Combobox.Item>
+        />
       )}
       value={value}
       onSelect={(item) => {

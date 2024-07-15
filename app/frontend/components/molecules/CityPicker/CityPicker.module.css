@@ -1,0 +1,10 @@
+.item {
+  span:first-of-type {
+    flex: 1;
+
+    + span {
+      color: var(--gray-a11);
+      text-align: right;
+    }
+  }
+}

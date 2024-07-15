@@ -5,11 +5,13 @@ import { Editor } from '@/components/organisms/Editor';
 import { CityAttributes, PersonAttributes } from '@/graphql/types';
 import TrashIcon from '@/icons/TrashIcon';
 import { useMutation } from '@apollo/client';
-import { Box, Button, TextInput } from '@mantine/core';
+import { Box, Button, TextField } from '@radix-ui/themes';
 import { useForm } from '@tanstack/react-form';
 import { isEmpty, pickBy } from 'lodash-es';
 import { UpdatePresenterMutation } from '../queries';
 import { Presenter, WithUploadedPicture } from '../types';
+
+import classes from './Presenters.module.css';
 
 export type Fields = WithUploadedPicture<
   Omit<Presenter, 'picture' | 'city' | 'country'> & { city: string | null; country: string | null }
@@ -82,12 +84,12 @@ export const PresenterDetails: React.FC<PresenterDetailsProps> = ({ presenter, o
   };
 
   return (
-    <Box className="presenter-details">
+    <Box className={classes.presenterDetails}>
       <form.Field name="name">
         {(field) => (
-          <TextInput
-            size="md"
-            className="presenter-details__name"
+          <TextField.Root
+            size="3"
+            className={classes.presenterName}
             placeholder="Name"
             value={field.state.value}
             onChange={(e) => field.handleChange(e.currentTarget.value)}
@@ -97,9 +99,9 @@ export const PresenterDetails: React.FC<PresenterDetailsProps> = ({ presenter, o
       </form.Field>
       <form.Field name="pronouns">
         {(field) => (
-          <TextInput
-            size="md"
-            className="presenter-details__pronouns"
+          <TextField.Root
+            size="3"
+            className={classes.presenterPronouns}
             placeholder="Pronouns"
             value={field.state.value || ''}
             onChange={(e) => field.handleChange(e.currentTarget.value)}
@@ -110,7 +112,7 @@ export const PresenterDetails: React.FC<PresenterDetailsProps> = ({ presenter, o
       <form.Field name="bio">
         {(field) => (
           <Editor
-            className="presenter-details__bio"
+            className={classes.presenterBio}
             placeholder="Presenter bio"
             toolbar={false}
             value={field.state.value || ''}
@@ -125,7 +127,7 @@ export const PresenterDetails: React.FC<PresenterDetailsProps> = ({ presenter, o
       <form.Field name="uploadedPicture">
         {(field) => (
           <ImageUploader
-            className="presenter-details__picture"
+            className={classes.presenterPicture}
             compact
             width={512}
             height={512}
@@ -140,10 +142,11 @@ export const PresenterDetails: React.FC<PresenterDetailsProps> = ({ presenter, o
       <form.Field name="city">
         {(field) => (
           <CityPicker
-            className="presenter-details__city"
+            className={classes.presenterCity}
             city={field.state.value}
             country={field.form.getFieldValue('country')}
             onChange={(city, country) => {
+              console.log(city, country);
               field.handleChange(city);
               form.setFieldValue('country', country);
               form.handleSubmit();
@@ -151,8 +154,9 @@ export const PresenterDetails: React.FC<PresenterDetailsProps> = ({ presenter, o
           />
         )}
       </form.Field>
-      <Box className="presenter-details__buttons">
-        <Button leftSection={<TrashIcon />} onClick={removeClicked}>
+      <Box className={classes.presenterButtons}>
+        <Button variant="outline" size="3" onClick={removeClicked}>
+          <TrashIcon />
           Remove {name}
         </Button>
       </Box>

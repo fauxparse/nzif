@@ -1,7 +1,7 @@
 import Body from '@/components/organisms/Body';
 import Header from '@/components/organisms/Header';
 import { ContentPageQueryResult } from '@/contentful/types';
-import useFestival from '@/hooks/useFestival';
+import { useFestival } from '@/hooks/useFestival';
 import { gql } from '@apollo/client';
 import { Options, documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, Document, Text } from '@contentful/rich-text-types';

@@ -14,7 +14,7 @@ const LEVEL = 72;
 
 const AMPLITUDE = 8;
 
-const LAYERS = ['cyan', 'magenta', 'yellow'] as const;
+const LAYERS = ['cyan', 'crimson', 'yellow'] as const;
 
 type Point = {
   x: number;

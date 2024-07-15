@@ -5,6 +5,8 @@ import { cloneDeep } from 'lodash-es';
 import { forwardRef, useContext, useRef } from 'react';
 import type { Direction } from './types';
 
+import classes from './RouteTransition.module.css';
+
 type AnimatedOutletProps = MotionProps & {
   direction?: Direction;
 };
@@ -79,7 +81,13 @@ const AnimatedOutlet = forwardRef<HTMLDivElement, AnimatedOutletProps>(
     }
 
     return (
-      <motion.div ref={ref} className="outlet" custom={direction} {...TransitionProps} {...props}>
+      <motion.div
+        ref={ref}
+        className={classes.outlet}
+        custom={direction}
+        {...TransitionProps}
+        {...props}
+      >
         <RouterContext.Provider value={renderedContext}>
           <Outlet />
         </RouterContext.Provider>

@@ -1,18 +1,21 @@
-import { Button, Group, Modal, ModalProps } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import clsx from 'clsx';
+import { AlertDialog, Button, Flex } from '@radix-ui/themes';
 import { PropsWithChildren, createContext, useCallback, useContext, useState } from 'react';
-
-import './ConfirmationModal.css';
 import { CountdownButton } from './CountdownButton';
 
-type ConfirmOptions = Omit<ConfirmationModalProps, 'opened' | 'onClose' | 'onConfirm' | 'onCancel'>;
+import classes from './ConfirmationModal.module.css';
+
+type ConfirmOptions = Omit<
+  ConfirmationModalProps,
+  'open' | 'onOpenChange' | 'onConfirm' | 'onCancel'
+>;
 
 type ConfirmationModalContextType = {
   confirm: (options: ConfirmOptions) => Promise<void>;
 };
 
-type ConfirmationModalProps = ModalProps & {
+type ConfirmationModalProps = AlertDialog.RootProps & {
+  className?: string;
+  title?: string;
   confirm?: string;
   cancel?: string;
   countdown?: number;
@@ -23,6 +26,7 @@ type ConfirmationModalProps = ModalProps & {
 export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   className,
   children,
+  title,
   confirm = 'OK',
   cancel = 'Cancel',
   countdown = 3,
@@ -30,18 +34,24 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   onCancel,
   ...props
 }) => (
-  <Modal className={clsx('confirmation-modal', className)} centered zIndex={1000} {...props}>
-    {children}
-
-    <Group className="confirmation-modal__buttons">
-      <Button type="button" onClick={onCancel}>
-        {cancel}
-      </Button>
-      <CountdownButton type="button" variant="filled" seconds={countdown} onClick={onConfirm}>
-        {confirm}
-      </CountdownButton>
-    </Group>
-  </Modal>
+  <AlertDialog.Root {...props}>
+    <AlertDialog.Content className={classes.content} maxWidth="30rem">
+      {title && <AlertDialog.Title>{title}</AlertDialog.Title>}
+      <AlertDialog.Description>{children}</AlertDialog.Description>
+      <Flex className={classes.buttons} gap="3" mt="4" justify="end">
+        <AlertDialog.Cancel>
+          <Button variant="outline" size="3" color="gray">
+            {cancel}
+          </Button>
+        </AlertDialog.Cancel>
+        <AlertDialog.Action>
+          <CountdownButton variant="solid" size="3" seconds={countdown} onClick={onConfirm}>
+            {confirm}
+          </CountdownButton>
+        </AlertDialog.Action>
+      </Flex>
+    </AlertDialog.Content>
+  </AlertDialog.Root>
 );
 
 const ConfirmationModalContext = createContext<ConfirmationModalContextType>({
@@ -49,7 +59,7 @@ const ConfirmationModalContext = createContext<ConfirmationModalContextType>({
 });
 
 export const ConfirmationModalProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [opened, { open, close }] = useDisclosure();
+  const [open, setOpen] = useState(false);
 
   const [modalProps, setModalProps] = useState<Partial<ConfirmationModalProps>>({});
 
@@ -60,10 +70,10 @@ export const ConfirmationModalProvider: React.FC<PropsWithChildren> = ({ childre
       new Promise<void>((resolve, reject) => {
         setModalProps(options);
         setPromise([resolve, reject]);
-        open();
+        setOpen(true);
       })
         .catch(() => {})
-        .finally(close),
+        .finally(() => setOpen(false)),
     []
   );
 
@@ -71,10 +81,9 @@ export const ConfirmationModalProvider: React.FC<PropsWithChildren> = ({ childre
     <ConfirmationModalContext.Provider value={{ confirm }}>
       {children}
       <ConfirmationModal
-        withCloseButton={false}
         {...modalProps}
-        opened={opened}
-        onClose={close}
+        open={open}
+        onOpenChange={setOpen}
         onConfirm={resolve}
         onCancel={reject}
       />

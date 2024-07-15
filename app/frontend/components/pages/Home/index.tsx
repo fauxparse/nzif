@@ -1,5 +1,5 @@
 import { ActivityType } from '@/graphql/types';
-import useFestival from '@/hooks/useFestival';
+import { useFestival } from '@/hooks/useFestival';
 import BATSIcon from '@/icons/BATSIcon';
 import { Box, Button, Container, Flex, Grid, Text } from '@radix-ui/themes';
 import { Link } from '@tanstack/react-router';

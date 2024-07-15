@@ -1,0 +1,18 @@
+.root {
+
+}
+
+.prefix {
+  height: 2rem;
+  margin: 0;
+  color: var(--gray-11);
+  line-height: 2rem;
+}
+
+.input {
+  height: 2rem;
+  min-height: 0;
+  padding-inline: var(--space-1);
+  padding-block: 0;
+  margin-inline-end: var(--space-2);
+}

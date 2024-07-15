@@ -1,7 +1,7 @@
-import React, { PropsWithChildren } from 'react';
-import { Box, BoxProps, polymorphicFactory, PolymorphicFactory, useProps } from '@mantine/core';
-import { SizeProps, ColorwayProps } from '@/components/common';
+import { ColorwayProps, SizeProps } from '@/components/common';
+import { Box, BoxProps, PolymorphicFactory, polymorphicFactory, useProps } from '@mantine/core';
 import clsx from 'clsx';
+import React, { PropsWithChildren } from 'react';
 
 import './Tag.css';
 
@@ -29,7 +29,7 @@ export type TagFactory = PolymorphicFactory<{
 
 const defaultProps: Partial<TagProps> = {
   variant: 'light',
-  color: 'magenta',
+  color: 'crimson',
   size: 'small',
 };
 

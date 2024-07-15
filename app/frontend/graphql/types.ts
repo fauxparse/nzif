@@ -517,7 +517,7 @@ export type MutationCancelPaymentArgs = {
 
 export type MutationCreateActivityArgs = {
   attributes: ActivityAttributes;
-  festivalId: Scalars['ID'];
+  festivalId: InputMaybe<Scalars['ID']>;
   sessionId: InputMaybe<Scalars['ID']>;
   type: ActivityType;
 };

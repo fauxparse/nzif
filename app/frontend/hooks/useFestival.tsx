@@ -25,7 +25,7 @@ export const FestivalProvider: React.FC<PropsWithChildren<{ festival: CurrentFes
   children,
 }) => <FestivalContext.Provider value={festival}>{children}</FestivalContext.Provider>;
 
-const useFestival = () => useContext(FestivalContext);
+export const useFestival = () => useContext(FestivalContext);
 
 export const useFestivalDates = () => {
   const festival = useFestival();
@@ -37,5 +37,3 @@ export const useFestivalDates = () => {
 
   return dates;
 };
-
-export default useFestival;

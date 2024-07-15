@@ -1,21 +1,21 @@
+import { useDisclosure } from '@/hooks/useDisclosure';
 import PencilIcon from '@/icons/PencilIcon';
-import { ActionIcon, Box, Text, Textarea, TextareaProps } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { Box, IconButton, Text, TextArea, TextAreaProps } from '@radix-ui/themes';
 import clsx from 'clsx';
 
-type InPlaceEditProps = TextareaProps;
+import classes from './InPlaceEdit.module.css';
+
+type InPlaceEditProps = TextAreaProps;
 
 export const InPlaceEdit: React.FC<InPlaceEditProps> = ({ className, onBlur, ...props }) => {
   const [editing, { open, close }] = useDisclosure();
 
   return (
-    <Box className={clsx('in-place-edit', className)}>
+    <Box className={clsx(classes.root, className)}>
       {editing ? (
-        <Textarea
-          className="in-place-edit__input"
-          unstyled
+        <TextArea
+          className={classes.input}
           autoFocus
-          minRows={1}
           onFocus={(e) => {
             e.currentTarget.selectionStart = e.currentTarget.value.length;
           }}
@@ -27,17 +27,12 @@ export const InPlaceEdit: React.FC<InPlaceEditProps> = ({ className, onBlur, ...
         />
       ) : (
         <>
-          <Text className="in-place-edit__text" onClick={open}>
+          <Text className={classes.text} onClick={open}>
             {props.value}
           </Text>
-          <ActionIcon
-            className="in-place-edit__icon"
-            variant="transparent"
-            onClick={open}
-            aria-label="Edit"
-          >
+          <IconButton variant="ghost" radius="full" onClick={open} aria-label="Edit">
             <PencilIcon />
-          </ActionIcon>
+          </IconButton>
         </>
       )}
     </Box>
