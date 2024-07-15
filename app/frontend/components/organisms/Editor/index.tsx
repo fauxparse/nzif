@@ -26,18 +26,18 @@ import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPl
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { HeadingNode, QuoteNode } from '@lexical/rich-text';
+import { Box, BoxProps } from '@radix-ui/themes';
+import clsx from 'clsx';
 import { EditorState } from 'lexical';
 import { useCallback, useRef, useState } from 'react';
-import './Editor.css';
 import { FloatingLinkEditorPlugin } from './plugins/FloatingLinkEditorPlugin';
+import LinkPlugin from './plugins/LinkPlugin';
 import { PeriodicSavePlugin, PeriodicSavePluginRef } from './plugins/PeriodicSavePlugin';
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
 import TreeViewPlugin from './plugins/TreeViewPlugin';
-
-import { Box, BoxProps } from '@mantine/core';
-import clsx from 'clsx';
-import LinkPlugin from './plugins/LinkPlugin';
 import theme from './theme';
+
+import classes from './Editor.module.css';
 
 const TRANSFORMERS = [
   UNORDERED_LIST,
@@ -54,7 +54,7 @@ const TRANSFORMERS = [
   LINK,
 ];
 
-type EditorProps = BoxProps & {
+type EditorProps = Omit<BoxProps, 'onChange'> & {
   value: string;
   debug?: boolean;
   placeholder?: string;
@@ -110,7 +110,7 @@ export const Editor: React.FC<EditorProps> = ({
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <Box
-        className={clsx('editor', className)}
+        className={clsx(classes.editor, className)}
         onBlur={(event: React.FocusEvent<HTMLElement>) => {
           if (
             !event.relatedTarget?.closest('.editor') &&
@@ -124,11 +124,11 @@ export const Editor: React.FC<EditorProps> = ({
         <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
         <ToolbarPlugin show={toolbar} setLinkEditMode={setIsLinkEditMode} />
         <PeriodicSavePlugin ref={editor} onSave={handleSave} />
-        <div ref={onRef} className="editor__inner">
+        <div ref={onRef} className={classes.inner}>
           <RichTextPlugin
-            contentEditable={<ContentEditable className="editor__input" />}
+            contentEditable={<ContentEditable className={classes.input} />}
             placeholder={
-              <div className="editor__placeholder">{placeholder || 'Enter some text…'}</div>
+              <div className={classes.placeholder}>{placeholder || 'Enter some text…'}</div>
             }
             ErrorBoundary={LexicalErrorBoundary}
           />

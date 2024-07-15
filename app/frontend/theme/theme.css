@@ -2,7 +2,7 @@
   --input-bd: var(--border-input);
   --input-bd-hover: var(--border-input-hover);
   --input-bd-focus: var(--border-input-focus);
-  --mantine-primary-color-filled: var(--magenta-9);
+  --mantine-primary-color-filled: var(--crimson-9);
   --popover-shadow: var(--shadow-base);
 }
 

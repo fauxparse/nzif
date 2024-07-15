@@ -1,6 +1,6 @@
 import { ActivityType, SessionAttributes } from '@/graphql/types';
-import useFestival from '@/hooks/useFestival';
-import { useResizeObserver } from '@mantine/hooks';
+import { useFestival } from '@/hooks/useFestival';
+import { useResizeObserver } from '@/hooks/useResizeObserver';
 import { ResultOf } from 'gql.tada';
 import { mapValues } from 'lodash-es';
 import { DateTime } from 'luxon';

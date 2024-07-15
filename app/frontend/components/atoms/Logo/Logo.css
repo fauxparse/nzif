@@ -9,7 +9,7 @@
   }
 
   :where(.logo__nz) {
-    fill: var(--magenta-9);
+    fill: var(--crimson-9);
   }
 
   :where(.logo__if) {

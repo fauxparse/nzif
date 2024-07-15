@@ -16,7 +16,7 @@ import {
   Scalars,
   SessionAttributes,
 } from '@/graphql/types';
-import useFestival from '@/hooks/useFestival';
+import { useFestival } from '@/hooks/useFestival';
 import { RequirePermission } from '@/routes/admin';
 import { Reference, useMutation, useQuery } from '@apollo/client';
 import { createFileRoute } from '@tanstack/react-router';

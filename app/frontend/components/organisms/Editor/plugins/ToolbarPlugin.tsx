@@ -32,7 +32,7 @@ import {
 } from '@lexical/rich-text';
 import { $setBlocksType } from '@lexical/selection';
 import { $findMatchingParent, $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
-import { ActionIcon, ActionIconProps, Collapse } from '@mantine/core';
+import { Flex, IconButton, IconButtonProps, Separator } from '@radix-ui/themes';
 import {
   $createParagraphNode,
   $getSelection,
@@ -54,7 +54,10 @@ import {
   useRef,
   useState,
 } from 'react';
+import { Collapsible } from '../../../helpers/Collapsible/index';
 import { getSelectedNode } from '../utils/getSelectedNode';
+
+import classes from '../Editor.module.css';
 
 const LowPriority = 1;
 
@@ -233,12 +236,12 @@ export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ show, setLinkEditM
   };
 
   return (
-    <Collapse in={show}>
-      <div className="editor__toolbar" ref={toolbarRef}>
-        <ActionIcon.Group>
+    <Collapsible open={show}>
+      <Flex gap="3" className={classes.toolbar} ref={toolbarRef}>
+        <Flex className={classes.toolbarGroup}>
           <ToolbarButton
             disabled={!canUndo}
-            aria-label="Undo"
+            label="Undo"
             onClick={() => {
               editor.dispatchCommand(UNDO_COMMAND, undefined);
             }}
@@ -247,48 +250,46 @@ export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ show, setLinkEditM
           </ToolbarButton>
           <ToolbarButton
             disabled={!canRedo}
-            aria-label="Redo"
+            label="Redo"
             onClick={() => {
               editor.dispatchCommand(REDO_COMMAND, undefined);
             }}
           >
             <RedoIcon />
           </ToolbarButton>
-        </ActionIcon.Group>
-        <ActionIcon.Group>
+        </Flex>
+        <Separator orientation="vertical" />
+        <Flex className={classes.toolbarGroup}>
           <ToolbarButton
-            aria-label="Heading"
-            aria-pressed={blockType === 'h3'}
+            label="Heading"
+            pressed={blockType === 'h3'}
             onClick={() => formatHeading('h3')}
           >
             <HeadingIcon />
           </ToolbarButton>
           <ToolbarButton
-            aria-label="Bullet list"
-            aria-pressed={blockType === 'bullet'}
+            label="Bullet list"
+            pressed={blockType === 'bullet'}
             onClick={formatBulletList}
           >
             <BulletListIcon />
           </ToolbarButton>
           <ToolbarButton
-            aria-label="Numbered list"
-            aria-pressed={blockType === 'number'}
+            label="Numbered list"
+            pressed={blockType === 'number'}
             onClick={formatNumberedList}
           >
             <NumberedListIcon />
           </ToolbarButton>
-          <ToolbarButton
-            aria-label="Quote"
-            aria-pressed={blockType === 'quote'}
-            onClick={formatQuote}
-          >
+          <ToolbarButton label="Quote" pressed={blockType === 'quote'} onClick={formatQuote}>
             <QuoteIcon />
           </ToolbarButton>
-        </ActionIcon.Group>
-        <ActionIcon.Group>
+        </Flex>
+        <Separator orientation="vertical" />
+        <Flex className={classes.toolbarGroup}>
           <ToolbarButton
-            aria-label="Bold"
-            aria-pressed={isBold}
+            label="Bold"
+            pressed={isBold}
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
             }}
@@ -296,8 +297,8 @@ export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ show, setLinkEditM
             <BoldIcon />
           </ToolbarButton>
           <ToolbarButton
-            aria-label="Italic"
-            aria-pressed={isItalic}
+            label="Italic"
+            pressed={isItalic}
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
             }}
@@ -305,8 +306,8 @@ export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ show, setLinkEditM
             <ItalicIcon />
           </ToolbarButton>
           <ToolbarButton
-            aria-label="Underline"
-            aria-pressed={isUnderline}
+            label="Underline"
+            pressed={isUnderline}
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
             }}
@@ -314,25 +315,35 @@ export const ToolbarPlugin: React.FC<ToolbarPluginProps> = ({ show, setLinkEditM
             <UnderlineIcon />
           </ToolbarButton>
           <ToolbarButton
-            aria-label="Strikethrough"
-            aria-pressed={isStrikethrough}
+            label="Strikethrough"
+            pressed={isStrikethrough}
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough');
             }}
           >
             <StrikethroughIcon />
           </ToolbarButton>
-        </ActionIcon.Group>
-        <ActionIcon.Group>
-          <ToolbarButton aria-label="Link" aria-pressed={isLink} onClick={insertLink}>
+        </Flex>
+        <Separator orientation="vertical" />
+        <Flex className={classes.toolbarGroup}>
+          <ToolbarButton label="Link" pressed={isLink} onClick={insertLink}>
             <LinkIcon />
           </ToolbarButton>
-        </ActionIcon.Group>
-      </div>
-    </Collapse>
+        </Flex>
+      </Flex>
+    </Collapsible>
   );
 };
 
-const ToolbarButton: React.FC<ActionIconProps & ComponentPropsWithoutRef<'button'>> = (props) => (
-  <ActionIcon variant="transparent" data-color="neutral" {...props} />
+const ToolbarButton: React.FC<
+  IconButtonProps & ComponentPropsWithoutRef<'button'> & { pressed?: boolean; label: string }
+> = ({ pressed = false, label, ...props }) => (
+  <IconButton
+    className={classes.toolbarButton}
+    variant="soft"
+    color={pressed ? undefined : 'gray'}
+    aria-pressed={pressed || undefined}
+    aria-label={label}
+    {...props}
+  />
 );

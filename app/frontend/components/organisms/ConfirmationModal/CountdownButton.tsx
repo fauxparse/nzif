@@ -1,15 +1,12 @@
-import { Button, ButtonProps } from '@mantine/core';
-import { ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react';
+import { Button, ButtonProps } from '@radix-ui/themes';
+import { useEffect, useRef, useState } from 'react';
 
-type CountdownButtonProps = ComponentPropsWithoutRef<'button'> &
-  ButtonProps & {
-    seconds?: number;
-  };
+type CountdownButtonProps = ButtonProps & {
+  seconds?: number;
+};
 
 export const CountdownButton: React.FC<CountdownButtonProps> = ({
   seconds = 3,
-  leftSection,
-  rightSection,
   disabled,
   children,
   ...props
@@ -29,12 +26,7 @@ export const CountdownButton: React.FC<CountdownButtonProps> = ({
   }, []);
 
   return (
-    <Button
-      leftSection={timeLeft > 0 ? undefined : leftSection}
-      rightSection={timeLeft > 0 ? undefined : rightSection}
-      disabled={timeLeft > 0 || disabled}
-      {...props}
-    >
+    <Button disabled={timeLeft > 0 || disabled} {...props}>
       {timeLeft > 0 ? String(timeLeft) : children}
     </Button>
   );

@@ -23,7 +23,7 @@ export const SingleValueInput = <Item extends ComboboxItem, Value>({
   return (
     <>
       <Command.Input
-        ref={mergeRefs([inputRef, passedRef, console.log])}
+        ref={mergeRefs([inputRef, passedRef])}
         className={clsx(classes.input, 'rt-reset', 'rt-TextFieldInput')}
         value={query}
         onValueChange={onQueryChange}

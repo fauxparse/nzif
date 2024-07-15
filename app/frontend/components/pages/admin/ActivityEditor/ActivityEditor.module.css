@@ -1,0 +1,27 @@
+.header {
+}
+
+.headerName {
+  font-weight: var(--font-weight-medium);
+  font-size: var(--header-title-font-size);
+  line-height: var(--header-title-line-height);
+}
+
+.edit {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column: main;
+  gap: var(--spacing-large);
+  row-gap: var(--spacing-large);
+  align-items: start;
+  padding-block: var(--spacing-large);
+
+  @media (min-width: 60rem) {
+    grid-template-columns: 3fr 2fr;
+
+    .picture {
+      grid-row: 1;
+      grid-column: 2;
+    }
+  }
+}

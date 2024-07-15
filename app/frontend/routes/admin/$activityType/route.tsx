@@ -8,6 +8,7 @@ import {
   pluralFromActivityType,
 } from '@/constants/activityTypes';
 import { createFileRoute, notFound } from '@tanstack/react-router';
+import pluralize from 'pluralize';
 
 export const Route = createFileRoute('/admin/$activityType')({
   parseParams: ({ activityType: plural }) => {
@@ -20,7 +21,7 @@ export const Route = createFileRoute('/admin/$activityType')({
     activityType: pluralFromActivityType(activityType),
   }),
   beforeLoad: ({ params }) => ({
-    getTitle: () => activityTypeLabel(params.activityType),
+    getTitle: () => pluralize(activityTypeLabel(params.activityType)),
   }),
   loader: async ({ params }) => {
     const { activityType } = params;

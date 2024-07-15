@@ -1,6 +1,7 @@
-import { deburr, uniqBy } from 'lodash-es';
+import { usePlacenames } from '@/services/Placenames';
+import { uniqBy } from 'lodash-es';
 import { useCallback, useRef, useState } from 'react';
-import { SearchableOption } from './types';
+import { CityPickerOption } from './types';
 
 type Feature = {
   properties: {
@@ -15,11 +16,13 @@ type Feature = {
 export const useAutocomplete = () => {
   const controller = useRef<AbortController | null>(null);
 
+  const { countryName } = usePlacenames();
+
   const [busy, setBusy] = useState(false);
 
   const autocomplete = useCallback(
     (query: string) =>
-      new Promise<SearchableOption[]>((resolve) => {
+      new Promise<CityPickerOption[]>((resolve) => {
         controller.current?.abort('stale');
         controller.current = new AbortController();
 
@@ -41,17 +44,22 @@ export const useAutocomplete = () => {
             const json: { features: Feature[] } = await response.json();
             resolve(
               uniqBy(
-                json.features.map(({ properties }) => ({
-                  id: properties.place_id,
-                  name:
+                json.features.map(({ properties }) => {
+                  const name =
                     properties.country_code === 'us'
                       ? `${properties.city}, ${properties.state_code}`
-                      : properties.city,
-                  traditionalNames: [],
-                  country: properties.country,
-                  search: deburr(properties.city),
-                })),
-                ({ name, country }) => `${name}:${country}`
+                      : properties.city;
+                  return {
+                    id: properties.place_id,
+                    label: name,
+                    name,
+                    value: `${name}|${properties.country_code}`,
+                    traditionalNames: [],
+                    country: countryName(properties.country_code),
+                    countryCode: properties.country_code,
+                  };
+                }),
+                ({ label, country }) => `${label}:${country}`
               )
             );
           })

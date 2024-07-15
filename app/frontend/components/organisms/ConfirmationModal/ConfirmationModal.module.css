@@ -1,0 +1,9 @@
+.content {
+  --max-width: 30rem;
+}
+
+.buttons {
+  button {
+    min-width: 8rem;
+  }
+}

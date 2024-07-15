@@ -1,7 +1,7 @@
 import { ActivityEditor } from '@/components/pages/admin/ActivityEditor';
 import { ActivityDetailsQuery } from '@/components/pages/admin/ActivityEditor/queries';
 import { ResultOf } from '@/graphql';
-import useFestival from '@/hooks/useFestival';
+import { useFestival } from '@/hooks/useFestival';
 import { useQuery } from '@apollo/client';
 import { Text } from '@mantine/core';
 import { createFileRoute, notFound, useChildMatches } from '@tanstack/react-router';

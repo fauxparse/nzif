@@ -1,16 +1,16 @@
 import { UploadedFile } from '@/graphql/types';
-import { ActionIcon, Box, BoxProps, Button, Divider, Text } from '@mantine/core';
+import ImageIcon from '@/icons/ImageIcon';
+import { Box, BoxProps, Button, IconButton, Text } from '@radix-ui/themes';
+import clsx from 'clsx';
 import { isString, uniqueId } from 'lodash-es';
 import { CSSProperties, ComponentProps, useCallback, useEffect, useMemo, useState } from 'react';
+import { CropModal } from './CropModal';
 import { acceptedBy } from './acceptedBy';
 import { useUpload } from './useUpload';
 
-import './ImageUploader.css';
-import ImageIcon from '@/icons/ImageIcon';
-import clsx from 'clsx';
-import { CropModal } from './CropModal';
+import classes from './ImageUploader.module.css';
 
-type ImageUploaderProps = BoxProps & {
+type ImageUploaderProps = Omit<BoxProps, 'onChange'> & {
   value: string | UploadedFile | null;
   accept?: ComponentProps<'input'>['accept'];
   width?: number;
@@ -92,16 +92,19 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
   };
 
   return (
-    <Box className={clsx('image-uploader', className)} __vars={{ '--aspect-ratio': aspectRatio }}>
+    <Box
+      className={clsx(classes.root, className)}
+      style={{ '--aspect-ratio': aspectRatio } as CSSProperties}
+    >
       {src && (
         <img
-          className="image-uploader__preview"
+          className={classes.preview}
           alt="Image preview"
           src={src}
           style={{ '--progress': uploading ? `${percentage / 100}` : 1 } as CSSProperties}
         />
       )}
-      <Box className="image-uploader__target" onDragOver={dragOver} onDrop={drop}>
+      <Box className={classes.target} onDragOver={dragOver} onDrop={drop}>
         <input
           type="file"
           id={id}
@@ -112,12 +115,14 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           }}
         />
         {compact ? (
-          <ActionIcon component="label" variant="transparent" data-color="neutral" htmlFor={id}>
-            <ImageIcon />
-          </ActionIcon>
+          <IconButton asChild variant="ghost" color="gray">
+            <label htmlFor={id}>
+              <ImageIcon />
+            </label>
+          </IconButton>
         ) : (
           <>
-            <Text>
+            <Text as="p">
               Drag and drop a file to upload
               {!!width && !!height && (
                 <>
@@ -126,9 +131,9 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
                 </>
               )}
             </Text>
-            <Divider label="OR" labelPosition="center" />
-            <Button component="label" htmlFor={id} variant="outline">
-              Browse for an image
+            {/* <Divider label="OR" labelPosition="center" /> */}
+            <Button asChild variant="outline">
+              <label htmlFor={id}>Browse for an image</label>
             </Button>
           </>
         )}

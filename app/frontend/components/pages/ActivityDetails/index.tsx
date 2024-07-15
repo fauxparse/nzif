@@ -41,7 +41,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, load
               }
             : undefined
         }
-        data-color={loading ? 'neutral' : 'magenta'}
+        data-color={loading ? 'neutral' : 'crimson'}
         actions={
           <>
             <ShareButton />

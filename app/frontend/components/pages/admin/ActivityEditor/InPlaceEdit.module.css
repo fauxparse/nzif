@@ -1,0 +1,37 @@
+.root {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.input,
+.text {
+  display: block;
+  height: auto;
+  min-height: 1.5em;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  color: inherit;
+  box-shadow: none;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  resize: none;
+}
+
+.input {
+  flex: 0 0 100%;
+
+  & textarea {
+    width: 100%;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}
+
+.text {
+  /*  */
+}

@@ -1,9 +1,18 @@
-import { Box, Button, Group, Modal } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { Box, Button, Dialog, Flex } from '@radix-ui/themes';
 import { throttle } from 'lodash-es';
-import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import {
+  CSSProperties,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
 import { cropAndResize } from './cropAndResize';
 import { Rect } from './types';
+
+import classes from './ImageUploader.module.css';
 
 type Action =
   | {
@@ -23,7 +32,9 @@ type CropModalProps = {
 };
 
 export const CropModal: React.FC<CropModalProps> = ({ file, width, height, onCropped }) => {
-  const [opened, { open, close }] = useDisclosure();
+  const [open, setOpen] = useState(false);
+
+  const [modalWidth, setModalWidth] = useState(600);
 
   const preview = useRef<HTMLDivElement>(null);
 
@@ -49,9 +60,15 @@ export const CropModal: React.FC<CropModalProps> = ({ file, width, height, onCro
 
   useEffect(() => {
     if (file) {
-      open();
+      setOpen(true);
     }
   }, [file]);
+
+  useLayoutEffect(() => {
+    if (!image.current) return;
+
+    setModalWidth(image.current.offsetWidth + 48);
+  }, [originalWidth]);
 
   const src = useMemo(() => file && URL.createObjectURL(file), [file]);
 
@@ -117,8 +134,6 @@ export const CropModal: React.FC<CropModalProps> = ({ file, width, height, onCro
     const xEdge = event.currentTarget.dataset.x as 'left' | 'right';
     const yEdge = event.currentTarget.dataset.y as 'top' | 'bottom';
 
-    const { clientX, clientY } = event;
-    const frameRect = event.currentTarget.getBoundingClientRect();
     const outerRect = preview.current.getBoundingClientRect();
 
     const x1 = left;
@@ -166,62 +181,68 @@ export const CropModal: React.FC<CropModalProps> = ({ file, width, height, onCro
 
     cropAndResize(file, rect, width, height).then((blob) => {
       onCropped(blob);
-      close();
+      setOpen(false);
     });
   };
 
   return (
-    <Modal className="crop-modal" size="auto" opened={opened} onClose={close} title="Crop image">
-      {src && (
-        <Box
-          ref={preview}
-          className="crop-modal__image"
-          __vars={{
-            '--top': `${top * 100}%`,
-            '--left': `${left * 100}%`,
-            '--width': `${cropWidth * 100}%`,
-            '--height': `${cropHeight * 100}%`,
-          }}
-        >
-          <img ref={image} src={src} className="crop-modal__preview" alt="Preview" />
-          <div className="crop-modal__overlay" />
-          <div className="crop-modal__frame" onPointerDown={onFramePointerDown}>
-            <div
-              className="crop-modal__handle"
-              data-x="left"
-              data-y="top"
-              onPointerDown={handlePointerDown}
-            />
-            <div
-              className="crop-modal__handle"
-              data-x="left"
-              data-y="bottom"
-              onPointerDown={handlePointerDown}
-            />
-            <div
-              className="crop-modal__handle"
-              data-x="right"
-              data-y="top"
-              onPointerDown={handlePointerDown}
-            />
-            <div
-              className="crop-modal__handle"
-              data-x="right"
-              data-y="bottom"
-              onPointerDown={handlePointerDown}
-            />
-          </div>
-        </Box>
-      )}
-      <Group className="crop-modal__buttons">
-        <Button type="button" onClick={close}>
-          Cancel
-        </Button>
-        <Button type="button" variant="filled" onClick={confirm}>
-          Crop and resize
-        </Button>
-      </Group>
-    </Modal>
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Content className={classes.cropModal} width={`${modalWidth}px`} maxWidth="none">
+        <Dialog.Title>Crop image</Dialog.Title>
+
+        {src && (
+          <Box
+            ref={preview}
+            className={classes.cropImage}
+            style={
+              {
+                '--top': `${top * 100}%`,
+                '--left': `${left * 100}%`,
+                '--width': `${cropWidth * 100}%`,
+                '--height': `${cropHeight * 100}%`,
+              } as CSSProperties
+            }
+          >
+            <img ref={image} src={src} className={classes.cropPreview} alt="Preview" />
+            <div className={classes.cropOverlay} />
+            <div className={classes.cropFrame} onPointerDown={onFramePointerDown}>
+              <div
+                className={classes.cropHandle}
+                data-x="left"
+                data-y="top"
+                onPointerDown={handlePointerDown}
+              />
+              <div
+                className={classes.cropHandle}
+                data-x="left"
+                data-y="bottom"
+                onPointerDown={handlePointerDown}
+              />
+              <div
+                className={classes.cropHandle}
+                data-x="right"
+                data-y="top"
+                onPointerDown={handlePointerDown}
+              />
+              <div
+                className={classes.cropHandle}
+                data-x="right"
+                data-y="bottom"
+                onPointerDown={handlePointerDown}
+              />
+            </div>
+          </Box>
+        )}
+        <Flex gap="3" className={classes.cropButtons}>
+          <Button type="button" variant="outline" size="3" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button type="button" variant="solid" size="3" onClick={confirm}>
+            Crop and resize
+          </Button>
+        </Flex>
+      </Dialog.Content>
+    </Dialog.Root>
   );
 };
 

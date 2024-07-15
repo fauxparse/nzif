@@ -13,7 +13,7 @@ export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
       <Theme
         appearance={isDarkMode ? 'dark' : 'light'}
         accentColor="crimson"
-        grayColor="mauve"
+        grayColor="sand"
         panelBackground="solid"
       >
         <Helmet>

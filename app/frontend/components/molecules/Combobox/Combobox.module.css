@@ -12,6 +12,14 @@
     min-height: var(--text-field-height);
     margin-block: -1px;
   }
+
+  &:has([class*="rt-Card"]) {
+    box-shadow: none;
+
+    > [data-side] {
+      display: none;
+    }
+  }
 }
 
 .popup {
@@ -20,7 +28,7 @@
   max-height: 20rem;
   padding-block: var(--space-3);
   border-radius: var(--radius-medium);
-  background-color: var(--color-surface);
+  background-color: var(--color-panel-solid);
   box-shadow: var(--shadow-4);
 
   [cmdk-list-sizer] {

@@ -39,3 +39,8 @@
 .buttons {
   grid-column: 1 / -1;
 }
+
+.trigger {
+  padding-right: var(--space-3);
+  padding-left: var(--space-3);
+}

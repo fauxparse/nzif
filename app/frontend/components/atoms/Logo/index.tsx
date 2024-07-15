@@ -31,7 +31,7 @@ const makePoints = (points: { x: number; y: number }[]) =>
     noiseOffsetY: Math.random() * 1000,
   }));
 
-const COLORS = ['magenta', 'cyan', 'yellow'] as const;
+const COLORS = ['crimson', 'cyan', 'yellow'] as const;
 
 const NOISE_STEP = 0.005;
 

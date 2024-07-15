@@ -7,12 +7,12 @@ module Mutations
       field :session, Types::SessionType, null: true
 
       argument :attributes, Types::ActivityAttributes, required: true
-      argument :festival_id, GraphQL::Types::ID, required: true
+      argument :festival_id, GraphQL::Types::ID, required: false
       argument :session_id, GraphQL::Types::ID, required: false
       argument :type, Types::ActivityTypeType, required: true
 
-      def resolve(festival_id:, type:, attributes:, session_id: nil)
-        festival = ::Festival.find(festival_id)
+      def resolve(type:, attributes:, session_id: nil, festival_id: nil)
+        festival = festival_id ? ::Festival.find(festival_id) : current_festival
         session = festival.sessions.find(session_id) if session_id.present?
 
         perform(
