@@ -1,0 +1,42 @@
+.form {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column: main;
+  row-gap: var(--space-5);
+  margin: 0;
+  padding: var(--space-8) 0;
+
+  &:not(:last-of-type) {
+    border-bottom: 1px solid var(--gray-4);
+  }
+
+  fieldset {
+    display: contents;
+  }
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: var(--spacing-large);
+
+    h3 {
+      margin-top: calc(var(--line-height-3) + var(--space-1));
+      margin-bottom: 0;
+      line-height: var(--space-7);
+    }
+
+    .picture {
+      grid-row: 1 / span 3;
+      grid-column: 4;
+      align-self: start;
+      margin-top: calc(var(--line-height-3) + var(--space-1));
+    }
+
+    :global(.form-field) {
+      grid-column: 2 / span 2;
+    }
+
+    .buttons {
+      grid-column: 2 / span 2;
+    }
+  }
+}

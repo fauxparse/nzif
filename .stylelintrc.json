@@ -1,5 +1,9 @@
 {
-  "extends": ["stylelint-config-standard", "stylelint-config-hudochenkov/order"],
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-css-modules",
+    "stylelint-config-hudochenkov/order"
+  ],
   "plugins": ["stylelint-use-nesting"],
   "rules": {
     "at-rule-no-unknown": null,

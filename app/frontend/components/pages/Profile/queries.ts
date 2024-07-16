@@ -1,50 +1,48 @@
 import { graphql } from '@/graphql';
 
-export const ProfileQuery = graphql(`
+const ProfileDetailsFragment = graphql(`
+  fragment ProfileDetails on Person @_unmask {
+    id
+    name
+    pronouns
+    phone
+
+    city {
+      id
+      name
+      traditionalNames
+      country
+    }
+
+    picture {
+      id
+      small
+      medium
+    }
+  }
+`);
+
+export const ProfileQuery = graphql(
+  `
   query ProfileQuery {
     user {
       id
       email
 
       profile {
-        id
-        name
-        phone
-
-        city {
-          id
-          name
-          traditionalNames
-          country
-        }
-
-        picture {
-          id
-          medium
-        }
+        ...ProfileDetails
       }
     }
   }
-`);
+`,
+  [ProfileDetailsFragment]
+);
 
-export const UpdateProfileMutation = graphql(`
+export const UpdateProfileMutation = graphql(
+  `
   mutation UpdateProfileMutation($attributes: ProfileAttributes!) {
     updateProfile(attributes: $attributes) {
-      id
-      name
-      phone
-      picture {
-        id
-        small
-        medium
-      }
-
-      city {
-        id
-        name
-        traditionalNames
-        country
-      }
+      ...ProfileDetails
 
       user {
         id
@@ -52,7 +50,9 @@ export const UpdateProfileMutation = graphql(`
       }
     }
   }
-`);
+`,
+  [ProfileDetailsFragment]
+);
 
 export const UpdatePasswordMutation = graphql(`
   mutation UpdatePassword($password: String!, $passwordConfirmation: String!) {

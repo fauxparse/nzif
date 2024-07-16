@@ -1,9 +1,11 @@
 import { CityPicker } from '@/components/molecules/CityPicker';
+import { FormField } from '@/components/molecules/FormField';
 import { ImageUploader } from '@/components/molecules/ImageUploader';
 import Header from '@/components/organisms/Header';
 import { useMutation, useQuery } from '@apollo/client';
-import { Button, Input, TextInput, Title } from '@mantine/core';
+import { Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import { Button, Heading } from '@radix-ui/themes';
 import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 import { isEmpty, pickBy } from 'lodash-es';
@@ -12,10 +14,12 @@ import { z } from 'zod';
 import { WithUploadedPicture } from '../admin/ActivityEditor/types';
 import { ProfileQuery, UpdatePasswordMutation, UpdateProfileMutation } from './queries';
 
-import './Profile.css';
+import { Spinner } from '@/components/atoms/Spinner';
+import classes from './Profile.module.css';
 
 type ProfileForm = WithUploadedPicture<{
   name: string;
+  pronouns: string;
   email: string;
   phone: string;
   city: string | null;
@@ -23,6 +27,8 @@ type ProfileForm = WithUploadedPicture<{
 }>;
 
 type PasswordForm = { password: string; passwordConfirmation: string };
+
+const FULL_NAME_MESSAGE = 'Please give us your first and last name so we can tell everyone apart';
 
 export const Profile: React.FC = () => {
   const { loading, data } = useQuery(ProfileQuery);
@@ -35,6 +41,7 @@ export const Profile: React.FC = () => {
     if (data?.user?.profile) {
       return {
         name: data.user.profile.name || '',
+        pronouns: data.user.profile.pronouns || '',
         email: data.user.email || '',
         phone: data.user.profile.phone || '',
         city: data.user.profile.city?.name || null,
@@ -45,6 +52,7 @@ export const Profile: React.FC = () => {
 
     return {
       name: '',
+      pronouns: '',
       email: '',
       phone: '',
       city: '',
@@ -104,7 +112,7 @@ export const Profile: React.FC = () => {
       <Header title="Your profile" />
       <div className="body">
         <form
-          className="profile__form"
+          className={classes.form}
           onSubmit={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -112,25 +120,37 @@ export const Profile: React.FC = () => {
           }}
         >
           <fieldset disabled={loading || undefined}>
-            <Title order={3}>Your details</Title>
+            <Heading as="h3" size="5">
+              Your details
+            </Heading>
             <form.Field
               name="name"
               validators={{
-                onChangeAsync: z
-                  .string()
-                  .regex(/[^\s]{2,}\s+[^\s]{2,}/, 'Please enter your full name'),
+                onChangeAsync: z.string().regex(/[^\s]{2,}\s+[^\s]{2,}/, FULL_NAME_MESSAGE),
               }}
             >
               {(field) => (
-                <TextInput
-                  size="md"
+                <FormField.Root
                   label="Name"
-                  autoComplete="name"
-                  description="Please give us your first and last name so we can tell everyone apart."
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.currentTarget.value)}
+                  description={field.state.meta.errors[0] ? null : FULL_NAME_MESSAGE}
                   error={field.state.meta.errors[0]}
-                />
+                >
+                  <FormField.TextField
+                    autoComplete="name"
+                    value={field.state.value}
+                    onValueChange={field.handleChange}
+                  />
+                </FormField.Root>
+              )}
+            </form.Field>
+            <form.Field name="pronouns">
+              {(field) => (
+                <FormField.Root label="Pronouns" error={field.state.meta.errors[0]}>
+                  <FormField.TextField
+                    value={field.state.value}
+                    onValueChange={field.handleChange}
+                  />
+                </FormField.Root>
               )}
             </form.Field>
             <form.Field
@@ -140,34 +160,39 @@ export const Profile: React.FC = () => {
               }}
             >
               {(field) => (
-                <TextInput
-                  size="md"
-                  type="email"
-                  autoComplete="email"
+                <FormField.Root
                   label="Email address"
                   description="So we can contact you about your registration"
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.currentTarget.value)}
                   error={field.state.meta.errors[0]}
-                />
+                >
+                  <FormField.TextField
+                    type="email"
+                    autoComplete="email"
+                    value={field.state.value}
+                    onValueChange={field.handleChange}
+                  />
+                </FormField.Root>
               )}
             </form.Field>
             <form.Field name="phone">
               {(field) => (
-                <TextInput
-                  size="md"
-                  type="tel"
+                <FormField.Root
                   label="NZ mobile number"
-                  description="For time-sensitive notifications"
-                  autoComplete="tel"
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.currentTarget.value)}
-                />
+                  description="For time-sensitive text notifications"
+                  error={field.state.meta.errors[0]}
+                >
+                  <FormField.TextField
+                    type="tel"
+                    autoComplete="tel"
+                    value={field.state.value}
+                    onValueChange={field.handleChange}
+                  />
+                </FormField.Root>
               )}
             </form.Field>
             <form.Field name="city">
               {(field) => (
-                <Input.Wrapper size="md" label="Home town">
+                <FormField.Root label="Home town" error={field.state.meta.errors[0]}>
                   <CityPicker
                     className="presenter-details__city"
                     city={field.state.value}
@@ -177,13 +202,13 @@ export const Profile: React.FC = () => {
                       form.setFieldValue('country', country);
                     }}
                   />
-                </Input.Wrapper>
+                </FormField.Root>
               )}
             </form.Field>
             <form.Field name="uploadedPicture">
               {(field) => (
                 <ImageUploader
-                  className="presenter-details__picture"
+                  className={classes.picture}
                   compact
                   width={512}
                   height={512}
@@ -192,21 +217,21 @@ export const Profile: React.FC = () => {
                 />
               )}
             </form.Field>
-            <div className="form__buttons">
-              <Button
-                type="submit"
-                variant="filled"
-                disabled={!isDirty}
-                loading={saving || false}
-                loaderProps={{ type: 'dots' }}
-              >
-                Save changes
+            <div className={classes.buttons}>
+              <Button type="submit" variant="solid" size="3" disabled={!isDirty || saving}>
+                {saving ? (
+                  <>
+                    <Spinner color="gray" /> Saving…
+                  </>
+                ) : (
+                  'Save changes'
+                )}
               </Button>
             </div>
           </fieldset>
         </form>
         <form
-          className="profile__form"
+          className={classes.form}
           onSubmit={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -216,14 +241,14 @@ export const Profile: React.FC = () => {
           <Title order={3}>Change password</Title>
           <passwordForm.Field name="password">
             {(field) => (
-              <TextInput
-                size="md"
-                type="password"
-                autoComplete="new-password"
-                label="New password"
-                value={field.state.value}
-                onChange={(e) => field.handleChange(e.currentTarget.value)}
-              />
+              <FormField.Root label="New password">
+                <FormField.TextField
+                  type="password"
+                  autoComplete="new-password"
+                  value={field.state.value}
+                  onValueChange={field.handleChange}
+                />
+              </FormField.Root>
             )}
           </passwordForm.Field>
           <passwordForm.Field
@@ -238,26 +263,25 @@ export const Profile: React.FC = () => {
             }}
           >
             {(field) => (
-              <TextInput
-                size="md"
-                type="password"
-                autoComplete="new-password"
-                label="Confirm password"
-                value={field.state.value}
-                onChange={(e) => field.handleChange(e.currentTarget.value)}
-                error={field.state.meta.errors[0]}
-              />
+              <FormField.Root label="Confirm password" error={field.state.meta.errors[0]}>
+                <FormField.TextField
+                  type="password"
+                  autoComplete="new-password"
+                  value={field.state.value}
+                  onValueChange={field.handleChange}
+                />
+              </FormField.Root>
             )}
           </passwordForm.Field>
-          <div className="form__buttons">
-            <Button
-              type="submit"
-              variant="filled"
-              disabled={!passwordIsDirty}
-              loading={changingPassword || false}
-              loaderProps={{ type: 'dots' }}
-            >
-              Change password
+          <div className={classes.buttons}>
+            <Button type="submit" variant="solid" size="3" disabled={!isDirty || changingPassword}>
+              {changingPassword ? (
+                <>
+                  <Spinner color="gray" /> Saving…
+                </>
+              ) : (
+                'Change password'
+              )}
             </Button>
           </div>
         </form>
