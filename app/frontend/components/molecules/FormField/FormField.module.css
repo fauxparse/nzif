@@ -1,0 +1,18 @@
+.root {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.description {
+  color: var(--gray-11);
+}
+
+.error {
+  color: var(--red-11);
+}
