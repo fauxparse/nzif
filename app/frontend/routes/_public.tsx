@@ -17,9 +17,7 @@ export const Route = createFileRoute('/_public')({
           <title>{title}</title>
         </Helmet>
         <Navigation className="layout__navigation" />
-        <main className="layout__main">
-          <RouteTransition />
-        </main>
+        <RouteTransition />
         <Footer className="layout__footer" />
       </div>
     );

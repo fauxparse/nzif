@@ -1,22 +1,19 @@
-import Avatar from '@/components/atoms/Avatar';
+import Placename from '@/components/atoms/Placename';
 import ShareButton from '@/components/atoms/ShareButton';
-import Markdown from '@/components/helpers/Markdown';
-import Skeleton, { ParagraphSkeleton } from '@/components/helpers/Skeleton';
+import { Markdown } from '@/components/helpers/Markdown';
 import Body from '@/components/organisms/Body';
 import Header from '@/components/organisms/Header';
-import { readFragment } from '@/graphql';
-import { usePlacenames } from '@/hooks/usePlacenames';
-import CalendarIcon from '@/icons/CalendarIcon';
-import LocationIcon from '@/icons/LocationIcon';
-import ShowIcon from '@/icons/ShowIcon';
-import { Image } from '@mantine/core';
-import { map, range, uniqBy } from 'lodash-es';
-import { Fragment } from 'react';
-import { ActivityPresenterFragment } from './queries';
+import sentence from '@/util/sentence';
+import { randParagraph } from '@ngneat/falso';
+import { Flex, Heading, Section, Skeleton, Text } from '@radix-ui/themes';
+import { map, uniqBy } from 'lodash-es';
+import { useMemo } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Activity } from './types';
 
-import './ActivityDetails.css';
-import Placename from '@/components/atoms/Placename';
+import classes from './ActivityDetails.module.css';
+import { AtAGlance } from './AtAGlance';
+import { Presenters } from './Presenters';
 
 type ActivityDetailsProps = {
   activity: Activity;
@@ -24,15 +21,17 @@ type ActivityDetailsProps = {
 };
 
 export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, loading }) => {
-  const activityName = loading ? <Skeleton height="1em" width="12em" /> : activity.name;
-  const activityPresenters = readFragment(ActivityPresenterFragment, activity.presenters);
-  const venues = uniqBy(map(activity.sessions, 'venue').filter(Boolean), 'id');
-  const placenames = usePlacenames(activityPresenters);
+  const cities = useMemo(
+    () => (loading ? [] : uniqBy(map(activity.presenters, 'city').filter(Boolean), 'id')),
+    [activity.presenters, loading]
+  );
 
   return (
     <>
+      <Helmet>
+        <title>{activity.name}</title>
+      </Helmet>
       <Header
-        className="activity-details__header"
         background={
           !loading && activity.picture?.large
             ? {
@@ -41,134 +40,41 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, load
               }
             : undefined
         }
-        data-color={loading ? 'neutral' : 'crimson'}
-        actions={
-          <>
-            <ShareButton />
-          </>
-        }
         title={
           <>
-            <h1>{activityName}</h1>
-            <div className="presenters">
-              {loading ? (
-                <Skeleton height="1em" width="12em" />
-              ) : (
-                activityPresenters.map((presenter) => presenter.name).join(', ')
-              )}
-            </div>
-            <div className="placenames">
-              {loading ? (
-                <Skeleton height="1.5em" width="8em" radius="0.75em" />
-              ) : (
-                placenames.map((placename) => <Placename key={placename.name} {...placename} />)
-              )}
-            </div>
+            <Flex direction="column" gap="2">
+              <Heading>
+                <Skeleton loading={loading}>{loading ? 'Loading…' : activity.name}</Skeleton>
+              </Heading>
+              <Heading as="h2" size="6" weight="medium">
+                <Skeleton loading={loading}>
+                  {loading ? 'Loading…' : sentence(map(activity.presenters, 'name'))}
+                </Skeleton>
+              </Heading>
+              <Flex wrap="wrap" gap="2">
+                {cities.map((city) => city && <Placename key={city.id} city={city} />)}
+              </Flex>
+            </Flex>
           </>
         }
+        actions={<ShareButton />}
       />
-      <Body className="activity-details__body">
-        <div className="activity-details__content">
-          <aside className="activity-details__aside">
+      <Body>
+        <Section className={classes.main}>
+          <div className={classes.description}>
             {loading ? (
-              <dl>
-                {range(3).map((i) => (
-                  <Fragment key={i}>
-                    <dt>
-                      <Skeleton circle width="var(--icon-medium)" height="var(--icon-medium)" />
-                    </dt>
-                    <dd>
-                      <Skeleton height="1em" width="12em" />
-                    </dd>
-                  </Fragment>
-                ))}
-              </dl>
+              <Text>
+                <Skeleton loading>{randParagraph()}</Skeleton>
+              </Text>
             ) : (
-              <dl>
-                {loading ||
-                  (activity.sessions.length > 0 && (
-                    <>
-                      <dt>
-                        <CalendarIcon />
-                      </dt>
-                      {activity.sessions.map((session) => (
-                        <dd key={session.id}>
-                          {session.startsAt.plus({}).toFormat('h:mma EEEE d MMMM')}
-                        </dd>
-                      ))}
-                    </>
-                  ))}
-                {venues.length > 0 && (
-                  <>
-                    <dt>
-                      <LocationIcon />
-                    </dt>
-                    {venues.map(
-                      (venue) =>
-                        !!venue && (
-                          <dd key={venue.id}>
-                            {[venue.room, venue.building].filter(Boolean).join(' at ')}
-                          </dd>
-                        )
-                    )}
-                  </>
-                )}
-                {activity.bookingLink && (
-                  <>
-                    <dt>
-                      <ShowIcon />
-                    </dt>
-                    <dd>
-                      <a href={activity.bookingLink} target="_blank" rel="noreferrer">
-                        Book now
-                      </a>
-                    </dd>
-                  </>
-                )}
-              </dl>
-            )}
-          </aside>
-          <div className="activity-details__description">
-            {loading ? (
-              <>
-                <Skeleton className="activity-details__picture" style={{ aspectRatio: '16 / 9' }} />
-                <ParagraphSkeleton />
-                <div className="activity-details__presenter">
-                  <Skeleton
-                    circle
-                    className="avatar"
-                    width="var(--avatar-xl)"
-                    height="var(--avatar-xl)"
-                  />
-                  <h3>
-                    <Skeleton height="1em" width="12em" />
-                  </h3>
-                  <div>
-                    <ParagraphSkeleton />
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <Image
-                  className="activity-details__picture"
-                  src={activity.picture?.large}
-                  alt={activity.name}
-                />
-
+              <Text asChild size="4">
                 <Markdown>{String(activity.description)}</Markdown>
-
-                {activityPresenters.map((presenter) => (
-                  <div className="activity-details__presenter" key={presenter.id}>
-                    <Avatar size="xl" user={{ profile: presenter }} />
-                    <h3>{presenter.name}</h3>
-                    <Markdown>{presenter.bio}</Markdown>
-                  </div>
-                ))}
-              </>
+              </Text>
             )}
           </div>
-        </div>
+          <AtAGlance activity={activity} loading={loading} />
+          <Presenters activity={activity} loading={loading} />
+        </Section>
       </Body>
     </>
   );

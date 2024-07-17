@@ -1,8 +1,8 @@
 .body {
   display: grid;
-  grid-template-columns: var(--layout-columns);
+  grid-template-columns: subgrid;
+  grid-column: full-bleed;
   container-name: body;
-  container-type: inline-size;
 
   :where(> section) {
     grid-column: main;

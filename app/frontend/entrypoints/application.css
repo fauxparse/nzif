@@ -12,6 +12,7 @@
   --z-index-search: 20;
   --z-index-dialog: 30;
   --z-index-select-content: 40;
+  --z-index-toast: 50;
   --ltr: 1;
 
   color-scheme: light dark;

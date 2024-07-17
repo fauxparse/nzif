@@ -50,6 +50,7 @@ export const ActivityDetailsQuery = graphql(
             id
             room
             building
+            address
           }
         }
       }

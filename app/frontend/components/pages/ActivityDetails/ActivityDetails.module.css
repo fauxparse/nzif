@@ -1,0 +1,42 @@
+.main {
+  --sidebar-width: 16rem;
+
+  display: grid;
+  grid-template: "description" "at-a-glance" "presenters" / 1fr;
+  grid-column: main;
+  gap: var(--space-4);
+
+  @media (--sm) {
+    grid-template: "description at-a-glance" "presenters at-a-glance" / 1fr var(--sidebar-width);
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  @media (--md) {
+    --sidebar-width: 24rem;
+  }
+}
+
+.description {
+  grid-area: description;
+}
+
+.atAGlance {
+  grid-area: at-a-glance;
+  padding: var(--space-4);
+
+  :global(.rt-DataListLabel) {
+    align-items: center;
+    min-width: 0;
+
+    :global(.rt-Skeleton) {
+      border-radius: 50%;
+    }
+  }
+}
+
+.presenters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+  gap: var(--space-4);
+}

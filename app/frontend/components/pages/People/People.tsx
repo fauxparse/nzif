@@ -1,9 +1,10 @@
 import Body from '@/components/organisms/Body';
 import Header from '@/components/organisms/Header';
-import { FestivalPresenter } from './types';
-
 import { Avatar, Card, Flex, Text } from '@radix-ui/themes';
 import { Link } from '@tanstack/react-router';
+import { FestivalPresenter } from './types';
+
+import initials from 'initials';
 import classes from './People.module.css';
 
 type PeopleProps = {
@@ -24,10 +25,7 @@ export const People: React.FC<PeopleProps> = ({ people }) => (
                     size="3"
                     src={person.picture?.medium}
                     radius="full"
-                    fallback={person.name
-                      .split(/\s+/)
-                      .map((w) => w[0])
-                      .join('')}
+                    fallback={initials(person.name)}
                   />
                   <Text truncate>{person.name}</Text>
                 </Flex>
