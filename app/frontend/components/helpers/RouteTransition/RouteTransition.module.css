@@ -1,5 +1,8 @@
 .outlet {
   display: grid;
+  grid-template-rows: auto 1fr;
   grid-template-columns: subgrid;
   grid-column: full-bleed;
+  grid-auto-rows: auto;
+  align-self: stretch;
 }

@@ -1,13 +1,15 @@
-import Button from '@/components/atoms/Button';
+import { useToast } from '@/components/molecules/Toast';
 import ShareIcon from '@/icons/ShareIcon';
-import { notifications } from '@mantine/notifications';
+import { IconButton } from '@radix-ui/themes';
 
 const ShareButton = () => {
+  const { notify } = useToast();
+
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      notifications.show({
-        message: 'Link copied to clipboard',
+      notify({
+        description: 'Link copied to clipboard',
       });
     } catch (err) {
       console.error('Failed', err);
@@ -28,7 +30,11 @@ const ShareButton = () => {
     }
   };
 
-  return <Button variant="ghost" leftSection={<ShareIcon />} onClick={share} />;
+  return (
+    <IconButton variant="ghost" size="3" radius="full" onClick={share}>
+      <ShareIcon />
+    </IconButton>
+  );
 };
 
 export default ShareButton;

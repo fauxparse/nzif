@@ -8,7 +8,8 @@
   z-index: var(--z-index-header);
   display: grid;
   grid-template-rows: max(var(--header-height), max-content);
-  grid-template-columns: var(--layout-columns);
+  grid-template-columns: subgrid;
+  grid-column: full-bleed;
   min-height: var(--header-min-height);
   padding-top: var(--spacing-large);
   border-bottom: var(--border-thin) solid var(--border-subtle);
