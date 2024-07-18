@@ -2,12 +2,12 @@
   --sidebar-width: 16rem;
 
   display: grid;
-  grid-template: "description" "at-a-glance" "presenters" / 1fr;
+  grid-template: "description" "at-a-glance" "picture" "presenters" / 1fr;
   grid-column: main;
   gap: var(--space-4);
 
   @media (--sm) {
-    grid-template: "description at-a-glance" "presenters at-a-glance" / 1fr var(--sidebar-width);
+    grid-template: "description at-a-glance" "picture at-a-glance" "presenters at-a-glance" / 1fr var(--sidebar-width);
     gap: var(--space-8);
     align-items: start;
   }
@@ -19,6 +19,12 @@
 
 .description {
   grid-area: description;
+}
+
+.picture {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .atAGlance {

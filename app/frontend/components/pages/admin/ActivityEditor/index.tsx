@@ -1,5 +1,4 @@
 import { RouteTransition } from '@/components/helpers/RouteTransition';
-import Body from '@/components/organisms/Body';
 import usePreviousDistinct from '@/hooks/usePreviousDistinct';
 import { useMemo } from 'react';
 import { ActivityEditorHeader } from './Header';
@@ -33,9 +32,7 @@ export const ActivityEditor: React.FC<ActivityEditorProps> = ({
   return (
     <>
       <ActivityEditorHeader activity={activity} session={session} loading={loading} />
-      <Body>
-        <RouteTransition routeKey={tabValue} direction={direction} />
-      </Body>
+      <RouteTransition routeKey={tabValue} direction={direction} />
     </>
   );
 };

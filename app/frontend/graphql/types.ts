@@ -40,6 +40,7 @@ export type ActivityAttributes = {
   description: InputMaybe<Scalars['String']>;
   name: InputMaybe<Scalars['String']>;
   picture: InputMaybe<Scalars['Upload']>;
+  pictureAltText: InputMaybe<Scalars['String']>;
   profileIds: InputMaybe<Array<Scalars['ID']>>;
   slug: InputMaybe<Scalars['String']>;
   suitability: InputMaybe<Scalars['String']>;
@@ -54,6 +55,7 @@ export type ActivityCount = {
 
 export type ActivityPicture = {
   __typename: 'ActivityPicture';
+  altText: Maybe<Scalars['String']>;
   blurhash: Scalars['String'];
   id: Scalars['ID'];
   /** 1920x1080 */

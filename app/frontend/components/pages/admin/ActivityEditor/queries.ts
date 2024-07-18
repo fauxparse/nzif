@@ -35,6 +35,7 @@ export const ActivityDetailsQuery = graphql(
         picture {
           id
           large
+          altText
         }
 
         presenters {
@@ -104,6 +105,7 @@ export const UpdateActivityMutation = graphql(
         picture {
           id
           large
+          altText
         }
 
         presenters {

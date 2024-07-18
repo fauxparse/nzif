@@ -20,9 +20,7 @@ export const Route = createFileRoute('/admin')({
           <title>{title}</title>
         </Helmet>
         <Navigation className="layout__navigation" />
-        <main className="layout__main">
-          <RouteTransition />
-        </main>
+        <RouteTransition />
       </div>
     );
   },

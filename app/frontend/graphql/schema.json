@@ -306,6 +306,18 @@
               "deprecationReason": null
             },
             {
+              "name": "pictureAltText",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "profileIds",
               "description": null,
               "type": {
@@ -422,6 +434,20 @@
           ],
           "possibleTypes": null,
           "fields": [
+            {
+              "name": "altText",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
             {
               "name": "blurhash",
               "description": null,

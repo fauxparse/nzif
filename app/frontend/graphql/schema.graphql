@@ -17,6 +17,7 @@ input ActivityAttributes {
   description: String
   name: String
   picture: Upload
+  pictureAltText: String
   profileIds: [ID!]
   slug: String
   suitability: String
@@ -29,6 +30,7 @@ type ActivityCount {
 }
 
 type ActivityPicture {
+  altText: String
   blurhash: String!
   id: ID!
 

@@ -27,6 +27,7 @@ export const ActivityDetailsQuery = graphql(
       activity(type: $type, slug: $slug) {
         id
         type
+        slug
         name
         description
         bookingLink
@@ -39,6 +40,7 @@ export const ActivityDetailsQuery = graphql(
           id
           large
           blurhash
+          altText
         }
 
         sessions {
