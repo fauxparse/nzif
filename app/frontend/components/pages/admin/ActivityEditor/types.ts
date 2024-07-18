@@ -21,4 +21,5 @@ export const isShow = (activity: Activity): activity is Show => activity.type ==
 
 export type WithUploadedPicture<T> = T & {
   uploadedPicture: UploadedFile | null;
+  pictureAltText: string;
 };

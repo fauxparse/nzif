@@ -68,7 +68,7 @@ gem 'acts_as_list', '~> 1.1.0'
 
 gem 'blurhash', '~> 0.1.7'
 gem 'image_processing', '~> 1.8'
-gem 'shrine', '~> 3.0'
+gem 'shrine', '~> 3.6'
 
 gem 'amatch', '~> 0.4.1'
 gem 'countries', '~> 5.4'

@@ -5,12 +5,16 @@ import Body from '@/components/organisms/Body';
 import Header from '@/components/organisms/Header';
 import sentence from '@/util/sentence';
 import { randParagraph } from '@ngneat/falso';
-import { Flex, Heading, Section, Skeleton, Text } from '@radix-ui/themes';
+import { Card, Flex, Heading, IconButton, Inset, Section, Skeleton, Text } from '@radix-ui/themes';
 import { map, uniqBy } from 'lodash-es';
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Activity } from './types';
 
+import { Permission } from '@/graphql/types';
+import EditIcon from '@/icons/EditIcon';
+import { useAuthentication } from '@/services/Authentication';
+import { Link } from '@tanstack/react-router';
 import classes from './ActivityDetails.module.css';
 import { AtAGlance } from './AtAGlance';
 import { Presenters } from './Presenters';
@@ -25,6 +29,8 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, load
     () => (loading ? [] : uniqBy(map(activity.presenters, 'city').filter(Boolean), 'id')),
     [activity.presenters, loading]
   );
+
+  const { hasPermission } = useAuthentication();
 
   return (
     <>
@@ -57,7 +63,21 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, load
             </Flex>
           </>
         }
-        actions={<ShareButton />}
+        actions={
+          <Flex gap="3">
+            <ShareButton />
+            {hasPermission(Permission.Activities) && (
+              <IconButton asChild variant="ghost" size="3" radius="full">
+                <Link
+                  to="/admin/$activityType/$slug"
+                  params={{ activityType: activity.type, slug: activity.slug }}
+                >
+                  <EditIcon />
+                </Link>
+              </IconButton>
+            )}
+          </Flex>
+        }
       />
       <Body>
         <Section className={classes.main}>
@@ -73,6 +93,17 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, load
             )}
           </div>
           <AtAGlance activity={activity} loading={loading} />
+          {activity.picture?.large && (
+            <Card>
+              <Inset>
+                <img
+                  className={classes.picture}
+                  src={activity.picture.large}
+                  alt={activity.picture.altText || undefined}
+                />
+              </Inset>
+            </Card>
+          )}
           <Presenters activity={activity} loading={loading} />
         </Section>
       </Body>

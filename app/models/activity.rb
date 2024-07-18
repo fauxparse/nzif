@@ -3,10 +3,13 @@ class Activity < ApplicationRecord
   include Sluggable
   include Searchable
   include Castable
+  include AltText
 
   enum :type, :activity_type
 
   sluggable scope: %i[festival_id type]
+
+  alt_text_for :picture
 
   belongs_to :festival
   has_many :sessions, inverse_of: :activity, dependent: :nullify

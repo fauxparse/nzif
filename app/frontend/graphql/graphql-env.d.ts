@@ -228,6 +228,14 @@ export type introspection = {
             }
           },
           {
+            "name": "pictureAltText",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
             "name": "profileIds",
             "type": {
               "kind": "LIST",
@@ -306,6 +314,15 @@ export type introspection = {
         "kind": "OBJECT",
         "name": "ActivityPicture",
         "fields": [
+          {
+            "name": "altText",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
           {
             "name": "blurhash",
             "type": {
