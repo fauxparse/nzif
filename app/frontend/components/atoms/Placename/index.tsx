@@ -1,7 +1,7 @@
 import { City } from '@/graphql/types';
 import LocationIcon from '@/icons/LocationIcon';
 import { usePlacenames } from '@/services/Placenames';
-import { Badge, BadgeProps, Flex, Text } from '@radix-ui/themes';
+import { Badge, BadgeProps, Box, Flex, Text } from '@radix-ui/themes';
 import { getName } from 'country-list';
 import { CircleFlag } from 'react-circle-flags';
 
@@ -22,19 +22,21 @@ const Placename = ({ city, ...props }: PlacenameProps) => {
 
   return displayName ? (
     <Badge asChild radius="full" size="1">
-      <Flex asChild align="center" pr="3" pl="1">
+      <Flex asChild align="center" pr={{ sm: '3' }} pl={{ sm: '1' }}>
         <button type="button" onClick={(e) => showPopup({ city, anchor: e.currentTarget })}>
-          {city.country ? (
-            <CircleFlag
-              countryCode={city.country.toLowerCase()}
-              width={20}
-              height={20}
-              style={{ marginInline: '-2px' }}
-            />
-          ) : (
-            <LocationIcon variant="filled" size="1" />
-          )}
-          <Text size="2">{displayName}</Text>
+          <Box asChild display={{ initial: 'none', sm: 'block' }}>
+            {city.country ? (
+              <CircleFlag
+                countryCode={city.country.toLowerCase()}
+                width={20}
+                height={20}
+                style={{ marginInline: '-2px' }}
+              />
+            ) : (
+              <LocationIcon variant="filled" size="1" />
+            )}
+          </Box>
+          <Text size={{ initial: '1', sm: '2' }}>{displayName}</Text>
         </button>
       </Flex>
     </Badge>

@@ -1,11 +1,12 @@
 import Placename from '@/components/atoms/Placename';
 import { Markdown } from '@/components/helpers/Markdown';
 import { randParagraph } from '@ngneat/falso';
-import { Avatar, Box, Flex, Heading, Skeleton, Text } from '@radix-ui/themes';
+import { Avatar, Box, Button, Flex, Heading, Skeleton, Text } from '@radix-ui/themes';
 import initials from 'initials';
 import { useMemo } from 'react';
 import { Activity } from './types';
 
+import { Link } from '@tanstack/react-router';
 import classes from './ActivityDetails.module.css';
 
 type PresentersProps = {
@@ -57,6 +58,11 @@ export const Presenters: React.FC<PresentersProps> = ({ activity, loading }) => 
                 <Markdown>{String(presenter.bio)}</Markdown>
               </Text>
             )}
+            <Button asChild variant="outline">
+              <Link to="/people/$id" params={{ id: String(presenter.id) }}>
+                More about {presenter.name}
+              </Link>
+            </Button>
           </Flex>
         </Flex>
       ))}

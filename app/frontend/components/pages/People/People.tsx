@@ -2,9 +2,9 @@ import Body from '@/components/organisms/Body';
 import Header from '@/components/organisms/Header';
 import { Avatar, Card, Flex, Text } from '@radix-ui/themes';
 import { Link } from '@tanstack/react-router';
+import initials from 'initials';
 import { FestivalPresenter } from './types';
 
-import initials from 'initials';
 import classes from './People.module.css';
 
 type PeopleProps = {

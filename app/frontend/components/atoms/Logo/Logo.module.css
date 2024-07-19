@@ -1,0 +1,19 @@
+.logo {
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+  aspect-ratio: 4 / 3;
+}
+
+.blob {
+  mix-blend-mode: var(--blend-mode);
+}
+
+.nz {
+  fill: var(--crimson-9);
+}
+
+.if {
+  fill: var(--text-inverse);
+}
+

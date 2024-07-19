@@ -10,21 +10,43 @@
   margin-block: var(--spacing-large);
 }
 
-.portrait {
-  object-fit: cover;
-  object-position: center;
-  aspect-ratio: 16 / 9;
-}
-
-.portraitPlaceholder {
+.main {
   display: grid;
-  place-content: center;
-  background: var(--background-subtle);
-  aspect-ratio: 16 / 9;
+  grid-template: "portrait" auto "bio" auto "appearances" auto / 1fr;
+  grid-column: main;
+  gap: var(--space-4);
+
+  @media (--md) {
+    grid-template: "bio portrait" auto "appearances portrait" auto / 3fr 1fr;
+    align-items: start;
+  }
 }
 
-.personName {
-  font-weight: var(--font-weight-medium);
-  text-align: center;
-  padding-block-start: var(--spacing-small);
+.bio {
+  grid-area: bio;
+}
+
+.portrait {
+  grid-area: portrait;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-3);
+    box-shadow: var(--shadow-2);
+  }
+}
+
+.appearances {
+  grid-area: appearances;
+
+  .cards {
+    display: grid;
+    gap: var(--space-4);
+
+    @media (--sm) {
+      grid-template-columns: repeat(auto-fill, 16rem);
+    }
+  }
 }

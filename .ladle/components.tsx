@@ -1,10 +1,13 @@
 import { Toast } from '@/components/molecules/Toast';
 import { ThemeProvider } from '@/services/Themes';
 import { GlobalProvider } from '@ladle/react';
+import { getRouterContext } from '@tanstack/react-router';
 import { HelmetProvider } from 'react-helmet-async';
 
 import '@radix-ui/themes/styles.css';
 import '@/styles/new/application.css';
+
+const RouterContext = getRouterContext();
 
 export const Provider: GlobalProvider = ({ children }) => (
   <HelmetProvider>

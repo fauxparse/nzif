@@ -83,7 +83,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, load
         <Section className={classes.main}>
           <div className={classes.description}>
             {loading ? (
-              <Text>
+              <Text size="4">
                 <Skeleton loading>{randParagraph()}</Skeleton>
               </Text>
             ) : (

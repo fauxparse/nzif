@@ -5,10 +5,11 @@ export const PersonQuery = graphql(`
     person(id: $id) {
       id
       name
+      pronouns
       bio
       picture {
         id
-        medium
+        large
       }
 
       appearances {
@@ -24,6 +25,7 @@ export const PersonQuery = graphql(`
           picture {
             id
             medium
+            blurhash
           }
         }
 
@@ -51,6 +53,7 @@ export const AllPresentersQuery = graphql(`
       people {
         id
         name
+        pronouns
 
         city {
           id
