@@ -1,7 +1,6 @@
-import Skeleton from '@/components/helpers/Skeleton';
 import { ActivityCard, ActivityCardActivity } from '@/components/molecules/ActivityCard';
 import { ActivityType } from '@/graphql/types';
-import { Box, Flex, Grid, Text } from '@radix-ui/themes';
+import { Box, Flex, Grid, Skeleton, Text } from '@radix-ui/themes';
 import { useActivityGroups } from './useActivityGroups';
 
 import classes from './ActivityList.module.css';
@@ -34,15 +33,13 @@ export const ActivityList: React.FC<ActivityListProps> = ({
               direction={{ initial: 'column', sm: 'row' }}
             >
               <Text size="5" weight="medium">
-                {loading ? <Skeleton height="1em" width="7em" /> : date.toFormat('EEEE, d MMMM')}
+                <Skeleton loading={loading}>{date.toFormat('EEEE, d MMMM')}</Skeleton>
               </Text>
               {endTime && (
                 <Text size={{ initial: '4', sm: '5' }} color="gray">
-                  {loading ? (
-                    <Skeleton height="1em" width="7em" />
-                  ) : (
-                    `${date.toFormat('h:mma')}–${endTime.toFormat('h:mma')}`
-                  )}
+                  <Skeleton loading={loading}>
+                    {date.toFormat('h:mma')}–{endTime.toFormat('h:mma')}
+                  </Skeleton>
                 </Text>
               )}
             </Flex>

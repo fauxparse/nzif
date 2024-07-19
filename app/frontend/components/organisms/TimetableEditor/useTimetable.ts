@@ -72,8 +72,8 @@ export const useTimetable = (
     [startsAt, granularity]
   );
 
-  const [topLeft, topLeftRect] = useResizeObserver({ box: 'border-box' });
-  const [firstColumn, firstColumnRect] = useResizeObserver({ box: 'border-box' });
+  const [topLeft, topLeftRect] = useResizeObserver<HTMLDivElement>({ box: 'border-box' });
+  const [firstColumn, firstColumnRect] = useResizeObserver<HTMLDivElement>({ box: 'border-box' });
 
   const rowHeaderWidth = topLeftRect.width + 1;
   const cellWidth = (firstColumnRect.width + firstColumnRect.x * 2) / granularity;

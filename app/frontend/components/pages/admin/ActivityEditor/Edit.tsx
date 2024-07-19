@@ -1,8 +1,9 @@
 import { ImageUploader } from '@/components/molecules/ImageUploader';
+import { useToast } from '@/components/molecules/Toast';
 import { Editor } from '@/components/organisms/Editor';
 import { ActivityAttributes } from '@/graphql/types';
 import { useMutation } from '@apollo/client';
-import { notifications } from '@mantine/notifications';
+import { Flex, TextArea } from '@radix-ui/themes';
 import { useForm } from '@tanstack/react-form';
 import { ResultOf } from 'gql.tada';
 import { isEmpty, pick, pickBy } from 'lodash-es';
@@ -11,7 +12,6 @@ import { Presenters } from './Presenters';
 import { UpdateActivityMutation } from './queries';
 import { Activity, ActivityDetails, Presenter, WithUploadedPicture, isShow } from './types';
 
-import { Flex, TextArea } from '@radix-ui/themes';
 import classes from './ActivityEditor.module.css';
 
 type EditProps = {
@@ -32,6 +32,8 @@ export const Edit: React.FC<EditProps> = ({ activity }) => {
   const lastSaved = useRef<
     Activity | NonNullable<ResultOf<typeof UpdateActivityMutation>['updateActivity']>['activity']
   >(activity);
+
+  const { notify } = useToast();
 
   const updatePresenters = (presenters: Presenter[]) => {
     updateMutation({
@@ -78,7 +80,7 @@ export const Edit: React.FC<EditProps> = ({ activity }) => {
       }).then(({ data }) => {
         if (data?.updateActivity?.activity) {
           lastSaved.current = data.updateActivity.activity;
-          notifications.show({ message: 'Changes saved' });
+          notify({ description: 'Changes saved' });
           form.reset();
           form.setFieldValue('uploadedPicture', null);
         }

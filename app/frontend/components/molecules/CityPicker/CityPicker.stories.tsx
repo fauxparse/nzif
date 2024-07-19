@@ -3,7 +3,6 @@ import { PlacenamesProvider } from '@/services/Placenames';
 import { gql } from '@apollo/client';
 import { MockedProvider } from '@apollo/client/testing';
 import { StoryDefault } from '@ladle/react';
-import { MantineProvider } from '@mantine/core';
 import { useState } from 'react';
 import { CityPicker } from './';
 
@@ -126,21 +125,19 @@ const CityPickerStory = () => {
   const [country, setCountry] = useState<string | null>(null);
 
   return (
-    <MantineProvider>
-      <MockedProvider mocks={MOCKS} cache={cache}>
-        <PlacenamesProvider>
-          <CityPicker
-            city={city}
-            country={country}
-            placeholder="Select a city"
-            onChange={(city, country) => {
-              setCity(city);
-              setCountry(country);
-            }}
-          />
-        </PlacenamesProvider>
-      </MockedProvider>
-    </MantineProvider>
+    <MockedProvider mocks={MOCKS} cache={cache}>
+      <PlacenamesProvider>
+        <CityPicker
+          city={city}
+          country={country}
+          placeholder="Select a city"
+          onChange={(city, country) => {
+            setCity(city);
+            setCountry(country);
+          }}
+        />
+      </PlacenamesProvider>
+    </MockedProvider>
   );
 };
 

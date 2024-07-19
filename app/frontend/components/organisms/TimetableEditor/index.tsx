@@ -5,14 +5,14 @@ import {
   Scalars,
   SessionAttributes,
 } from '@/graphql/types';
+import { useDisclosure } from '@/hooks/useDisclosure';
 import { FetchResult } from '@apollo/client';
-import { Box } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { Box } from '@radix-ui/themes';
 import { LayoutGroup } from 'framer-motion';
 import { ResultOf } from 'gql.tada';
 import { range } from 'lodash-es';
 import { DateTime } from 'luxon';
-import { useCallback, useState } from 'react';
+import { CSSProperties, useCallback, useState } from 'react';
 import { BaseBlock, Block } from './Block';
 import { SessionModal } from './SessionModal';
 import {
@@ -86,13 +86,15 @@ export const TimetableEditor: React.FC<TimetableEditorProps> = ({
   return (
     <Box
       className="timetable-editor"
-      __vars={{
-        '--granularity': String(granularity),
-        '--start-hour': String(startHour),
-        '--end-hour': String(endHour),
-        '--rows': String(rows),
-        '--columns': String(columns),
-      }}
+      style={
+        {
+          '--granularity': String(granularity),
+          '--start-hour': String(startHour),
+          '--end-hour': String(endHour),
+          '--rows': String(rows),
+          '--columns': String(columns),
+        } as CSSProperties
+      }
     >
       <Box
         className="grid"
@@ -121,8 +123,13 @@ export const TimetableEditor: React.FC<TimetableEditorProps> = ({
             <Box
               className="grid__row"
               key={row}
-              style={{ gridRow: row + 2 }}
-              __vars={{ '--tracks': String(tracks), '--sessions': String(day.length) }}
+              style={
+                {
+                  gridRow: row + 2,
+                  '--tracks': String(tracks),
+                  '--sessions': String(day.length),
+                } as CSSProperties
+              }
               data-row={row}
               onPointerDown={rowPointerDown}
               onPointerMove={rowPointerMove}

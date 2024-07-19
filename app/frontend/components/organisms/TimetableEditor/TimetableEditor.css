@@ -134,87 +134,8 @@
       background: var(--focus-ring);
       pointer-events: none;
     }
-  }
-
-  &__session {
-    position: relative;
-    z-index: var(--z-block);
-    grid-row: 1 / -1;
-    cursor: grab;
-    pointer-events: auto;
-
-    &[data-resizing] {
-      z-index: var(--z-selection);
-      pointer-events: none;
-    }
-
-    &[data-dragging] {
-      opacity: 0.25;
-      pointer-events: none;
-    }
-
-    &[data-ghost] {
-      z-index: var(--z-selection);
-      cursor: grabbing;
-      pointer-events: none;
-
-      .timetable-editor__session__content {
-        box-shadow: var(--shadow-large);
-      }
-    }
-
-
-    &__content {
-      position: absolute;
-      inset: 1px 2px 2px 1px;
-      padding: var(--spacing-tiny);
-      border: var(--border-thin) solid var(--border-element);
-      border-radius: var(--radius-small);
-      background: var(--background-light);
-      color: var(--colored-text-default);
-
-      p {
-        overflow: hidden;
-        margin: 0;
-        font-size: var(--font-size-small);
-        text-overflow: ellipsis;
-        white-space: nowrap;
-
-        ~ p {
-          color: var(--colored-text-subtle);
-          font-size: var(--font-size-tiny);
-          line-height: var(--line-height-tiny);
-        }
-      }
-
-      [data-empty] > & {
-        border-style: dashed;
-        background-color: var(--background-subtle);
-        background-image: repeating-linear-gradient(-45deg, transparent 0 0.25rem, var(--background-light) 0 0.5rem);
-      }
-    }
-
-    &__time {
-      display: none;
-    }
-
-    &__edge {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      width: var(--spacing-small);
-      cursor: ew-resize;
-
-      &:last-child {
-        right: 0;
-        left: auto;
-      }
-    }
-  }
 
   @media (max-width: 480px) {
-    .grid {
       --row-header-width: 3.75rem;
       --drag-enabled: false;
 
@@ -263,25 +184,7 @@
           }
         }
       }
-
-      .timetable-editor__session {
-        display: contents;
-        grid-row: auto !important;
-        grid-column: 2 !important;
-
-        &__content {
-          position: static;
-        }
-
-        &__edge {
-          display: none;
-        }
-
-        &__time {
-          display: block;
-        }
-      }
-    }
+  }
   }
 }
 

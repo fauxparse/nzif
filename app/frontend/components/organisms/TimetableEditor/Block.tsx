@@ -1,9 +1,11 @@
 import { activityColor } from '@/constants/activityTypes';
-import { formatSessionTime } from '@/util/formatSessionTime';
-import { Box, BoxProps, Text } from '@mantine/core';
+import { Box, BoxProps, Text, Theme } from '@radix-ui/themes';
 import { HTMLMotionProps, motion } from 'framer-motion';
 import React, { PropsWithChildren, forwardRef } from 'react';
 import { LaidOutSession, Rect, Session } from './types';
+
+import { formatSessionTime } from '@/util/formatSessionTime';
+import classes from './TimetableEditor.module.css';
 
 type BaseBlockProps = PropsWithChildren<Omit<HTMLMotionProps<'div'>, 'children'>> & {
   session: Session;
@@ -22,31 +24,37 @@ type BlockProps = Omit<BaseBlockProps, 'onClick'> & {
 
 export const BaseBlock = forwardRef<HTMLDivElement, BaseBlockProps>(
   ({ session, rect, style = {}, animate = true, children, ...props }, ref) => (
-    <motion.div
-      ref={ref}
-      layoutId={String(session.id)}
-      className="timetable-editor__session"
-      style={{
-        ...style,
-        gridColumnStart: rect.start.column + 2,
-        gridColumnEnd: rect.end.column + 3,
-      }}
-      transition={animate ? { type: 'spring', stiffness: 500, damping: 30 } : { duration: 0 }}
-      data-color={activityColor(session.activityType)}
-      data-empty={!session.activity || undefined}
-      {...props}
-    >
-      <motion.div layout="position" className="timetable-editor__session__content">
-        <Text>{session.activity?.name}</Text>
-        <Text className="timetable-editor__session__venue">
-          {session.venue
-            ? [session.venue.room, session.venue.building].filter(Boolean).join(' @ ')
-            : 'Venue TBC'}
-        </Text>
-        <Text className="timetable-editor__session__time">{formatSessionTime(session)}</Text>
+    <Theme asChild accentColor={activityColor(session.activityType)}>
+      <motion.div
+        ref={ref}
+        layoutId={String(session.id)}
+        className={classes.block}
+        style={{
+          ...style,
+          gridColumnStart: rect.start.column + 2,
+          gridColumnEnd: rect.end.column + 3,
+        }}
+        transition={animate ? { type: 'spring', stiffness: 500, damping: 30 } : { duration: 0 }}
+        data-color={activityColor(session.activityType)}
+        data-empty={!session.activity || undefined}
+        {...props}
+      >
+        <motion.div layout="position" className={classes.blockContent}>
+          <Text size="2" as="p" truncate>
+            {session.activity?.name}
+          </Text>
+          <Text size="1" as="p" truncate>
+            {session.venue
+              ? [session.venue.room, session.venue.building].filter(Boolean).join(' @ ')
+              : 'Venue TBC'}
+          </Text>
+          <Text size="1" as="p" truncate className={classes.blockTime}>
+            {formatSessionTime(session)}
+          </Text>
+        </motion.div>
+        {children}
       </motion.div>
-      {children}
-    </motion.div>
+    </Theme>
   )
 );
 

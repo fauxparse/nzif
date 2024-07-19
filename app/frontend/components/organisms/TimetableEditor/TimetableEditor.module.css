@@ -1,0 +1,87 @@
+.block {
+  position: relative;
+  z-index: var(--z-block);
+  grid-row: 1 / -1;
+  cursor: grab;
+  pointer-events: auto;
+
+  &[data-resizing] {
+    z-index: var(--z-selection);
+    pointer-events: none;
+  }
+
+  &[data-dragging] {
+    opacity: 0.25;
+    pointer-events: none;
+  }
+
+  &[data-ghost] {
+    z-index: var(--z-selection);
+    cursor: grabbing;
+    pointer-events: none;
+
+    .timetable-editor__session__content {
+      box-shadow: var(--shadow-large);
+    }
+  }
+
+  @media (max-width: 480px) {
+    display: contents;
+    grid-row: auto !important;
+    grid-column: 2 !important;
+
+    .blockContent {
+      position: static;
+    }
+
+    .blockEdge {
+      display: none;
+    }
+
+    .blockTime {
+      display: block;
+    }
+  }
+}
+
+.blockContent {
+  position: absolute;
+  inset: 1px 2px 2px 1px;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--accent-5);
+  border-radius: var(--radius-small);
+  background: var(--accent-3);
+  color: var(--accent-11);
+
+  p {
+    margin: 0;
+
+    ~ p {
+      opacity: 0.875;
+    }
+  }
+
+  [data-empty] > & {
+    border-style: dashed;
+    background-color: var(--background-subtle);
+    background-image: repeating-linear-gradient(-45deg, transparent 0 0.25rem, var(--background-light) 0 0.5rem);
+  }
+}
+
+.blockEdge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--space-2);
+  cursor: ew-resize;
+
+  &:last-child {
+    right: 0;
+    left: auto;
+  }
+}
+
+.blockTime {
+  display: none;
+}
