@@ -1,8 +1,9 @@
 import { AuthenticationForm } from '@/components/layouts/Authentication/AuthenticationForm';
 import { AuthenticationFormItem } from '@/components/layouts/Authentication/AuthenticationFormItem';
+import { FormField } from '@/components/molecules/FormField';
 import KeyIcon from '@/icons/KeyIcon';
 import { useAuthentication } from '@/services/Authentication';
-import { Button, TextInput } from '@mantine/core';
+import { Button, TextField } from '@radix-ui/themes';
 import { useForm } from '@tanstack/react-form';
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-form-adapter';
@@ -46,17 +47,19 @@ export const Route = createFileRoute('/_auth/reset_password')({
           <AuthenticationFormItem layoutId="auth-password" fade>
             <form.Field name="password" validators={{ onChange: z.string() }}>
               {(field) => (
-                <TextInput
-                  type="password"
-                  size="lg"
-                  label="New password"
-                  autoFocus
-                  autoComplete="new-password"
-                  leftSection={<KeyIcon />}
-                  value={field.state.value}
-                  error={field.state.meta.errors[0]}
-                  onChange={(e) => field.handleChange(e.currentTarget.value)}
-                />
+                <FormField.Root label="New password" error={field.state.meta.errors[0]}>
+                  <FormField.TextField
+                    type="password"
+                    autoFocus
+                    autoComplete="new-password"
+                    value={field.state.value}
+                    onValueChange={field.handleChange}
+                  >
+                    <TextField.Slot side="left">
+                      <KeyIcon />
+                    </TextField.Slot>
+                  </FormField.TextField>
+                </FormField.Root>
               )}
             </form.Field>
           </AuthenticationFormItem>
@@ -74,16 +77,19 @@ export const Route = createFileRoute('/_auth/reset_password')({
               }}
             >
               {(field) => (
-                <TextInput
-                  type="password"
-                  size="lg"
-                  label="Confirm password"
-                  autoComplete="new-password"
-                  leftSection={<KeyIcon />}
-                  value={field.state.value}
-                  error={field.state.meta.errors[0]}
-                  onChange={(e) => field.handleChange(e.currentTarget.value)}
-                />
+                <FormField.Root label="Confirm password" error={field.state.meta.errors[0]}>
+                  <FormField.TextField
+                    type="password"
+                    autoFocus
+                    autoComplete="new-password"
+                    value={field.state.value}
+                    onValueChange={field.handleChange}
+                  >
+                    <TextField.Slot side="left">
+                      <KeyIcon />
+                    </TextField.Slot>
+                  </FormField.TextField>
+                </FormField.Root>
               )}
             </form.Field>
           </AuthenticationFormItem>
@@ -92,9 +98,8 @@ export const Route = createFileRoute('/_auth/reset_password')({
               {(canSubmit) => (
                 <Button
                   type="submit"
-                  variant="filled"
-                  size="lg"
-                  loaderProps={{ type: 'dots' }}
+                  variant="solid"
+                  size="3"
                   aria-disabled={!canSubmit || undefined}
                 >
                   Change password

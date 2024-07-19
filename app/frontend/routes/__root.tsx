@@ -3,19 +3,12 @@ import { NotFound } from '@/components/pages/NotFound';
 import type { CurrentFestival } from '@/hooks/useFestival';
 import { CurrentFestivalQuery, FestivalProvider } from '@/hooks/useFestival';
 import { PlacenamesProvider } from '@/services/Placenames';
-import { useMantineColorScheme } from '@mantine/core';
 import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
-import { Suspense, useEffect } from 'react';
+import { Suspense } from 'react';
 
 const Root = () => {
   const { festival } = Route.useRouteContext();
-
-  const { colorScheme } = useMantineColorScheme();
-
-  useEffect(() => {
-    document.body.setAttribute('data-theme', colorScheme);
-  }, [colorScheme]);
 
   return (
     <PlacenamesProvider>

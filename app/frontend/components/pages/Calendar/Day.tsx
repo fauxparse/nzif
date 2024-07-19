@@ -1,6 +1,5 @@
 import { Collapsible } from '@/components/helpers/Collapsible';
-import { Skeleton } from '@mantine/core';
-import { Button, Flex, Heading, Section } from '@radix-ui/themes';
+import { Button, Flex, Heading, Section, Skeleton } from '@radix-ui/themes';
 import { partition } from 'lodash-es';
 import { DateTime } from 'luxon';
 import pluralize from 'pluralize';
@@ -25,7 +24,11 @@ export const Day: React.FC<DayProps> = ({ date, loading, sessions }) => {
         {date.toLocaleString({ weekday: 'long', month: 'long', day: 'numeric' })}
       </Heading>
       {loading ? (
-        sessions.map((session) => <Skeleton key={session.id} height={90} radius="sm" />)
+        sessions.map((session) => (
+          <Skeleton key={session.id}>
+            <div style={{ height: '90px', borderRadius: '3px' }} />
+          </Skeleton>
+        ))
       ) : (
         <>
           {sessions.map((session) => (

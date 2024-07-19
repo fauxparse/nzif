@@ -1,5 +1,0 @@
-.root {
-  &[data-with-border] {
-    border-color: var(--border-subtle);
-  }
-}

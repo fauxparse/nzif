@@ -1,15 +1,15 @@
 import { Combobox, ComboboxItem } from '@/components/molecules/Combobox';
-import { PersonSearchQuery } from '@/components/molecules/PersonPicker/queries';
-import { PickablePersonFragment } from '@/components/molecules/PersonPicker/queries';
-import { Person } from '@/components/molecules/PersonPicker/types';
 import SearchIcon from '@/icons/SearchIcon';
 import { useLazyQuery } from '@apollo/client';
 import { FragmentOf } from 'gql.tada';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { PresenterDetailsQuery } from '../queries';
 import { Presenter } from '../types';
+import { PersonSearchQuery, PickablePersonFragment } from './queries';
 
-type SearchResult = ComboboxItem & { person: FragmentOf<typeof PickablePersonFragment> };
+type SearchResult = ComboboxItem & { person: Person };
+
+type Person = FragmentOf<typeof PickablePersonFragment>;
 
 type SearchProps = {
   existing: Presenter[];

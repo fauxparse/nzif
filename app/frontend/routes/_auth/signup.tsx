@@ -1,9 +1,10 @@
+import { Spinner } from '@/components/atoms/Spinner';
 import { AuthenticationForm } from '@/components/layouts/Authentication/AuthenticationForm';
 import { AuthenticationFormItem } from '@/components/layouts/Authentication/AuthenticationFormItem';
-import KeyIcon from '@/icons/KeyIcon';
+import { FormField } from '@/components/molecules/FormField';
 import UserIcon from '@/icons/UserIcon';
 import { SignUpVariables, useAuthentication } from '@/services/Authentication';
-import { Button, Text, TextInput } from '@mantine/core';
+import { Button, Text, TextField } from '@radix-ui/themes';
 import { useForm } from '@tanstack/react-form';
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-form-adapter';
@@ -59,23 +60,25 @@ export const Route = createFileRoute('/_auth/signup')({
               }}
             >
               {(field) => (
-                <TextInput
-                  size="lg"
-                  label="Your name"
-                  type="text"
-                  autoComplete="name"
-                  autoCapitalize="words"
-                  placeholder="Lauren Ipsum"
-                  leftSection={<UserIcon />}
-                  autoFocus
-                  value={field.state.value}
-                  error={field.state.meta.errors[0]}
-                  onBlur={(e) => {
-                    if (e.relatedTarget?.closest('a')) return;
-                    field.handleBlur();
-                  }}
-                  onChange={(e) => field.handleChange(e.currentTarget.value)}
-                />
+                <FormField.Root label="Your name" error={field.state.meta.errors[0]}>
+                  <FormField.TextField
+                    type="text"
+                    autoComplete="name"
+                    autoCapitalize="words"
+                    placeholder="Lauren Ipsum"
+                    autoFocus
+                    value={field.state.value}
+                    onBlur={(e) => {
+                      if (e.relatedTarget?.closest('a')) return;
+                      field.handleBlur();
+                    }}
+                    onValueChange={field.handleChange}
+                  >
+                    <TextField.Slot side="left">
+                      <UserIcon />
+                    </TextField.Slot>
+                  </FormField.TextField>
+                </FormField.Root>
               )}
             </form.Field>
           </AuthenticationFormItem>
@@ -85,36 +88,42 @@ export const Route = createFileRoute('/_auth/signup')({
               validators={{ onBlur: z.string().email('Please enter a valid email address') }}
             >
               {(field) => (
-                <TextInput
-                  size="lg"
-                  label="Your email address"
-                  type="email"
-                  autoComplete="email"
-                  placeholder="you@email.com"
-                  leftSection={<UserIcon />}
-                  value={field.state.value}
-                  error={field.state.meta.errors[0]}
-                  onBlur={(e) => {
-                    if (e.relatedTarget?.closest('a')) return;
-                    field.handleBlur();
-                  }}
-                  onChange={(e) => field.handleChange(e.currentTarget.value)}
-                />
+                <FormField.Root label="Your email address" error={field.state.meta.errors[0]}>
+                  <FormField.TextField
+                    type="email"
+                    autoComplete="email"
+                    placeholder="you@email.com"
+                    autoFocus
+                    value={field.state.value}
+                    onBlur={(e) => {
+                      if (e.relatedTarget?.closest('a')) return;
+                      field.handleBlur();
+                    }}
+                    onValueChange={field.handleChange}
+                  >
+                    <TextField.Slot side="left">
+                      <UserIcon />
+                    </TextField.Slot>
+                  </FormField.TextField>
+                </FormField.Root>
               )}
             </form.Field>
           </AuthenticationFormItem>
           <AuthenticationFormItem layoutId="auth-password">
             <form.Field name="password" validators={{ onChange: z.string() }}>
               {(field) => (
-                <TextInput
-                  size="lg"
-                  label="Your password"
-                  autoComplete="new-password"
-                  leftSection={<KeyIcon />}
-                  value={field.state.value}
-                  error={error || field.state.meta.errors[0]}
-                  onChange={(e) => field.handleChange(e.currentTarget.value)}
-                />
+                <FormField.Root label="Choose a password" error={field.state.meta.errors[0]}>
+                  <FormField.TextField
+                    autoComplete="new-password"
+                    autoFocus
+                    value={field.state.value}
+                    onValueChange={field.handleChange}
+                  >
+                    <TextField.Slot side="left">
+                      <UserIcon />
+                    </TextField.Slot>
+                  </FormField.TextField>
+                </FormField.Root>
               )}
             </form.Field>
           </AuthenticationFormItem>
@@ -123,13 +132,10 @@ export const Route = createFileRoute('/_auth/signup')({
               {(canSubmit) => (
                 <Button
                   type="submit"
-                  variant="filled"
-                  size="lg"
-                  loading={loading}
-                  loaderProps={{ type: 'dots' }}
+                  variant="solid"
                   aria-disabled={loading || !canSubmit || undefined}
                 >
-                  Log in
+                  {loading ? <Spinner /> : 'Log in'}
                 </Button>
               )}
             </form.Subscribe>

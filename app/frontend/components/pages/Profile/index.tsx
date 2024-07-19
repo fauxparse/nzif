@@ -1,10 +1,9 @@
+import { Spinner } from '@/components/atoms/Spinner';
 import { CityPicker } from '@/components/molecules/CityPicker';
 import { FormField } from '@/components/molecules/FormField';
 import { ImageUploader } from '@/components/molecules/ImageUploader';
 import Header from '@/components/organisms/Header';
 import { useMutation, useQuery } from '@apollo/client';
-import { Title } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
 import { Button, Heading } from '@radix-ui/themes';
 import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
@@ -14,7 +13,7 @@ import { z } from 'zod';
 import { WithUploadedPicture } from '../admin/ActivityEditor/types';
 import { ProfileQuery, UpdatePasswordMutation, UpdateProfileMutation } from './queries';
 
-import { Spinner } from '@/components/atoms/Spinner';
+import { useToast } from '@/components/molecules/Toast';
 import classes from './Profile.module.css';
 
 type ProfileForm = WithUploadedPicture<{
@@ -37,6 +36,8 @@ export const Profile: React.FC = () => {
 
   const [changingPassword, setChangingPassword] = useState(false);
 
+  const { notify } = useToast();
+
   const defaultValues = useMemo<ProfileForm>(() => {
     if (data?.user?.profile) {
       return {
@@ -47,6 +48,7 @@ export const Profile: React.FC = () => {
         city: data.user.profile.city?.name || null,
         country: data.user.profile.city?.country || null,
         uploadedPicture: null,
+        pictureAltText: '',
       };
     }
 
@@ -58,6 +60,7 @@ export const Profile: React.FC = () => {
       city: '',
       country: '',
       uploadedPicture: null,
+      pictureAltText: '',
     };
   }, [data]);
 
@@ -81,7 +84,7 @@ export const Profile: React.FC = () => {
       }).finally(() => {
         form.reset();
         setSaving(false);
-        notifications.show({ message: 'Profile updated' });
+        notify({ description: 'Profile updated' });
       });
     },
   });
@@ -98,7 +101,7 @@ export const Profile: React.FC = () => {
       }).finally(() => {
         passwordForm.reset();
         setChangingPassword(false);
-        notifications.show({ message: 'Password changed' });
+        notify({ description: 'Password changed' });
       });
     },
   });
@@ -238,7 +241,9 @@ export const Profile: React.FC = () => {
             passwordForm.handleSubmit();
           }}
         >
-          <Title order={3}>Change password</Title>
+          <Heading as="h3" size="5">
+            Change password
+          </Heading>
           <passwordForm.Field name="password">
             {(field) => (
               <FormField.Root label="New password">

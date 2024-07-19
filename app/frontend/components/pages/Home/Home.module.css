@@ -2,6 +2,7 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  grid-row: 1 / -1;
   grid-column: full-bleed;
   justify-content: center;
   align-items: center;

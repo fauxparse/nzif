@@ -3,7 +3,7 @@ import { ActivityDetailsQuery } from '@/components/pages/admin/ActivityEditor/qu
 import { ResultOf } from '@/graphql';
 import { useFestival } from '@/hooks/useFestival';
 import { useQuery } from '@apollo/client';
-import { Text } from '@mantine/core';
+import { Text } from '@radix-ui/themes';
 import { createFileRoute, notFound, useChildMatches } from '@tanstack/react-router';
 import { DateTime } from 'luxon';
 
