@@ -1,7 +1,7 @@
 import Skeleton from '@/components/helpers/Skeleton';
+import { ActivityCard, ActivityCardActivity } from '@/components/molecules/ActivityCard';
 import { ActivityType } from '@/graphql/types';
 import { Box, Flex, Grid, Text } from '@radix-ui/themes';
-import ActivityCard, { ActivityCardActivity } from './ActivityCard';
 import { useActivityGroups } from './useActivityGroups';
 
 import classes from './ActivityList.module.css';
