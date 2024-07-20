@@ -14,7 +14,7 @@ module Geocodable
   end
 
   def city
-    'Wellington'
+    'Wellington City'
   end
 
   def country
