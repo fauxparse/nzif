@@ -80,7 +80,7 @@ const Search: React.FC = () => {
   if (!timeslot) return null;
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
+    <AnimatePresence initial={false}>
       {id ? (
         <Result key={id} />
       ) : (

@@ -195,10 +195,10 @@ export const Search = forwardRef<HTMLButtonElement, SearchProps>(
                               ) : (
                                 <>
                                   <SearchIcon size="4" color="gray" />
-                                  <Text color="gray">
+                                  <Text color="gray" align="center">
                                     Search for people, places, activities, or information.
                                   </Text>
-                                  <Text color="gray" size="2">
+                                  <Text color="gray" size="2" align="center">
                                     <b>Tip:</b> Search from any page by pressing <Kbd>/</Kbd>
                                   </Text>
                                 </>

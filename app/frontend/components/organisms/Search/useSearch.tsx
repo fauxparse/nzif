@@ -136,11 +136,11 @@ export const linkProps = (result: SearchResult): LinkProps => {
         to: '/people/$id',
         params: { id: result.person.id },
       };
-    // case 'VenueResult':
-    //   return {
-    //     to: '/venues/$id',
-    //     params: { id: result.venue.id },
-    //   };
+    case 'VenueResult':
+      return {
+        to: '/venues/$id',
+        params: { id: result.venue.id },
+      };
     case 'PageResult':
       return {
         to: '/about/$slug',

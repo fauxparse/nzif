@@ -24,10 +24,13 @@ import { Route as AuthResetpasswordImport } from './routes/_auth/reset_password'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AuthForgotImport } from './routes/_auth/forgot'
 import { Route as AdminActivityTypeRouteImport } from './routes/admin/$activityType/route'
+import { Route as PublicVenuesRouteImport } from './routes/_public/venues/route'
 import { Route as PublicPeopleRouteImport } from './routes/_public/people/route'
 import { Route as PublicActivityTypeRouteImport } from './routes/_public/$activityType/route'
 import { Route as AdminActivityTypeIndexImport } from './routes/admin/$activityType/index'
+import { Route as PublicVenuesIndexImport } from './routes/_public/venues/index'
 import { Route as PublicPeopleIndexImport } from './routes/_public/people/index'
+import { Route as PublicVenuesIdImport } from './routes/_public/venues/$id'
 import { Route as PublicPeopleIdImport } from './routes/_public/people/$id'
 import { Route as PublicAboutSlugImport } from './routes/_public/about.$slug'
 import { Route as PublicAuthenticatedProfileImport } from './routes/_public/_authenticated/profile'
@@ -106,6 +109,11 @@ const AdminActivityTypeRouteRoute = AdminActivityTypeRouteImport.update({
   getParentRoute: () => AdminRoute,
 } as any)
 
+const PublicVenuesRouteRoute = PublicVenuesRouteImport.update({
+  path: '/venues',
+  getParentRoute: () => PublicRoute,
+} as any)
+
 const PublicPeopleRouteRoute = PublicPeopleRouteImport.update({
   path: '/people',
   getParentRoute: () => PublicRoute,
@@ -121,9 +129,19 @@ const AdminActivityTypeIndexRoute = AdminActivityTypeIndexImport.update({
   getParentRoute: () => AdminActivityTypeRouteRoute,
 } as any)
 
+const PublicVenuesIndexRoute = PublicVenuesIndexImport.update({
+  path: '/',
+  getParentRoute: () => PublicVenuesRouteRoute,
+} as any)
+
 const PublicPeopleIndexRoute = PublicPeopleIndexImport.update({
   path: '/',
   getParentRoute: () => PublicPeopleRouteRoute,
+} as any)
+
+const PublicVenuesIdRoute = PublicVenuesIdImport.update({
+  path: '/$id',
+  getParentRoute: () => PublicVenuesRouteRoute,
 } as any)
 
 const PublicPeopleIdRoute = PublicPeopleIdImport.update({
@@ -229,6 +247,13 @@ declare module '@tanstack/react-router' {
       path: '/people'
       fullPath: '/people'
       preLoaderRoute: typeof PublicPeopleRouteImport
+      parentRoute: typeof PublicImport
+    }
+    '/_public/venues': {
+      id: '/_public/venues'
+      path: '/venues'
+      fullPath: '/venues'
+      preLoaderRoute: typeof PublicVenuesRouteImport
       parentRoute: typeof PublicImport
     }
     '/admin/$activityType': {
@@ -343,12 +368,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicPeopleIdImport
       parentRoute: typeof PublicPeopleRouteImport
     }
+    '/_public/venues/$id': {
+      id: '/_public/venues/$id'
+      path: '/$id'
+      fullPath: '/venues/$id'
+      preLoaderRoute: typeof PublicVenuesIdImport
+      parentRoute: typeof PublicVenuesRouteImport
+    }
     '/_public/people/': {
       id: '/_public/people/'
       path: '/'
       fullPath: '/people/'
       preLoaderRoute: typeof PublicPeopleIndexImport
       parentRoute: typeof PublicPeopleRouteImport
+    }
+    '/_public/venues/': {
+      id: '/_public/venues/'
+      path: '/'
+      fullPath: '/venues/'
+      preLoaderRoute: typeof PublicVenuesIndexImport
+      parentRoute: typeof PublicVenuesRouteImport
     }
     '/admin/$activityType/': {
       id: '/admin/$activityType/'
@@ -401,6 +440,10 @@ export const routeTree = rootRoute.addChildren({
       PublicPeopleIdRoute,
       PublicPeopleIndexRoute,
     }),
+    PublicVenuesRouteRoute: PublicVenuesRouteRoute.addChildren({
+      PublicVenuesIdRoute,
+      PublicVenuesIndexRoute,
+    }),
     PublicAuthenticatedRoute: PublicAuthenticatedRoute.addChildren({
       PublicAuthenticatedCalendarRoute,
       PublicAuthenticatedProfileRoute,
@@ -451,6 +494,7 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_public/$activityType",
         "/_public/people",
+        "/_public/venues",
         "/_public/_authenticated",
         "/_public/",
         "/_public/about/$slug"
@@ -481,6 +525,14 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_public/people/$id",
         "/_public/people/"
+      ]
+    },
+    "/_public/venues": {
+      "filePath": "_public/venues/route.tsx",
+      "parent": "/_public",
+      "children": [
+        "/_public/venues/$id",
+        "/_public/venues/"
       ]
     },
     "/admin/$activityType": {
@@ -562,9 +614,17 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_public/people/$id.tsx",
       "parent": "/_public/people"
     },
+    "/_public/venues/$id": {
+      "filePath": "_public/venues/$id.tsx",
+      "parent": "/_public/venues"
+    },
     "/_public/people/": {
       "filePath": "_public/people/index.tsx",
       "parent": "/_public/people"
+    },
+    "/_public/venues/": {
+      "filePath": "_public/venues/index.tsx",
+      "parent": "/_public/venues"
     },
     "/admin/$activityType/": {
       "filePath": "admin/$activityType/index.tsx",
