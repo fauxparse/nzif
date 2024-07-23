@@ -1,3 +1,7 @@
+.root {
+  container: city-picker / inline-size;
+}
+
 .item {
   span:first-of-type {
     flex: 1;
@@ -6,5 +10,11 @@
       color: var(--gray-a11);
       text-align: right;
     }
+  }
+}
+
+.countryName {
+  @container city-picker (width < 25rem) {
+    display: none;
   }
 }

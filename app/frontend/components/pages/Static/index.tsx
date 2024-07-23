@@ -6,11 +6,11 @@ import { gql } from '@apollo/client';
 import { Options, documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, Document, Text } from '@contentful/rich-text-types';
 import { deburr, kebabCase } from 'lodash-es';
-import { Helmet } from 'react-helmet-async';
-
 import Balanced from 'react-balanced';
-import './Static.css';
+import { Helmet } from 'react-helmet-async';
 import TableOfContents from './TableOfContents';
+
+import classes from './Static.module.css';
 
 export const StaticPageQuery = gql`
   query ContentPage($slug: String!) {
@@ -31,7 +31,7 @@ export const StaticPageQuery = gql`
 
 const isTextNode = (node: { nodeType: string }): node is Text => node.nodeType === 'text';
 
-const renderOptions: Options = {
+export const renderOptions: Options = {
   renderNode: {
     [BLOCKS.HEADING_2]: (node) => {
       const text = (node.content.filter(isTextNode) as Text[]).map((n) => n.value).join();
@@ -64,17 +64,15 @@ const StaticPage: React.FC<StaticPageProps> = ({ page }) => {
       </Helmet>
       <Header title={page.title}>
         {page?.lede && (
-          <Balanced className="static-page__lede">
-            {documentToReactComponents(page.lede.json)}
-          </Balanced>
+          <Balanced className={classes.lede}>{documentToReactComponents(page.lede.json)}</Balanced>
         )}
       </Header>
       <Body>
-        <div className="static-page">
+        <div className={classes.page}>
           {document && (
             <>
               <TableOfContents document={document} />
-              <div className="static-page__content">
+              <div className={classes.content}>
                 {documentToReactComponents(document, renderOptions)}
               </div>
             </>

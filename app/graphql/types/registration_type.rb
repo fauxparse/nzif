@@ -8,6 +8,7 @@ module Types
     field :id, ID, null: false
     field :outstanding, MoneyType, null: false
     field :payments, [PaymentType], null: false
+    field :photo_permission, Boolean, null: false
     field :preferences, [PreferenceType], null: false
     field :sessions, [SessionType], null: false
     field :user, UserType, null: true

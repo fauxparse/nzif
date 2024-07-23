@@ -5263,6 +5263,18 @@ export type introspection = {
             "args": []
           },
           {
+            "name": "photoPermission",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
             "name": "preferences",
             "type": {
               "kind": "NON_NULL",
@@ -7050,6 +7062,14 @@ export type introspection = {
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "photoPermission",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
               "ofType": null
             }
           },

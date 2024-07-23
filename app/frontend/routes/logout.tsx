@@ -1,6 +1,4 @@
-import { useAuthentication } from '@/services/Authentication';
-import { Navigate, Outlet, createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
-import { useEffect } from 'react';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/logout')({
   beforeLoad: async ({ context }) => {

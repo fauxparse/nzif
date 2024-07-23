@@ -80,7 +80,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
               <BlurrableImage
                 src={picture.medium}
                 blurhash={picture.blurhash}
-                alt={activity.name}
+                alt={picture.altText || activity.name}
               />
             )}
           </RoutableLink>

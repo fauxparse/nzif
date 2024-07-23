@@ -85,6 +85,7 @@ const AnimatedOutlet = forwardRef<HTMLDivElement, AnimatedOutletProps>(
         ref={ref}
         className={classes.outlet}
         custom={direction}
+        data-outlet
         {...TransitionProps}
         {...props}
       >

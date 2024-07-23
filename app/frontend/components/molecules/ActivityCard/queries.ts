@@ -18,6 +18,7 @@ export const ActivityCardPictureFragment = graphql(`
     id
     medium
     blurhash
+    altText
   }
 `);
 

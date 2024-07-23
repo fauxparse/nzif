@@ -12,6 +12,7 @@ import { ComboboxProps } from '../Combobox/types';
 import { CityPickerOption } from './types';
 import { useAutocomplete } from './useAutocomplete';
 
+import clsx from 'clsx';
 import classes from './CityPicker.module.css';
 
 type CityPickerProps = Pick<
@@ -62,7 +63,7 @@ export const CityPicker: React.FC<CityPickerProps> = ({
   );
 
   return (
-    <Box className={className}>
+    <Box className={clsx(classes.root, className)}>
       <Combobox.Root
         icon={<LocationIcon />}
         items={items}
@@ -104,10 +105,10 @@ export const CityPicker: React.FC<CityPickerProps> = ({
                     <CircleFlag countryCode={country.toLowerCase()} width={20} height={20} />
                   )}
                   <Box flexGrow="1" asChild>
-                    <Text>{cityDisplayName(city, country || '', true)}</Text>
+                    <Text truncate>{cityDisplayName(city, country || '', true)}</Text>
                   </Box>
                   {country && (
-                    <Text size="3" color="gray">
+                    <Text className={classes.countryName} size="3" color="gray">
                       {countryName(country)}
                     </Text>
                   )}
@@ -131,87 +132,3 @@ export const CityPicker: React.FC<CityPickerProps> = ({
     </Box>
   );
 };
-
-//         <Combobox.Target>
-//           {selectedOption ? (
-//             <Input
-//               component="div"
-//               className="city-picker__selected"
-//               size="md"
-//               style={{ '--input-height': 'auto' }}
-//             >
-//               <Option option={selectedOption} />
-//               <ActionIcon size="sm" variant="transparent" data-color="neutral" onClick={clear}>
-//                 <CloseIcon />
-//               </ActionIcon>
-//             </Input>
-//           ) : (
-//             <TextInput
-//               ref={cityInput}
-//               size="md"
-//               className="city-picker__city"
-//               value={query}
-//               leftSection={<LocationIcon />}
-//               rightSection={
-//                 loading || busy ? (
-//                   <Loader size="sm" />
-//                 ) : query ? (
-//                   <ActionIcon size="sm" variant="transparent" data-color="neutral" onClick={clear}>
-//                     <CloseIcon />
-//                   </ActionIcon>
-//                 ) : null
-//               }
-//               autoComplete="off"
-//               onChange={(e) => {
-//                 setQuery(e.currentTarget.value);
-//                 combobox.openDropdown();
-//                 combobox.updateSelectedOptionIndex();
-//               }}
-//               onClick={() => combobox.openDropdown()}
-//               onFocus={() => combobox.openDropdown()}
-//               onBlur={() => combobox.closeDropdown()}
-//               __vars={{ '--input-height-md': '66px' }}
-//             />
-//           )}
-//         </Combobox.Target>
-//         <Combobox.Dropdown>
-//           <Combobox.Options>
-//             {options.map((option) => (
-//               <Combobox.Option key={option.id} value={option.id}>
-//                 <Option option={option} />
-//               </Combobox.Option>
-//             ))}
-//             {!options.length &&
-//               (query ? (
-//                 <Combobox.Option value="add">
-//                   <div className="city-picker__option">
-//                     <PlusIcon />
-//                     <Text component="div" className="city-picker__city-name" size="md">
-//                       {`Add “${query}”`}
-//                     </Text>
-//                   </div>
-//                 </Combobox.Option>
-//               ) : (
-//                 <Combobox.Empty>
-//                   <Text component="div" className="city-picker__no-results">
-//                     No results
-//                   </Text>
-//                 </Combobox.Empty>
-//               ))}
-//           </Combobox.Options>
-//         </Combobox.Dropdown>
-
-// const Option: React.FC<{ option: SearchableOption }> = ({ option }) => (
-//   <div className="city-picker__option">
-//     <LocationIcon />
-//     <Text component="div" className="city-picker__city-name" size="md">
-//       {option.name}
-//       {option.traditionalNames.length > 0 && (
-//         <small>{` / ${option.traditionalNames.join(' / ')}`}</small>
-//       )}
-//     </Text>
-//     <Text component="div" className="city-picker__country-name" size="sm">
-//       {option.country}
-//     </Text>
-//   </div>
-// );

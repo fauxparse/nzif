@@ -27,7 +27,8 @@ type ProfileForm = WithUploadedPicture<{
 
 type PasswordForm = { password: string; passwordConfirmation: string };
 
-const FULL_NAME_MESSAGE = 'Please give us your first and last name so we can tell everyone apart';
+export const FULL_NAME_MESSAGE =
+  'Please give us your first and last name so we can tell everyone apart';
 
 export const Profile: React.FC = () => {
   const { loading, data } = useQuery(ProfileQuery);

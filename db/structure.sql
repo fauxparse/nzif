@@ -680,6 +680,27 @@ ALTER SEQUENCE public.preferences_id_seq OWNED BY public.preferences.id;
 
 
 --
+-- Name: profile_activities; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.profile_activities AS
+ SELECT activities.id AS activity_id,
+    NULL::bigint AS session_id,
+    "cast".profile_id,
+    "cast".role
+   FROM (public.activities
+     JOIN public."cast" ON (((activities.id = "cast".activity_id) AND (("cast".activity_type)::text = 'Activity'::text))))
+UNION
+ SELECT activities.id AS activity_id,
+    sessions.id AS session_id,
+    "cast".profile_id,
+    "cast".role
+   FROM ((public.activities
+     JOIN public.sessions ON ((activities.id = sessions.activity_id)))
+     JOIN public."cast" ON (((sessions.id = "cast".activity_id) AND (("cast".activity_type)::text = 'Session'::text))));
+
+
+--
 -- Name: profiles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -711,7 +732,8 @@ CREATE TABLE public.registrations (
     updated_at timestamp(6) without time zone NOT NULL,
     completed_at timestamp without time zone,
     stripe_customer_id character varying,
-    placements_count integer
+    placements_count integer,
+    photo_permission boolean DEFAULT false NOT NULL
 );
 
 
@@ -2163,7 +2185,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20231006212429'),
 ('20231009211805'),
 ('20240608234005'),
-('20240616030719');
+('20240616030719'),
+('20240723050841');
 
 
 SET statement_timeout = 0;
@@ -2184,6 +2207,7 @@ SET row_security = off;
 COPY public.active_record_views (name, class_name, checksum, options, refreshed_at) FROM stdin;
 accounts	Account	527717ab674bda9a8d0d439f086869ff2cf1098a	{"dependencies":[]}	\N
 activity_owners	ActivityOwner	f2723da6818beb2445e1d563125953c531272374	{"dependencies":[]}	\N
+profile_activities	ProfileActivity	620b36acc01bdec1cee0a4ad0563589583e7477a	{"dependencies":[]}	\N
 slot_activities	SlotActivity	717b988a5900ecc4d9842325e50563404a15d71b	{"dependencies":[]}	\N
 slot_sessions	SlotSession	6ab18ab7d8faec08af36bec11b736b3e84e21cca	{"dependencies":[]}	\N
 slots	Slot	d66acce70040a0dab5163f0966147d4fa78977c3	{"dependencies":[]}	\N

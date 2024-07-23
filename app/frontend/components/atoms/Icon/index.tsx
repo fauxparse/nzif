@@ -59,5 +59,8 @@ export const createIcon = <const T extends CreateIconOptions>(options: T) =>
         </AccessibleIcon>
       );
     },
-    { displayName: options.displayName }
+    {
+      displayName: options.displayName,
+      variants: hasMultipleVariants(options.path) ? Object.keys(options.path) : ['outline'],
+    }
   );

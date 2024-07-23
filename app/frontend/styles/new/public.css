@@ -5,9 +5,7 @@
   grid-template-rows: [navigation-start] auto [navigation-end main-start] 1fr [main-end footer-start] auto [footer-end];
   grid-template-columns: var(--layout-columns);
   align-content: stretch;
-  justify-content: stretch;
-  align-items: start;
-  justify-items: stretch;
+  place-items: start stretch;
   min-height: 100vh;
 
   &__main {

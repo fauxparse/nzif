@@ -995,6 +995,7 @@ export type Registration = {
   id: Scalars['ID'];
   outstanding: Scalars['Money'];
   payments: Array<Payment>;
+  photoPermission: Scalars['Boolean'];
   preferences: Array<Preference>;
   sessions: Array<Session>;
   user: Maybe<User>;
@@ -1311,6 +1312,7 @@ export type UserDetailsAttributes = {
   email: InputMaybe<Scalars['String']>;
   name: InputMaybe<Scalars['String']>;
   phone: InputMaybe<Scalars['String']>;
+  photoPermission: InputMaybe<Scalars['Boolean']>;
   pronouns: InputMaybe<Scalars['String']>;
 };
 

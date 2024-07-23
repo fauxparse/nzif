@@ -4,6 +4,8 @@ import { deburr, kebabCase } from 'lodash-es';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
 
+import classes from './Static.module.css';
+
 type TableOfContentsProps = {
   document: Document;
 };
@@ -83,12 +85,12 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ document }) => {
   }, []);
 
   return (
-    <details ref={container} open={openByDefault} className="static-page__toc">
+    <details ref={container} open={openByDefault} className={classes.toc}>
       <summary onClick={toggle}>
         <ChevronRightIcon />
         <span>Table of Contents</span>
       </summary>
-      <div ref={content} className="static-page__toc__content" onTransitionEnd={transitionEnd}>
+      <div ref={content} className={classes.tocContent} onTransitionEnd={transitionEnd}>
         <ul>
           {headings.map(({ id, heading, subheadings }) => (
             <li key={heading}>

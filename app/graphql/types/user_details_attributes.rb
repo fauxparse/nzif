@@ -6,6 +6,7 @@ module Types
     argument :email, String, required: false
     argument :name, String, required: false
     argument :phone, String, required: false
+    argument :photo_permission, Boolean, required: false
     argument :pronouns, String, required: false
   end
 end

@@ -6,16 +6,30 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import '@radix-ui/themes/styles.css';
 import '@/styles/new/application.css';
+import { useDarkMode } from '@/hooks/useDarkMode';
+import { useEffect } from 'react';
 
 const RouterContext = getRouterContext();
 
-export const Provider: GlobalProvider = ({ children }) => (
-  <HelmetProvider>
-    <ThemeProvider>
-      <Toast.Provider>{children}</Toast.Provider>
-    </ThemeProvider>
-  </HelmetProvider>
-);
+export const Provider: GlobalProvider = ({ globalState, children }) => {
+  const { enable, disable } = useDarkMode();
+
+  useEffect(() => {
+    if (globalState.theme === 'dark') {
+      enable();
+    } else {
+      disable();
+    }
+  }, [globalState.theme]);
+
+  return (
+    <HelmetProvider>
+      <ThemeProvider>
+        <Toast.Provider>{children}</Toast.Provider>
+      </ThemeProvider>
+    </HelmetProvider>
+  );
+};
 
 export const argTypes = {
   background: {

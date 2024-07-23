@@ -723,6 +723,7 @@ type Registration {
   id: ID!
   outstanding: Money!
   payments: [Payment!]!
+  photoPermission: Boolean!
   preferences: [Preference!]!
   sessions: [Session!]!
   user: User
@@ -1094,6 +1095,7 @@ input UserDetailsAttributes {
   email: String
   name: String
   phone: String
+  photoPermission: Boolean
   pronouns: String
 }
 

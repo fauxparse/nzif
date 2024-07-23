@@ -47,8 +47,8 @@ const UserMenu: React.FC = () => {
             </Link>
           </DropdownMenu.Item>
           <DropdownMenu.Separator />
-          <DropdownMenu.Item color="crimson" onClick={logOut}>
-            Log out
+          <DropdownMenu.Item color="crimson" asChild>
+            <Link to="/logout">Log out</Link>
           </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Root>

@@ -2,10 +2,6 @@
 
 @custom-media --mobile (max-width: 768px);
 
-:root {
-  --mantine-scale: 1;
-}
-
 :root,
 [data-theme="light"] {
   --blend-mode: multiply;

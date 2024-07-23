@@ -42,9 +42,11 @@ export const Home = () => {
                 Wellington.
               </p>
             </Text>
-            <Button size="4" variant="solid">
-              <WorkshopIcon />
-              Register for workshops
+            <Button asChild size="4" variant="solid">
+              <Link to="/register">
+                <WorkshopIcon />
+                Register for workshops
+              </Link>
             </Button>
             <Button asChild size="3" variant="outline">
               <Link to="/$activityType" params={{ activityType: ActivityType.Workshop }}>
