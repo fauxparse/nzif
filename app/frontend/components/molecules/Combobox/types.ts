@@ -40,12 +40,12 @@ export type ComboboxInputProps<Item extends ComboboxItem, Value> = Omit<
   onQueryChange: (value: string) => void;
 };
 
-export type MultipleValueInputProps<
-  Item extends ComboboxItem,
-  Value extends Item[],
-> = ComboboxInputProps<Item, Value> & {
-  item?: (props: PillProps<Item>) => React.ReactNode;
-  onRemoveItem: (item: Item) => void;
+export type MultipleValueInputProps<Item extends ComboboxItem, Value = Item> = ComboboxInputProps<
+  Item,
+  Value[]
+> & {
+  item?: (props: PillProps<Value>) => React.ReactNode;
+  onRemoveItem: (item: Value) => void;
 };
 
 export type ListItemProps<Item extends ComboboxItem> = PropsWithChildren<{
@@ -56,7 +56,7 @@ export type ListItemProps<Item extends ComboboxItem> = PropsWithChildren<{
   onSelect: (item: Item) => void;
 }>;
 
-export type PillProps<Item extends ComboboxItem> = {
+export type PillProps<Item> = PropsWithChildren<{
   item: Item;
   onRemove?: () => void;
-};
+}>;

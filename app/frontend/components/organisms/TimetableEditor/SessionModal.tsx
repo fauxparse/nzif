@@ -39,6 +39,7 @@ import { Activity, Session } from './types';
 import CalendarIcon from '@/icons/CalendarIcon';
 import WarningIcon from '@/icons/WarningIcon';
 import clsx from 'clsx';
+import { ActivityPresenters } from './ActivityPresenters';
 import classes from './SessionModal.module.css';
 
 type SessionModalProps = DialogProps & {
@@ -220,27 +221,30 @@ export const SessionModal: React.FC<SessionModalProps> = ({
               className={classes.full}
               open={sessionCount === 1 && !formErrorMap.onChange}
             >
-              <form.Subscribe<ActivityType> selector={(state) => state.values.activityType}>
-                {(activityType) => (
-                  <form.Field name="activity">
-                    {(field) => (
-                      <ActivityPicker
-                        value={field.state.value}
-                        activityType={activityType}
-                        startsAt={startsAt}
-                        onAddActivity={onCreateActivity}
-                        onChange={(activity) => {
-                          field.handleChange(activity);
+              <Flex direction="column" gap="4">
+                <form.Subscribe<ActivityType> selector={(state) => state.values.activityType}>
+                  {(activityType) => (
+                    <form.Field name="activity">
+                      {(field) => (
+                        <ActivityPicker
+                          value={field.state.value}
+                          activityType={activityType}
+                          startsAt={startsAt}
+                          onAddActivity={onCreateActivity}
+                          onChange={(activity) => {
+                            field.handleChange(activity);
 
-                          if (activity) {
-                            field.form.setFieldValue('activityType', activity.type);
-                          }
-                        }}
-                      />
-                    )}
-                  </form.Field>
-                )}
-              </form.Subscribe>
+                            if (activity) {
+                              field.form.setFieldValue('activityType', activity.type);
+                            }
+                          }}
+                        />
+                      )}
+                    </form.Field>
+                  )}
+                </form.Subscribe>
+                {activity && <ActivityPresenters activity={activity} />}
+              </Flex>
             </Collapsible>
 
             <Collapsible open={!!formErrorMap.onChange} gridColumn="1 / -1">
@@ -272,7 +276,7 @@ export const SessionModal: React.FC<SessionModalProps> = ({
                             });
                             form.setFieldValue('endsAt', startsAt.plus({ years: 1 }));
                             field.handleChange(startsAt);
-                            form.setFieldValue('endsAt', newEndDate, { touch: true });
+                            form.setFieldValue('endsAt', newEndDate);
                           } else {
                             field.handleChange(startsAt);
                           }

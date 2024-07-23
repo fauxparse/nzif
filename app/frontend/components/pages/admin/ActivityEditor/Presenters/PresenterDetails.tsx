@@ -146,7 +146,6 @@ export const PresenterDetails: React.FC<PresenterDetailsProps> = ({ presenter, o
             city={field.state.value}
             country={field.form.getFieldValue('country')}
             onChange={(city, country) => {
-              console.log(city, country);
               field.handleChange(city);
               form.setFieldValue('country', country);
               form.handleSubmit();

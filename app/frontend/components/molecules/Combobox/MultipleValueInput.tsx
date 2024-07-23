@@ -8,7 +8,7 @@ import { ComboboxItem, MultipleValueInputProps, PillProps } from './types';
 
 import classes from './Combobox.module.css';
 
-export const MultipleValueInput = <Item extends ComboboxItem>({
+export const MultipleValueInput = <Item extends ComboboxItem, Value = Item>({
   inputRef: passedRef,
   className,
   value,
@@ -22,10 +22,11 @@ export const MultipleValueInput = <Item extends ComboboxItem>({
   children,
   onRemoveItem,
   ...props
-}: MultipleValueInputProps<Item, Item[]>) => {
+}: MultipleValueInputProps<Item, Value>) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const remove = (index: number) => {
+    if (!value) return;
     onRemoveItem(value[index]);
   };
 
@@ -40,7 +41,9 @@ export const MultipleValueInput = <Item extends ComboboxItem>({
           renderItem ? (
             renderItem({ item, onRemove: () => remove(index) })
           ) : (
-            <Pill key={item.id} item={item} onRemove={() => remove(index)} />
+            <Pill key={index} item={item} onRemove={() => remove(index)}>
+              {String(item)}
+            </Pill>
           )
         )}
         <AutoSizeInput
@@ -61,6 +64,7 @@ export const MultipleValueInput = <Item extends ComboboxItem>({
 const AutoSizeInput = forwardRef<HTMLInputElement, ComponentPropsWithoutRef<typeof Command.Input>>(
   (props, ref) => {
     const [input, setInput] = useState<HTMLInputElement | null>(null);
+
     useEffect(() => {
       if (!input) return;
 
@@ -76,13 +80,14 @@ const AutoSizeInput = forwardRef<HTMLInputElement, ComponentPropsWithoutRef<type
 
       return () => input.removeEventListener('input', changed);
     }, [input]);
+
     return <Command.Input ref={mergeRefs([ref, setInput])} {...props} />;
   }
 );
 
-const Pill = <Item extends ComboboxItem>({ item, onRemove }: PillProps<Item>) => (
+const Pill = <Item,>({ item, children, onRemove }: PillProps<Item>) => (
   <Badge className={classes.multiInputValue} size="3">
-    {item.label}
+    {children}
     <IconButton className={classes.multiInputRemove} variant="ghost" size="2" onClick={onRemove}>
       <CloseIcon />
     </IconButton>

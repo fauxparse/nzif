@@ -2,7 +2,7 @@ import { Combobox, ComboboxItem } from '@/components/molecules/Combobox';
 import SearchIcon from '@/icons/SearchIcon';
 import { useLazyQuery } from '@apollo/client';
 import { FragmentOf } from 'gql.tada';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { PresenterDetailsQuery } from '../queries';
 import { Presenter } from '../types';
 import { PersonSearchQuery, PickablePersonFragment } from './queries';
@@ -20,8 +20,6 @@ export const Search: React.FC<SearchProps> = ({ existing, onSelect }) => {
   const abort = useRef<AbortController>();
 
   const [options, setOptions] = useState<Person[]>([]);
-
-  const [query, setQuery] = useState<string>('');
 
   const [search, { loading, data }] = useLazyQuery(PersonSearchQuery, {
     fetchPolicy: 'network-only',
@@ -59,15 +57,15 @@ export const Search: React.FC<SearchProps> = ({ existing, onSelect }) => {
     [search]
   );
 
-  useEffect(() => {
-    if (!data) return;
-    setOptions([
-      ...((data.search
-        ?.map((result) => ('person' in result ? result.person : null) as Person | null)
-        .filter(Boolean) ?? []) as Person[]),
-      { id: 'add', name: query },
-    ]);
-  }, [data]);
+  // useEffect(() => {
+  //   if (!data) return;
+  //   setOptions([
+  //     ...((data.search
+  //       ?.map((result) => ('person' in result ? result.person : null) as Person | null)
+  //       .filter(Boolean) ?? []) as Person[]),
+  //     { id: 'add', name: query },
+  //   ]);
+  // }, [data]);
 
   const [findPerson] = useLazyQuery(PresenterDetailsQuery);
 

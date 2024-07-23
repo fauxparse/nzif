@@ -15,22 +15,8 @@ export const TimetableActivityFragment = graphql(
     name
     slug
 
-    ... on Workshop {
-      presenters {
-        ...TimetableCast
-      }
-    }
-
-    ... on Show {
-      presenters {
-        ...TimetableCast
-      }
-    }
-
-    ... on SocialEvent {
-      presenters {
-        ...TimetableCast
-      }
+    presenters {
+      ...TimetableCast
     }
   }
 `,
@@ -163,3 +149,23 @@ export const DestroySessionMutation = graphql(`
     destroySession(id: $id)
   }
 `);
+
+export const UpdateActivityPresentersMutation = graphql(
+  `
+  mutation UpdateActivityPresenters($id: ID!, $presenters: [ID!]!) {
+    updateActivity(id: $id, attributes: { profileIds: $presenters }) {
+      activity {
+        id
+        slug
+        name
+        type
+
+        presenters {
+          ...TimetableCast
+        }
+      }
+    }
+  }
+`,
+  [TimetableCastFragment]
+);
