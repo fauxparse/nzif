@@ -2,6 +2,25 @@ module Registrations
   class UpdateUserDetails < ApplicationInteractor
     delegate :registration, :attributes, to: :context
 
+    USER_ATTRIBUTES = %i[
+      name
+      email
+    ].freeze
+
+    PROFILE_ATTRIBUTES = %i[
+      name
+      pronouns
+      city
+      country
+      phone
+    ].freeze
+
+    REGISTRATION_ATTRIBUTES = %i[
+      code_of_conduct_accepted_at
+      photo_permission
+      show_explainer
+    ].freeze
+
     def call
       authorize! registration, to: :update?
 
@@ -15,19 +34,19 @@ module Registrations
     def sanitized_attributes
       @sanitized_attributes ||=
         ActionController::Parameters.new(attributes.to_h)
-          .permit(:name, :email, :pronouns, :city, :country, :phone, :code_of_conduct_accepted_at)
+          .permit(USER_ATTRIBUTES + PROFILE_ATTRIBUTES + REGISTRATION_ATTRIBUTES)
     end
 
     def profile_attributes
-      sanitized_attributes.except(:email, :code_of_conduct_accepted_at)
+      sanitized_attributes.slice(*PROFILE_ATTRIBUTES)
     end
 
     def registration_attributes
-      sanitized_attributes.slice(:code_of_conduct_accepted_at)
+      sanitized_attributes.slice(*REGISTRATION_ATTRIBUTES)
     end
 
     def user_attributes
-      sanitized_attributes.slice(:name, :email)
+      sanitized_attributes.slice(*USER_ATTRIBUTES)
     end
   end
 end

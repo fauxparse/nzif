@@ -5311,6 +5311,18 @@ export type introspection = {
             "args": []
           },
           {
+            "name": "showExplainer",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
             "name": "user",
             "type": {
               "kind": "OBJECT",
@@ -7078,6 +7090,14 @@ export type introspection = {
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "showExplainer",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
               "ofType": null
             }
           }

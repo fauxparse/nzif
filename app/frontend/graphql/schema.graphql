@@ -726,6 +726,7 @@ type Registration {
   photoPermission: Boolean!
   preferences: [Preference!]!
   sessions: [Session!]!
+  showExplainer: Boolean!
   user: User
   waitlist: [Session!]!
   workshopsCount: Int!
@@ -1097,6 +1098,7 @@ input UserDetailsAttributes {
   phone: String
   photoPermission: Boolean
   pronouns: String
+  showExplainer: Boolean
 }
 
 """

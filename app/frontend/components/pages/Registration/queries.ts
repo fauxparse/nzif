@@ -34,3 +34,14 @@ export const AcceptCodeOfConductMutation = graphql(`
     }
   }
 `);
+
+export const HideExplainerMutation = graphql(`
+  mutation HideExplainer {
+    updateRegistrationUserDetails(attributes: { showExplainer: false }) {
+      registration {
+        id
+        showExplainer
+      }
+    }
+  }
+`);

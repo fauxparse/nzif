@@ -1,0 +1,81 @@
+.dialog {
+  overflow: hidden;
+  min-height: 100dvh;
+  border-radius: 0;
+
+  @media (--xs) {
+    min-height: 0;
+    border-radius: var(--radius-4);
+  }
+}
+
+:global(.rt-BaseDialogScrollPadding):has(.dialog) {
+  padding: 0;
+}
+
+.pages {
+  position: relative;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  aspect-ratio: 3 / 4;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  grid-area: 1 / 1;
+  gap: var(--space-4);
+  justify-content: end;
+  align-items: center;
+  align-self: stretch;
+  padding: var(--space-6);
+  text-align: center;
+
+  img {
+    flex: 1 1 0;
+    min-height: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.dots {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: center;
+}
+
+.dot {
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: 50%;
+  background-color: var(--gray-10);
+  opacity: 0.375;
+  transition: opacity 0.2s ease;
+
+  &[data-active="true"] {
+    opacity: 1;
+  }
+}
+
+.navigation {
+  position: absolute;
+  top: 50%;
+
+  &[rel="prev"] {
+    left: var(--dialog-content-padding);
+  }
+
+  &[rel="next"] {
+    right: var(--dialog-content-padding);
+  }
+}
+
+.close {
+  position: absolute;
+  top: var(--dialog-content-padding);
+  right: var(--dialog-content-padding);
+}

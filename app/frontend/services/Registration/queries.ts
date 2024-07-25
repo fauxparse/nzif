@@ -24,6 +24,7 @@ export const RegistrationDetailsFragment = graphql(`
 
     codeOfConductAcceptedAt
     photoPermission
+    showExplainer
   }
 `);
 

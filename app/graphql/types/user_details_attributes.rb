@@ -8,5 +8,6 @@ module Types
     argument :phone, String, required: false
     argument :photo_permission, Boolean, required: false
     argument :pronouns, String, required: false
+    argument :show_explainer, Boolean, required: false
   end
 end
