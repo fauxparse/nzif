@@ -767,6 +767,32 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: session_slots; Type: MATERIALIZED VIEW; Schema: public; Owner: -
+--
+
+CREATE MATERIALIZED VIEW public.session_slots AS
+ WITH multi_slot_sessions AS (
+         SELECT sessions.id AS session_id,
+            sessions.festival_id,
+                CASE
+                    WHEN ((sessions.activity_type = 'Workshop'::public.activity_type) AND ((sessions.ends_at - sessions.starts_at) > '03:00:00'::interval hour)) THEN ARRAY[sessions.starts_at, (sessions.ends_at - '03:00:00'::interval hour)]
+                    ELSE ARRAY[sessions.starts_at]
+                END AS starts_at,
+                CASE
+                    WHEN ((sessions.activity_type = 'Workshop'::public.activity_type) AND ((sessions.ends_at - sessions.starts_at) > '03:00:00'::interval hour)) THEN ARRAY[(sessions.starts_at + '03:00:00'::interval hour), sessions.ends_at]
+                    ELSE ARRAY[sessions.ends_at]
+                END AS ends_at
+           FROM public.sessions
+        )
+ SELECT multi_slot_sessions.session_id,
+    multi_slot_sessions.festival_id,
+    unnest(multi_slot_sessions.starts_at) AS starts_at,
+    unnest(multi_slot_sessions.ends_at) AS ends_at
+   FROM multi_slot_sessions
+  WITH NO DATA;
+
+
+--
 -- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -1730,6 +1756,27 @@ CREATE UNIQUE INDEX index_registrations_on_user_id_and_festival_id ON public.reg
 
 
 --
+-- Name: index_session_slots_on_festival_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_session_slots_on_festival_id ON public.session_slots USING btree (festival_id);
+
+
+--
+-- Name: index_session_slots_on_session_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_session_slots_on_session_id ON public.session_slots USING btree (session_id);
+
+
+--
+-- Name: index_session_slots_on_starts_at_and_ends_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_session_slots_on_starts_at_and_ends_at ON public.session_slots USING btree (starts_at, ends_at);
+
+
+--
 -- Name: index_sessions_on_activity_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2188,7 +2235,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20240608234005'),
 ('20240616030719'),
 ('20240723050841'),
-('20240725001136');
+('20240725001136'),
+('20240725035813');
 
 
 SET statement_timeout = 0;
@@ -2210,6 +2258,7 @@ COPY public.active_record_views (name, class_name, checksum, options, refreshed_
 accounts	Account	527717ab674bda9a8d0d439f086869ff2cf1098a	{"dependencies":[]}	\N
 activity_owners	ActivityOwner	f2723da6818beb2445e1d563125953c531272374	{"dependencies":[]}	\N
 profile_activities	ProfileActivity	620b36acc01bdec1cee0a4ad0563589583e7477a	{"dependencies":[]}	\N
+session_slots	SessionSlot	ff3c3045df6f7160a21a2db1c77dc7a7943f1a85	{"materialized":true,"dependencies":[]}	\N
 slot_activities	SlotActivity	717b988a5900ecc4d9842325e50563404a15d71b	{"dependencies":[]}	\N
 slot_sessions	SlotSession	6ab18ab7d8faec08af36bec11b736b3e84e21cca	{"dependencies":[]}	\N
 slots	Slot	d66acce70040a0dab5163f0966147d4fa78977c3	{"dependencies":[]}	\N

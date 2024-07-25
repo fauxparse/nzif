@@ -7,6 +7,10 @@ FactoryBot.define do
     activity_type { Workshop }
     capacity { 5 }
 
+    trait :full_day do
+      ends_at { starts_at + 7.hours }
+    end
+
     trait :with_workshop do
       activity { association :workshop, :with_tutor, festival: }
     end

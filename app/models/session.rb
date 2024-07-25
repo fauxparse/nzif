@@ -14,6 +14,7 @@ class Session < ApplicationRecord
   has_many :waitlist, -> { order(position: :asc) }, dependent: :destroy, inverse_of: :session
   has_many :feedback, dependent: :destroy
   has_many :hidden_sessions, dependent: :destroy
+  has_many :session_slots # rubocop:disable Rails/HasManyOrHasOneDependent
 
   enum :activity_type
 
@@ -26,6 +27,11 @@ class Session < ApplicationRecord
   validates :ends_at, time: { after: :starts_at }
   validate :check_for_venue_clashes
   validate :check_activity_type, if: :activity_type?
+
+  after_create :update_session_slots
+  after_update :update_session_slots,
+    if: -> { saved_change_to_starts_at? || saved_change_to_ends_at? }
+  after_destroy :update_session_slots
 
   def self.overlapping(session)
     where('starts_at < ? AND ends_at > ?', session.ends_at, session.starts_at)
@@ -72,6 +78,22 @@ class Session < ApplicationRecord
     activity_type == Conference
   end
 
+  def slots
+    first_slot = Slot.new(
+      id: starts_at,
+      starts_at:,
+      ends_at: starts_at + 3.hours,
+    )
+    if ends_at > slot.ends_at
+      [first_slot, Slot.new(
+        starts_at: ends_at - 3.hours,
+        ends_at:,
+      )]
+    else
+      [first_slot]
+    end
+  end
+
   private
 
   def check_for_venue_clashes
@@ -86,5 +108,9 @@ class Session < ApplicationRecord
     return if activity.blank? || activity.is_a?(activity_type)
 
     errors.add(:activity_id, "should be a #{activity_type}")
+  end
+
+  def update_session_slots
+    SessionSlot.refresh_view!
   end
 end

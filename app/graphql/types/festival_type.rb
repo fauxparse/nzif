@@ -33,6 +33,7 @@ module Types
     field :venues, [Types::VenueType], null: false
     field :workshop_allocation, Types::WorkshopAllocationType, null: true
     field :workshop_total, Types::MoneyType, null: false
+    field :workshops, [Types::WorkshopType], null: false
 
     def id
       object.start_date.year.to_s
@@ -41,6 +42,12 @@ module Types
     def activities(type: nil)
       dataloader
         .with(Sources::ActivitiesByFestival, context:, type:)
+        .load(object.id)
+    end
+
+    def workshops
+      dataloader
+        .with(Sources::ActivitiesByFestival, context:, type: Workshop, scheduled_only: true)
         .load(object.id)
     end
 

@@ -8,6 +8,10 @@ RSpec.describe Session do
 
   it { is_expected.to be_valid }
 
+  it 'adds a single SessionSlot' do
+    expect { session.save! }.to change(SessionSlot, :count).by(1)
+  end
+
   describe '#activity_type' do
     subject(:activity_type) { session.activity_type }
 
@@ -97,5 +101,13 @@ RSpec.describe Session do
     subject(:activity_type_values) { described_class.activity_type_values }
 
     it { is_expected.to eq %i[Workshop Show SocialEvent Conference] }
+  end
+
+  context 'for a full-day session' do
+    subject(:session) { build(:session, :full_day, :with_workshop, festival:, venue:) }
+
+    it 'adds two SessionSlots' do
+      expect { session.save! }.to change(SessionSlot, :count).by(2)
+    end
   end
 end

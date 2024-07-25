@@ -1,7 +1,7 @@
 # rubocop:disable Rails/ApplicationRecord, Rails/HasManyOrHasOneDependent
 
 class Slot < ActiveRecord::Base
-  is_view
+  is_view dependencies: [SessionSlot]
 
   self.primary_key = :starts_at
 

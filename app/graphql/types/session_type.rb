@@ -8,6 +8,7 @@ module Types
     field :id, ID, null: false
     field :participants, [RegistrationType], null: false
     field :slot, SlotType, null: false
+    field :slots, [SlotType], null: false
     field :starts_at, GraphQL::Types::ISO8601DateTime, null: false
     field :venue, VenueType, null: true
     field :waitlist, [WaitlistType], null: false
@@ -46,6 +47,12 @@ module Types
       dataloader
         .with(Sources::Simple, context:, model: ::Slot, primary_key: :starts_at)
         .load(object.starts_at)
+    end
+
+    def slots
+      dataloader
+        .with(Sources::SessionSlots, context:)
+        .load(object.id)
     end
 
     def cast

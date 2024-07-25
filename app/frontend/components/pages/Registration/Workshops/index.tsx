@@ -2,8 +2,8 @@ import { RegistrationExplainer } from '@/components/organisms/RegistrationExplai
 import { useRegistration } from '@/services/Registration';
 import { useMutation } from '@apollo/client';
 import { useEffect, useState } from 'react';
-import { Buttons } from './Buttons';
-import { HideExplainerMutation } from './queries';
+import { Buttons } from '../Buttons';
+import { HideExplainerMutation } from '../queries';
 
 import classes from './Registration.module.css';
 
