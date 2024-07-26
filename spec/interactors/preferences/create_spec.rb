@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Preferences::Create, type: :interactor do
   let(:festival) { create(:festival) }
   let(:registration) { create(:registration, festival:, user: current_user) }
-  let(:session) { create(:session, festival:) }
+  let(:session) { create(:session, :with_workshop, festival:) }
   let(:context) { { registration:, session: } }
 
   describe '.call' do

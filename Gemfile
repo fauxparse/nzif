@@ -64,7 +64,7 @@ gem 'pg_search', '~> 2.3'
 gem 'action_policy', '~> 0.6.5'
 gem 'action_policy-graphql', '~> 0.5.3'
 
-gem 'acts_as_list', '~> 1.1.0'
+gem 'acts_as_list', '~> 1.2.2'
 
 gem 'blurhash', '~> 0.1.7'
 gem 'image_processing', '~> 1.8'

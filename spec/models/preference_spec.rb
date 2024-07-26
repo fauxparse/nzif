@@ -31,10 +31,6 @@ RSpec.describe Preference do
         expect { first_choice.destroy }
           .to change { preference.reload.position }.from(2).to(1)
       end
-
-      it 'has two workshops in the slot' do
-        expect(preference.slot.activities).to have_exactly(2).items
-      end
     end
   end
 end

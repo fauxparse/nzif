@@ -653,7 +653,6 @@ CREATE TABLE public.preferences (
     id bigint NOT NULL,
     registration_id bigint NOT NULL,
     session_id bigint NOT NULL,
-    slot_id timestamp without time zone NOT NULL,
     "position" integer,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
@@ -902,12 +901,10 @@ CREATE VIEW public.slot_sessions AS
 --
 
 CREATE VIEW public.slots AS
- SELECT sessions.festival_id,
-    sessions.starts_at,
-    sessions.ends_at
-   FROM public.sessions
-  GROUP BY sessions.festival_id, sessions.starts_at, sessions.ends_at
-  ORDER BY sessions.starts_at;
+ SELECT DISTINCT session_slots.festival_id,
+    session_slots.starts_at,
+    session_slots.ends_at
+   FROM public.session_slots;
 
 
 --
@@ -1700,24 +1697,10 @@ CREATE INDEX index_preferences_on_registration_id ON public.preferences USING bt
 
 
 --
--- Name: index_preferences_on_registration_id_and_slot_id_and_position; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_preferences_on_registration_id_and_slot_id_and_position ON public.preferences USING btree (registration_id, slot_id, "position");
-
-
---
 -- Name: index_preferences_on_session_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_preferences_on_session_id ON public.preferences USING btree (session_id);
-
-
---
--- Name: index_preferences_on_slot_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_preferences_on_slot_id ON public.preferences USING btree (slot_id);
 
 
 --
@@ -2236,7 +2219,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20240616030719'),
 ('20240723050841'),
 ('20240725001136'),
-('20240725035813');
+('20240725035813'),
+('20240726035602');
 
 
 SET statement_timeout = 0;
@@ -2261,7 +2245,7 @@ profile_activities	ProfileActivity	620b36acc01bdec1cee0a4ad0563589583e7477a	{"de
 session_slots	SessionSlot	ff3c3045df6f7160a21a2db1c77dc7a7943f1a85	{"materialized":true,"dependencies":[]}	\N
 slot_activities	SlotActivity	717b988a5900ecc4d9842325e50563404a15d71b	{"dependencies":[]}	\N
 slot_sessions	SlotSession	6ab18ab7d8faec08af36bec11b736b3e84e21cca	{"dependencies":[]}	\N
-slots	Slot	d66acce70040a0dab5163f0966147d4fa78977c3	{"dependencies":[]}	\N
+slots	Slot	1c4ea33d8111de6a131f801f66ede63abb6667e7	{"dependencies":["SessionSlot"]}	\N
 \.
 
 
