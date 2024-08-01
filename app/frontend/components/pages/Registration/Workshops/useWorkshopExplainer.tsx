@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { HideExplainerMutation } from '../queries';
 
-export const useWorkshopExplainer = () => {
+export const useWorkshopExplainer = (): [React.FC, { show: () => void }] => {
   const { registration } = useRegistration();
 
   const [hideExplainer] = useMutation(HideExplainerMutation, {
@@ -35,5 +35,8 @@ export const useWorkshopExplainer = () => {
     }
   };
 
-  return () => <RegistrationExplainer open={showExplainer} onOpenChange={closeExplainer} />;
+  return [
+    () => <RegistrationExplainer open={showExplainer} onOpenChange={closeExplainer} />,
+    { show: () => setShowExplainer(true) },
+  ];
 };

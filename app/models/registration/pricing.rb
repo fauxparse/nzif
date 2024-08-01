@@ -16,7 +16,7 @@ class Registration
       ((workshops * (workshops - 1)) / 2) * discount_per_additional_workshop
     end
 
-    def workshops_from_total(total:) # rubocop:disable Metrics/AbcSize
+    def workshops_from_total(total:)
       return 0 if total.zero?
 
       d = discount_per_additional_workshop.to_f

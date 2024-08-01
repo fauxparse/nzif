@@ -3,7 +3,7 @@
   --card-size-2: 16rem;
 
   display: grid;
-  grid-template: "top body" auto "top badges" auto / 6rem 1fr;
+  grid-template: "top body" auto "top badges" auto / 4rem 1fr;
   min-height: 6rem;
   column-gap: var(--card-padding);
 

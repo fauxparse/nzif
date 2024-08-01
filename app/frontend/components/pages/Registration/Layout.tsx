@@ -7,6 +7,7 @@ import { Steps } from './Steps';
 
 import { Main } from './Main';
 import classes from './Registration.module.css';
+import { WorkshopPreferencesProvider } from './Workshops/WorkshopPreferencesProvider';
 
 export const Layout = () => {
   const step = useChildMatches({
@@ -21,29 +22,31 @@ export const Layout = () => {
 
   return (
     <RegistrationProvider>
-      {step ? (
-        <div className={classes.layout}>
-          <div className={classes.sidebar}>
-            <div className={classes.sidebarInner}>
-              <Link to="/" className={classes.logo}>
-                <Logo />
-              </Link>
-
-              <Steps />
-
-              <Button asChild className={classes.goBack} variant="ghost" size="3" color="gray">
-                <Link to="/">
-                  <ChevronLeftIcon />
-                  Go back
+      <WorkshopPreferencesProvider>
+        {step ? (
+          <div className={classes.layout}>
+            <div className={classes.sidebar}>
+              <div className={classes.sidebarInner}>
+                <Link to="/" className={classes.logo}>
+                  <Logo />
                 </Link>
-              </Button>
+
+                <Steps />
+
+                <Button asChild className={classes.goBack} variant="ghost" size="3" color="gray">
+                  <Link to="/">
+                    <ChevronLeftIcon />
+                    Go back
+                  </Link>
+                </Button>
+              </div>
             </div>
+            <Main />
           </div>
-          <Main />
-        </div>
-      ) : (
-        <Outlet />
-      )}
+        ) : (
+          <Outlet />
+        )}
+      </WorkshopPreferencesProvider>
     </RegistrationProvider>
   );
 };

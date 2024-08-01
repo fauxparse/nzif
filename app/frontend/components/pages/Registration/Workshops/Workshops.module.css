@@ -28,6 +28,8 @@
   flex-direction: column;
   gap: var(--space-4);
   align-items: stretch;
+  margin-bottom: var(--space-6);
+  padding-block: 0;
 }
 
 .period {
@@ -93,8 +95,26 @@
   display: grid;
   flex: 1;
   gap: var(--space-4);
+}
 
-  :global(.rt-BaseCard) {
-    --card-size: 100%;
+.card {
+  --card-size: 100%;
+
+  grid-template: "top body preference" auto "top badges preference" auto / 4rem 1fr auto;
+
+  @media (--sm) {
+    grid-template: "top" auto "body" 1fr / 1fr;
+  }
+}
+
+.preference {
+  position: relative;
+  grid-area: preference;
+  place-self: center center;
+  font-weight: var(--font-weight-bold);
+
+  @media (--sm) {
+    grid-area: top;
+    place-self: start end;
   }
 }

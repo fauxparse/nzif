@@ -1,6 +1,6 @@
 import { useRegistration } from '@/services/Registration';
 import { useQuery } from '@apollo/client';
-import { map, sortBy, uniqBy } from 'lodash-es';
+import { isEqual, map, sortBy, uniqBy } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { useCallback, useEffect, useMemo, useReducer } from 'react';
 import { WorkshopRegistrationQuery } from './queries';
@@ -92,6 +92,27 @@ export const useWorkshopPreferences = () => {
     [data]
   );
 
+  const initial = useMemo(() => {
+    if (!registration) return null;
+    return registration.preferences.reduce(
+      (acc, { sessionId, position }) => Object.assign(acc, { [sessionId]: position }),
+      {}
+    );
+  }, [registration]);
+
+  const current = useMemo(
+    () =>
+      Array.from(preferences.entries())
+        .flatMap(([_, prefs]) => prefs)
+        .reduce((acc, { session, position }) => Object.assign(acc, { [session.id]: position }), {}),
+    [preferences]
+  );
+
+  const dirty = useMemo(() => {
+    if (!initial) return false;
+    return !isEqual(initial, current);
+  }, [initial, current]);
+
   useEffect(() => {
     if (!registration || !sessions.length) return;
 
@@ -141,5 +162,14 @@ export const useWorkshopPreferences = () => {
     [positionsBySession]
   );
 
-  return { days: workshopDays, loading, add, remove, preferences, getPosition };
+  return {
+    days: workshopDays,
+    loading,
+    add,
+    remove,
+    preferences,
+    getPosition,
+    value: current,
+    dirty,
+  };
 };

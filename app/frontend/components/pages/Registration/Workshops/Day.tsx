@@ -1,12 +1,13 @@
 import { ActivityCard } from '@/components/molecules/ActivityCard';
 import CalendarIcon from '@/icons/CalendarIcon';
-import { Button, Flex, Heading, Section } from '@radix-ui/themes';
+import { Flex, Heading, IconButton, Section } from '@radix-ui/themes';
 import { upperFirst } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { Fragment } from 'react';
 import { usePreferences } from './WorkshopPreferencesProvider';
 import { PERIODS, Period, Session } from './types';
 
+import PlusIcon from '@/icons/PlusIcon';
 import classes from './Workshops.module.css';
 
 type DayProps = {
@@ -34,16 +35,20 @@ export const Day: React.FC<DayProps> = ({ date, workshops }) => {
                 {workshops[period].map((session) => {
                   const position = getPosition(session);
                   return (
-                    <ActivityCard key={session.id} activity={session.workshop}>
-                      {position ? (
-                        <Button type="button" onClick={() => remove(session)}>
-                          {position}
-                        </Button>
-                      ) : (
-                        <Button type="button" onClick={() => add(session)}>
-                          Add
-                        </Button>
-                      )}
+                    <ActivityCard
+                      key={session.id}
+                      className={classes.card}
+                      activity={session.workshop}
+                    >
+                      <IconButton
+                        type="button"
+                        variant={position ? 'solid' : 'surface'}
+                        radius="full"
+                        className={classes.preference}
+                        onClick={() => (position ? remove : add)(session)}
+                      >
+                        {position ?? <PlusIcon />}
+                      </IconButton>
                     </ActivityCard>
                   );
                 })}
