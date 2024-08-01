@@ -6,7 +6,6 @@ import '@formatjs/intl-numberformat/locale-data/en';
 import '@formatjs/intl-numberformat/polyfill';
 import { routeTree } from '@/routeTree.gen';
 import { createRouter } from '@tanstack/react-router';
-import { createContext } from 'react';
 
 // Create a new router instance
 export const router = createRouter({
@@ -25,5 +24,3 @@ declare module '@tanstack/react-router' {
     router: typeof router;
   }
 }
-
-export const RealRouterContext = createContext({ realRouter: false });

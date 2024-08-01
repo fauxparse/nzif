@@ -1964,6 +1964,24 @@ export type introspection = {
               }
             },
             "args": []
+          },
+          {
+            "name": "workshops",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Workshop",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
           }
         ],
         "interfaces": []
@@ -4518,12 +4536,24 @@ export type introspection = {
             "args": []
           },
           {
-            "name": "slot",
+            "name": "session",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
                 "kind": "OBJECT",
-                "name": "Slot",
+                "name": "Session",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "sessionId",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
                 "ofType": null
               }
             },
@@ -5827,6 +5857,24 @@ export type introspection = {
                 "kind": "OBJECT",
                 "name": "Slot",
                 "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "slots",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Slot",
+                    "ofType": null
+                  }
+                }
               }
             },
             "args": []

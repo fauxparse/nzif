@@ -310,6 +310,7 @@ type Festival {
   venues: [Venue!]!
   workshopAllocation: WorkshopAllocation
   workshopTotal: Money!
+  workshops: [Workshop!]!
 }
 
 enum FestivalState {
@@ -634,7 +635,8 @@ type PersonResult implements SearchResult {
 type Preference {
   id: ID!
   position: Int!
-  slot: Slot!
+  session: Session!
+  sessionId: ID!
   workshop: Workshop!
 }
 
@@ -897,6 +899,7 @@ type Session {
   participants: [Registration!]!
   performers: [Person!]!
   slot: Slot!
+  slots: [Slot!]!
   startsAt: ISO8601DateTime!
   venue: Venue
   waitlist: [Waitlist!]!

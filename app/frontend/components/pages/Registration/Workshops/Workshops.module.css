@@ -1,0 +1,100 @@
+.workshopSelection {
+  grid-template-rows: 1fr;
+  padding-block: 0;
+
+  :global(.buttons) {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    padding-block: var(--space-4);
+  }
+}
+
+.date {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  margin-inline: calc(var(--space-4) * -1);
+  padding: var(--space-3) var(--space-4);
+  background: var(--background-translucent);
+  backdrop-filter: blur(6px);
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: stretch;
+}
+
+.period {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.periodName {
+  --height: 1.5rem;
+
+  position: relative;
+  width: var(--height);
+  border-radius: var(--radius-small);
+  color: var(--gray-11);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  container: period;
+  container-type: size;
+
+  span {
+    position: absolute;
+    bottom: 0;
+    left: 100%;
+    display: flex;
+    gap: var(--space-4);
+    align-items: center;
+    width: 100cqh;
+    height: var(--height);
+    margin: 0;
+    line-height: var(--height);
+    text-align: center;
+    transform: rotate(-90deg);
+    transform-origin: 0 100%;
+
+    &::before,
+    &::after {
+      content: "";
+      flex: 1;
+      border-top: 1px solid var(--gray-a6);
+    }
+  }
+
+  @media (--md) {
+    font-size: var(--font-size-3);
+  }
+}
+
+.workshops {
+  @container page (width > 512px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @container page (width > 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @container page (width > 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  display: grid;
+  flex: 1;
+  gap: var(--space-4);
+
+  :global(.rt-BaseCard) {
+    --card-size: 100%;
+  }
+}

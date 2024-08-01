@@ -1,13 +1,12 @@
-import { RealRouterContext } from '@/router';
-import { Link, LinkProps } from '@tanstack/react-router';
+import { Link, LinkProps, useRouter } from '@tanstack/react-router';
 import { isFunction } from 'lodash-es';
-import { ComponentPropsWithoutRef, forwardRef, useContext } from 'react';
+import { ComponentPropsWithoutRef, forwardRef } from 'react';
 
 export const RoutableLink = forwardRef<HTMLAnchorElement, ComponentPropsWithoutRef<typeof Link>>(
   ({ to = '', params, search, state, children, ...props }, ref) => {
-    const { realRouter } = useContext(RealRouterContext);
+    const router = useRouter();
 
-    if (realRouter) {
+    if (router) {
       return (
         <Link ref={ref} to={to} params={params} search={search} state={state} {...props}>
           {children}

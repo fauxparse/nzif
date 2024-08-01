@@ -84,6 +84,12 @@
   display: block;
   color: var(--gray-12);
   font-size: var(--font-size-3);
+
+  a {
+    color: inherit;
+    font: inherit;
+    text-decoration: none;
+  }
 }
 
 .presenters {

@@ -1,6 +1,9 @@
 .layout {
   --column-gutter: var(--space-9);
+  --max-width: 1280px;
 
+  position: fixed;
+  inset: 0;
   display: grid;
   grid-template: "sidebar" auto "main" 1fr / 1fr;
   min-height: 100dvh;
@@ -14,6 +17,7 @@
 .sidebar {
   position: sticky;
   top: -4.5rem;
+  z-index: 1;
   display: grid;
   grid-area: sidebar;
   grid-template-columns: 1fr;
@@ -22,6 +26,7 @@
   container: sidebar / inline-size;
 
   .logo {
+    display: block;
     width: 6rem;
     margin-inline: auto;
   }
@@ -36,7 +41,7 @@
 
     .logo {
       width: 12rem;
-      margin-inline-start: -2rem;
+      margin-inline-start: -1.75rem;
     }
   }
 }
@@ -152,7 +157,7 @@
   overflow: hidden;
   width: 100%;
   max-width: 30rem;
-  padding: var(--space-5);
+  min-height: 0;
 
   [data-outlet] {
     grid-template-rows: minmax(0, 1fr);
@@ -162,9 +167,12 @@
   }
 
   @media (--md) {
-    justify-self: start;
-    max-width: calc(var(--max-width) * 2 / 3);
-    padding: var(--space-4) var(--space-6) var(--space-4) var(--space-8);
+    justify-self: stretch;
+    max-width: none;
+
+    [data-outlet] {
+      max-height: 100dvh;
+    }
   }
 }
 
@@ -173,22 +181,42 @@
   grid-template-rows: auto minmax(0, 1fr) 3rem;
   row-gap: var(--space-4);
   align-items: start;
+  overflow-y: auto;
+  padding: var(--space-5);
+  container-type: inline-size;
+  container-name: page;
+
+  &[data-full-width] {
+    max-width: none;
+  }
 
   @media (--md) {
     align-items: center;
+    max-width: calc(var(--max-width) * 2 / 3);
+    padding: var(--space-5) var(--space-8);
   }
 }
 
 .buttons {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: var(--space-2);
+  margin-inline: calc(var(--space-4) * -1);
+  padding-inline: var(--space-4);
+  background: var(--background-translucent);
+  backdrop-filter: blur(6px);
 
-  .button {
-    flex: 1;
+  [rel="prev"] {
+    grid-column: 1;
+  }
 
-    @media (--md) {
-      flex: 0 1 12rem
-    }
+  [rel="next"] {
+    grid-column: 2;
+  }
+
+  @media (--md) {
+    grid-template-columns: 12rem 12rem;
+    justify-content: end;
   }
 }
 

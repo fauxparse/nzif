@@ -6,9 +6,10 @@ import { Session } from '@/graphql/types';
 import sentence from '@/util/sentence';
 import { Badge, Card, Flex, Inset, Skeleton, Text } from '@radix-ui/themes';
 import { Responsive } from '@radix-ui/themes/dist/esm/props/prop-def.js';
+import { Link, LinkProps, useRouter } from '@tanstack/react-router';
 import clsx from 'clsx';
 import { map, uniqBy } from 'lodash-es';
-import { useMemo } from 'react';
+import { PropsWithChildren, useMemo } from 'react';
 import {
   ActivityCardFragment,
   ActivityCardPictureFragment,
@@ -29,19 +30,24 @@ export type ActivityCardActivity = Omit<ResultOf<typeof ActivityCardFragment>, '
 const hasAssociated = (activity: ActivityCardActivity) =>
   ('show' in activity && !!activity.show) || ('workshop' in activity && !!activity.workshop);
 
-export type ActivityCardProps = {
+export type ActivityCardProps = PropsWithChildren<{
   className?: string;
   activity: ActivityCardActivity;
   loading?: boolean;
   size?: Responsive<'1' | '2'>;
-};
+  linkProps?: LinkProps;
+}>;
 
 export const ActivityCard: React.FC<ActivityCardProps> = ({
   className,
   activity,
   loading = false,
   size = { initial: '1', sm: '2' },
+  children,
+  linkProps,
 }) => {
+  const router = useRouter();
+
   const picture = readFragment(ActivityCardPictureFragment, activity.picture);
   const presenters = readFragment(ActivityCardPresenterFragment, activity.presenters);
 
@@ -72,10 +78,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
     >
       <Inset className={classes.topSection} side={{ initial: 'all', sm: 'top' }}>
         <Skeleton loading={loading}>
-          <RoutableLink
-            to="/$activityType/$slug"
-            params={{ activityType: activity.type, slug: activity.slug }}
-          >
+          <ActivityLink activity={activity} linkProps={linkProps}>
             {picture && (
               <BlurrableImage
                 src={picture.medium}
@@ -83,13 +86,15 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
                 alt={picture.altText || activity.name}
               />
             )}
-          </RoutableLink>
+          </ActivityLink>
         </Skeleton>
       </Inset>
       <div className={classes.body}>
         <Skeleton loading={loading}>
           <Text className={classes.title} weight="medium">
-            {activity.name}
+            <ActivityLink activity={activity} linkProps={linkProps}>
+              {activity.name}
+            </ActivityLink>
           </Text>
         </Skeleton>
         <Skeleton loading={loading}>
@@ -121,6 +126,23 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
           </Badge>
         )}
       </Flex>
+      {children}
     </Card>
   );
 };
+
+const ActivityLink: React.FC<
+  PropsWithChildren<Pick<ActivityCardProps, 'activity' | 'linkProps'>>
+> = ({ activity, linkProps, children }) =>
+  useRouter() && linkProps ? (
+    <Link {...linkProps}>{children}</Link>
+  ) : (
+    <RoutableLink
+      {...{
+        to: '/$activityType/$slug',
+        params: { activityType: activity.type, slug: activity.slug },
+      }}
+    >
+      {children}
+    </RoutableLink>
+  );

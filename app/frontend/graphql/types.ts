@@ -305,6 +305,7 @@ export type Festival = {
   venues: Array<Venue>;
   workshopAllocation: Maybe<WorkshopAllocation>;
   workshopTotal: Scalars['Money'];
+  workshops: Array<Workshop>;
 };
 
 
@@ -864,7 +865,8 @@ export type Preference = {
   __typename: 'Preference';
   id: Scalars['ID'];
   position: Scalars['Int'];
-  slot: Slot;
+  session: Session;
+  sessionId: Scalars['ID'];
   workshop: Workshop;
 };
 
@@ -1110,6 +1112,7 @@ export type Session = {
   participants: Array<Registration>;
   performers: Array<Person>;
   slot: Slot;
+  slots: Array<Slot>;
   startsAt: Scalars['ISO8601DateTime'];
   venue: Maybe<Venue>;
   waitlist: Array<Waitlist>;

@@ -16,7 +16,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import '@radix-ui/themes/styles.css';
 import '@/styles/new/application.css';
 import { Toast } from '@/components/molecules/Toast';
-import { RealRouterContext, router } from '@/router';
+import { router } from '@/router';
 
 LuxonSettings.defaultZone = 'Pacific/Auckland';
 dayjs.extend(customParseFormat);
@@ -34,15 +34,13 @@ createRoot(document.getElementById('root') as HTMLElement).render(
               <AuthenticationProvider>
                 <AuthenticationContext.Consumer>
                   {(auth) => (
-                    <RealRouterContext.Provider value={{ realRouter: true }}>
-                      <RouterProvider
-                        router={router}
-                        context={{
-                          auth: { ...auth },
-                          client,
-                        }}
-                      />
-                    </RealRouterContext.Provider>
+                    <RouterProvider
+                      router={router}
+                      context={{
+                        auth: { ...auth },
+                        client,
+                      }}
+                    />
                   )}
                 </AuthenticationContext.Consumer>
               </AuthenticationProvider>

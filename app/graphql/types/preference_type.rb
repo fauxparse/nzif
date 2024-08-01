@@ -2,13 +2,14 @@ module Types
   class PreferenceType < Types::BaseObject
     field :id, ID, null: false
     field :position, Integer, null: false
-    field :slot, SlotType, null: false
+    field :session, SessionType, null: false
+    field :session_id, ID, null: false
     field :workshop, WorkshopType, null: false
 
-    def slot
+    def session
       dataloader
-        .with(Sources::Slots, context:)
-        .load(object.slot_id)
+        .with(Sources::Simple, context:, model: ::Session)
+        .load(object.session_id)
     end
 
     def workshop

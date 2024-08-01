@@ -3,6 +3,7 @@ require 'shrine/storage/file_system'
 require 'shrine/storage/s3'
 
 S3_OPTIONS = {
+  public: true,
   force_path_style: false,
   endpoint: Rails.application.credentials.dig(:storage, :endpoint),
   region: Rails.application.credentials.dig(:storage, :region), # required

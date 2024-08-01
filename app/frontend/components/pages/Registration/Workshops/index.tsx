@@ -1,55 +1,41 @@
-import { RegistrationExplainer } from '@/components/organisms/RegistrationExplainer';
-import { useRegistration } from '@/services/Registration';
-import { useMutation } from '@apollo/client';
-import { useEffect, useState } from 'react';
+import clsx from 'clsx';
 import { Buttons } from '../Buttons';
-import { HideExplainerMutation } from '../queries';
+import { Day } from './Day';
+import { useWorkshopExplainer } from './useWorkshopExplainer';
+import { useWorkshopPreferences } from './useWorkshopPreferences';
 
-import classes from './Registration.module.css';
+import registrationClasses from '../Registration.module.css';
+import classes from './Workshops.module.css';
 
 export const Workshops: React.FC = () => {
-  const { loading, registration, goToNextStep } = useRegistration();
+  const { days, loading, preferences, add, remove, getPosition } = useWorkshopPreferences();
 
-  const [hideExplainer] = useMutation(HideExplainerMutation, {
-    optimisticResponse: registration
-      ? {
-          updateRegistrationUserDetails: {
-            registration: {
-              id: registration.id,
-              showExplainer: false,
-            },
-          },
-        }
-      : undefined,
-  });
-
-  const [showExplainer, setShowExplainer] = useState(registration?.showExplainer ?? false);
-
-  useEffect(() => {
-    if (registration?.showExplainer) {
-      setShowExplainer(true);
-    }
-  }, [registration]);
-
-  const closeExplainer = (value: boolean, dontShowAgain: boolean) => {
-    setShowExplainer(value);
-    if (!value && dontShowAgain) {
-      hideExplainer();
-    }
-  };
-
-  const [busy, setBusy] = useState(false);
+  const Explainer = useWorkshopExplainer();
 
   return (
     <form
-      className={classes.page}
+      className={clsx(registrationClasses.page, classes.workshopSelection)}
+      data-full-width
       // onSubmit={(e) => {
       //   e.preventDefault();
       //   e.stopPropagation();
       //   form.handleSubmit();
       // }}
     >
-      <RegistrationExplainer open={showExplainer} onOpenChange={closeExplainer} />
+      <div>
+        {days.map((day) => (
+          <Day
+            key={day.date.toISODate()}
+            date={day.date}
+            workshops={day.workshops}
+            onAdd={add}
+            onRemove={remove}
+            getPosition={getPosition}
+          />
+        ))}
+      </div>
+
+      <Explainer />
       <Buttons disabled />
     </form>
   );

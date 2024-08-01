@@ -25,7 +25,9 @@ export const Layout = () => {
         <div className={classes.layout}>
           <div className={classes.sidebar}>
             <div className={classes.sidebarInner}>
-              <Logo className={classes.logo} />
+              <Link to="/" className={classes.logo}>
+                <Logo />
+              </Link>
 
               <Steps />
 
