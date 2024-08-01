@@ -2,7 +2,7 @@ import { useRegistration } from '@/services/Registration';
 import { useQuery } from '@apollo/client';
 import { map, sortBy, uniqBy } from 'lodash-es';
 import { DateTime } from 'luxon';
-import { useCallback, useMemo, useReducer } from 'react';
+import { useCallback, useEffect, useMemo, useReducer } from 'react';
 import { WorkshopRegistrationQuery } from './queries';
 import { PERIODS, Period, Session, WorkshopDay } from './types';
 
@@ -21,10 +21,16 @@ type Preference = {
 
 type State = Map<SessionKey, Preference[]>;
 
-type Action = {
-  type: 'add' | 'remove';
-  session: Session;
-};
+type Action =
+  | {
+      type: 'add' | 'remove';
+      session: Session;
+    }
+  | {
+      type: 'reset';
+      preferences: { sessionId: Session['id']; position: number }[];
+      sessions: Session[];
+    };
 
 const addSession = (state: State, session: Session): State => {
   const existing = session.slots.map((slot) => state.get(sessionKey(slot)) ?? []);
@@ -56,13 +62,18 @@ const removeSession = (state: State, session: Session): State => {
 };
 
 const reducer = (state: State, action: Action): State => {
-  const { type, session } = action;
-
-  switch (type) {
+  switch (action.type) {
     case 'add':
-      return addSession(state, session);
+      return addSession(state, action.session);
     case 'remove':
-      return removeSession(state, session);
+      return removeSession(state, action.session);
+    case 'reset': {
+      const sessionsById = new Map(action.sessions.map((session) => [session.id, session]));
+      return sortBy(action.preferences, 'position').reduce(
+        (acc, { sessionId }) => addSession(acc, sessionsById.get(sessionId) as Session),
+        new Map()
+      );
+    }
   }
 };
 
@@ -73,12 +84,27 @@ export const useWorkshopPreferences = () => {
 
   const [preferences, dispatch] = useReducer(reducer, new Map());
 
+  const sessions = useMemo(
+    () =>
+      data?.festival.workshops.flatMap((workshop) =>
+        workshop.sessions.map((session) => ({ ...session, workshop }))
+      ) ?? [],
+    [data]
+  );
+
+  useEffect(() => {
+    if (!registration || !sessions.length) return;
+
+    dispatch({
+      type: 'reset',
+      preferences: registration.preferences,
+      sessions,
+    });
+  }, [registration, sessions]);
+
   const workshopDays = useMemo<WorkshopDay[]>(() => {
     if (!data?.festival?.workshops) return [];
 
-    const sessions = data.festival.workshops.flatMap((workshop) =>
-      workshop.sessions.map((session) => ({ ...session, workshop }))
-    );
     const grouped = sessions.reduce((acc, session) => {
       const date = session.startsAt.toISODate() ?? '';
       const day = acc.get(date) ?? {
@@ -91,7 +117,7 @@ export const useWorkshopPreferences = () => {
     }, new Map<string, WorkshopDay>());
 
     return sortBy(Array.from(grouped.values()), 'date');
-  }, [data]);
+  }, [data, sessions]);
 
   const add = useCallback((session: Session) => dispatch({ type: 'add', session }), [dispatch]);
 

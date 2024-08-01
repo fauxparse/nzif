@@ -54,6 +54,9 @@ const cache = () =>
           feedback: {
             merge: (_, incoming) => incoming,
           },
+          preferences: {
+            merge: (_, incoming) => incoming,
+          },
         },
       },
       Show: {

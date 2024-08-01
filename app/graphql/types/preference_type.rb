@@ -6,6 +6,10 @@ module Types
     field :session_id, ID, null: false
     field :workshop, WorkshopType, null: false
 
+    def session_id
+      Session.encode_id(object.session_id)
+    end
+
     def session
       dataloader
         .with(Sources::Simple, context:, model: ::Session)

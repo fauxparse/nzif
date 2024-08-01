@@ -1,11 +1,21 @@
 FactoryBot.define do
   factory :session do
+    transient do
+      date { festival.start_date }
+    end
+
     festival
-    starts_at { Time.zone.parse('2023-10-09 10:00:00') }
+    starts_at { date.to_time + 10.hours }
     ends_at { starts_at + 3.hours }
     venue
     activity_type { Workshop }
     capacity { 5 }
+
+    trait :morning
+
+    trait :afternoon do
+      starts_at { date.to_time + 13.hours }
+    end
 
     trait :full_day do
       ends_at { starts_at + 7.hours }

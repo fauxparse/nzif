@@ -1,22 +1,22 @@
 import { ActivityCard } from '@/components/molecules/ActivityCard';
+import CalendarIcon from '@/icons/CalendarIcon';
 import { Button, Flex, Heading, Section } from '@radix-ui/themes';
 import { upperFirst } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { Fragment } from 'react';
+import { usePreferences } from './WorkshopPreferencesProvider';
 import { PERIODS, Period, Session } from './types';
 
-import CalendarIcon from '@/icons/CalendarIcon';
 import classes from './Workshops.module.css';
 
 type DayProps = {
   date: DateTime;
   workshops: Record<Period, Session[]>;
-  onAdd: (session: Session) => void;
-  onRemove: (session: Session) => void;
-  getPosition: (session: Session) => number | undefined;
 };
 
-export const Day: React.FC<DayProps> = ({ date, workshops, onAdd, onRemove, getPosition }) => {
+export const Day: React.FC<DayProps> = ({ date, workshops }) => {
+  const { add, remove, getPosition } = usePreferences();
+
   return (
     <Section className={classes.day}>
       <Heading as="h3" className={classes.date}>
@@ -36,11 +36,11 @@ export const Day: React.FC<DayProps> = ({ date, workshops, onAdd, onRemove, getP
                   return (
                     <ActivityCard key={session.id} activity={session.workshop}>
                       {position ? (
-                        <Button type="button" onClick={() => onRemove(session)}>
+                        <Button type="button" onClick={() => remove(session)}>
                           {position}
                         </Button>
                       ) : (
-                        <Button type="button" onClick={() => onAdd(session)}>
+                        <Button type="button" onClick={() => add(session)}>
                           Add
                         </Button>
                       )}

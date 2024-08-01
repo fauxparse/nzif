@@ -51,3 +51,18 @@ export const WorkshopRegistrationQuery = graphql(
 `,
   [RegistrationWorkshopFragment]
 );
+
+export const SaveWorkshopPreferencesMutation = graphql(`
+  mutation SaveWorkshopPreferences($preferences: [WorkshopPreferenceInput!]!) {
+    saveWorkshopPreferences(preferences: $preferences) {
+      registration {
+        id
+        preferences {
+          id
+          position
+          sessionId
+        }
+      }
+    }
+  }
+`);
