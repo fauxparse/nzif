@@ -3,7 +3,10 @@ import { AuthenticationContext, AuthenticationProvider } from '@/services/Authen
 import { ApolloProvider } from '@apollo/client';
 import '@formatjs/intl-numberformat/locale-data/en';
 import '@formatjs/intl-numberformat/polyfill';
+import { Toast } from '@/components/molecules/Toast';
 import { ConfirmationModalProvider } from '@/components/organisms/ConfirmationModal';
+import { router } from '@/router';
+import { PricingProvider } from '@/services/Pricing';
 import { ThemeProvider } from '@/services/Themes';
 import { RouterProvider } from '@tanstack/react-router';
 import dayjs from 'dayjs';
@@ -15,9 +18,6 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 import '@radix-ui/themes/styles.css';
 import '@/styles/new/application.css';
-import { Toast } from '@/components/molecules/Toast';
-import { router } from '@/router';
-import { PricingProvider } from '@/services/Pricing';
 
 LuxonSettings.defaultZone = 'Pacific/Auckland';
 dayjs.extend(customParseFormat);

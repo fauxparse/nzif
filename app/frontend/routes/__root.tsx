@@ -14,9 +14,7 @@ const Root = () => {
     <PlacenamesProvider>
       <FestivalProvider festival={festival}>
         <Outlet />
-        <Suspense fallback={null}>
-          <TanStackRouterDevtools />
-        </Suspense>
+        <Suspense fallback={null}>{import.meta.env.DEV && <TanStackRouterDevtools />}</Suspense>
       </FestivalProvider>
     </PlacenamesProvider>
   );
