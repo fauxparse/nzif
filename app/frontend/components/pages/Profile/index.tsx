@@ -14,6 +14,7 @@ import { WithUploadedPicture } from '../admin/ActivityEditor/types';
 import { ProfileQuery, UpdatePasswordMutation, UpdateProfileMutation } from './queries';
 
 import { useToast } from '@/components/molecules/Toast';
+import Body from '@/components/organisms/Body';
 import classes from './Profile.module.css';
 
 type ProfileForm = WithUploadedPicture<{
@@ -112,9 +113,9 @@ export const Profile: React.FC = () => {
   const passwordIsDirty = passwordForm.useStore((state) => state.isDirty);
 
   return (
-    <div className="profile">
+    <>
       <Header title="Your profile" />
-      <div className="body">
+      <Body>
         <form
           className={classes.form}
           onSubmit={(e) => {
@@ -280,7 +281,12 @@ export const Profile: React.FC = () => {
             )}
           </passwordForm.Field>
           <div className={classes.buttons}>
-            <Button type="submit" variant="solid" size="3" disabled={!isDirty || changingPassword}>
+            <Button
+              type="submit"
+              variant="solid"
+              size="3"
+              disabled={!passwordIsDirty || changingPassword}
+            >
               {changingPassword ? (
                 <>
                   <Spinner color="gray" /> Saving…
@@ -291,7 +297,7 @@ export const Profile: React.FC = () => {
             </Button>
           </div>
         </form>
-      </div>
-    </div>
+      </Body>
+    </>
   );
 };
