@@ -1,5 +1,6 @@
 {
-  "schema": "./app/frontend/graphql/schema.graphql",
+  "schema": "app/frontend/graphql/schema.graphql",
+  "documents": "app/frontend/**/*.{graphql,gql,js,ts,jsx,tsx}",
   "extensions": {
     "endpoints": {
       "default": {

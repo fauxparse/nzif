@@ -3,6 +3,7 @@ import { PropsWithChildren, createContext, useCallback, useContext } from 'react
 import { PricingQuery } from './queries';
 
 type PricingContext = {
+  basePrice: number;
   totalValue: (count: number) => number;
   packageDiscount: (count: number) => number;
   packagePrice: (count: number) => number;
@@ -10,6 +11,7 @@ type PricingContext = {
 };
 
 const PricingContext = createContext<PricingContext>({
+  basePrice: 0,
   totalValue: () => 0,
   packageDiscount: () => 0,
   packagePrice: () => 0,
@@ -61,7 +63,13 @@ export const PricingProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <PricingContext.Provider
-      value={{ totalValue, packageDiscount, packagePrice, countFromPackagePrice }}
+      value={{
+        basePrice: baseWorkshopPrice,
+        totalValue,
+        packageDiscount,
+        packagePrice,
+        countFromPackagePrice,
+      }}
     >
       {children}
     </PricingContext.Provider>

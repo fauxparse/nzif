@@ -29,7 +29,7 @@ export const STEPS = [
     icon: PaymentIcon,
   },
   {
-    id: 'confirmation',
+    id: 'completed',
     title: 'Confirmation',
     icon: CheckIcon,
   },
@@ -42,6 +42,7 @@ export type StepId = StepDefinition['id'];
 export type StepState = 'pending' | 'active' | 'completed';
 
 type RegistrationContext = {
+  steps: typeof STEPS;
   step: StepDefinition | null;
   stepIndex: number | null;
   loading: boolean;
@@ -53,6 +54,7 @@ type RegistrationContext = {
 };
 
 const RegistrationContext = createContext<RegistrationContext>({
+  steps: STEPS,
   step: null,
   stepIndex: null,
   loading: true,
@@ -117,6 +119,7 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
 
   const value = useMemo(
     () => ({
+      steps: STEPS,
       step,
       stepIndex,
       loading,

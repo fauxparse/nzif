@@ -24,15 +24,15 @@
     "types": ["@modyfi/vite-plugin-yaml/modules", "vite/client"],
     "plugins": [
       {
-        "name": "@0no-co/graphqlsp",
+        "name": "typescript-plugin-css-modules",
+        "goToDefinition": true
+      },
+      {
+        "name": "gql.tada/ts-plugin",
         "schema": "./app/frontend/graphql/schema.graphql",
         "tadaOutputLocation": "./app/frontend/graphql/graphql-env.d.ts",
         "trackFieldUsage": false,
         "shouldCheckForColocatedFragments": false
-      },
-      {
-        "name": "typescript-plugin-css-modules",
-        "goToDefinition": true
       }
     ]
   },

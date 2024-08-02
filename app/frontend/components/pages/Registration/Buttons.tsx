@@ -15,9 +15,11 @@ type ButtonsProps = {
 };
 
 export const Buttons: React.FC<ButtonsProps> = ({ disabled = false, busy = false }) => {
-  const { stepIndex } = useRegistration();
+  const { stepIndex, steps } = useRegistration();
 
   const previousStep = stepIndex === null ? null : stepIndex > 0 ? STEPS[stepIndex - 1] : null;
+
+  const nextStepLabel = stepIndex !== null && stepIndex >= steps.length - 2 ? 'Finish' : 'Next';
 
   return (
     <Flex justify="end" className={clsx('buttons', classes.buttons)}>
@@ -25,7 +27,7 @@ export const Buttons: React.FC<ButtonsProps> = ({ disabled = false, busy = false
         <Button asChild size={{ initial: '3', lg: '4' }} variant="outline" disabled={busy}>
           <Link to={`/register/${previousStep.id}`} rel="prev">
             <ChevronLeftIcon />
-            Back
+            <span>Back</span>
           </Link>
         </Button>
       )}
@@ -40,7 +42,7 @@ export const Buttons: React.FC<ButtonsProps> = ({ disabled = false, busy = false
           <Spinner />
         ) : (
           <>
-            Next <ChevronRightIcon />
+            <span>{nextStepLabel}</span> <ChevronRightIcon />
           </>
         )}
       </Button>

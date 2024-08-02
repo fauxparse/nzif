@@ -30,6 +30,8 @@ export const Workshops: React.FC = () => {
           })),
         },
       }).then(goToNextStep);
+    } else {
+      goToNextStep();
     }
   };
 

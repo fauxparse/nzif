@@ -217,6 +217,20 @@
   background: var(--background-translucent);
   backdrop-filter: blur(6px);
 
+  button, a {
+    span {
+      flex: 1;
+
+      &:last-child {
+        padding-inline-end: 2rem;
+      }
+
+      &:first-child {
+        padding-inline-start: 2rem;
+      }
+    }
+  }
+
   [rel="prev"] {
     grid-column: 1;
   }
@@ -328,5 +342,16 @@
 
   @media (--md) {
     display: none;
+  }
+}
+
+.payment {
+  .paymentTable {
+    max-width: 30rem;
+    margin: 0 auto;
+  }
+
+  @media (--md) {
+    padding-top: 9rem;
   }
 }

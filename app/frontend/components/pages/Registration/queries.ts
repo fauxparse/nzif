@@ -45,3 +45,14 @@ export const HideExplainerMutation = graphql(`
     }
   }
 `);
+
+export const FinaliseRegistrationMutation = graphql(`
+  mutation FinaliseRegistration {
+    finaliseRegistration {
+      registration {
+        id
+        completedAt
+      }
+    }
+  }
+`);
