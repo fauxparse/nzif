@@ -3,6 +3,10 @@
 
   min-height: var(--text-field-height);
 
+  input {
+    width: auto;
+  }
+
   &:has(.card) {
     box-shadow: none;
 
