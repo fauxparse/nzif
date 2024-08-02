@@ -95,5 +95,5 @@ export const Block = forwardRef<HTMLDivElement, BlockProps>(
 const Edge: React.FC<BoxProps & { onPointerDown: React.PointerEventHandler<HTMLDivElement> }> = (
   props
 ) => {
-  return <Box className="timetable-editor__session__edge" {...props} />;
+  return <Box className={classes.blockEdge} {...props} />;
 };

@@ -30,7 +30,7 @@ import { useForm } from '@tanstack/react-form';
 import { ResultOf } from 'gql.tada';
 import { range } from 'lodash-es';
 import { DateTime } from 'luxon';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useConfirmation } from '../ConfirmationModal';
 import { ActivityPicker } from './ActivityPicker';
 import { CreateSessionsMutation, DestroySessionMutation, UpdateSessionMutation } from './queries';
@@ -64,7 +64,7 @@ type SessionModalProps = DialogProps & {
 type SessionWithMultipleVenues = Session & { venues: string[] };
 
 export const SessionModal: React.FC<SessionModalProps> = ({
-  session: initial,
+  session,
   venues,
   onCreateSessions,
   onCreateActivity,
@@ -73,15 +73,9 @@ export const SessionModal: React.FC<SessionModalProps> = ({
   onOpenChange,
   ...props
 }) => {
-  const [session, setSession] = useState(initial);
-
   const festival = useFestival();
 
   const { confirm } = useConfirmation();
-
-  useEffect(() => {
-    if (initial) setSession(initial);
-  }, [initial]);
 
   const onClose = () => onOpenChange?.(false);
 
@@ -144,6 +138,10 @@ export const SessionModal: React.FC<SessionModalProps> = ({
       }
     },
   });
+
+  useEffect(() => {
+    form.reset();
+  }, [session]);
 
   const sessionCount = form.useStore(({ values: { startsAt, endsAt, venues } }) =>
     endsAt
