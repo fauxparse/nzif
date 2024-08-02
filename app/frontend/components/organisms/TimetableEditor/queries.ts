@@ -169,3 +169,16 @@ export const UpdateActivityPresentersMutation = graphql(
 `,
   [TimetableCastFragment]
 );
+
+export const AddActivityPresenterMutation = graphql(
+  `
+    mutation AddActivityPresenter($name: String!) {
+      createPerson(attributes: { name: $name }) {
+        profile {
+          ...TimetableCast
+        }
+      }
+    }
+  `,
+  [TimetableCastFragment]
+);

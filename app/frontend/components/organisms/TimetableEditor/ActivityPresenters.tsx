@@ -4,11 +4,15 @@ import UserIcon from '@/icons/UserIcon';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { Badge, IconButton } from '@radix-ui/themes';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { PresenterSearchQuery, UpdateActivityPresentersMutation } from './queries';
+import {
+  AddActivityPresenterMutation,
+  PresenterSearchQuery,
+  UpdateActivityPresentersMutation,
+} from './queries';
 import { Presenter, Session } from './types';
 
 import comboboxClasses from '@/components/molecules/Combobox/Combobox.module.css';
-import { map } from 'lodash-es';
+import { map, uniqBy } from 'lodash-es';
 
 type SearchResult = ComboboxItem & { person: Presenter };
 
@@ -69,7 +73,7 @@ export const ActivityPresenters: React.FC<ActivityPresentersProps> = ({ activity
     (result: SearchResult | null) => {
       if (!result) return;
 
-      const presenters = [...activity.presenters, result.person];
+      const presenters = uniqBy([...activity.presenters, result.person], 'id');
 
       update({
         variables: {
@@ -92,6 +96,8 @@ export const ActivityPresenters: React.FC<ActivityPresentersProps> = ({ activity
     },
     [update, activity]
   );
+
+  const [add] = useMutation(AddActivityPresenterMutation);
 
   const handleRemove = useCallback(
     (person: Presenter) => {
@@ -121,12 +127,51 @@ export const ActivityPresenters: React.FC<ActivityPresentersProps> = ({ activity
     [update, activity]
   );
 
+  const handleAddPresenter = useCallback(
+    async (name: string) => {
+      const { data } = await add({ variables: { name } });
+
+      const person = data?.createPerson?.profile;
+
+      if (!person) throw new Error('Failed to create presenter');
+
+      const presenters = [...activity.presenters, person];
+
+      await update({
+        variables: {
+          id: activity.id,
+          presenters: map(presenters, 'id'),
+        },
+        optimisticResponse: {
+          updateActivity: {
+            activity: {
+              ...activity,
+              presenters,
+            },
+          },
+        },
+      }).then(({ data }) => {
+        if (data?.updateActivity) {
+          setActivity(data.updateActivity.activity);
+        }
+      });
+
+      return {
+        id: person.id,
+        label: person.name,
+        person,
+      };
+    },
+    [activity, add]
+  );
+
   return (
     <Combobox.Root<SearchResult, Presenter[]>
       icon={<UserIcon />}
       placeholder="Add a presenter…"
       value={activity.presenters}
       items={handleSearch}
+      enableAdd
       input={({ ...props }) => (
         <Combobox.Multiple
           {...props}
@@ -153,6 +198,7 @@ export const ActivityPresenters: React.FC<ActivityPresentersProps> = ({ activity
         />
       )}
       onSelect={handleValueSelect}
+      onAdd={handleAddPresenter}
     />
   );
 };

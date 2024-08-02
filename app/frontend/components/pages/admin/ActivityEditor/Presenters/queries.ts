@@ -21,3 +21,16 @@ export const PersonSearchQuery = graphql(
   `,
   [PickablePersonFragment]
 );
+
+export const AddPersonMutation = graphql(
+  `
+    mutation AddPerson($name: String!) {
+      createPerson(attributes: { name: $name }) {
+        profile {
+          ...PickablePerson
+        }
+      }
+    }
+  `,
+  [PickablePersonFragment]
+);

@@ -1,11 +1,11 @@
 import { Combobox, ComboboxItem } from '@/components/molecules/Combobox';
 import SearchIcon from '@/icons/SearchIcon';
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { FragmentOf } from 'gql.tada';
 import { useCallback, useRef, useState } from 'react';
 import { PresenterDetailsQuery } from '../queries';
 import { Presenter } from '../types';
-import { PersonSearchQuery, PickablePersonFragment } from './queries';
+import { AddPersonMutation, PersonSearchQuery, PickablePersonFragment } from './queries';
 
 type SearchResult = ComboboxItem & { person: Person };
 
@@ -82,12 +82,33 @@ export const Search: React.FC<SearchProps> = ({ existing, onSelect }) => {
     [findPerson, onSelect]
   );
 
+  const [add] = useMutation(AddPersonMutation);
+
+  const handleAdd = useCallback(
+    async (name: string) => {
+      const { data } = await add({ variables: { name } });
+
+      const person = data?.createPerson?.profile;
+
+      if (!person) throw new Error('Failed to create presenter');
+
+      return {
+        id: person.id,
+        label: person.name,
+        person,
+      };
+    },
+    [add]
+  );
+
   return (
     <Combobox.Root<SearchResult, null>
       icon={<SearchIcon />}
       placeholder="Add a presenter…"
       items={handleSearch}
+      enableAdd
       onSelect={handleValueSelect}
+      onAdd={handleAdd}
     />
   );
 };
