@@ -34,7 +34,7 @@ type CropModalProps = {
 export const CropModal: React.FC<CropModalProps> = ({ file, width, height, onCropped }) => {
   const [open, setOpen] = useState(false);
 
-  const [modalWidth, setModalWidth] = useState(600);
+  const [modalWidth, setModalWidth] = useState<number | undefined>(600);
 
   const preview = useRef<HTMLDivElement>(null);
 
