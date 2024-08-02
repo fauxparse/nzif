@@ -5,6 +5,8 @@ import { Link } from '@tanstack/react-router';
 import clsx from 'clsx';
 import React from 'react';
 
+import ChevronLeftIcon from '@/icons/ChevronLeftIcon';
+import ChevronRightIcon from '@/icons/ChevronRightIcon';
 import classes from './Registration.module.css';
 
 type ButtonsProps = {
@@ -22,6 +24,7 @@ export const Buttons: React.FC<ButtonsProps> = ({ disabled = false, busy = false
       {previousStep && (
         <Button asChild size={{ initial: '3', lg: '4' }} variant="outline" disabled={busy}>
           <Link to={`/register/${previousStep.id}`} rel="prev">
+            <ChevronLeftIcon />
             Back
           </Link>
         </Button>
@@ -33,7 +36,13 @@ export const Buttons: React.FC<ButtonsProps> = ({ disabled = false, busy = false
         variant="solid"
         disabled={disabled || busy}
       >
-        {busy ? <Spinner /> : 'Next'}
+        {busy ? (
+          <Spinner />
+        ) : (
+          <>
+            Next <ChevronRightIcon />
+          </>
+        )}
       </Button>
     </Flex>
   );

@@ -1954,6 +1954,18 @@ export type introspection = {
             "args": []
           },
           {
+            "name": "workshopPricing",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Pricing",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
             "name": "workshopTotal",
             "type": {
               "kind": "NON_NULL",
@@ -3544,6 +3556,33 @@ export type introspection = {
             ]
           },
           {
+            "name": "updatePreferences",
+            "type": {
+              "kind": "OBJECT",
+              "name": "updatePreferencesPayload",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "preferences",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "LIST",
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "ofType": {
+                        "kind": "INPUT_OBJECT",
+                        "name": "PreferenceAttributes",
+                        "ofType": null
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "updateProfile",
             "type": {
               "kind": "OBJECT",
@@ -4566,6 +4605,89 @@ export type introspection = {
               "ofType": {
                 "kind": "OBJECT",
                 "name": "Workshop",
+                "ofType": null
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "PreferenceAttributes",
+        "inputFields": [
+          {
+            "name": "position",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "sessionId",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Pricing",
+        "fields": [
+          {
+            "name": "baseWorkshopPrice",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Money",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "discountLimit",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "discountPerAdditionalWorkshop",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Money",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
                 "ofType": null
               }
             },
@@ -8101,6 +8223,25 @@ export type introspection = {
       {
         "kind": "OBJECT",
         "name": "finaliseRegistrationPayload",
+        "fields": [
+          {
+            "name": "registration",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Registration",
+                "ofType": null
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "updatePreferencesPayload",
         "fields": [
           {
             "name": "registration",

@@ -61,17 +61,27 @@ const removeSession = (state: State, session: Session): State => {
   );
 };
 
+const trim = (state: State): State =>
+  new Map(
+    Array.from(state.entries()).reduce(
+      (acc, [key, prefs]) => (prefs.length ? acc.set(key, prefs) : acc),
+      new Map()
+    )
+  );
+
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'add':
-      return addSession(state, action.session);
+      return trim(addSession(state, action.session));
     case 'remove':
-      return removeSession(state, action.session);
+      return trim(removeSession(state, action.session));
     case 'reset': {
       const sessionsById = new Map(action.sessions.map((session) => [session.id, session]));
-      return sortBy(action.preferences, 'position').reduce(
-        (acc, { sessionId }) => addSession(acc, sessionsById.get(sessionId) as Session),
-        new Map()
+      return trim(
+        sortBy(action.preferences, 'position').reduce(
+          (acc, { sessionId }) => addSession(acc, sessionsById.get(sessionId) as Session),
+          new Map()
+        )
       );
     }
   }

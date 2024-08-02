@@ -25,6 +25,7 @@ import Image3 from './3.svg';
 import Image4 from './4.svg';
 import Image5 from './5.svg';
 import Image6 from './6.svg';
+import Image7 from './7.svg';
 import classes from './RegistrationExplainer.module.css';
 
 const PAGES = [
@@ -54,6 +55,19 @@ const PAGES = [
     image: Image2,
   },
   {
+    id: 'slots',
+    content: (
+      <>
+        <Text as="p">
+          Because we have both full-day and half-day workshops on some days, there might be some
+          gaps in your numbers. For example, this person would rather do the green morning workshop
+          than the blue one, but would prefer the full-day workshop to the pink afternoon one.
+        </Text>
+      </>
+    ),
+    image: Image3,
+  },
+  {
     id: 'allocation',
     content: (
       <Text as="p">
@@ -62,7 +76,7 @@ const PAGES = [
         <b>no AI involved</b> in this process!
       </Text>
     ),
-    image: Image3,
+    image: Image4,
   },
   {
     id: 'payment',
@@ -73,7 +87,7 @@ const PAGES = [
         workshops you didn’t get into.
       </Text>
     ),
-    image: Image4,
+    image: Image5,
   },
   {
     id: 'fairness',
@@ -83,7 +97,7 @@ const PAGES = [
         getting their top preferences.
       </Text>
     ),
-    image: Image5,
+    image: Image6,
   },
   {
     id: 'questions',
@@ -93,7 +107,7 @@ const PAGES = [
         <Link href="mailto:registrations@improvfest.nz">registrations@improvfest.nz</Link>.
       </Text>
     ),
-    image: Image6,
+    image: Image7,
   },
 ];
 

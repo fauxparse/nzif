@@ -4,7 +4,8 @@ import { ContentPageQueryResult } from '@/contentful/types';
 import { useFestival } from '@/hooks/useFestival';
 import { gql } from '@apollo/client';
 import { Options, documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { BLOCKS, Document, Text } from '@contentful/rich-text-types';
+import { BLOCKS, Document, INLINES, Text } from '@contentful/rich-text-types';
+import { Heading, Link } from '@radix-ui/themes';
 import { deburr, kebabCase } from 'lodash-es';
 import Balanced from 'react-balanced';
 import { Helmet } from 'react-helmet-async';
@@ -35,11 +36,31 @@ export const renderOptions: Options = {
   renderNode: {
     [BLOCKS.HEADING_2]: (node) => {
       const text = (node.content.filter(isTextNode) as Text[]).map((n) => n.value).join();
-      return <h2 id={kebabCase(deburr(text))}>{text}</h2>;
+      return (
+        <Heading as="h2" size="8" mt="8" mb="4" id={kebabCase(deburr(text))}>
+          {text}
+        </Heading>
+      );
     },
     [BLOCKS.HEADING_3]: (node) => {
       const text = (node.content.filter(isTextNode) as Text[]).map((n) => n.value).join();
-      return <h3 id={kebabCase(deburr(text))}>{text}</h3>;
+      return (
+        <Heading as="h3" size="7" mt="6" mb="4" id={kebabCase(deburr(text))}>
+          {text}
+        </Heading>
+      );
+    },
+    [BLOCKS.HEADING_4]: (node) => {
+      const text = (node.content.filter(isTextNode) as Text[]).map((n) => n.value).join();
+      return (
+        <Heading as="h4" size="5" mt="4" mb="4" id={kebabCase(deburr(text))}>
+          {text}
+        </Heading>
+      );
+    },
+    [INLINES.HYPERLINK]: (node) => {
+      const text = (node.content.filter(isTextNode) as Text[]).map((n) => n.value).join();
+      return <Link href={node.data.uri}>{text}</Link>;
     },
   },
 };

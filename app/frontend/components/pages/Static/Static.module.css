@@ -35,19 +35,7 @@
   line-height: var(--line-height-legible);
 
   p {
-    margin: 0 0 var(--medium);
-  }
-
-  h2 {
-    margin-top: var(--spacing-large);
-    font-size: var(--font-size-xl);
-    line-height: var(--line-height-xl);
-  }
-
-  h3 {
-    margin-top: var(--spacing-large);
-    font-size: var(--font-size-large);
-    line-height: var(--line-height-large);
+    margin: 0 0 var(--space-4);
   }
 
   :where(table) {

@@ -1,3 +1,4 @@
 pricing:
   base_workshop_price: 7000
   discount_per_additional_workshop: 500
+  discount_limit: 5

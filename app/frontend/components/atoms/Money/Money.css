@@ -1,0 +1,22 @@
+:where(.money) {
+  :where(.money__currency) {
+    margin-left: 0.5ch;
+    color: var(--text-subtle);
+  }
+
+  :where(del) > & {
+    margin-right: 0.5ch;
+    color: var(--red10);
+    font-weight: normal;
+    text-decoration: line-through;
+    text-decoration-color: currentcolor
+  }
+}
+
+:where(.money__currency) {
+  text-decoration: none;
+}
+
+del:has(.money) {
+  text-decoration: none;
+}

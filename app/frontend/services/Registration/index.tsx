@@ -25,7 +25,7 @@ export const STEPS = [
   },
   {
     id: 'payment',
-    title: 'Payment',
+    title: 'Pay later',
     icon: PaymentIcon,
   },
   {

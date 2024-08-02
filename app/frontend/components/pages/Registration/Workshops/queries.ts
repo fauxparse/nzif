@@ -43,6 +43,7 @@ export const WorkshopRegistrationQuery = graphql(
   `
   query WorkshopRegistrationQuery {
     festival {
+      id
       workshops {
         ...RegistrationWorkshop
       }
@@ -53,8 +54,8 @@ export const WorkshopRegistrationQuery = graphql(
 );
 
 export const SaveWorkshopPreferencesMutation = graphql(`
-  mutation SaveWorkshopPreferences($preferences: [WorkshopPreferenceInput!]!) {
-    saveWorkshopPreferences(preferences: $preferences) {
+  mutation SaveWorkshopPreferences($preferences: [PreferenceAttributes!]!) {
+    updatePreferences(preferences: $preferences) {
       registration {
         id
         preferences {

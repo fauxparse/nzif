@@ -1,6 +1,6 @@
 module Mutations
-  module Registrations
-    class UpdatePreferences < BaseMutation
+  module Preferences
+    class Update < BaseMutation
       graphql_name 'updatePreferences'
 
       field :registration, Types::RegistrationType, null: false

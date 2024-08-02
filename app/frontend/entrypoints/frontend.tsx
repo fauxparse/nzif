@@ -17,6 +17,7 @@ import '@radix-ui/themes/styles.css';
 import '@/styles/new/application.css';
 import { Toast } from '@/components/molecules/Toast';
 import { router } from '@/router';
+import { PricingProvider } from '@/services/Pricing';
 
 LuxonSettings.defaultZone = 'Pacific/Auckland';
 dayjs.extend(customParseFormat);
@@ -31,19 +32,21 @@ createRoot(document.getElementById('root') as HTMLElement).render(
         <ConfirmationModalProvider>
           <Toast.Provider>
             <ApolloProvider client={client}>
-              <AuthenticationProvider>
-                <AuthenticationContext.Consumer>
-                  {(auth) => (
-                    <RouterProvider
-                      router={router}
-                      context={{
-                        auth: { ...auth },
-                        client,
-                      }}
-                    />
-                  )}
-                </AuthenticationContext.Consumer>
-              </AuthenticationProvider>
+              <PricingProvider>
+                <AuthenticationProvider>
+                  <AuthenticationContext.Consumer>
+                    {(auth) => (
+                      <RouterProvider
+                        router={router}
+                        context={{
+                          auth: { ...auth },
+                          client,
+                        }}
+                      />
+                    )}
+                  </AuthenticationContext.Consumer>
+                </AuthenticationProvider>
+              </PricingProvider>
             </ApolloProvider>
           </Toast.Provider>
         </ConfirmationModalProvider>

@@ -37,6 +37,8 @@ import { Route as PublicActivityTypeRouteImport } from './routes/_public/$activi
 import { Route as AdminActivityTypeIndexImport } from './routes/admin/$activityType/index'
 import { Route as PublicVenuesIndexImport } from './routes/_public/venues/index'
 import { Route as PublicPeopleIndexImport } from './routes/_public/people/index'
+import { Route as RegisterWorkshopsSlugImport } from './routes/register/workshops.$slug'
+import { Route as RegisterCodeOfConductMediaImport } from './routes/register/code-of-conduct.media'
 import { Route as PublicVenuesIdImport } from './routes/_public/venues/$id'
 import { Route as PublicPeopleIdImport } from './routes/_public/people/$id'
 import { Route as PublicAboutSlugImport } from './routes/_public/about.$slug'
@@ -180,6 +182,18 @@ const PublicPeopleIndexRoute = PublicPeopleIndexImport.update({
   path: '/',
   getParentRoute: () => PublicPeopleRouteRoute,
 } as any)
+
+const RegisterWorkshopsSlugRoute = RegisterWorkshopsSlugImport.update({
+  path: '/$slug',
+  getParentRoute: () => RegisterWorkshopsRoute,
+} as any)
+
+const RegisterCodeOfConductMediaRoute = RegisterCodeOfConductMediaImport.update(
+  {
+    path: '/media',
+    getParentRoute: () => RegisterCodeOfConductRoute,
+  } as any,
+)
 
 const PublicVenuesIdRoute = PublicVenuesIdImport.update({
   path: '/$id',
@@ -466,6 +480,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicVenuesIdImport
       parentRoute: typeof PublicVenuesRouteImport
     }
+    '/register/code-of-conduct/media': {
+      id: '/register/code-of-conduct/media'
+      path: '/media'
+      fullPath: '/register/code-of-conduct/media'
+      preLoaderRoute: typeof RegisterCodeOfConductMediaImport
+      parentRoute: typeof RegisterCodeOfConductImport
+    }
+    '/register/workshops/$slug': {
+      id: '/register/workshops/$slug'
+      path: '/$slug'
+      fullPath: '/register/workshops/$slug'
+      preLoaderRoute: typeof RegisterWorkshopsSlugImport
+      parentRoute: typeof RegisterWorkshopsImport
+    }
     '/_public/people/': {
       id: '/_public/people/'
       path: '/'
@@ -543,10 +571,14 @@ export const routeTree = rootRoute.addChildren({
     PublicAboutSlugRoute,
   }),
   RegisterRouteRoute: RegisterRouteRoute.addChildren({
-    RegisterCodeOfConductRoute,
+    RegisterCodeOfConductRoute: RegisterCodeOfConductRoute.addChildren({
+      RegisterCodeOfConductMediaRoute,
+    }),
     RegisterCompletedRoute,
     RegisterPaymentRoute,
-    RegisterWorkshopsRoute,
+    RegisterWorkshopsRoute: RegisterWorkshopsRoute.addChildren({
+      RegisterWorkshopsSlugRoute,
+    }),
     RegisterYourselfRoute,
     RegisterIndexRoute,
   }),
@@ -684,7 +716,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/register/code-of-conduct": {
       "filePath": "register/code-of-conduct.tsx",
-      "parent": "/register"
+      "parent": "/register",
+      "children": [
+        "/register/code-of-conduct/media"
+      ]
     },
     "/register/completed": {
       "filePath": "register/completed.tsx",
@@ -696,7 +731,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/register/workshops": {
       "filePath": "register/workshops.tsx",
-      "parent": "/register"
+      "parent": "/register",
+      "children": [
+        "/register/workshops/$slug"
+      ]
     },
     "/register/yourself": {
       "filePath": "register/yourself.tsx",
@@ -752,6 +790,14 @@ export const routeTree = rootRoute.addChildren({
     "/_public/venues/$id": {
       "filePath": "_public/venues/$id.tsx",
       "parent": "/_public/venues"
+    },
+    "/register/code-of-conduct/media": {
+      "filePath": "register/code-of-conduct.media.tsx",
+      "parent": "/register/code-of-conduct"
+    },
+    "/register/workshops/$slug": {
+      "filePath": "register/workshops.$slug.tsx",
+      "parent": "/register/workshops"
     },
     "/_public/people/": {
       "filePath": "_public/people/index.tsx",

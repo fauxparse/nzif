@@ -1,13 +1,14 @@
 import Logo from '@/components/atoms/Logo';
 import ChevronLeftIcon from '@/icons/ChevronLeftIcon';
 import { RegistrationProvider, StepId, StepState } from '@/services/Registration';
-import { Button } from '@radix-ui/themes';
+import { Button, Flex } from '@radix-ui/themes';
 import { Link, Outlet, useChildMatches } from '@tanstack/react-router';
-import { Steps } from './Steps';
-
+import { CartSummary } from './CartSummary';
 import { Main } from './Main';
-import classes from './Registration.module.css';
+import { Steps } from './Steps';
 import { WorkshopPreferencesProvider } from './Workshops/WorkshopPreferencesProvider';
+
+import classes from './Registration.module.css';
 
 export const Layout = () => {
   const step = useChildMatches({
@@ -31,7 +32,10 @@ export const Layout = () => {
                   <Logo />
                 </Link>
 
-                <Steps />
+                <Flex direction="column" style={{ justifySelf: 'stretch' }}>
+                  <Steps />
+                  <CartSummary />
+                </Flex>
 
                 <Button asChild className={classes.goBack} variant="ghost" size="3" color="gray">
                   <Link to="/">

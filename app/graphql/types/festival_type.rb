@@ -32,6 +32,7 @@ module Types
     field :timetable, Types::TimetableType, null: false
     field :venues, [Types::VenueType], null: false
     field :workshop_allocation, Types::WorkshopAllocationType, null: true
+    field :workshop_pricing, Types::PricingType, null: false
     field :workshop_total, Types::MoneyType, null: false
     field :workshops, [Types::WorkshopType], null: false
 
@@ -107,6 +108,10 @@ module Types
       dataloader
         .with(Sources::FestivalPresenters, context:)
         .load(object.id)
+    end
+
+    def workshop_pricing
+      Registration::Pricing.instance
     end
   end
 end

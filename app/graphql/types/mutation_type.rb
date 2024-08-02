@@ -33,6 +33,7 @@ module Types
     field :remove_from_session, mutation: Mutations::Registrations::RemoveFromSession
     field :remove_from_waitlist, mutation: Mutations::Registrations::RemoveFromWaitlist
     field :remove_preference, mutation: Mutations::Preferences::Remove
+    field :update_preferences, mutation: Mutations::Preferences::Update
 
     field :allocate_workshops, mutation: Mutations::Registrations::Allocate
     field :finalise_registration, mutation: Mutations::Registrations::Finalise

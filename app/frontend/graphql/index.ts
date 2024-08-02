@@ -31,6 +31,7 @@ export const graphql = initGraphQLTada<{
     ActivityType: ActivityType;
     FestivalState: FestivalState;
     JobState: JobState;
+    Money: number;
     PaymentState: PaymentState;
     PaymentType: PaymentType;
     Permission: Permission;
