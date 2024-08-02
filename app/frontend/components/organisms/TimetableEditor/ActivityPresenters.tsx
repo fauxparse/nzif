@@ -3,7 +3,7 @@ import CloseIcon from '@/icons/CloseIcon';
 import UserIcon from '@/icons/UserIcon';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { Badge, IconButton } from '@radix-ui/themes';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   AddActivityPresenterMutation,
   PresenterSearchQuery,
@@ -25,27 +25,17 @@ type ActivityPresentersProps = {
 export const ActivityPresenters: React.FC<ActivityPresentersProps> = ({ activity: initial }) => {
   const [activity, setActivity] = useState(initial);
 
-  const abort = useRef<AbortController>();
-
   useEffect(() => {
     setActivity(initial);
   }, [initial]);
 
   const [search] = useLazyQuery(PresenterSearchQuery, {
     fetchPolicy: 'network-only',
-    context: {
-      fetchOptions: {
-        signal: abort.current?.signal,
-      },
-      queryDeduplication: false,
-    },
   });
 
   const handleSearch = useCallback(
     (query: string) =>
       new Promise<SearchResult[]>((resolve) => {
-        abort.current?.abort();
-        abort.current = new AbortController();
         search({ variables: { query } }).then(({ data }) => {
           if (data?.search) {
             resolve(
