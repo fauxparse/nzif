@@ -1,3 +1,4 @@
+import { TimetableActivityFragment } from '@/components/organisms/TimetableEditor/queries';
 import { graphql } from '@/graphql';
 
 export const PresenterDetailsFragment = graphql(`
@@ -36,6 +37,18 @@ export const ActivityDetailsQuery = graphql(
           id
           large
           altText
+        }
+
+        ...on Show {
+          workshop {
+            ...TimetableActivity
+          }
+        }
+
+        ...on Workshop {
+          show {
+            ...TimetableActivity
+          }
         }
 
         presenters {
@@ -79,7 +92,7 @@ export const ActivityDetailsQuery = graphql(
     }
   }
 `,
-  [PresenterDetailsFragment]
+  [PresenterDetailsFragment, TimetableActivityFragment]
 );
 
 export const UpdateActivityDetailsMutation = graphql(`
@@ -111,11 +124,23 @@ export const UpdateActivityMutation = graphql(
         presenters {
           ...PresenterDetails
         }
+
+        ...on Show {
+          workshop {
+            ...TimetableActivity
+          }
+        }
+
+        ...on Workshop {
+          show {
+            ...TimetableActivity
+          }
+        }
       }
     }
   }
 `,
-  [PresenterDetailsFragment]
+  [PresenterDetailsFragment, TimetableActivityFragment]
 );
 
 export const PresenterDetailsQuery = graphql(

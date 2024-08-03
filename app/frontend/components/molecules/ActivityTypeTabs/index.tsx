@@ -5,6 +5,7 @@ import { ActivityType } from '@/graphql/types';
 import { useQuery } from '@apollo/client';
 import { Badge, Flex, TabNav, Text } from '@radix-ui/themes';
 import { Link } from '@tanstack/react-router';
+import pluralize from 'pluralize';
 import { useMemo } from 'react';
 
 const ActivityCountsQuery = graphql(`
@@ -41,19 +42,23 @@ const ActivityTypeTabs: React.FC<ActivityTypeTabsProps> = ({ value, onChange }) 
 
   return (
     <TabNav.Root>
-      {Object.entries(ACTIVITY_TYPES).map(([key, { label, type, icon: Icon }]) => (
-        <TabNav.Link asChild key={key} active={key === value}>
-          <Link to="/$activityType" params={{ activityType: type }}>
-            <Flex asChild align="center" gap="2">
-              <Text size="3">
-                <Icon />
-                {label}
-                {counts[type] && <Badge radius="full">{counts[type]}</Badge>}
-              </Text>
-            </Flex>
-          </Link>
-        </TabNav.Link>
-      ))}
+      {Object.entries(ACTIVITY_TYPES).map(
+        ([key, { label, type, icon: Icon }]) =>
+          counts[type] !== undefined &&
+          counts[type] > 0 && (
+            <TabNav.Link asChild key={key} active={key === value}>
+              <Link to="/$activityType" params={{ activityType: type }}>
+                <Flex asChild align="center" gap="2">
+                  <Text size="3">
+                    <Icon />
+                    {pluralize(label)}
+                    <Badge radius="full">{counts[type]}</Badge>
+                  </Text>
+                </Flex>
+              </Link>
+            </TabNav.Link>
+          )
+      )}
     </TabNav.Root>
   );
 };

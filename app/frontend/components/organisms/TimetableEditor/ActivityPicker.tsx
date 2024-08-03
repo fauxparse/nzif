@@ -17,8 +17,12 @@ import classes from './ActivityPicker.module.css';
 type ActivityPickerProps = {
   value: Activity | null;
   startsAt?: DateTime;
+  placeholder?: string;
   activityType: ActivityType;
-  onAddActivity: (type: ActivityType, attributes: Partial<ActivityAttributes>) => Promise<Activity>;
+  onAddActivity?: (
+    type: ActivityType,
+    attributes: Partial<ActivityAttributes>
+  ) => Promise<Activity>;
   onChange: (value: Activity | null) => void;
 };
 
@@ -32,6 +36,7 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
   value,
   activityType,
   startsAt,
+  placeholder,
   onAddActivity,
   onChange,
 }) => {
@@ -66,6 +71,8 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
   const handleCreate = useCallback(
     (query: string) =>
       new Promise<Item>((resolve) => {
+        if (!onAddActivity) return;
+
         create({ variables: { type: activityType, attributes: { name: query } } }).then(
           ({ data }) => {
             if (!data?.createActivity?.activity) return;
@@ -80,7 +87,7 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
           }
         );
       }),
-    [activityType, create]
+    [activityType, create, onAddActivity]
   );
 
   return (
@@ -89,8 +96,8 @@ export const ActivityPicker: React.FC<ActivityPickerProps> = ({
       value={value}
       items={handleSearch}
       icon={<ActivityIcon activityType={activityType} />}
-      placeholder="Activity"
-      enableAdd
+      placeholder={placeholder || 'Activity'}
+      enableAdd={!!onAddActivity}
       onSelect={(item) => onChange(item?.activity || null)}
       onAdd={handleCreate}
       input={(props) =>

@@ -1,16 +1,25 @@
 import { ImageUploader } from '@/components/molecules/ImageUploader';
 import { useToast } from '@/components/molecules/Toast';
 import { Editor } from '@/components/organisms/Editor';
-import { ActivityAttributes } from '@/graphql/types';
+import { ActivityPicker } from '@/components/organisms/TimetableEditor/ActivityPicker';
+import { ActivityAttributes, ActivityType } from '@/graphql/types';
 import { useMutation } from '@apollo/client';
 import { Flex, TextArea } from '@radix-ui/themes';
 import { useForm } from '@tanstack/react-form';
 import { ResultOf } from 'gql.tada';
-import { isEmpty, pick, pickBy } from 'lodash-es';
-import { useRef } from 'react';
+import { get, isEmpty, pick, pickBy } from 'lodash-es';
+import { useEffect, useRef, useState } from 'react';
 import { Presenters } from './Presenters';
 import { UpdateActivityMutation } from './queries';
-import { Activity, ActivityDetails, Presenter, WithUploadedPicture, isShow } from './types';
+import {
+  Activity,
+  ActivityDetails,
+  AttachedActivity,
+  Presenter,
+  WithUploadedPicture,
+  isShow,
+  isWorkshop,
+} from './types';
 
 import classes from './ActivityEditor.module.css';
 
@@ -58,11 +67,24 @@ export const Edit: React.FC<EditProps> = ({ activity }) => {
     updatePresenters(activity.presenters.filter((p) => p.id !== presenter.id));
   };
 
+  const [attachedActivity, setAttachedActivity] = useState<AttachedActivity | null>(null);
+
+  useEffect(() => {
+    setAttachedActivity(
+      isShow(activity)
+        ? get(activity, 'workshop')
+        : isWorkshop(activity)
+          ? get(activity, 'show')
+          : null
+    );
+  }, [activity]);
+
   const form = useForm({
     defaultValues: {
       ...getDefaultValuesFromActivity(activity),
       uploadedPicture: null,
       pictureAltText: activity.picture?.altText ?? '',
+      attachedActivityId: get(activity, 'workshop.id') ?? get(activity, 'show.id') ?? null,
     } as Fields,
     onSubmit: async ({ value, formApi }) => {
       const attributes = pickBy(
@@ -90,18 +112,37 @@ export const Edit: React.FC<EditProps> = ({ activity }) => {
 
   return (
     <div className={classes.edit}>
-      <form.Field name="description">
-        {(field) => (
-          <Editor
-            value={field.state.value || ''}
-            onChange={(value) => {
-              if (value === field.state.value) return;
-              field.handleChange(value);
-              form.handleSubmit();
-            }}
-          />
+      <Flex direction="column" gap="4">
+        <form.Field name="description">
+          {(field) => (
+            <Editor
+              value={field.state.value || ''}
+              onChange={(value) => {
+                if (value === field.state.value) return;
+                field.handleChange(value);
+                form.handleSubmit();
+              }}
+            />
+          )}
+        </form.Field>
+
+        {(isShow(activity) || isWorkshop(activity)) && (
+          <form.Field name="attachedActivityId">
+            {(field) => (
+              <ActivityPicker
+                value={attachedActivity}
+                placeholder={isShow(activity) ? 'Attached workshop' : 'Attached show'}
+                activityType={isShow(activity) ? ActivityType.Workshop : ActivityType.Show}
+                onChange={(activity) => {
+                  setAttachedActivity(activity);
+                  field.handleChange(activity?.id ?? null);
+                  form.handleSubmit();
+                }}
+              />
+            )}
+          </form.Field>
         )}
-      </form.Field>
+      </Flex>
       {hasPresenters && (
         <form.Field name="presenters">
           {(field) => (

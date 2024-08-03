@@ -10,8 +10,10 @@ import {
   SessionAttributes,
 } from '@/graphql/types';
 import { useFestival } from '@/hooks/useFestival';
+import CalendarIcon from '@/icons/CalendarIcon';
 import CloseIcon from '@/icons/CloseIcon';
 import LocationIcon from '@/icons/LocationIcon';
+import WarningIcon from '@/icons/WarningIcon';
 import { FetchResult } from '@apollo/client';
 import { DialogProps } from '@radix-ui/react-dialog';
 import {
@@ -27,19 +29,17 @@ import {
   VisuallyHidden,
 } from '@radix-ui/themes';
 import { useForm } from '@tanstack/react-form';
+import clsx from 'clsx';
 import { ResultOf } from 'gql.tada';
 import { range } from 'lodash-es';
 import { DateTime } from 'luxon';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useConfirmation } from '../ConfirmationModal';
 import { ActivityPicker } from './ActivityPicker';
+import { ActivityPresenters } from './ActivityPresenters';
 import { CreateSessionsMutation, DestroySessionMutation, UpdateSessionMutation } from './queries';
 import { Activity, Session } from './types';
 
-import CalendarIcon from '@/icons/CalendarIcon';
-import WarningIcon from '@/icons/WarningIcon';
-import clsx from 'clsx';
-import { ActivityPresenters } from './ActivityPresenters';
 import classes from './SessionModal.module.css';
 
 type SessionModalProps = DialogProps & {
