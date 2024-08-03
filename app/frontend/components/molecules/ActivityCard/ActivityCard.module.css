@@ -2,10 +2,97 @@
   --card-size-1: 12rem;
   --card-size-2: 16rem;
 
-  display: grid;
+  @breakpoints {
+    .card {
+      &:where(:global(.rt-r-size-1)) {
+        --card-size: 12rem;
+      }
+
+      &:where(:global(.rt-r-size-2)) {
+        --card-size: 16rem;
+
+        .title {
+          font-size: var(--font-size-4);
+        }
+
+        .presenters {
+          font-size: var(--font-size-3);
+        }
+      }
+    }
+  }
+
   grid-template: "top body" auto "top badges" auto / 4rem 1fr;
   min-height: 6rem;
   column-gap: var(--card-padding);
+
+  &:global(.rt-Card) {
+    display: grid;
+  }
+
+  .topSection {
+    position: relative;
+    display: grid;
+    grid-area: top;
+    align-self: stretch;
+    margin-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
+    img {
+      grid-area: 1 / 1;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    @media (--sm) {
+      margin-right: var(--margin-right-override);
+      aspect-ratio: 16 / 9;
+    }
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    grid-area: body;
+    align-self: center;
+
+    @media (--sm) {
+      align-self: stretch;
+
+      .presenters {
+        flex: 1;
+      }
+    }
+  }
+
+  .badges {
+    grid-area: badges;
+    pointer-events: none;
+
+    @media (--sm) {
+      position: relative;
+      grid-area: top;
+    }
+  }
+
+  .title {
+    display: block;
+    color: var(--gray-12);
+    font-size: var(--font-size-3);
+
+    a {
+      color: inherit;
+      font: inherit;
+      text-decoration: none;
+    }
+  }
+
+  .presenters {
+    display: block;
+    color: var(--gray-11);
+    font-size: var(--font-size-2);
+  }
 
   @media (--sm) {
     grid-template: "top" auto "body" 1fr / 1fr;
@@ -14,86 +101,3 @@
   }
 }
 
-.topSection {
-  position: relative;
-  display: grid;
-  grid-area: top;
-  align-self: stretch;
-  margin-right: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-
-  img {
-    grid-area: 1 / 1;
-    object-fit: cover;
-    object-position: center;
-  }
-
-  @media (--sm) {
-    margin-right: var(--margin-right-override);
-    aspect-ratio: 16 / 9;
-  }
-}
-
-.body {
-  display: flex;
-  flex-direction: column;
-  grid-area: body;
-  align-self: center;
-
-  @media (--sm) {
-    align-self: stretch;
-
-    .presenters {
-      flex: 1;
-    }
-  }
-}
-
-@breakpoints {
-  .card {
-    &:where(:global(.rt-r-size-1)) {
-      --card-size: 12rem;
-    }
-
-    &:where(:global(.rt-r-size-2)) {
-      --card-size: 16rem;
-
-      .title {
-        font-size: var(--font-size-4);
-      }
-
-      .presenters {
-        font-size: var(--font-size-3);
-      }
-    }
-  }
-}
-
-.badges {
-  grid-area: badges;
-  pointer-events: none;
-
-  @media (--sm) {
-    position: relative;
-    grid-area: top;
-  }
-}
-
-.title {
-  display: block;
-  color: var(--gray-12);
-  font-size: var(--font-size-3);
-
-  a {
-    color: inherit;
-    font: inherit;
-    text-decoration: none;
-  }
-}
-
-.presenters {
-  display: block;
-  color: var(--gray-11);
-  font-size: var(--font-size-2);
-}

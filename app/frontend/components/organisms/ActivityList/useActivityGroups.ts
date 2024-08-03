@@ -1,13 +1,17 @@
+import { ActivityCardActivity, ActivityCardSession } from '@/components/molecules/ActivityCard';
+import { orderBy } from 'lodash-es';
 import { DateTime } from 'luxon';
-import { ActivityCardActivity, ActivityCardSession } from './ActivityCard';
 import { useMemo } from 'react';
-import { first, sortBy } from 'lodash-es';
-import { ActivityType } from '@/graphql/types';
 
 export type ScheduledActivity = {
   session: ActivityCardSession;
   activity: ActivityCardActivity;
 };
+
+type Period = 'all-day' | 'morning' | 'afternoon';
+
+const sessionPeriod = (session: { startsAt: DateTime; endsAt: DateTime }): Period =>
+  session.startsAt.hour < 12 ? (session.endsAt.hour > 13 ? 'all-day' : 'morning') : 'afternoon';
 
 export const useActivityGroups = (activities: ActivityCardActivity[]) => {
   const sessions = useMemo(
@@ -21,10 +25,7 @@ export const useActivityGroups = (activities: ActivityCardActivity[]) => {
   const byDate = useMemo<Map<string, ScheduledActivity[]>>(
     () =>
       sessions.reduce((map, scheduled: ScheduledActivity) => {
-        const date =
-          scheduled.session.startsAt
-            .startOf(scheduled.activity.type === ActivityType.Workshop ? 'hour' : 'day')
-            .toISO() || 'never';
+        const date = `${scheduled.session.startsAt.toISODate()}:${sessionPeriod(scheduled.session)}`;
         const group = map.get(date) || ([] as ScheduledActivity[]);
         group.push(scheduled);
         map.set(date, group);
@@ -35,10 +36,14 @@ export const useActivityGroups = (activities: ActivityCardActivity[]) => {
 
   const sorted = useMemo(
     () =>
-      sortBy([...byDate.entries()], first).map(([d, activities]) => [
-        DateTime.fromISO(d),
-        activities,
-      ]) as [DateTime, ScheduledActivity[]][],
+      orderBy(
+        [...byDate.entries()],
+        [([_, a]) => a[0].session.startsAt, ([_, a]) => a[0].session.endsAt],
+        ['asc', 'desc']
+      ).map(([d, activities]) => [activities[0].session.startsAt, activities]) as [
+        DateTime,
+        ScheduledActivity[],
+      ][],
     [byDate]
   );
 
