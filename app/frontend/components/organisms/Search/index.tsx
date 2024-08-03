@@ -121,7 +121,7 @@ export const Search = forwardRef<HTMLButtonElement, SearchProps>(
                 <ScrollArea>
                   <Grid className={classes.results} asChild>
                     <motion.div layout>
-                      <AnimatePresence mode="wait" initial={false}>
+                      <AnimatePresence initial={false}>
                         {results.length ? (
                           results.map((result) => (
                             <motion.div

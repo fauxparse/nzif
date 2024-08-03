@@ -1,5 +1,5 @@
+import { ActivityCardActivity } from '@/components/molecules/ActivityCard';
 import { ActivityList } from '@/components/organisms/ActivityList';
-import { ActivityCardActivity } from '@/components/organisms/ActivityList/ActivityCard';
 import { ActivitiesQuery } from '@/components/organisms/ActivityList/queries';
 import { useDummyActivities } from '@/components/organisms/ActivityList/useDummyActivities';
 import { ActivityType } from '@/graphql/types';

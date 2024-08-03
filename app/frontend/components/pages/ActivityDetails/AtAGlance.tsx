@@ -21,16 +21,16 @@ export const AtAGlance: React.FC<AtAGlanceProps> = ({ activity, loading }) => {
   const sessions = useMemo(
     () =>
       loading
-        ? activity.sessions
-        : [
+        ? [
             {
               id: 1,
               startsAt: DateTime.now(),
               endsAt: DateTime.now(),
               venue: null,
             },
-          ],
-    [activity.sessions, loading]
+          ]
+        : activity.sessions,
+    [activity, loading]
   );
 
   return (

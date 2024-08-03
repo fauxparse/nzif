@@ -22,6 +22,7 @@ export const ActivityList: React.FC<ActivityListProps> = ({
     <>
       {days.map(([date, activities], i) => {
         const endTime = activities[0].session.endsAt;
+
         return (
           <section key={i} className={classes.day}>
             <Box className={classes.dayHeader}>
@@ -35,7 +36,7 @@ export const ActivityList: React.FC<ActivityListProps> = ({
                 <Text size="5" weight="medium">
                   <Skeleton loading={loading}>{date.plus({}).toFormat('EEEE, d MMMM')}</Skeleton>
                 </Text>
-                {endTime && (
+                {type === 'Workshop' && endTime && (
                   <Text size={{ initial: '4', sm: '5' }} color="gray">
                     <Skeleton loading={loading}>
                       {date.toFormat('h:mma')}–{endTime.toFormat('h:mma')}

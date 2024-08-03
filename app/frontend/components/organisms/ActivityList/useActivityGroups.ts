@@ -1,5 +1,5 @@
 import { ActivityCardActivity, ActivityCardSession } from '@/components/molecules/ActivityCard';
-import { orderBy } from 'lodash-es';
+import { orderBy, sortBy } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { useMemo } from 'react';
 
@@ -40,10 +40,10 @@ export const useActivityGroups = (activities: ActivityCardActivity[]) => {
         [...byDate.entries()],
         [([_, a]) => a[0].session.startsAt, ([_, a]) => a[0].session.endsAt],
         ['asc', 'desc']
-      ).map(([d, activities]) => [activities[0].session.startsAt, activities]) as [
-        DateTime,
-        ScheduledActivity[],
-      ][],
+      ).map(([d, activities]) => [
+        activities[0].session.startsAt,
+        sortBy(activities, ({ session }) => session.startsAt),
+      ]) as [DateTime, ScheduledActivity[]][],
     [byDate]
   );
 
