@@ -168,9 +168,13 @@ export const useWorkshopPreferences = () => {
   );
 
   const getPosition = useCallback(
-    (session: Session) => positionsBySession.get(session.id),
+    (session: { id: Session['id'] }) => positionsBySession.get(session.id),
     [positionsBySession]
   );
+
+  const getWorkshop = (slug: string) => sessions.find((s) => s.workshop.slug === slug)?.workshop;
+
+  const getSession = (id: string) => sessions.find((s) => s.id === id);
 
   return {
     days: workshopDays,
@@ -181,5 +185,7 @@ export const useWorkshopPreferences = () => {
     getPosition,
     value: current,
     dirty,
+    getWorkshop,
+    getSession,
   };
 };

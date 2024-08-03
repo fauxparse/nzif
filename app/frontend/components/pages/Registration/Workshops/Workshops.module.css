@@ -118,3 +118,43 @@
     place-self: start end;
   }
 }
+
+.workshopDetails {
+  grid-template: "header" auto "body" 1fr / 1fr;
+  gap: var(--dialog-content-padding);
+
+  .header {
+    grid-area: header;
+  }
+
+  .title {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    grid-area: header;
+    gap: var(--space-1);
+    place-self: end stretch;
+    padding: var(--dialog-content-padding);
+    background: var(--background-translucent);
+  }
+
+  .body {
+    grid-area: body;
+    max-height: 50dvh;
+  }
+
+  .scrollable {
+    padding: 0 var(--dialog-content-padding);
+  }
+
+  .close {
+    position: relative;
+    grid-area: header;
+    place-self: start end;
+    color: white;
+  }
+
+  .actions {
+
+  }
+}

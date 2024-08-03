@@ -10,7 +10,7 @@ export const Route = createFileRoute('/register/')({
     useEffect(() => {
       if (loading) return;
       navigate({ to: `/register/${defaultNextStep}` });
-    }, [navigate, defaultNextStep]);
+    }, [loading, navigate, defaultNextStep]);
 
     return null;
   },

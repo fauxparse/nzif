@@ -158,7 +158,7 @@
     "initials": "^3.1.2",
     "lexical": "^0.16.0",
     "lodash-es": "^4.17.21",
-    "luxon": "^3.3.0",
+    "luxon": "^3.5.0",
     "mapbox-gl": "^3.5.2",
     "pluralize": "^8.0.0",
     "raygun4js": "^2.27.0",

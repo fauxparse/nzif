@@ -246,8 +246,8 @@ dependencies:
     specifier: ^4.17.21
     version: 4.17.21
   luxon:
-    specifier: ^3.3.0
-    version: 3.3.0
+    specifier: ^3.5.0
+    version: 3.5.0
   mapbox-gl:
     specifier: ^3.5.2
     version: 3.5.2
@@ -10881,8 +10881,8 @@ packages:
       yallist: 4.0.0
     dev: true
 
-  /luxon@3.3.0:
-    resolution: {integrity: sha512-An0UCfG/rSiqtAIiBPO0Y9/zAnHUZxAMiCpTd5h2smgsj7GGmcenvrvww2cqNA8/4A5ZrD1gJpHN2mIHZQF+Mg==}
+  /luxon@3.5.0:
+    resolution: {integrity: sha512-rh+Zjr6DNfUYR3bPwJEnuwDdqMbxZW7LOQfUN4B54+Cl+0o5zaU9RJ6bcidfDtC1cWCZXQ+nvX8bf6bAji37QQ==}
     engines: {node: '>=12'}
     dev: false
 

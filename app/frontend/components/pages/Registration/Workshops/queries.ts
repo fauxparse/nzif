@@ -1,4 +1,5 @@
 import { graphql } from '@/graphql';
+import { ActivityPresenterFragment } from '../../ActivityDetails/queries';
 
 export const RegistrationWorkshopFragment = graphql(`
   fragment RegistrationWorkshop on Workshop @_unmask {
@@ -23,6 +24,11 @@ export const RegistrationWorkshopFragment = graphql(`
         traditionalNames
         country
       }
+    }
+
+    show {
+      id
+      name
     }
 
     sessions {
@@ -67,3 +73,47 @@ export const SaveWorkshopPreferencesMutation = graphql(`
     }
   }
 `);
+
+export const WorkshopDetailsQuery = graphql(
+  `
+  query ActivityDetails($slug: String!) {
+    festival {
+      id
+
+      activity(type: Workshop, slug: $slug) {
+        id
+        type
+        slug
+        name
+        description
+        bookingLink
+
+        presenters {
+          ...ActivityPresenter
+        }
+
+        picture {
+          id
+          large
+          blurhash
+          altText
+        }
+
+        sessions {
+          id
+          startsAt
+          endsAt
+
+          venue {
+            id
+            room
+            building
+            address
+          }
+        }
+      }
+    }
+  }
+`,
+  [ActivityPresenterFragment]
+);

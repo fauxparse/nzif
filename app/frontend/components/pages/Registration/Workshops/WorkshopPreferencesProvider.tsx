@@ -1,5 +1,5 @@
 import { PropsWithChildren, createContext, useContext, useMemo } from 'react';
-import { Session, WorkshopDay } from './types';
+import { Session, Workshop, WorkshopDay } from './types';
 import { useWorkshopPreferences } from './useWorkshopPreferences';
 
 type WorkshopPreferencesContext = {
@@ -10,7 +10,9 @@ type WorkshopPreferencesContext = {
   count: number;
   add: (session: Session) => void;
   remove: (session: Session) => void;
-  getPosition: (session: Session) => number | undefined;
+  getPosition: (session: Pick<Session, 'id'>) => number | undefined;
+  getWorkshop: (slug: string) => Workshop | undefined;
+  getSession: (id: string) => Session | undefined;
 };
 
 export const WorkshopPreferences = createContext<WorkshopPreferencesContext>({
@@ -22,17 +24,40 @@ export const WorkshopPreferences = createContext<WorkshopPreferencesContext>({
   add: () => {},
   remove: () => {},
   getPosition: () => undefined,
+  getWorkshop: () => undefined,
+  getSession: () => undefined,
 });
 
 export const WorkshopPreferencesProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const { loading, days, add, remove, getPosition, value, dirty, preferences } =
-    useWorkshopPreferences();
+  const {
+    loading,
+    days,
+    add,
+    remove,
+    getPosition,
+    getWorkshop,
+    getSession,
+    value,
+    dirty,
+    preferences,
+  } = useWorkshopPreferences();
 
   const count = preferences.size;
 
   const contextValue = useMemo(
-    () => ({ loading, days, add, remove, getPosition, value, dirty, count }),
-    [loading, days, add, remove, getPosition, value, dirty, count]
+    () => ({
+      loading,
+      days,
+      add,
+      remove,
+      getPosition,
+      getWorkshop,
+      getSession,
+      value,
+      dirty,
+      count,
+    }),
+    [loading, days, add, remove, getPosition, getWorkshop, getSession, value, dirty, count]
   );
 
   return (

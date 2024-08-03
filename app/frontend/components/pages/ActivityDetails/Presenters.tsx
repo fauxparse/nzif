@@ -2,11 +2,11 @@ import Placename from '@/components/atoms/Placename';
 import { Markdown } from '@/components/helpers/Markdown';
 import { randParagraph } from '@ngneat/falso';
 import { Avatar, Box, Button, Flex, Heading, Skeleton, Text } from '@radix-ui/themes';
+import { Link } from '@tanstack/react-router';
 import initials from 'initials';
 import { useMemo } from 'react';
 import { Activity } from './types';
 
-import { Link } from '@tanstack/react-router';
 import classes from './ActivityDetails.module.css';
 
 type PresentersProps = {
