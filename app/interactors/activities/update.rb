@@ -11,7 +11,9 @@ module Activities
     end
 
     def attributes
-      @attributes ||= context[:attributes].to_h
+      @attributes ||= context[:attributes].to_h.tap do |attrs|
+        attrs.delete(:uploaded_picture) if attrs[:uploaded_picture].nil?
+      end
     end
 
     private

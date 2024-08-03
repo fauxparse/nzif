@@ -34,7 +34,7 @@ type CropModalProps = {
 export const CropModal: React.FC<CropModalProps> = ({ file, width, height, onCropped }) => {
   const [open, setOpen] = useState(false);
 
-  const [modalWidth, setModalWidth] = useState<number | undefined>(600);
+  const [modalWidth, setModalWidth] = useState<number | undefined>(undefined);
 
   const preview = useRef<HTMLDivElement>(null);
 
@@ -203,7 +203,15 @@ export const CropModal: React.FC<CropModalProps> = ({ file, width, height, onCro
               } as CSSProperties
             }
           >
-            <img ref={image} src={src} className={classes.cropPreview} alt="Preview" />
+            <img
+              ref={image}
+              src={src}
+              className={classes.cropPreview}
+              alt="Preview"
+              onLoad={(e) => {
+                setModalWidth(e.currentTarget.offsetWidth + 48);
+              }}
+            />
             <div className={classes.cropOverlay} />
             <div className={classes.cropFrame} onPointerDown={onFramePointerDown}>
               <div
