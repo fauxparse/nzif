@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.3.4'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 7.0.4', '>= 7.0.4.3'
+gem 'rails', '~> 7.1.2'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
@@ -72,7 +72,7 @@ gem 'shrine', '~> 3.6'
 
 gem 'amatch', '~> 0.4.1'
 gem 'countries', '~> 5.4'
-gem 'i18n-active_record', require: 'i18n/active_record'
+gem 'i18n-active_record', '~> 1.3.0', require: 'i18n/active_record'
 
 gem 'premailer-rails'
 
@@ -104,14 +104,12 @@ gem 'prawn', '~> 2.5.0'
 
 gem 'matrix'
 
-gem 'mutex_m', '~> 0.2.0'
-
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'dotenv-rails'
 
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 6.1.3'
 
   gem 'factory_bot_rails'
 end
@@ -156,7 +154,7 @@ group :test do
   gem 'action_mailer_cache_delivery', '~> 0.4.0'
   gem 'email_spec', '~> 2.2'
 
-  gem 'puffing-billy', '~> 3.1'
+  gem 'puffing-billy', '~> 4.0.0'
   gem 'webmock', '~> 3.18'
 end
 

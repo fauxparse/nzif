@@ -28,6 +28,6 @@ module Localizable
   end
 
   included do
-    serialize :country, ISO3166::Country
+    serialize :country, coder: ISO3166::Country
   end
 end

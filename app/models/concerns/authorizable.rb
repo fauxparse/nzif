@@ -2,9 +2,9 @@ module Authorizable
   extend ActiveSupport::Concern
 
   included do
-    serialize :permissions, Permission::Set
+    serialize :permissions, coder: Permission::Set
 
-    Permission.each do |name, _permission|
+    Permission.each_key do |name|
       define_method :"#{name}?" do
         permission?(name)
       end

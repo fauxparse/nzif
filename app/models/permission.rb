@@ -13,7 +13,7 @@ class Permission
       permissions.values
     end
 
-    delegate :each, :[], to: :permissions
+    delegate :each, :each_key, :[], to: :permissions
 
     private
 
