@@ -79,7 +79,7 @@ gem 'premailer-rails'
 gem 'aws-sdk-s3', '~> 1.132.0'
 
 gem 'redis', '~> 5.0'
-gem 'sidekiq', '~> 7.1'
+gem 'sidekiq', '~> 7.3.0'
 
 gem 'icalendar', '~> 2.9'
 

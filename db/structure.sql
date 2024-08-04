@@ -97,15 +97,6 @@ CREATE FUNCTION public.f_unaccent(text) RETURNS text
 
 
 --
--- Name: join_traditional_names(text[]); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION public.join_traditional_names(text[]) RETURNS text
-    LANGUAGE sql IMMUTABLE PARALLEL SAFE
-    AS $_$SELECT array_to_string($1, ' ')$_$;
-
-
---
 -- Name: my_concat(text, text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -363,8 +354,8 @@ CREATE TABLE public.cities (
     name character varying,
     traditional_names character varying[] DEFAULT '{}'::character varying[] NOT NULL,
     country character varying(2),
-    created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT now() NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -1739,27 +1730,6 @@ CREATE UNIQUE INDEX index_registrations_on_user_id_and_festival_id ON public.reg
 
 
 --
--- Name: index_session_slots_on_festival_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_session_slots_on_festival_id ON public.session_slots USING btree (festival_id);
-
-
---
--- Name: index_session_slots_on_session_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_session_slots_on_session_id ON public.session_slots USING btree (session_id);
-
-
---
--- Name: index_session_slots_on_starts_at_and_ends_at; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_session_slots_on_starts_at_and_ends_at ON public.session_slots USING btree (starts_at, ends_at);
-
-
---
 -- Name: index_sessions_on_activity_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2089,7 +2059,7 @@ ALTER TABLE ONLY public.placements
 --
 
 ALTER TABLE ONLY public.hidden_sessions
-    ADD CONSTRAINT fk_rails_9d7a005f99 FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT fk_rails_9d7a005f99 FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
 
 
 --
@@ -2097,7 +2067,7 @@ ALTER TABLE ONLY public.hidden_sessions
 --
 
 ALTER TABLE ONLY public.hidden_sessions
-    ADD CONSTRAINT fk_rails_a1debd137d FOREIGN KEY (session_id) REFERENCES public.sessions(id);
+    ADD CONSTRAINT fk_rails_a1debd137d FOREIGN KEY (session_id) REFERENCES public.sessions(id) ON DELETE CASCADE;
 
 
 --
@@ -2155,73 +2125,75 @@ ALTER TABLE ONLY public.sessions
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
-('20230403213514'),
-('20230404000215'),
-('20230404025705'),
-('20230407020130'),
-('20230407185946'),
-('20230407200707'),
-('20230407200831'),
-('20230409225123'),
-('20230410203022'),
-('20230410205819'),
-('20230422022541'),
-('20230422033310'),
-('20230427052656'),
-('20230429064646'),
-('20230429104442'),
-('20230429110004'),
-('20230429111227'),
-('20230429195143'),
-('20230504010958'),
-('20230504035331'),
-('20230505181302'),
-('20230505234432'),
-('20230507021310'),
-('20230507031607'),
-('20230507224337'),
-('20230514033249'),
-('20230516013458'),
-('20230520020008'),
-('20230527193722'),
-('20230528202819'),
-('20230604231515'),
-('20230611001108'),
-('20230611001452'),
-('20230611010539'),
-('20230616221312'),
-('20230618075348'),
-('20230703004444'),
-('20230721115845'),
-('20230724041043'),
-('20230728005202'),
-('20230728012819'),
-('20230806193436'),
-('20230808011925'),
-('20230813214033'),
-('20230816054627'),
-('20230823032344'),
-('20230825232026'),
-('20230826101957'),
-('20230828234352'),
-('20230831213654'),
-('20230901020857'),
-('20230904001348'),
-('20230905055639'),
-('20230905234421'),
-('20230916002539'),
-('20230917052932'),
-('20230927061247'),
-('20231003055221'),
-('20231006212429'),
-('20231009211805'),
-('20240608234005'),
-('20240616030719'),
-('20240723050841'),
-('20240725001136'),
+('20240804062833'),
+('20240804062832'),
+('20240804062831'),
+('20240726035602'),
 ('20240725035813'),
-('20240726035602');
-
+('20240725001136'),
+('20240723050841'),
+('20240616030719'),
+('20240608234005'),
+('20231009211805'),
+('20231006212429'),
+('20231003055221'),
+('20230927061247'),
+('20230917052932'),
+('20230916002539'),
+('20230905234421'),
+('20230905055639'),
+('20230904001348'),
+('20230901020857'),
+('20230831213654'),
+('20230828234352'),
+('20230826101957'),
+('20230825232026'),
+('20230823032344'),
+('20230816054627'),
+('20230813214033'),
+('20230808011925'),
+('20230806193436'),
+('20230728012819'),
+('20230728005202'),
+('20230724041043'),
+('20230721115845'),
+('20230703004444'),
+('20230618075348'),
+('20230616221312'),
+('20230611010539'),
+('20230611001452'),
+('20230611001108'),
+('20230604231515'),
+('20230528202819'),
+('20230527193722'),
+('20230520020008'),
+('20230516013458'),
+('20230514033249'),
+('20230507224337'),
+('20230507031607'),
+('20230507021310'),
+('20230505234432'),
+('20230505181302'),
+('20230504035331'),
+('20230504010958'),
+('20230429195143'),
+('20230429111227'),
+('20230429110004'),
+('20230429104442'),
+('20230429064646'),
+('20230427052656'),
+('20230422033310'),
+('20230422022541'),
+('20230410205819'),
+('20230410203022'),
+('20230409225123'),
+('20230407200831'),
+('20230407200707'),
+('20230407185946'),
+('20230407020130'),
+('20230404025705'),
+('20230404000215'),
+('20230403213514');
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
