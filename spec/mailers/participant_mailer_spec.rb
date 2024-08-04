@@ -14,7 +14,7 @@ RSpec.describe ParticipantMailer do
   describe '#registration_confirmation' do
     subject(:mail) { described_class.registration_confirmation(registration:) }
 
-    its(:subject) { is_expected.to eq('Your NZIF 2023 registration') }
+    its(:subject) { is_expected.to eq('Your NZIF 2024 registration') }
     its(:to) { is_expected.to eq([registration.user.email]) }
     its(:from) { is_expected.to eq(['registrations@improvfest.nz']) }
   end
@@ -26,7 +26,7 @@ RSpec.describe ParticipantMailer do
       create(:placement, registration:, session: registration.preferences.first.session)
     end
 
-    its(:subject) { is_expected.to eq('Your NZIF 2023 workshop schedule') }
+    its(:subject) { is_expected.to eq('Your NZIF 2024 workshop schedule') }
     its(:to) { is_expected.to eq([registration.user.email]) }
     its(:from) { is_expected.to eq(['registrations@improvfest.nz']) }
   end
@@ -41,7 +41,7 @@ RSpec.describe ParticipantMailer do
       create(:placement, registration:, session:)
     end
 
-    its(:subject) { is_expected.to eq("NZIF 2023: added to #{session.activity.name}") }
+    its(:subject) { is_expected.to eq("NZIF 2024: added to #{session.activity.name}") }
     its(:to) { is_expected.to eq([registration.user.email]) }
     its(:from) { is_expected.to eq(['registrations@improvfest.nz']) }
   end
@@ -51,7 +51,7 @@ RSpec.describe ParticipantMailer do
 
     let!(:session) { registration.preferences.first.session }
 
-    its(:subject) { is_expected.to eq("NZIF 2023: removed from #{session.activity.name}") }
+    its(:subject) { is_expected.to eq("NZIF 2024: removed from #{session.activity.name}") }
     its(:to) { is_expected.to eq([registration.user.email]) }
     its(:from) { is_expected.to eq(['registrations@improvfest.nz']) }
   end

@@ -9,6 +9,8 @@ module Registrations
         delete_old_preferences
         build_new_preferences
         registration.save!
+
+        Finalise.call!(registration:, current_user:) unless registration.completed?
       end
     end
 

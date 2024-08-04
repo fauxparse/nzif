@@ -1,5 +1,5 @@
 import ChevronLeftIcon from '@/icons/ChevronLeftIcon';
-import { Link as A, Box, Button, Flex, Heading, Text } from '@radix-ui/themes';
+import { Link as A, Box, Button, Flex, Heading, Portal, Text } from '@radix-ui/themes';
 import { Link } from '@tanstack/react-router';
 import clsx from 'clsx';
 import ReactCanvasConfetti from 'react-canvas-confetti';
@@ -52,49 +52,53 @@ export const Completed = () => {
         </Flex>
         <div />
       </div>
-      <ReactCanvasConfetti
-        onInit={({ confetti }) => {
-          const colors = ['#E93D82', '#00A2C7', '#FFE629'];
+      <Portal>
+        <ReactCanvasConfetti
+          onInit={({ confetti }) => {
+            const colors = ['#E93D82', '#00A2C7', '#FFE629'];
 
-          confetti({
-            colors,
-            spread: 26,
-            startVelocity: 55,
-            origin: { y: 0.5 },
-            particleCount: Math.floor(200 * 0.25),
-          });
-          confetti({
-            colors,
-            spread: 60,
-            origin: { y: 0.5 },
-            particleCount: Math.floor(200 * 0.2),
-          });
-          confetti({
-            colors,
-            spread: 100,
-            decay: 0.91,
-            scalar: 0.8,
-            origin: { y: 0.5 },
-            particleCount: Math.floor(200 * 0.35),
-          });
-          confetti({
-            colors,
-            spread: 120,
-            startVelocity: 25,
-            decay: 0.92,
-            scalar: 1.2,
-            origin: { y: 0.5 },
-            particleCount: Math.floor(200 * 0.1),
-          });
-          confetti({
-            colors,
-            spread: 120,
-            startVelocity: 45,
-            origin: { y: 0.5 },
-            particleCount: Math.floor(200 * 0.1),
-          });
-        }}
-      />
+            setTimeout(() => {
+              confetti({
+                colors,
+                spread: 26,
+                startVelocity: 55,
+                origin: { y: 0.5 },
+                particleCount: Math.floor(200 * 0.25),
+              });
+              confetti({
+                colors,
+                spread: 60,
+                origin: { y: 0.5 },
+                particleCount: Math.floor(200 * 0.2),
+              });
+              confetti({
+                colors,
+                spread: 100,
+                decay: 0.91,
+                scalar: 0.8,
+                origin: { y: 0.5 },
+                particleCount: Math.floor(200 * 0.35),
+              });
+              confetti({
+                colors,
+                spread: 120,
+                startVelocity: 25,
+                decay: 0.92,
+                scalar: 1.2,
+                origin: { y: 0.5 },
+                particleCount: Math.floor(200 * 0.1),
+              });
+              confetti({
+                colors,
+                spread: 120,
+                startVelocity: 45,
+                origin: { y: 0.5 },
+                particleCount: Math.floor(200 * 0.1),
+              });
+            }, 300);
+          }}
+        />
+      </Portal>
     </>
   );
 };

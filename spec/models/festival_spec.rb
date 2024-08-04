@@ -12,28 +12,28 @@ RSpec.describe Festival do
 
     context 'when before start_date' do
       let(:festival) do
-        build(:festival, start_date: Date.civil(2023, 10, 7), end_date: Date.civil(2023, 10, 6))
+        build(:festival, start_date: Date.civil(2024, 10, 4), end_date: Date.civil(2023, 10, 1))
       end
 
       it 'has an error' do
-        expect(festival.errors[:end_date]).to include('must be after 2023-10-07')
+        expect(festival.errors[:end_date]).to include('must be after 2024-10-04')
       end
     end
 
     context 'when in a different year from start_date' do
       let(:festival) do
-        build(:festival, start_date: Date.civil(2023, 10, 7), end_date: Date.civil(2024, 10, 14))
+        build(:festival, start_date: Date.civil(2024, 10, 4), end_date: Date.civil(2025, 10, 14))
       end
 
       it 'has an error' do
-        expect(festival.errors[:end_date]).to include('must be the same year as 2023-10-07')
+        expect(festival.errors[:end_date]).to include('must be the same year as 2024-10-04')
       end
     end
   end
 
   describe '#year' do
     before do
-      create(:festival, start_date: Date.civil(2023, 7, 22), end_date: Date.civil(2023, 7, 29))
+      create(:festival, start_date: Date.civil(2024, 7, 22), end_date: Date.civil(2024, 7, 29))
     end
 
     it 'must be unique' do
@@ -45,7 +45,7 @@ RSpec.describe Festival do
     subject(:state) { festival.state }
 
     before do
-      travel_to Time.zone.local(2023, 7, 27, 13, 0)
+      travel_to Time.zone.local(2024, 7, 27, 13, 0)
     end
 
     context 'when in the past' do

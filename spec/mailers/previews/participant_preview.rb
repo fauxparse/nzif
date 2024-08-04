@@ -2,12 +2,14 @@
 class ParticipantPreview < ActionMailer::Preview
   # Preview this email at http://localhost:5100/rails/mailers/participant/registration_confirmation
   def registration_confirmation
-    ParticipantMailer.registration_confirmation(registration: Registration.find_by(user_id: 1))
+    ParticipantMailer.registration_confirmation(registration: Registration.find_by(user_id: 1,
+      festival_id: 2))
   end
 
   # Preview this email at http://localhost:5100/rails/mailers/participant/workshop_confirmation
   def workshop_confirmation
-    ParticipantMailer.workshop_confirmation(registration: Registration.find_by(user_id: 1))
+    ParticipantMailer.workshop_confirmation(registration: Registration.find_by(user_id: 1,
+      festival_id: 2))
   end
 
   def feedback_reminder

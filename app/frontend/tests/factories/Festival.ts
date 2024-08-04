@@ -17,19 +17,19 @@ const festivalFactory = FestivalFactory.define(
     ({
       __typename: 'Festival',
       id: String(transientParams.year),
-      startDate: DateTime.local(transientParams.year || 2023, 10, 7),
-      endDate: DateTime.local(transientParams.year || 2023, 10, 14),
+      startDate: DateTime.local(transientParams.year || 2024, 10, 4),
+      endDate: DateTime.local(transientParams.year || 2024, 10, 12),
       activities: associations.activities || [],
       slots: associations.slots || [],
       venues: associations.venues || [],
       state: FestivalState.Upcoming,
-      earlybirdOpensAt: DateTime.local(transientParams.year || 2023, 8, 1),
-      earlybirdClosesAt: DateTime.local(transientParams.year || 2023, 9, 1),
-      generalOpensAt: DateTime.local(transientParams.year || 2023, 9, 8),
+      earlybirdOpensAt: DateTime.local(transientParams.year || 2024, 8, 1),
+      earlybirdClosesAt: DateTime.local(transientParams.year || 2024, 9, 1),
+      generalOpensAt: DateTime.local(transientParams.year || 2024, 9, 8),
       registrationPhase: RegistrationPhase.Earlybird,
       registrations: associations.registrations || [],
       workshopAllocation: null,
     }) satisfies FestivalWithoutQueryMethods
-).transient({ year: 2023 });
+).transient({ year: 2024 });
 
 export default festivalFactory;
