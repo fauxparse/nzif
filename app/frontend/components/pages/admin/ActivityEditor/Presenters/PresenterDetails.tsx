@@ -7,7 +7,7 @@ import TrashIcon from '@/icons/TrashIcon';
 import { useMutation } from '@apollo/client';
 import { Box, Button, TextField } from '@radix-ui/themes';
 import { useForm } from '@tanstack/react-form';
-import { isEmpty, pickBy } from 'lodash-es';
+import { isEmpty, omit, pickBy } from 'lodash-es';
 import { UpdatePresenterMutation } from '../queries';
 import { Presenter, WithUploadedPicture } from '../types';
 
@@ -29,7 +29,7 @@ export const PresenterDetails: React.FC<PresenterDetailsProps> = ({ presenter, o
     updateMutation({
       variables: {
         id: presenter.id,
-        attributes,
+        attributes: omit(attributes, 'country'),
       },
     });
 
