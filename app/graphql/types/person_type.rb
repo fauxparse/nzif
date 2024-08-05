@@ -25,7 +25,14 @@ module Types
     delegate :city, to: :object
 
     def city
-      object.city && dataloader.with(Sources::Cities, context:).load(object.city)
+      object.city && dataloader.with(Sources::Cities, context:).load(object.city).then do |city|
+        city || {
+          id: object.city,
+          name: object.city,
+          traditional_names: [],
+          country: object.country,
+        }
+      end
     end
 
     def bio
