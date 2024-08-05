@@ -20,7 +20,8 @@
   margin-inline: calc(var(--space-4) * -1);
   padding: var(--space-3) var(--space-4);
   background: var(--background-translucent);
-  backdrop-filter: blur(6px);
+
+  /* backdrop-filter: blur(6px); */
 }
 
 .day {

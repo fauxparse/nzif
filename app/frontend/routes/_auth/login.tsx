@@ -5,7 +5,7 @@ import { FormField } from '@/components/molecules/FormField';
 import KeyIcon from '@/icons/KeyIcon';
 import UserIcon from '@/icons/UserIcon';
 import { LogInVariables, useAuthentication } from '@/services/Authentication';
-import { Button, Text, TextField } from '@radix-ui/themes';
+import { Link as A, Button, Text, TextField } from '@radix-ui/themes';
 import { useForm } from '@tanstack/react-form';
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-form-adapter';
@@ -77,7 +77,9 @@ export const Route = createFileRoute('/_auth/login')({
                   label={
                     <>
                       <span>Your password</span>
-                      <Link to="/forgot">Forgot your password?</Link>
+                      <A asChild>
+                        <Link to="/forgot">Forgot your password?</Link>
+                      </A>
                     </>
                   }
                   error={error || field.state.meta.errors[0]}
@@ -112,7 +114,11 @@ export const Route = createFileRoute('/_auth/login')({
           </AuthenticationFormItem>
           <AuthenticationFormItem layoutId="auth-link">
             <Text>
-              New to NZIF? <Link to="/signup">Create an account</Link>.
+              New to NZIF?{' '}
+              <A asChild>
+                <Link to="/signup">Create an account</Link>
+              </A>
+              .
             </Text>
           </AuthenticationFormItem>
         </form>

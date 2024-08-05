@@ -62,8 +62,7 @@
     inset: 0;
     display: grid;
     grid-template-columns: 1fr;
-    align-items: start;
-    justify-items: center;
+    place-items: start center;
     padding: var(--authentication-padding);
 
     @media (min-width: 1024px) {
@@ -113,27 +112,10 @@
       > :last-child {
         text-align: right;
       }
-
-      a {
-        margin: 0 -0.25em;
-        padding: 0 0.25em;
-        font-size: var(--font-size-medium);
-      }
     }
 
     .mantine-TextInput-error {
       margin-top: var(--spacing-small);
-    }
-  }
-
-  a {
-    color: var(--link);
-    text-decoration: none;
-
-    &:hover,
-    &:focus {
-      background: linear-gradient(to bottom, transparent 50%, var(--yellow-alpha-3) 0, var(--yellow-alpha-3) 100%);
-      color: var(--link-hover);
     }
   }
 }
