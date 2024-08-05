@@ -22,6 +22,7 @@ import { Link } from '@tanstack/react-router';
 import pluralize from 'pluralize';
 import React from 'react';
 import classes from './NavigationMenu.module.css';
+import { RegistrationSummary } from './RegistrationSummary';
 
 const NavigationMenu: React.FC = () => {
   const [opened, { toggle, open, close }] = useDisclosure();
@@ -77,6 +78,7 @@ const NavigationMenuContent: React.FC<{ visible?: boolean }> = ({ visible }) => 
           <CloseIcon />
         </IconButton>
       </Drawer.Close>
+      <RegistrationSummary />
       <Inset side="x">
         <ActionList className={classes.items} variant="subtle">
           {Object.entries(ACTIVITY_TYPES).map(([_, { icon: Icon, type, label }]) => (

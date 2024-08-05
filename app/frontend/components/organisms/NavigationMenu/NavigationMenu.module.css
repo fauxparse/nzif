@@ -59,3 +59,39 @@
   top: var(--space-4);
   right: var(--space-4);
 }
+
+.registrationSummary {
+  --margin-bottom-override: var(--space-4);
+
+  display: grid;
+  grid-template: ". heading" auto "icon count" auto ". total" auto ". button" auto / auto 1fr;
+  gap: var(--space-3);
+  padding-inline: var(--space-3);
+  padding-block: var(--inset-padding-top) var(--space-4);
+  background-color: var(--cyan-a3);
+
+  .heading {
+    grid-area: heading;
+  }
+
+  .count {
+    grid-area: count;
+  }
+
+  .total {
+    grid-area: total;
+
+    del {
+      opacity: 0.5;
+    }
+  }
+
+  .icon {
+    grid-area: icon;
+  }
+
+  .button {
+    grid-area: button;
+    justify-self: start;
+  }
+}
