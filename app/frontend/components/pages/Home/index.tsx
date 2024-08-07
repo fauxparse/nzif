@@ -53,9 +53,9 @@ export const Home = () => {
                 Browse the programme
               </Link>
             </Button>
-            <Button size="3" variant="outline">
+            <Button size="3" variant="outline" disabled>
               <BATSIcon size="3" />
-              Book tickets
+              Tickets on sale soon
             </Button>
           </Flex>
         </Grid>
