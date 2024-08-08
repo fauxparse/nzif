@@ -18,6 +18,7 @@ import CalendarIcon from '@/icons/CalendarIcon';
 import CloseIcon from '@/icons/CloseIcon';
 import DashboardIcon from '@/icons/DashboardIcon';
 import ThemeIcon from '@/icons/ThemeIcon';
+import UsersIcon from '@/icons/UsersIcon';
 import { Link } from '@tanstack/react-router';
 import pluralize from 'pluralize';
 import React from 'react';
@@ -110,6 +111,12 @@ const NavigationMenuContent: React.FC<{ visible?: boolean }> = ({ visible }) => 
             <Link to="/admin/timetable">
               <CalendarIcon />
               Timetable
+            </Link>
+          </ActionList.Item>
+          <ActionList.Item asChild>
+            <Link to="/admin/registrations">
+              <UsersIcon />
+              Registrations
             </Link>
           </ActionList.Item>
         </ActionList>

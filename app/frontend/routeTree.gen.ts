@@ -30,15 +30,18 @@ import { Route as AuthSignupImport } from './routes/_auth/signup'
 import { Route as AuthResetpasswordImport } from './routes/_auth/reset_password'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AuthForgotImport } from './routes/_auth/forgot'
+import { Route as AdminRegistrationsRouteImport } from './routes/admin/registrations/route'
 import { Route as AdminActivityTypeRouteImport } from './routes/admin/$activityType/route'
 import { Route as PublicVenuesRouteImport } from './routes/_public/venues/route'
 import { Route as PublicPeopleRouteImport } from './routes/_public/people/route'
 import { Route as PublicActivityTypeRouteImport } from './routes/_public/$activityType/route'
+import { Route as AdminRegistrationsIndexImport } from './routes/admin/registrations/index'
 import { Route as AdminActivityTypeIndexImport } from './routes/admin/$activityType/index'
 import { Route as PublicVenuesIndexImport } from './routes/_public/venues/index'
 import { Route as PublicPeopleIndexImport } from './routes/_public/people/index'
 import { Route as RegisterWorkshopsSlugImport } from './routes/register/workshops.$slug'
 import { Route as RegisterCodeOfConductMediaImport } from './routes/register/code-of-conduct.media'
+import { Route as AdminRegistrationsRegistrationIdImport } from './routes/admin/registrations/$registrationId'
 import { Route as PublicVenuesIdImport } from './routes/_public/venues/$id'
 import { Route as PublicPeopleIdImport } from './routes/_public/people/$id'
 import { Route as PublicAboutSlugImport } from './routes/_public/about.$slug'
@@ -148,6 +151,11 @@ const AuthForgotRoute = AuthForgotImport.update({
   getParentRoute: () => AuthRouteRoute,
 } as any)
 
+const AdminRegistrationsRouteRoute = AdminRegistrationsRouteImport.update({
+  path: '/registrations',
+  getParentRoute: () => AdminRoute,
+} as any)
+
 const AdminActivityTypeRouteRoute = AdminActivityTypeRouteImport.update({
   path: '/$activityType',
   getParentRoute: () => AdminRoute,
@@ -166,6 +174,11 @@ const PublicPeopleRouteRoute = PublicPeopleRouteImport.update({
 const PublicActivityTypeRouteRoute = PublicActivityTypeRouteImport.update({
   path: '/$activityType',
   getParentRoute: () => PublicRouteRoute,
+} as any)
+
+const AdminRegistrationsIndexRoute = AdminRegistrationsIndexImport.update({
+  path: '/',
+  getParentRoute: () => AdminRegistrationsRouteRoute,
 } as any)
 
 const AdminActivityTypeIndexRoute = AdminActivityTypeIndexImport.update({
@@ -194,6 +207,12 @@ const RegisterCodeOfConductMediaRoute = RegisterCodeOfConductMediaImport.update(
     getParentRoute: () => RegisterCodeOfConductRoute,
   } as any,
 )
+
+const AdminRegistrationsRegistrationIdRoute =
+  AdminRegistrationsRegistrationIdImport.update({
+    path: '/$registrationId',
+    getParentRoute: () => AdminRegistrationsRouteRoute,
+  } as any)
 
 const PublicVenuesIdRoute = PublicVenuesIdImport.update({
   path: '/$id',
@@ -324,6 +343,13 @@ declare module '@tanstack/react-router' {
       path: '/$activityType'
       fullPath: '/admin/$activityType'
       preLoaderRoute: typeof AdminActivityTypeRouteImport
+      parentRoute: typeof AdminImport
+    }
+    '/admin/registrations': {
+      id: '/admin/registrations'
+      path: '/registrations'
+      fullPath: '/admin/registrations'
+      preLoaderRoute: typeof AdminRegistrationsRouteImport
       parentRoute: typeof AdminImport
     }
     '/_auth/forgot': {
@@ -480,6 +506,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicVenuesIdImport
       parentRoute: typeof PublicVenuesRouteImport
     }
+    '/admin/registrations/$registrationId': {
+      id: '/admin/registrations/$registrationId'
+      path: '/$registrationId'
+      fullPath: '/admin/registrations/$registrationId'
+      preLoaderRoute: typeof AdminRegistrationsRegistrationIdImport
+      parentRoute: typeof AdminRegistrationsRouteImport
+    }
     '/register/code-of-conduct/media': {
       id: '/register/code-of-conduct/media'
       path: '/media'
@@ -514,6 +547,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/$activityType/'
       preLoaderRoute: typeof AdminActivityTypeIndexImport
       parentRoute: typeof AdminActivityTypeRouteImport
+    }
+    '/admin/registrations/': {
+      id: '/admin/registrations/'
+      path: '/'
+      fullPath: '/admin/registrations/'
+      preLoaderRoute: typeof AdminRegistrationsIndexImport
+      parentRoute: typeof AdminRegistrationsRouteImport
     }
     '/admin/$activityType/$slug/$session': {
       id: '/admin/$activityType/$slug/$session'
@@ -591,6 +631,10 @@ export const routeTree = rootRoute.addChildren({
         }),
       AdminActivityTypeIndexRoute,
     }),
+    AdminRegistrationsRouteRoute: AdminRegistrationsRouteRoute.addChildren({
+      AdminRegistrationsRegistrationIdRoute,
+      AdminRegistrationsIndexRoute,
+    }),
     AdminTimetableRoute,
     AdminIndexRoute,
   }),
@@ -647,6 +691,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "admin.tsx",
       "children": [
         "/admin/$activityType",
+        "/admin/registrations",
         "/admin/timetable",
         "/admin/"
       ]
@@ -684,6 +729,14 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/admin/$activityType/$slug",
         "/admin/$activityType/"
+      ]
+    },
+    "/admin/registrations": {
+      "filePath": "admin/registrations/route.tsx",
+      "parent": "/admin",
+      "children": [
+        "/admin/registrations/$registrationId",
+        "/admin/registrations/"
       ]
     },
     "/_auth/forgot": {
@@ -791,6 +844,10 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_public/venues/$id.tsx",
       "parent": "/_public/venues"
     },
+    "/admin/registrations/$registrationId": {
+      "filePath": "admin/registrations/$registrationId.tsx",
+      "parent": "/admin/registrations"
+    },
     "/register/code-of-conduct/media": {
       "filePath": "register/code-of-conduct.media.tsx",
       "parent": "/register/code-of-conduct"
@@ -810,6 +867,10 @@ export const routeTree = rootRoute.addChildren({
     "/admin/$activityType/": {
       "filePath": "admin/$activityType/index.tsx",
       "parent": "/admin/$activityType"
+    },
+    "/admin/registrations/": {
+      "filePath": "admin/registrations/index.tsx",
+      "parent": "/admin/registrations"
     },
     "/admin/$activityType/$slug/$session": {
       "filePath": "admin/$activityType/$slug/$session.tsx",

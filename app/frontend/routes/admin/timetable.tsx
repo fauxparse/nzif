@@ -36,7 +36,6 @@ export const Route = createFileRoute('/admin/timetable')({
         new Promise<Activity>((resolve, reject) => {
           createActivityMutation({
             variables: {
-              festivalId: festival.id,
               type,
               attributes,
             },

@@ -6,12 +6,12 @@ import { useCallback, useEffect, useMemo, useReducer } from 'react';
 import { WorkshopRegistrationQuery } from './queries';
 import { PERIODS, Period, Session, WorkshopDay } from './types';
 
-const sessionPeriod = (session: { startsAt: DateTime; endsAt: DateTime }): Period =>
+export const sessionPeriod = (session: { startsAt: DateTime; endsAt: DateTime }): Period =>
   session.startsAt.hour < 12 ? (session.endsAt.hour > 13 ? 'all-day' : 'morning') : 'afternoon';
 
 type SessionKey = `${number}-${number}-${number}:${Period}`;
 
-const sessionKey = (session: { startsAt: DateTime; endsAt: DateTime }): SessionKey =>
+export const sessionKey = (session: { startsAt: DateTime; endsAt: DateTime }): SessionKey =>
   `${session.startsAt.toISODate()}:${sessionPeriod(session)}` as SessionKey;
 
 type Preference = {

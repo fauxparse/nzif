@@ -99,4 +99,15 @@
       --pos: 1;
     }
   }
+
+  &[data-icon="SortIcon"] {
+    path {
+      opacity: 0.3;
+    }
+
+    &[data-sort="asc"] path:first-child,
+    &[data-sort="desc"] path:last-child {
+      opacity: 1;
+    }
+  }
 }
