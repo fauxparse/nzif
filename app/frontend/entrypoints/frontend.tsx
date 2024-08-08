@@ -1,6 +1,7 @@
 import { client } from '@/graphql';
 import { AuthenticationContext, AuthenticationProvider } from '@/services/Authentication';
 import { ApolloProvider } from '@apollo/client';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@formatjs/intl-numberformat/locale-data/en';
 import '@formatjs/intl-numberformat/polyfill';
 import { Toast } from '@/components/molecules/Toast';
@@ -19,6 +20,8 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import '@radix-ui/themes/styles.css';
 import '@/styles/new/application.css';
 
+const queryClient = new QueryClient();
+
 LuxonSettings.defaultZone = 'Pacific/Auckland';
 dayjs.extend(customParseFormat);
 
@@ -32,21 +35,23 @@ createRoot(document.getElementById('root') as HTMLElement).render(
         <ConfirmationModalProvider>
           <Toast.Provider>
             <ApolloProvider client={client}>
-              <PricingProvider>
-                <AuthenticationProvider>
-                  <AuthenticationContext.Consumer>
-                    {(auth) => (
-                      <RouterProvider
-                        router={router}
-                        context={{
-                          auth: { ...auth },
-                          client,
-                        }}
-                      />
-                    )}
-                  </AuthenticationContext.Consumer>
-                </AuthenticationProvider>
-              </PricingProvider>
+              <QueryClientProvider client={queryClient}>
+                <PricingProvider>
+                  <AuthenticationProvider>
+                    <AuthenticationContext.Consumer>
+                      {(auth) => (
+                        <RouterProvider
+                          router={router}
+                          context={{
+                            auth: { ...auth },
+                            client,
+                          }}
+                        />
+                      )}
+                    </AuthenticationContext.Consumer>
+                  </AuthenticationProvider>
+                </PricingProvider>
+              </QueryClientProvider>
             </ApolloProvider>
           </Toast.Provider>
         </ConfirmationModalProvider>

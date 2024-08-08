@@ -33,6 +33,8 @@ Rails.application.routes.draw do
 
   get '/feedback/:id', to: 'festivals#show', as: :session_feedback
 
+  get '/charts/preferences', to: 'charts#preferences', as: :preferences_chart
+
   get '*path', to: 'festivals#show'
   root to: 'festivals#show'
 end

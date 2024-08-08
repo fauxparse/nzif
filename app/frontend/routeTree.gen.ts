@@ -41,6 +41,7 @@ import { Route as PublicVenuesIndexImport } from './routes/_public/venues/index'
 import { Route as PublicPeopleIndexImport } from './routes/_public/people/index'
 import { Route as RegisterWorkshopsSlugImport } from './routes/register/workshops.$slug'
 import { Route as RegisterCodeOfConductMediaImport } from './routes/register/code-of-conduct.media'
+import { Route as AdminRegistrationsPreferencesImport } from './routes/admin/registrations/preferences'
 import { Route as AdminRegistrationsRegistrationIdImport } from './routes/admin/registrations/$registrationId'
 import { Route as PublicVenuesIdImport } from './routes/_public/venues/$id'
 import { Route as PublicPeopleIdImport } from './routes/_public/people/$id'
@@ -207,6 +208,12 @@ const RegisterCodeOfConductMediaRoute = RegisterCodeOfConductMediaImport.update(
     getParentRoute: () => RegisterCodeOfConductRoute,
   } as any,
 )
+
+const AdminRegistrationsPreferencesRoute =
+  AdminRegistrationsPreferencesImport.update({
+    path: '/preferences',
+    getParentRoute: () => AdminRegistrationsRouteRoute,
+  } as any)
 
 const AdminRegistrationsRegistrationIdRoute =
   AdminRegistrationsRegistrationIdImport.update({
@@ -513,6 +520,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRegistrationsRegistrationIdImport
       parentRoute: typeof AdminRegistrationsRouteImport
     }
+    '/admin/registrations/preferences': {
+      id: '/admin/registrations/preferences'
+      path: '/preferences'
+      fullPath: '/admin/registrations/preferences'
+      preLoaderRoute: typeof AdminRegistrationsPreferencesImport
+      parentRoute: typeof AdminRegistrationsRouteImport
+    }
     '/register/code-of-conduct/media': {
       id: '/register/code-of-conduct/media'
       path: '/media'
@@ -633,6 +647,7 @@ export const routeTree = rootRoute.addChildren({
     }),
     AdminRegistrationsRouteRoute: AdminRegistrationsRouteRoute.addChildren({
       AdminRegistrationsRegistrationIdRoute,
+      AdminRegistrationsPreferencesRoute,
       AdminRegistrationsIndexRoute,
     }),
     AdminTimetableRoute,
@@ -736,6 +751,7 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/admin",
       "children": [
         "/admin/registrations/$registrationId",
+        "/admin/registrations/preferences",
         "/admin/registrations/"
       ]
     },
@@ -846,6 +862,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/admin/registrations/$registrationId": {
       "filePath": "admin/registrations/$registrationId.tsx",
+      "parent": "/admin/registrations"
+    },
+    "/admin/registrations/preferences": {
+      "filePath": "admin/registrations/preferences.tsx",
       "parent": "/admin/registrations"
     },
     "/register/code-of-conduct/media": {
