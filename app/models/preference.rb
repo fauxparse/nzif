@@ -2,6 +2,7 @@ class Preference < ApplicationRecord
   belongs_to :registration
   belongs_to :session
   has_one :workshop, through: :session, source: :activity
+  has_many :slots, through: :session, source: :session_slots
 
   before_validation :set_position, unless: :position?
   before_create :push_others

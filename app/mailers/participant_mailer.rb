@@ -9,11 +9,11 @@ class ParticipantMailer < ApplicationMailer
     )
   end
 
-  def workshop_confirmation(registration:) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def workshop_confirmation(registration:) # rubocop:disable Metrics/MethodLength
     @registration = Registration
       .includes(
         placements: { session: %i[activity venue slot] },
-        preferences: [:slot, { session: %i[activity venue] }],
+        preferences: [:slots, { session: %i[activity venue] }],
       )
       .find(registration.id)
     @user = registration.user
@@ -21,12 +21,14 @@ class ParticipantMailer < ApplicationMailer
     @placements = registration.placements
       .includes(session: %i[activity venue])
       .sort_by { |p| p.session.starts_at }
-    slots = Set.new(@placements.map { |p| p.session.slot })
+    slots = Set.new(@placements.flat_map { |p| p.session.slots })
     @empty_slots = registration
       .preferences
-      .reject { |p| slots.include?(p.slot) }
-      .sort_by { |p| p.slot.starts_at }
-      .group_by(&:slot)
+      .reject { |p| p.slots.all? { |s| slots.include?(s) } }
+      .sort_by { |p| p.session.starts_at }
+      .flat_map { |p| p.slots.map { |s| [s, p] } }
+      .group_by(&:first)
+      .transform_values { |v| v.map(&:last) }
 
     @cart = Registrations::CalculateCartTotals.call(
       registration: @registration,
@@ -44,7 +46,7 @@ class ParticipantMailer < ApplicationMailer
     )
   end
 
-  def added(registration:, session:, removed: []) # rubocop:disable Metrics/AbcSize
+  def added(registration:, session:, removed: [])
     @registration = registration
     @session = session
     @user = registration.user

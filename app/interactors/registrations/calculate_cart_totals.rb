@@ -25,7 +25,7 @@ module Registrations
     def count
       context[:workshops_count] ||=
         if %i[earlybird paused].include? registration.festival.registration_phase
-          registration.requested_slots.count
+          registration.requested_slots.count('DISTINCT session_slots.starts_at')
         else
           registration.sessions.count
         end

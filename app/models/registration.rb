@@ -5,7 +5,7 @@ class Registration < ApplicationRecord
   belongs_to :festival
   has_one :profile, through: :user
   has_many :preferences, autosave: true, dependent: :destroy
-  has_many :requested_slots, -> { distinct }, through: :preferences, source: :slot
+  has_many :requested_slots, through: :preferences, source: :slots
   has_many :placements, dependent: :destroy, autosave: true
   has_many :sessions, through: :placements
   has_many :workshops, through: :sessions, source: :activity

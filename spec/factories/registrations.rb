@@ -20,7 +20,6 @@ FactoryBot.define do
             :preference,
             registration:,
             session:,
-            slot: session.slot,
           )
         end
       end

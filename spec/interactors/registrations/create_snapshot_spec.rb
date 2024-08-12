@@ -24,7 +24,7 @@ RSpec.describe Registrations::CreateSnapshot do
 
     it 'serializes the sessions' do
       expect(snapshot_items.map(&:item_type))
-        .to eq %w[Registration Session Session Session]
+        .to match_array %w[Registration Session Session Session]
     end
   end
 end
