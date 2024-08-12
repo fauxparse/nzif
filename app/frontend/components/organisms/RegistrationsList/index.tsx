@@ -2,8 +2,18 @@ import { Spinner } from '@/components/atoms/Spinner';
 import { sessionKey } from '@/components/pages/Registration/Workshops/useWorkshopPreferences';
 import { SortIcon } from '@/icons/SortIcon';
 import { useQuery } from '@apollo/client';
-import { Button, Dialog, Inset, Table } from '@radix-ui/themes';
-import { useChildMatches, useNavigate } from '@tanstack/react-router';
+import {
+  Button,
+  Dialog,
+  Flex,
+  IconButton,
+  Inset,
+  Separator,
+  Skeleton,
+  Table,
+  Text,
+} from '@radix-ui/themes';
+import { Link, useChildMatches, useNavigate } from '@tanstack/react-router';
 import {
   createColumnHelper,
   flexRender,
@@ -19,6 +29,9 @@ import { useMediaQuery } from 'usehooks-ts';
 import { RegistrationDetails } from './RegistrationDetails';
 import { RegistrationsQuery, RegistrationsRowFragment } from './queries';
 
+import BarChartIcon from '@/icons/BarChartIcon';
+import pluralize from 'pluralize';
+import Header from '../Header';
 import classes from './RegistrationsList.module.css';
 
 type RegistrationRow = FragmentOf<typeof RegistrationsRowFragment>;
@@ -80,6 +93,20 @@ export const RegistrationsList = () => {
     [data]
   );
 
+  const places = useMemo(
+    () => registrations.reduce((acc, registration) => acc + registration.workshops, 0),
+    [registrations]
+  );
+
+  const totalPlaces = useMemo(() => {
+    if (!data?.festival.workshops) return 0;
+    return data.festival.workshops.reduce(
+      (acc, workshop) =>
+        acc + workshop.sessions.reduce((acc, session) => acc + (session.capacity ?? 0), 0),
+      0
+    );
+  }, [data]);
+
   const { selected, close } = useSelectedRegistration(registrations);
 
   const wide = useMediaQuery('(min-width: 768px)');
@@ -117,6 +144,28 @@ export const RegistrationsList = () => {
 
   return (
     <>
+      <Header
+        title="Registrations"
+        actions={
+          <IconButton asChild variant="ghost" radius="full" size="3">
+            <Link to="/admin/registrations/preferences" replace>
+              <BarChartIcon />
+            </Link>
+          </IconButton>
+        }
+      >
+        <Flex asChild gap="2" align="center">
+          <Text size="4">
+            <Skeleton loading={loading}>
+              {loading ? 'Loading…' : pluralize('registration', registrations.length, true)}
+            </Skeleton>
+            <Separator orientation="vertical" />
+            <Skeleton loading={loading}>
+              {loading ? 'Loading…' : `${places} / ${pluralize('place', totalPlaces, true)}`}
+            </Skeleton>
+          </Text>
+        </Flex>
+      </Header>
       <Table.Root className={classes.table} size="2">
         <Table.Header>
           <Table.Row>

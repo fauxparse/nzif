@@ -36,6 +36,14 @@ export const RegistrationsQuery = graphql(
       registrations {
         ...RegistrationsRow
       }
+
+      workshops {
+        id
+        sessions {
+          id
+          capacity
+        }
+      }
     }
   }
 `,
