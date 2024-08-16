@@ -1,0 +1,103 @@
+.layout {
+  display: grid;
+  place-content: center;
+  min-height: 100svh;
+  padding: var(--space-4);
+}
+
+.form {
+  display: grid;
+  grid-template: "intro" auto "amounts" auto "details" auto "separator" auto "button" auto / 1fr;
+  gap: var(--space-4);
+  justify-items: center;
+  width: 100%;
+
+  @media (--md) {
+    grid-template: "intro intro intro ." auto "details separator amounts amounts" auto "button . . ." auto / 22.5rem calc((var(--space-6) - var(--space-3)) * 2 + 1px) 16rem 16rem;
+    gap: var(--space-6) var(--space-3);
+    justify-items: start;
+  }
+}
+
+.logo {
+  width: 10rem;
+}
+
+.intro {
+  grid-area: intro;
+  width: 100%;
+  max-width: 40rem;
+
+  h1, p {
+    margin-bottom: var(--space-3);
+  }
+}
+
+.details {
+  grid-area: details;
+  width: 100%;
+  max-width: 30rem;
+}
+
+.labeledCheckbox {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: var(--space-3);
+}
+
+.separator {
+  grid-area: separator;
+  justify-self: center;
+}
+
+.amounts {
+  grid-area: amounts;
+  grid-template-columns: 1fr;
+  grid-auto-flow: column;
+
+  @media (--sm) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (--lg) {
+    grid-template-columns: subgrid;
+  }
+}
+
+.button {
+  grid-area: button;
+  width: 100%;
+  max-width: 30rem;
+}
+
+.fixedAmount {
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  gap: var(--space-3);
+  align-items: center;
+
+  :has(>:global(.money)) {
+    justify-self: end;
+
+    + * {
+      color: var(--gray-11);
+    }
+  }
+}
+
+.customAmount {
+  outline: 0;
+
+  input {
+    height: auto;
+    border: 0;
+    box-shadow: none;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-3);
+
+    @media (--sm) {
+      font-size: var(--font-size-6);
+    }
+  }
+}
