@@ -1,0 +1,17 @@
+<div style="text-align: center">
+  <p>
+    <b><%= @donation.anonymous? ? 'An anonymous donor' : @donation.name %></b>
+    has sent you a donation of
+  </p>
+
+  <h1><%= humanized_money_with_symbol @donation.amount %></h1>
+
+  <% if @donation.message? -%>
+    <p>
+      Their message:
+    </p>
+    <p>
+      <%= @donation.message %>
+    </p>
+  <% end -%>
+</div>
