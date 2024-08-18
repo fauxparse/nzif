@@ -1,8 +1,29 @@
 .layout {
-  display: grid;
-  place-content: center;
-  min-height: 100svh;
-  padding: var(--space-4);
+  padding: 0;
+}
+
+.container {
+  padding: var(--space-4) var(--space-4) 0;
+
+  :global(.rt-ContainerInner) {
+    container-name: donate;
+    container-type: inline-size;
+  }
+
+  @media (max-aspect-ratio: 1 / 2) {
+    min-height: 100vh;
+  }
+}
+
+.pages {
+  min-height: calc(100svh - 17rem);
+  margin: var(--space-4) 0;
+}
+
+.page {
+  p:not(:last-child) {
+    margin: 0 0 0.75em;
+  }
 }
 
 .form {
@@ -21,6 +42,11 @@
 
 .logo {
   width: 10rem;
+
+  @media (--sm) {
+    width: 12rem;
+    margin-left: -1.75rem;
+  }
 }
 
 .intro {
@@ -59,10 +85,6 @@
   @media (--sm) {
     grid-template-columns: 1fr 1fr;
   }
-
-  @media (--lg) {
-    grid-template-columns: subgrid;
-  }
 }
 
 .button {
@@ -82,6 +104,7 @@
 
     + * {
       color: var(--gray-11);
+      text-wrap: balance;
     }
   }
 }
@@ -98,6 +121,29 @@
 
     @media (--sm) {
       font-size: var(--font-size-6);
+    }
+  }
+}
+
+.footer {
+  --inset-padding-right: calc(50vw - 50cqw);
+  --inset-padding-left: var(--inset-padding-right);
+
+  position: sticky;
+  bottom: 0;
+  padding: var(--space-4) var(--inset-padding-right);
+  background: var(--color-background);
+  box-shadow: var(--shadow-2);
+
+  .dot {
+    width: var(--space-3);
+    height: var(--space-3);
+    border: 1px solid currentcolor;
+    border-radius: 100%;
+    color: var(--gray-11);
+
+    &[data-filled] {
+      background: currentcolor;
     }
   }
 }

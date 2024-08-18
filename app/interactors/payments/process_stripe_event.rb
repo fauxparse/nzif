@@ -21,14 +21,21 @@ module Payments
     private
 
     def handle_charge_succeeded
-      Add.call(
-        current_user: registration.user,
-        type: CreditCardPayment,
-        registration:,
-        state: :approved,
-        amount: Money.from_cents(data.amount, data.currency),
-        reference: data.id,
-      )
+      if data.metadata[:donation_id]
+        Donations::Confirm.call(
+          donation: Donation.find(data.metadata[:donation_id]),
+          reference: data.id,
+        )
+      else
+        Add.call(
+          current_user: registration.user,
+          type: CreditCardPayment,
+          registration:,
+          state: :approved,
+          amount: Money.from_cents(data.amount, data.currency),
+          reference: data.id,
+        )
+      end
     end
 
     def data

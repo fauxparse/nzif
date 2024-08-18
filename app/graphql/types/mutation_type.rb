@@ -55,5 +55,7 @@ module Types
     field :set_session_visibility, mutation: Mutations::Calendar::SetSessionVisibility
 
     field :update_profile, mutation: Mutations::Profile::Update
+
+    field :create_donation, mutation: Mutations::Donations::Create
   end
 end

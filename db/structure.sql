@@ -379,6 +379,44 @@ ALTER SEQUENCE public.cities_id_seq OWNED BY public.cities.id;
 
 
 --
+-- Name: donations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.donations (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    email character varying NOT NULL,
+    message character varying,
+    amount_cents integer DEFAULT 0 NOT NULL,
+    anonymous boolean DEFAULT false NOT NULL,
+    newsletter boolean DEFAULT false NOT NULL,
+    state public.payment_state DEFAULT 'pending'::public.payment_state NOT NULL,
+    reference character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: donations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.donations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: donations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.donations_id_seq OWNED BY public.donations.id;
+
+
+--
 -- Name: feedback; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1121,6 +1159,29 @@ ALTER SEQUENCE public.waitlist_id_seq OWNED BY public.waitlist.id;
 
 
 --
+-- Name: workshop_preferences; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.workshop_preferences AS
+ WITH preferences AS (
+         SELECT preferences_1.session_id,
+            preferences_1."position",
+            count(preferences_1.id) AS count
+           FROM (public.preferences preferences_1
+             JOIN public.sessions sessions_1 ON ((preferences_1.session_id = sessions_1.id)))
+          WHERE (sessions_1.festival_id = 2)
+          GROUP BY preferences_1.session_id, preferences_1."position"
+        )
+ SELECT sessions.id,
+    activities.name,
+    array_agg(ARRAY[(preferences."position")::bigint, preferences.count]) AS counts
+   FROM ((preferences
+     JOIN public.sessions ON ((preferences.session_id = sessions.id)))
+     JOIN public.activities ON ((sessions.activity_id = activities.id)))
+  GROUP BY activities.name, sessions.id;
+
+
+--
 -- Name: activities id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1146,6 +1207,13 @@ ALTER TABLE ONLY public."cast" ALTER COLUMN id SET DEFAULT nextval('public.cast_
 --
 
 ALTER TABLE ONLY public.cities ALTER COLUMN id SET DEFAULT nextval('public.cities_id_seq'::regclass);
+
+
+--
+-- Name: donations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.donations ALTER COLUMN id SET DEFAULT nextval('public.donations_id_seq'::regclass);
 
 
 --
@@ -1342,6 +1410,14 @@ ALTER TABLE ONLY public."cast"
 
 ALTER TABLE ONLY public.cities
     ADD CONSTRAINT cities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: donations donations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.donations
+    ADD CONSTRAINT donations_pkey PRIMARY KEY (id);
 
 
 --
@@ -2125,6 +2201,7 @@ ALTER TABLE ONLY public.sessions
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240816225633'),
 ('20240804062833'),
 ('20240804062832'),
 ('20240804062831'),
@@ -2218,6 +2295,7 @@ session_slots	SessionSlot	ff3c3045df6f7160a21a2db1c77dc7a7943f1a85	{"materialize
 slot_activities	SlotActivity	717b988a5900ecc4d9842325e50563404a15d71b	{"dependencies":[]}	\N
 slot_sessions	SlotSession	6ab18ab7d8faec08af36bec11b736b3e84e21cca	{"dependencies":[]}	\N
 slots	Slot	1c4ea33d8111de6a131f801f66ede63abb6667e7	{"dependencies":["SessionSlot"]}	\N
+workshop_preferences	WorkshopPreference	48a849004965844f43917f92313d87f9e450c65b	{"dependencies":[]}	\N
 \.
 
 
