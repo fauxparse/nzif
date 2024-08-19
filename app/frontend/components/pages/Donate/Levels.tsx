@@ -40,9 +40,8 @@ const Levels: React.FC<PageProps> = ({ formRef }) => {
           We do our best to keep costs down, because we believe that NZIF should be for everyone.
         </p>
         <p>
-          However, the increasingly competitive arts funding landscape has meant that for the past
-          three years we have received no funding from Creative New Zealand, and we’re finding it
-          hard to make ends meet.
+          However, the arts funding landscape means we're finding it harder to make ends meet while
+          still delivering on quality.
         </p>
         <p>
           If you feel able to give a little extra to help keep the Festival running, we’d really
