@@ -1,5 +1,5 @@
 import Logo from '@/components/atoms/Logo';
-import { Container, Heading } from '@radix-ui/themes';
+import { Heading } from '@radix-ui/themes';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -15,13 +15,11 @@ const stripe = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 export const Form: React.FC = () => {
   return (
     <DonationProvider>
-      <Container className={styles.container} size={{ initial: '1', sm: '2', md: '3' }}>
-        <header>
-          <Logo className={styles.logo} />
-          <Heading size={{ initial: '6', sm: '8' }}>Donate to NZIF</Heading>
-        </header>
-        <Pages />
-      </Container>
+      <header>
+        <Logo className={styles.logo} />
+        <Heading size={{ initial: '6', sm: '8' }}>Donate to NZIF</Heading>
+      </header>
+      <Pages />
     </DonationProvider>
   );
 };

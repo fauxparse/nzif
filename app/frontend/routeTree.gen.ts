@@ -26,6 +26,7 @@ import { Route as RegisterWorkshopsImport } from './routes/register/workshops'
 import { Route as RegisterPaymentImport } from './routes/register/payment'
 import { Route as RegisterCompletedImport } from './routes/register/completed'
 import { Route as RegisterCodeOfConductImport } from './routes/register/code-of-conduct'
+import { Route as DonateThanksImport } from './routes/donate/thanks'
 import { Route as AdminTimetableImport } from './routes/admin/timetable'
 import { Route as PublicAuthenticatedImport } from './routes/_public/_authenticated'
 import { Route as AuthSignupImport } from './routes/_auth/signup'
@@ -132,6 +133,11 @@ const RegisterCompletedRoute = RegisterCompletedImport.update({
 const RegisterCodeOfConductRoute = RegisterCodeOfConductImport.update({
   path: '/code-of-conduct',
   getParentRoute: () => RegisterRouteRoute,
+} as any)
+
+const DonateThanksRoute = DonateThanksImport.update({
+  path: '/thanks',
+  getParentRoute: () => DonateRouteRoute,
 } as any)
 
 const AdminTimetableRoute = AdminTimetableImport.update({
@@ -420,6 +426,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminTimetableImport
       parentRoute: typeof AdminImport
     }
+    '/donate/thanks': {
+      id: '/donate/thanks'
+      path: '/thanks'
+      fullPath: '/donate/thanks'
+      preLoaderRoute: typeof DonateThanksImport
+      parentRoute: typeof DonateRouteImport
+    }
     '/register/code-of-conduct': {
       id: '/register/code-of-conduct'
       path: '/code-of-conduct'
@@ -650,7 +663,10 @@ export const routeTree = rootRoute.addChildren({
     PublicIndexRoute,
     PublicAboutSlugRoute,
   }),
-  DonateRouteRoute: DonateRouteRoute.addChildren({ DonateIndexRoute }),
+  DonateRouteRoute: DonateRouteRoute.addChildren({
+    DonateThanksRoute,
+    DonateIndexRoute,
+  }),
   RegisterRouteRoute: RegisterRouteRoute.addChildren({
     RegisterCodeOfConductRoute: RegisterCodeOfConductRoute.addChildren({
       RegisterCodeOfConductMediaRoute,
@@ -722,6 +738,7 @@ export const routeTree = rootRoute.addChildren({
     "/donate": {
       "filePath": "donate/route.tsx",
       "children": [
+        "/donate/thanks",
         "/donate/"
       ]
     },
@@ -816,6 +833,10 @@ export const routeTree = rootRoute.addChildren({
     "/admin/timetable": {
       "filePath": "admin/timetable.tsx",
       "parent": "/admin"
+    },
+    "/donate/thanks": {
+      "filePath": "donate/thanks.tsx",
+      "parent": "/donate"
     },
     "/register/code-of-conduct": {
       "filePath": "register/code-of-conduct.tsx",

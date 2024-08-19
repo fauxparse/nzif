@@ -29,7 +29,7 @@ const Payment: React.FC<PageProps> = ({ formRef }) => {
         elements,
         clientSecret,
         confirmParams: {
-          return_url: window.location.href,
+          return_url: `${location.origin}/${location.pathname}/thanks`,
         },
       });
 
