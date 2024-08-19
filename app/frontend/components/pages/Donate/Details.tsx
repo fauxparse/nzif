@@ -143,7 +143,7 @@ const Details: React.FC<PageProps> = ({ formRef }) => {
                 onCheckedChange={(checked) => field.handleChange(!!checked)}
               />
               <Text as="div" size={size}>
-                Sign me up for the NZIF Backstage newsletter
+                Sign me up for the NZIF email newsletter
               </Text>
             </label>
           )}

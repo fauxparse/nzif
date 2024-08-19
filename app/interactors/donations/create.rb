@@ -6,6 +6,8 @@ module Donations
       skip_authorization!
 
       donation.save!
+
+      Newsletter::Subscribe.call(name: donation.name, email: donation.email) if donation.newsletter?
       payment_intent
     end
 
@@ -24,7 +26,7 @@ module Donations
       context[:payment_intent] ||= Stripe::PaymentIntent.create(
         amount: donation.amount.cents,
         currency: 'nzd',
-        customer: customer.id,
+        customer: customer['id'],
         automatic_payment_methods: {
           enabled: true,
         },

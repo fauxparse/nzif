@@ -18,6 +18,9 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    MailchimpMarketing (3.0.80)
+      excon (>= 0.76.0, < 1)
+      json (~> 2.1, >= 2.1.0)
     action_mailer_cache_delivery (0.4.0)
       actionmailer (>= 3.0)
     action_policy (0.6.5)
@@ -264,6 +267,7 @@ GEM
       ffi (>= 1.15.0)
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
+    excon (0.111.0)
     factory_bot (6.4.6)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.4.3)
@@ -665,6 +669,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  MailchimpMarketing (~> 3.0)
   action_mailer_cache_delivery (~> 0.4.0)
   action_policy (~> 0.6.5)
   action_policy-graphql (~> 0.5.3)

@@ -162,3 +162,5 @@ group :development, :test, :staging do
   gem 'graphiql-rails'
   gem 'mailsafe'
 end
+
+gem "MailchimpMarketing", "~> 3.0"
