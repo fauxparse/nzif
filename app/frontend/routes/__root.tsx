@@ -8,7 +8,9 @@ import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { Suspense } from 'react';
 
 const Root = () => {
-  const { festival } = Route.useRouteContext();
+  const { festival = null } = Route.useRouteContext() || {};
+
+  if (!festival) return null;
 
   return (
     <PlacenamesProvider>
