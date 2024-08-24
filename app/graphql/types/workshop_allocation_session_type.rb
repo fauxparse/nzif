@@ -3,6 +3,7 @@ module Types
     field :capacity, Integer, null: false
     field :id, ID, null: false, hash_key: :id # rubocop:disable GraphQL/UnnecessaryFieldAlias
     field :registrations, [RegistrationType], null: false
+    field :slots, [SlotType], null: false
     field :waitlist, [RegistrationType], null: false
     field :workshop, WorkshopType, null: false
 
@@ -10,6 +11,12 @@ module Types
       dataloader
         .with(Sources::Simple, context:, model: ::Session)
         .load(object[:id])
+    end
+
+    def slots
+      dataloader
+        .with(Sources::SessionSlots, context:)
+        .load(Session.decode_id(object[:id]))
     end
 
     def workshop

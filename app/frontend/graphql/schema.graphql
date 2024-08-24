@@ -1262,6 +1262,7 @@ type WorkshopAllocationSession {
   capacity: Int!
   id: ID!
   registrations: [Registration!]!
+  slots: [Slot!]!
   waitlist: [Registration!]!
   workshop: Workshop!
 }

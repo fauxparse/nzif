@@ -34,11 +34,13 @@ import { Route as AuthResetpasswordImport } from './routes/_auth/reset_password'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AuthForgotImport } from './routes/_auth/forgot'
 import { Route as AdminRegistrationsRouteImport } from './routes/admin/registrations/route'
+import { Route as AdminAllocationsRouteImport } from './routes/admin/allocations/route'
 import { Route as AdminActivityTypeRouteImport } from './routes/admin/$activityType/route'
 import { Route as PublicVenuesRouteImport } from './routes/_public/venues/route'
 import { Route as PublicPeopleRouteImport } from './routes/_public/people/route'
 import { Route as PublicActivityTypeRouteImport } from './routes/_public/$activityType/route'
 import { Route as AdminRegistrationsIndexImport } from './routes/admin/registrations/index'
+import { Route as AdminAllocationsIndexImport } from './routes/admin/allocations/index'
 import { Route as AdminActivityTypeIndexImport } from './routes/admin/$activityType/index'
 import { Route as PublicVenuesIndexImport } from './routes/_public/venues/index'
 import { Route as PublicPeopleIndexImport } from './routes/_public/people/index'
@@ -46,6 +48,7 @@ import { Route as RegisterWorkshopsSlugImport } from './routes/register/workshop
 import { Route as RegisterCodeOfConductMediaImport } from './routes/register/code-of-conduct.media'
 import { Route as AdminRegistrationsPreferencesImport } from './routes/admin/registrations/preferences'
 import { Route as AdminRegistrationsRegistrationIdImport } from './routes/admin/registrations/$registrationId'
+import { Route as AdminAllocationsDateImport } from './routes/admin/allocations/$date'
 import { Route as PublicVenuesIdImport } from './routes/_public/venues/$id'
 import { Route as PublicPeopleIdImport } from './routes/_public/people/$id'
 import { Route as PublicAboutSlugImport } from './routes/_public/about.$slug'
@@ -175,6 +178,11 @@ const AdminRegistrationsRouteRoute = AdminRegistrationsRouteImport.update({
   getParentRoute: () => AdminRoute,
 } as any)
 
+const AdminAllocationsRouteRoute = AdminAllocationsRouteImport.update({
+  path: '/allocations',
+  getParentRoute: () => AdminRoute,
+} as any)
+
 const AdminActivityTypeRouteRoute = AdminActivityTypeRouteImport.update({
   path: '/$activityType',
   getParentRoute: () => AdminRoute,
@@ -198,6 +206,11 @@ const PublicActivityTypeRouteRoute = PublicActivityTypeRouteImport.update({
 const AdminRegistrationsIndexRoute = AdminRegistrationsIndexImport.update({
   path: '/',
   getParentRoute: () => AdminRegistrationsRouteRoute,
+} as any)
+
+const AdminAllocationsIndexRoute = AdminAllocationsIndexImport.update({
+  path: '/',
+  getParentRoute: () => AdminAllocationsRouteRoute,
 } as any)
 
 const AdminActivityTypeIndexRoute = AdminActivityTypeIndexImport.update({
@@ -238,6 +251,11 @@ const AdminRegistrationsRegistrationIdRoute =
     path: '/$registrationId',
     getParentRoute: () => AdminRegistrationsRouteRoute,
   } as any)
+
+const AdminAllocationsDateRoute = AdminAllocationsDateImport.update({
+  path: '/$date',
+  getParentRoute: () => AdminAllocationsRouteRoute,
+} as any)
 
 const PublicVenuesIdRoute = PublicVenuesIdImport.update({
   path: '/$id',
@@ -375,6 +393,13 @@ declare module '@tanstack/react-router' {
       path: '/$activityType'
       fullPath: '/admin/$activityType'
       preLoaderRoute: typeof AdminActivityTypeRouteImport
+      parentRoute: typeof AdminImport
+    }
+    '/admin/allocations': {
+      id: '/admin/allocations'
+      path: '/allocations'
+      fullPath: '/admin/allocations'
+      preLoaderRoute: typeof AdminAllocationsRouteImport
       parentRoute: typeof AdminImport
     }
     '/admin/registrations': {
@@ -552,6 +577,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicVenuesIdImport
       parentRoute: typeof PublicVenuesRouteImport
     }
+    '/admin/allocations/$date': {
+      id: '/admin/allocations/$date'
+      path: '/$date'
+      fullPath: '/admin/allocations/$date'
+      preLoaderRoute: typeof AdminAllocationsDateImport
+      parentRoute: typeof AdminAllocationsRouteImport
+    }
     '/admin/registrations/$registrationId': {
       id: '/admin/registrations/$registrationId'
       path: '/$registrationId'
@@ -600,6 +632,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/$activityType/'
       preLoaderRoute: typeof AdminActivityTypeIndexImport
       parentRoute: typeof AdminActivityTypeRouteImport
+    }
+    '/admin/allocations/': {
+      id: '/admin/allocations/'
+      path: '/'
+      fullPath: '/admin/allocations/'
+      preLoaderRoute: typeof AdminAllocationsIndexImport
+      parentRoute: typeof AdminAllocationsRouteImport
     }
     '/admin/registrations/': {
       id: '/admin/registrations/'
@@ -688,6 +727,10 @@ export const routeTree = rootRoute.addChildren({
         }),
       AdminActivityTypeIndexRoute,
     }),
+    AdminAllocationsRouteRoute: AdminAllocationsRouteRoute.addChildren({
+      AdminAllocationsDateRoute,
+      AdminAllocationsIndexRoute,
+    }),
     AdminRegistrationsRouteRoute: AdminRegistrationsRouteRoute.addChildren({
       AdminRegistrationsRegistrationIdRoute,
       AdminRegistrationsPreferencesRoute,
@@ -757,6 +800,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "admin.tsx",
       "children": [
         "/admin/$activityType",
+        "/admin/allocations",
         "/admin/registrations",
         "/admin/timetable",
         "/admin/"
@@ -795,6 +839,14 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/admin/$activityType/$slug",
         "/admin/$activityType/"
+      ]
+    },
+    "/admin/allocations": {
+      "filePath": "admin/allocations/route.tsx",
+      "parent": "/admin",
+      "children": [
+        "/admin/allocations/$date",
+        "/admin/allocations/"
       ]
     },
     "/admin/registrations": {
@@ -919,6 +971,10 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_public/venues/$id.tsx",
       "parent": "/_public/venues"
     },
+    "/admin/allocations/$date": {
+      "filePath": "admin/allocations/$date.tsx",
+      "parent": "/admin/allocations"
+    },
     "/admin/registrations/$registrationId": {
       "filePath": "admin/registrations/$registrationId.tsx",
       "parent": "/admin/registrations"
@@ -946,6 +1002,10 @@ export const routeTree = rootRoute.addChildren({
     "/admin/$activityType/": {
       "filePath": "admin/$activityType/index.tsx",
       "parent": "/admin/$activityType"
+    },
+    "/admin/allocations/": {
+      "filePath": "admin/allocations/index.tsx",
+      "parent": "/admin/allocations"
     },
     "/admin/registrations/": {
       "filePath": "admin/registrations/index.tsx",

@@ -1494,6 +1494,7 @@ export type WorkshopAllocationSession = {
   capacity: Scalars['Int'];
   id: Scalars['ID'];
   registrations: Array<Registration>;
+  slots: Array<Slot>;
   waitlist: Array<Registration>;
   workshop: Workshop;
 };

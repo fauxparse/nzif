@@ -8,7 +8,7 @@ import authentication from './authentication';
 import createCache from './cache';
 
 import { initGraphQLTada } from 'gql.tada';
-import type { introspection } from './graphql-env.d.ts';
+import type { introspection } from './graphql-env';
 import {
   ActivityType,
   FestivalState,
