@@ -12,7 +12,7 @@ class SessionSlot < ActiveRecord::Base
   end
 
   def period
-    starts_at.hour < 12 ? :morning : :afternoon
+    starts_at.hour < 12 ? :am : :pm
   end
 
   def date_with_period

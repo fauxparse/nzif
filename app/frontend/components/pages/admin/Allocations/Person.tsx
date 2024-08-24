@@ -90,12 +90,12 @@ export const Person: React.FC<PersonProps> = ({ registration, session, slots }) 
           <Separator size="4" my="4" />
         </Inset>
 
-        <Flex gap="1">
+        <Flex>
           {placements(registration.id).map((placement, i) => (
-            <ChoiceBadge key={i} choice={placement} />
+            <ChoiceBadge key={i} choice={placement} size="dot" />
           ))}
           {range(count(registration.id) - placements(registration.id).length).map((i) => (
-            <ChoiceBadge key={i} choice={null} />
+            <ChoiceBadge key={i} choice={null} size="dot" />
           ))}
         </Flex>
       </HoverCard.Content>

@@ -48,6 +48,7 @@ import { Route as RegisterWorkshopsSlugImport } from './routes/register/workshop
 import { Route as RegisterCodeOfConductMediaImport } from './routes/register/code-of-conduct.media'
 import { Route as AdminRegistrationsPreferencesImport } from './routes/admin/registrations/preferences'
 import { Route as AdminRegistrationsRegistrationIdImport } from './routes/admin/registrations/$registrationId'
+import { Route as AdminAllocationsAllImport } from './routes/admin/allocations/all'
 import { Route as AdminAllocationsDateImport } from './routes/admin/allocations/$date'
 import { Route as PublicVenuesIdImport } from './routes/_public/venues/$id'
 import { Route as PublicPeopleIdImport } from './routes/_public/people/$id'
@@ -251,6 +252,11 @@ const AdminRegistrationsRegistrationIdRoute =
     path: '/$registrationId',
     getParentRoute: () => AdminRegistrationsRouteRoute,
   } as any)
+
+const AdminAllocationsAllRoute = AdminAllocationsAllImport.update({
+  path: '/all',
+  getParentRoute: () => AdminAllocationsRouteRoute,
+} as any)
 
 const AdminAllocationsDateRoute = AdminAllocationsDateImport.update({
   path: '/$date',
@@ -584,6 +590,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAllocationsDateImport
       parentRoute: typeof AdminAllocationsRouteImport
     }
+    '/admin/allocations/all': {
+      id: '/admin/allocations/all'
+      path: '/all'
+      fullPath: '/admin/allocations/all'
+      preLoaderRoute: typeof AdminAllocationsAllImport
+      parentRoute: typeof AdminAllocationsRouteImport
+    }
     '/admin/registrations/$registrationId': {
       id: '/admin/registrations/$registrationId'
       path: '/$registrationId'
@@ -729,6 +742,7 @@ export const routeTree = rootRoute.addChildren({
     }),
     AdminAllocationsRouteRoute: AdminAllocationsRouteRoute.addChildren({
       AdminAllocationsDateRoute,
+      AdminAllocationsAllRoute,
       AdminAllocationsIndexRoute,
     }),
     AdminRegistrationsRouteRoute: AdminRegistrationsRouteRoute.addChildren({
@@ -846,6 +860,7 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/admin",
       "children": [
         "/admin/allocations/$date",
+        "/admin/allocations/all",
         "/admin/allocations/"
       ]
     },
@@ -973,6 +988,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/admin/allocations/$date": {
       "filePath": "admin/allocations/$date.tsx",
+      "parent": "/admin/allocations"
+    },
+    "/admin/allocations/all": {
+      "filePath": "admin/allocations/all.tsx",
       "parent": "/admin/allocations"
     },
     "/admin/registrations/$registrationId": {

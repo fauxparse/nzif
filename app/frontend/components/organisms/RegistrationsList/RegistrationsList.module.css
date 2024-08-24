@@ -14,6 +14,7 @@
 
       position: sticky;
       top: 0;
+      vertical-align: middle;
       background: var(--color-background);
 
       button {
@@ -37,7 +38,7 @@
       }
     }
 
-    tr:hover {
+    tr[data-hover]:hover {
       background: var(--gray-a4);
       cursor: pointer;
     }

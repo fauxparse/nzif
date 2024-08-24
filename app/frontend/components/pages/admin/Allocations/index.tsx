@@ -1,6 +1,8 @@
 import Header from '@/components/organisms/Header';
 import { Flex, SegmentedControl, TabNav } from '@radix-ui/themes';
-import { Link, Outlet, useParams } from '@tanstack/react-router';
+import { Link, Outlet, useChildMatches } from '@tanstack/react-router';
+import { get } from 'lodash-es';
+import { DateTime } from 'luxon';
 import { AllocationsProvider, useAllocations } from './AllocationsProvider';
 
 export const Allocations: React.FC = () => {
@@ -15,18 +17,25 @@ export const Allocations: React.FC = () => {
 const DateTabs = () => {
   const { days } = useAllocations();
 
-  const { date } = useParams({ from: '/admin/allocations/$date' });
+  const childMatches = useChildMatches();
+  const dateMatch = childMatches.find((m) => m.routeId === '/admin/allocations/$date');
+  const allMatch = childMatches.find((m) => m.routeId === '/admin/allocations/all');
+
+  const date = dateMatch ? (get(dateMatch.params, 'date') as unknown as DateTime) : null;
 
   return (
     <Flex justify="between">
       <TabNav.Root>
         {days.map(([d]) => (
-          <TabNav.Link asChild key={d.toISODate()} active={d.equals(date)}>
+          <TabNav.Link asChild key={d.toISODate()} active={!!date && d.equals(date)}>
             <Link to="/admin/allocations/$date" params={{ date: d }}>
               {d.plus({}).toFormat('EEEE d')}
             </Link>
           </TabNav.Link>
         ))}
+        <TabNav.Link asChild active={!!allMatch}>
+          <Link to="/admin/allocations/all">Everybody</Link>
+        </TabNav.Link>
       </TabNav.Root>
       <SortConfig />
     </Flex>

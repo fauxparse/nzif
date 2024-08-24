@@ -168,7 +168,7 @@ export const RegistrationsList = () => {
       </Header>
       <Table.Root className={classes.table} size="2">
         <Table.Header>
-          <Table.Row>
+          <Table.Row data-hover>
             {headers.map((header) => (
               <Table.ColumnHeaderCell key={header.id}>
                 <Inset side="x" asChild>
