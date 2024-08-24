@@ -17,3 +17,12 @@
     text-transform: uppercase;
   }
 }
+
+.person {
+  border-radius: var(--radius-2);
+  cursor: grab;
+
+  &:hover {
+    background-color: var(--gray-a2);
+  }
+}

@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 import { FragmentOf } from 'gql.tada';
-import { deburr, first, identity, sortBy, toPairs } from 'lodash-es';
+import { deburr, first, sortBy, toPairs } from 'lodash-es';
 import { DateTime } from 'luxon';
 import {
   Dispatch,
@@ -24,6 +24,9 @@ type AllocationsContext = {
   sortRegistrations: (registrations: Registration[]) => Registration[];
   registration: (id: string) => Registration;
   choice: (registrationId: string, sessionId: string) => number;
+  score: (registrationId: string) => number;
+  placements: (registrationId: string) => (number | null)[];
+  count: (registrationId: string) => number;
 };
 
 const notImplemented = () => {
@@ -36,7 +39,10 @@ const AllocationsContext = createContext<AllocationsContext>({
   setSort: notImplemented,
   registration: notImplemented,
   choice: notImplemented,
-  sortRegistrations: identity,
+  sortRegistrations: notImplemented,
+  score: notImplemented,
+  placements: notImplemented,
+  count: notImplemented,
 });
 
 export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -63,6 +69,63 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
       ),
     [data]
   );
+
+  const placementsByRegistrationId = useMemo(() => {
+    const placements = new Map<string, Record<string, number>>();
+    for (const slot of data?.festival?.workshopAllocation?.slots ?? []) {
+      for (const session of slot.sessions) {
+        for (const registration of session.registrations) {
+          const r = registrationsById.get(registration.id);
+          if (r) {
+            const p = placements.get(registration.id) || {};
+            const position = r.preferences.find((p) => p.sessionId === session.id)?.position;
+            if (position) {
+              for (const slot of session.slots) {
+                p[slot.id] = position;
+              }
+            }
+            placements.set(registration.id, p);
+          }
+        }
+      }
+    }
+    return placements;
+  }, [data, registrationsById]);
+
+  const slotsByRegistrationId = useMemo(() => {
+    const slots = new Map<string, Set<string>>();
+    for (const registration of data?.festival?.registrations ?? []) {
+      for (const preference of registration.preferences) {
+        const session = sessionsById.get(preference.sessionId);
+        if (session) {
+          for (const slot of session.slots) {
+            const set = slots.get(registration.id) || new Set();
+            set.add(slot.id);
+            slots.set(registration.id, set);
+          }
+        }
+      }
+    }
+    return slots;
+  }, [data, sessionsById]);
+
+  const count = useCallback(
+    (registrationId: string) => slotsByRegistrationId.get(registrationId)?.size ?? 0,
+    [slotsByRegistrationId]
+  );
+
+  const scores = useMemo(() => {
+    const scores = new Map<string, number>();
+    for (const registration of registrationsById.values()) {
+      const placements = placementsByRegistrationId.get(registration.id) || {};
+      const total = Object.values(placements).reduce((acc, v) => acc + 1.0 / v, 0);
+      const score = Math.min(100, Math.round((100 * total) / Math.max(count(registration.id), 1)));
+      scores.set(registration.id, score);
+    }
+    return scores;
+  }, [registrationsById, placementsByRegistrationId, count]);
+
+  const score = useCallback((registrationId: string) => scores.get(registrationId) ?? 0, [scores]);
 
   const days = useMemo(
     () =>
@@ -95,7 +158,7 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
     (registrationId: string, sessionId: string) => {
       const r = registration(registrationId);
       const session = sessionsById.get(sessionId);
-      const preference = r.preferences.find((p) => p.workshop.id === session?.workshop.id);
+      const preference = r.preferences.find((p) => p.sessionId === session?.id);
       if (!preference)
         throw new Error(
           `Preference not found for registration ${registrationId} and session ${sessionId}`
@@ -105,13 +168,40 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
     [registration, sessionsById]
   );
 
-  const sortRegistrations = useCallback((registrations: Registration[]) => {
-    return sortBy(registrations, (r) => deburr(r.user?.name ?? '').toLocaleLowerCase());
-  }, []);
+  const sortRegistrations = useCallback(
+    (registrations: Registration[]) => {
+      switch (sort) {
+        case 'score':
+          return sortBy(registrations, (r) => -score(r.id));
+        default:
+          return sortBy(registrations, (r) => deburr(r.user?.name ?? '').toLocaleLowerCase());
+      }
+    },
+    [score, sort]
+  );
+
+  const placements = useCallback(
+    (registrationId: string) => {
+      const p = placementsByRegistrationId.get(registrationId);
+      if (!p) throw new Error(`Placements not found for registration ${registrationId}`);
+      return Object.values(p);
+    },
+    [placementsByRegistrationId]
+  );
 
   return (
     <AllocationsContext.Provider
-      value={{ days, registration, choice, sort, setSort, sortRegistrations }}
+      value={{
+        days,
+        registration,
+        choice,
+        sort,
+        setSort,
+        sortRegistrations,
+        score,
+        placements,
+        count,
+      }}
     >
       {children}
     </AllocationsContext.Provider>

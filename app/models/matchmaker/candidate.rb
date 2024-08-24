@@ -6,23 +6,26 @@ module Matchmaker
       @registration = registration
       @preferences = preferences
       @slot = slot
-      @position = 1
+      @position = preferences.keys.min
     end
 
-    delegate :id, to: :registration
+    delegate :id, :allocation, :placed?, to: :registration
 
     def session_id
-      preferences[position - 1]
+      preferences[position]
     end
 
-    def next_non_clashing_session(sessions)
-      @position += 1 while session_id && registration.already_in?(sessions[session_id].activity_id)
+    def session
+      session_id && allocation.sessions[session_id]
+    end
 
-      session_id && sessions[session_id]
+    def next_session
+      @position += 1 while session && placed?(session, position)
+      session
     end
 
     def bump(session)
-      @position += 1 if session_id == session.id
+      @position = preferences.keys.find { |p| p > position } if session_id == session.id
       session_id && self
     end
 

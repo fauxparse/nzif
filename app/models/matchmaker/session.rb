@@ -2,9 +2,10 @@
 
 module Matchmaker
   class Session
-    attr_reader :id, :name, :starts_at, :activity_id, :capacity, :placements, :waitlist
+    attr_reader :id, :name, :starts_at, :activity_id, :capacity, :placements, :waitlist, :slots
 
     def initialize(
+      allocation:,
       id:,
       name:,
       starts_at:,
@@ -12,15 +13,17 @@ module Matchmaker
       capacity:,
       placements:,
       waitlist:,
-      registrations:
+      slots:
     )
+      @allocation = allocation
       @id = id
       @name = name
       @starts_at = starts_at
       @activity_id = activity_id
       @capacity = capacity
-      @placements = SortedList.new(self, placements.map { |p| registrations[p] })
-      @waitlist = SortedList.new(self, waitlist.map { |w| registrations[w] })
+      @placements = SortedList.new(self, placements.map { |p| allocation.registrations[p] })
+      @waitlist = SortedList.new(self, waitlist.map { |w| allocation.registrations[w] })
+      @slots = slots
 
       @placements.each { |p| p.placed_in(self) }
     end
@@ -42,9 +45,9 @@ module Matchmaker
       registration.placed_in(self) unless bumped == registration
 
       waitlist << bumped
-      next_candidate = bumped.bump_from(self)
+      next_candidates = bumped.bump_from(self)
 
-      yield next_candidate if next_candidate && block_given?
+      yield next_candidates if next_candidates&.any? && block_given?
     end
 
     def remove(registration)
@@ -62,6 +65,7 @@ module Matchmaker
         capacity:,
         placements: placements.map(&:id),
         waitlist: waitlist.map(&:id),
+        slots:,
       }
     end
   end

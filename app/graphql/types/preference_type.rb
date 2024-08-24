@@ -5,6 +5,7 @@ module Types
     field :session, SessionType, null: false
     field :session_id, ID, null: false
     field :workshop, WorkshopType, null: false
+    field :workshop_id, ID, null: false
 
     def session_id
       Session.encode_id(object.session_id)

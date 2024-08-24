@@ -18,7 +18,7 @@ module Registrations
     end
 
     def allocation
-      context[:allocation] = Allocation.includes(:festival).find(id)
+      context[:allocation] ||= Allocation.includes(:festival).find(id)
     end
 
     private

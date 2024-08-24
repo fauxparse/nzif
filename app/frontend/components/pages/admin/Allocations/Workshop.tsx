@@ -1,4 +1,3 @@
-import { ChoiceBadge } from '@/components/atoms/ChoiceBadge';
 import { SessionProgress } from '@/components/atoms/SessionProgress';
 import { Card, CardProps, Flex, Heading, Inset, Separator, Text } from '@radix-ui/themes';
 import { useAllocations } from './AllocationsProvider';
@@ -6,6 +5,7 @@ import { Session } from './types';
 
 import { useMemo } from 'react';
 import styles from './Allocations.module.css';
+import { Person } from './Person';
 
 type WorkshopProps = CardProps & {
   session: Session;
@@ -22,7 +22,7 @@ const gridRow = (session: Session) => {
 };
 
 export const Workshop: React.FC<WorkshopProps> = ({ session, ...props }) => {
-  const { registration, days, choice, sortRegistrations } = useAllocations();
+  const { registration, days, choice, sortRegistrations, score } = useAllocations();
 
   const registrations = useMemo(
     () => sortRegistrations(session.registrations.map(({ id }) => registration(id))),
@@ -52,26 +52,16 @@ export const Workshop: React.FC<WorkshopProps> = ({ session, ...props }) => {
         />
       </Inset>
       {registrations.map((r) => (
-        <Flex key={r.id} gap="2" p="1">
-          <ChoiceBadge choice={choice(r.id, session.id)} />
-          <Text truncate size="2">
-            {r.user?.name}
-          </Text>
-        </Flex>
+        <Person key={r.id} registration={r} session={session} slots={session.slots} />
       ))}
-      <Inset asChild side="x">
-        <Separator size="4" my="2" />
+      <Inset side="x">
+        <Separator size="4" my="4" />
       </Inset>
       <Heading as="h4" size="2" color="gray" weight="regular" mb="2">
         Waitlist
       </Heading>
       {waitlist.map((r) => (
-        <Flex key={r.id} align="center" gap="2" p="1">
-          <ChoiceBadge choice={choice(r.id, session.id)} />
-          <Text truncate size="2">
-            {r.user?.name}
-          </Text>
-        </Flex>
+        <Person key={r.id} registration={r} session={session} slots={session.slots} />
       ))}
     </Card>
   );

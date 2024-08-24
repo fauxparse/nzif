@@ -1,17 +1,18 @@
 module Matchmaker
   class Registration
-    attr_reader :id, :name, :preferences, :activities, :placements
+    attr_reader :allocation, :id, :name, :preferences, :activities, :placements
 
-    def initialize(id:, name:, preferences:)
+    def initialize(allocation:, id:, name:, preferences:)
+      @allocation = allocation
       @id = id
       @name = name
-      @preferences = preferences
+      @preferences = preferences.transform_values { |v| v.transform_keys(&:to_i) }
       @placements = {}
       @activities = Set.new
     end
 
     def score
-      @placements.values.map { |v| 1.0 / v }.sum / [preferences.size, 1].max
+      [@placements.values.map { |v| 1.0 / v }.sum / [preferences.size, 1].max, 1].min
     end
 
     delegate :zero?, to: :score
@@ -23,24 +24,33 @@ module Matchmaker
       end.index_by(&:slot)
     end
 
-    def candidate(session)
-      candidates[session.starts_at]
+    def placed?(session, position)
+      session.slots.any? { |slot| placements.key?(slot) && placements[slot] <= position }
+    end
+
+    # def candidate(session)
+    #   candidates[session.starts_at]
+    # end
+
+    def candidates_for(session)
+      session.slots.map { |slot| candidates[slot] }
     end
 
     def placed_in(session)
-      @placements[session.starts_at] = (preferences[session.starts_at].index(session.id) || 0) + 1
+      session.slots.each do |slot|
+        position = preferences[slot].invert[session.id]
+        @placements[slot] = position if position
+      end
       @activities << session.activity_id
     end
 
     def bump_from(session)
-      @placements.delete(session.starts_at)
+      session.slots.each do |slot|
+        @placements.delete(slot)
+      end
       @activities.delete(session.activity_id)
 
-      candidate(session).bump(session)
-    end
-
-    def already_in?(activity_id)
-      @activities.include?(activity_id)
+      candidates_for(session).map { |c| c.bump(session) }.compact
     end
 
     def <=>(other)

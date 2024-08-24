@@ -5,8 +5,12 @@ module Matchmaker
     def initialize(festival)
       @festival = Festival
         .includes(
-          registrations: [:user, { preferences: :session }, { placements: :session }],
-          sessions: [:slot, :activity, { placements: :session }, :waitlist],
+          registrations: [
+            :user,
+            { preferences: { session: :session_slots } },
+            { placements: :session },
+          ],
+          sessions: [:session_slots, :activity, { placements: :session }, :waitlist],
         )
         .find(festival.id)
     end
@@ -40,6 +44,7 @@ module Matchmaker
           capacity: s.capacity,
           placements: s.placements.map { |p| ::Registration.encode_id(p.registration_id) },
           waitlist: s.waitlist.map { |w| ::Registration.encode_id(w.registration_id) },
+          slots: s.session_slots.map(&:date_with_period),
         }
       end
     end
@@ -58,9 +63,15 @@ module Matchmaker
 
     def preferences_data(registration, placed)
       registration.preferences
-        .group_by { |p| p.session.starts_at.iso8601 }
+        .flat_map { |p| p.session.session_slots.map { |s| [s.date_with_period, p] } }
+        .group_by(&:first)
+        .transform_values { |ps| ps.map(&:last) }
         .except(*placed)
-        .transform_values { |ps| ps.sort_by(&:position).map { |p| p.session.to_param } }
+        .transform_values do |ps|
+        ps.sort_by(&:position).to_h do |p|
+          [p.position, p.session.to_param]
+        end
+      end
     end
   end
 end

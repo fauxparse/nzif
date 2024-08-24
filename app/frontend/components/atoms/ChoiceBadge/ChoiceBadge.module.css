@@ -1,0 +1,9 @@
+.choiceBadge {
+  min-width: calc(var(--space-1) + var(--line-height-1));
+
+  &:has([data-icon]) {
+    display: inline-flex;
+    justify-content: center;
+    padding-inline: 0;
+  }
+}

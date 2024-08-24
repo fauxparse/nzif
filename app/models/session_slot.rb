@@ -10,6 +10,14 @@ class SessionSlot < ActiveRecord::Base
       session.starts_at,
     )
   end
+
+  def period
+    starts_at.hour < 12 ? :morning : :afternoon
+  end
+
+  def date_with_period
+    "#{starts_at.to_date}:#{period}"
+  end
 end
 
 # rubocop:enable Rails/ApplicationRecord

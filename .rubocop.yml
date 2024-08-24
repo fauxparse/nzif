@@ -67,6 +67,9 @@ Metrics/MethodLength:
   Exclude:
     - 'db/migrate/*'
 
+Metrics/PerceivedComplexity:
+  Max: 10
+
 RSpec/ContextWording:
   Enabled: false
 

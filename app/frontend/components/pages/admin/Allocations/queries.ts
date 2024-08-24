@@ -63,6 +63,7 @@ export const WorkshopAllocationRegistrationFragment = graphql(`
       workshop {
         id
       }
+      sessionId
     }
   }
 `);

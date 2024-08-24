@@ -10,7 +10,7 @@ module Matchmaker
     end
 
     def pop
-      largest = to_a.select { |r| r.candidate(session) }.max
+      largest = to_a.max
       delete largest
       largest
     end
