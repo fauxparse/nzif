@@ -28,9 +28,13 @@ module Matchmaker
       session.slots.any? { |slot| placements.key?(slot) && placements[slot] <= position }
     end
 
-    # def candidate(session)
-    #   candidates[session.starts_at]
-    # end
+    def preference_for(session)
+      preferences[session.slots.first].invert[session.id]
+    end
+
+    def prefers?(session)
+      preference_for(session).present?
+    end
 
     def candidates_for(session)
       session.slots.map { |slot| candidates[slot] }

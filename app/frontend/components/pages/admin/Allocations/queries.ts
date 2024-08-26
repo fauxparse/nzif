@@ -4,6 +4,8 @@ export const WorkshopAllocationSessionDetailsFragment = graphql(`
   fragment WorkshopAllocationSessionDetails on WorkshopAllocationSession @_unmask {
     id
     capacity
+    startsAt
+    endsAt
     workshop {
       id
       name
@@ -22,30 +24,17 @@ export const WorkshopAllocationSessionDetailsFragment = graphql(`
   }
 `);
 
-export const WorkshopAllocationSlotDetailsFragment = graphql(
+export const WorkshopAllocationDetailsFragment = graphql(
   `
-  fragment WorkshopAllocationSlotDetails on WorkshopAllocationSlot @_unmask {
+  fragment WorkshopAllocationDetails on WorkshopAllocation @_unmask {
     id
-    startsAt
+    state
     sessions {
       ...WorkshopAllocationSessionDetails
     }
   }
 `,
   [WorkshopAllocationSessionDetailsFragment]
-);
-
-export const WorkshopAllocationDetailsFragment = graphql(
-  `
-  fragment WorkshopAllocationDetails on WorkshopAllocation @_unmask {
-    id
-    state
-    slots {
-      ...WorkshopAllocationSlotDetails
-    }
-  }
-`,
-  [WorkshopAllocationSlotDetailsFragment]
 );
 
 export const WorkshopAllocationRegistrationFragment = graphql(`
@@ -85,4 +74,27 @@ export const WorkshopAllocationQuery = graphql(
   }
 `,
   [WorkshopAllocationDetailsFragment, WorkshopAllocationRegistrationFragment]
+);
+
+export const MoveAllocatedParticipantMutation = graphql(
+  `
+  mutation MoveAllocatedParticipant(
+    $registrationId: ID!
+    $from: ID
+    $to: ID
+    $waitlist: Boolean
+  ) {
+    moveAllocatedParticipant(
+      registrationId: $registrationId
+      oldSessionId: $from
+      newSessionId: $to
+      waitlist: $waitlist
+    ) {
+      affectedSessions {
+        ...WorkshopAllocationSessionDetails
+      }
+    }
+  }
+`,
+  [WorkshopAllocationSessionDetailsFragment]
 );

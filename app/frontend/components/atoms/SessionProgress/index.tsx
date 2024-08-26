@@ -6,9 +6,9 @@ type SessionProgressProps = ProgressProps & {
 };
 
 export const SessionProgress: React.FC<SessionProgressProps> = ({ count, capacity, ...props }) => {
-  const p = Math.min(100, (100 * count) / capacity);
+  const p = (100 * count) / capacity;
 
   const color = p < 75 ? 'amber' : p <= 100 ? 'lime' : 'red';
 
-  return <Progress size="1" variant="soft" value={p} color={color} {...props} />;
+  return <Progress size="1" variant="soft" value={Math.min(100, p)} color={color} {...props} />;
 };

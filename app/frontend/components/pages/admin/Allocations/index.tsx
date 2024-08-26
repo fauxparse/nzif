@@ -1,5 +1,6 @@
 import Header from '@/components/organisms/Header';
-import { Flex, SegmentedControl, TabNav } from '@radix-ui/themes';
+import SettingsIcon from '@/icons/SettingsIcon';
+import { DropdownMenu, Flex, IconButton, TabNav } from '@radix-ui/themes';
 import { Link, Outlet, useChildMatches } from '@tanstack/react-router';
 import { get } from 'lodash-es';
 import { DateTime } from 'luxon';
@@ -8,7 +9,7 @@ import { AllocationsProvider, useAllocations } from './AllocationsProvider';
 export const Allocations: React.FC = () => {
   return (
     <AllocationsProvider>
-      <Header title="Workshop allocation" tabs={<DateTabs />} />
+      <Header title="Workshop allocation" actions={<SettingsMenu />} tabs={<DateTabs />} />
       <Outlet />
     </AllocationsProvider>
   );
@@ -37,21 +38,26 @@ const DateTabs = () => {
           <Link to="/admin/allocations/all">Everybody</Link>
         </TabNav.Link>
       </TabNav.Root>
-      <SortConfig />
     </Flex>
   );
 };
 
-const SortConfig = () => {
+const SettingsMenu = () => {
   const { sort, setSort } = useAllocations();
-
   return (
-    <SegmentedControl.Root
-      defaultValue="name"
-      onValueChange={(v) => setSort(v as 'name' | 'score')}
-    >
-      <SegmentedControl.Item value="name">By name</SegmentedControl.Item>
-      <SegmentedControl.Item value="score">By score</SegmentedControl.Item>
-    </SegmentedControl.Root>
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger>
+        <IconButton size="3" variant="ghost" radius="full" color="gray">
+          <SettingsIcon />
+        </IconButton>
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content>
+        <DropdownMenu.Label>Sort by</DropdownMenu.Label>
+        <DropdownMenu.RadioGroup value={sort} onValueChange={(v) => setSort(v as 'name' | 'score')}>
+          <DropdownMenu.RadioItem value="name">Name</DropdownMenu.RadioItem>
+          <DropdownMenu.RadioItem value="score">Score</DropdownMenu.RadioItem>
+        </DropdownMenu.RadioGroup>
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
   );
 };

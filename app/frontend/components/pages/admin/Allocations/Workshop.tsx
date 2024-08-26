@@ -5,6 +5,7 @@ import { Session } from './types';
 
 import { useMemo } from 'react';
 import styles from './Allocations.module.css';
+import { Dropzone } from './Dropzone';
 import { Person } from './Person';
 
 type WorkshopProps = CardProps & {
@@ -34,7 +35,13 @@ export const Workshop: React.FC<WorkshopProps> = ({ session, ...props }) => {
   );
 
   return (
-    <Card size="1" key={session.id} className={styles.session} {...props}>
+    <Card
+      size="1"
+      key={session.id}
+      className={styles.session}
+      data-slots={session.slots.length}
+      {...props}
+    >
       <Inset side="x">
         <Flex px="3" align="baseline">
           <Text truncate weight="medium" style={{ flex: 1 }}>
@@ -51,18 +58,22 @@ export const Workshop: React.FC<WorkshopProps> = ({ session, ...props }) => {
           my="2"
         />
       </Inset>
-      {registrations.map((r) => (
-        <Person key={r.id} registration={r} session={session} slots={session.slots} />
-      ))}
+      <Dropzone session={session} slots={session.slots}>
+        {registrations.map((r) => (
+          <Person key={r.id} registration={r} session={session} slots={session.slots} />
+        ))}
+      </Dropzone>
       <Inset side="x">
         <Separator size="4" my="4" />
       </Inset>
       <Heading as="h4" size="2" color="gray" weight="regular" mb="2">
         Waitlist
       </Heading>
-      {waitlist.map((r) => (
-        <Person key={r.id} registration={r} session={session} slots={session.slots} />
-      ))}
+      <Dropzone session={session} slots={session.slots} waitlist>
+        {waitlist.map((r) => (
+          <Person key={r.id} registration={r} session={session} slots={session.slots} waitlist />
+        ))}
+      </Dropzone>
     </Card>
   );
 };

@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useApolloClient, useMutation, useQuery } from '@apollo/client';
 import { FragmentOf } from 'gql.tada';
 import { deburr, first, sortBy, toPairs } from 'lodash-es';
 import { DateTime } from 'luxon';
@@ -12,14 +12,28 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { WorkshopAllocationQuery, WorkshopAllocationRegistrationFragment } from './queries';
-import { Registration, Session } from './types';
+import { DraggableData } from './dndkit';
+import {
+  MoveAllocatedParticipantMutation,
+  WorkshopAllocationQuery,
+  WorkshopAllocationRegistrationFragment,
+} from './queries';
+import { Registration, Session, Unassigned, isUnassigned } from './types';
 
 type Sort = 'name' | 'score';
+
+type MoveParams = {
+  registration: Registration;
+  from: Session | Unassigned;
+  to: Session | Unassigned;
+  waitlist?: boolean;
+};
 
 type AllocationsContext = {
   days: [DateTime, Session[]][];
   registrations: Registration[];
+  active: DraggableData | null;
+  setActive: Dispatch<SetStateAction<DraggableData | null>>;
   sort: Sort;
   setSort: Dispatch<SetStateAction<Sort>>;
   sortRegistrations: (registrations: Registration[]) => Registration[];
@@ -29,6 +43,7 @@ type AllocationsContext = {
   placements: (registrationId: string) => (number | null)[];
   placementMap: (registrationId: string) => Map<string, number | null>;
   count: (registrationId: string) => number;
+  move: (params: MoveParams) => void;
 };
 
 const notImplemented = () => {
@@ -38,6 +53,8 @@ const notImplemented = () => {
 const AllocationsContext = createContext<AllocationsContext>({
   days: [],
   registrations: [],
+  active: null,
+  setActive: notImplemented,
   sort: 'name',
   setSort: notImplemented,
   registration: notImplemented,
@@ -47,6 +64,7 @@ const AllocationsContext = createContext<AllocationsContext>({
   placements: notImplemented,
   placementMap: notImplemented,
   count: notImplemented,
+  move: notImplemented,
 });
 
 export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -54,14 +72,14 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
 
   const [sort, setSort] = useState<Sort>('name');
 
+  const [active, setActive] = useState<DraggableData | null>(null);
+
   const sessionsById = useMemo(
     () =>
-      (data?.festival?.workshopAllocation?.slots ?? []).reduce((acc, slot) => {
-        for (const session of slot.sessions) {
-          acc.set(session.id, session);
-        }
-        return acc;
-      }, new Map<string, Session>()),
+      (data?.festival?.workshopAllocation?.sessions ?? []).reduce(
+        (acc, session) => acc.set(session.id, session),
+        new Map<string, Session>()
+      ),
     [data]
   );
 
@@ -78,20 +96,18 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
 
   const placementsByRegistrationId = useMemo(() => {
     const placements = new Map<string, Record<string, number>>();
-    for (const slot of data?.festival?.workshopAllocation?.slots ?? []) {
-      for (const session of slot.sessions) {
-        for (const registration of session.registrations) {
-          const r = registrationsById.get(registration.id);
-          if (r) {
-            const p = placements.get(registration.id) || {};
-            const position = r.preferences.find((p) => p.sessionId === session.id)?.position;
-            if (position) {
-              for (const slot of session.slots) {
-                p[slot.id] = position;
-              }
+    for (const session of data?.festival?.workshopAllocation?.sessions ?? []) {
+      for (const registration of session.registrations) {
+        const r = registrationsById.get(registration.id);
+        if (r) {
+          const p = placements.get(registration.id) || {};
+          const position = r.preferences.find((p) => p.sessionId === session.id)?.position;
+          if (position) {
+            for (const slot of session.slots) {
+              p[slot.id] = position;
             }
-            placements.set(registration.id, p);
           }
+          placements.set(registration.id, p);
         }
       }
     }
@@ -137,10 +153,10 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
     () =>
       sortBy(
         toPairs(
-          (data?.festival?.workshopAllocation?.slots ?? []).reduce(
-            (acc, slot) => {
-              const date = slot.startsAt.toISODate() ?? '';
-              acc[date] = [...(acc[date] ?? []), ...slot.sessions];
+          (data?.festival?.workshopAllocation?.sessions ?? []).reduce(
+            (acc, session) => {
+              const date = session.startsAt.toISODate() ?? '';
+              acc[date] = [...(acc[date] ?? []), session];
               return acc;
             },
             {} as Record<string, Session[]>
@@ -206,6 +222,163 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
     [placementMap]
   );
 
+  const { cache } = useApolloClient();
+
+  const addToWaitlist = (registration: Registration, session: Session) => {
+    // cache.modify({
+    //   id: cache.identify(session),
+    //   fields: {
+    //     registrations: (existingRefs: readonly Reference[], { readField }) =>
+    //       existingRefs.filter((ref) => readField('id', ref) !== registration.id),
+    //     waitlist: (existingRefs: readonly Reference[]) => [
+    //       ...existingRefs,
+    //       { __ref: cache.identify(registration) } as Reference,
+    //     ],
+    //   },
+    // });
+  };
+
+  const removeFromSession = (
+    registration: Registration,
+    session: Session,
+    addToWaitlist = false
+  ) => {
+    // cache.modify({
+    //   id: cache.identify(session),
+    //   fields: {
+    //     registrations: (existingRefs: readonly Reference[], { readField }) =>
+    //       existingRefs.filter((ref) => readField('id', ref) !== registration.id),
+    //     waitlist: (existingRefs) =>
+    //       addToWaitlist ? [...existingRefs, { __ref: cache.identify(registration) }] : existingRefs,
+    //   },
+    // });
+    // Remove the registration from the session
+    // Add the registration to the waitlist for the session
+  };
+
+  const removeFromWaitlist = (registration: Registration, session: Session) => {
+    // cache.modify({
+    //   id: cache.identify(session),
+    //   fields: {
+    //     waitlist: (existingRefs: readonly Reference[], { readField }) =>
+    //       existingRefs.filter((ref) => readField('id', ref) !== registration.id),
+    //   },
+    // });
+  };
+
+  const addToSession = (registration: Registration, session: Session) => {
+    // Remove from conflicting sessions
+    // const slotIds = new Set(session.slots.map((s) => s.id));
+    // const positionFor = (sessionId: string) => {
+    //   const p = registration.preferences.find((p) => p.sessionId === sessionId)?.position;
+    //   if (!p) {
+    //     throw new Error('No preference for session');
+    //   }
+    //   return p;
+    // };
+    // const position = positionFor(session.id);
+    // for (const s of sessionsById.values()) {
+    //   if (s.slots.some(({ id }) => slotIds.has(id))) {
+    //     if (s.registrations.some((r) => r.id === registration.id)) {
+    //       removeFromSession(registration, s, positionFor(s.id) < position);
+    //     }
+    //     if (s.waitlist.some((r) => r.id === registration.id) && positionFor(s.id) > position) {
+    //       removeFromWaitlist(registration, s);
+    //     }
+    //   }
+    // }
+    // Add to the session
+    // cache.modify({
+    //   id: cache.identify(session),
+    //   fields: {
+    //     registrations: (existingRefs: readonly Reference[]) => [
+    //       ...existingRefs,
+    //       { __ref: cache.identify(registration) } as Reference,
+    //     ],
+    //     waitlist: (existingRefs: readonly Reference[], { readField }) =>
+    //       existingRefs.filter((ref) => readField('id', ref) !== registration.id),
+    //   },
+    // });
+    // Remove from lower-priority waitlists
+  };
+
+  const [mutate] = useMutation(MoveAllocatedParticipantMutation);
+
+  const move = ({ registration, from, to, waitlist }: MoveParams) => {
+    const name = registration.user?.name || 'Participant';
+    const fromActivity = (!isUnassigned(from) && from.workshop.name) || 'unassigned';
+    const toActivity = (!isUnassigned(to) && to.workshop.name) || 'unassigned';
+    const fromSlots = from.slots.map((s) => s.id);
+    const toSlots = to.slots.map((s) => s.id);
+    const sameSlot = fromSlots.some((s) => toSlots.includes(s));
+
+    const currentlyInSession =
+      !isUnassigned(to) && to.registrations.some((r) => r.id === registration.id);
+    const currentlyOnWaitlist =
+      !isUnassigned(to) && to.waitlist.some((r) => r.id === registration.id);
+    const fromWaitlist = !isUnassigned(from) && from.waitlist.some((r) => r.id === registration.id);
+
+    if (waitlist) {
+      if (!to) {
+        throw new Error('No session to move to');
+      }
+      if (from?.id !== to?.id) {
+        throw new Error(
+          `Can’t move ${name} from ${fromActivity} into a waitlist for a different session`
+        );
+      }
+      if (currentlyOnWaitlist) {
+        throw new Error(`${name} is already on the waitlist for ${toActivity}`);
+      }
+    } else {
+      if (currentlyInSession) {
+        throw new Error(`${name} is already in ${toActivity}`);
+      }
+    }
+
+    if (!sameSlot) {
+      throw new Error(`Can’t move ${name} between different slots`);
+    }
+
+    if (isUnassigned(to)) {
+      if (fromWaitlist) {
+        removeFromWaitlist(registration, from);
+        return;
+      }
+
+      if (isUnassigned(from)) {
+        throw new Error(`${name} is already unassigned`);
+      }
+
+      removeFromSession(registration, from, true);
+      mutate({ variables: { registrationId: registration.id, from: from.id } });
+    } else if (!registration.preferences.find((p) => p.sessionId === to.id)) {
+      throw new Error(`${name} doesn’t have ${toActivity} in their preferences`);
+    } else if (isUnassigned(from)) {
+      addToSession(registration, to);
+      mutate({ variables: { registrationId: registration.id, to: to.id } });
+    } else {
+      if (from === to && waitlist) {
+        removeFromSession(registration, from, true);
+        mutate({
+          variables: {
+            registrationId: registration.id,
+            from: from.id,
+            to: from.id,
+            waitlist: true,
+          },
+        });
+      } else {
+        if (waitlist) {
+          throw new Error(`Can’t add ${name} to a waitlist for a different session`);
+        }
+
+        addToSession(registration, to);
+        mutate({ variables: { registrationId: registration.id, from: from.id, to: to.id } });
+      }
+    }
+  };
+
   return (
     <AllocationsContext.Provider
       value={{
@@ -213,6 +386,8 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
         registrations,
         registration,
         choice,
+        active,
+        setActive,
         sort,
         setSort,
         sortRegistrations,
@@ -220,6 +395,7 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
         placements,
         placementMap,
         count,
+        move,
       }}
     >
       {children}

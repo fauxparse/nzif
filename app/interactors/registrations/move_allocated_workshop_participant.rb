@@ -6,12 +6,19 @@ module Registrations
     def call
       authorize! Registration, to: :update?
 
-      return if noop?
+      if to_waitlist?
+        move_to_waitlist
+      elsif new_session
+        add_to_new_session
+      elsif old_session
+        remove_from(old_session)
+      end
 
-      remove_from_old_session if old_session.present? && !waitlist
-      add_to_new_session if new_session.present?
-      update_waitlists unless waitlist
       allocation.save!
+    end
+
+    def affected_sessions
+      context[:affected_sessions] ||= Set.new
     end
 
     private
@@ -36,57 +43,78 @@ module Registrations
       @new_session ||= matchmaker.sessions[new_session_id]
     end
 
-    def old_position
-      @old_position ||= find_position(old_session_id)
+    def within_same_session?
+      old_session.present? && old_session == new_session
     end
 
-    def new_position
-      @new_position ||= find_position(new_session_id)
+    def from_waitlist?
+      !waitlist &&
+        within_same_session? &&
+        old_session.waitlist.include?(registration)
     end
 
-    def remove_from_old_session
-      old_session&.remove(registration)
-
-      return unless !new_position || old_position < new_position
-
-      old_session.waitlist << registration
+    def to_waitlist?
+      waitlist &&
+        within_same_session? &&
+        old_session.placements.include?(registration)
     end
 
-    def add_to_new_session
-      if waitlist
-        new_session.remove(registration)
-        new_session.waitlist << registration
+    def remove_from(session)
+      return if session.placements.exclude?(registration)
+
+      session.placements.delete(registration)
+      affected_sessions << session
+
+      if new_session.blank?
+        session.waitlist << registration
+
+        session.conflicting_sessions.each do |other|
+          if registration.prefers?(other) && other.waitlist.exclude?(registration)
+            other.waitlist << registration
+            affected_sessions << other
+          end
+        end
       else
-        new_session.waitlist.delete(registration)
-        new_session.placements << registration
-      end
-    end
+        new_position = registration.preference_for(new_session)
 
-    def find_position(session_id)
-      candidate.preferences.find_index(session_id)&.succ
-    end
-
-    def update_waitlists
-      position = find_position(new_session_id)
-      sessions = matchmaker.siblings(new_session || old_session).index_by(&:id)
-      prefs = candidate.preferences.zip(1..candidate.preferences.size).to_h
-      sessions.each_pair do |id, session|
-        next unless prefs[id]
-
-        if !position || prefs[id] < position
+        if registration.preference_for(session) <= new_position &&
+           session.waitlist.exclude?(registration)
           session.waitlist << registration
-        else
-          session.waitlist.delete(registration)
         end
       end
     end
 
-    def noop?
-      waitlist_different = (!old_position && waitlist) || (old_position && !waitlist)
-      return true if old_session_id == new_session_id && waitlist_different
-      return true if !old_session_id && !new_session_id
+    def add_to_new_session
+      return if new_session.blank?
 
-      false
+      new_position = registration.preference_for(new_session)
+
+      return if new_position.blank?
+
+      new_session.conflicting_sessions.each do |session|
+        unless session.placements.include?(registration) || session.waitlist.include?(registration)
+          next
+        end
+
+        session.placements.delete(registration)
+
+        if registration.preference_for(session) <= new_position
+          session.waitlist << registration unless session.waitlist.include?(registration)
+        else
+          session.waitlist.delete(registration)
+        end
+        affected_sessions << session
+      end
+
+      new_session.waitlist.delete(registration)
+      new_session.placements << registration
+      affected_sessions << new_session
+    end
+
+    def move_to_waitlist
+      new_session.placements.delete(registration)
+      new_session.waitlist << registration
+      affected_sessions << new_session
     end
   end
 end

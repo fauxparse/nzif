@@ -14,7 +14,7 @@ import tableStyles from '@/components/organisms/RegistrationsList/RegistrationsL
 import { Link } from '@tanstack/react-router';
 import { first, sortBy } from 'lodash-es';
 import { DateTime } from 'luxon';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 type TableRow = {
   id: string;
@@ -58,7 +58,7 @@ const columns = [
 ];
 
 export const Everybody = () => {
-  const { registrations, score, placementMap } = useAllocations();
+  const { registrations, score, placementMap, sort, setSort } = useAllocations();
 
   const rows = useMemo(
     () =>
@@ -84,12 +84,16 @@ export const Everybody = () => {
     initialState: {
       sorting: [
         {
-          id: 'score',
-          desc: true,
+          id: sort,
+          desc: sort === 'score',
         },
       ],
     },
   });
+
+  useEffect(() => {
+    table.setSorting([{ id: sort, desc: sort === 'score' }]);
+  }, [sort]);
 
   const headers = table.getLeafHeaders().filter((header) => header.column.getIsVisible());
 
@@ -105,8 +109,9 @@ export const Everybody = () => {
                     variant="ghost"
                     color="gray"
                     size="3"
-                    // onClick={header.column.getToggleSortingHandler()}
-                    onClick={() => header.column.toggleSorting()}
+                    onClick={() => {
+                      setSort(header.column.id as 'name' | 'score');
+                    }}
                   >
                     {flexRender(header.column.columnDef.header, header.getContext())}
 

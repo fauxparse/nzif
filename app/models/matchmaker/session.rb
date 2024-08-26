@@ -2,7 +2,8 @@
 
 module Matchmaker
   class Session
-    attr_reader :id, :name, :starts_at, :activity_id, :capacity, :placements, :waitlist, :slots
+    attr_reader :allocation, :id, :name, :starts_at, :activity_id, :capacity, :placements,
+      :waitlist, :slots
 
     def initialize(
       allocation:,
@@ -67,6 +68,20 @@ module Matchmaker
         waitlist: waitlist.map(&:id),
         slots:,
       }
+    end
+
+    def conflicting_sessions
+      allocation.sessions.values.select do |other|
+        conflicts_with?(other) && other != self
+      end
+    end
+
+    def conflicts_with?(other)
+      slots.any? { |slot| other.slots.include?(slot) }
+    end
+
+    def to_param
+      id
     end
   end
 end

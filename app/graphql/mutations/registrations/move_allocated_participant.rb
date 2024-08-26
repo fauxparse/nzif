@@ -1,12 +1,12 @@
 module Mutations
   module Registrations
     class MoveAllocatedParticipant < BaseMutation
-      argument :new_session_id, ID, required: false
-      argument :old_session_id, ID, required: false
+      argument :new_session_id, ID, required: false, default_value: nil
+      argument :old_session_id, ID, required: false, default_value: nil
       argument :registration_id, ID, required: true
-      argument :waitlist, Boolean, required: false
+      argument :waitlist, Boolean, required: false, default_value: false
 
-      field :allocation, Types::WorkshopAllocationType, null: false
+      field :affected_sessions, [Types::WorkshopAllocationSessionType], null: false
 
       def resolve(registration_id:, old_session_id:, new_session_id:, waitlist: false)
         perform(
