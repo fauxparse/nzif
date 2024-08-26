@@ -3,6 +3,13 @@
   padding-block: var(--space-4);
 }
 
+.header {
+  &[style] {
+    position: sticky;
+    top: calc(2.5rem - var(--header-height));
+  }
+}
+
 .schedule {
   display: grid;
   grid-template-rows: repeat(2, auto);
@@ -77,4 +84,8 @@
   [data-slots="2"] & {
     flex-grow: 1;
   }
+}
+
+.generate {
+  grid-column: main;
 }

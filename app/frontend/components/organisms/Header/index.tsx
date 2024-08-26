@@ -44,20 +44,21 @@ const Header = forwardRef<HTMLElement, HeaderProps>(
     const ownRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
-      if (!ownRef.current) return;
+      const header = ownRef.current;
+
+      if (!header) return;
 
       const resizeObserver = new ResizeObserver(
         debounce(
-          (entries) => {
-            const el = entries[0].target as HTMLElement;
-            el.style.setProperty('--header-height', `${entries[0].contentRect.height}px`);
+          () => {
+            header.style.setProperty('--header-height', `${header.offsetHeight}px`);
           },
           100,
           { trailing: true }
         )
       );
 
-      resizeObserver.observe(ownRef.current);
+      resizeObserver.observe(header);
 
       return () => {
         resizeObserver.disconnect();

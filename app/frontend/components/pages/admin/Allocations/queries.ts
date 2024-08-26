@@ -98,3 +98,26 @@ export const MoveAllocatedParticipantMutation = graphql(
 `,
   [WorkshopAllocationSessionDetailsFragment]
 );
+
+export const AllocateWorkshopsMutation = graphql(`
+  mutation AllocateWorkshops {
+    allocateWorkshops {
+      workshopAllocation {
+        id
+        state
+      }
+    }
+  }
+`);
+
+export const AllocationProgressSubscription = graphql(`
+  subscription AllocationProgress($id: ID!) {
+    jobProgress(jobName: "AllocateWorkshops", id: $id) {
+      id
+      state
+      progress
+      total
+      error
+    }
+  }
+`);

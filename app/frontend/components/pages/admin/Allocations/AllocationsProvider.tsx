@@ -9,9 +9,11 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
+import { Generate } from './Generate';
 import { DraggableData } from './dndkit';
 import {
   MoveAllocatedParticipantMutation,
@@ -30,6 +32,7 @@ type MoveParams = {
 };
 
 type AllocationsContext = {
+  loading: boolean;
   days: [DateTime, Session[]][];
   registrations: Registration[];
   active: DraggableData | null;
@@ -44,6 +47,9 @@ type AllocationsContext = {
   placementMap: (registrationId: string) => Map<string, number | null>;
   count: (registrationId: string) => number;
   move: (params: MoveParams) => void;
+  notYetAllocated: boolean;
+  regenerate: () => void;
+  overallScore: number;
 };
 
 const notImplemented = () => {
@@ -51,6 +57,7 @@ const notImplemented = () => {
 };
 
 const AllocationsContext = createContext<AllocationsContext>({
+  loading: true,
   days: [],
   registrations: [],
   active: null,
@@ -65,14 +72,27 @@ const AllocationsContext = createContext<AllocationsContext>({
   placementMap: notImplemented,
   count: notImplemented,
   move: notImplemented,
+  notYetAllocated: false,
+  regenerate: notImplemented,
+  overallScore: 0,
 });
 
 export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const [showGenerateModal, setShowGenerateModal] = useState(false);
+
   const { loading, data } = useQuery(WorkshopAllocationQuery);
 
   const [sort, setSort] = useState<Sort>('name');
 
   const [active, setActive] = useState<DraggableData | null>(null);
+
+  const notYetAllocated = !loading && !data?.festival?.workshopAllocation;
+
+  useEffect(() => {
+    if (notYetAllocated) {
+      setShowGenerateModal(true);
+    }
+  }, [notYetAllocated]);
 
   const sessionsById = useMemo(
     () =>
@@ -379,9 +399,19 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
     }
   };
 
+  const overallScore = useMemo(() => {
+    const total = Array.from(scores.values()).reduce(
+      (acc, v) => acc + ((v / 100.0) * v) / 100.0,
+      0
+    );
+    const count = Math.max(scores.size, 1);
+    return Math.round((1000 * total) / count) / 10.0;
+  }, [scores]);
+
   return (
     <AllocationsContext.Provider
       value={{
+        loading,
         days,
         registrations,
         registration,
@@ -396,9 +426,18 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
         placementMap,
         count,
         move,
+        notYetAllocated,
+        regenerate: () => setShowGenerateModal(true),
+        overallScore,
       }}
     >
       {children}
+      <Generate
+        open={showGenerateModal}
+        canClose={!notYetAllocated}
+        onOpenChange={setShowGenerateModal}
+        onComplete={() => void 0}
+      />
     </AllocationsContext.Provider>
   );
 };

@@ -1,28 +1,50 @@
 import Header from '@/components/organisms/Header';
 import SettingsIcon from '@/icons/SettingsIcon';
-import { DropdownMenu, Flex, IconButton, TabNav } from '@radix-ui/themes';
+import { Badge, DropdownMenu, Flex, Heading, IconButton, TabNav, Text } from '@radix-ui/themes';
 import { Link, Outlet, useChildMatches } from '@tanstack/react-router';
 import { get } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { AllocationsProvider, useAllocations } from './AllocationsProvider';
 
+import styles from './Allocations.module.css';
+
 export const Allocations: React.FC = () => {
   return (
     <AllocationsProvider>
-      <Header title="Workshop allocation" actions={<SettingsMenu />} tabs={<DateTabs />} />
+      <Header
+        className={styles.header}
+        title={<Title />}
+        actions={<SettingsMenu />}
+        tabs={<DateTabs />}
+      />
       <Outlet />
     </AllocationsProvider>
   );
 };
 
+const Title = () => {
+  const { overallScore } = useAllocations();
+
+  return (
+    <Flex justify="between" align="center" gap="4">
+      <Heading>Workshop allocations</Heading>
+      <Badge size="3" color="gray" variant="outline">
+        <Text size="6">{overallScore}% satisfaction</Text>
+      </Badge>
+    </Flex>
+  );
+};
+
 const DateTabs = () => {
-  const { days } = useAllocations();
+  const { loading, days, notYetAllocated } = useAllocations();
 
   const childMatches = useChildMatches();
   const dateMatch = childMatches.find((m) => m.routeId === '/admin/allocations/$date');
   const allMatch = childMatches.find((m) => m.routeId === '/admin/allocations/all');
 
   const date = dateMatch ? (get(dateMatch.params, 'date') as unknown as DateTime) : null;
+
+  if (loading || notYetAllocated) return null;
 
   return (
     <Flex justify="between">
@@ -43,7 +65,8 @@ const DateTabs = () => {
 };
 
 const SettingsMenu = () => {
-  const { sort, setSort } = useAllocations();
+  const { sort, setSort, regenerate } = useAllocations();
+
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
@@ -52,6 +75,8 @@ const SettingsMenu = () => {
         </IconButton>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
+        <DropdownMenu.Item onSelect={regenerate}>Re-run algorithm</DropdownMenu.Item>
+        <DropdownMenu.Separator />
         <DropdownMenu.Label>Sort by</DropdownMenu.Label>
         <DropdownMenu.RadioGroup value={sort} onValueChange={(v) => setSort(v as 'name' | 'score')}>
           <DropdownMenu.RadioItem value="name">Name</DropdownMenu.RadioItem>

@@ -29,6 +29,8 @@ module Types
     include ActionPolicy::GraphQL::Fields
 
     def id
+      return object[:id] if object.is_a?(Hash)
+
       object.to_param
     end
   end

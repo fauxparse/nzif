@@ -19,7 +19,7 @@ class AllocateWorkshopsJob < ApplicationJob
     NZIFSchema.subscriptions.trigger(
       :job_progress,
       { job_name: 'AllocateWorkshops', id: },
-      { state:, progress:, total: },
+      { id:, state:, progress:, total: },
     )
   end
 end
