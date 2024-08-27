@@ -3,6 +3,7 @@ import { Card, CardProps, Flex, Heading, Inset, Separator, Text } from '@radix-u
 import { useAllocations } from './AllocationsProvider';
 import { Session } from './types';
 
+import WarningIcon from '@/icons/WarningIcon';
 import { useMemo } from 'react';
 import styles from './Allocations.module.css';
 import { Dropzone } from './Dropzone';
@@ -43,13 +44,18 @@ export const Workshop: React.FC<WorkshopProps> = ({ session, ...props }) => {
       {...props}
     >
       <Inset side="x">
-        <Flex px="3" align="baseline">
+        <Flex px="3" align="center">
           <Text truncate weight="medium" style={{ flex: 1 }}>
             {session.workshop.name}
           </Text>
-          <Text size="2">
-            {session.registrations.length}/{session.capacity}
-          </Text>
+          <Flex align="center" gap="2">
+            {session.registrations.length > session.capacity && (
+              <WarningIcon size="1" color="red" />
+            )}
+            <Text size="2">
+              {session.registrations.length}/{session.capacity}
+            </Text>
+          </Flex>
         </Flex>
         <SessionProgress
           count={session.registrations.length}

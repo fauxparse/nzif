@@ -3,7 +3,7 @@ import { Card, Heading } from '@radix-ui/themes';
 import { FragmentOf } from 'gql.tada';
 import { uniqBy } from 'lodash-es';
 import { DateTime } from 'luxon';
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useAllocations } from './AllocationsProvider';
 import { Person, PersonInner } from './Person';
 import { Workshop } from './Workshop';

@@ -1,6 +1,8 @@
-import { useApolloClient, useMutation, useQuery } from '@apollo/client';
+import { VariablesOf } from '@/graphql';
+import { useUndoStack } from '@/hooks/useUndoStack';
+import { useMutation, useQuery } from '@apollo/client';
 import { FragmentOf } from 'gql.tada';
-import { deburr, first, sortBy, toPairs } from 'lodash-es';
+import { cloneDeep, deburr, first, sortBy, toPairs, uniqBy } from 'lodash-es';
 import { DateTime } from 'luxon';
 import {
   Dispatch,
@@ -11,6 +13,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { Generate } from './Generate';
@@ -20,7 +23,7 @@ import {
   WorkshopAllocationQuery,
   WorkshopAllocationRegistrationFragment,
 } from './queries';
-import { Registration, Session, Unassigned, isUnassigned } from './types';
+import { Move, Registration, Session, Unassigned, isUnassigned } from './types';
 
 type Sort = 'name' | 'score';
 
@@ -50,6 +53,11 @@ type AllocationsContext = {
   notYetAllocated: boolean;
   regenerate: () => void;
   overallScore: number;
+  canUndo: boolean;
+  canRedo: boolean;
+  undo: () => void;
+  redo: () => void;
+  hasOverloadedSessions: (date: DateTime) => boolean;
 };
 
 const notImplemented = () => {
@@ -75,6 +83,11 @@ const AllocationsContext = createContext<AllocationsContext>({
   notYetAllocated: false,
   regenerate: notImplemented,
   overallScore: 0,
+  canUndo: false,
+  canRedo: false,
+  undo: notImplemented,
+  redo: notImplemented,
+  hasOverloadedSessions: notImplemented,
 });
 
 export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -242,87 +255,72 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
     [placementMap]
   );
 
-  const { cache } = useApolloClient();
-
-  const addToWaitlist = (registration: Registration, session: Session) => {
-    // cache.modify({
-    //   id: cache.identify(session),
-    //   fields: {
-    //     registrations: (existingRefs: readonly Reference[], { readField }) =>
-    //       existingRefs.filter((ref) => readField('id', ref) !== registration.id),
-    //     waitlist: (existingRefs: readonly Reference[]) => [
-    //       ...existingRefs,
-    //       { __ref: cache.identify(registration) } as Reference,
-    //     ],
-    //   },
-    // });
-  };
-
-  const removeFromSession = (
-    registration: Registration,
-    session: Session,
-    addToWaitlist = false
-  ) => {
-    // cache.modify({
-    //   id: cache.identify(session),
-    //   fields: {
-    //     registrations: (existingRefs: readonly Reference[], { readField }) =>
-    //       existingRefs.filter((ref) => readField('id', ref) !== registration.id),
-    //     waitlist: (existingRefs) =>
-    //       addToWaitlist ? [...existingRefs, { __ref: cache.identify(registration) }] : existingRefs,
-    //   },
-    // });
-    // Remove the registration from the session
-    // Add the registration to the waitlist for the session
-  };
-
-  const removeFromWaitlist = (registration: Registration, session: Session) => {
-    // cache.modify({
-    //   id: cache.identify(session),
-    //   fields: {
-    //     waitlist: (existingRefs: readonly Reference[], { readField }) =>
-    //       existingRefs.filter((ref) => readField('id', ref) !== registration.id),
-    //   },
-    // });
-  };
-
-  const addToSession = (registration: Registration, session: Session) => {
-    // Remove from conflicting sessions
-    // const slotIds = new Set(session.slots.map((s) => s.id));
-    // const positionFor = (sessionId: string) => {
-    //   const p = registration.preferences.find((p) => p.sessionId === sessionId)?.position;
-    //   if (!p) {
-    //     throw new Error('No preference for session');
-    //   }
-    //   return p;
-    // };
-    // const position = positionFor(session.id);
-    // for (const s of sessionsById.values()) {
-    //   if (s.slots.some(({ id }) => slotIds.has(id))) {
-    //     if (s.registrations.some((r) => r.id === registration.id)) {
-    //       removeFromSession(registration, s, positionFor(s.id) < position);
-    //     }
-    //     if (s.waitlist.some((r) => r.id === registration.id) && positionFor(s.id) > position) {
-    //       removeFromWaitlist(registration, s);
-    //     }
-    //   }
-    // }
-    // Add to the session
-    // cache.modify({
-    //   id: cache.identify(session),
-    //   fields: {
-    //     registrations: (existingRefs: readonly Reference[]) => [
-    //       ...existingRefs,
-    //       { __ref: cache.identify(registration) } as Reference,
-    //     ],
-    //     waitlist: (existingRefs: readonly Reference[], { readField }) =>
-    //       existingRefs.filter((ref) => readField('id', ref) !== registration.id),
-    //   },
-    // });
-    // Remove from lower-priority waitlists
-  };
-
   const [mutate] = useMutation(MoveAllocatedParticipantMutation);
+
+  const persistenceStack = useRef<VariablesOf<typeof MoveAllocatedParticipantMutation>[]>([]);
+  const inFlight = useRef(false);
+
+  const persistMove = (variables: VariablesOf<typeof MoveAllocatedParticipantMutation>) => {
+    if (inFlight.current) {
+      persistenceStack.current.push(variables);
+    } else {
+      inFlight.current = true;
+
+      const { from, to, registrationId, waitlist } = variables;
+
+      const fromSession = from && cloneDeep(sessionsById.get(from) || null);
+      const toSession = to && cloneDeep(sessionsById.get(to) || null);
+      if (fromSession) {
+        fromSession.registrations = fromSession.registrations.filter(
+          (r) => r.id !== registrationId
+        );
+        fromSession.waitlist = fromSession.waitlist.filter((r) => r.id !== registrationId);
+      }
+      if (toSession) {
+        toSession[waitlist ? 'waitlist' : 'registrations'].push(registration(registrationId));
+      }
+
+      mutate({
+        variables,
+        optimisticResponse: {
+          moveAllocatedParticipant: {
+            affectedSessions: uniqBy([fromSession, toSession].filter(Boolean) as Session[], 'id'),
+          },
+        },
+      }).finally(() => {
+        inFlight.current = false;
+        if (persistenceStack.current.length > 0) {
+          const nextMove = persistenceStack.current.shift();
+          if (nextMove) {
+            persistMove(nextMove);
+          }
+        }
+      });
+    }
+  };
+
+  const executeMove = ({ registration, from, to }: Move) => {
+    persistMove({
+      registrationId: registration.id,
+      from: isUnassigned(from.session) ? null : from.session.id,
+      to: isUnassigned(to.session) ? null : to.session.id,
+      waitlist: to.waitlist || false,
+    });
+  };
+
+  const undoMove = ({ registration, from, to }: Move) => {
+    persistMove({
+      registrationId: registration.id,
+      from: isUnassigned(to.session) ? null : to.session.id,
+      to: isUnassigned(from.session) ? null : from.session.id,
+      waitlist: from.waitlist || false,
+    });
+  };
+
+  const { execute, undo, redo, canUndo, canRedo } = useUndoStack<Move>({
+    onExecute: executeMove,
+    onUndo: undoMove,
+  });
 
   const move = ({ registration, from, to, waitlist }: MoveParams) => {
     const name = registration.user?.name || 'Participant';
@@ -362,39 +360,43 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
 
     if (isUnassigned(to)) {
       if (fromWaitlist) {
-        removeFromWaitlist(registration, from);
-        return;
+        throw new Error(`Can’t remove ${name} from a waitlist`);
       }
 
       if (isUnassigned(from)) {
         throw new Error(`${name} is already unassigned`);
       }
 
-      removeFromSession(registration, from, true);
-      mutate({ variables: { registrationId: registration.id, from: from.id } });
+      execute({
+        registration,
+        from: { session: from, waitlist: fromWaitlist },
+        to: { session: to, waitlist },
+      });
     } else if (!registration.preferences.find((p) => p.sessionId === to.id)) {
       throw new Error(`${name} doesn’t have ${toActivity} in their preferences`);
     } else if (isUnassigned(from)) {
-      addToSession(registration, to);
-      mutate({ variables: { registrationId: registration.id, to: to.id } });
+      execute({
+        registration,
+        from: { session: from, waitlist: fromWaitlist },
+        to: { session: to, waitlist },
+      });
     } else {
       if (from === to && waitlist) {
-        removeFromSession(registration, from, true);
-        mutate({
-          variables: {
-            registrationId: registration.id,
-            from: from.id,
-            to: from.id,
-            waitlist: true,
-          },
+        execute({
+          registration,
+          from: { session: from, waitlist: fromWaitlist },
+          to: { session: to, waitlist },
         });
       } else {
         if (waitlist) {
           throw new Error(`Can’t add ${name} to a waitlist for a different session`);
         }
 
-        addToSession(registration, to);
-        mutate({ variables: { registrationId: registration.id, from: from.id, to: to.id } });
+        execute({
+          registration,
+          from: { session: from, waitlist: fromWaitlist },
+          to: { session: to, waitlist },
+        });
       }
     }
   };
@@ -407,6 +409,11 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
     const count = Math.max(scores.size, 1);
     return Math.round((1000 * total) / count) / 10.0;
   }, [scores]);
+
+  const hasOverloadedSessions = (date: DateTime) =>
+    data?.festival?.workshopAllocation?.sessions.some(
+      (s) => s.startsAt.hasSame(date, 'day') && s.registrations.length > s.capacity
+    ) || false;
 
   return (
     <AllocationsContext.Provider
@@ -429,6 +436,11 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
         notYetAllocated,
         regenerate: () => setShowGenerateModal(true),
         overallScore,
+        canUndo,
+        canRedo,
+        undo,
+        redo,
+        hasOverloadedSessions,
       }}
     >
       {children}

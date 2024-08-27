@@ -97,6 +97,7 @@ export const Person: React.FC<PersonProps> = ({
           slots={slots}
           waitlist={waitlist}
           style={style}
+          data-person
           {...listeners}
           {...attributes}
         />
