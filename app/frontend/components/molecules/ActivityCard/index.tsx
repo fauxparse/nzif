@@ -36,6 +36,7 @@ export type ActivityCardProps = PropsWithChildren<{
   loading?: boolean;
   size?: Responsive<'1' | '2'>;
   linkProps?: LinkProps;
+  disabled?: boolean;
 }>;
 
 export const ActivityCard: React.FC<ActivityCardProps> = ({
@@ -45,6 +46,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
   size = { initial: '1', sm: '2' },
   children,
   linkProps,
+  disabled = false,
 }) => {
   const router = useRouter();
 
@@ -75,6 +77,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
       size={size}
       variant="classic"
       data-loading={loading}
+      data-disabled={disabled || undefined}
     >
       <Inset className={classes.topSection} side={{ initial: 'all', sm: 'top' }}>
         <Skeleton loading={loading}>

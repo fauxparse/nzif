@@ -94,6 +94,11 @@
     font-size: var(--font-size-2);
   }
 
+  &[data-disabled] {
+    box-shadow: none;
+    filter: grayscale(0.9);
+  }
+
   @media (--sm) {
     grid-template: "top" auto "body" 1fr / 1fr;
     row-gap: var(--card-padding);

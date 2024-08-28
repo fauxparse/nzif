@@ -1,6 +1,8 @@
 import { ActivityCard } from '@/components/molecules/ActivityCard';
+import { RegistrationPhase } from '@/graphql/types';
 import CalendarIcon from '@/icons/CalendarIcon';
 import PlusIcon from '@/icons/PlusIcon';
+import { useRegistration } from '@/services/Registration';
 import { Flex, Heading, IconButton, Section } from '@radix-ui/themes';
 import { upperFirst } from 'lodash-es';
 import { DateTime } from 'luxon';
@@ -16,7 +18,11 @@ type DayProps = {
 };
 
 export const Day: React.FC<DayProps> = ({ date, workshops }) => {
-  const { add, remove, getPosition } = usePreferences();
+  const { phase } = useRegistration();
+
+  const { add, remove, getPosition, disabledSessions } = usePreferences();
+
+  const readOnly = phase === RegistrationPhase.Paused || phase === RegistrationPhase.Closed;
 
   return (
     <Section className={classes.day}>
@@ -37,6 +43,7 @@ export const Day: React.FC<DayProps> = ({ date, workshops }) => {
                   return (
                     <ActivityCard
                       key={session.id}
+                      disabled={readOnly || disabledSessions.includes(session)}
                       className={classes.card}
                       activity={session.workshop}
                       linkProps={{
@@ -46,15 +53,18 @@ export const Day: React.FC<DayProps> = ({ date, workshops }) => {
                         replace: true,
                       }}
                     >
-                      <IconButton
-                        type="button"
-                        variant={position ? 'solid' : 'surface'}
-                        radius="full"
-                        className={classes.preference}
-                        onClick={() => (position ? remove : add)(session)}
-                      >
-                        {position ?? <PlusIcon />}
-                      </IconButton>
+                      {(!readOnly || !!position) && (
+                        <IconButton
+                          type="button"
+                          variant={position ? 'solid' : 'surface'}
+                          radius="full"
+                          className={classes.preference}
+                          onClick={() => (position ? remove : add)(session)}
+                          disabled={readOnly || undefined}
+                        >
+                          {position ?? <PlusIcon />}
+                        </IconButton>
+                      )}
                     </ActivityCard>
                   );
                 })}

@@ -1,6 +1,6 @@
 import { useRegistration } from '@/services/Registration';
 import { useMutation } from '@apollo/client';
-import { Button, Callout, Heading, Section, Text } from '@radix-ui/themes';
+import { Section } from '@radix-ui/themes';
 import { useChildMatches } from '@tanstack/react-router';
 import { useNavigate } from '@tanstack/react-router';
 import clsx from 'clsx';
@@ -13,16 +13,15 @@ import { WorkshopDetails } from './WorkshopDetails';
 import { usePreferences } from './WorkshopPreferencesProvider';
 import { SaveWorkshopPreferencesMutation } from './queries';
 import { Workshop } from './types';
-import { useWorkshopExplainer } from './useWorkshopExplainer';
 
+import { RegistrationPhase } from '@/graphql/types';
+import { Intro } from './Intro';
 import classes from './Workshops.module.css';
 
 export const Workshops: React.FC = () => {
-  const { registration, loading: registrationLoading, goToNextStep } = useRegistration();
+  const { registration, phase, loading: registrationLoading, goToNextStep } = useRegistration();
 
-  const { days, loading, dirty, value } = usePreferences();
-
-  const [Explainer, { show: showExplainer }] = useWorkshopExplainer();
+  const { days, loading, dirty, value, disabledSessions } = usePreferences();
 
   const [save] = useMutation(SaveWorkshopPreferencesMutation);
 
@@ -53,27 +52,8 @@ export const Workshops: React.FC = () => {
         saveAndContinue();
       }}
     >
-      <Section maxWidth="40em">
-        <Heading as="h1" size="6">
-          Workshop preferences
-        </Heading>
-        <p>
-          <Text size={{ initial: '3', md: '4' }}>
-            Select your preferred workshops below. You can change your preferences at any time
-            before preferential registration closes on 31 August; you will not be charged for any
-            workshops until initial placements are confirmed in September.{' '}
-          </Text>
-        </p>
-        <Callout.Root mb="4" size="2">
-          <Callout.Text>
-            <b>Note:</b> This year we have a number of ‘full-day’ workshops. These will run in two
-            sessions, from 10:00–1:00 and 2:00–5:00; accordingly, they are charged as two workshops
-            on your registration.
-          </Callout.Text>
-        </Callout.Root>
-        <Button type="button" variant="outline" size="2" onClick={showExplainer}>
-          How registration works
-        </Button>
+      <Section maxWidth="40em" py="6">
+        <Intro />
       </Section>
 
       <div>
@@ -82,10 +62,18 @@ export const Workshops: React.FC = () => {
         ))}
       </div>
 
-      <Explainer />
-
       {workshop && (
-        <WorkshopDetails open={open} workshop={workshop} session={session} onClose={close} />
+        <WorkshopDetails
+          open={open}
+          workshop={workshop}
+          session={session}
+          disabled={
+            phase === RegistrationPhase.Paused ||
+            phase === RegistrationPhase.Closed ||
+            disabledSessions.some((s) => s.id === session?.id)
+          }
+          onClose={close}
+        />
       )}
 
       <Buttons disabled={loading || registrationLoading} />

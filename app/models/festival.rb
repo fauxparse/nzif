@@ -41,7 +41,7 @@ class Festival < ApplicationRecord
   end
 
   def self.finished
-    where('end_date < ?', Time.zone.today)
+    where(end_date: ...Time.zone.today)
   end
 
   def self.happening
@@ -64,7 +64,7 @@ class Festival < ApplicationRecord
   def registration_phase
     return :pending if earlybird_opens_at&.future?
     return :earlybird if earlybird_closes_at&.future?
-    return :paused if general_opens_at&.future?
+    return :paused unless general_opens_at&.past?
     return :general if (end_date + 1.day).future?
 
     :closed

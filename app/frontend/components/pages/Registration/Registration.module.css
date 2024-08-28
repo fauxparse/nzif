@@ -167,7 +167,6 @@
   justify-self: center;
   overflow: hidden;
   width: 100%;
-  max-width: 30rem;
   min-height: 0;
 
   [data-outlet] {

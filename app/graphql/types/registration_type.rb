@@ -12,6 +12,7 @@ module Types
     field :preferences, [PreferenceType], null: false
     field :sessions, [SessionType], null: false
     field :show_explainer, Boolean, null: false
+    field :teaching, [SessionType], null: false
     field :user, UserType, null: true
     field :waitlist, [SessionType], null: false
     field :workshops_count, Integer, null: false
@@ -78,6 +79,12 @@ module Types
       dataloader
         .with(Sources::Accounts, context:)
         .load(object.id)
+    end
+
+    def teaching
+      dataloader
+        .with(Sources::SessionsByTutor, context:)
+        .load(object.user.profile.id)
     end
   end
 end

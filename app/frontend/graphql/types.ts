@@ -609,10 +609,10 @@ export type MutationMoveActivityArgs = {
 
 
 export type MutationMoveAllocatedParticipantArgs = {
-  newSessionId: InputMaybe<Scalars['ID']>;
-  oldSessionId: InputMaybe<Scalars['ID']>;
+  newSessionId?: InputMaybe<Scalars['ID']>;
+  oldSessionId?: InputMaybe<Scalars['ID']>;
   registrationId: Scalars['ID'];
-  waitlist: InputMaybe<Scalars['Boolean']>;
+  waitlist?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -1051,6 +1051,7 @@ export type Registration = {
   preferences: Array<Preference>;
   sessions: Array<Session>;
   showExplainer: Scalars['Boolean'];
+  teaching: Array<Session>;
   user: Maybe<User>;
   waitlist: Array<Session>;
   workshopsCount: Scalars['Int'];

@@ -37,6 +37,11 @@ export const RegistrationDetailsFragment = graphql(`
 export const RegistrationQuery = graphql(
   `
   query RegistrationQuery {
+    festival {
+      id
+      registrationPhase
+    }
+
     registration {
       ...RegistrationDetails
     }

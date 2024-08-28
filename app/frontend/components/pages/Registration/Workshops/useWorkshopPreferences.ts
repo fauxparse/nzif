@@ -102,6 +102,16 @@ export const useWorkshopPreferences = () => {
     [data]
   );
 
+  const mySessions = useMemo(() => data?.registration?.teaching ?? [], [data]);
+
+  const disabledSessions = useMemo(
+    () =>
+      sessions.filter((s) =>
+        mySessions.some((ms) => ms.startsAt < s.endsAt && ms.endsAt > s.startsAt)
+      ),
+    [sessions, mySessions]
+  );
+
   const initial = useMemo(() => {
     if (!registration) return null;
     return registration.preferences.reduce(
@@ -178,6 +188,7 @@ export const useWorkshopPreferences = () => {
 
   return {
     days: workshopDays,
+    disabledSessions,
     loading,
     add,
     remove,

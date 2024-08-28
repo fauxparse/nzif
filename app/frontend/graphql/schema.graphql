@@ -467,7 +467,7 @@ type Mutation {
   finaliseRegistration: finaliseRegistrationPayload
   mergePeople(attributes: ProfileMergeAttributes!, profileIds: [ID!]!): MergePeoplePayload
   moveActivity(id: ID!, slug: String!): MoveActivityPayload
-  moveAllocatedParticipant(newSessionId: ID, oldSessionId: ID, registrationId: ID!, waitlist: Boolean): MoveAllocatedParticipantPayload
+  moveAllocatedParticipant(newSessionId: ID = null, oldSessionId: ID = null, registrationId: ID!, waitlist: Boolean = false): MoveAllocatedParticipantPayload
   moveWaitlistParticipant(position: Int!, registrationId: ID!, sessionId: ID!): MoveWaitlistParticipantPayload
   promiseInternetBankingPayment(amount: Money!, registrationId: ID!): PromiseInternetBankingPaymentPayload
   promoteWaitlistParticipant(registrationId: ID!, sessionId: ID!): PromoteWaitlistParticipantPayload
@@ -763,6 +763,7 @@ type Registration {
   preferences: [Preference!]!
   sessions: [Session!]!
   showExplainer: Boolean!
+  teaching: [Session!]!
   user: User
   waitlist: [Session!]!
   workshopsCount: Int!

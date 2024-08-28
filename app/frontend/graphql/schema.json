@@ -4819,7 +4819,7 @@
                     "name": "ID",
                     "ofType": null
                   },
-                  "defaultValue": null,
+                  "defaultValue": "null",
                   "isDeprecated": false,
                   "deprecationReason": null
                 },
@@ -4831,7 +4831,7 @@
                     "name": "ID",
                     "ofType": null
                   },
-                  "defaultValue": null,
+                  "defaultValue": "null",
                   "isDeprecated": false,
                   "deprecationReason": null
                 },
@@ -4859,7 +4859,7 @@
                     "name": "Boolean",
                     "ofType": null
                   },
-                  "defaultValue": null,
+                  "defaultValue": "false",
                   "isDeprecated": false,
                   "deprecationReason": null
                 }
@@ -8480,6 +8480,32 @@
                   "kind": "SCALAR",
                   "name": "Boolean",
                   "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
+              "name": "teaching",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Session",
+                      "ofType": null
+                    }
+                  }
                 }
               },
               "isDeprecated": false,

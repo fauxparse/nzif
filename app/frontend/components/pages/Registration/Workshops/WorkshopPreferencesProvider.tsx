@@ -5,6 +5,7 @@ import { useWorkshopPreferences } from './useWorkshopPreferences';
 type WorkshopPreferencesContext = {
   loading: boolean;
   days: WorkshopDay[];
+  disabledSessions: Session[];
   value: Record<Session['id'], number>;
   dirty: boolean;
   count: number;
@@ -18,6 +19,7 @@ type WorkshopPreferencesContext = {
 export const WorkshopPreferences = createContext<WorkshopPreferencesContext>({
   loading: true,
   days: [],
+  disabledSessions: [],
   value: {},
   dirty: false,
   count: 0,
@@ -32,6 +34,7 @@ export const WorkshopPreferencesProvider: React.FC<PropsWithChildren> = ({ child
   const {
     loading,
     days,
+    disabledSessions,
     add,
     remove,
     getPosition,
@@ -44,10 +47,13 @@ export const WorkshopPreferencesProvider: React.FC<PropsWithChildren> = ({ child
 
   const count = preferences.size;
 
+  console.log(disabledSessions);
+
   const contextValue = useMemo(
     () => ({
       loading,
       days,
+      disabledSessions,
       add,
       remove,
       getPosition,
@@ -57,7 +63,19 @@ export const WorkshopPreferencesProvider: React.FC<PropsWithChildren> = ({ child
       dirty,
       count,
     }),
-    [loading, days, add, remove, getPosition, getWorkshop, getSession, value, dirty, count]
+    [
+      loading,
+      days,
+      disabledSessions,
+      add,
+      remove,
+      getPosition,
+      getWorkshop,
+      getSession,
+      value,
+      dirty,
+      count,
+    ]
   );
 
   return (

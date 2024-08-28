@@ -50,8 +50,18 @@ export const WorkshopRegistrationQuery = graphql(
   query WorkshopRegistrationQuery {
     festival {
       id
+      registrationPhase
       workshops {
         ...RegistrationWorkshop
+      }
+    }
+
+    registration {
+      id
+      teaching {
+        id
+        startsAt
+        endsAt
       }
     }
   }

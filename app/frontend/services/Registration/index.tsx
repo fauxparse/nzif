@@ -5,6 +5,7 @@ import { useAuthentication } from '../Authentication';
 import { RegistrationQuery } from './queries';
 import { Registration } from './types';
 
+import { RegistrationPhase } from '@/graphql/types';
 import CheckIcon from '@/icons/CheckIcon';
 import CodeOfConductIcon from '@/icons/CodeOfConductIcon';
 import PaymentIcon from '@/icons/PaymentIcon';
@@ -42,6 +43,7 @@ export type StepId = StepDefinition['id'];
 export type StepState = 'pending' | 'active' | 'completed';
 
 type RegistrationContext = {
+  phase: RegistrationPhase;
   steps: typeof STEPS;
   step: StepDefinition | null;
   stepIndex: number | null;
@@ -54,6 +56,7 @@ type RegistrationContext = {
 };
 
 const RegistrationContext = createContext<RegistrationContext>({
+  phase: RegistrationPhase.Closed,
   steps: STEPS,
   step: null,
   stepIndex: null,
@@ -84,6 +87,8 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
   const { loading, data, refetch } = useQuery(RegistrationQuery);
 
   const { user } = useAuthentication();
+
+  const phase = data?.festival?.registrationPhase ?? RegistrationPhase.Closed;
 
   const registration = data?.registration ?? null;
 
@@ -119,6 +124,7 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
 
   const value = useMemo(
     () => ({
+      phase,
       steps: STEPS,
       step,
       stepIndex,
@@ -130,6 +136,7 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
       goToPreviousStep,
     }),
     [
+      phase,
       step,
       stepIndex,
       loading,

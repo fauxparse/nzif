@@ -37,6 +37,7 @@ import classes from './Workshops.module.css';
 type WorkshopDetailsProps = {
   workshop: Workshop;
   session: Workshop['sessions'][number] | null;
+  disabled?: boolean;
   open: boolean;
   onClose: () => void;
 };
@@ -44,6 +45,7 @@ type WorkshopDetailsProps = {
 export const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({
   workshop,
   session: requestedSession,
+  disabled,
   open,
   onClose,
 }) => {
@@ -170,6 +172,7 @@ export const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({
                 </Flex>
                 <Button
                   size={{ initial: '2', md: '3' }}
+                  disabled={disabled || undefined}
                   onClick={() => {
                     (position ? remove : add)({ ...session, workshop });
                     onClose();
