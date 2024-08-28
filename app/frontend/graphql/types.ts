@@ -275,6 +275,7 @@ export type Donation = {
   __typename: 'Donation';
   amount: Scalars['Money'];
   anonymous: Scalars['Boolean'];
+  createdAt: Scalars['ISO8601DateTime'];
   email: Scalars['String'];
   id: Scalars['ID'];
   message: Maybe<Scalars['String']>;
@@ -967,6 +968,7 @@ export type Query = {
   cities: Array<City>;
   directoryResult: Maybe<Session>;
   directorySearch: Array<Person>;
+  donations: Array<Donation>;
   festival: Festival;
   payment: Payment;
   people: Maybe<Array<Person>>;
@@ -1525,6 +1527,7 @@ import { dateTimePolicy, datePolicy } from './policies/dateTimePolicy';
 
 export const scalarTypePolicies = {
   CreditCardPayment: { fields: { createdAt: dateTimePolicy } },
+  Donation: { fields: { createdAt: dateTimePolicy } },
   Festival: {
     fields: {
       earlybirdClosesAt: dateTimePolicy,

@@ -34,12 +34,14 @@ import { Route as AuthResetpasswordImport } from './routes/_auth/reset_password'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AuthForgotImport } from './routes/_auth/forgot'
 import { Route as AdminRegistrationsRouteImport } from './routes/admin/registrations/route'
+import { Route as AdminDonationsRouteImport } from './routes/admin/donations/route'
 import { Route as AdminAllocationsRouteImport } from './routes/admin/allocations/route'
 import { Route as AdminActivityTypeRouteImport } from './routes/admin/$activityType/route'
 import { Route as PublicVenuesRouteImport } from './routes/_public/venues/route'
 import { Route as PublicPeopleRouteImport } from './routes/_public/people/route'
 import { Route as PublicActivityTypeRouteImport } from './routes/_public/$activityType/route'
 import { Route as AdminRegistrationsIndexImport } from './routes/admin/registrations/index'
+import { Route as AdminDonationsIndexImport } from './routes/admin/donations/index'
 import { Route as AdminAllocationsIndexImport } from './routes/admin/allocations/index'
 import { Route as AdminActivityTypeIndexImport } from './routes/admin/$activityType/index'
 import { Route as PublicVenuesIndexImport } from './routes/_public/venues/index'
@@ -48,6 +50,7 @@ import { Route as RegisterWorkshopsSlugImport } from './routes/register/workshop
 import { Route as RegisterCodeOfConductMediaImport } from './routes/register/code-of-conduct.media'
 import { Route as AdminRegistrationsPreferencesImport } from './routes/admin/registrations/preferences'
 import { Route as AdminRegistrationsRegistrationIdImport } from './routes/admin/registrations/$registrationId'
+import { Route as AdminDonationsDonationIdImport } from './routes/admin/donations/$donationId'
 import { Route as AdminAllocationsAllImport } from './routes/admin/allocations/all'
 import { Route as AdminAllocationsDateImport } from './routes/admin/allocations/$date'
 import { Route as PublicVenuesIdImport } from './routes/_public/venues/$id'
@@ -179,6 +182,11 @@ const AdminRegistrationsRouteRoute = AdminRegistrationsRouteImport.update({
   getParentRoute: () => AdminRoute,
 } as any)
 
+const AdminDonationsRouteRoute = AdminDonationsRouteImport.update({
+  path: '/donations',
+  getParentRoute: () => AdminRoute,
+} as any)
+
 const AdminAllocationsRouteRoute = AdminAllocationsRouteImport.update({
   path: '/allocations',
   getParentRoute: () => AdminRoute,
@@ -207,6 +215,11 @@ const PublicActivityTypeRouteRoute = PublicActivityTypeRouteImport.update({
 const AdminRegistrationsIndexRoute = AdminRegistrationsIndexImport.update({
   path: '/',
   getParentRoute: () => AdminRegistrationsRouteRoute,
+} as any)
+
+const AdminDonationsIndexRoute = AdminDonationsIndexImport.update({
+  path: '/',
+  getParentRoute: () => AdminDonationsRouteRoute,
 } as any)
 
 const AdminAllocationsIndexRoute = AdminAllocationsIndexImport.update({
@@ -252,6 +265,11 @@ const AdminRegistrationsRegistrationIdRoute =
     path: '/$registrationId',
     getParentRoute: () => AdminRegistrationsRouteRoute,
   } as any)
+
+const AdminDonationsDonationIdRoute = AdminDonationsDonationIdImport.update({
+  path: '/$donationId',
+  getParentRoute: () => AdminDonationsRouteRoute,
+} as any)
 
 const AdminAllocationsAllRoute = AdminAllocationsAllImport.update({
   path: '/all',
@@ -406,6 +424,13 @@ declare module '@tanstack/react-router' {
       path: '/allocations'
       fullPath: '/admin/allocations'
       preLoaderRoute: typeof AdminAllocationsRouteImport
+      parentRoute: typeof AdminImport
+    }
+    '/admin/donations': {
+      id: '/admin/donations'
+      path: '/donations'
+      fullPath: '/admin/donations'
+      preLoaderRoute: typeof AdminDonationsRouteImport
       parentRoute: typeof AdminImport
     }
     '/admin/registrations': {
@@ -597,6 +622,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAllocationsAllImport
       parentRoute: typeof AdminAllocationsRouteImport
     }
+    '/admin/donations/$donationId': {
+      id: '/admin/donations/$donationId'
+      path: '/$donationId'
+      fullPath: '/admin/donations/$donationId'
+      preLoaderRoute: typeof AdminDonationsDonationIdImport
+      parentRoute: typeof AdminDonationsRouteImport
+    }
     '/admin/registrations/$registrationId': {
       id: '/admin/registrations/$registrationId'
       path: '/$registrationId'
@@ -652,6 +684,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/allocations/'
       preLoaderRoute: typeof AdminAllocationsIndexImport
       parentRoute: typeof AdminAllocationsRouteImport
+    }
+    '/admin/donations/': {
+      id: '/admin/donations/'
+      path: '/'
+      fullPath: '/admin/donations/'
+      preLoaderRoute: typeof AdminDonationsIndexImport
+      parentRoute: typeof AdminDonationsRouteImport
     }
     '/admin/registrations/': {
       id: '/admin/registrations/'
@@ -745,6 +784,10 @@ export const routeTree = rootRoute.addChildren({
       AdminAllocationsAllRoute,
       AdminAllocationsIndexRoute,
     }),
+    AdminDonationsRouteRoute: AdminDonationsRouteRoute.addChildren({
+      AdminDonationsDonationIdRoute,
+      AdminDonationsIndexRoute,
+    }),
     AdminRegistrationsRouteRoute: AdminRegistrationsRouteRoute.addChildren({
       AdminRegistrationsRegistrationIdRoute,
       AdminRegistrationsPreferencesRoute,
@@ -815,6 +858,7 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/admin/$activityType",
         "/admin/allocations",
+        "/admin/donations",
         "/admin/registrations",
         "/admin/timetable",
         "/admin/"
@@ -862,6 +906,14 @@ export const routeTree = rootRoute.addChildren({
         "/admin/allocations/$date",
         "/admin/allocations/all",
         "/admin/allocations/"
+      ]
+    },
+    "/admin/donations": {
+      "filePath": "admin/donations/route.tsx",
+      "parent": "/admin",
+      "children": [
+        "/admin/donations/$donationId",
+        "/admin/donations/"
       ]
     },
     "/admin/registrations": {
@@ -994,6 +1046,10 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "admin/allocations/all.tsx",
       "parent": "/admin/allocations"
     },
+    "/admin/donations/$donationId": {
+      "filePath": "admin/donations/$donationId.tsx",
+      "parent": "/admin/donations"
+    },
     "/admin/registrations/$registrationId": {
       "filePath": "admin/registrations/$registrationId.tsx",
       "parent": "/admin/registrations"
@@ -1025,6 +1081,10 @@ export const routeTree = rootRoute.addChildren({
     "/admin/allocations/": {
       "filePath": "admin/allocations/index.tsx",
       "parent": "/admin/allocations"
+    },
+    "/admin/donations/": {
+      "filePath": "admin/donations/index.tsx",
+      "parent": "/admin/donations"
     },
     "/admin/registrations/": {
       "filePath": "admin/registrations/index.tsx",

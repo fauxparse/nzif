@@ -282,6 +282,7 @@ type DemoteSessionParticipantPayload {
 type Donation {
   amount: Money!
   anonymous: Boolean!
+  createdAt: ISO8601DateTime!
   email: String!
   id: ID!
   message: String
@@ -730,6 +731,7 @@ type Query {
   cities: [City!]!
   directoryResult(id: ID!, time: ISO8601DateTime!): Session
   directorySearch(query: String!): [Person!]!
+  donations: [Donation!]!
   festival(year: String): Festival!
   payment(id: ID!): Payment!
   people: [Person!]

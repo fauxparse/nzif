@@ -39,6 +39,8 @@ module Types
 
     field :calendar, [CalendarSessionType], null: false, authenticate: false
 
+    field :donations, resolver: Resolvers::Donations, authenticate: false
+
     def festival(year: nil)
       if year
         Festival.by_year(year).first!
