@@ -48,6 +48,10 @@ en:
         - :one
         - :other
 
+  date:
+    formats:
+      long: '%d %B, %Y'
+
   time:
     formats:
       friendly: '%A %-d %B, %l:%M %p'

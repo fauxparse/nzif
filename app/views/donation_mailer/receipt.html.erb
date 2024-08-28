@@ -1,0 +1,39 @@
+<h1>Donation receipt</h1>
+
+<% if @donation.amount.to_i >= 5 -%>
+  <p style="background: #eee; padding: 0.5rem; border-radius: 0.25rem">
+    <b>This donation qualifies for a New Zealand donation tax credit</b>
+    because the recipient of this donation is donee-approved by Inland Revenue.
+    For more information about eligibility for tax credits visit
+    <a href="https://ird.govt.nz/topics/income-tax/tax-credits/tax-credits-for-donations">
+      ird.govt.nz/topics/income-tax/tax-credits/tax-credits-for-donations
+    </a>.
+  </b>
+<% end -%>
+
+<p>
+  Donor: <b><%= @donation.name %></b>
+</p>
+
+<p>
+  Date: <b><%= I18n.l(@donation.created_at.to_date, format: :long) %></b>
+</p>
+
+<p>
+  Amount: <b><%= humanized_money_with_symbol @donation.amount %> NZD</b>
+</p>
+
+<p>Reference: <b><%= @donation.to_param %></b></p>
+
+<h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: bold; margin-bottom: 0.5rem">Issued by</h4>
+
+<p>
+  New Zealand Improvisation Trust<br/>
+  183 Darlington Road<br/>
+  Miramar<br />
+  Wellington 6022<br />
+</p>
+
+<p>Registration number: CC61233</p>
+
+<p>IRD number: XXX-XXX-XXX</p>

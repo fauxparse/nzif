@@ -10,7 +10,7 @@ import { Suspense } from 'react';
 const Root = () => {
   const { festival = null } = Route.useRouteContext() || {};
 
-  if (!festival) return null;
+  if (!festival) return <Outlet />;
 
   return (
     <PlacenamesProvider>

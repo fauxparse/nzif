@@ -14,6 +14,9 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
+  "[ruby]": {
+    "testFramework": "rspec"
+  },
   "files.exclude": {
     "**/.git": false,
     "**/.svn": true,
@@ -31,5 +34,6 @@
     "_templates": true
   },
   "hide-files.files": ["old", ".cicada", "_templates"],
-  "explorerExclude.backup": {}
+  "explorerExclude.backup": {},
+  "rubyTestExplorer.testFramework": "rspec"
 }

@@ -104,6 +104,8 @@ gem 'prawn', '~> 2.5.0'
 
 gem 'matrix'
 
+gem 'MailchimpMarketing', '~> 3.0'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
@@ -133,8 +135,7 @@ group :development do
 
   gem 'letter_opener'
 
-  gem 'ruby-lsp-rails', '~>0.3.6'
-  gem 'solargraph', '~>0.50.0'
+  gem 'ruby-lsp-rails', '~>0.3.13'
 end
 
 group :test do
@@ -162,5 +163,3 @@ group :development, :test, :staging do
   gem 'graphiql-rails'
   gem 'mailsafe'
 end
-
-gem "MailchimpMarketing", "~> 3.0"

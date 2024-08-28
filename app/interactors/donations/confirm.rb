@@ -7,6 +7,7 @@ module Donations
 
       donation.update!(reference:, state: :approved)
       DonationMailer.notification(donation).deliver_later
+      DonationMailer.receipt(donation).deliver_later
     end
   end
 end
