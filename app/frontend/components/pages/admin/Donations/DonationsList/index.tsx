@@ -4,7 +4,18 @@ import Header from '@/components/organisms/Header';
 import QuoteIcon from '@/icons/QuoteIcon';
 import { SortIcon } from '@/icons/SortIcon';
 import { useQuery } from '@apollo/client';
-import { Badge, Box, Button, Dialog, Flex, HoverCard, Inset, Table, Text } from '@radix-ui/themes';
+import {
+  Badge,
+  Box,
+  Button,
+  Dialog,
+  Flex,
+  HoverCard,
+  Inset,
+  Table,
+  Text,
+  Tooltip,
+} from '@radix-ui/themes';
 import { useChildMatches, useNavigate } from '@tanstack/react-router';
 import {
   createColumnHelper,
@@ -96,6 +107,8 @@ export const DonationsList = () => {
     if (selected) setSelectedDonation(selected);
   }, [selected]);
 
+  const afterFees = total * 0.973 - donations.length * 0.3;
+
   return (
     <>
       <Header
@@ -103,11 +116,19 @@ export const DonationsList = () => {
           <Flex justify="between" align="center">
             <h1>Donations</h1>
             {!loading && (
-              <Badge size="3" color="gray" variant="outline">
-                <Text size="6">
-                  <Money cents={total} /> from {donations.length} donations
-                </Text>
-              </Badge>
+              <Tooltip
+                content={
+                  <>
+                    After fees: approx <Money cents={afterFees} />
+                  </>
+                }
+              >
+                <Badge size="3" color="gray" variant="outline">
+                  <Text size="6">
+                    <Money cents={total} /> from {donations.length} donations
+                  </Text>
+                </Badge>
+              </Tooltip>
             )}
           </Flex>
         }
