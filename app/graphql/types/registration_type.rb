@@ -82,6 +82,8 @@ module Types
     end
 
     def teaching
+      return [] unless object.user&.profile
+
       dataloader
         .with(Sources::SessionsByTutor, context:)
         .load(object.user.profile.id)
