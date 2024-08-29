@@ -1,7 +1,7 @@
 import { ActivityType } from '@/graphql/types';
 import { useFestival } from '@/hooks/useFestival';
 import BATSIcon from '@/icons/BATSIcon';
-import { Box, Button, Container, Flex, Grid, Text } from '@radix-ui/themes';
+import { Box, Button, Container, Link as ExternalLink, Flex, Grid, Text } from '@radix-ui/themes';
 import { Link } from '@tanstack/react-router';
 
 import WorkshopIcon from '@/icons/WorkshopIcon';
@@ -53,9 +53,11 @@ export const Home = () => {
                 Browse the programme
               </Link>
             </Button>
-            <Button size="3" variant="outline" disabled>
-              <BATSIcon size="3" />
-              Tickets on sale soon
+            <Button asChild size="3" variant="outline">
+              <ExternalLink href="https://bats.co.nz/whats-on/?tags=NZ%20Improv%20Festival">
+                <BATSIcon size="3" />
+                Book tickets
+              </ExternalLink>
             </Button>
           </Flex>
         </Grid>
