@@ -42,4 +42,7 @@ export default defineConfig({
     STRIPE_PUBLIC_KEY: '"process.env.STRIPE_PUBLISHABLE_KEY"',
     MAPBOX_KEY: '"process.env.MAPBOX_KEY"',
   },
+  build: {
+    sourcemap: true,
+  },
 });
