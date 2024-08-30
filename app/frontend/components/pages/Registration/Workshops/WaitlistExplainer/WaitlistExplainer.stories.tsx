@@ -1,9 +1,9 @@
 import { StoryDefault } from '@ladle/react';
 import { Button } from '@radix-ui/themes';
 import { useState } from 'react';
-import { RegistrationExplainer as Explainer } from '.';
+import { WaitlistExplainer as Explainer } from '.';
 
-export const RegistrationExplainer = () => {
+export const WaitlistExplainer = () => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -15,5 +15,5 @@ export const RegistrationExplainer = () => {
 };
 
 export default {
-  title: 'Organisms',
+  title: 'Organisms/Explainer',
 } satisfies StoryDefault;

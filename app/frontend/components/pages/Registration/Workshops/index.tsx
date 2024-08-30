@@ -1,3 +1,6 @@
+import { RegistrationPhase } from '@/graphql/types';
+import WarningIcon from '@/icons/WarningIcon';
+import WorkshopIcon from '@/icons/WorkshopIcon';
 import { useRegistration } from '@/services/Registration';
 import { useMutation } from '@apollo/client';
 import { Button, Callout, Dialog, Flex, Section, Text, VisuallyHidden } from '@radix-ui/themes';
@@ -5,20 +8,17 @@ import { useChildMatches } from '@tanstack/react-router';
 import { useNavigate } from '@tanstack/react-router';
 import clsx from 'clsx';
 import { get, isEmpty } from 'lodash-es';
+import pluralize from 'pluralize';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Buttons } from '../Buttons';
-import registrationClasses from '../Registration.module.css';
 import { Day } from './Day';
+import { Intro } from './Intro';
 import { WorkshopDetails } from './WorkshopDetails';
 import { usePreferences } from './WorkshopPreferencesProvider';
 import { SaveWorkshopPreferencesMutation } from './queries';
 import { Session, Workshop } from './types';
 
-import { RegistrationPhase } from '@/graphql/types';
-import WarningIcon from '@/icons/WarningIcon';
-import WorkshopIcon from '@/icons/WorkshopIcon';
-import pluralize from 'pluralize';
-import { Intro } from './Intro';
+import registrationClasses from '../Registration.module.css';
 import classes from './Workshops.module.css';
 
 export const Workshops: React.FC = () => {

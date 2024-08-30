@@ -1,12 +1,16 @@
 import { RegistrationPhase } from '@/graphql/types';
 import { useRegistration } from '@/services/Registration';
 import { Button, Callout, Heading, Text } from '@radix-ui/themes';
+import { useState } from 'react';
+import { WaitlistExplainer } from './WaitlistExplainer';
 import { useWorkshopExplainer } from './useWorkshopExplainer';
 
 export const Intro: React.FC = () => {
   const { phase } = useRegistration();
 
   const [Explainer, { show: showExplainer }] = useWorkshopExplainer();
+
+  const [showWaitlistExplainer, setShowWaitlistExplainer] = useState(false);
 
   switch (phase) {
     case RegistrationPhase.Earlybird:
@@ -56,6 +60,15 @@ export const Intro: React.FC = () => {
             from any other workshops you may be in at the same time.
           </p>
           <DoubleWorkshopNote />
+          <Button
+            type="button"
+            variant="outline"
+            size="2"
+            onClick={() => setShowWaitlistExplainer(true)}
+          >
+            How waitlists work
+          </Button>
+          <WaitlistExplainer open={showWaitlistExplainer} onOpenChange={setShowWaitlistExplainer} />
         </>
       );
   }
