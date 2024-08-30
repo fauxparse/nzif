@@ -1,9 +1,10 @@
-import { Flex } from '@radix-ui/themes';
+import { Callout, Flex } from '@radix-ui/themes';
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useImperativeHandle, useState } from 'react';
 import { useDonation } from './DonationProvider';
 import { PageProps } from './types';
 
+import WarningIcon from '@/icons/WarningIcon';
 import styles from './Donate.module.css';
 
 const Payment: React.FC<PageProps> = ({ formRef }) => {
@@ -41,6 +42,14 @@ const Payment: React.FC<PageProps> = ({ formRef }) => {
 
   return (
     <Flex className={styles.page} direction="column" gap="4">
+      {error && (
+        <Callout.Root>
+          <Callout.Icon>
+            <WarningIcon />
+          </Callout.Icon>
+          <Callout.Text>{error}</Callout.Text>
+        </Callout.Root>
+      )}
       <PaymentElement />
     </Flex>
   );

@@ -102,10 +102,34 @@
 .card {
   --card-size: 100%;
 
-  grid-template: "top body preference" auto "top badges preference" auto / 4rem 1fr auto;
+  grid-template: "top body preference" auto "top badges preference" auto "top buttons preference" auto / 4rem 1fr auto;
 
   @media (--sm) {
-    grid-template: "top" auto "body" 1fr / 1fr;
+    grid-template: "top" auto "body" 1fr "buttons" auto / 1fr;
+  }
+}
+
+.soldOut {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-area: top;
+  place-content: center;
+  margin-right: 0;
+  padding-inline: var(--card-padding);
+  padding-block: var(--space-1);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  background-color: var(--accent-a9);
+  color: var(--accent-contrast);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase;
+
+  @media (--sm) {
+    align-self: end;
+    margin-right: var(--margin-right-override);
   }
 }
 
@@ -115,15 +139,42 @@
   place-self: center center;
   font-weight: var(--font-weight-bold);
 
-  &[data-disabled] {
+  &[data-disabled][data-filled] {
     background-color: var(--accent-a9);
     color: var(--accent-contrast);
     opacity: 1;
   }
 
+  [data-icon="Checkbox"] {
+    --icon-size: 1.25rem;
+
+    width: var(--icon-size);
+    height: var(--icon-size);
+
+    [data-component="indeterminate"] {
+      display: none;
+    }
+
+    [data-component="checked"] {
+      animation: check 0.2s ease-out forwards;
+      stroke-dasharray: 1;
+      stroke-dashoffset: -1;
+    }
+  }
+
   @media (--sm) {
     grid-area: top;
     place-self: start end;
+  }
+}
+
+@keyframes check {
+  0% {
+    stroke-dashoffset: -1;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
   }
 }
 
@@ -148,7 +199,7 @@
 
   .body {
     grid-area: body;
-    max-height: 50dvh;
+    max-height: 40dvh;
   }
 
   .scrollable {
@@ -164,5 +215,22 @@
 
   .actions {
     /* empty */
+  }
+}
+
+.sessionList {
+  display: block;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: flex;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0 var(--space-2);
+
+    svg {
+      margin-block: 0.125rem;
+    }
   }
 }

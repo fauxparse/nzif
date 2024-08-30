@@ -44,6 +44,7 @@ export type StepState = 'pending' | 'active' | 'completed';
 
 type RegistrationContext = {
   phase: RegistrationPhase;
+  earlybird: boolean;
   steps: typeof STEPS;
   step: StepDefinition | null;
   stepIndex: number | null;
@@ -57,6 +58,7 @@ type RegistrationContext = {
 
 const RegistrationContext = createContext<RegistrationContext>({
   phase: RegistrationPhase.Closed,
+  earlybird: false,
   steps: STEPS,
   step: null,
   stepIndex: null,
@@ -125,6 +127,7 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
   const value = useMemo(
     () => ({
       phase,
+      earlybird: phase === RegistrationPhase.Earlybird || phase === RegistrationPhase.Paused,
       steps: STEPS,
       step,
       stepIndex,

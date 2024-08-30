@@ -33,7 +33,7 @@
     ".cicada": true,
     "_templates": true
   },
-  "hide-files.files": ["old", ".cicada", "_templates"],
+  "hide-files.files": ["old", ".cicada", "_templates", ".overmind.sock"],
   "explorerExclude.backup": {},
   "rubyTestExplorer.testFramework": "rspec"
 }

@@ -22,7 +22,7 @@
     }
   }
 
-  grid-template: "top body" auto "top badges" auto / 4rem 1fr;
+  grid-template: "top body" auto "top badges" auto "top buttons" auto / 4rem 1fr;
   min-height: 6rem;
   column-gap: var(--card-padding);
 
@@ -94,13 +94,28 @@
     font-size: var(--font-size-2);
   }
 
+  .buttons {
+    grid-area: buttons;
+    justify-self: start;
+    margin-top: var(--space-2);
+
+    button {
+      flex: 1;
+    }
+
+    @media (--sm) {
+      justify-self: stretch;
+      margin-top: 0;
+    }
+  }
+
   &[data-disabled] {
     box-shadow: none;
     filter: grayscale(0.9);
   }
 
   @media (--sm) {
-    grid-template: "top" auto "body" 1fr / 1fr;
+    grid-template: "top" auto "body" 1fr "buttons" auto / 1fr;
     row-gap: var(--card-padding);
     max-width: var(--card-size);
   }

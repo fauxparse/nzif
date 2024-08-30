@@ -31,15 +31,17 @@ export const Intro: React.FC = () => {
       );
     case RegistrationPhase.Paused:
       return (
-        <>
-          <Heading as="h1" size="6">
-            Registrations paused
-          </Heading>
-          <p>
-            Workshop selection is currently paused. You can still view the workshops below, but you
-            won’t be able to select any until registration reopens in a day or two.
-          </p>
-        </>
+        <Callout.Root>
+          <Callout.Text>
+            <Heading as="h1" size="6">
+              Registrations paused
+            </Heading>
+            <p>
+              Workshop selection is currently paused. You can still view the workshops below, but
+              you won’t be able to select any until registration reopens in a day or two.
+            </p>
+          </Callout.Text>
+        </Callout.Root>
       );
     default:
       return (

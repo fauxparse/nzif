@@ -17,9 +17,9 @@ class ApplicationInteractor
     @authorization_performed
   end
 
-  def authorize!(*args, **kwargs, &)
+  def authorize!(...)
     @authorization_performed = true
-    super(*args, **kwargs, &)
+    super
   end
 
   def perform(interactor_class, **kwargs)

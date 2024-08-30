@@ -1,3 +1,4 @@
+import { useRegistration } from '@/services/Registration';
 import { PropsWithChildren, createContext, useContext, useMemo } from 'react';
 import { Session, Workshop, WorkshopDay } from './types';
 import { useWorkshopPreferences } from './useWorkshopPreferences';
@@ -6,28 +7,36 @@ type WorkshopPreferencesContext = {
   loading: boolean;
   days: WorkshopDay[];
   disabledSessions: Session[];
+  sessions: Set<Session['id']>;
+  waitlist: Set<Session['id']>;
   value: Record<Session['id'], number>;
   dirty: boolean;
   count: number;
-  add: (session: Session) => void;
-  remove: (session: Session) => void;
+  add: (session: Omit<Session, 'workshop'>) => void;
+  remove: (session: Omit<Session, 'workshop'>) => void;
   getPosition: (session: Pick<Session, 'id'>) => number | undefined;
-  getWorkshop: (slug: string) => Workshop | undefined;
-  getSession: (id: string) => Session | undefined;
+  getWorkshop: (slug: string) => Workshop;
+  getSession: (id: string) => Session;
+};
+
+const notImplemented = () => {
+  throw new Error('Not implemented');
 };
 
 export const WorkshopPreferences = createContext<WorkshopPreferencesContext>({
   loading: true,
   days: [],
   disabledSessions: [],
+  sessions: new Set(),
+  waitlist: new Set(),
   value: {},
   dirty: false,
   count: 0,
-  add: () => {},
-  remove: () => {},
-  getPosition: () => undefined,
-  getWorkshop: () => undefined,
-  getSession: () => undefined,
+  add: notImplemented,
+  remove: notImplemented,
+  getPosition: notImplemented,
+  getWorkshop: notImplemented,
+  getSession: notImplemented,
 });
 
 export const WorkshopPreferencesProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -35,6 +44,8 @@ export const WorkshopPreferencesProvider: React.FC<PropsWithChildren> = ({ child
     loading,
     days,
     disabledSessions,
+    sessions,
+    waitlist,
     add,
     remove,
     getPosition,
@@ -45,15 +56,17 @@ export const WorkshopPreferencesProvider: React.FC<PropsWithChildren> = ({ child
     preferences,
   } = useWorkshopPreferences();
 
-  const count = preferences.size;
+  const { earlybird } = useRegistration();
 
-  console.log(disabledSessions);
+  const count = (earlybird ? preferences : sessions).size;
 
   const contextValue = useMemo(
     () => ({
       loading,
       days,
       disabledSessions,
+      sessions,
+      waitlist,
       add,
       remove,
       getPosition,
@@ -67,6 +80,8 @@ export const WorkshopPreferencesProvider: React.FC<PropsWithChildren> = ({ child
       loading,
       days,
       disabledSessions,
+      sessions,
+      waitlist,
       add,
       remove,
       getPosition,

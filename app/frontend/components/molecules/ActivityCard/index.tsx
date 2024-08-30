@@ -37,6 +37,7 @@ export type ActivityCardProps = PropsWithChildren<{
   size?: Responsive<'1' | '2'>;
   linkProps?: LinkProps;
   disabled?: boolean;
+  buttons?: React.ReactNode;
 }>;
 
 export const ActivityCard: React.FC<ActivityCardProps> = ({
@@ -47,6 +48,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
   children,
   linkProps,
   disabled = false,
+  buttons,
 }) => {
   const router = useRouter();
 
@@ -130,6 +132,11 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
         )}
       </Flex>
       {children}
+      {buttons && (
+        <Flex className={classes.buttons} gap="1">
+          {buttons}
+        </Flex>
+      )}
     </Card>
   );
 };

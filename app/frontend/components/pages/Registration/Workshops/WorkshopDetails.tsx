@@ -24,7 +24,10 @@ import Placename from '@/components/atoms/Placename';
 import Markdown from '@/helpers/Markdown';
 import ClockIcon from '@/icons/ClockIcon';
 import CloseIcon from '@/icons/CloseIcon';
+import PlusIcon from '@/icons/PlusIcon';
 import ShowIcon from '@/icons/ShowIcon';
+import WaitlistIcon from '@/icons/WaitlistIcon';
+import { useRegistration } from '@/services/Registration';
 import { formatSessionTime } from '@/util/formatSessionTime';
 import ordinalize from '@/util/ordinalize';
 import sentence from '@/util/sentence';
@@ -49,11 +52,21 @@ export const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({
   open,
   onClose,
 }) => {
+  const { earlybird, registration } = useRegistration();
+
   const { loading, data } = useQuery(WorkshopDetailsQuery, { variables: { slug: workshop.slug } });
 
   const session = requestedSession || workshop.sessions[0];
 
-  const { getPosition, getSession, add, remove } = usePreferences();
+  const { getPosition, getSession, add, remove, sessions, waitlist } = usePreferences();
+
+  const wasRegistered = registration?.sessions?.some((s) => s.id === session.id);
+
+  const registered = sessions.has(session.id);
+
+  const waitlisted = waitlist.has(session.id);
+
+  const soldOut = !earlybird && !!session.capacity && session.count >= session.capacity;
 
   const activity = data?.festival.activity;
 
@@ -64,6 +77,14 @@ export const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({
     [workshop.presenters]
   );
 
+  const toggle = () => {
+    if (earlybird ? position : registered || waitlisted) {
+      remove(session);
+    } else {
+      add(session);
+    }
+  };
+
   return (
     <Dialog.Root
       open={open}
@@ -71,7 +92,7 @@ export const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({
         if (!isOpen) onClose();
       }}
     >
-      <Dialog.Content size={{ initial: '2', md: '4' }} aria-describedby={undefined}>
+      <Dialog.Content size={{ initial: '2', md: '3' }} aria-describedby={undefined}>
         <VisuallyHidden>
           <Dialog.Title>{workshop.name}</Dialog.Title>
         </VisuallyHidden>
@@ -174,11 +195,29 @@ export const WorkshopDetails: React.FC<WorkshopDetailsProps> = ({
                   size={{ initial: '2', md: '3' }}
                   disabled={disabled || undefined}
                   onClick={() => {
-                    (position ? remove : add)({ ...session, workshop });
+                    toggle();
                     onClose();
                   }}
                 >
-                  {position ? 'Remove' : 'Add'} this workshop
+                  {earlybird ? (
+                    `${position ? 'Remove' : 'Add'} this workshop`
+                  ) : registered ? (
+                    <>
+                      <CloseIcon /> Leave this workshop
+                    </>
+                  ) : waitlisted ? (
+                    <>
+                      <WaitlistIcon /> Leave waitlist
+                    </>
+                  ) : soldOut && !wasRegistered ? (
+                    <>
+                      <WaitlistIcon /> Join waitlist
+                    </>
+                  ) : (
+                    <>
+                      <PlusIcon /> Add this workshop
+                    </>
+                  )}
                 </Button>
               </Flex>
             </>

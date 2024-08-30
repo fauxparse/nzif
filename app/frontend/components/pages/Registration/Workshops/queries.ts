@@ -35,6 +35,8 @@ export const RegistrationWorkshopFragment = graphql(`
       id
       startsAt
       endsAt
+      capacity
+      count
 
       slots {
         id

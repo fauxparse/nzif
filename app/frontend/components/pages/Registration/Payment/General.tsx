@@ -4,12 +4,12 @@ import { useRegistration } from '@/services/Registration';
 import { Heading, Table, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 import pluralize from 'pluralize';
-import { Buttons } from './Buttons';
-import { usePreferences } from './Workshops/WorkshopPreferencesProvider';
+import { Buttons } from '../Buttons';
+import { usePreferences } from '../Workshops/WorkshopPreferencesProvider';
 
-import classes from './Registration.module.css';
+import classes from '../Registration.module.css';
 
-export const Payment = () => {
+export const General = () => {
   const { goToNextStep } = useRegistration();
   const { totalValue, packageDiscount, packagePrice, basePrice } = usePricing();
   const { count } = usePreferences();

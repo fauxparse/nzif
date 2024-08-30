@@ -25,11 +25,20 @@ export const RegistrationDetailsFragment = graphql(`
     codeOfConductAcceptedAt
     photoPermission
     showExplainer
+    completedAt
 
     preferences {
       id
       position
       sessionId
+    }
+
+    sessions {
+      id
+    }
+
+    waitlist {
+      id
     }
   }
 `);
