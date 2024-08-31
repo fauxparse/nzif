@@ -57,6 +57,12 @@ const cache = () =>
           preferences: {
             merge: (_, incoming) => incoming,
           },
+          sessions: {
+            merge: (_, incoming) => incoming,
+          },
+          waitlist: {
+            merge: (_, incoming) => incoming,
+          },
         },
       },
       Show: {

@@ -3,6 +3,8 @@
 class SessionSlot < ActiveRecord::Base
   is_view materialized: true
 
+  belongs_to :session
+
   def self.overlapping(session)
     where(
       'session_slots.starts_at < ? AND session_slots.ends_at > ?',

@@ -60,6 +60,7 @@ Metrics/ClassLength:
   Enabled: false
 
 Metrics/CyclomaticComplexity:
+  Enabled: false
   Max: 10
 
 Metrics/MethodLength:
@@ -68,6 +69,7 @@ Metrics/MethodLength:
     - 'db/migrate/*'
 
 Metrics/PerceivedComplexity:
+  Enabled: false
   Max: 10
 
 Rails/I18nLocaleTexts:

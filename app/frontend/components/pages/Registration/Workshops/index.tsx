@@ -7,7 +7,7 @@ import { Button, Callout, Dialog, Flex, Section, Text, VisuallyHidden } from '@r
 import { useChildMatches } from '@tanstack/react-router';
 import { useNavigate } from '@tanstack/react-router';
 import clsx from 'clsx';
-import { get, isEmpty } from 'lodash-es';
+import { get, isEmpty, isEqual } from 'lodash-es';
 import pluralize from 'pluralize';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Buttons } from '../Buttons';
@@ -15,7 +15,7 @@ import { Day } from './Day';
 import { Intro } from './Intro';
 import { WorkshopDetails } from './WorkshopDetails';
 import { usePreferences } from './WorkshopPreferencesProvider';
-import { SaveWorkshopPreferencesMutation } from './queries';
+import { SaveWorkshopPreferencesMutation, UpdateWorkshopsMutation } from './queries';
 import { Session, Workshop } from './types';
 
 import registrationClasses from '../Registration.module.css';
@@ -33,7 +33,9 @@ export const Workshops: React.FC = () => {
   const { days, loading, dirty, value, disabledSessions, sessions, waitlist, getSession } =
     usePreferences();
 
-  const [save] = useMutation(SaveWorkshopPreferencesMutation);
+  const [savePreferences] = useMutation(SaveWorkshopPreferencesMutation);
+
+  const [updateWorkshops] = useMutation(UpdateWorkshopsMutation);
 
   const { workshop, session, open, close } = useSelectedWorkshop();
 
@@ -81,17 +83,33 @@ export const Workshops: React.FC = () => {
   };
 
   const saveAndContinue = async () => {
-    if (dirty) {
-      save({
-        variables: {
-          preferences: Object.entries(value).map(([sessionId, position]) => ({
-            sessionId,
-            position,
-          })),
-        },
-      }).then(goToNextStep);
+    if (earlybird) {
+      if (dirty) {
+        savePreferences({
+          variables: {
+            preferences: Object.entries(value).map(([sessionId, position]) => ({
+              sessionId,
+              position,
+            })),
+          },
+        }).then(goToNextStep);
+      } else {
+        goToNextStep();
+      }
     } else {
-      goToNextStep();
+      const oldSessions = new Set(registration?.sessions?.map((s) => s.id) ?? []);
+      const oldWaitlist = new Set(registration?.waitlist?.map((s) => s.id) ?? []);
+
+      if (!isEqual(sessions, oldSessions) || !isEqual(waitlist, oldWaitlist)) {
+        updateWorkshops({
+          variables: {
+            sessionIds: Array.from(sessions),
+            waitlistIds: Array.from(waitlist),
+          },
+        }).then(goToNextStep);
+      } else {
+        goToNextStep();
+      }
     }
   };
 
@@ -176,7 +194,14 @@ export const Workshops: React.FC = () => {
             <Button size="3" variant="outline" onClick={() => setConfirming(false)}>
               Cancel
             </Button>
-            <Button size="3" variant="solid">
+            <Button
+              size="3"
+              variant="solid"
+              onClick={() => {
+                setConfirming(false);
+                saveAndContinue();
+              }}
+            >
               Save changes
             </Button>
           </Flex>

@@ -1,6 +1,6 @@
 module Registrations
   class AddToSession < ApplicationInteractor
-    delegate :session, :registration, :cascade, to: :context
+    delegate :session, :registration, :cascade, :suppress_notifications, to: :context
 
     def call
       authorize! registration, to: :update?
@@ -16,7 +16,7 @@ module Registrations
     private
 
     def send_notification(removed)
-      return unless registration.festival.general?
+      return unless registration.festival.general? || suppress_notifications
 
       ParticipantMailer.added(registration:, session:, removed:).deliver_later
     end

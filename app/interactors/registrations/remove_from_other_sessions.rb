@@ -37,7 +37,10 @@ module Registrations
 
     def other_sessions_in_slot
       @other_sessions_in_slot ||=
-        session.slot.sessions.where.not(id: session.id)
+        SessionSlot.includes(:session)
+          .overlapping(session)
+          .where.not(session_id: session.id)
+          .map(&:session)
     end
 
     def preferences_in_slot

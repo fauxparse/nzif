@@ -86,6 +86,22 @@ export const SaveWorkshopPreferencesMutation = graphql(`
   }
 `);
 
+export const UpdateWorkshopsMutation = graphql(`
+  mutation UpdateWorkshops($sessionIds: [ID!]!, $waitlistIds: [ID!]!) {
+    updateWorkshops(sessionIds: $sessionIds, waitlistIds: $waitlistIds) {
+      registration {
+        id
+        sessions {
+          id
+        }
+        waitlist {
+          id
+        }
+      }
+    }
+  }
+`);
+
 export const WorkshopDetailsQuery = graphql(
   `
   query ActivityDetails($slug: String!) {
