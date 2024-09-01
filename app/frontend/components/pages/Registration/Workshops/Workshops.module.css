@@ -101,12 +101,6 @@
 
 .card {
   --card-size: 100%;
-
-  grid-template: "top body preference" auto "top badges preference" auto "top buttons preference" auto / 4rem 1fr auto;
-
-  @media (--sm) {
-    grid-template: "top" auto "body" 1fr "buttons" auto / 1fr;
-  }
 }
 
 .soldOut {

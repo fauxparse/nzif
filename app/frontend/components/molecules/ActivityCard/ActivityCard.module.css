@@ -22,7 +22,7 @@
     }
   }
 
-  grid-template: "top body" auto "top badges" auto "top buttons" auto / 4rem 1fr;
+  grid-template: "top body" auto "top badges" auto / 4rem 1fr;
   min-height: 6rem;
   column-gap: var(--card-padding);
 
@@ -99,6 +99,10 @@
     justify-self: start;
     margin-top: var(--space-2);
 
+    &:empty {
+      display: none;
+    }
+
     button {
       flex: 1;
     }
@@ -114,8 +118,16 @@
     filter: grayscale(0.9);
   }
 
+  &:has(.buttons:not(:empty)) {
+    grid-template: "top body" auto "top badges" auto "top buttons" auto / 4rem 1fr;
+
+    @media (--sm) {
+      grid-template: "top" auto "body" 1fr "buttons" auto / 1fr;
+    }
+  }
+
   @media (--sm) {
-    grid-template: "top" auto "body" 1fr "buttons" auto / 1fr;
+    grid-template: "top" auto "body" 1fr / 1fr;
     row-gap: var(--card-padding);
     max-width: var(--card-size);
   }

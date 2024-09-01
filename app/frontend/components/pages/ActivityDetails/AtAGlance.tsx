@@ -35,7 +35,7 @@ type AtAGlanceProps = {
 };
 
 export const AtAGlance: React.FC<AtAGlanceProps> = ({ activity, loading }) => {
-  const { registration, leaveSession, leaveWaitlist, joinSession, joinWaitlist } =
+  const { registration, earlybird, leaveSession, leaveWaitlist, joinSession, joinWaitlist } =
     useRegistration();
 
   const inSession = (id: string | number) => registration?.sessions?.some((s) => s.id === id);
@@ -179,27 +179,30 @@ export const AtAGlance: React.FC<AtAGlanceProps> = ({ activity, loading }) => {
                 </DataList.Item>
               )}
             </DataList.Root>
-            {activity.type === ActivityType.Workshop && registration?.id && session && (
-              <Button type="button" variant="soft" size="2" onClick={() => toggle(session.id)}>
-                {inSession(session.id) ? (
-                  <>
-                    <CloseIcon /> Leave workshop
-                  </>
-                ) : onWaitlist(session.id) ? (
-                  <>
-                    <CloseIcon /> Leave waitlist
-                  </>
-                ) : session.full ? (
-                  <>
-                    <WaitlistIcon /> Join waitlist
-                  </>
-                ) : (
-                  <>
-                    <PlusIcon /> Join workshop
-                  </>
-                )}
-              </Button>
-            )}
+            {!earlybird &&
+              activity.type === ActivityType.Workshop &&
+              registration?.id &&
+              session && (
+                <Button type="button" variant="soft" size="2" onClick={() => toggle(session.id)}>
+                  {inSession(session.id) ? (
+                    <>
+                      <CloseIcon /> Leave workshop
+                    </>
+                  ) : onWaitlist(session.id) ? (
+                    <>
+                      <CloseIcon /> Leave waitlist
+                    </>
+                  ) : session.full ? (
+                    <>
+                      <WaitlistIcon /> Join waitlist
+                    </>
+                  ) : (
+                    <>
+                      <PlusIcon /> Join workshop
+                    </>
+                  )}
+                </Button>
+              )}
           </Flex>
         ))}
       </aside>
