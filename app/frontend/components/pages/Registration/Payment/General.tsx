@@ -11,10 +11,11 @@ import { Buttons } from '../Buttons';
 import { usePreferences } from '../Workshops/WorkshopPreferencesProvider';
 
 import { Accordion } from '@/components/molecules/Accordion';
-import { useFestival } from '@/hooks/useFestival';
+import { useMutation } from '@apollo/client';
 import { useForm } from '@tanstack/react-form';
 import { PropsWithChildren, useRef } from 'react';
 import registrationClasses from '../Registration.module.css';
+import { UpdateRegistrationMutation } from '../queries';
 import { CreditCard } from './CreditCard';
 import { InternetBanking } from './InternetBanking';
 import classes from './Payment.module.css';
@@ -50,18 +51,39 @@ type FormType = {
 };
 
 export const General = () => {
-  const festival = useFestival();
   const { goToNextStep, registration } = useRegistration();
   const { totalValue, packageDiscount, packagePrice, basePrice } = usePricing();
   const { count } = usePreferences();
 
   const payment = useRef<PaymentMethodHandle | null>(null);
 
+  const [update] = useMutation(UpdateRegistrationMutation);
+
   const form = useForm({
     defaultValues: {
       donateDiscount: registration?.donateDiscount ?? false,
       paymentMethod: 'InternetBankingPayment',
     } as FormType,
+    onSubmit: async ({ value: { donateDiscount } }) => {
+      if (!registration) return;
+
+      if (donateDiscount !== registration.donateDiscount) {
+        await update({ variables: { attributes: { donateDiscount } } });
+      }
+
+      if (!payment.current) {
+        console.error('No payment method selected');
+        return;
+      }
+
+      const result = await payment.current.submit();
+      if (result !== true) {
+        console.error('Payment failed', result.error);
+        return;
+      }
+
+      // goToNextStep();
+    },
   });
 
   const paid = usePaymentsWithState(PaymentState.Approved);
@@ -76,28 +98,13 @@ export const General = () => {
 
   const remainingAmount = Math.max(0, totalPrice - paidAmount);
 
-  const submit = async () => {
-    if (!payment.current) {
-      console.error('No payment method selected');
-      return;
-    }
-
-    const result = await payment.current.submit();
-    if (result !== true) {
-      console.error('Payment failed', result.error);
-      return;
-    }
-
-    goToNextStep();
-  };
-
   return (
     <form
       className={clsx(registrationClasses.page, classes.payment)}
       onSubmit={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        submit();
+        form.handleSubmit();
       }}
     >
       <div />

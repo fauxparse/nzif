@@ -34,6 +34,7 @@ module Types
     field :remove_from_waitlist, mutation: Mutations::Registrations::RemoveFromWaitlist
     field :remove_preference, mutation: Mutations::Preferences::Remove
     field :update_preferences, mutation: Mutations::Preferences::Update
+    field :update_registration, mutation: Mutations::Registrations::Update
     field :update_workshops, mutation: Mutations::Registrations::UpdateWorkshops
 
     field :allocate_workshops, mutation: Mutations::Registrations::Allocate

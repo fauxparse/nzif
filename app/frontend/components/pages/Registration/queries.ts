@@ -68,3 +68,16 @@ export const PaymentIntentQuery = graphql(`
     }
   }
 `);
+
+export const UpdateRegistrationMutation = graphql(`
+  mutation UpdateRegistration($attributes: RegistrationAttributes!) {
+    updateRegistration(attributes: $attributes) {
+      registration {
+        id
+        codeOfConductAcceptedAt
+        photoPermission
+        donateDiscount
+      }
+    }
+  }
+`);

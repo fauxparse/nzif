@@ -44,6 +44,14 @@ class Registration < ApplicationRecord
     completed_at&.past?
   end
 
+  def code_of_conduct_accepted=(value)
+    self.code_of_conduct_accepted_at = value ? Time.zone.now : nil
+  end
+
+  def code_of_conduct_accepted?
+    code_of_conduct_accepted_at.present?
+  end
+
   private
 
   def destroy_snapshots
