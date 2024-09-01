@@ -129,6 +129,11 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
 
   const placementsByRegistrationId = useMemo(() => {
     const placements = new Map<string, Record<string, number>>();
+
+    for (const id of registrationsById.keys()) {
+      placements.set(id, {});
+    }
+
     for (const session of data?.festival?.workshopAllocation?.sessions ?? []) {
       for (const registration of session.registrations) {
         const r = registrationsById.get(registration.id);
@@ -150,6 +155,7 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
   const slotsByRegistrationId = useMemo(() => {
     const slots = new Map<string, Set<string>>();
     for (const registration of registrations) {
+      slots.set(registration.id, new Set());
       for (const preference of registration.preferences) {
         const session = sessionsById.get(preference.sessionId);
         if (session) {
@@ -241,6 +247,7 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
       if (!p) throw new Error(`Placements not found for registration ${registrationId}`);
       const slots = slotsByRegistrationId.get(registrationId);
       if (!slots) throw new Error(`Slots not found for registration ${registrationId}`);
+
       return Array.from(slots).reduce(
         (acc, slotId) => acc.set(slotId, p[slotId] ?? null),
         new Map<string, number | null>()
