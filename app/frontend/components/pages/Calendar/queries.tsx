@@ -16,6 +16,7 @@ query Calendar {
       activity {
         id
         name
+        slug
         presenters {
           id
           name

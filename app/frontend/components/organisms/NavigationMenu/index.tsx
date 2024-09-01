@@ -81,6 +81,15 @@ const NavigationMenuContent: React.FC<{ visible?: boolean }> = ({ visible }) => 
       </Drawer.Close>
       <RegistrationSummary />
       <Inset side="x">
+        <ActionList className={classes.items}>
+          <ActionList.Item asChild>
+            <Link to="/calendar">
+              <CalendarIcon />
+              Calendar
+            </Link>
+          </ActionList.Item>
+        </ActionList>
+        <Separator size="4" my="4" />
         <ActionList className={classes.items} variant="subtle">
           {Object.entries(ACTIVITY_TYPES).map(([_, { icon: Icon, type, label }]) => (
             <ActionList.Item key={type} asChild>

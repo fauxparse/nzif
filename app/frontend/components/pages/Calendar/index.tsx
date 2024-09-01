@@ -2,15 +2,15 @@ import Body from '@/components/organisms/Body';
 import Header from '@/components/organisms/Header';
 import { ActivityType } from '@/graphql/types';
 import { useFestivalDates } from '@/hooks/useFestival';
-import ShareIcon from '@/icons/ShareIcon';
 import { useMutation, useQuery } from '@apollo/client';
-import { IconButton } from '@radix-ui/themes';
 import { groupBy, range, sortBy, values } from 'lodash-es';
 import { useCallback, useMemo } from 'react';
 import { CalendarProvider } from './Context';
 import { Day } from './Day';
 import { CalendarQuery, SetSessionVisibilityMutation } from './queries';
 import { CalendarSession } from './types';
+
+import classes from './Calendar.module.css';
 
 export const Calendar: React.FC = () => {
   const { loading, data } = useQuery(CalendarQuery);
@@ -30,6 +30,7 @@ export const Calendar: React.FC = () => {
                 endsAt: date.set({ hour: 13 }),
                 activity: {
                   id: `${date.toISODate()}:${i}`,
+                  slug: 'loading',
                   name: 'Loading...',
                   presenters: [],
                 },
@@ -92,13 +93,13 @@ export const Calendar: React.FC = () => {
     <CalendarProvider show={show} hide={hide}>
       <Header
         title="My calendar"
-        actions={
-          <IconButton variant="ghost" radius="full" size="3">
-            <ShareIcon />
-          </IconButton>
-        }
+        // actions={
+        //   <IconButton variant="ghost" radius="full" size="3">
+        //     <ShareIcon />
+        //   </IconButton>
+        // }
       />
-      <Body className="calendar">
+      <Body className={classes.calendar}>
         {days.map((day) => (
           <Day
             loading={loading}
