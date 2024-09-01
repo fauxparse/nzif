@@ -1,7 +1,8 @@
-import { AlertDialog, Button, Flex } from '@radix-ui/themes';
+import { AlertDialog, Button, Flex, Text, VisuallyHidden } from '@radix-ui/themes';
 import { PropsWithChildren, createContext, useCallback, useContext, useState } from 'react';
 import { CountdownButton } from './CountdownButton';
 
+import { isString } from 'lodash-es';
 import classes from './ConfirmationModal.module.css';
 
 type ConfirmOptions = Omit<
@@ -37,7 +38,10 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   <AlertDialog.Root {...props}>
     <AlertDialog.Content className={classes.content} maxWidth="30rem">
       {title && <AlertDialog.Title>{title}</AlertDialog.Title>}
-      <AlertDialog.Description>{children}</AlertDialog.Description>
+      <VisuallyHidden>
+        <AlertDialog.Description>Your confirmation is needed</AlertDialog.Description>
+      </VisuallyHidden>
+      {isString(children) ? <Text as="p">{children}</Text> : children}
       <Flex className={classes.buttons} gap="3" mt="4" justify="end">
         <AlertDialog.Cancel>
           <Button variant="outline" size="3" color="gray">

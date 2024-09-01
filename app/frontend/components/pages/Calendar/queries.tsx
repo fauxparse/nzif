@@ -6,6 +6,7 @@ query Calendar {
     id
     hidden
     waitlisted
+    full
 
     session {
       id

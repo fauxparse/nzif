@@ -1,8 +1,10 @@
 import Body from '@/components/organisms/Body';
+import { useConfirmation } from '@/components/organisms/ConfirmationModal';
 import Header from '@/components/organisms/Header';
 import { ActivityType } from '@/graphql/types';
 import { useFestivalDates } from '@/hooks/useFestival';
-import { useMutation, useQuery } from '@apollo/client';
+import { useRegistration } from '@/services/Registration';
+import { useApolloClient, useMutation, useQuery } from '@apollo/client';
 import { groupBy, range, sortBy, values } from 'lodash-es';
 import { useCallback, useMemo } from 'react';
 import { CalendarProvider } from './Context';
@@ -14,6 +16,8 @@ import classes from './Calendar.module.css';
 
 export const Calendar: React.FC = () => {
   const { loading, data } = useQuery(CalendarQuery);
+
+  const { leaveSession, leaveWaitlist } = useRegistration();
 
   const dates = useFestivalDates();
 
@@ -39,6 +43,7 @@ export const Calendar: React.FC = () => {
               },
               hidden: false,
               waitlisted: false,
+              full: false,
             }) satisfies CalendarSession
         )
       );
@@ -89,8 +94,35 @@ export const Calendar: React.FC = () => {
     });
   }, []);
 
+  const { confirm } = useConfirmation();
+
+  const { cache } = useApolloClient();
+
+  const leave = (id: CalendarSession['id']) => {
+    const session = sessions.find((s) => s.id === id);
+
+    if (!session || !data?.calendar) return;
+
+    confirm({
+      title: session.waitlisted ? 'Leave waitlist' : 'Leave session',
+      children: (
+        <>
+          <p>
+            Are you sure you want to leave{session.waitlisted && ' the waitlist for'} this session?
+          </p>
+          {!session.waitlisted && session.full && (
+            <p>This session is currently full, so someone else will be given your spot.</p>
+          )}
+        </>
+      ),
+    }).then(() => {
+      (session.waitlisted ? leaveWaitlist : leaveSession)(id);
+      cache.evict({ id: cache.identify(session) });
+    });
+  };
+
   return (
-    <CalendarProvider show={show} hide={hide}>
+    <CalendarProvider {...{ show, hide, leave }}>
       <Header
         title="My calendar"
         // actions={

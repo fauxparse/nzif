@@ -155,6 +155,7 @@ export type BooleanSetting = Setting & {
 
 export type CalendarSession = {
   __typename: 'CalendarSession';
+  full: Scalars['Boolean'];
   hidden: Scalars['Boolean'];
   id: Scalars['ID'];
   session: Session;
@@ -1086,7 +1087,7 @@ export type RegistrationPaymentIntentArgs = {
 };
 
 export type RegistrationAttributes = {
-  codeOfConductAccepted: InputMaybe<Scalars['Boolean']>;
+  codeOfConductAcceptedAt: InputMaybe<Scalars['ISO8601DateTime']>;
   donateDiscount: InputMaybe<Scalars['Boolean']>;
   photoPermission: InputMaybe<Scalars['Boolean']>;
 };

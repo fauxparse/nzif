@@ -4,13 +4,25 @@ import BATSIcon from '@/icons/BATSIcon';
 import EyeIcon from '@/icons/EyeIcon';
 import { formatSessionTime } from '@/util/formatSessionTime';
 import sentence from '@/util/sentence';
-import { Box, Card, Heading, IconButton, Text, Theme, Tooltip } from '@radix-ui/themes';
+import {
+  Box,
+  Button,
+  Card,
+  Flex,
+  Heading,
+  IconButton,
+  Text,
+  Theme,
+  Tooltip,
+} from '@radix-ui/themes';
 import { useCalendar } from './Context';
 import { CalendarSession } from './types';
 
 import { activityColor } from '@/constants/activityTypes';
 import WaitlistIcon from '@/icons/WaitlistIcon';
+import { useRegistration } from '@/services/Registration';
 import { Link } from '@tanstack/react-router';
+import { useMemo } from 'react';
 import classes from './Calendar.module.css';
 
 type CalendarEventProps = CalendarSession;
@@ -21,7 +33,19 @@ export const CalendarEvent: React.FC<CalendarEventProps> = ({
   hidden,
   waitlisted,
 }) => {
-  const { show, hide } = useCalendar();
+  const { show, hide, leave } = useCalendar();
+
+  const { registration } = useRegistration();
+
+  const inSession = useMemo(() => {
+    if (!registration) return false;
+    return registration.sessions.some((s) => s.id === id);
+  }, [registration, id]);
+
+  const onWaitlist = useMemo(() => {
+    if (!registration) return false;
+    return registration.waitlist.some((s) => s.id === id);
+  }, [registration, id]);
 
   return (
     <Theme asChild accentColor={activityColor(session.activityType)}>
@@ -60,6 +84,21 @@ export const CalendarEvent: React.FC<CalendarEventProps> = ({
           <Text as="div">
             {sentence(session.activity.presenters.map((presenter) => presenter.name))}
           </Text>
+
+          {session.activityType === ActivityType.Workshop && (
+            <Flex gap="2" mt="2">
+              {inSession && (
+                <Button variant="soft" onClick={() => leave(id)}>
+                  Leave workshop
+                </Button>
+              )}
+              {onWaitlist && (
+                <Button variant="soft" onClick={() => leave(id)}>
+                  Leave waitlist
+                </Button>
+              )}
+            </Flex>
+          )}
         </Box>
         {session.activityType !== ActivityType.Workshop && (
           <Tooltip content={`${hidden ? 'Hidden' : 'Hide'} from my calendar`}>

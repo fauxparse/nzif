@@ -155,6 +155,7 @@ type BooleanSetting implements Setting {
 }
 
 type CalendarSession {
+  full: Boolean!
   hidden: Boolean!
   id: ID!
   session: Session!
@@ -781,7 +782,7 @@ type Registration {
 }
 
 input RegistrationAttributes {
-  codeOfConductAccepted: Boolean
+  codeOfConductAcceptedAt: ISO8601DateTime
   donateDiscount: Boolean
   photoPermission: Boolean
 }

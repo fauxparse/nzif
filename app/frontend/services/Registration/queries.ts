@@ -66,3 +66,22 @@ export const RegistrationQuery = graphql(
 `,
   [RegistrationDetailsFragment]
 );
+
+export const LeaveSessionMutation = graphql(`
+  mutation LeaveSession($sessionId: ID!) {
+    removeFromSession(sessionId: $sessionId) {
+      registration {
+        id
+        sessions {
+          id
+        }
+      }
+    }
+  }
+`);
+
+export const LeaveWaitlistMutation = graphql(`
+  mutation LeaveWaitlist($sessionId: ID!) {
+    removeFromWaitlist(sessionId: $sessionId)
+  }
+`);

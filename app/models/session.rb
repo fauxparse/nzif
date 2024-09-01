@@ -94,6 +94,10 @@ class Session < ApplicationRecord
     end
   end
 
+  def full?
+    capacity.present? && placements_count >= capacity
+  end
+
   private
 
   def check_for_venue_clashes

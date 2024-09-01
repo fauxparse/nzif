@@ -1184,6 +1184,24 @@
           "possibleTypes": null,
           "fields": [
             {
+              "name": "full",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
               "name": "hidden",
               "description": null,
               "type": {
@@ -8807,11 +8825,11 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "codeOfConductAccepted",
+              "name": "codeOfConductAcceptedAt",
               "description": null,
               "type": {
                 "kind": "SCALAR",
-                "name": "Boolean",
+                "name": "ISO8601DateTime",
                 "ofType": null
               },
               "defaultValue": null,

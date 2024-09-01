@@ -1,8 +1,8 @@
-import { useQuery } from '@apollo/client';
+import { Reference, useMutation, useQuery } from '@apollo/client';
 import { useChildMatches, useNavigate } from '@tanstack/react-router';
 import { PropsWithChildren, createContext, useCallback, useContext, useMemo } from 'react';
 import { useAuthentication } from '../Authentication';
-import { RegistrationQuery } from './queries';
+import { LeaveSessionMutation, LeaveWaitlistMutation, RegistrationQuery } from './queries';
 import { Registration } from './types';
 
 import { RegistrationPhase } from '@/graphql/types';
@@ -42,6 +42,10 @@ export type StepId = StepDefinition['id'];
 
 export type StepState = 'pending' | 'active' | 'completed';
 
+const notImplemented = () => {
+  throw new Error('Not implemented');
+};
+
 type RegistrationContext = {
   phase: RegistrationPhase;
   earlybird: boolean;
@@ -54,6 +58,8 @@ type RegistrationContext = {
   stepClicked: (step: StepId) => void;
   goToPreviousStep: () => void;
   goToNextStep: () => void;
+  leaveSession: (id: string) => Promise<void>;
+  leaveWaitlist: (id: string) => Promise<void>;
 };
 
 const RegistrationContext = createContext<RegistrationContext>({
@@ -65,9 +71,11 @@ const RegistrationContext = createContext<RegistrationContext>({
   loading: true,
   registration: null,
   defaultNextStep: 'yourself',
-  stepClicked: () => {},
-  goToPreviousStep: () => {},
-  goToNextStep: () => {},
+  stepClicked: notImplemented,
+  goToPreviousStep: notImplemented,
+  goToNextStep: notImplemented,
+  leaveSession: notImplemented,
+  leaveWaitlist: notImplemented,
 });
 
 export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -124,6 +132,52 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
     }
   }, [navigate, stepIndex]);
 
+  const [doLeaveSession] = useMutation(LeaveSessionMutation);
+
+  const leaveSession = useCallback(
+    async (sessionId: string) => {
+      if (!registration) throw new Error('Not registered');
+
+      await doLeaveSession({
+        variables: { sessionId },
+        optimisticResponse: {
+          removeFromSession: {
+            registration: {
+              id: registration?.id,
+              sessions: registration?.sessions.filter((s) => s.id !== sessionId),
+            },
+          },
+        },
+      });
+    },
+    [registration, doLeaveSession]
+  );
+
+  const [doLeaveWaitlist] = useMutation(LeaveWaitlistMutation);
+
+  const leaveWaitlist = useCallback(
+    async (sessionId: string) => {
+      if (!registration) throw new Error('Not registered');
+
+      await doLeaveWaitlist({
+        variables: { sessionId },
+        optimisticResponse: {
+          removeFromWaitlist: true,
+        },
+        update: (cache) => {
+          cache.modify({
+            id: cache.identify(registration),
+            fields: {
+              waitlist: (existing, { readField }) =>
+                existing.filter((s: Reference) => readField('id', s) !== sessionId),
+            },
+          });
+        },
+      });
+    },
+    [registration, doLeaveSession]
+  );
+
   const value = useMemo(
     () => ({
       phase,
@@ -137,6 +191,8 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
       stepClicked,
       goToNextStep,
       goToPreviousStep,
+      leaveSession,
+      leaveWaitlist,
     }),
     [
       phase,
@@ -148,6 +204,8 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
       stepClicked,
       goToNextStep,
       goToPreviousStep,
+      leaveSession,
+      leaveWaitlist,
     ]
   );
 
