@@ -821,6 +821,12 @@ export type PaymentAttributes = {
   state: InputMaybe<PaymentState>;
 };
 
+export type PaymentIntent = {
+  __typename: 'PaymentIntent';
+  clientSecret: Maybe<Scalars['String']>;
+  error: Maybe<Scalars['String']>;
+};
+
 export enum PaymentState {
   /** Approved */
   Approved = 'Approved',
@@ -1052,9 +1058,11 @@ export type Registration = {
   cart: Maybe<Cart>;
   codeOfConductAcceptedAt: Maybe<Scalars['ISO8601DateTime']>;
   completedAt: Maybe<Scalars['ISO8601DateTime']>;
+  donateDiscount: Scalars['Boolean'];
   feedback: Array<Feedback>;
   id: Scalars['ID'];
   outstanding: Scalars['Money'];
+  paymentIntent: Maybe<PaymentIntent>;
   payments: Array<Payment>;
   photoPermission: Scalars['Boolean'];
   preferences: Array<Preference>;
@@ -1064,6 +1072,11 @@ export type Registration = {
   user: Maybe<User>;
   waitlist: Array<Session>;
   workshopsCount: Scalars['Int'];
+};
+
+
+export type RegistrationPaymentIntentArgs = {
+  amount: Scalars['Money'];
 };
 
 export enum RegistrationPhase {

@@ -762,7 +762,8 @@ CREATE TABLE public.registrations (
     stripe_customer_id character varying,
     placements_count integer,
     photo_permission boolean DEFAULT false NOT NULL,
-    show_explainer boolean DEFAULT true NOT NULL
+    show_explainer boolean DEFAULT true NOT NULL,
+    donate_discount boolean DEFAULT false NOT NULL
 );
 
 
@@ -2201,6 +2202,7 @@ ALTER TABLE ONLY public.sessions
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240901001119'),
 ('20240816225633'),
 ('20240804062833'),
 ('20240804062832'),

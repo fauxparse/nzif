@@ -26,6 +26,7 @@ export const RegistrationDetailsFragment = graphql(`
     photoPermission
     showExplainer
     completedAt
+    donateDiscount
 
     preferences {
       id
@@ -39,6 +40,13 @@ export const RegistrationDetailsFragment = graphql(`
 
     waitlist {
       id
+    }
+
+    payments {
+      id
+      amount
+      state
+      createdAt
     }
   }
 `);

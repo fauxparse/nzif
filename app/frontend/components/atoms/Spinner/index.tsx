@@ -22,7 +22,7 @@ export const Spinner = ({
 }: SpinnerProps) => {
   if (loading) {
     return (
-      <Theme accentColor={color}>
+      <Theme asChild accentColor={color}>
         <Box asChild className={clsx(classes.root, className)} data-size={size} {...props}>
           <svg viewBox="-50 -50 100 100">
             <title>Loading…</title>

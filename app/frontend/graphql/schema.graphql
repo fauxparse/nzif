@@ -523,6 +523,11 @@ input PaymentAttributes {
   state: PaymentState
 }
 
+type PaymentIntent {
+  clientSecret: String
+  error: String
+}
+
 enum PaymentState {
   """
   Approved
@@ -758,9 +763,11 @@ type Registration {
   cart: Cart
   codeOfConductAcceptedAt: ISO8601DateTime
   completedAt: ISO8601DateTime
+  donateDiscount: Boolean!
   feedback: [Feedback!]!
   id: ID!
   outstanding: Money!
+  paymentIntent(amount: Money!): PaymentIntent
   payments: [Payment!]!
   photoPermission: Boolean!
   preferences: [Preference!]!

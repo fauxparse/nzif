@@ -5,6 +5,7 @@ module Types
     field :cart, CartType, null: true
     field :code_of_conduct_accepted_at, GraphQL::Types::ISO8601DateTime, null: true
     field :completed_at, GraphQL::Types::ISO8601DateTime, null: true
+    field :donate_discount, Boolean, null: false
     field :id, ID, null: false
     field :outstanding, MoneyType, null: false
     field :payments, [PaymentType], null: false
@@ -18,6 +19,10 @@ module Types
     field :workshops_count, Integer, null: false
 
     field :feedback, [FeedbackType], null: false
+
+    field :payment_intent, PaymentIntentType, null: true do
+      argument :amount, MoneyType, required: true
+    end
 
     def id
       super || ''
@@ -87,6 +92,27 @@ module Types
       dataloader
         .with(Sources::SessionsByTutor, context:)
         .load(object.user.profile.id)
+    end
+
+    def payment_intent(amount:)
+      customer = Payments::GetStripeCustomer.call(
+        registration: object,
+        current_user: object.user,
+      ).customer
+
+      Stripe::PaymentIntent.create(
+        amount: amount.cents,
+        currency: 'nzd',
+        customer: customer&.id,
+        automatic_payment_methods: {
+          enabled: true,
+        },
+        metadata: {
+          registration_id: object.to_param,
+        },
+      )
+    rescue Stripe::StripeError => e
+      { error: e.message }
     end
   end
 end

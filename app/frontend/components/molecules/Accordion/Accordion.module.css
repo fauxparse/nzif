@@ -1,0 +1,116 @@
+.AccordionRoot {
+  --accordion-border-radius: var(--radius-4);
+  --accordion-border-color: var(--gray-a5);
+  --base-accordion-padding: var(--space-4);
+  --accordion-padding-top: var(--base-accordion-padding);
+  --accordion-padding-right: var(--base-accordion-padding);
+  --accordion-padding-bottom: var(--base-accordion-padding);
+  --accordion-padding-left: var(--base-accordion-padding);
+
+  position: relative;
+  border-radius: var(--accordion-border-radius);
+  background-color: var(--color-panel);
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: var(--base-card-surface-box-shadow);
+    pointer-events: none;
+  }
+}
+
+.AccordionItem {
+  overflow: hidden;
+  border-top: 1px solid var(--accordion-border-color);
+
+  &:first-child {
+    border-top: 0;
+    border-top-left-radius: var(--accordion-border-radius);
+    border-top-right-radius: var(--accordion-border-radius);
+  }
+
+  &:last-child {
+    border-bottom-right-radius: var(--accordion-border-radius);
+    border-bottom-left-radius: var(--accordion-border-radius);
+  }
+
+  &:focus-within {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.AccordionHeader {
+  display: flex;
+  margin: 0;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-3);
+}
+
+.AccordionTrigger {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  border: 0;
+  background-color: var(--color-panel);
+  outline: none;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--gray-a1);
+  }
+}
+
+.AccordionContent {
+  overflow: hidden;
+  border-top: 1px solid var(--gray-a6);
+  background-color: var(--gray-a2);
+
+  &[data-state='open'] {
+    animation: slide-down var(--speed-slow) var(--ease-standard);
+  }
+
+  &[data-state='closed'] {
+    animation: slide-up var(--speed-slow) var(--ease-standard);
+  }
+
+  p {
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.AccordionContentInner {
+  padding: var(--accordion-padding-top) var(--accordion-padding-right) var(--accordion-padding-bottom) var(--accordion-padding-left);
+}
+
+@keyframes slide-down {
+  from {
+    height: 0;
+  }
+
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+
+  to {
+    height: 0;
+  }
+}

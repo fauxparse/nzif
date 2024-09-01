@@ -56,3 +56,15 @@ export const FinaliseRegistrationMutation = graphql(`
     }
   }
 `);
+
+export const PaymentIntentQuery = graphql(`
+  query PaymentIntent($amount: Money!) {
+    registration {
+      id
+      paymentIntent(amount: $amount) {
+        clientSecret
+        error
+      }
+    }
+  }
+`);

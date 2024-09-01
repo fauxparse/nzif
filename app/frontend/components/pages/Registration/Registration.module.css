@@ -344,14 +344,3 @@
     display: none;
   }
 }
-
-.payment {
-  .paymentTable {
-    max-width: 30rem;
-    margin: 0 auto;
-  }
-
-  @media (--md) {
-    padding-top: 9rem;
-  }
-}

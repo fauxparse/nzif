@@ -7,7 +7,8 @@ import pluralize from 'pluralize';
 import { Buttons } from '../Buttons';
 import { usePreferences } from '../Workshops/WorkshopPreferencesProvider';
 
-import classes from '../Registration.module.css';
+import registrationClasses from '../Registration.module.css';
+import classes from './Payment.module.css';
 
 export const Earlybird = () => {
   const { goToNextStep } = useRegistration();
@@ -16,7 +17,7 @@ export const Earlybird = () => {
 
   return (
     <form
-      className={clsx(classes.page, classes.payment)}
+      className={clsx(registrationClasses.page, classes.payment)}
       onSubmit={(e) => {
         e.preventDefault();
         e.stopPropagation();
