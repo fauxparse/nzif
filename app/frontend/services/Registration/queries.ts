@@ -69,7 +69,31 @@ export const RegistrationQuery = graphql(
 
 export const LeaveSessionMutation = graphql(`
   mutation LeaveSession($sessionId: ID!) {
-    removeFromSession(sessionId: $sessionId) {
+    removeFromSession(sessionId: $sessionId, promote: true) {
+      registration {
+        id
+        sessions {
+          id
+        }
+      }
+
+      session {
+        id
+        full
+      }
+    }
+  }
+`);
+
+export const LeaveWaitlistMutation = graphql(`
+  mutation LeaveWaitlist($sessionId: ID!) {
+    removeFromWaitlist(sessionId: $sessionId)
+  }
+`);
+
+export const JoinSessionMutation = graphql(`
+  mutation JoinSession($sessionId: ID!) {
+    addToSession(sessionId: $sessionId) {
       registration {
         id
         sessions {
@@ -80,8 +104,17 @@ export const LeaveSessionMutation = graphql(`
   }
 `);
 
-export const LeaveWaitlistMutation = graphql(`
-  mutation LeaveWaitlist($sessionId: ID!) {
-    removeFromWaitlist(sessionId: $sessionId)
+export const JoinWaitlistMutation = graphql(`
+  mutation JoinWaitlist($sessionId: ID!) {
+    addToWaitlist(sessionId: $sessionId) {
+      waitlist {
+        registration {
+          id
+          sessions {
+            id
+          }
+        }
+      }
+    }
   }
 `);

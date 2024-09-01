@@ -18,22 +18,23 @@
     "testFramework": "rspec"
   },
   "files.exclude": {
-    "**/.git": false,
+    "**/.git": true,
     "**/.svn": true,
     "**/.hg": true,
     "**/CVS": true,
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     "**/.ruby-lsp": true,
-    "**/node_modules": false,
+    "**/node_modules": true,
     "app/frontend/molecules": true,
     "app/frontend/organisms": true,
     "app/frontend/helpers": true,
     "app/frontend/atoms": true,
-    ".cicada": true,
-    "_templates": true
+    "old": true,
+    "_templates": true,
+    ".overmind.sock": true
   },
-  "hide-files.files": ["old", ".cicada", "_templates", ".overmind.sock"],
+  "hide-files.files": ["old", "_templates", ".overmind.sock"],
   "explorerExclude.backup": {},
   "rubyTestExplorer.testFramework": "rspec"
 }

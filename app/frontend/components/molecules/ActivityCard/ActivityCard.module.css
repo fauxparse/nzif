@@ -121,3 +121,27 @@
   }
 }
 
+.soldOut {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-area: top;
+  place-content: center;
+  margin-right: 0;
+  padding-inline: var(--card-padding);
+  padding-block: var(--space-1);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  background-color: var(--accent-a9);
+  color: var(--accent-contrast);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase;
+  pointer-events: none;
+
+  @media (--sm) {
+    align-self: end;
+    margin-right: var(--margin-right-override);
+  }
+}

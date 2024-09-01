@@ -944,6 +944,7 @@ type Session {
   capacity: Int
   count: Int!
   endsAt: ISO8601DateTime!
+  full: Boolean!
   hosts: [Person!]!
   id: ID!
   messages: [Message!]!

@@ -18,6 +18,45 @@ export const ActivityPresenterFragment = graphql(`
   }
 `);
 
+export const ActivityDetailsActivityFragment = graphql(
+  `
+  fragment ActivityDetailsActivity on Activity @_unmask {
+    id
+    type
+    slug
+    name
+    description
+    bookingLink
+
+    presenters {
+      ...ActivityPresenter
+    }
+
+    picture {
+      id
+      large
+      blurhash
+      altText
+    }
+
+    sessions {
+      id
+      startsAt
+      endsAt
+      full
+
+      venue {
+        id
+        room
+        building
+        address
+      }
+    }
+  }
+`,
+  [ActivityPresenterFragment]
+);
+
 export const ActivityDetailsQuery = graphql(
   `
   query ActivityDetails($year: String!, $type: ActivityType!, $slug: String!) {
@@ -25,39 +64,10 @@ export const ActivityDetailsQuery = graphql(
       id
 
       activity(type: $type, slug: $slug) {
-        id
-        type
-        slug
-        name
-        description
-        bookingLink
-
-        presenters {
-          ...ActivityPresenter
-        }
-
-        picture {
-          id
-          large
-          blurhash
-          altText
-        }
-
-        sessions {
-          id
-          startsAt
-          endsAt
-
-          venue {
-            id
-            room
-            building
-            address
-          }
-        }
+        ...ActivityDetailsActivity
       }
     }
   }
 `,
-  [ActivityPresenterFragment]
+  [ActivityDetailsActivityFragment]
 );

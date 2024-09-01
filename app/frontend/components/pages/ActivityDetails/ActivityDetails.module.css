@@ -29,7 +29,6 @@
 
 .atAGlance {
   grid-area: at-a-glance;
-  padding: var(--space-4);
 
   :global(.rt-DataListLabel) {
     align-items: center;

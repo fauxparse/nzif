@@ -3,21 +3,21 @@ import ShareButton from '@/components/atoms/ShareButton';
 import { Markdown } from '@/components/helpers/Markdown';
 import Body from '@/components/organisms/Body';
 import Header from '@/components/organisms/Header';
-import sentence from '@/util/sentence';
-import { randParagraph } from '@ngneat/falso';
-import { Card, Flex, Heading, IconButton, Inset, Section, Skeleton, Text } from '@radix-ui/themes';
-import { map, uniqBy } from 'lodash-es';
-import { useMemo } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { Activity } from './types';
-
 import { Permission } from '@/graphql/types';
 import EditIcon from '@/icons/EditIcon';
 import { useAuthentication } from '@/services/Authentication';
+import sentence from '@/util/sentence';
+import { randParagraph } from '@ngneat/falso';
+import { Card, Flex, Heading, IconButton, Inset, Section, Skeleton, Text } from '@radix-ui/themes';
 import { Link } from '@tanstack/react-router';
-import classes from './ActivityDetails.module.css';
+import { map, uniqBy } from 'lodash-es';
+import { useMemo } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { AtAGlance } from './AtAGlance';
 import { Presenters } from './Presenters';
+import { Activity } from './types';
+
+import classes from './ActivityDetails.module.css';
 
 type ActivityDetailsProps = {
   activity: Activity;

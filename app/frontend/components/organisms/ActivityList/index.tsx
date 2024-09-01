@@ -50,8 +50,13 @@ export const ActivityList: React.FC<ActivityListProps> = ({
               columns={{ initial: '1', xs: '2', sm: '3', md: '4', lg: '4' }}
               gap="4"
             >
-              {activities.map(({ activity }) => (
-                <ActivityCard key={activity.id} activity={activity} loading={loading} />
+              {activities.map(({ activity, session }) => (
+                <ActivityCard
+                  key={activity.id}
+                  activity={activity}
+                  loading={loading}
+                  full={session.full}
+                />
               ))}
             </Grid>
           </section>

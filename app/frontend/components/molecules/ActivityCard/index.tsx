@@ -20,7 +20,7 @@ import classes from './ActivityCard.module.css';
 
 export type ActivityCardSession = Pick<
   Session,
-  keyof ResultOf<typeof ActivityCardFragment>['sessions'][number]
+  keyof ResultOf<typeof ActivityCardFragment>['sessions'][number] | 'full'
 >;
 
 export type ActivityCardActivity = Omit<ResultOf<typeof ActivityCardFragment>, 'sessions'> & {
@@ -38,6 +38,7 @@ export type ActivityCardProps = PropsWithChildren<{
   linkProps?: LinkProps;
   disabled?: boolean;
   buttons?: React.ReactNode;
+  full?: boolean;
 }>;
 
 export const ActivityCard: React.FC<ActivityCardProps> = ({
@@ -48,6 +49,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
   children,
   linkProps,
   disabled = false,
+  full,
   buttons,
 }) => {
   const router = useRouter();
@@ -136,6 +138,11 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
         <Flex className={classes.buttons} gap="1">
           {buttons}
         </Flex>
+      )}
+      {full && (
+        <Inset side={{ initial: 'all', sm: 'x' }} asChild>
+          <span className={classes.soldOut}>Sold out</span>
+        </Inset>
       )}
     </Card>
   );

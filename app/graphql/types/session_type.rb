@@ -5,6 +5,7 @@ module Types
     field :capacity, Integer, null: true
     field :count, Integer, null: false, method: :placements_count
     field :ends_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :full, Boolean, null: false, method: :full?
     field :id, ID, null: false
     field :participants, [RegistrationType], null: false
     field :slot, SlotType, null: false

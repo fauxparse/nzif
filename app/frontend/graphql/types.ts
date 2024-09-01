@@ -1190,6 +1190,7 @@ export type Session = {
   capacity: Maybe<Scalars['Int']>;
   count: Scalars['Int'];
   endsAt: Scalars['ISO8601DateTime'];
+  full: Scalars['Boolean'];
   hosts: Array<Person>;
   id: Scalars['ID'];
   messages: Array<Message>;

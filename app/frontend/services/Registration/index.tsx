@@ -2,7 +2,12 @@ import { Reference, useMutation, useQuery } from '@apollo/client';
 import { useChildMatches, useNavigate } from '@tanstack/react-router';
 import { PropsWithChildren, createContext, useCallback, useContext, useMemo } from 'react';
 import { useAuthentication } from '../Authentication';
-import { LeaveSessionMutation, LeaveWaitlistMutation, RegistrationQuery } from './queries';
+import {
+  JoinSessionMutation,
+  LeaveSessionMutation,
+  LeaveWaitlistMutation,
+  RegistrationQuery,
+} from './queries';
 import { Registration } from './types';
 
 import { RegistrationPhase } from '@/graphql/types';
@@ -60,6 +65,8 @@ type RegistrationContext = {
   goToNextStep: () => void;
   leaveSession: (id: string) => Promise<void>;
   leaveWaitlist: (id: string) => Promise<void>;
+  joinSession: (id: string) => Promise<void>;
+  joinWaitlist: (id: string) => Promise<void>;
 };
 
 const RegistrationContext = createContext<RegistrationContext>({
@@ -76,6 +83,8 @@ const RegistrationContext = createContext<RegistrationContext>({
   goToNextStep: notImplemented,
   leaveSession: notImplemented,
   leaveWaitlist: notImplemented,
+  joinSession: notImplemented,
+  joinWaitlist: notImplemented,
 });
 
 export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -146,6 +155,10 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
               id: registration?.id,
               sessions: registration?.sessions.filter((s) => s.id !== sessionId),
             },
+            session: {
+              id: sessionId,
+              full: false,
+            },
           },
         },
       });
@@ -178,6 +191,32 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
     [registration, doLeaveSession]
   );
 
+  const [doJoinSession] = useMutation(JoinSessionMutation);
+
+  const joinSession = useCallback(
+    async (sessionId: string) => {
+      if (!registration) throw new Error('Not registered');
+
+      await doJoinSession({
+        variables: { sessionId },
+      });
+    },
+    [registration, doJoinSession]
+  );
+
+  const [doJoinWaitlist] = useMutation(JoinSessionMutation);
+
+  const joinWaitlist = useCallback(
+    async (sessionId: string) => {
+      if (!registration) throw new Error('Not registered');
+
+      await doJoinWaitlist({
+        variables: { sessionId },
+      });
+    },
+    [registration, doJoinWaitlist]
+  );
+
   const value = useMemo(
     () => ({
       phase,
@@ -193,6 +232,8 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
       goToPreviousStep,
       leaveSession,
       leaveWaitlist,
+      joinSession,
+      joinWaitlist,
     }),
     [
       phase,
@@ -206,6 +247,8 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
       goToPreviousStep,
       leaveSession,
       leaveWaitlist,
+      joinSession,
+      joinWaitlist,
     ]
   );
 

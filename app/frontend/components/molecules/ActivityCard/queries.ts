@@ -42,6 +42,7 @@ export const ActivityCardFragment = graphql(
       id
       startsAt
       endsAt
+      full
     }
 
     ...on Workshop {

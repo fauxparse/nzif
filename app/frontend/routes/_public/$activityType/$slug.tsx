@@ -1,5 +1,6 @@
 import { ActivityDetails } from '@/components/pages/ActivityDetails';
 import { ActivityDetailsQuery } from '@/components/pages/ActivityDetails/queries';
+import { RegistrationProvider } from '@/services/Registration';
 import { useQuery } from '@apollo/client';
 import { createFileRoute } from '@tanstack/react-router';
 import { useMemo } from 'react';
@@ -17,6 +18,7 @@ export const Route = createFileRoute('/_public/$activityType/$slug')({
         data?.festival.activity || {
           id: 'loading',
           name: 'Loading…',
+          slug: 'loading',
           sessions: [],
           presenters: [],
           picture: null,
@@ -27,6 +29,10 @@ export const Route = createFileRoute('/_public/$activityType/$slug')({
       [loading, data]
     );
 
-    return <ActivityDetails activity={activity} loading={loading} />;
+    return (
+      <RegistrationProvider>
+        <ActivityDetails activity={activity} loading={loading} />
+      </RegistrationProvider>
+    );
   },
 });

@@ -1,4 +1,6 @@
-import { ResultOf } from '@/graphql';
-import { ActivityDetailsQuery } from './queries';
+import { FragmentOf } from '@/graphql';
+import { ActivityDetailsActivityFragment } from './queries';
 
-export type Activity = NonNullable<ResultOf<typeof ActivityDetailsQuery>['festival']['activity']>;
+export type Activity = FragmentOf<typeof ActivityDetailsActivityFragment>;
+
+export type SessionId = Activity['sessions'][number]['id'];

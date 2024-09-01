@@ -1,14 +1,14 @@
 import { ActivityCard } from '@/components/molecules/ActivityCard';
 import { RegistrationPhase } from '@/graphql/types';
+import CheckboxIcon from '@/icons/CheckboxIcon';
+import CloseIcon from '@/icons/CloseIcon';
 import PlusIcon from '@/icons/PlusIcon';
+import WaitlistIcon from '@/icons/WaitlistIcon';
 import { useRegistration } from '@/services/Registration';
-import { Button, IconButton, Inset } from '@radix-ui/themes';
+import { Button, IconButton } from '@radix-ui/themes';
 import { usePreferences } from './WorkshopPreferencesProvider';
 import { Session } from './types';
 
-import CheckboxIcon from '@/icons/CheckboxIcon';
-import CloseIcon from '@/icons/CloseIcon';
-import WaitlistIcon from '@/icons/WaitlistIcon';
 import classes from './Workshops.module.css';
 
 type WorkshopProps = {
@@ -30,7 +30,7 @@ export const Workshop: React.FC<WorkshopProps> = ({ session }) => {
 
   const waitlisted = waitlist.has(session.id);
 
-  const soldOut = !earlybird && !!session.capacity && session.count >= session.capacity;
+  const soldOut = !earlybird && !!session.full;
 
   const toggle = () => {
     if (earlybird ? position : registered || waitlisted) {
@@ -53,6 +53,7 @@ export const Workshop: React.FC<WorkshopProps> = ({ session }) => {
         search: { session: session.id },
         replace: true,
       }}
+      full={soldOut}
       buttons={
         !earlybird && (
           <Button
@@ -111,11 +112,6 @@ export const Workshop: React.FC<WorkshopProps> = ({ session }) => {
         >
           {registered ? <CheckboxIcon /> : waitlisted ? <WaitlistIcon /> : null}
         </IconButton>
-      )}
-      {soldOut && (
-        <Inset side={{ initial: 'all', sm: 'x' }} asChild>
-          <span className={classes.soldOut}>Sold out</span>
-        </Inset>
       )}
     </ActivityCard>
   );
