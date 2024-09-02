@@ -42,6 +42,7 @@ type AllocationsContext = {
   setActive: Dispatch<SetStateAction<DraggableData | null>>;
   sort: Sort;
   setSort: Dispatch<SetStateAction<Sort>>;
+  getSession: (id: string) => Session;
   sortRegistrations: (registrations: Registration[]) => Registration[];
   registration: (id: string) => Registration;
   choice: (registrationId: string, sessionId: string) => number;
@@ -60,6 +61,7 @@ type AllocationsContext = {
   hasOverloadedSessions: (date: DateTime) => boolean;
   freeTeamMembers: Map<string, Map<string, Set<string>>>;
   teamMembers: { id: string; name: string; registration: { id: string } | null }[];
+  showWorkshops: Session[];
 };
 
 const notImplemented = () => {
@@ -74,6 +76,7 @@ const AllocationsContext = createContext<AllocationsContext>({
   setActive: notImplemented,
   sort: 'name',
   setSort: notImplemented,
+  getSession: notImplemented,
   registration: notImplemented,
   choice: notImplemented,
   sortRegistrations: notImplemented,
@@ -92,6 +95,7 @@ const AllocationsContext = createContext<AllocationsContext>({
   hasOverloadedSessions: notImplemented,
   freeTeamMembers: new Map(),
   teamMembers: [],
+  showWorkshops: [],
 });
 
 export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -118,6 +122,20 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
         new Map<string, Session>()
       ),
     [data]
+  );
+
+  const getSession = useCallback(
+    (id: string) => {
+      const session = sessionsById.get(id);
+      if (!session) throw new Error(`Session with id ${id} not found`);
+      return session;
+    },
+    [sessionsById]
+  );
+
+  const showWorkshops = useMemo(
+    () => (data?.festival?.workshopAllocation?.sessions ?? []).filter((s) => !!s.workshop.show),
+    []
   );
 
   const registrations = useMemo(() => data?.festival?.registrations ?? [], [data]);
@@ -470,6 +488,7 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
         setActive,
         sort,
         setSort,
+        getSession,
         sortRegistrations,
         score,
         placements,
@@ -486,6 +505,7 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
         hasOverloadedSessions,
         freeTeamMembers,
         teamMembers,
+        showWorkshops,
       }}
     >
       {children}

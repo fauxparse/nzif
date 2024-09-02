@@ -14,6 +14,9 @@ export const WorkshopAllocationSessionDetailsFragment = graphql(`
           id
         }
       }
+      show {
+        id
+      }
     }
     registrations {
       id
