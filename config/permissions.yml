@@ -21,3 +21,5 @@ admin:
       description: Manage content
     payments:
       description: Manage payments
+team_member:
+  description: Team member

@@ -9,6 +9,11 @@ export const WorkshopAllocationSessionDetailsFragment = graphql(`
     workshop {
       id
       name
+      tutors {
+        user {
+          id
+        }
+      }
     }
     registrations {
       id
@@ -69,6 +74,15 @@ export const WorkshopAllocationQuery = graphql(
 
       registrations {
         ...WorkshopAllocationRegistration
+      }
+
+      teamMembers {
+        id
+        name
+
+        registration {
+          id
+        }
       }
     }
   }

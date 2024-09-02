@@ -69,13 +69,19 @@ const Actions = () => {
 };
 
 const DateTabs = () => {
-  const { loading, days, notYetAllocated, hasOverloadedSessions } = useAllocations();
+  const { loading, days, notYetAllocated, hasOverloadedSessions, freeTeamMembers } =
+    useAllocations();
 
   const childMatches = useChildMatches();
   const dateMatch = childMatches.find((m) => m.routeId === '/admin/allocations/$date');
   const allMatch = childMatches.find((m) => m.routeId === '/admin/allocations/all');
 
   const date = dateMatch ? (get(dateMatch.params, 'date') as unknown as DateTime) : null;
+
+  const nobodyFreeOn = (date: DateTime) => {
+    const teamMembers = freeTeamMembers.get(date.toISODate() || '');
+    return !teamMembers || Array.from(teamMembers.values()).some((set) => !set.size);
+  };
 
   if (loading || notYetAllocated) return null;
 
@@ -87,7 +93,9 @@ const DateTabs = () => {
             <Link to="/admin/allocations/$date" params={{ date: d }}>
               <Flex gap="2" align="center">
                 <span>{d.plus({}).toFormat('EEEE d')}</span>
-                {hasOverloadedSessions(d) && <WarningIcon size="1" color="red" />}
+                {(hasOverloadedSessions(d) || nobodyFreeOn(d)) && (
+                  <WarningIcon size="1" color="red" />
+                )}
               </Flex>
             </Link>
           </TabNav.Link>

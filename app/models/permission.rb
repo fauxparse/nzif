@@ -44,6 +44,10 @@ class Permission
     self.class.permissions.values.select { |p| p.parent == self }
   end
 
+  def ancestors
+    [self, *(parent&.ancestors || [])].compact
+  end
+
   def include?(permission)
     name = permission.is_a?(Permission) ? permission.name : permission.to_sym
     self.name == name || children.any? { |p| p.include?(name) }

@@ -29,7 +29,8 @@ module Matchmaker
     end
 
     def preference_for(session)
-      preferences[session.slots.first].invert[session.id]
+      prefs = preferences[session.slots.first]
+      prefs && prefs.invert[session.id]
     end
 
     def prefers?(session)

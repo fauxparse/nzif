@@ -326,6 +326,7 @@ type Festival {
   slots(type: ActivityType): [Slot!]!
   startDate: ISODate!
   state: FestivalState!
+  teamMembers: [User!]!
   timetable: Timetable!
   venues: [Venue!]!
   workshopAllocation: WorkshopAllocation
@@ -619,6 +620,11 @@ enum Permission {
   Manage social events
   """
   social_events
+
+  """
+  Team member
+  """
+  team_member
 
   """
   Manage workshops
@@ -1137,6 +1143,7 @@ type User {
   name: String!
   permissions: [Permission!]!
   profile: Person
+  registration: Registration
   settings: [Setting!]!
 }
 

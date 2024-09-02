@@ -6,6 +6,7 @@ module Types
     field :name, String, null: false
     field :permissions, [PermissionType], null: false
     field :profile, PersonType, null: true
+    field :registration, RegistrationType, null: true
     field :settings, [SettingType], null: false
 
     def id
@@ -37,6 +38,12 @@ module Types
 
       dataloader
         .with(Sources::UserActivities, context:)
+        .load(object.id)
+    end
+
+    def registration
+      dataloader
+        .with(Sources::UserRegistration, context:, festival: current_festival)
         .load(object.id)
     end
   end

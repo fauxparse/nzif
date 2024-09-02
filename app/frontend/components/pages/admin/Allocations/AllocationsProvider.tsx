@@ -58,6 +58,8 @@ type AllocationsContext = {
   undo: () => void;
   redo: () => void;
   hasOverloadedSessions: (date: DateTime) => boolean;
+  freeTeamMembers: Map<string, Map<string, Set<string>>>;
+  teamMembers: { id: string; name: string; registration: { id: string } | null }[];
 };
 
 const notImplemented = () => {
@@ -88,6 +90,8 @@ const AllocationsContext = createContext<AllocationsContext>({
   undo: notImplemented,
   redo: notImplemented,
   hasOverloadedSessions: notImplemented,
+  freeTeamMembers: new Map(),
+  teamMembers: [],
 });
 
 export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -422,6 +426,38 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
       (s) => s.startsAt.hasSame(date, 'day') && s.registrations.length > s.capacity
     ) || false;
 
+  const teamMembers = data?.festival.teamMembers ?? [];
+
+  const freeTeamMembers = useMemo(() => {
+    const result = new Map<string, Map<string, Set<string>>>();
+
+    for (const [date, sessions] of days) {
+      const day = new Map<string, Set<string>>();
+
+      for (const session of sessions) {
+        for (const slot of session.slots) {
+          const set =
+            day.get(slot.id) || new Set(teamMembers.map((m) => m.registration?.id) as string[]);
+
+          for (const registration of session.registrations) {
+            set.delete(registration.id);
+          }
+
+          for (const tutor of session.workshop.tutors) {
+            const teamMember = teamMembers.find((m) => m.id === tutor.user?.id);
+            if (teamMember?.registration) set.delete(teamMember.registration.id);
+          }
+
+          day.set(slot.id, set);
+        }
+      }
+
+      result.set(date.toISODate() || '', day);
+    }
+
+    return result;
+  }, [days, teamMembers]);
+
   return (
     <AllocationsContext.Provider
       value={{
@@ -448,6 +484,8 @@ export const AllocationsProvider: React.FC<PropsWithChildren> = ({ children }) =
         undo,
         redo,
         hasOverloadedSessions,
+        freeTeamMembers,
+        teamMembers,
       }}
     >
       {children}

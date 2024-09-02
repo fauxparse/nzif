@@ -1,10 +1,13 @@
+import CheckIcon from '@/icons/CheckIcon';
+import CloseIcon from '@/icons/CloseIcon';
 import { DragOverlay, pointerWithin, rectIntersection } from '@dnd-kit/core';
-import { Card, Heading } from '@radix-ui/themes';
+import { Card, Flex, Heading, Text } from '@radix-ui/themes';
 import { FragmentOf } from 'gql.tada';
 import { uniqBy } from 'lodash-es';
 import { DateTime } from 'luxon';
 import React, { useMemo, useState } from 'react';
 import { useAllocations } from './AllocationsProvider';
+import { Dropzone } from './Dropzone';
 import { Person, PersonInner } from './Person';
 import { Workshop } from './Workshop';
 import { CollisionDetection, DndContext, DragEndEvent, DragStartEvent } from './dndkit';
@@ -12,7 +15,6 @@ import { WorkshopAllocationSessionDetailsFragment } from './queries';
 import { Registration } from './types';
 
 import styles from './Allocations.module.css';
-import { Dropzone } from './Dropzone';
 
 type Session = FragmentOf<typeof WorkshopAllocationSessionDetailsFragment>;
 
@@ -44,7 +46,16 @@ const collisionDetection: CollisionDetection = (args) => {
 };
 
 export const Day: React.FC<DayProps> = ({ date }) => {
-  const { days, registration, sortRegistrations, active, setActive, move } = useAllocations();
+  const {
+    days,
+    registration,
+    sortRegistrations,
+    active,
+    setActive,
+    move,
+    teamMembers,
+    freeTeamMembers,
+  } = useAllocations();
 
   const [accepted, setAccepted] = useState(false);
 
@@ -122,6 +133,8 @@ export const Day: React.FC<DayProps> = ({ date }) => {
     setActive(null);
   };
 
+  const freeTeamMembersBySlot = freeTeamMembers.get(date.toISODate() || '');
+
   return (
     <DndContext
       collisionDetection={collisionDetection}
@@ -152,6 +165,23 @@ export const Day: React.FC<DayProps> = ({ date }) => {
                   <Person key={r.id} registration={r} session={null} slots={[slot]} />
                 ))}
               </Dropzone>
+              <Flex direction="column">
+                <Heading as="h4" size="2" color="gray" weight="regular" mb="2">
+                  Available team members
+                </Heading>
+                <Flex direction="column" gap="1">
+                  {teamMembers.map((t) => (
+                    <Flex key={t.id} align="center" gap="2" px="1">
+                      {freeTeamMembersBySlot?.get(slot.id)?.has(t.registration?.id || '') ? (
+                        <CheckIcon color="green" size="2" />
+                      ) : (
+                        <CloseIcon color="red" size="2" />
+                      )}
+                      <Text size="2">{t.name}</Text>
+                    </Flex>
+                  ))}
+                </Flex>
+              </Flex>
             </Card>
           ))}
         </div>

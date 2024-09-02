@@ -321,6 +321,7 @@ export type Festival = {
   slots: Array<Slot>;
   startDate: Scalars['ISODate'];
   state: FestivalState;
+  teamMembers: Array<User>;
   timetable: Timetable;
   venues: Array<Venue>;
   workshopAllocation: Maybe<WorkshopAllocation>;
@@ -875,6 +876,8 @@ export enum Permission {
   Shows = 'shows',
   /** Manage social events */
   SocialEvents = 'social_events',
+  /** Team member */
+  TeamMember = 'team_member',
   /** Manage workshops */
   Workshops = 'workshops'
 }
@@ -1389,6 +1392,7 @@ export type User = {
   name: Scalars['String'];
   permissions: Array<Permission>;
   profile: Maybe<Person>;
+  registration: Maybe<Registration>;
   settings: Array<Setting>;
 };
 

@@ -29,6 +29,7 @@ module Types
     end
     field :start_date, Types::ISODate, null: false
     field :state, Types::FestivalStateType, null: false
+    field :team_members, [Types::UserType], null: false
     field :timetable, Types::TimetableType, null: false
     field :venues, [Types::VenueType], null: false
     field :workshop_allocation, Types::WorkshopAllocationType, null: true
@@ -112,6 +113,10 @@ module Types
 
     def workshop_pricing
       Registration::Pricing.instance
+    end
+
+    def team_members
+      User.with_permission(:team_member)
     end
   end
 end

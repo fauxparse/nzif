@@ -1065,7 +1065,7 @@ CREATE TABLE public.users (
     updated_at timestamp(6) without time zone NOT NULL,
     settings public.hstore DEFAULT ''::public.hstore NOT NULL,
     searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('english'::regconfig, public.my_concat(' '::text, regexp_split_to_array((COALESCE(email, ''::character varying))::text, '[.@]'::text))), 'B'::"char"))) STORED,
-    permissions character varying[]
+    permissions jsonb DEFAULT '[]'::jsonb
 );
 
 
@@ -1919,13 +1919,6 @@ CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
 
 
 --
--- Name: index_users_on_permissions; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_users_on_permissions ON public.users USING gin (permissions);
-
-
---
 -- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2202,6 +2195,9 @@ ALTER TABLE ONLY public.sessions
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240902040156'),
+('20240902035845'),
+('20240902031323'),
 ('20240901001119'),
 ('20240816225633'),
 ('20240804062833'),
