@@ -41,7 +41,7 @@ const columns = [
           <Link key={i} to="/admin/allocations/$date" params={{ date }}>
             <Tooltip
               key={i}
-              content={`${date.plus({}).toFormat('EEEE d')} (${period === 'pm' ? 'afternoon' : 'morning'})`}
+              content={`${date.plus({}).toFormat('EEEE d')} ${period} (${period === 'pm' ? 'afternoon' : 'morning'})`}
             >
               <ChoiceBadge key={i} choice={choice} />
             </Tooltip>
@@ -68,8 +68,9 @@ export const Everybody = () => {
         score: score(registration.id),
         placements: sortBy(Array.from(placementMap(registration.id).entries()), first).map(
           ([key, choice]: [string, number | null]) => {
-            const [date, period] = key.split(':');
-            return { date: DateTime.fromISO(date), period: period as 'am' | 'pm', choice };
+            const date = DateTime.fromISO(key);
+            const period = date.toFormat('a').toLowerCase() as 'am' | 'pm';
+            return { date, period, choice };
           }
         ),
       })),
