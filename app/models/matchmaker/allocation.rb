@@ -40,22 +40,9 @@ module Matchmaker
       end
     end
 
-    # def repechage
-    #   return if @retries.zero?
-
-    #   @retries -= 1
-    #   @candidates = registrations.values.select(&:zero?).flat_map do |c|
-    #     c.candidates(reload: true).values
-    #   end.shuffle
-    # end
-
     def score
       registrations.values.sum { |r| r.score * r.score } / [registrations.size, 1].max
     end
-
-    # def siblings(session)
-    #   sessions.values.select { |s| s.starts_at == session.starts_at }
-    # end
 
     def inspect
       '<Matchmaker::Allocation...>'
