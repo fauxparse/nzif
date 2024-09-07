@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.3.4'
+ruby '3.3.5'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.1.2'
@@ -42,6 +42,7 @@ gem 'bootsnap', require: false
 gem 'vite_rails', '~> 3.0'
 
 gem 'apollo_upload_server', '2.1'
+gem 'devise', '~> 4.9.4'
 gem 'graphql', '~> 2.3.6'
 gem 'graphql_devise', '~> 1.5.0'
 
@@ -50,6 +51,9 @@ gem 'hashid-rails', '~> 1.4'
 gem 'stringex', '~> 2.8'
 
 gem 'hashie', '~> 5.0'
+
+gem 'fiddle'
+gem 'ostruct'
 
 gem 'interactor-rails', github: 'fauxparse/interactor-rails'
 
