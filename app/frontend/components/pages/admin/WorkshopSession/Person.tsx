@@ -41,7 +41,7 @@ export const Person = forwardRef<HTMLDivElement, PersonProps & FlexProps>(
                 <div>
                   <Avatar
                     fallback={busy ? <WorkshopIcon /> : <WaitlistIcon />}
-                    variant={busy ? 'solid' : 'soft'}
+                    variant={busy ? 'soft' : 'solid'}
                     size="2"
                     radius="full"
                   />
@@ -54,7 +54,7 @@ export const Person = forwardRef<HTMLDivElement, PersonProps & FlexProps>(
               </HoverCard.Content>
             </HoverCard.Root>
           ) : (
-            <Avatar fallback={<UserIcon />} variant="solid" size="2" radius="full" />
+            <Avatar fallback={<UserIcon />} variant="soft" size="2" radius="full" />
           )}
           {registration.user?.name}
         </Flex>
