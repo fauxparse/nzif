@@ -72,13 +72,8 @@ export const ActivityDetailsQuery = graphql(
 
           waitlist {
             id
-            position
-
-            registration {
-              id
-              user {
-                name
-              }
+            user {
+              name
             }
           }
 

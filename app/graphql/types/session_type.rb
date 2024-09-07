@@ -12,7 +12,7 @@ module Types
     field :slots, [SlotType], null: false
     field :starts_at, GraphQL::Types::ISO8601DateTime, null: false
     field :venue, VenueType, null: true
-    field :waitlist, [WaitlistType], null: false
+    field :waitlist, [RegistrationType], null: false
     field :workshop, WorkshopType, null: true
 
     field :hosts, [PersonType], null: false

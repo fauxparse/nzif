@@ -523,6 +523,7 @@ export type MutationAddToSessionArgs = {
 
 
 export type MutationAddToWaitlistArgs = {
+  position: InputMaybe<Scalars['Int']>;
   registrationId: InputMaybe<Scalars['ID']>;
   sessionId: Scalars['ID'];
 };
@@ -1205,7 +1206,7 @@ export type Session = {
   slots: Array<Slot>;
   startsAt: Scalars['ISO8601DateTime'];
   venue: Maybe<Venue>;
-  waitlist: Array<Waitlist>;
+  waitlist: Array<Registration>;
   workshop: Maybe<Workshop>;
 };
 

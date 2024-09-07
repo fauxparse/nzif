@@ -1,0 +1,65 @@
+.page {
+  grid-column: main;
+}
+
+.participants {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  padding-block: var(--space-5);
+
+  h3 {
+    color: var(--gray-11);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  [data-over] {
+    outline: 0.25rem solid var(--accent-a6);
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  contain: layout;
+}
+
+.person {
+  padding: var(--space-1);
+  border-radius: var(--radius-1);
+  color: var(--gray-12);
+  cursor: grab;
+  user-select: none;
+}
+
+.dragOverlay {
+  border-radius: var(--radius-1);
+  box-shadow: var(--shadow-3);
+
+  .person {
+    cursor: grabbing;
+  }
+}
+
+.trash {
+  position: sticky;
+  bottom: 0;
+  display: grid;
+  place-content: center;
+  margin: calc(var(--card-padding) * -1);
+  margin-top: var(--space-4);
+  padding: var(--space-6);
+  border-top: 1px solid var(--gray-6);
+  border-radius: inherit;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  background: var(--color-panel);
+
+  [data-icon] {
+    color: var(--gray-6);
+  }
+}

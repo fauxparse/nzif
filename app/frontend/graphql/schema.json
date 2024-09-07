@@ -4171,6 +4171,18 @@
               "deprecationReason": null,
               "args": [
                 {
+                  "name": "position",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "registrationId",
                   "description": null,
                   "type": {
@@ -9729,7 +9741,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "Waitlist",
+                      "name": "Registration",
                       "ofType": null
                     }
                   }

@@ -3,6 +3,9 @@
 <p>
 <p>
   Here is your confirmed list of workshops for NZIF <%= @festival.year %>.
+  You can always see an up-to-date list of your workshops on your
+  individual
+  <%= link_to "calendar page", calendar_url %>.
 </p>
 <div class="left-pink-border">
   <%= render partial: 'session', collection: @registration.sessions.sort_by(&:starts_at) %>
@@ -22,7 +25,7 @@
   </p>
   <div class="left-blue-border" style="margin-bottom: 1.5rem">
     <% @empty_slots.each_pair do |slot, preferences| %>
-      <div style="color: #61646d;"><%= l slot.starts_at, format: :friendly %> – <%= l slot.ends_at, format: :short %></div>
+      <div style="color: #61646d;"><%= l slot, format: :friendly %></div>
       <ul style="margin: 0; padding: 0">
         <% preferences.each do |p| %>
           <li><%= p.session.activity.name %></li>

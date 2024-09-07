@@ -4,7 +4,7 @@ module Registrations
       authorize! festival, to: :update?
 
       finalise_sessions
-      # send_confirmations
+      send_confirmations
     end
 
     def festival

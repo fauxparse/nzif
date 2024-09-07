@@ -453,7 +453,7 @@ type Mutation {
   addPreference(registrationId: ID, sessionId: ID!): AddPreferencePayload
   addSessionCast(profileId: ID!, role: Role!, sessionId: ID!): AddSessionCastPayload
   addToSession(registrationId: ID, sessionId: ID!): AddToSessionPayload
-  addToWaitlist(registrationId: ID, sessionId: ID!): AddToWaitlistPayload
+  addToWaitlist(position: Int, registrationId: ID, sessionId: ID!): AddToWaitlistPayload
   addVoucher(registrationId: ID!, workshops: Int!): AddVoucherPayload
   allocateWorkshops: allocateWorkshopsPayload
   approvePayment(id: ID!): ApprovePaymentPayload
@@ -962,7 +962,7 @@ type Session {
   slots: [Slot!]!
   startsAt: ISO8601DateTime!
   venue: Venue
-  waitlist: [Waitlist!]!
+  waitlist: [Registration!]!
   workshop: Workshop
 }
 
