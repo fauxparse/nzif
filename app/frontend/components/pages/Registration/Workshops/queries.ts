@@ -36,6 +36,8 @@ export const RegistrationWorkshopFragment = graphql(`
       startsAt
       endsAt
       full
+      count
+      capacity
 
       slots {
         id
@@ -130,6 +132,8 @@ export const WorkshopDetailsQuery = graphql(
           id
           startsAt
           endsAt
+          count
+          capacity
           full
 
           venue {

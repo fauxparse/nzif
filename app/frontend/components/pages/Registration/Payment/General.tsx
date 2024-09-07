@@ -77,12 +77,13 @@ export const General = () => {
       }
 
       const result = await payment.current.submit();
+
       if (result !== true) {
         console.error('Payment failed', result.error);
         return;
       }
 
-      // goToNextStep();
+      goToNextStep();
     },
   });
 

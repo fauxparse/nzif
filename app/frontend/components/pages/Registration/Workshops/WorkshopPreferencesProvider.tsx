@@ -58,7 +58,10 @@ export const WorkshopPreferencesProvider: React.FC<PropsWithChildren> = ({ child
 
   const { earlybird } = useRegistration();
 
-  const count = (earlybird ? preferences : sessions).size;
+  const count = useMemo(() => {
+    if (earlybird) return preferences.size;
+    return [...sessions].map(getSession).reduce((acc, session) => acc + session.slots.length, 0);
+  }, [earlybird, preferences, sessions]);
 
   const contextValue = useMemo(
     () => ({
