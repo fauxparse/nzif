@@ -19,12 +19,12 @@ class ParticipantMailer < ApplicationMailer
     @user = registration.user
     @festival = registration.festival
     @placements = registration.placements
-      .includes(session: %i[activity venue])
+      .includes(session: %i[activity venue session_slots])
       .sort_by { |p| p.session.starts_at }
     slots = Set.new(@placements.flat_map { |p| p.session.session_slots[0].starts_at })
     @empty_slots = registration
       .preferences
-      .reject { |p| p.slots.all? { |s| slots.include?(s.starts_at) } }
+      .reject { |p| slots.include?(p.slots.first.starts_at) }
       .sort_by { |p| p.session.starts_at }
       .map { |p| [p.slots[0].starts_at, p] }
       .group_by(&:first)

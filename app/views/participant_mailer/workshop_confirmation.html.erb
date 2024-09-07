@@ -1,3 +1,8 @@
+  <div class="left-blue-border" style="margin-bottom: 1.5rem">
+    <p>
+      Mō taku hē! This email replaces the previous one, which incorrectly counted your workshop total.
+    </p>
+  </div>
 <p>
   Kia ora <%= @user.profile.name %>,
 <p>
@@ -36,7 +41,7 @@
 <% end %>
 <% if @cart.workshops_count.positive? %>
   <p>
-    Your total registration fee is as follows:
+    Your total registration fee is as follows. Note that full-day workshops are counted as two slots.
   </p>
   <%= render partial: 'cart', locals: { cart: @cart } %>
 <% end %>

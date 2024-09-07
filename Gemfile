@@ -118,6 +118,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 6.1.3'
 
   gem 'factory_bot_rails'
+
+  gem 'rdoc'
 end
 
 group :development do

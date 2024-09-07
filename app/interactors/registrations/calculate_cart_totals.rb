@@ -27,7 +27,9 @@ module Registrations
         if %i[earlybird paused].include? registration.festival.registration_phase
           registration.requested_slots.count('DISTINCT session_slots.starts_at')
         else
-          registration.sessions.count
+          registration.sessions.includes(:session_slots).reduce(0) do |sum, session|
+            sum + session.session_slots.count
+          end
         end
     end
 
