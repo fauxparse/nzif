@@ -5,15 +5,15 @@ class WorkshopCalendar
 
   attr_reader :registration, :sessions
 
-  def initialize(registration, sessions: nil, deleted_sessions: nil)
+  def initialize(registration, sessions: nil, deleted_sessions: [])
     @registration = Registration.with_details_for_calendar.find(registration.id)
     @sessions = sessions ||= default_sessions
 
-    start_time = (sessions.first || deleted_sessions.first)&.starts_at
-    ical.add_timezone start_time.time_zone.tzinfo.ical_timezone(start_time) if start_time
-    deleted_sessions.each { |session| add_session(session, status: 'CANCELLED') }
-    sessions.each { |session| add_session(session) }
-    ical.append_custom_property('METHOD', 'PUBLISH')
+    # start_time = (sessions.first || deleted_sessions.first)&.starts_at
+    # ical.add_timezone start_time.time_zone.tzinfo.ical_timezone(start_time) if start_time
+    # deleted_sessions.each { |session| add_session(session, status: 'CANCELLED') }
+    # sessions.each { |session| add_session(session) }
+    # ical.append_custom_property('METHOD', 'PUBLISH')
   end
 
   delegate :user, to: :registration
@@ -25,7 +25,7 @@ class WorkshopCalendar
     @ical ||= Icalendar::Calendar.new
   end
 
-  def add_session(session, status: 'CONFIRMED') # rubocop:disable Metrics/MethodLength
+  def add_session(session, status: 'CONFIRMED')
     ical.event do |e|
       e.uid         = session.to_param
       e.dtstart     = session.starts_at.to_datetime
@@ -66,6 +66,10 @@ class WorkshopCalendar
   end
 
   def teaching_sessions
-    profile.cast.includes(activity: :sessions).flat_map { |c| c.activity.sessions }
+    profile
+      .cast
+      .includes(activity: :sessions)
+      .flat_map { |c| c.activity&.sessions || [] }
+      .select { |s| s.festival_id == registration.festival_id }
   end
 end
