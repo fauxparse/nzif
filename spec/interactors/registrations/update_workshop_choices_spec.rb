@@ -72,4 +72,17 @@ RSpec.describe Registrations::UpdateWorkshopChoices do
       expect { result }.to change(registration.waitlist, :count).by(-1)
     end
   end
+
+  context 'when a workshop is full' do
+    let(:session_ids) { [sessions[0].to_param] }
+
+    before do
+      sessions[0].update!(capacity: 1)
+      sessions[0].placements.create!(registration: create(:registration, festival:))
+    end
+
+    it 'does not add the user to the workshop' do
+      expect { result }.not_to change(registration.placements, :count)
+    end
+  end
 end

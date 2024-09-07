@@ -65,7 +65,7 @@ module Registrations
     def new_sessions
       @new_sessions ||= find_sessions(
         placed_ids - Session.encode_id(current_placements.map(&:session_id)),
-      )
+      ).reject(&:full?)
     end
 
     def new_waitlist
