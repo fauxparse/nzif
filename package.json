@@ -4,6 +4,7 @@
   "author": "Matt Powell <fauxparse@gmail.com>",
   "license": "MIT",
   "type": "module",
+  "packageManager": "pnpm@8.15.9",
   "scripts": {
     "codegen": "graphql-codegen --config codegen.ts",
     "contentful": "graphql-codegen --config contentful.ts",
