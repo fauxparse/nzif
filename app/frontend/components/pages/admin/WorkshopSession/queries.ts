@@ -115,3 +115,17 @@ export const RemoveFromWaitlistMutation = graphql(`
     removeFromWaitlist(sessionId: $sessionId, registrationId: $registrationId)
   }
 `);
+
+export const RegistrationSearchQuery = graphql(
+  `
+  query RegistrationSearch($query: String!) {
+    festival {
+      id
+      registrations(name: $query) {
+        ...SessionRegistration
+      }
+    }
+  }
+`,
+  [SessionRegistrationFragment]
+);

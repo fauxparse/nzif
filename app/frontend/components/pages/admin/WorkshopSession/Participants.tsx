@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { PropsWithChildren, useMemo, useState } from 'react';
 
 import TrashIcon from '@/icons/TrashIcon';
 import UsersIcon from '@/icons/UsersIcon';
@@ -24,7 +24,7 @@ import { sortBy } from 'lodash-es';
 import pluralize from 'pluralize';
 import { createPortal } from 'react-dom';
 import { DraggablePerson, Person, SortablePerson } from './Person';
-import classes from './WorkshopSession.module.css';
+import { PersonPicker } from './PersonPicker';
 import { useWorkshopSessionContext } from './WorkshopSessionProvider';
 import {
   CollisionDetection,
@@ -35,6 +35,8 @@ import {
   useDroppable,
 } from './dndkit';
 import type { ListId, Registration } from './types';
+
+import classes from './WorkshopSession.module.css';
 
 export const Participants: React.FC = () => {
   const { session, addToSession, addToWaitlist, removeFromSession, removeFromWaitlist } =
@@ -134,6 +136,7 @@ export const Participants: React.FC = () => {
                   <Person
                     registration={active.registration}
                     waitlisted={active.sortable?.containerId === 'waitlist'}
+                    isDragging
                   />
                 </div>
               </Theme>
@@ -146,56 +149,67 @@ export const Participants: React.FC = () => {
   );
 };
 
-const ParticipantList: React.FC<{ participants: Registration[] }> = ({ participants }) => {
+const ParticipantListCard: React.FC<
+  PropsWithChildren<{
+    id: ListId;
+    participants: Registration[];
+    waitlist?: boolean;
+    over?: boolean;
+    onAdd: (registration: Registration) => void;
+  }>
+> = ({ id, participants, waitlist = false, over = false, onAdd, children }) => {
   const { session } = useWorkshopSessionContext();
 
   const { setNodeRef, isOver } = useDroppable({
-    id: 'participants',
-    data: { waitlist: false },
+    id,
+    data: { waitlist },
   });
 
   return (
-    <Card ref={setNodeRef} className={classes.list} data-over={isOver || undefined}>
+    <Card ref={setNodeRef} className={classes.list} data-over={over || isOver || undefined}>
       <Flex asChild align="center" gap="2">
         <Heading size="3" as="h3">
-          <UsersIcon />
-          {`${participants.length}/${session.capacity} participants`}
+          {waitlist ? <WaitlistIcon /> : <UsersIcon />}
+          {waitlist
+            ? pluralize('waitlisted participant', participants.length, true)
+            : `${participants.length}/${session.capacity} ${waitlist ? 'waitlisted' : 'participants'}`}
         </Heading>
       </Flex>
       <Inset side="x">
-        <Separator size="4" my="4" />
+        <PersonPicker existing={participants} onSelect={onAdd} />
+        <Separator size="4" mb="4" />
       </Inset>
+      {children}
+    </Card>
+  );
+};
+
+const ParticipantList: React.FC<{ participants: Registration[] }> = ({ participants }) => {
+  const { addToSession } = useWorkshopSessionContext();
+
+  return (
+    <ParticipantListCard id="participants" participants={participants} onAdd={addToSession}>
       {participants.map((registration) => (
         <DraggablePerson key={registration.id} registration={registration} />
       ))}
-    </Card>
+    </ParticipantListCard>
   );
 };
 
 const Waitlist: React.FC<{ participants: Registration[]; isOver: boolean }> = ({
   participants,
-  isOver: isOverWaitlist,
+  isOver,
 }) => {
-  const { setNodeRef, isOver } = useDroppable({
-    id: 'waitlist',
-    data: { waitlist: true },
-  });
+  const { addToWaitlist } = useWorkshopSessionContext();
 
   return (
-    <Card
-      ref={setNodeRef}
-      className={classes.list}
-      data-over={isOver || isOverWaitlist || undefined}
+    <ParticipantListCard
+      id="waitlist"
+      participants={participants}
+      waitlist
+      over={isOver}
+      onAdd={(r) => addToWaitlist(r, participants.length + 1)}
     >
-      <Flex asChild align="center" gap="2">
-        <Heading size="3" as="h3">
-          <WaitlistIcon />
-          {pluralize('waitlisted participant', participants.length, true)}
-        </Heading>
-      </Flex>
-      <Inset side="x">
-        <Separator size="4" my="4" />
-      </Inset>
       <SortableContext id="waitlist" items={participants} strategy={verticalListSortingStrategy}>
         <div style={{ flex: 1 }}>
           {participants.map((registration) => (
@@ -204,7 +218,7 @@ const Waitlist: React.FC<{ participants: Registration[]; isOver: boolean }> = ({
         </div>
       </SortableContext>
       <Trash />
-    </Card>
+    </ParticipantListCard>
   );
 };
 

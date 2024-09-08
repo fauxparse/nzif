@@ -5,7 +5,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Avatar, Flex, FlexProps, HoverCard, Text } from '@radix-ui/themes';
 import { FragmentOf } from 'gql.tada';
-import React, { forwardRef, useMemo } from 'react';
+import React, { forwardRef, useEffect, useMemo, useState } from 'react';
 import { useWorkshopSessionContext } from './WorkshopSessionProvider';
 import { useDraggable } from './dndkit';
 import { SessionRegistrationFragment } from './queries';
@@ -16,10 +16,11 @@ import classes from './WorkshopSession.module.css';
 type PersonProps = {
   registration: FragmentOf<typeof SessionRegistrationFragment>;
   waitlisted?: boolean;
+  isDragging?: boolean;
 };
 
 export const Person = forwardRef<HTMLDivElement, PersonProps & FlexProps>(
-  ({ registration, waitlisted = false, ...props }, ref) => {
+  ({ registration, waitlisted = false, isDragging = false, ...props }, ref) => {
     const { session } = useWorkshopSessionContext();
 
     const otherSessions = useMemo(
@@ -32,11 +33,22 @@ export const Person = forwardRef<HTMLDivElement, PersonProps & FlexProps>(
 
     const busy = otherSessions.length > 0;
 
+    const [hovered, setHovered] = useState(false);
+
+    useEffect(() => {
+      if (isDragging) setHovered(false);
+    }, [isDragging]);
+
     return (
       <div ref={ref} {...props}>
         <Flex className={classes.person} gap="2" align="center">
           {waitlisted ? (
-            <HoverCard.Root>
+            <HoverCard.Root
+              open={hovered}
+              onOpenChange={(open) => {
+                setHovered(open && !isDragging);
+              }}
+            >
               <HoverCard.Trigger>
                 <div>
                   <Avatar
@@ -64,10 +76,11 @@ export const Person = forwardRef<HTMLDivElement, PersonProps & FlexProps>(
 );
 
 export const SortablePerson: React.FC<PersonProps> = ({ registration, ...props }) => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: registration.id,
-    data: { registration },
-  });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging, isSorting } =
+    useSortable({
+      id: registration.id,
+      data: { registration },
+    });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -81,6 +94,7 @@ export const SortablePerson: React.FC<PersonProps> = ({ registration, ...props }
       registration={registration}
       data-id={registration.id}
       style={style}
+      isDragging={isDragging || isSorting}
       {...attributes}
       {...listeners}
       {...props}
@@ -105,6 +119,7 @@ export const DraggablePerson: React.FC<PersonProps> = ({ registration, ...props 
       registration={registration}
       data-id={registration.id}
       style={style}
+      isDragging={isDragging}
       {...attributes}
       {...listeners}
       {...props}

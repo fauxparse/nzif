@@ -90,10 +90,6 @@ export const ActivityList: React.FC<ActivityListProps> = ({ activityType }) => {
           id: 'startsAt',
           desc: true,
         },
-        {
-          id: 'name',
-          desc: false,
-        },
       ],
     },
   });

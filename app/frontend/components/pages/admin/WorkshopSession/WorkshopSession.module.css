@@ -21,6 +21,12 @@
   }
 }
 
+.personPicker {
+  margin-top: var(--space-4);
+  box-shadow: none;
+  outline: none;
+}
+
 .list {
   display: flex;
   flex-direction: column;
