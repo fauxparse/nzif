@@ -13,13 +13,17 @@ import {
 
 import { ActionList } from '@/components/molecules/ActionList';
 import { ACTIVITY_TYPES } from '@/constants/activityTypes';
+import { Permission } from '@/graphql/types';
 import { useDarkMode } from '@/hooks/useDarkMode';
 import CalendarIcon from '@/icons/CalendarIcon';
 import CloseIcon from '@/icons/CloseIcon';
 import DashboardIcon from '@/icons/DashboardIcon';
+import PaymentIcon from '@/icons/PaymentIcon';
 import ThemeIcon from '@/icons/ThemeIcon';
 import UsersIcon from '@/icons/UsersIcon';
+import { useAuthentication } from '@/services/Authentication';
 import { Link } from '@tanstack/react-router';
+import { isEmpty } from 'lodash-es';
 import pluralize from 'pluralize';
 import React from 'react';
 import classes from './NavigationMenu.module.css';
@@ -53,7 +57,10 @@ const NavigationMenu: React.FC = () => {
 };
 
 const NavigationMenuContent: React.FC<{ visible?: boolean }> = ({ visible }) => {
+  const { user, hasPermission } = useAuthentication();
+
   const { toggle: toggleTheme } = useDarkMode();
+
   const { close } = useDrawer();
 
   const clicked = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -102,34 +109,50 @@ const NavigationMenuContent: React.FC<{ visible?: boolean }> = ({ visible }) => 
         </ActionList>
       </Inset>
 
-      <Inset side="x">
-        <Separator size="4" my="4" />
-      </Inset>
-      <Heading as="h4" className={classes.sectionHeading}>
-        Admin
-      </Heading>
-      <Inset side="x">
-        <ActionList className={classes.items} variant="subtle">
-          <ActionList.Item asChild>
-            <Link to="/admin">
-              <DashboardIcon />
-              Dashboard
-            </Link>
-          </ActionList.Item>
-          <ActionList.Item asChild>
-            <Link to="/admin/timetable">
-              <CalendarIcon />
-              Timetable
-            </Link>
-          </ActionList.Item>
-          <ActionList.Item asChild>
-            <Link to="/admin/registrations">
-              <UsersIcon />
-              Registrations
-            </Link>
-          </ActionList.Item>
-        </ActionList>
-      </Inset>
+      {!isEmpty(user?.permissions) && (
+        <>
+          <Inset side="x">
+            <Separator size="4" my="4" />
+          </Inset>
+          <Heading as="h4" className={classes.sectionHeading}>
+            Admin
+          </Heading>
+          <Inset side="x">
+            <ActionList className={classes.items} variant="subtle">
+              <ActionList.Item asChild>
+                <Link to="/admin">
+                  <DashboardIcon />
+                  Dashboard
+                </Link>
+              </ActionList.Item>
+              {hasPermission(Permission.Activities) && (
+                <ActionList.Item asChild>
+                  <Link to="/admin/timetable">
+                    <CalendarIcon />
+                    Timetable
+                  </Link>
+                </ActionList.Item>
+              )}
+              {hasPermission(Permission.Registrations) && (
+                <ActionList.Item asChild>
+                  <Link to="/admin/registrations">
+                    <UsersIcon />
+                    Registrations
+                  </Link>
+                </ActionList.Item>
+              )}
+              {hasPermission(Permission.Payments) && (
+                <ActionList.Item asChild>
+                  <Link to="/admin/payments">
+                    <PaymentIcon />
+                    Payments
+                  </Link>
+                </ActionList.Item>
+              )}
+            </ActionList>
+          </Inset>
+        </>
+      )}
       <Inset side="x" style={{ order: 1 }}>
         <ActionList className={classes.items} variant="subtle">
           <ActionList.Item onClick={toggleTheme}>
