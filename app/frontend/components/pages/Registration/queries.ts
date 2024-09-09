@@ -69,6 +69,29 @@ export const PaymentIntentQuery = graphql(`
   }
 `);
 
+export const PaymentFragment = graphql(`
+  fragment PaymentFragment on Payment @_unmask {
+    id
+    type
+    amount
+    state
+    createdAt
+  }
+`);
+
+export const CreatePaymentMutation = graphql(
+  `
+  mutation CreatePayment($amount: Money!, $registrationId: ID!, $type: PaymentType!) {
+    addPayment(amount: $amount, registrationId: $registrationId, type: $type, state: Pending) {
+      payment {
+        ...PaymentFragment
+      }
+    }
+  }
+`,
+  [PaymentFragment]
+);
+
 export const UpdateRegistrationMutation = graphql(`
   mutation UpdateRegistration($attributes: RegistrationAttributes!) {
     updateRegistration(attributes: $attributes) {

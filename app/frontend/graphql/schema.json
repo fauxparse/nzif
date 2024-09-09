@@ -4039,6 +4039,18 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "state",
+                  "description": null,
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "PaymentState",
+                    "ofType": null
+                  },
+                  "defaultValue": "Approved",
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "type",
                   "description": null,
                   "type": {

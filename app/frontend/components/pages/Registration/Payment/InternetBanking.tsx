@@ -1,10 +1,13 @@
 import { Money } from '@/components/atoms/Money';
 import { useToast } from '@/components/molecules/Toast';
+import { PaymentType } from '@/graphql/types';
 import { useFestival } from '@/hooks/useFestival';
 import CopyIcon from '@/icons/CopyIcon';
 import { useRegistration } from '@/services/Registration';
+import { useMutation } from '@apollo/client';
 import { DataList, Flex, IconButton } from '@radix-ui/themes';
 import React, { PropsWithChildren, useImperativeHandle } from 'react';
+import { CreatePaymentMutation, PaymentFragment } from '../queries';
 import { PaymentMethod, PaymentMethodProps } from './types';
 
 export const InternetBanking: React.FC<PaymentMethodProps> = ({ amount, handle }) => {
@@ -12,9 +15,40 @@ export const InternetBanking: React.FC<PaymentMethodProps> = ({ amount, handle }
 
   const { registration } = useRegistration();
 
+  const [addPayment] = useMutation(CreatePaymentMutation);
+
   useImperativeHandle(handle, () => ({
     method: 'InternetBankingPayment' as PaymentMethod,
-    submit: () => Promise.resolve(true),
+    submit: async () => {
+      if (!registration) {
+        throw new Error('No registration found');
+      }
+      await addPayment({
+        variables: {
+          amount,
+          registrationId: registration.id,
+          type: PaymentType.InternetBankingPayment,
+        },
+        update: (cache, { data }) => {
+          const payment = data?.addPayment?.payment;
+          if (!payment) return;
+
+          const ref = cache.writeFragment({
+            id: cache.identify(payment),
+            data: payment,
+            fragment: PaymentFragment,
+          });
+
+          cache.modify({
+            id: cache.identify(registration),
+            fields: {
+              payments: (existing) => [...existing, ref],
+            },
+          });
+        },
+      });
+      return true;
+    },
   }));
 
   return (

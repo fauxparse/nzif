@@ -44,6 +44,7 @@ export const RegistrationDetailsFragment = graphql(`
 
     payments {
       id
+      type
       amount
       state
       createdAt
