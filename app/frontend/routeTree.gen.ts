@@ -51,7 +51,6 @@ import { Route as PublicPeopleIndexImport } from './routes/_public/people/index'
 import { Route as RegisterWorkshopsSlugImport } from './routes/register/workshops.$slug'
 import { Route as RegisterCodeOfConductMediaImport } from './routes/register/code-of-conduct.media'
 import { Route as AdminRegistrationsPreferencesImport } from './routes/admin/registrations/preferences'
-import { Route as AdminRegistrationsRegistrationIdImport } from './routes/admin/registrations/$registrationId'
 import { Route as AdminPaymentsPaymentIdImport } from './routes/admin/payments/$paymentId'
 import { Route as AdminDonationsDonationIdImport } from './routes/admin/donations/$donationId'
 import { Route as AdminAllocationsAllImport } from './routes/admin/allocations/all'
@@ -63,9 +62,13 @@ import { Route as PublicAuthenticatedProfileImport } from './routes/_public/_aut
 import { Route as PublicAuthenticatedCalendarImport } from './routes/_public/_authenticated/calendar'
 import { Route as PublicActivityTypeListImport } from './routes/_public/$activityType/_list'
 import { Route as PublicActivityTypeSlugImport } from './routes/_public/$activityType/$slug'
+import { Route as AdminRegistrationsRegistrationIdRouteImport } from './routes/admin/registrations/$registrationId/route'
 import { Route as AdminActivityTypeSlugRouteImport } from './routes/admin/$activityType/$slug/route'
+import { Route as AdminRegistrationsRegistrationIdIndexImport } from './routes/admin/registrations/$registrationId/index'
 import { Route as AdminActivityTypeSlugIndexImport } from './routes/admin/$activityType/$slug/index'
 import { Route as PublicActivityTypeListIndexImport } from './routes/_public/$activityType/_list.index'
+import { Route as AdminRegistrationsRegistrationIdWorkshopsImport } from './routes/admin/registrations/$registrationId/workshops'
+import { Route as AdminRegistrationsRegistrationIdPaymentsImport } from './routes/admin/registrations/$registrationId/payments'
 import { Route as AdminActivityTypeSlugSessionImport } from './routes/admin/$activityType/$slug/$session'
 
 // Create/Update Routes
@@ -273,12 +276,6 @@ const AdminRegistrationsPreferencesRoute =
     getParentRoute: () => AdminRegistrationsRouteRoute,
   } as any)
 
-const AdminRegistrationsRegistrationIdRoute =
-  AdminRegistrationsRegistrationIdImport.update({
-    path: '/$registrationId',
-    getParentRoute: () => AdminRegistrationsRouteRoute,
-  } as any)
-
 const AdminPaymentsPaymentIdRoute = AdminPaymentsPaymentIdImport.update({
   path: '/$paymentId',
   getParentRoute: () => AdminPaymentsRouteRoute,
@@ -337,12 +334,24 @@ const PublicActivityTypeSlugRoute = PublicActivityTypeSlugImport.update({
   getParentRoute: () => PublicActivityTypeRouteRoute,
 } as any)
 
+const AdminRegistrationsRegistrationIdRouteRoute =
+  AdminRegistrationsRegistrationIdRouteImport.update({
+    path: '/$registrationId',
+    getParentRoute: () => AdminRegistrationsRouteRoute,
+  } as any)
+
 const AdminActivityTypeSlugRouteRoute = AdminActivityTypeSlugRouteImport.update(
   {
     path: '/$slug',
     getParentRoute: () => AdminActivityTypeRouteRoute,
   } as any,
 )
+
+const AdminRegistrationsRegistrationIdIndexRoute =
+  AdminRegistrationsRegistrationIdIndexImport.update({
+    path: '/',
+    getParentRoute: () => AdminRegistrationsRegistrationIdRouteRoute,
+  } as any)
 
 const AdminActivityTypeSlugIndexRoute = AdminActivityTypeSlugIndexImport.update(
   {
@@ -355,6 +364,18 @@ const PublicActivityTypeListIndexRoute =
   PublicActivityTypeListIndexImport.update({
     path: '/',
     getParentRoute: () => PublicActivityTypeListRoute,
+  } as any)
+
+const AdminRegistrationsRegistrationIdWorkshopsRoute =
+  AdminRegistrationsRegistrationIdWorkshopsImport.update({
+    path: '/workshops',
+    getParentRoute: () => AdminRegistrationsRegistrationIdRouteRoute,
+  } as any)
+
+const AdminRegistrationsRegistrationIdPaymentsRoute =
+  AdminRegistrationsRegistrationIdPaymentsImport.update({
+    path: '/payments',
+    getParentRoute: () => AdminRegistrationsRegistrationIdRouteRoute,
   } as any)
 
 const AdminActivityTypeSlugSessionRoute =
@@ -584,6 +605,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminActivityTypeSlugRouteImport
       parentRoute: typeof AdminActivityTypeRouteImport
     }
+    '/admin/registrations/$registrationId': {
+      id: '/admin/registrations/$registrationId'
+      path: '/$registrationId'
+      fullPath: '/admin/registrations/$registrationId'
+      preLoaderRoute: typeof AdminRegistrationsRegistrationIdRouteImport
+      parentRoute: typeof AdminRegistrationsRouteImport
+    }
     '/_public/$activityType/$slug': {
       id: '/_public/$activityType/$slug'
       path: '/$slug'
@@ -660,13 +688,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/payments/$paymentId'
       preLoaderRoute: typeof AdminPaymentsPaymentIdImport
       parentRoute: typeof AdminPaymentsRouteImport
-    }
-    '/admin/registrations/$registrationId': {
-      id: '/admin/registrations/$registrationId'
-      path: '/$registrationId'
-      fullPath: '/admin/registrations/$registrationId'
-      preLoaderRoute: typeof AdminRegistrationsRegistrationIdImport
-      parentRoute: typeof AdminRegistrationsRouteImport
     }
     '/admin/registrations/preferences': {
       id: '/admin/registrations/preferences'
@@ -745,6 +766,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminActivityTypeSlugSessionImport
       parentRoute: typeof AdminActivityTypeSlugRouteImport
     }
+    '/admin/registrations/$registrationId/payments': {
+      id: '/admin/registrations/$registrationId/payments'
+      path: '/payments'
+      fullPath: '/admin/registrations/$registrationId/payments'
+      preLoaderRoute: typeof AdminRegistrationsRegistrationIdPaymentsImport
+      parentRoute: typeof AdminRegistrationsRegistrationIdRouteImport
+    }
+    '/admin/registrations/$registrationId/workshops': {
+      id: '/admin/registrations/$registrationId/workshops'
+      path: '/workshops'
+      fullPath: '/admin/registrations/$registrationId/workshops'
+      preLoaderRoute: typeof AdminRegistrationsRegistrationIdWorkshopsImport
+      parentRoute: typeof AdminRegistrationsRegistrationIdRouteImport
+    }
     '/_public/$activityType/_list/': {
       id: '/_public/$activityType/_list/'
       path: '/'
@@ -758,6 +793,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/$activityType/$slug/'
       preLoaderRoute: typeof AdminActivityTypeSlugIndexImport
       parentRoute: typeof AdminActivityTypeSlugRouteImport
+    }
+    '/admin/registrations/$registrationId/': {
+      id: '/admin/registrations/$registrationId/'
+      path: '/'
+      fullPath: '/admin/registrations/$registrationId/'
+      preLoaderRoute: typeof AdminRegistrationsRegistrationIdIndexImport
+      parentRoute: typeof AdminRegistrationsRegistrationIdRouteImport
     }
   }
 }
@@ -832,7 +874,12 @@ export const routeTree = rootRoute.addChildren({
       AdminPaymentsIndexRoute,
     }),
     AdminRegistrationsRouteRoute: AdminRegistrationsRouteRoute.addChildren({
-      AdminRegistrationsRegistrationIdRoute,
+      AdminRegistrationsRegistrationIdRouteRoute:
+        AdminRegistrationsRegistrationIdRouteRoute.addChildren({
+          AdminRegistrationsRegistrationIdPaymentsRoute,
+          AdminRegistrationsRegistrationIdWorkshopsRoute,
+          AdminRegistrationsRegistrationIdIndexRoute,
+        }),
       AdminRegistrationsPreferencesRoute,
       AdminRegistrationsIndexRoute,
     }),
@@ -1059,6 +1106,15 @@ export const routeTree = rootRoute.addChildren({
         "/admin/$activityType/$slug/"
       ]
     },
+    "/admin/registrations/$registrationId": {
+      "filePath": "admin/registrations/$registrationId/route.tsx",
+      "parent": "/admin/registrations",
+      "children": [
+        "/admin/registrations/$registrationId/payments",
+        "/admin/registrations/$registrationId/workshops",
+        "/admin/registrations/$registrationId/"
+      ]
+    },
     "/_public/$activityType/$slug": {
       "filePath": "_public/$activityType/$slug.tsx",
       "parent": "/_public/$activityType"
@@ -1106,10 +1162,6 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "admin/payments/$paymentId.tsx",
       "parent": "/admin/payments"
     },
-    "/admin/registrations/$registrationId": {
-      "filePath": "admin/registrations/$registrationId.tsx",
-      "parent": "/admin/registrations"
-    },
     "/admin/registrations/preferences": {
       "filePath": "admin/registrations/preferences.tsx",
       "parent": "/admin/registrations"
@@ -1154,6 +1206,14 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "admin/$activityType/$slug/$session.tsx",
       "parent": "/admin/$activityType/$slug"
     },
+    "/admin/registrations/$registrationId/payments": {
+      "filePath": "admin/registrations/$registrationId/payments.tsx",
+      "parent": "/admin/registrations/$registrationId"
+    },
+    "/admin/registrations/$registrationId/workshops": {
+      "filePath": "admin/registrations/$registrationId/workshops.tsx",
+      "parent": "/admin/registrations/$registrationId"
+    },
     "/_public/$activityType/_list/": {
       "filePath": "_public/$activityType/_list.index.tsx",
       "parent": "/_public/$activityType/_list"
@@ -1161,6 +1221,10 @@ export const routeTree = rootRoute.addChildren({
     "/admin/$activityType/$slug/": {
       "filePath": "admin/$activityType/$slug/index.tsx",
       "parent": "/admin/$activityType/$slug"
+    },
+    "/admin/registrations/$registrationId/": {
+      "filePath": "admin/registrations/$registrationId/index.tsx",
+      "parent": "/admin/registrations/$registrationId"
     }
   }
 }

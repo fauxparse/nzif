@@ -24,6 +24,9 @@ export const RegistrationsRowFragment = graphql(`
         }
       }
     }
+    sessions {
+      id
+    }
   }
 `);
 
@@ -32,6 +35,7 @@ export const RegistrationsQuery = graphql(
   query Registrations {
     festival {
       id
+      registrationPhase
 
       registrations {
         ...RegistrationsRow

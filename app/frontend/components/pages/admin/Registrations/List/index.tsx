@@ -1,5 +1,9 @@
 import { Spinner } from '@/components/atoms/Spinner';
+import { DataTable } from '@/components/molecules/DataTable';
+import Header from '@/components/organisms/Header';
 import { sessionKey } from '@/components/pages/Registration/Workshops/useWorkshopPreferences';
+import { RegistrationPhase } from '@/graphql/types';
+import BarChartIcon from '@/icons/BarChartIcon';
 import { SortIcon } from '@/icons/SortIcon';
 import { useQuery } from '@apollo/client';
 import {
@@ -24,15 +28,11 @@ import {
 import { FragmentOf } from 'gql.tada';
 import { uniq } from 'lodash-es';
 import { DateTime } from 'luxon';
+import pluralize from 'pluralize';
 import { useEffect, useMemo, useState } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
 import { RegistrationDetails } from './RegistrationDetails';
 import { RegistrationsQuery, RegistrationsRowFragment } from './queries';
-
-import BarChartIcon from '@/icons/BarChartIcon';
-import pluralize from 'pluralize';
-import Header from '../Header';
-import classes from './RegistrationsList.module.css';
 
 type RegistrationRow = FragmentOf<typeof RegistrationsRowFragment>;
 
@@ -46,8 +46,11 @@ type TableRow = {
 
 const columnHelper = createColumnHelper<TableRow>();
 
-const countWorkshops = (registration: RegistrationRow) =>
-  uniq(registration.preferences.flatMap((p) => p.session.slots.map((s) => sessionKey(s)))).length;
+const countWorkshops = (registration: RegistrationRow, earlybird = false) =>
+  earlybird
+    ? uniq(registration.preferences.flatMap((p) => p.session.slots.map((s) => sessionKey(s))))
+        .length
+    : registration.sessions.length;
 
 const columns = [
   columnHelper.accessor('name', {
@@ -76,6 +79,12 @@ const columns = [
 export const RegistrationsList = () => {
   const { loading, data } = useQuery(RegistrationsQuery);
 
+  const registrationPhase = data?.festival?.registrationPhase;
+
+  const earlybird =
+    registrationPhase === RegistrationPhase.Earlybird ||
+    registrationPhase === RegistrationPhase.Paused;
+
   const navigate = useNavigate();
 
   const registrations = useMemo(
@@ -86,11 +95,11 @@ export const RegistrationsList = () => {
             id: r.user?.profile?.id || '',
             name: r.user?.name || '',
             email: r.user?.email || '',
-            workshops: countWorkshops(r),
+            workshops: countWorkshops(r, earlybird),
             completedAt: r.completedAt,
           }) satisfies TableRow
       ) || [],
-    [data]
+    [data, earlybird]
   );
 
   const places = useMemo(
@@ -166,7 +175,7 @@ export const RegistrationsList = () => {
           </Text>
         </Flex>
       </Header>
-      <Table.Root className={classes.table} size="2">
+      <DataTable>
         <Table.Header>
           <Table.Row data-hover>
             {headers.map((header) => (
@@ -202,7 +211,6 @@ export const RegistrationsList = () => {
                   navigate({
                     to: '/admin/registrations/$registrationId',
                     params: { registrationId: row.original.id },
-                    replace: true,
                   })
                 }
               >
@@ -222,7 +230,7 @@ export const RegistrationsList = () => {
             ))
           )}
         </Table.Body>
-      </Table.Root>
+      </DataTable>
       <Dialog.Root open={selected !== null} onOpenChange={(isOpen) => !isOpen && close()}>
         {selectedRegistration && (
           <RegistrationDetails registration={selectedRegistration} onClose={close} />
