@@ -4,14 +4,15 @@ import { Box, Button, Flex, Grid, Inset, Text } from '@radix-ui/themes';
 import { range } from 'lodash-es';
 import { useDonation } from './DonationProvider';
 
+import { Spinner } from '@/components/atoms/Spinner';
 import { motion } from 'framer-motion';
 import styles from './Donate.module.css';
 
 type FooterProps = {
-  onSubmit: () => void;
+  loading?: boolean;
 };
 
-export const Footer: React.FC<FooterProps> = ({ onSubmit }) => {
+export const Footer: React.FC<FooterProps> = ({ loading }) => {
   const { amount, valid, pageIndex, totalPages, nextPage } = useDonation();
 
   return (
@@ -30,8 +31,16 @@ export const Footer: React.FC<FooterProps> = ({ onSubmit }) => {
               <Box key={i} className={styles.dot} data-filled={i === pageIndex || undefined} />
             ))}
           </Flex>
-          <Button variant="solid" size="3" disabled={!valid} onClick={onSubmit}>
-            Next <ChevronRightIcon />
+          <Button type="submit" variant="solid" size="3" disabled={!valid || loading}>
+            {loading ? (
+              <>
+                <Spinner color="gray" /> Please wait…
+              </>
+            ) : (
+              <>
+                Next <ChevronRightIcon />
+              </>
+            )}
           </Button>
         </motion.footer>
       </Grid>

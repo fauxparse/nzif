@@ -6,6 +6,16 @@ export const CreateDonationMutation = graphql(`
       donation {
         id
       }
+    }
+  }
+`);
+
+export const CreateDonationPayment = graphql(`
+  mutation CreateDonationPayment($id: ID!) {
+    createDonationPayment(id: $id) {
+      donation {
+        id
+      }
 
       paymentIntentSecret
     }

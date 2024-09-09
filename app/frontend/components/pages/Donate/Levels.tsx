@@ -96,7 +96,6 @@ const Levels: React.FC<PageProps> = ({ formRef }) => {
                           color="gray"
                           type="number"
                           min="1"
-                          step={5}
                           defaultValue={customAmount.state.value / 100}
                           onChange={(e) => {
                             if (!e.currentTarget.value) {

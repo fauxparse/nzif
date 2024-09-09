@@ -1,3 +1,4 @@
+import { ResultOf } from '@/graphql';
 import { CreateDonationPayload } from '@/graphql/types';
 import { useMutation } from '@apollo/client';
 import React, {
@@ -17,12 +18,14 @@ import { DonationFields } from './types';
 const pages = [Levels, Details, Payment] as const;
 
 interface DonationContext {
+  id:
+    | NonNullable<ResultOf<typeof CreateDonationMutation>['createDonation']>['donation']['id']
+    | null;
   amount: number;
   valid: boolean;
   pageIndex: number;
   totalPages: number;
   details: DonationFields;
-  clientSecret: string | null;
   page: (typeof pages)[number];
   submitDetails: (details: DonationFields) => Promise<void>;
   setAmount: Dispatch<SetStateAction<number>>;
@@ -35,6 +38,7 @@ const outsideProvider = () => {
 };
 
 const DonationContext = React.createContext<DonationContext>({
+  id: null,
   amount: 0,
   valid: false,
   pageIndex: 0,
@@ -47,7 +51,6 @@ const DonationContext = React.createContext<DonationContext>({
     anonymous: false,
     newsletter: false,
   },
-  clientSecret: null,
   setAmount: outsideProvider,
   setValid: outsideProvider,
   submitDetails: outsideProvider,
@@ -70,8 +73,6 @@ export const DonationProvider: React.FC<PropsWithChildren> = ({ children }) => {
     CreateDonationMutation
   );
 
-  const clientSecret = data?.createDonation?.paymentIntentSecret ?? null;
-
   const submitDetails = useCallback(
     async (details: DonationFields) => {
       setDetails(details);
@@ -83,13 +84,13 @@ export const DonationProvider: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <DonationContext.Provider
       value={{
+        id: data?.createDonation.donation.id || null,
         amount,
         valid,
         pageIndex,
         totalPages: pages.length,
         page: pages[pageIndex],
         details,
-        clientSecret,
         setAmount,
         setValid,
         submitDetails,

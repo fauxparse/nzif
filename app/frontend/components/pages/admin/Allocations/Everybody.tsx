@@ -1,4 +1,5 @@
 import { ChoiceBadge } from '@/components/atoms/ChoiceBadge';
+import { DataTable } from '@/components/molecules/DataTable';
 import { SortIcon } from '@/icons/SortIcon';
 import WarningIcon from '@/icons/WarningIcon';
 import { Button, Flex, Inset, Table, Text, Tooltip } from '@radix-ui/themes';
@@ -15,8 +16,6 @@ import { DateTime } from 'luxon';
 import { useEffect, useMemo } from 'react';
 import { useAllocations } from './AllocationsProvider';
 import { Session } from './types';
-
-import tableStyles from '@/components/organisms/RegistrationsList/RegistrationsList.module.css';
 
 type TableRow = {
   id: string;
@@ -151,7 +150,7 @@ export const Everybody = () => {
   const headers = table.getLeafHeaders().filter((header) => header.column.getIsVisible());
 
   return (
-    <Table.Root className={tableStyles.table} size="2">
+    <DataTable>
       <Table.Header>
         <Table.Row>
           {headers.map((header) => (
@@ -199,6 +198,6 @@ export const Everybody = () => {
           </Table.Row>
         ))}
       </Table.Body>
-    </Table.Root>
+    </DataTable>
   );
 };

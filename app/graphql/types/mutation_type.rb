@@ -59,5 +59,6 @@ module Types
     field :update_profile, mutation: Mutations::Profile::Update
 
     field :create_donation, mutation: Mutations::Donations::Create
+    field :create_donation_payment, mutation: Mutations::Donations::CreatePayment
   end
 end

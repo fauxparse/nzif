@@ -17,7 +17,6 @@ module Mutations
         create = ::Donations::Create.call(attributes: attrs)
         {
           donation: create.donation,
-          payment_intent_secret: create.payment_intent.client_secret,
         }
       end
     end
