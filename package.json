@@ -12,7 +12,8 @@
     "types": "pnpm schema && pnpm codegen",
     "test": "vitest",
     "new": "hygen new component",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "sync": "production backup && r db:drop db:create && development restore-from production && r db:migrate"
   },
   "devDependencies": {
     "@0no-co/graphqlsp": "^1.4.1",
@@ -178,8 +179,6 @@
     "react-markdown": "^8.0.7",
     "react-merge-refs": "^2.0.1",
     "react-remove-scroll": "^2.5.6",
-    "react-router-dom": "^6.10.0",
-    "react-router-typesafe-routes": "^1.2.1",
     "recharts": "^2.12.7",
     "remark-smartypants": "^2.0.0",
     "simplex-noise": "^4.0.1",

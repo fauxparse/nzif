@@ -26,6 +26,11 @@
   }
 
   tbody {
+    th,
+    td {
+      vertical-align: middle;
+    }
+
     th {
       font-weight: var(--font-weight-medium);
 

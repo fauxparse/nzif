@@ -17,6 +17,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { PaymentDetails } from './PaymentDetails';
 import { PaymentsQuery, PaymentsRowFragment } from './queries';
 
+import { lowerCase, upperFirst } from 'lodash-es';
+import { PaymentStateProvider, PaymentStateSelect } from './PaymentStateSelect';
 import classes from './PaymentsList.module.css';
 
 type Payment = FragmentOf<typeof PaymentsRowFragment>;
@@ -28,6 +30,11 @@ const columns = [
     header: 'Name',
     sortDescFirst: false,
   }),
+  columnHelper.accessor('type', {
+    header: 'Type',
+    sortDescFirst: false,
+    cell: (cell) => upperFirst(lowerCase(cell.getValue().replace(/Payment$/, ''))),
+  }),
   columnHelper.accessor('amount', {
     header: 'Amount',
     cell: (cell) => <Money cents={cell.getValue()} />,
@@ -36,6 +43,7 @@ const columns = [
   columnHelper.accessor('state', {
     header: 'Status',
     sortDescFirst: false,
+    cell: (cell) => <PaymentStateSelect payment={cell.row.original} />,
   }),
   columnHelper.accessor('createdAt', {
     header: 'Date',
@@ -46,8 +54,6 @@ const columns = [
 
 export const PaymentsList = () => {
   const { loading, data } = useQuery(PaymentsQuery);
-
-  // const navigate = useNavigate();
 
   const payments = useMemo(() => data?.festival?.payments ?? [], [data]);
 
@@ -84,7 +90,7 @@ export const PaymentsList = () => {
   const afterFees = total * 0.973 - payments.length * 0.3;
 
   return (
-    <>
+    <PaymentStateProvider>
       <Header
         title={
           <Flex justify="between" align="center">
@@ -92,7 +98,7 @@ export const PaymentsList = () => {
           </Flex>
         }
       />
-      <Table.Root className={classes.table} size="2">
+      <Table.Root className={classes.table} size={{ initial: '2', sm: '3' }}>
         <Table.Header>
           <Table.Row data-hover>
             {headers.map((header) => (
@@ -121,39 +127,32 @@ export const PaymentsList = () => {
               </Table.Cell>
             </Table.Row>
           ) : (
-            table.getRowModel().rows.map((row) => (
-              <Table.Row
-                key={row.id}
-                // onClick={() =>
-                //   navigate({
-                //     to: '/admin/payments/$paymentId',
-                //     params: { paymentId: row.original.id },
-                //     replace: true,
-                //   })
-                // }
-              >
-                {row
-                  .getVisibleCells()
-                  .map((cell, index) =>
-                    index ? (
-                      <Table.Cell key={cell.id}>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </Table.Cell>
-                    ) : (
-                      <Table.RowHeaderCell key={cell.id}>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </Table.RowHeaderCell>
-                    )
-                  )}
-              </Table.Row>
-            ))
+            table
+              .getRowModel()
+              .rows.map((row) => (
+                <Table.Row key={row.id}>
+                  {row
+                    .getVisibleCells()
+                    .map((cell, index) =>
+                      index ? (
+                        <Table.Cell key={cell.id}>
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </Table.Cell>
+                      ) : (
+                        <Table.RowHeaderCell key={cell.id}>
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </Table.RowHeaderCell>
+                      )
+                    )}
+                </Table.Row>
+              ))
           )}
         </Table.Body>
       </Table.Root>
       <Dialog.Root open={selected !== null} onOpenChange={(isOpen) => !isOpen && close()}>
         {selectedPayment && <PaymentDetails payment={selectedPayment} onClose={close} />}
       </Dialog.Root>
-    </>
+    </PaymentStateProvider>
   );
 };
 

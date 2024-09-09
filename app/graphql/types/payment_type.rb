@@ -4,6 +4,7 @@ module Types
 
     field :id, ID, null: false
     field :amount, MoneyType, null: false
+    field :type, PaymentTypeType, null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :state, PaymentStateType, null: false
     field :reference, String, null: false
@@ -34,6 +35,10 @@ module Types
       dataloader
         .with(Sources::Simple, model: Registration, context:)
         .load(object.registration_id)
+    end
+
+    def type
+      object.class
     end
 
     orphan_types(

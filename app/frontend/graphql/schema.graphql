@@ -271,6 +271,7 @@ type CreditCardPayment implements Payment {
   reference: String!
   registration: Registration!
   state: PaymentState!
+  type: PaymentType!
 }
 
 """
@@ -366,6 +367,7 @@ type InternetBankingPayment implements Payment {
   reference: String!
   registration: Registration!
   state: PaymentState!
+  type: PaymentType!
 }
 
 """
@@ -520,6 +522,7 @@ interface Payment {
   reference: String!
   registration: Registration!
   state: PaymentState!
+  type: PaymentType!
 }
 
 input PaymentAttributes {
@@ -765,6 +768,7 @@ type Refund implements Payment {
   reference: String!
   registration: Registration!
   state: PaymentState!
+  type: PaymentType!
 }
 
 type Registration {
@@ -1258,6 +1262,7 @@ type Voucher implements Payment {
   reference: String!
   registration: Registration!
   state: PaymentState!
+  type: PaymentType!
   workshops: Int!
 }
 
