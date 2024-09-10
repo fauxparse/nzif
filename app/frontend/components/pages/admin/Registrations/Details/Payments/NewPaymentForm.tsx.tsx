@@ -23,7 +23,7 @@ import classes from './Payments.module.css';
 export const NewPaymentForm: React.FC = () => {
   const { registration } = useRegistrationDetails();
 
-  const [addPayment] = useMutation(AddPaymentMutation);
+  const [addPayment, { loading }] = useMutation(AddPaymentMutation);
 
   const form = useForm({
     defaultValues: {
@@ -58,7 +58,7 @@ export const NewPaymentForm: React.FC = () => {
             },
           });
         },
-      });
+      }).then(() => setOpen(false));
     },
   });
 
@@ -132,7 +132,7 @@ export const NewPaymentForm: React.FC = () => {
             )}
           </form.Field>
           <Flex>
-            <Button type="submit" variant="solid">
+            <Button type="submit" variant="solid" disabled={loading || undefined}>
               <PlusIcon />
               Add Payment
             </Button>
