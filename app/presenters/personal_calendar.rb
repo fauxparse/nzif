@@ -20,6 +20,7 @@ class PersonalCalendar
     @festival_sessions ||=
       festival
         .sessions
+        .includes(cast: :profile, activity: { cast: :profile })
         .joins(
           <<~SQL.squish,
             LEFT OUTER JOIN hidden_sessions
@@ -32,7 +33,7 @@ class PersonalCalendar
   end
 
   def all_sessions
-    (shows + social_events + conferences + registered_workshops)
+    (shows + social_events + conferences + registered_workshops + teaching_workshops)
   end
 
   def wrap(sessions, waitlisted: false)
@@ -61,5 +62,13 @@ class PersonalCalendar
     return [] unless registration
 
     wrap(registration.sessions) + wrap(registration.waitlist.map(&:session), waitlisted: true)
+  end
+
+  def teaching_workshops
+    teaching_sessions = festival_sessions.select do |session|
+      session.workshop? &&
+        [*session.cast, *session.activity.cast].any? { |c| c.profile.user_id == user.id }
+    end
+    wrap(teaching_sessions)
   end
 end
