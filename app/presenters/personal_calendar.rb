@@ -24,9 +24,9 @@ class PersonalCalendar
           <<~SQL.squish,
             LEFT OUTER JOIN hidden_sessions
             ON hidden_sessions.session_id = sessions.id
+            AND hidden_sessions.user_id = #{user.id}
           SQL
         )
-        .where(hidden_sessions: { user_id: [nil, user.id] })
         .select('sessions.*, (hidden_sessions.id IS NOT NULL) AS hidden')
         .all
   end
