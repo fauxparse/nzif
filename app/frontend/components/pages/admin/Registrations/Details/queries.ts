@@ -54,9 +54,13 @@ export const RegistrationDetailsFragment = graphql(
     sessions {
       ...RegistrationSession
     }
+
+    payments {
+      ...RegistrationPayment
+    }
   }
 `,
-  [RegistrationSessionFragment]
+  [RegistrationSessionFragment, RegistrationPaymentFragment]
 );
 
 export const RegistrationDetailsQuery = graphql(
@@ -84,4 +88,17 @@ export const RemoveFromSessionMutation = graphql(
   }
 `,
   [RegistrationSessionFragment]
+);
+
+export const AddPaymentMutation = graphql(
+  `
+  mutation AddPayment($registrationId: ID!, $type: PaymentType!, $state: PaymentState!, $amount: Money!, $createdAt: ISO8601DateTime!) {
+    addPayment(registrationId: $registrationId, type: $type, state: $state, amount: $amount, createdAt: $createdAt) {
+      payment {
+        ...RegistrationPayment
+      }
+    }
+  }
+`,
+  [RegistrationPaymentFragment]
 );

@@ -39,10 +39,11 @@ export const UpdatePaymentStateMutation = graphql(
   mutation UpdatePaymentState($id: ID!, $state: PaymentState!) {
     updatePayment(id: $id, attributes: { state: $state }) {
       payment {
-        ...PaymentsRow
+        id
+        type
+        state
       }
     }
   }
-`,
-  [PaymentsRowFragment]
+`
 );

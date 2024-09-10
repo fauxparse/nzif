@@ -1,0 +1,35 @@
+.payments {
+  grid-column: main;
+  padding-block: var(--space-4);
+
+  .table {
+    margin-block-end: var(--space-4);
+
+    td {
+      text-align: end;
+    }
+  }
+
+  .highlightRow {
+    background: var(--gray-a2);
+
+    th, td {
+      font-weight: var(--font-weight-medium);
+    }
+  }
+}
+
+.addPayment {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: var(--space-2);
+
+  :has(> :global(.rt-SegmentedControlRoot)) {
+    grid-column: 1 / span 2;
+  }
+
+  input {
+    display: block;
+    flex: 1;
+  }
+}

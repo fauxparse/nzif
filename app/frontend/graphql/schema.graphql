@@ -459,7 +459,7 @@ input MultipleSessionAttributes {
 }
 
 type Mutation {
-  addPayment(amount: Money!, registrationId: ID!, state: PaymentState = Approved, type: PaymentType = InternetBankingPayment): AddPaymentPayload
+  addPayment(amount: Money!, createdAt: ISO8601DateTime, registrationId: ID!, state: PaymentState = Approved, type: PaymentType = InternetBankingPayment): AddPaymentPayload
   addPreference(registrationId: ID, sessionId: ID!): AddPreferencePayload
   addSessionCast(profileId: ID!, role: Role!, sessionId: ID!): AddSessionCastPayload
   addToSession(registrationId: ID, sessionId: ID!): AddToSessionPayload

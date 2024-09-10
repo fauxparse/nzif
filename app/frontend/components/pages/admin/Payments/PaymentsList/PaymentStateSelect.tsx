@@ -5,7 +5,7 @@ import { Select } from '@radix-ui/themes';
 import { PropsWithChildren, createContext, useContext } from 'react';
 import { PaymentsRowFragment, UpdatePaymentStateMutation } from './queries';
 
-type Payment = FragmentOf<typeof PaymentsRowFragment>;
+type Payment = Omit<FragmentOf<typeof PaymentsRowFragment>, 'registration' | 'reference'>;
 
 type PaymentStateSelectProps = {
   payment: Payment;
@@ -59,7 +59,7 @@ export const PaymentStateSelect: React.FC<PaymentStateSelectProps> = ({ payment 
       defaultValue={payment.state}
       onValueChange={(value: PaymentState) => changeState(payment, value)}
     >
-      <Select.Trigger variant="soft" color={COLORS[payment.state]} />
+      <Select.Trigger variant="soft" color={COLORS[payment.state]} style={{ minWidth: '6.5rem' }} />
       <Select.Content>
         {Object.entries(PaymentState).map(([key, value]) => (
           <Select.Item key={key} value={value}>

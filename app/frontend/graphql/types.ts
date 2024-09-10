@@ -508,6 +508,7 @@ export type Mutation = {
 
 export type MutationAddPaymentArgs = {
   amount: Scalars['Money'];
+  createdAt: InputMaybe<Scalars['ISO8601DateTime']>;
   registrationId: Scalars['ID'];
   state?: InputMaybe<PaymentState>;
   type?: InputMaybe<PaymentType>;

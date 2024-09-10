@@ -4,6 +4,7 @@ module Payments
 
     def call
       authorize! registration, to: :update?
+      payment.update!(created_at: context[:created_at]) if context[:created_at].present?
       payment
     end
 
