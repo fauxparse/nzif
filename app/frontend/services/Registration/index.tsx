@@ -53,6 +53,7 @@ const notImplemented = () => {
 
 type RegistrationContext = {
   phase: RegistrationPhase;
+  refetch: () => Promise<void>;
   earlybird: boolean;
   steps: typeof STEPS;
   step: StepDefinition | null;
@@ -71,6 +72,7 @@ type RegistrationContext = {
 
 const RegistrationContext = createContext<RegistrationContext>({
   phase: RegistrationPhase.Closed,
+  refetch: notImplemented,
   earlybird: false,
   steps: STEPS,
   step: null,
@@ -220,6 +222,9 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
   const value = useMemo(
     () => ({
       phase,
+      refetch: async () => {
+        await refetch();
+      },
       earlybird: phase === RegistrationPhase.Earlybird || phase === RegistrationPhase.Paused,
       steps: STEPS,
       step,
@@ -237,6 +242,7 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
     }),
     [
       phase,
+      refetch,
       step,
       stepIndex,
       loading,

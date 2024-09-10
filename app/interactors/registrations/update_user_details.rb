@@ -27,7 +27,8 @@ module Registrations
       registration.transaction do
         registration.profile.update!(profile_attributes)
         registration.user.update!(user_attributes)
-        registration.update!(registration_attributes)
+        registration.attributes = registration_attributes
+        registration.save!
       end
     end
 

@@ -16,7 +16,8 @@ module Registrations
     private
 
     def send_notification(removed)
-      return unless registration.festival.general? || suppress_notifications
+      return unless registration.festival.general?
+      return if suppress_notifications
 
       ParticipantMailer.added(registration:, session:, removed:).deliver_later
     end

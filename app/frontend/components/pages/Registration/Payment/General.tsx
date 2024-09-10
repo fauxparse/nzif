@@ -15,7 +15,7 @@ import { useMutation } from '@apollo/client';
 import { useForm } from '@tanstack/react-form';
 import { PropsWithChildren, useRef } from 'react';
 import registrationClasses from '../Registration.module.css';
-import { UpdateRegistrationMutation } from '../queries';
+import { FinaliseRegistrationMutation, UpdateRegistrationMutation } from '../queries';
 import { CreditCard } from './CreditCard';
 import { InternetBanking } from './InternetBanking';
 import classes from './Payment.module.css';
@@ -59,6 +59,8 @@ export const General = () => {
 
   const [update] = useMutation(UpdateRegistrationMutation);
 
+  const [finaliseRegistration] = useMutation(FinaliseRegistrationMutation);
+
   const form = useForm({
     defaultValues: {
       donateDiscount: registration?.donateDiscount ?? false,
@@ -82,6 +84,12 @@ export const General = () => {
         console.error('Payment failed', result.error);
         return;
       }
+
+      await finaliseRegistration({
+        variables: {
+          registrationId: registration.id,
+        },
+      });
 
       goToNextStep();
     },

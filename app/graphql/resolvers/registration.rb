@@ -19,7 +19,7 @@ module Resolvers
       if year
         ::Festival.by_year(year).first!
       else
-        ::Festival.where('end_date >= ?', Time.zone.today).first || Festival.last
+        ::Festival.where(end_date: Time.zone.today..).first || Festival.last
       end
     end
   end

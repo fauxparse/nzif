@@ -17,39 +17,44 @@ export const InternetBanking: React.FC<PaymentMethodProps> = ({ amount, handle }
 
   const [addPayment] = useMutation(CreatePaymentMutation);
 
-  useImperativeHandle(handle, () => ({
-    method: 'InternetBankingPayment' as PaymentMethod,
-    submit: async () => {
-      if (!registration) {
-        throw new Error('No registration found');
-      }
-      await addPayment({
-        variables: {
-          amount,
-          registrationId: registration.id,
-          type: PaymentType.InternetBankingPayment,
-        },
-        update: (cache, { data }) => {
-          const payment = data?.addPayment?.payment;
-          if (!payment) return;
+  useImperativeHandle(
+    handle,
+    () => ({
+      method: 'InternetBankingPayment' as PaymentMethod,
+      submit: async () => {
+        if (!registration) {
+          throw new Error('No registration found');
+        }
+        await addPayment({
+          variables: {
+            amount,
+            registrationId: registration.id,
+            type: PaymentType.InternetBankingPayment,
+          },
+          update: (cache, { data }) => {
+            const payment = data?.addPayment?.payment;
+            if (!payment) return;
 
-          const ref = cache.writeFragment({
-            id: cache.identify(payment),
-            data: payment,
-            fragment: PaymentFragment,
-          });
+            const ref = cache.writeFragment({
+              id: cache.identify(payment),
+              data: payment,
+              fragment: PaymentFragment,
+            });
 
-          cache.modify({
-            id: cache.identify(registration),
-            fields: {
-              payments: (existing) => [...existing, ref],
-            },
-          });
-        },
-      });
-      return true;
-    },
-  }));
+            cache.modify({
+              id: cache.identify(registration),
+              fields: {
+                payments: (existing) => [...existing, ref],
+              },
+            });
+          },
+        });
+
+        return true;
+      },
+    }),
+    [registration]
+  );
 
   return (
     <>

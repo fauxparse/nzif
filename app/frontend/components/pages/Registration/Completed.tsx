@@ -6,9 +6,13 @@ import ReactCanvasConfetti from 'react-canvas-confetti';
 
 import Image from './completed.svg';
 
+import { RegistrationPhase } from '@/graphql/types';
+import { useRegistration } from '@/services/Registration';
 import classes from './Registration.module.css';
 
 export const Completed = () => {
+  const { phase } = useRegistration();
+
   return (
     <>
       <div className={clsx(classes.page)}>
@@ -19,9 +23,14 @@ export const Completed = () => {
           </Box>
           <Heading size="8">You’re coming to NZIF!</Heading>
           <Text as="p" size={{ initial: '3', md: '4' }}>
-            Check your email for confirmation of your registration. We’ll be in touch again after
-            1&nbsp;September to let you know which workshops you’ve been allocated. If you have any
-            questions, please reach out to Matt at{' '}
+            Check your email for confirmation of your registration.{' '}
+            {phase === RegistrationPhase.Earlybird && (
+              <>
+                We’ll be in touch again after 1&nbsp;September to let you know which workshops
+                you’ve been allocated.{' '}
+              </>
+            )}{' '}
+            If you have any questions, please reach out to Matt at{' '}
             <A href="mailto:registrations@improvfest.nz">registrations@improvfest.nz</A>.
           </Text>
           <Text as="p" size={{ initial: '3', md: '4' }}>

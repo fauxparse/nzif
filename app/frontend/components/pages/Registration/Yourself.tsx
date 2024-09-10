@@ -1,21 +1,23 @@
+import { Collapsible } from '@/components/helpers/Collapsible';
+import { CityPicker } from '@/components/molecules/CityPicker';
 import { FormField } from '@/components/molecules/FormField';
+import WarningIcon from '@/icons/WarningIcon';
 import { useAuthentication } from '@/services/Authentication';
+import { useRegistration } from '@/services/Registration';
+import { RegistrationQuery } from '@/services/Registration/queries';
 import { useMutation } from '@apollo/client';
 import { Callout } from '@radix-ui/themes';
 import { FieldState, useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
-import { last, pickBy } from 'lodash-es';
+import { last, omit, pickBy } from 'lodash-es';
 import { useMemo, useState } from 'react';
 import { z } from 'zod';
+import { FULL_NAME_MESSAGE } from '../Profile';
 import { UpdateProfileMutation } from '../Profile/queries';
 import { Buttons } from './Buttons';
 
-import { Collapsible } from '@/components/helpers/Collapsible';
-import { CityPicker } from '@/components/molecules/CityPicker';
-import WarningIcon from '@/icons/WarningIcon';
-import { useRegistration } from '@/services/Registration';
-import { FULL_NAME_MESSAGE } from '../Profile';
 import classes from './Registration.module.css';
+import { UpdateRegistrationMutation } from './queries';
 
 type FormValues = {
   name: string;
@@ -33,7 +35,7 @@ const errorFrom = <T,>(state: FieldState<T>) => {
 };
 
 export const Yourself: React.FC = () => {
-  const { loading, registration, goToNextStep } = useRegistration();
+  const { loading, registration, refetch, goToNextStep } = useRegistration();
 
   const { signUp, logIn, requestPasswordReset } = useAuthentication();
 
@@ -48,6 +50,8 @@ export const Yourself: React.FC = () => {
   }, [registration]);
 
   const [updateProfile] = useMutation(UpdateProfileMutation);
+
+  const [updateRegistration] = useMutation(UpdateRegistrationMutation);
 
   const register = async (values: FormValues) => {
     const logInOrSignUp = async () => {
@@ -84,11 +88,18 @@ export const Yourself: React.FC = () => {
       await updateProfile({
         variables: {
           attributes: {
-            ...pickBy(attributes, (value) => !!value),
+            ...pickBy(omit(attributes, 'password'), (value) => !!value),
             city: city && country ? { name: city, country } : null,
           },
         },
-      }).then(() => goToNextStep());
+      });
+
+      await updateRegistration({
+        variables: { attributes: {} },
+        refetchQueries: [RegistrationQuery],
+      });
+
+      goToNextStep();
     }
 
     setBusy(false);
