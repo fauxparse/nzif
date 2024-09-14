@@ -12,7 +12,7 @@ module Sources
       records = authorized(Activity, type: :relation).where(festival_id: festival_ids)
       records = records.where(type: type.to_s) if type.present?
       records = records.scheduled if scheduled_only
-      festival_ids.map { |id| records.select { |r| r.festival_id == id } }
+      festival_ids.map { |id| records.select { |r| r.festival_id == id }.uniq(&:id) }
     end
   end
 end
