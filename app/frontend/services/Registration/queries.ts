@@ -32,10 +32,19 @@ export const RegistrationDetailsFragment = graphql(`
       id
       position
       sessionId
+      session {
+        id
+        slots {
+          id
+        }
+      }
     }
 
     sessions {
       id
+      slots {
+        id
+      }
     }
 
     waitlist {

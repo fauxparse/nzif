@@ -9,12 +9,11 @@ import { useMemo } from 'react';
 import { RegistrationSummaryQuery } from './queries';
 
 import WorkshopIcon from '@/icons/WorkshopIcon';
+import { RegistrationProvider, useRegistration } from '@/services/Registration';
 import classes from './NavigationMenu.module.css';
 
 export const RegistrationSummary = () => {
   const { data, loading } = useQuery(RegistrationSummaryQuery);
-
-  const { totalValue, packagePrice, packageDiscount } = usePricing();
 
   const registration = data?.registration;
 
@@ -45,10 +44,26 @@ export const RegistrationSummary = () => {
   }
 
   return (
-    <Inset className={classes.registrationSummary}>
-      <Text className={classes.heading} size="4" weight="medium">
-        You’re coming to NZIF!
-      </Text>
+    <RegistrationProvider>
+      <Inset className={classes.registrationSummary}>
+        <Text className={classes.heading} size="4" weight="medium">
+          You’re coming to NZIF!
+        </Text>
+        <CartSummary />
+        <Button className={classes.button} asChild>
+          <Link to="/register/workshops">Workshop preferences</Link>
+        </Button>
+      </Inset>
+    </RegistrationProvider>
+  );
+};
+
+const CartSummary = () => {
+  const { count } = useRegistration();
+  const { totalValue, packagePrice, packageDiscount } = usePricing();
+
+  return (
+    <>
       <CartIcon className={classes.icon} />
       <Text className={classes.count}>{pluralize('workshop', count, true)}</Text>
       <Text className={classes.total}>
@@ -59,9 +74,6 @@ export const RegistrationSummary = () => {
         )}
         <Money cents={packagePrice(count)} includeCurrency />
       </Text>
-      <Button className={classes.button} asChild>
-        <Link to="/register/workshops">Workshop preferences</Link>
-      </Button>
-    </Inset>
+    </>
   );
 };

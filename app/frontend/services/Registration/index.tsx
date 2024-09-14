@@ -61,6 +61,7 @@ type RegistrationContext = {
   loading: boolean;
   registration: Registration | null;
   defaultNextStep: StepId;
+  count: number;
   stepClicked: (step: StepId) => void;
   goToPreviousStep: () => void;
   goToNextStep: () => void;
@@ -79,6 +80,7 @@ const RegistrationContext = createContext<RegistrationContext>({
   stepIndex: null,
   loading: true,
   registration: null,
+  count: 0,
   defaultNextStep: 'yourself',
   stepClicked: notImplemented,
   goToPreviousStep: notImplemented,
@@ -219,13 +221,28 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
     [registration, doJoinWaitlist]
   );
 
+  const earlybird = phase === RegistrationPhase.Earlybird || phase === RegistrationPhase.Paused;
+
+  const count = useMemo(() => {
+    if (!registration) return 0;
+
+    if (earlybird) {
+      const slots = registration.preferences
+        .flatMap((p) => p.session.slots)
+        .reduce((acc, slot) => acc.add(slot.id), new Set());
+      return slots.size;
+    }
+    return registration.sessions.length;
+  }, [registration, earlybird]);
+
   const value = useMemo(
     () => ({
       phase,
       refetch: async () => {
         await refetch();
       },
-      earlybird: phase === RegistrationPhase.Earlybird || phase === RegistrationPhase.Paused,
+      earlybird,
+      count,
       steps: STEPS,
       step,
       stepIndex,
