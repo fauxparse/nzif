@@ -1,0 +1,34 @@
+.dataMeter {
+  container: meter inline-size;
+  aspect-ratio: 240 / 140;
+
+  .mask,
+  .track {
+    fill: none;
+    stroke-width: 1.5rem;
+    stroke-linecap: round;
+  }
+
+  .mask {
+    stroke-dasharray: 1;
+    stroke-dashoffset: calc(1 - var(--value));
+  }
+
+  .track {
+    stroke: var(--gray-a3);
+    stroke-width: 1.75rem;
+  }
+
+  .gradient {
+    width: 100%;
+    background: conic-gradient(
+      from -90deg,
+      red 0deg,
+      yellow 90deg,
+      green 180deg,
+      green 270deg,
+      red 270deg
+    );
+    aspect-ratio: 1;
+  }
+}

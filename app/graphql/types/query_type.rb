@@ -41,6 +41,8 @@ module Types
 
     field :donations, resolver: Resolvers::Donations, authenticate: false
 
+    field :dashboard, DashboardType, null: false, authenticate: false
+
     def festival(year: nil)
       if year
         Festival.by_year(year).first!
@@ -85,6 +87,10 @@ module Types
 
     def calendar
       PersonalCalendar.new(festival: Festival.current, user: context[:current_resource]).sessions
+    end
+
+    def dashboard
+      current_festival
     end
   end
 end

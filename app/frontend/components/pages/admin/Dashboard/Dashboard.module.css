@@ -1,0 +1,18 @@
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column: main;
+  gap: var(--space-4);
+  justify-self: center;
+  width: 100%;
+  max-width: var(--max-width);
+  padding-block: var(--space-8);
+
+  @media (--md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (--lg) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
