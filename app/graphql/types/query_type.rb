@@ -43,6 +43,8 @@ module Types
 
     field :dashboard, DashboardType, null: false, authenticate: false
 
+    field :session, resolver: Resolvers::Session, authenticate: false
+
     def festival(year: nil)
       if year
         Festival.by_year(year).first!

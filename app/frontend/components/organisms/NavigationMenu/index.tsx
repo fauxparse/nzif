@@ -22,12 +22,15 @@ import PaymentIcon from '@/icons/PaymentIcon';
 import ThemeIcon from '@/icons/ThemeIcon';
 import UsersIcon from '@/icons/UsersIcon';
 import { useAuthentication } from '@/services/Authentication';
+import { useQuery } from '@apollo/client';
 import { Link } from '@tanstack/react-router';
 import { isEmpty } from 'lodash-es';
 import pluralize from 'pluralize';
 import React from 'react';
+import { MyActivities } from './MyActivities';
 import classes from './NavigationMenu.module.css';
 import { RegistrationSummary } from './RegistrationSummary';
+import { NavigationMenuQuery } from './queries';
 
 const NavigationMenu: React.FC = () => {
   const [opened, { toggle, open, close }] = useDisclosure();
@@ -59,6 +62,8 @@ const NavigationMenu: React.FC = () => {
 const NavigationMenuContent: React.FC<{ visible?: boolean }> = ({ visible }) => {
   const { user, hasPermission } = useAuthentication();
 
+  const { data } = useQuery(NavigationMenuQuery);
+
   const { toggle: toggleTheme } = useDarkMode();
 
   const { close } = useDrawer();
@@ -86,7 +91,7 @@ const NavigationMenuContent: React.FC<{ visible?: boolean }> = ({ visible }) => 
           <CloseIcon />
         </IconButton>
       </Drawer.Close>
-      <RegistrationSummary />
+      <RegistrationSummary registration={data?.registration ?? null} />
       <Inset side="x">
         <ActionList className={classes.items}>
           <ActionList.Item asChild>
@@ -96,6 +101,7 @@ const NavigationMenuContent: React.FC<{ visible?: boolean }> = ({ visible }) => 
             </Link>
           </ActionList.Item>
         </ActionList>
+        {data?.user?.activities && <MyActivities activities={data.user.activities} />}
         <Separator size="4" my="4" />
         <ActionList className={classes.items} variant="subtle">
           {Object.entries(ACTIVITY_TYPES).map(([_, { icon: Icon, type, label }]) => (

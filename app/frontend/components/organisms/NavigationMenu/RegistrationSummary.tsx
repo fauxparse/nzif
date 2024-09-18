@@ -1,31 +1,22 @@
 import { Money } from '@/components/atoms/Money';
+import { FragmentOf } from '@/graphql';
 import CartIcon from '@/icons/CartIcon';
+import WorkshopIcon from '@/icons/WorkshopIcon';
 import { usePricing } from '@/services/Pricing';
-import { useQuery } from '@apollo/client';
+import { RegistrationProvider, useRegistration } from '@/services/Registration';
 import { Box, Button, Flex, Inset, Text } from '@radix-ui/themes';
 import { Link } from '@tanstack/react-router';
 import pluralize from 'pluralize';
-import { useMemo } from 'react';
-import { RegistrationSummaryQuery } from './queries';
+import React from 'react';
+import { RegistrationSummaryFragment } from './queries';
 
-import WorkshopIcon from '@/icons/WorkshopIcon';
-import { RegistrationProvider, useRegistration } from '@/services/Registration';
 import classes from './NavigationMenu.module.css';
 
-export const RegistrationSummary = () => {
-  const { data, loading } = useQuery(RegistrationSummaryQuery);
+type RegistrationSummaryProps = {
+  registration: FragmentOf<typeof RegistrationSummaryFragment> | null;
+};
 
-  const registration = data?.registration;
-
-  const count = useMemo(() => {
-    if (!registration) return 0;
-
-    const slots = registration.preferences
-      .flatMap((p) => p.session.slots)
-      .reduce((acc, slot) => acc.add(slot.id), new Set());
-    return slots.size;
-  }, [registration]);
-
+export const RegistrationSummary: React.FC<RegistrationSummaryProps> = ({ registration }) => {
   if (!registration?.id) {
     return (
       <Inset side="x">

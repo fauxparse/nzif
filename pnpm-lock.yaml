@@ -287,9 +287,6 @@ dependencies:
   react-highlight-words:
     specifier: ^0.20.0
     version: 0.20.0(react@18.2.0)
-  react-hook-form:
-    specifier: ^7.43.9
-    version: 7.43.9(react@18.2.0)
   react-hotkeys-hook:
     specifier: ^4.5.0
     version: 4.5.0(react-dom@18.2.0)(react@18.2.0)

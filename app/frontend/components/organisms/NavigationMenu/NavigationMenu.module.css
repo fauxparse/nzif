@@ -95,3 +95,12 @@
     justify-self: start;
   }
 }
+
+.myActivity {
+  align-items: start;
+  height: auto;
+
+  [data-icon] {
+    margin-block: calc((var(--line-height-3) - var(--icon-size)) / 2);
+  }
+}

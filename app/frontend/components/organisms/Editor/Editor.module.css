@@ -75,6 +75,10 @@
   tab-size: 4;
   resize: none;
   caret-color: var(--text-default);
+
+  p:first-child {
+    margin-top: 0;
+  }
 }
 
 .placeholder {

@@ -1,4 +1,4 @@
-vite: bin/vite dev
+vite: bin/vite dev --force
 web: bin/rails s
 worker: bundle exec sidekiq -c 1
 # ngrok: ngrok http --domain=nzif.ngrok.io 5100

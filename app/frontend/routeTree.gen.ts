@@ -70,6 +70,12 @@ import { Route as PublicActivityTypeListIndexImport } from './routes/_public/$ac
 import { Route as AdminRegistrationsRegistrationIdWorkshopsImport } from './routes/admin/registrations/$registrationId/workshops'
 import { Route as AdminRegistrationsRegistrationIdPaymentsImport } from './routes/admin/registrations/$registrationId/payments'
 import { Route as AdminActivityTypeSlugSessionImport } from './routes/admin/$activityType/$slug/$session'
+import { Route as PublicAuthenticatedMyWorkshopsRouteImport } from './routes/_public/_authenticated/my/workshops/route'
+import { Route as PublicAuthenticatedMyActivityTypeRouteImport } from './routes/_public/_authenticated/my/$activityType/route'
+import { Route as PublicAuthenticatedMyActivityTypeSlugSessionIdImport } from './routes/_public/_authenticated/my/$activityType/$slug/$sessionId'
+import { Route as PublicAuthenticatedMyWorkshopsSlugSessionIdRouteImport } from './routes/_public/_authenticated/my/workshops/$slug/$sessionId/route'
+import { Route as PublicAuthenticatedMyWorkshopsSlugSessionIdIndexImport } from './routes/_public/_authenticated/my/workshops/$slug/$sessionId/index'
+import { Route as PublicAuthenticatedMyWorkshopsSlugSessionIdMessagesImport } from './routes/_public/_authenticated/my/workshops/$slug/$sessionId/messages'
 
 // Create/Update Routes
 
@@ -382,6 +388,42 @@ const AdminActivityTypeSlugSessionRoute =
   AdminActivityTypeSlugSessionImport.update({
     path: '/$session',
     getParentRoute: () => AdminActivityTypeSlugRouteRoute,
+  } as any)
+
+const PublicAuthenticatedMyWorkshopsRouteRoute =
+  PublicAuthenticatedMyWorkshopsRouteImport.update({
+    path: '/my/workshops',
+    getParentRoute: () => PublicAuthenticatedRoute,
+  } as any)
+
+const PublicAuthenticatedMyActivityTypeRouteRoute =
+  PublicAuthenticatedMyActivityTypeRouteImport.update({
+    path: '/my/$activityType',
+    getParentRoute: () => PublicAuthenticatedRoute,
+  } as any)
+
+const PublicAuthenticatedMyActivityTypeSlugSessionIdRoute =
+  PublicAuthenticatedMyActivityTypeSlugSessionIdImport.update({
+    path: '/$slug/$sessionId',
+    getParentRoute: () => PublicAuthenticatedMyActivityTypeRouteRoute,
+  } as any)
+
+const PublicAuthenticatedMyWorkshopsSlugSessionIdRouteRoute =
+  PublicAuthenticatedMyWorkshopsSlugSessionIdRouteImport.update({
+    path: '/$slug/$sessionId',
+    getParentRoute: () => PublicAuthenticatedMyWorkshopsRouteRoute,
+  } as any)
+
+const PublicAuthenticatedMyWorkshopsSlugSessionIdIndexRoute =
+  PublicAuthenticatedMyWorkshopsSlugSessionIdIndexImport.update({
+    path: '/',
+    getParentRoute: () => PublicAuthenticatedMyWorkshopsSlugSessionIdRouteRoute,
+  } as any)
+
+const PublicAuthenticatedMyWorkshopsSlugSessionIdMessagesRoute =
+  PublicAuthenticatedMyWorkshopsSlugSessionIdMessagesImport.update({
+    path: '/messages',
+    getParentRoute: () => PublicAuthenticatedMyWorkshopsSlugSessionIdRouteRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -759,6 +801,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRegistrationsIndexImport
       parentRoute: typeof AdminRegistrationsRouteImport
     }
+    '/_public/_authenticated/my/$activityType': {
+      id: '/_public/_authenticated/my/$activityType'
+      path: '/my/$activityType'
+      fullPath: '/my/$activityType'
+      preLoaderRoute: typeof PublicAuthenticatedMyActivityTypeRouteImport
+      parentRoute: typeof PublicAuthenticatedImport
+    }
+    '/_public/_authenticated/my/workshops': {
+      id: '/_public/_authenticated/my/workshops'
+      path: '/my/workshops'
+      fullPath: '/my/workshops'
+      preLoaderRoute: typeof PublicAuthenticatedMyWorkshopsRouteImport
+      parentRoute: typeof PublicAuthenticatedImport
+    }
     '/admin/$activityType/$slug/$session': {
       id: '/admin/$activityType/$slug/$session'
       path: '/$session'
@@ -801,6 +857,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRegistrationsRegistrationIdIndexImport
       parentRoute: typeof AdminRegistrationsRegistrationIdRouteImport
     }
+    '/_public/_authenticated/my/workshops/$slug/$sessionId': {
+      id: '/_public/_authenticated/my/workshops/$slug/$sessionId'
+      path: '/$slug/$sessionId'
+      fullPath: '/my/workshops/$slug/$sessionId'
+      preLoaderRoute: typeof PublicAuthenticatedMyWorkshopsSlugSessionIdRouteImport
+      parentRoute: typeof PublicAuthenticatedMyWorkshopsRouteImport
+    }
+    '/_public/_authenticated/my/$activityType/$slug/$sessionId': {
+      id: '/_public/_authenticated/my/$activityType/$slug/$sessionId'
+      path: '/$slug/$sessionId'
+      fullPath: '/my/$activityType/$slug/$sessionId'
+      preLoaderRoute: typeof PublicAuthenticatedMyActivityTypeSlugSessionIdImport
+      parentRoute: typeof PublicAuthenticatedMyActivityTypeRouteImport
+    }
+    '/_public/_authenticated/my/workshops/$slug/$sessionId/messages': {
+      id: '/_public/_authenticated/my/workshops/$slug/$sessionId/messages'
+      path: '/messages'
+      fullPath: '/my/workshops/$slug/$sessionId/messages'
+      preLoaderRoute: typeof PublicAuthenticatedMyWorkshopsSlugSessionIdMessagesImport
+      parentRoute: typeof PublicAuthenticatedMyWorkshopsSlugSessionIdRouteImport
+    }
+    '/_public/_authenticated/my/workshops/$slug/$sessionId/': {
+      id: '/_public/_authenticated/my/workshops/$slug/$sessionId/'
+      path: '/'
+      fullPath: '/my/workshops/$slug/$sessionId/'
+      preLoaderRoute: typeof PublicAuthenticatedMyWorkshopsSlugSessionIdIndexImport
+      parentRoute: typeof PublicAuthenticatedMyWorkshopsSlugSessionIdRouteImport
+    }
   }
 }
 
@@ -831,6 +915,18 @@ export const routeTree = rootRoute.addChildren({
     PublicAuthenticatedRoute: PublicAuthenticatedRoute.addChildren({
       PublicAuthenticatedCalendarRoute,
       PublicAuthenticatedProfileRoute,
+      PublicAuthenticatedMyActivityTypeRouteRoute:
+        PublicAuthenticatedMyActivityTypeRouteRoute.addChildren({
+          PublicAuthenticatedMyActivityTypeSlugSessionIdRoute,
+        }),
+      PublicAuthenticatedMyWorkshopsRouteRoute:
+        PublicAuthenticatedMyWorkshopsRouteRoute.addChildren({
+          PublicAuthenticatedMyWorkshopsSlugSessionIdRouteRoute:
+            PublicAuthenticatedMyWorkshopsSlugSessionIdRouteRoute.addChildren({
+              PublicAuthenticatedMyWorkshopsSlugSessionIdMessagesRoute,
+              PublicAuthenticatedMyWorkshopsSlugSessionIdIndexRoute,
+            }),
+        }),
     }),
     PublicIndexRoute,
     PublicAboutSlugRoute,
@@ -1045,7 +1141,9 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/_public",
       "children": [
         "/_public/_authenticated/calendar",
-        "/_public/_authenticated/profile"
+        "/_public/_authenticated/profile",
+        "/_public/_authenticated/my/$activityType",
+        "/_public/_authenticated/my/workshops"
       ]
     },
     "/admin/timetable": {
@@ -1202,6 +1300,20 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "admin/registrations/index.tsx",
       "parent": "/admin/registrations"
     },
+    "/_public/_authenticated/my/$activityType": {
+      "filePath": "_public/_authenticated/my/$activityType/route.tsx",
+      "parent": "/_public/_authenticated",
+      "children": [
+        "/_public/_authenticated/my/$activityType/$slug/$sessionId"
+      ]
+    },
+    "/_public/_authenticated/my/workshops": {
+      "filePath": "_public/_authenticated/my/workshops/route.tsx",
+      "parent": "/_public/_authenticated",
+      "children": [
+        "/_public/_authenticated/my/workshops/$slug/$sessionId"
+      ]
+    },
     "/admin/$activityType/$slug/$session": {
       "filePath": "admin/$activityType/$slug/$session.tsx",
       "parent": "/admin/$activityType/$slug"
@@ -1225,6 +1337,26 @@ export const routeTree = rootRoute.addChildren({
     "/admin/registrations/$registrationId/": {
       "filePath": "admin/registrations/$registrationId/index.tsx",
       "parent": "/admin/registrations/$registrationId"
+    },
+    "/_public/_authenticated/my/workshops/$slug/$sessionId": {
+      "filePath": "_public/_authenticated/my/workshops/$slug/$sessionId/route.tsx",
+      "parent": "/_public/_authenticated/my/workshops",
+      "children": [
+        "/_public/_authenticated/my/workshops/$slug/$sessionId/messages",
+        "/_public/_authenticated/my/workshops/$slug/$sessionId/"
+      ]
+    },
+    "/_public/_authenticated/my/$activityType/$slug/$sessionId": {
+      "filePath": "_public/_authenticated/my/$activityType/$slug/$sessionId.tsx",
+      "parent": "/_public/_authenticated/my/$activityType"
+    },
+    "/_public/_authenticated/my/workshops/$slug/$sessionId/messages": {
+      "filePath": "_public/_authenticated/my/workshops/$slug/$sessionId/messages.tsx",
+      "parent": "/_public/_authenticated/my/workshops/$slug/$sessionId"
+    },
+    "/_public/_authenticated/my/workshops/$slug/$sessionId/": {
+      "filePath": "_public/_authenticated/my/workshops/$slug/$sessionId/index.tsx",
+      "parent": "/_public/_authenticated/my/workshops/$slug/$sessionId"
     }
   }
 }

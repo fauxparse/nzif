@@ -1027,6 +1027,7 @@ export type Query = {
   person: Maybe<Person>;
   registration: Registration;
   search: Array<SearchResult>;
+  session: Session;
   setting: Maybe<Setting>;
   translations: Array<Translation>;
   user: Maybe<User>;
@@ -1069,6 +1070,11 @@ export type QuerySearchArgs = {
   limit: InputMaybe<Scalars['Int']>;
   only?: InputMaybe<Array<SearchType>>;
   query: Scalars['String'];
+};
+
+
+export type QuerySessionArgs = {
+  id: Scalars['ID'];
 };
 
 

@@ -773,6 +773,7 @@ type Query {
   person(id: ID!): Person
   registration(id: ID): Registration!
   search(activityType: ActivityType, limit: Int, only: [SearchType!] = [Person, Activity, Venue, Page], query: String!): [SearchResult!]!
+  session(id: ID!): Session!
   setting(id: String!): Setting
   translations: [Translation!]!
   user(id: ID): User
