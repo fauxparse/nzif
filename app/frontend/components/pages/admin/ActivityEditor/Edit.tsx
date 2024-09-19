@@ -4,7 +4,7 @@ import { Editor } from '@/components/organisms/Editor';
 import { ActivityPicker } from '@/components/organisms/TimetableEditor/ActivityPicker';
 import { ActivityAttributes, ActivityType } from '@/graphql/types';
 import { useMutation } from '@apollo/client';
-import { Flex, TextArea } from '@radix-ui/themes';
+import { Box, Flex, TextArea } from '@radix-ui/themes';
 import { useForm } from '@tanstack/react-form';
 import { ResultOf } from 'gql.tada';
 import { get, isEmpty, pick, pickBy } from 'lodash-es';
@@ -21,6 +21,7 @@ import {
   isWorkshop,
 } from './types';
 
+import { FormField } from '@/components/molecules/FormField';
 import classes from './ActivityEditor.module.css';
 
 type EditProps = {
@@ -30,7 +31,7 @@ type EditProps = {
 type Fields = WithUploadedPicture<ActivityDetails>;
 
 const getDefaultValuesFromActivity = (activity: Activity): ActivityDetails => {
-  return pick(activity, ['name', 'type', 'slug', 'description']) as ActivityDetails;
+  return pick(activity, ['name', 'type', 'slug', 'description', 'bookingLink']) as ActivityDetails;
 };
 
 export const Edit: React.FC<EditProps> = ({ activity }) => {
@@ -152,6 +153,23 @@ export const Edit: React.FC<EditProps> = ({ activity }) => {
               onAddPresenter={addPresenter}
               onRemovePresenter={removePresenter}
             />
+          )}
+        </form.Field>
+      )}
+      {activity.type === ActivityType.Show && (
+        <form.Field name="bookingLink">
+          {(field) => (
+            <Box gridColumn="1">
+              <FormField.Root label="Booking link">
+                <FormField.TextField
+                  value={field.state.value || ''}
+                  onValueChange={field.handleChange}
+                  onBlur={() => {
+                    if (field.state.meta.isDirty) form.handleSubmit();
+                  }}
+                />
+              </FormField.Root>
+            </Box>
           )}
         </form.Field>
       )}

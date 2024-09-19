@@ -12,6 +12,7 @@ export type Presenter = FragmentOf<typeof PresenterDetailsFragment>;
 export type ActivityDetails = Pick<Activity, 'name' | 'type' | 'slug' | 'description'> & {
   presenters: Array<Presenter>;
   attachedActivityId: Scalars['ID'] | null;
+  bookingLink: string | null;
 };
 
 export type AttachedActivity = FragmentOf<typeof TimetableActivityFragment>;

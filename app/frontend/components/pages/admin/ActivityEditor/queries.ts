@@ -40,6 +40,7 @@ export const ActivityDetailsQuery = graphql(
         }
 
         ...on Show {
+          bookingLink
           workshop {
             ...TimetableActivity
           }
@@ -110,6 +111,8 @@ export const UpdateActivityMutation = graphql(
       activity {
         id
         description
+        bookingLink
+
         picture {
           id
           large
