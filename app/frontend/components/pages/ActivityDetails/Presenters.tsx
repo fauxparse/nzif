@@ -34,7 +34,11 @@ export const Presenters: React.FC<PresentersProps> = ({ activity, loading }) => 
   return (
     <Box className={classes.presenters}>
       {presenters.map((presenter) => (
-        <Flex gap="5" key={presenter.id}>
+        <Flex
+          gap={{ initial: '2', sm: '5' }}
+          key={presenter.id}
+          direction={{ initial: 'column', sm: 'row' }}
+        >
           <Skeleton loading={loading}>
             <Avatar
               size="6"

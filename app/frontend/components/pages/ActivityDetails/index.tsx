@@ -8,7 +8,17 @@ import EditIcon from '@/icons/EditIcon';
 import { useAuthentication } from '@/services/Authentication';
 import sentence from '@/util/sentence';
 import { randParagraph } from '@ngneat/falso';
-import { Card, Flex, Heading, IconButton, Inset, Section, Skeleton, Text } from '@radix-ui/themes';
+import {
+  Box,
+  Card,
+  Flex,
+  Heading,
+  IconButton,
+  Inset,
+  Section,
+  Skeleton,
+  Text,
+} from '@radix-ui/themes';
 import { Link } from '@tanstack/react-router';
 import { map, uniqBy } from 'lodash-es';
 import { useMemo } from 'react';
@@ -82,27 +92,27 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, load
       <Body>
         <Section className={classes.main}>
           <div className={classes.description}>
-            {loading ? (
-              <Text size="4">
+            <Text as="div" size={{ initial: '3', sm: '4' }}>
+              {loading ? (
                 <Skeleton loading>{randParagraph()}</Skeleton>
-              </Text>
-            ) : (
-              <Text asChild size="4">
+              ) : (
                 <Markdown>{String(activity.description)}</Markdown>
-              </Text>
-            )}
+              )}
+            </Text>
           </div>
           <AtAGlance activity={activity} loading={loading} />
           {activity.picture?.large && (
-            <Card>
-              <Inset>
-                <img
-                  className={classes.picture}
-                  src={activity.picture.large}
-                  alt={activity.picture.altText || undefined}
-                />
-              </Inset>
-            </Card>
+            <Box display={{ initial: 'none', sm: 'block' }}>
+              <Card>
+                <Inset>
+                  <img
+                    className={classes.picture}
+                    src={activity.picture.large}
+                    alt={activity.picture.altText || undefined}
+                  />
+                </Inset>
+              </Card>
+            </Box>
           )}
           <Presenters activity={activity} loading={loading} />
         </Section>
