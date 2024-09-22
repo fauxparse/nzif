@@ -1,9 +1,8 @@
-import { RouteTransition } from '@/components/helpers/RouteTransition';
 import Navigation from '@/components/organisms/Navigation';
 import { Permission } from '@/graphql/types';
 import { useTitle } from '@/hooks/useRoutesWithTitles';
 import { hasPermission, useAuthentication } from '@/services/Authentication';
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 import { isEmpty } from 'lodash-es';
 import { PropsWithChildren, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -20,7 +19,7 @@ export const Route = createFileRoute('/admin')({
           <title>{title}</title>
         </Helmet>
         <Navigation className="layout__navigation" />
-        <RouteTransition />
+        <Outlet />
       </div>
     );
   },

@@ -1,5 +1,5 @@
-import { RouteTransition } from '@/components/helpers/RouteTransition';
 import usePreviousDistinct from '@/hooks/usePreviousDistinct';
+import { Outlet } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { ActivityEditorHeader } from './Header';
 import { Activity, Session } from './types';
@@ -32,7 +32,7 @@ export const ActivityEditor: React.FC<ActivityEditorProps> = ({
   return (
     <>
       <ActivityEditorHeader activity={activity} session={session} loading={loading} />
-      <RouteTransition routeKey={tabValue} direction={direction} />
+      <Outlet />
     </>
   );
 };
