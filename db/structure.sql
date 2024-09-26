@@ -24,6 +24,20 @@ COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs
 
 
 --
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_stat_statements IS 'track planning and execution statistics of all SQL statements executed';
+
+
+--
 -- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -765,6 +779,36 @@ CREATE TABLE public.registrations (
     show_explainer boolean DEFAULT true NOT NULL,
     donate_discount boolean DEFAULT false NOT NULL
 );
+
+
+--
+-- Name: registration_totals; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.registration_totals AS
+ WITH pricing AS (
+         SELECT base.count,
+            discounted.discountable,
+            (base.count * 7000) AS total,
+            ((((discounted.discountable * (discounted.discountable - 1)) / 2) * 500) + (GREATEST(0, (base.count - discounted.discountable)) * 2000)) AS discount
+           FROM ( SELECT generate_series(0, 11) AS count) base,
+            LATERAL ( SELECT discounted_1.discountable
+                   FROM ( SELECT generate_series(0, 11) AS count,
+                            LEAST(base.count, 5) AS discountable) discounted_1
+                  WHERE (discounted_1.count = base.count)) discounted
+        )
+ SELECT registrations.festival_id,
+    registrations.id,
+    pricing.total AS subtotal,
+    pricing.discount,
+    registrations.donate_discount,
+        CASE registrations.donate_discount
+            WHEN true THEN pricing.total
+            ELSE (pricing.total - pricing.discount)
+        END AS total
+   FROM (public.registrations
+     JOIN pricing ON ((registrations.placements_count = pricing.count)))
+  WHERE (registrations.completed_at IS NOT NULL);
 
 
 --
@@ -2289,6 +2333,7 @@ COPY public.active_record_views (name, class_name, checksum, options, refreshed_
 accounts	Account	527717ab674bda9a8d0d439f086869ff2cf1098a	{"dependencies":[]}	\N
 activity_owners	ActivityOwner	f2723da6818beb2445e1d563125953c531272374	{"dependencies":[]}	\N
 profile_activities	ProfileActivity	620b36acc01bdec1cee0a4ad0563589583e7477a	{"dependencies":[]}	\N
+registration_totals	RegistrationTotal	d0b0e308f3d49300e5a808de6b7f8fdb2edf60ae	{"dependencies":[]}	\N
 session_slots	SessionSlot	ff3c3045df6f7160a21a2db1c77dc7a7943f1a85	{"materialized":true,"dependencies":[]}	\N
 slot_activities	SlotActivity	717b988a5900ecc4d9842325e50563404a15d71b	{"dependencies":[]}	\N
 slot_sessions	SlotSession	6ab18ab7d8faec08af36bec11b736b3e84e21cca	{"dependencies":[]}	\N
