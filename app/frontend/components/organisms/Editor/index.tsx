@@ -29,7 +29,7 @@ import { HeadingNode, QuoteNode } from '@lexical/rich-text';
 import { Box, BoxProps } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { EditorState } from 'lexical';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FloatingLinkEditorPlugin } from './plugins/FloatingLinkEditorPlugin';
 import LinkPlugin from './plugins/LinkPlugin';
 import { PeriodicSavePlugin, PeriodicSavePluginRef } from './plugins/PeriodicSavePlugin';
@@ -37,6 +37,7 @@ import { ToolbarPlugin } from './plugins/ToolbarPlugin';
 import TreeViewPlugin from './plugins/TreeViewPlugin';
 import theme from './theme';
 
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import classes from './Editor.module.css';
 
 const TRANSFORMERS = [
@@ -137,6 +138,7 @@ export const Editor: React.FC<EditorProps> = ({
           <HistoryPlugin />
           <AutoFocusPlugin />
           <OnChangePlugin onChange={handleChange} />
+          <UpdateValuePlugin value={value} />
           {floatingAnchorElem && (
             <FloatingLinkEditorPlugin
               anchorElem={floatingAnchorElem}
@@ -149,4 +151,28 @@ export const Editor: React.FC<EditorProps> = ({
       {debug && import.meta.env.MODE === 'development' && <TreeViewPlugin />}
     </LexicalComposer>
   );
+};
+
+const UpdateValuePlugin = ({ value }: { value: string }) => {
+  const [editor] = useLexicalComposerContext();
+
+  const stored = useRef<string | null>(value);
+  const changed = useRef(false);
+
+  useEffect(() => {
+    editor.registerUpdateListener(() => {
+      changed.current = true;
+    });
+  }, [editor]);
+
+  useEffect(() => {
+    if (value === stored.current || !changed.current) return;
+
+    stored.current = value;
+
+    editor.update(() => $convertFromMarkdownString(value, TRANSFORMERS));
+    changed.current = false;
+  }, [value]);
+
+  return null;
 };
