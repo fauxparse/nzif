@@ -8,7 +8,7 @@ class ParticipantPreview < ActionMailer::Preview
 
   # Preview this email at http://localhost:5100/rails/mailers/participant/workshop_confirmation
   def workshop_confirmation
-    ParticipantMailer.workshop_confirmation(registration: Registration.find_by(user_id: 18,
+    ParticipantMailer.workshop_confirmation(registration: Registration.find_by(user_id: 185,
       festival_id: 2))
   end
 

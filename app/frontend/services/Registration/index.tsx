@@ -232,7 +232,7 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
         .reduce((acc, slot) => acc.add(slot.id), new Set());
       return slots.size;
     }
-    return registration.sessions.length;
+    return registration.sessions.reduce((t, s) => t + s.slots.length, 0);
   }, [registration, earlybird]);
 
   const value = useMemo(
