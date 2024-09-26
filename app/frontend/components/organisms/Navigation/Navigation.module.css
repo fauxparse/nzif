@@ -29,6 +29,19 @@
   }
 }
 
+.avatarButton {
+  width: auto;
+  height: auto;
+  padding: 0;
+  border-radius: 50%;
+  background: transparent;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 0.25rem var(--accent-a5);
+    outline: none;
+  }
+}
+
 .title {
   grid-area: center;
   margin: 0;
