@@ -13,7 +13,7 @@ module Waitlists
         waitlist.position = position
         waitlist.save!
       else
-        waitlist.insert_at(position)
+        waitlist.insert_at(position || 1)
       end
     end
 

@@ -17,7 +17,7 @@ RSpec.describe Messages::Send do
         'custom',
         'deliver_now',
         args: [hash_including(
-          message:,
+          message: have_attributes(id: message.id),
           recipients: session.participants.includes(:user).map(&:user),
         )],
       )
