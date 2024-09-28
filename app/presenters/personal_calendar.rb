@@ -1,4 +1,6 @@
 class PersonalCalendar
+  include Rails.application.routes.url_helpers
+
   attr_reader :festival, :user, :registration
 
   def initialize(festival:, user:)
@@ -6,12 +8,26 @@ class PersonalCalendar
     @user = user
     @registration =
       user && festival.registrations
-        .includes(:sessions, waitlist: :session)
+        .includes(sessions: %i[activity venue], waitlist: :session)
         .find_by(user:)
   end
 
   def sessions
     @sessions ||= all_sessions.sort_by { |session| session.session.starts_at }
+  end
+
+  def to_ical
+    Icalendar::Calendar.new.tap do |ical|
+      ical.x_wr_calname = "#{user.name}’s NZIF Calendar"
+
+      all_sessions.each do |session|
+        next if session.hidden || session.waitlisted
+
+        add_session(ical:, session: session.session)
+      end
+
+      ical.publish
+    end.to_ical
   end
 
   private
@@ -70,5 +86,42 @@ class PersonalCalendar
         [*session.cast, *session.activity.cast].any? { |c| c.profile.user_id == user.id }
     end
     wrap(teaching_sessions)
+  end
+
+  def add_session(ical:, session:, status: 'CONFIRMED') # rubocop:disable Metrics/MethodLength
+    ical.event do |e|
+      e.uid         = session.to_param
+      e.dtstart     = session.starts_at.to_datetime
+      e.dtend       = session.ends_at.to_datetime
+      e.summary     = session.activity.name
+      e.description = session.activity.description
+      e.url         = workshop_url(session.activity.slug, host: 'my.improvfest.nz')
+      e.organizer   = organizer
+      e.attendee    = attendee
+      e.location    = session.venue&.full_address_including_room
+      e.status      = status
+      e.sequence    = registration.snapshots.count
+      e.ip_class    = 'PUBLIC'
+      e.image       = session.activity.picture(:medium)&.url
+
+      e.alarm do |a|
+        a.action      = 'DISPLAY' # This line isn't necessary, it's the default
+        a.summary     = "Workshop reminder: #{session.activity.name}"
+        a.description = a.summary
+        a.trigger     = '-PT15M' # 15 minutes before
+      end
+    end
+  end
+
+  def attendee
+    Icalendar::Values::CalAddress.new(
+      "mailto:#{user.email}",
+      cn: user.name,
+      partstat: 'accepted',
+    )
+  end
+
+  def organizer
+    Icalendar::Values::CalAddress.new('mailto:registrations@improvfest.nz', cn: 'NZIF')
   end
 end

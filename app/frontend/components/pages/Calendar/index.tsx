@@ -12,10 +12,15 @@ import { Day } from './Day';
 import { CalendarQuery, SetSessionVisibilityMutation } from './queries';
 import { CalendarSession } from './types';
 
+import ShareIcon from '@/icons/ShareIcon';
+import { useAuthentication } from '@/services/Authentication';
+import { IconButton } from '@radix-ui/themes';
 import classes from './Calendar.module.css';
 
 export const Calendar: React.FC = () => {
   const { loading, data } = useQuery(CalendarQuery);
+
+  const { user } = useAuthentication();
 
   const { leaveSession, leaveWaitlist } = useRegistration();
 
@@ -125,11 +130,15 @@ export const Calendar: React.FC = () => {
     <CalendarProvider {...{ show, hide, leave }}>
       <Header
         title="My calendar"
-        // actions={
-        //   <IconButton variant="ghost" radius="full" size="3">
-        //     <ShareIcon />
-        //   </IconButton>
-        // }
+        actions={
+          user && (
+            <IconButton asChild variant="ghost" radius="full" size="3">
+              <a href={`webcal://${location.host}/calendar/${user.id}.ics`}>
+                <ShareIcon />
+              </a>
+            </IconButton>
+          )
+        }
       />
       <Body className={classes.calendar}>
         {days.map((day) => (

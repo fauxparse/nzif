@@ -21,13 +21,15 @@ Rails.application.routes.draw do
 
   resources :countries, only: :index, defaults: { format: :json }
 
+  resources :calendars, only: :show, constraints: { format: 'ics', protocol: 'webcal' }
+
   post '/payment_intents', to: 'payments#create_intent', defaults: { format: :json }
   post '/payments', to: 'payments#webhook', defaults: { format: :json }
 
   get '/register/workshops', to: 'festivals#show', as: :registration
   get '/register/payment', to: 'festivals#show', as: :payment
 
-  get '/calendar', to: 'festivals#show', as: :calendar
+  get '/calendar', to:  'festivals#show', as: :personal_calendar
 
   get '/workshops/:slug', to: 'festivals#show', as: :workshop
 
