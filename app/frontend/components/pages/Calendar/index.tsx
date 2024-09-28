@@ -133,7 +133,7 @@ export const Calendar: React.FC = () => {
         actions={
           user && (
             <IconButton asChild variant="ghost" radius="full" size="3">
-              <a href={`webcal://${location.host}/calendar/${user.id}.ics`}>
+              <a href={`webcal://${location.host}/calendars/${user.id}.ics`}>
                 <ShareIcon />
               </a>
             </IconButton>
