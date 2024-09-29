@@ -1,7 +1,7 @@
 .workshops {
   display: flex;
   flex-direction: column;
-  grid-area: main;
+  grid-column: main;
   gap: var(--space-4);
   margin-block: var(--space-4);
 

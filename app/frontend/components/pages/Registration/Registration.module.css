@@ -162,8 +162,8 @@
 
 .main {
   display: grid;
-  grid-area: main;
   grid-template: "full-bleed" minmax(0, 1fr) / 1fr;
+  grid-column: main;
   justify-self: center;
   overflow: hidden;
   width: 100%;
