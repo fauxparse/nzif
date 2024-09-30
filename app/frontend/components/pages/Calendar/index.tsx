@@ -6,16 +6,17 @@ import { useFestivalDates } from '@/hooks/useFestival';
 import { useRegistration } from '@/services/Registration';
 import { useApolloClient, useMutation, useQuery } from '@apollo/client';
 import { groupBy, range, sortBy, values } from 'lodash-es';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { CalendarProvider } from './Context';
 import { Day } from './Day';
 import { CalendarQuery, SetSessionVisibilityMutation } from './queries';
 import { CalendarSession } from './types';
 
-import ShareIcon from '@/icons/ShareIcon';
+import CalendarIcon from '@/icons/CalendarIcon';
 import { useAuthentication } from '@/services/Authentication';
 import { IconButton } from '@radix-ui/themes';
 import classes from './Calendar.module.css';
+import { WorkshopFeedback } from './WorkshopFeedback';
 
 export const Calendar: React.FC = () => {
   const { loading, data } = useQuery(CalendarQuery);
@@ -23,6 +24,8 @@ export const Calendar: React.FC = () => {
   const { user } = useAuthentication();
 
   const { leaveSession, leaveWaitlist } = useRegistration();
+
+  const [selectedId, setSelectedId] = useState<CalendarSession['id'] | null>(null);
 
   const dates = useFestivalDates();
 
@@ -48,6 +51,7 @@ export const Calendar: React.FC = () => {
               },
               hidden: false,
               waitlisted: false,
+              feedback: null,
               full: false,
             }) satisfies CalendarSession
         )
@@ -56,6 +60,11 @@ export const Calendar: React.FC = () => {
 
     return (data?.calendar ?? []) as CalendarSession[];
   }, [loading, data]);
+
+  const selected = useMemo(
+    () => sessions.find((s) => s.id === selectedId) ?? null,
+    [sessions, selectedId]
+  );
 
   const days = useMemo(
     () =>
@@ -127,14 +136,14 @@ export const Calendar: React.FC = () => {
   };
 
   return (
-    <CalendarProvider {...{ show, hide, leave }}>
+    <CalendarProvider {...{ show, hide, leave, selected, setSelectedId }}>
       <Header
         title="My calendar"
         actions={
           user && (
             <IconButton asChild variant="ghost" radius="full" size="3">
               <a href={`webcal://${location.host}/calendars/${user.id}.ics`}>
-                <ShareIcon />
+                <CalendarIcon />
               </a>
             </IconButton>
           )
@@ -150,6 +159,7 @@ export const Calendar: React.FC = () => {
           />
         ))}
       </Body>
+      <WorkshopFeedback session={selected} />
     </CalendarProvider>
   );
 };

@@ -19,9 +19,13 @@ import { useCalendar } from './Context';
 import { CalendarSession } from './types';
 
 import { activityColor } from '@/constants/activityTypes';
+import CheckIcon from '@/icons/CheckIcon';
+import CloseIcon from '@/icons/CloseIcon';
+import QuoteIcon from '@/icons/QuoteIcon';
 import WaitlistIcon from '@/icons/WaitlistIcon';
 import { useRegistration } from '@/services/Registration';
 import { Link } from '@tanstack/react-router';
+import { DateTime } from 'luxon';
 import { useMemo } from 'react';
 import classes from './Calendar.module.css';
 
@@ -32,8 +36,9 @@ export const CalendarEvent: React.FC<CalendarEventProps> = ({
   session,
   hidden,
   waitlisted,
+  feedback,
 }) => {
-  const { show, hide, leave } = useCalendar();
+  const { show, hide, leave, setSelectedId } = useCalendar();
 
   const { registration } = useRegistration();
 
@@ -46,6 +51,8 @@ export const CalendarEvent: React.FC<CalendarEventProps> = ({
     if (!registration) return false;
     return registration.waitlist.some((s) => s.id === id);
   }, [registration, id]);
+
+  const past = session.startsAt < DateTime.now();
 
   return (
     <Theme asChild accentColor={activityColor(session.activityType)}>
@@ -87,14 +94,22 @@ export const CalendarEvent: React.FC<CalendarEventProps> = ({
 
           {session.activityType === ActivityType.Workshop && (
             <Flex gap="2" mt="2">
-              {inSession && (
+              {inSession && !past && (
                 <Button variant="soft" onClick={() => leave(id)}>
+                  <CloseIcon />
                   Leave workshop
                 </Button>
               )}
-              {onWaitlist && (
+              {onWaitlist && !past && (
                 <Button variant="soft" onClick={() => leave(id)}>
+                  <CloseIcon />
                   Leave waitlist
+                </Button>
+              )}
+              {past && (
+                <Button variant="soft" disabled={!!feedback} onClick={() => setSelectedId(id)}>
+                  {feedback ? <CheckIcon /> : <QuoteIcon />}
+                  Give feedback
                 </Button>
               )}
             </Flex>

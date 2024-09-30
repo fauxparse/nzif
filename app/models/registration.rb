@@ -11,6 +11,7 @@ class Registration < ApplicationRecord
   has_many :workshops, through: :sessions, source: :activity
   has_many :waitlist, dependent: :destroy, autosave: true
   has_many :payments, dependent: :destroy
+  has_many :feedback, dependent: :destroy
 
   scope :completed, -> { where.not(completed_at: nil) }
 

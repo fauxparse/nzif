@@ -1184,6 +1184,20 @@
           "possibleTypes": null,
           "fields": [
             {
+              "name": "feedback",
+              "description": null,
+              "type": {
+                "kind": "OBJECT",
+                "name": "Feedback",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
               "name": "full",
               "description": null,
               "type": {

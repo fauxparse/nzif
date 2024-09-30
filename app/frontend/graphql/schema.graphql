@@ -155,6 +155,7 @@ type BooleanSetting implements Setting {
 }
 
 type CalendarSession {
+  feedback: Feedback
   full: Boolean!
   hidden: Boolean!
   id: ID!

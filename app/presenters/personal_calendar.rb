@@ -8,8 +8,9 @@ class PersonalCalendar
     @user = user
     @registration =
       user && festival.registrations
-        .includes(sessions: %i[activity venue], waitlist: :session)
+        .includes(:feedback, sessions: %i[activity venue], waitlist: :session)
         .find_by(user:)
+    @feedback = registration&.feedback&.index_by(&:session_id) || {}
   end
 
   def sessions
@@ -58,6 +59,7 @@ class PersonalCalendar
         session:,
         hidden: session.respond_to?(:hidden) ? session.hidden : false,
         waitlisted:,
+        feedback: @feedback[session.id],
       )
     end
   end

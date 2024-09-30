@@ -1,5 +1,6 @@
 module Types
   class CalendarSessionType < BaseObject
+    field :feedback, FeedbackType, null: true
     field :full, Boolean, null: false
     field :hidden, Boolean, null: false
     field :id, ID, null: false

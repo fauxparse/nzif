@@ -155,6 +155,7 @@ export type BooleanSetting = Setting & {
 
 export type CalendarSession = {
   __typename: 'CalendarSession';
+  feedback: Maybe<Feedback>;
   full: Scalars['Boolean'];
   hidden: Scalars['Boolean'];
   id: Scalars['ID'];
