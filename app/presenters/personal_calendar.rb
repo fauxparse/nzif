@@ -94,11 +94,12 @@ class PersonalCalendar
 
   def add_session(ical:, session:, status: 'CONFIRMED') # rubocop:disable Metrics/MethodLength
     ical.add_timezone session.starts_at.time_zone.tzinfo.ical_timezone(session.starts_at)
+    tzid = session.starts_at.time_zone.tzinfo.identifier
 
     ical.event do |e|
       e.uid         = session.to_param
-      e.dtstart     = session.starts_at.to_datetime
-      e.dtend       = session.ends_at.to_datetime
+      e.dtstart     = Icalendar::Values::DateTime.new(session.starts_at, tzid:)
+      e.dtend       = Icalendar::Values::DateTime.new(session.ends_at, tzid:)
       e.summary     = session.activity.name
       e.description = session.activity.description
       e.url         = workshop_url(session.activity.slug, host: 'my.improvfest.nz')
