@@ -9,6 +9,7 @@ module Registrations
         remove_old_placements
         remove_old_waitlists
         add_new_waitlists
+        registration.completed_at ||= Time.zone.now
         registration.save!
 
         add_new_sessions
