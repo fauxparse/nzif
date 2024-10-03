@@ -1,3 +1,5 @@
+require 'icalendar/tzinfo'
+
 class PersonalCalendar
   include Rails.application.routes.url_helpers
 
@@ -91,6 +93,8 @@ class PersonalCalendar
   end
 
   def add_session(ical:, session:, status: 'CONFIRMED') # rubocop:disable Metrics/MethodLength
+    ical.add_timezone session.starts_at.time_zone.tzinfo.ical_timezone(session.starts_at)
+
     ical.event do |e|
       e.uid         = session.to_param
       e.dtstart     = session.starts_at.to_datetime
