@@ -1,0 +1,20 @@
+body:has(.directory) [data-is-root-theme] {
+  --scaling: 2;
+  --combobox-popup-max-height: 80dvh;
+
+  overflow: hidden;
+}
+
+.directory {
+  display: grid;
+  grid-template: "search" auto "content" 1fr / 1fr;
+  min-height: 100svh;
+}
+
+.search {
+  grid-area: search;
+}
+
+.content {
+  grid-area: content;
+}

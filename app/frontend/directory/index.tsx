@@ -1,35 +1,20 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Outlet } from '@tanstack/react-router';
 
-import Layout from './Layout';
-import Result from './Result';
-import { ROUTES } from './Routes';
-import Search from './Search';
-import Sessions from './Sessions';
+import { Box, Flex } from '@radix-ui/themes';
+import { useState } from 'react';
+import classes from './Directory.module.css';
+import { Search } from './Search';
+import { Person } from './types';
 
-const router = createBrowserRouter([
-  {
-    element: <Layout />,
-    children: [
-      {
-        path: ROUTES.DIRECTORY.TIMESLOT.path,
-        element: <Search />,
-        children: [
-          {
-            path: ROUTES.DIRECTORY.TIMESLOT.PERSON.path,
-            element: <Result />,
-          },
-        ],
-      },
-      {
-        path: ROUTES.DIRECTORY.path,
-        element: <Sessions />,
-      },
-    ],
-  },
-]);
+export const Directory = () => {
+  const [person, setPerson] = useState<Person | null>(null);
 
-const Directory: React.FC = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <Flex className={classes.directory} direction="column" p="4" gap="2">
+      <Search person={person} onChange={setPerson} />
+      <Box className={classes.content}>
+        <Outlet />
+      </Box>
+    </Flex>
+  );
 };
-
-export default Directory;

@@ -15,10 +15,12 @@ import { Route as LogoutImport } from './routes/logout'
 import { Route as AdminImport } from './routes/admin'
 import { Route as RegisterRouteImport } from './routes/register/route'
 import { Route as DonateRouteImport } from './routes/donate/route'
+import { Route as DirectoryRouteImport } from './routes/directory/route'
 import { Route as PublicRouteImport } from './routes/_public/route'
 import { Route as AuthRouteImport } from './routes/_auth/route'
 import { Route as RegisterIndexImport } from './routes/register/index'
 import { Route as DonateIndexImport } from './routes/donate/index'
+import { Route as DirectoryIndexImport } from './routes/directory/index'
 import { Route as AdminIndexImport } from './routes/admin/index'
 import { Route as PublicIndexImport } from './routes/_public/index'
 import { Route as RegisterYourselfImport } from './routes/register/yourself'
@@ -99,6 +101,11 @@ const DonateRouteRoute = DonateRouteImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const DirectoryRouteRoute = DirectoryRouteImport.update({
+  path: '/directory',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const PublicRouteRoute = PublicRouteImport.update({
   id: '/_public',
   getParentRoute: () => rootRoute,
@@ -117,6 +124,11 @@ const RegisterIndexRoute = RegisterIndexImport.update({
 const DonateIndexRoute = DonateIndexImport.update({
   path: '/',
   getParentRoute: () => DonateRouteRoute,
+} as any)
+
+const DirectoryIndexRoute = DirectoryIndexImport.update({
+  path: '/',
+  getParentRoute: () => DirectoryRouteRoute,
 } as any)
 
 const AdminIndexRoute = AdminIndexImport.update({
@@ -444,6 +456,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicRouteImport
       parentRoute: typeof rootRoute
     }
+    '/directory': {
+      id: '/directory'
+      path: '/directory'
+      fullPath: '/directory'
+      preLoaderRoute: typeof DirectoryRouteImport
+      parentRoute: typeof rootRoute
+    }
     '/donate': {
       id: '/donate'
       path: '/donate'
@@ -625,6 +644,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexImport
       parentRoute: typeof AdminImport
+    }
+    '/directory/': {
+      id: '/directory/'
+      path: '/'
+      fullPath: '/directory/'
+      preLoaderRoute: typeof DirectoryIndexImport
+      parentRoute: typeof DirectoryRouteImport
     }
     '/donate/': {
       id: '/donate/'
@@ -931,6 +957,7 @@ export const routeTree = rootRoute.addChildren({
     PublicIndexRoute,
     PublicAboutSlugRoute,
   }),
+  DirectoryRouteRoute: DirectoryRouteRoute.addChildren({ DirectoryIndexRoute }),
   DonateRouteRoute: DonateRouteRoute.addChildren({
     DonateThanksRoute,
     DonateIndexRoute,
@@ -995,6 +1022,7 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_auth",
         "/_public",
+        "/directory",
         "/donate",
         "/register",
         "/admin",
@@ -1019,6 +1047,12 @@ export const routeTree = rootRoute.addChildren({
         "/_public/_authenticated",
         "/_public/",
         "/_public/about/$slug"
+      ]
+    },
+    "/directory": {
+      "filePath": "directory/route.tsx",
+      "children": [
+        "/directory/"
       ]
     },
     "/donate": {
@@ -1187,6 +1221,10 @@ export const routeTree = rootRoute.addChildren({
     "/admin/": {
       "filePath": "admin/index.tsx",
       "parent": "/admin"
+    },
+    "/directory/": {
+      "filePath": "directory/index.tsx",
+      "parent": "/directory"
     },
     "/donate/": {
       "filePath": "donate/index.tsx",

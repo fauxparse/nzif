@@ -22,10 +22,14 @@
   }
 }
 
+:root {
+  --combobox-popup-max-height: 20rem;
+}
+
 .popup {
   overflow-y: auto;
   width: var(--radix-popover-trigger-width);
-  max-height: 20rem;
+  max-height: var(--combobox-popup-max-height);
   padding-block: var(--space-3);
   border-radius: var(--radius-medium);
   background-color: var(--color-panel-solid);
