@@ -7,6 +7,9 @@ module Types
     field :slug, String, null: false
     field :type, ActivityTypeType, null: false
     field :sessions, [SessionType], null: false
+    field :session, SessionType, null: true do
+      argument :id, ID, required: true
+    end
     field :presenters, [PersonType], null: false
     field :description, String, null: true
     field :picture, Types::ActivityPictureType, null: true
@@ -36,11 +39,14 @@ module Types
         .load(object.id)
     end
 
+    def session(id:)
+      sessions.then { |sessions| sessions.find { |s| s.id == id } }
+    end
+
     def picture
       object.picture && object
     end
 
-    # rubocop:disable Metrics/PerceivedComplexity
     def missing_info
       [].tap do |missing|
         missing << 'Description' if object.description.blank?

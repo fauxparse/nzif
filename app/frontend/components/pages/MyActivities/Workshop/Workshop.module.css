@@ -49,5 +49,27 @@
 }
 
 .message {
+  /* empty */
+}
 
+.showParticipant {
+  padding-right: var(--checkbox-cards-item-padding-left);
+  padding-left: var(--checkbox-cards-item-padding-right);
+  user-select: none;
+
+  button {
+    right: unset;
+    left: var(--checkbox-cards-item-padding-left);
+    order: -1;
+  }
+
+  &:has([aria-checked="true"]) {
+    &::before {
+      background: var(--accent-a2);
+    }
+
+    &::after {
+      box-shadow: 0 0 0 1px var(--accent-6);
+    }
+  }
 }

@@ -23,6 +23,11 @@ const PAGES = [
     title: 'Messages',
     path: './messages',
   },
+  {
+    id: 'show',
+    title: 'Show',
+    path: './show',
+  },
 ];
 
 export const Workshop: React.FC<WorkshopProps> = ({ slug, sessionId }) => {
@@ -51,19 +56,21 @@ export const Workshop: React.FC<WorkshopProps> = ({ slug, sessionId }) => {
         }
         tabs={
           <TabNav.Root>
-            {PAGES.map(({ id, title, path }) => (
-              <TabNav.Link asChild key={id} active={page === id}>
-                <RouterLink
-                  to={path}
-                  from="/my/workshops/$slug/$sessionId"
-                  params={{ slug, sessionId }}
-                >
-                  <Flex asChild align="center" gap="2">
-                    <Text size="3">{title}</Text>
-                  </Flex>
-                </RouterLink>
-              </TabNav.Link>
-            ))}
+            {PAGES.filter((p) => p.id !== 'show' || 'show' in (data?.session?.activity ?? {})).map(
+              ({ id, title, path }) => (
+                <TabNav.Link asChild key={id} active={page === id}>
+                  <RouterLink
+                    to={path}
+                    from="/my/workshops/$slug/$sessionId"
+                    params={{ slug, sessionId }}
+                  >
+                    <Flex asChild align="center" gap="2">
+                      <Text size="3">{title}</Text>
+                    </Flex>
+                  </RouterLink>
+                </TabNav.Link>
+              )
+            )}
           </TabNav.Root>
         }
       />

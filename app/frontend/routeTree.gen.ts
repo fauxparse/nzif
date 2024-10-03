@@ -77,6 +77,7 @@ import { Route as PublicAuthenticatedMyActivityTypeRouteImport } from './routes/
 import { Route as PublicAuthenticatedMyActivityTypeSlugSessionIdImport } from './routes/_public/_authenticated/my/$activityType/$slug/$sessionId'
 import { Route as PublicAuthenticatedMyWorkshopsSlugSessionIdRouteImport } from './routes/_public/_authenticated/my/workshops/$slug/$sessionId/route'
 import { Route as PublicAuthenticatedMyWorkshopsSlugSessionIdIndexImport } from './routes/_public/_authenticated/my/workshops/$slug/$sessionId/index'
+import { Route as PublicAuthenticatedMyWorkshopsSlugSessionIdShowImport } from './routes/_public/_authenticated/my/workshops/$slug/$sessionId/show'
 import { Route as PublicAuthenticatedMyWorkshopsSlugSessionIdMessagesImport } from './routes/_public/_authenticated/my/workshops/$slug/$sessionId/messages'
 
 // Create/Update Routes
@@ -429,6 +430,12 @@ const PublicAuthenticatedMyWorkshopsSlugSessionIdRouteRoute =
 const PublicAuthenticatedMyWorkshopsSlugSessionIdIndexRoute =
   PublicAuthenticatedMyWorkshopsSlugSessionIdIndexImport.update({
     path: '/',
+    getParentRoute: () => PublicAuthenticatedMyWorkshopsSlugSessionIdRouteRoute,
+  } as any)
+
+const PublicAuthenticatedMyWorkshopsSlugSessionIdShowRoute =
+  PublicAuthenticatedMyWorkshopsSlugSessionIdShowImport.update({
+    path: '/show',
     getParentRoute: () => PublicAuthenticatedMyWorkshopsSlugSessionIdRouteRoute,
   } as any)
 
@@ -904,6 +911,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicAuthenticatedMyWorkshopsSlugSessionIdMessagesImport
       parentRoute: typeof PublicAuthenticatedMyWorkshopsSlugSessionIdRouteImport
     }
+    '/_public/_authenticated/my/workshops/$slug/$sessionId/show': {
+      id: '/_public/_authenticated/my/workshops/$slug/$sessionId/show'
+      path: '/show'
+      fullPath: '/my/workshops/$slug/$sessionId/show'
+      preLoaderRoute: typeof PublicAuthenticatedMyWorkshopsSlugSessionIdShowImport
+      parentRoute: typeof PublicAuthenticatedMyWorkshopsSlugSessionIdRouteImport
+    }
     '/_public/_authenticated/my/workshops/$slug/$sessionId/': {
       id: '/_public/_authenticated/my/workshops/$slug/$sessionId/'
       path: '/'
@@ -950,6 +964,7 @@ export const routeTree = rootRoute.addChildren({
           PublicAuthenticatedMyWorkshopsSlugSessionIdRouteRoute:
             PublicAuthenticatedMyWorkshopsSlugSessionIdRouteRoute.addChildren({
               PublicAuthenticatedMyWorkshopsSlugSessionIdMessagesRoute,
+              PublicAuthenticatedMyWorkshopsSlugSessionIdShowRoute,
               PublicAuthenticatedMyWorkshopsSlugSessionIdIndexRoute,
             }),
         }),
@@ -1381,6 +1396,7 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/_public/_authenticated/my/workshops",
       "children": [
         "/_public/_authenticated/my/workshops/$slug/$sessionId/messages",
+        "/_public/_authenticated/my/workshops/$slug/$sessionId/show",
         "/_public/_authenticated/my/workshops/$slug/$sessionId/"
       ]
     },
@@ -1390,6 +1406,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_public/_authenticated/my/workshops/$slug/$sessionId/messages": {
       "filePath": "_public/_authenticated/my/workshops/$slug/$sessionId/messages.tsx",
+      "parent": "/_public/_authenticated/my/workshops/$slug/$sessionId"
+    },
+    "/_public/_authenticated/my/workshops/$slug/$sessionId/show": {
+      "filePath": "_public/_authenticated/my/workshops/$slug/$sessionId/show.tsx",
       "parent": "/_public/_authenticated/my/workshops/$slug/$sessionId"
     },
     "/_public/_authenticated/my/workshops/$slug/$sessionId/": {

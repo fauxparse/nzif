@@ -1,3 +1,4 @@
+import { CastMemberFragment } from '@/components/organisms/ShowCast/queries';
 import { graphql } from '@/graphql';
 
 export const MessageFragment = graphql(`
@@ -33,6 +34,19 @@ export const MyWorkshopSessionQuery = graphql(
       activity {
         id
         name
+
+        ...on Workshop {
+          show {
+            id
+
+            sessions {
+              id
+              performers {
+                ...CastMember
+              }
+            }
+          }
+        }
       }
 
       venue {
@@ -75,7 +89,7 @@ export const MyWorkshopSessionQuery = graphql(
     }
   }
 `,
-  [MessageFragment]
+  [MessageFragment, CastMemberFragment]
 );
 
 export const SendMessageMutation = graphql(
@@ -89,4 +103,25 @@ export const SendMessageMutation = graphql(
   }
   `,
   [MessageFragment]
+);
+
+export const AddCastMemberMutation = graphql(
+  `
+  mutation AddCastMember($profileId: ID!, $sessionId: ID!) {
+    addSessionCast(sessionId: $sessionId, profileId: $profileId, role: performer) {
+      cast {
+        ...CastMember
+      }
+    }
+  }
+`,
+  [CastMemberFragment]
+);
+
+export const RemoveCastMemberMutation = graphql(
+  `
+  mutation RemoveCastMember($profileId: ID!, $sessionId: ID!) {
+    removeSessionCast(sessionId: $sessionId, profileId: $profileId, role: performer)
+  }
+`
 );
