@@ -28,6 +28,7 @@ import { Presenters } from './Presenters';
 import { Activity } from './types';
 
 import classes from './ActivityDetails.module.css';
+import { Cast } from './Cast';
 
 type ActivityDetailsProps = {
   activity: Activity;
@@ -99,6 +100,7 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, load
                 <Markdown>{String(activity.description)}</Markdown>
               )}
             </Text>
+            <Cast activity={activity} loading={loading} />
           </div>
           <AtAGlance activity={activity} loading={loading} />
           {activity.picture?.large && (

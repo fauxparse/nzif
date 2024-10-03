@@ -1,4 +1,6 @@
 import { useConfirmation } from '@/components/organisms/ConfirmationModal';
+import { CastMemberFragment } from '@/components/organisms/ShowCast/queries';
+import { FragmentOf } from '@/graphql';
 import { ActivityType } from '@/graphql/types';
 import BATSIcon from '@/icons/BATSIcon';
 import CalendarIcon from '@/icons/CalendarIcon';
@@ -29,10 +31,15 @@ import { Activity } from './types';
 
 import classes from './ActivityDetails.module.css';
 
+type CastMember = FragmentOf<typeof CastMemberFragment>;
+
 type AtAGlanceProps = {
   activity: Activity;
   loading?: boolean;
 };
+
+const isShow = (activity: Activity): activity is Activity & { type: ActivityType.Show } =>
+  activity.type === ActivityType.Show;
 
 export const AtAGlance: React.FC<AtAGlanceProps> = ({ activity, loading }) => {
   const { registration, earlybird, leaveSession, leaveWaitlist, joinSession, joinWaitlist } =
@@ -82,6 +89,10 @@ export const AtAGlance: React.FC<AtAGlanceProps> = ({ activity, loading }) => {
               endsAt: DateTime.now(),
               venue: null,
               full: false,
+              hosts: [],
+              performers: [],
+              musos: [],
+              operators: [],
             },
           ]
         : activity.sessions,
@@ -205,6 +216,7 @@ export const AtAGlance: React.FC<AtAGlanceProps> = ({ activity, loading }) => {
               )}
           </Flex>
         ))}
+        {}
       </aside>
     </Card>
   );

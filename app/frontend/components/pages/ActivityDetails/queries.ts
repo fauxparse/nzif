@@ -1,4 +1,5 @@
 import { graphql } from '@/graphql';
+import { CastMemberFragment } from '../../organisms/ShowCast/queries';
 
 export const ActivityPresenterFragment = graphql(`
   fragment ActivityPresenter on Person @_unmask {
@@ -51,10 +52,26 @@ export const ActivityDetailsActivityFragment = graphql(
         building
         address
       }
+
+      performers {
+        ...CastMember
+      }
+
+      hosts {
+        ...CastMember
+      }
+
+      musos {
+        ...CastMember
+      }
+
+      operators {
+        ...CastMember
+      }
     }
   }
 `,
-  [ActivityPresenterFragment]
+  [ActivityPresenterFragment, CastMemberFragment]
 );
 
 export const ActivityDetailsQuery = graphql(

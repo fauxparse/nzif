@@ -4,6 +4,7 @@ export const CastMemberFragment = graphql(`
   fragment CastMember on Person @_unmask {
     id
     name
+    pronouns
   }
 `);
 

@@ -45,3 +45,23 @@
   grid-template-columns: repeat(auto-fit, minmax(1fr, 24rem));
   gap: var(--space-4);
 }
+
+.cast {
+  h4 {
+    color: var(--gray-11);
+    font-weight: var(--font-weight-normal);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  ul {
+    margin: 0 0 var(--space-2);
+    padding: 0;
+    list-style: none;
+
+    small {
+      color: var(--gray-11);
+      font-size: 100%;
+    }
+  }
+}
