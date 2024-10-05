@@ -13,7 +13,7 @@ export type UseComboboxOptions<Item extends ComboboxItem, Value> = {
   debounce?: number;
   enableAdd?: boolean;
   onSelect: (item: Item | null) => void;
-  onAdd?: (query: string) => Promise<Item>;
+  onAdd?: (query: string) => Promise<Item | null>;
 };
 
 export type ComboboxProps<Item extends ComboboxItem, Value = Item> = Omit<

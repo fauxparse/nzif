@@ -1,3 +1,4 @@
+import { Show } from '@/components/pages/admin/ActivityEditor/Show';
 import { ActivityDetailsQuery } from '@/components/pages/admin/ActivityEditor/queries';
 import { WorkshopSession } from '@/components/pages/admin/WorkshopSession';
 import { ActivityType } from '@/graphql/types';
@@ -35,6 +36,10 @@ export const Route = createFileRoute('/admin/$activityType/$slug/$session')({
 
     if (params.activityType === ActivityType.Workshop) {
       return <WorkshopSession workshop={activity} session={session} />;
+    }
+
+    if (activity.type === ActivityType.Show) {
+      return <Show show={activity as Extract<typeof activity, { type: ActivityType.Show }>} />;
     }
 
     return <Text>{session.startsAt.toLocaleString()}</Text>;

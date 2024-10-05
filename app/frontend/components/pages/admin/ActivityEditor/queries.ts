@@ -126,12 +126,28 @@ export const ActivityDetailsQuery = graphql(
             room
             building
           }
+
+          hosts {
+            ...CastMember
+          }
+
+          performers {
+            ...CastMember
+          }
+
+          musos {
+            ...CastMember
+          }
+
+          operators {
+            ...CastMember
+          }
         }
       }
     }
   }
 `,
-  [PresenterDetailsFragment, TimetableActivityFragment, WorkshopShowFragment]
+  [PresenterDetailsFragment, TimetableActivityFragment, WorkshopShowFragment, CastMemberFragment]
 );
 
 export const UpdateActivityDetailsMutation = graphql(`
