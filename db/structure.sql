@@ -235,7 +235,8 @@ CREATE TABLE public.profiles (
     updated_at timestamp(6) without time zone NOT NULL,
     searchable tsvector GENERATED ALWAYS AS (setweight(to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char")) STORED,
     picture_data jsonb,
-    phone character varying(32)
+    phone character varying(32),
+    hidden boolean DEFAULT false NOT NULL
 );
 
 
@@ -1816,6 +1817,13 @@ CREATE INDEX index_preferences_on_session_id ON public.preferences USING btree (
 
 
 --
+-- Name: index_profiles_on_hidden_and_searchable; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_profiles_on_hidden_and_searchable ON public.profiles USING btree (hidden, searchable);
+
+
+--
 -- Name: index_profiles_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2239,6 +2247,7 @@ ALTER TABLE ONLY public.sessions
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20241005022723'),
 ('20240902040156'),
 ('20240902035845'),
 ('20240902031323'),

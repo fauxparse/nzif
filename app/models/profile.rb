@@ -19,6 +19,8 @@ class Profile < ApplicationRecord
 
   searchable_on :name
 
+  default_scope { where.not(hidden: true) }
+
   scope :without_attached_user, -> { where(user_id: nil) }
   scope :registered, lambda {
     joins(
