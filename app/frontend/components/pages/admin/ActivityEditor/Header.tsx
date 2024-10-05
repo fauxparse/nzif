@@ -5,28 +5,34 @@ import EditIcon from '@/icons/EditIcon';
 import { useMutation } from '@apollo/client';
 import { Badge, Flex, TabNav, Text, Theme } from '@radix-ui/themes';
 import { useForm } from '@tanstack/react-form';
-import { Link, useNavigate } from '@tanstack/react-router';
+import { Link, useNavigate, useRouterState } from '@tanstack/react-router';
 import { pick } from 'lodash-es';
 import { useState } from 'react';
 import { InPlaceEdit } from './InPlaceEdit';
 import { SlugEditor } from './SlugEditor';
-import { UpdateActivityDetailsMutation } from './queries';
+import { UpdateActivityDetailsMutation, WorkshopShowFragment } from './queries';
 import { Activity, Session } from './types';
 
+import { FragmentOf } from '@/graphql';
+import ShowIcon from '@/icons/ShowIcon';
 import classes from './ActivityEditor.module.css';
 
 type ActivityEditorHeaderProps = {
   activity: Activity;
   session: Session | null;
+  show: FragmentOf<typeof WorkshopShowFragment> | null;
   loading?: boolean;
 };
 
 export const ActivityEditorHeader: React.FC<ActivityEditorHeaderProps> = ({
   activity,
   session,
+  show,
   loading = false,
 }) => {
   const navigate = useNavigate();
+
+  const route = useRouterState();
 
   const [updateMutation] = useMutation(UpdateActivityDetailsMutation);
 
@@ -120,7 +126,7 @@ export const ActivityEditorHeader: React.FC<ActivityEditorHeaderProps> = ({
           }
           tabs={
             <TabNav.Root>
-              <TabNav.Link asChild key="edit" active={!session}>
+              <TabNav.Link asChild key="edit" active={!session && !show}>
                 <Link
                   to="/admin/$activityType/$slug"
                   params={{ activityType: activity.type, slug: activity.slug }}
@@ -155,6 +161,24 @@ export const ActivityEditorHeader: React.FC<ActivityEditorHeaderProps> = ({
                   </Link>
                 </TabNav.Link>
               ))}
+              {activity.type === ActivityType.Workshop && 'show' in activity && activity.show && (
+                <TabNav.Link asChild active={!!show}>
+                  <Link
+                    to="/admin/$activityType/$slug/show"
+                    params={{
+                      activityType: activity.type,
+                      slug: activity.slug,
+                    }}
+                  >
+                    <Flex asChild align="center" gap="2">
+                      <Text size="3">
+                        <ShowIcon />
+                        Show
+                      </Text>
+                    </Flex>
+                  </Link>
+                </TabNav.Link>
+              )}
             </TabNav.Root>
           }
         />

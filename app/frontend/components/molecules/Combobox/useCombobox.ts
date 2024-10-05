@@ -59,7 +59,9 @@ export const useCombobox = <Item extends ComboboxItem, Value = Item | null>({
   const add = (query: string) => {
     if (!enableAdd || !onAdd) return;
 
-    onAdd(query).then(selected);
+    onAdd(query).then((v) => {
+      if (v) selected(v);
+    });
   };
 
   return {

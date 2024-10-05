@@ -1,4 +1,8 @@
-import { TimetableActivityFragment } from '@/components/organisms/TimetableEditor/queries';
+import { CastMemberFragment } from '@/components/organisms/ShowCast/queries';
+import {
+  TimetableActivityFragment,
+  TimetableCastFragment,
+} from '@/components/organisms/TimetableEditor/queries';
 import { graphql } from '@/graphql';
 
 export const PresenterDetailsFragment = graphql(`
@@ -19,6 +23,41 @@ export const PresenterDetailsFragment = graphql(`
     }
   }
 `);
+
+export const WorkshopShowFragment = graphql(
+  `
+  fragment WorkshopShow on Show @_unmask {
+    ...TimetableActivity
+
+    sessions {
+      id
+      startsAt
+      endsAt
+
+      activity {
+        type
+      }
+
+      hosts {
+        ...TimetableCast
+      }
+
+      performers {
+        ...TimetableCast
+      }
+
+      musos {
+        ...TimetableCast
+      }
+
+      operators {
+        ...TimetableCast
+      }
+    }
+  }
+`,
+  [TimetableActivityFragment, TimetableCastFragment]
+);
 
 export const ActivityDetailsQuery = graphql(
   `
@@ -48,7 +87,7 @@ export const ActivityDetailsQuery = graphql(
 
         ...on Workshop {
           show {
-            ...TimetableActivity
+          ...WorkshopShow
           }
         }
 
@@ -61,6 +100,10 @@ export const ActivityDetailsQuery = graphql(
           startsAt
           endsAt
           capacity
+
+          activity {
+            type
+          }
 
           participants {
             id
@@ -88,7 +131,7 @@ export const ActivityDetailsQuery = graphql(
     }
   }
 `,
-  [PresenterDetailsFragment, TimetableActivityFragment]
+  [PresenterDetailsFragment, TimetableActivityFragment, WorkshopShowFragment]
 );
 
 export const UpdateActivityDetailsMutation = graphql(`
@@ -176,4 +219,50 @@ export const UpdatePresenterMutation = graphql(
   }
   `,
   [PresenterDetailsFragment]
+);
+
+export const SearchPeopleQuery = graphql(`
+  query SearchPeople($query: String!) {
+    search(query: $query, only: Person) {
+      id
+      ...on PersonResult {
+        person {
+          id
+          name
+        }
+      }
+    }
+  }
+`);
+
+export const AddCastMutation = graphql(
+  `
+  mutation AddCast($sessionId: ID!, $role: Role!, $personId: ID!) {
+    addSessionCast(sessionId: $sessionId, role: $role, profileId: $personId) {
+      cast {
+        ...CastMember
+      }
+    }
+  }
+`,
+  [CastMemberFragment]
+);
+
+export const RemoveCastMutation = graphql(`
+  mutation RemoveCast($sessionId: ID!, $role: Role!, $personId: ID!) {
+    removeSessionCast(sessionId: $sessionId, role: $role, profileId: $personId)
+  }
+`);
+
+export const CreateCastMemberMutation = graphql(
+  `
+  mutation CreateCastMember($name: String!) {
+    createPerson(attributes: { name: $name }) {
+      profile {
+        ...CastMember
+      }
+    }
+  }
+`,
+  [CastMemberFragment]
 );

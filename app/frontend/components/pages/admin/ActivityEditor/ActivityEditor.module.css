@@ -25,3 +25,7 @@
     }
   }
 }
+
+.showCasting {
+  grid-column: main;
+}

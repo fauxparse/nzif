@@ -1,6 +1,5 @@
-import usePreviousDistinct from '@/hooks/usePreviousDistinct';
+import { ActivityType } from '@/graphql/types';
 import { Outlet } from '@tanstack/react-router';
-import { useMemo } from 'react';
 import { ActivityEditorHeader } from './Header';
 import { Activity, Session } from './types';
 
@@ -8,30 +7,22 @@ type ActivityEditorProps = {
   activity: Activity;
   session: Session | null;
   loading?: boolean;
+  show?: boolean;
 };
 
 export const ActivityEditor: React.FC<ActivityEditorProps> = ({
   activity,
   session,
   loading = false,
+  show: isShow = false,
 }) => {
-  const tabIds = useMemo(
-    () => ['edit', ...activity.sessions.map((session) => session.startsAt.toISODate() ?? '')],
-    [activity.sessions]
-  );
+  const hasShow = activity.type === ActivityType.Workshop && 'show' in activity;
 
-  const tabValue = session?.startsAt?.toISODate() ?? 'edit';
-
-  const tabValueWas = usePreviousDistinct(tabValue);
-
-  const direction = useMemo(
-    () => (tabIds.indexOf(tabValue) < tabIds.indexOf(tabValueWas || '') ? 'right' : 'left'),
-    [tabValue, tabValueWas, tabIds]
-  );
+  const show = (isShow && hasShow && activity.show) || null;
 
   return (
     <>
-      <ActivityEditorHeader activity={activity} session={session} loading={loading} />
+      <ActivityEditorHeader activity={activity} session={session} show={show} loading={loading} />
       <Outlet />
     </>
   );

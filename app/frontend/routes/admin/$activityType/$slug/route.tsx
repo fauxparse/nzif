@@ -34,12 +34,14 @@ export const Route = createFileRoute('/admin/$activityType/$slug')({
       (matches.find((match) => 'session' in match.params)?.params as { session: DateTime })
         ?.session ?? null;
 
+    const show = !!matches.find((match) => match.routeId.endsWith('/show'));
+
     const session =
       (sessionStartsAt &&
         activity.sessions.find((s) => s.startsAt.hasSame(sessionStartsAt, 'day'))) ??
       null;
 
-    return <ActivityEditor activity={activity} session={session} />;
+    return <ActivityEditor activity={activity} session={session} show={show} />;
   },
   pendingComponent: () => <Text>Loading…</Text>,
 });

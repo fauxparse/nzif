@@ -4,6 +4,7 @@ module Mutations
       graphql_name 'AddSessionCast'
 
       field :cast, Types::PersonType, null: false
+      field :session, Types::SessionType, null: false
 
       argument :profile_id, ID, required: true
       argument :role, Types::RoleType, required: true

@@ -71,6 +71,7 @@ import { Route as AdminActivityTypeSlugIndexImport } from './routes/admin/$activ
 import { Route as PublicActivityTypeListIndexImport } from './routes/_public/$activityType/_list.index'
 import { Route as AdminRegistrationsRegistrationIdWorkshopsImport } from './routes/admin/registrations/$registrationId/workshops'
 import { Route as AdminRegistrationsRegistrationIdPaymentsImport } from './routes/admin/registrations/$registrationId/payments'
+import { Route as AdminActivityTypeSlugShowImport } from './routes/admin/$activityType/$slug/show'
 import { Route as AdminActivityTypeSlugSessionImport } from './routes/admin/$activityType/$slug/$session'
 import { Route as PublicAuthenticatedMyWorkshopsRouteImport } from './routes/_public/_authenticated/my/workshops/route'
 import { Route as PublicAuthenticatedMyActivityTypeRouteImport } from './routes/_public/_authenticated/my/$activityType/route'
@@ -396,6 +397,11 @@ const AdminRegistrationsRegistrationIdPaymentsRoute =
     path: '/payments',
     getParentRoute: () => AdminRegistrationsRegistrationIdRouteRoute,
   } as any)
+
+const AdminActivityTypeSlugShowRoute = AdminActivityTypeSlugShowImport.update({
+  path: '/show',
+  getParentRoute: () => AdminActivityTypeSlugRouteRoute,
+} as any)
 
 const AdminActivityTypeSlugSessionRoute =
   AdminActivityTypeSlugSessionImport.update({
@@ -855,6 +861,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminActivityTypeSlugSessionImport
       parentRoute: typeof AdminActivityTypeSlugRouteImport
     }
+    '/admin/$activityType/$slug/show': {
+      id: '/admin/$activityType/$slug/show'
+      path: '/show'
+      fullPath: '/admin/$activityType/$slug/show'
+      preLoaderRoute: typeof AdminActivityTypeSlugShowImport
+      parentRoute: typeof AdminActivityTypeSlugRouteImport
+    }
     '/admin/registrations/$registrationId/payments': {
       id: '/admin/registrations/$registrationId/payments'
       path: '/payments'
@@ -994,6 +1007,7 @@ export const routeTree = rootRoute.addChildren({
       AdminActivityTypeSlugRouteRoute:
         AdminActivityTypeSlugRouteRoute.addChildren({
           AdminActivityTypeSlugSessionRoute,
+          AdminActivityTypeSlugShowRoute,
           AdminActivityTypeSlugIndexRoute,
         }),
       AdminActivityTypeIndexRoute,
@@ -1254,6 +1268,7 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/admin/$activityType",
       "children": [
         "/admin/$activityType/$slug/$session",
+        "/admin/$activityType/$slug/show",
         "/admin/$activityType/$slug/"
       ]
     },
@@ -1369,6 +1384,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/admin/$activityType/$slug/$session": {
       "filePath": "admin/$activityType/$slug/$session.tsx",
+      "parent": "/admin/$activityType/$slug"
+    },
+    "/admin/$activityType/$slug/show": {
+      "filePath": "admin/$activityType/$slug/show.tsx",
       "parent": "/admin/$activityType/$slug"
     },
     "/admin/registrations/$registrationId/payments": {
