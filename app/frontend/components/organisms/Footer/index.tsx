@@ -69,6 +69,16 @@ const Footer: React.FC<FooterProps> = ({ className, ...props }) => {
                   Get merch
                 </a>
               </ActionList.Item>
+              <ActionList.Item asChild>
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLScFcMMbK93sGtbcdj7i9TGU7ZlSGh-gm-XDdrnvGfbi7y9iFg/viewform"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLinkIcon />
+                  Awards nominations
+                </a>
+              </ActionList.Item>
             </ActionList>
           </section>
           <section>
