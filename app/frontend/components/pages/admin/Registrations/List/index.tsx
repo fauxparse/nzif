@@ -43,6 +43,7 @@ type TableRow = {
   email: string;
   workshops: number;
   completedAt: DateTime | null;
+  photoPermission: boolean;
 };
 
 const columnHelper = createColumnHelper<TableRow>();
@@ -75,6 +76,11 @@ const columns = [
     sortUndefined: 1,
     sortDescFirst: true,
   }),
+  columnHelper.accessor('photoPermission', {
+    header: 'Photos',
+    enableHiding: true,
+    cell: (cell) => (cell.getValue() ? 'Yes' : 'No'),
+  }),
 ];
 
 export const RegistrationsList = () => {
@@ -100,6 +106,7 @@ export const RegistrationsList = () => {
             email: r.user?.email || '',
             workshops: countWorkshops(r, earlybird),
             completedAt: r.completedAt,
+            photoPermission: r.photoPermission,
           }) satisfies TableRow
       ) || [],
     [data, earlybird]

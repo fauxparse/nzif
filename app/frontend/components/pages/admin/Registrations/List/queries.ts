@@ -12,6 +12,7 @@ export const RegistrationsRowFragment = graphql(`
       }
     }
     completedAt
+    photoPermission
     preferences {
       id
       position
