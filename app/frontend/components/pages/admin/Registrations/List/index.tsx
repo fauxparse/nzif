@@ -1,5 +1,6 @@
 import { Spinner } from '@/components/atoms/Spinner';
 import { DataTable } from '@/components/molecules/DataTable';
+import { useToast } from '@/components/molecules/Toast';
 import Header from '@/components/organisms/Header';
 import { sessionKey } from '@/components/pages/Registration/Workshops/useWorkshopPreferences';
 import { RegistrationPhase } from '@/graphql/types';
@@ -79,6 +80,8 @@ const columns = [
 export const RegistrationsList = () => {
   const { loading, data } = useQuery(RegistrationsQuery);
 
+  const { notify } = useToast();
+
   const registrationPhase = data?.festival?.registrationPhase;
 
   const earlybird =
@@ -151,6 +154,12 @@ export const RegistrationsList = () => {
     if (selected) setSelectedRegistration(selected);
   }, [selected]);
 
+  const copyEmailAddresses = () => {
+    const emails = registrations.map((r) => r.email).join('\n');
+    navigator.clipboard.writeText(emails);
+    notify({ description: 'Email addresses copied to clipboard' });
+  };
+
   return (
     <>
       <Header
@@ -172,6 +181,9 @@ export const RegistrationsList = () => {
             <Skeleton loading={loading}>
               {loading ? 'Loading…' : `${places} / ${pluralize('place', totalPlaces, true)}`}
             </Skeleton>
+            <Button variant="outline" size="2" onClick={copyEmailAddresses}>
+              Copy emails
+            </Button>
           </Text>
         </Flex>
       </Header>
