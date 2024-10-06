@@ -68,6 +68,7 @@ export const WorkshopFeedback: React.FC<WorkshopFeeedbackProps> = ({ session: pa
     if (passed) {
       setSession(passed);
       setOpen(true);
+      form.reset();
     } else {
       setOpen(false);
     }
