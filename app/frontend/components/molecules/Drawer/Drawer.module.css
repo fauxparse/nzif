@@ -13,7 +13,6 @@
   --inset-padding-left: var(--drawer-padding-x);
 
   position: fixed;
-  display: flex;
   overflow: auto;
   padding: var(--drawer-padding-y) var(--drawer-padding-x);
   background-color: var(--color-panel);
