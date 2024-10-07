@@ -2,5 +2,8 @@
   &.layout--admin {
     --max-width: 100vw;
     --layout-columns: [full-bleed-start] var(--gutter-width) [main-start] min(var(--max-width), calc(100vw - var(--gutter-width) * 2)) [main-end] var(--gutter-width) [full-bleed-end];
+
+    grid-template-rows: auto auto;
+    grid-auto-rows: 1fr;
   }
 }
