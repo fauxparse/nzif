@@ -339,6 +339,7 @@ const ToolbarButton: React.FC<
   IconButtonProps & ComponentPropsWithoutRef<'button'> & { pressed?: boolean; label: string }
 > = ({ pressed = false, label, ...props }) => (
   <IconButton
+    type="button"
     className={classes.toolbarButton}
     variant="soft"
     color={pressed ? undefined : 'gray'}
