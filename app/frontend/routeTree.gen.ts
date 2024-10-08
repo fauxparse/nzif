@@ -72,6 +72,7 @@ import { Route as PublicActivityTypeListIndexImport } from './routes/_public/$ac
 import { Route as AdminRegistrationsRegistrationIdWorkshopsImport } from './routes/admin/registrations/$registrationId/workshops'
 import { Route as AdminRegistrationsRegistrationIdPaymentsImport } from './routes/admin/registrations/$registrationId/payments'
 import { Route as AdminActivityTypeSlugShowImport } from './routes/admin/$activityType/$slug/show'
+import { Route as AdminActivityTypeSlugFeedbackImport } from './routes/admin/$activityType/$slug/feedback'
 import { Route as AdminActivityTypeSlugSessionImport } from './routes/admin/$activityType/$slug/$session'
 import { Route as PublicAuthenticatedMyWorkshopsRouteImport } from './routes/_public/_authenticated/my/workshops/route'
 import { Route as PublicAuthenticatedMyActivityTypeRouteImport } from './routes/_public/_authenticated/my/$activityType/route'
@@ -402,6 +403,12 @@ const AdminActivityTypeSlugShowRoute = AdminActivityTypeSlugShowImport.update({
   path: '/show',
   getParentRoute: () => AdminActivityTypeSlugRouteRoute,
 } as any)
+
+const AdminActivityTypeSlugFeedbackRoute =
+  AdminActivityTypeSlugFeedbackImport.update({
+    path: '/feedback',
+    getParentRoute: () => AdminActivityTypeSlugRouteRoute,
+  } as any)
 
 const AdminActivityTypeSlugSessionRoute =
   AdminActivityTypeSlugSessionImport.update({
@@ -861,6 +868,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminActivityTypeSlugSessionImport
       parentRoute: typeof AdminActivityTypeSlugRouteImport
     }
+    '/admin/$activityType/$slug/feedback': {
+      id: '/admin/$activityType/$slug/feedback'
+      path: '/feedback'
+      fullPath: '/admin/$activityType/$slug/feedback'
+      preLoaderRoute: typeof AdminActivityTypeSlugFeedbackImport
+      parentRoute: typeof AdminActivityTypeSlugRouteImport
+    }
     '/admin/$activityType/$slug/show': {
       id: '/admin/$activityType/$slug/show'
       path: '/show'
@@ -1007,6 +1021,7 @@ export const routeTree = rootRoute.addChildren({
       AdminActivityTypeSlugRouteRoute:
         AdminActivityTypeSlugRouteRoute.addChildren({
           AdminActivityTypeSlugSessionRoute,
+          AdminActivityTypeSlugFeedbackRoute,
           AdminActivityTypeSlugShowRoute,
           AdminActivityTypeSlugIndexRoute,
         }),
@@ -1268,6 +1283,7 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/admin/$activityType",
       "children": [
         "/admin/$activityType/$slug/$session",
+        "/admin/$activityType/$slug/feedback",
         "/admin/$activityType/$slug/show",
         "/admin/$activityType/$slug/"
       ]
@@ -1384,6 +1400,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/admin/$activityType/$slug/$session": {
       "filePath": "admin/$activityType/$slug/$session.tsx",
+      "parent": "/admin/$activityType/$slug"
+    },
+    "/admin/$activityType/$slug/feedback": {
+      "filePath": "admin/$activityType/$slug/feedback.tsx",
       "parent": "/admin/$activityType/$slug"
     },
     "/admin/$activityType/$slug/show": {

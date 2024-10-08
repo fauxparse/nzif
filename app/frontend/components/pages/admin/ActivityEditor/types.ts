@@ -1,11 +1,17 @@
 import { TimetableActivityFragment } from '@/components/organisms/TimetableEditor/queries';
 import { ActivityType, Scalars, UploadedFile } from '@/graphql/types';
 import { FragmentOf, ResultOf } from 'gql.tada';
-import { ActivityDetailsQuery, PresenterDetailsFragment } from './queries';
+import { ActivityDetailsQuery, PresenterDetailsFragment, WorkshopShowFragment } from './queries';
 
 export type Activity = NonNullable<ResultOf<typeof ActivityDetailsQuery>['festival']['activity']>;
 
 export type Session = Activity['sessions'][number];
+
+export type Tab =
+  | 'details'
+  | { session: Session }
+  | { show: FragmentOf<typeof WorkshopShowFragment>['sessions'][number] }
+  | 'feedback';
 
 export type Presenter = FragmentOf<typeof PresenterDetailsFragment>;
 
@@ -28,3 +34,15 @@ export type WithUploadedPicture<T> = T & {
   uploadedPicture: UploadedFile | null;
   pictureAltText: string;
 };
+
+export const isSessionTab = (tab: Tab): tab is { session: Session } =>
+  typeof tab === 'object' && 'session' in tab;
+
+export const isShowTab = (
+  tab: Tab
+): tab is { show: FragmentOf<typeof WorkshopShowFragment>['sessions'][number] } =>
+  typeof tab === 'object' && 'show' in tab;
+
+export const isFeedbackTab = (tab: Tab): tab is 'feedback' => tab === 'feedback';
+
+export const isDetailsTab = (tab: Tab): tab is 'details' => tab === 'details';

@@ -29,3 +29,7 @@
 .showCasting {
   grid-column: main;
 }
+
+.feedback {
+  grid-column: main;
+}

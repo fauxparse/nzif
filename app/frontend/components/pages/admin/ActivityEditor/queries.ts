@@ -89,6 +89,12 @@ export const ActivityDetailsQuery = graphql(
           show {
           ...WorkshopShow
           }
+
+          feedback {
+            positive
+            constructive
+            testimonial
+          }
         }
 
         presenters {

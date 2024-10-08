@@ -5,34 +5,30 @@ import EditIcon from '@/icons/EditIcon';
 import { useMutation } from '@apollo/client';
 import { Badge, Flex, TabNav, Text, Theme } from '@radix-ui/themes';
 import { useForm } from '@tanstack/react-form';
-import { Link, useNavigate, useRouterState } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { pick } from 'lodash-es';
 import { useState } from 'react';
 import { InPlaceEdit } from './InPlaceEdit';
 import { SlugEditor } from './SlugEditor';
-import { UpdateActivityDetailsMutation, WorkshopShowFragment } from './queries';
-import { Activity, Session } from './types';
+import { UpdateActivityDetailsMutation } from './queries';
+import { Activity, Tab, isDetailsTab, isFeedbackTab, isSessionTab, isShowTab } from './types';
 
-import { FragmentOf } from '@/graphql';
+import QuoteIcon from '@/icons/QuoteIcon';
 import ShowIcon from '@/icons/ShowIcon';
 import classes from './ActivityEditor.module.css';
 
 type ActivityEditorHeaderProps = {
   activity: Activity;
-  session: Session | null;
-  show: FragmentOf<typeof WorkshopShowFragment> | null;
+  tab?: Tab;
   loading?: boolean;
 };
 
 export const ActivityEditorHeader: React.FC<ActivityEditorHeaderProps> = ({
   activity,
-  session,
-  show,
+  tab = 'details',
   loading = false,
 }) => {
   const navigate = useNavigate();
-
-  const route = useRouterState();
 
   const [updateMutation] = useMutation(UpdateActivityDetailsMutation);
 
@@ -126,7 +122,7 @@ export const ActivityEditorHeader: React.FC<ActivityEditorHeaderProps> = ({
           }
           tabs={
             <TabNav.Root>
-              <TabNav.Link asChild key="edit" active={!session && !show}>
+              <TabNav.Link asChild key="edit" active={isDetailsTab(tab)}>
                 <Link
                   to="/admin/$activityType/$slug"
                   params={{ activityType: activity.type, slug: activity.slug }}
@@ -140,7 +136,7 @@ export const ActivityEditorHeader: React.FC<ActivityEditorHeaderProps> = ({
                 </Link>
               </TabNav.Link>
               {activity.sessions.map(({ id, startsAt, participants }) => (
-                <TabNav.Link asChild key={id} active={id === session?.id}>
+                <TabNav.Link asChild key={id} active={isSessionTab(tab)}>
                   <Link
                     to="/admin/$activityType/$slug/$session"
                     params={{
@@ -162,7 +158,7 @@ export const ActivityEditorHeader: React.FC<ActivityEditorHeaderProps> = ({
                 </TabNav.Link>
               ))}
               {activity.type === ActivityType.Workshop && 'show' in activity && activity.show && (
-                <TabNav.Link asChild active={!!show}>
+                <TabNav.Link asChild active={isShowTab(tab)}>
                   <Link
                     to="/admin/$activityType/$slug/show"
                     params={{
@@ -174,6 +170,24 @@ export const ActivityEditorHeader: React.FC<ActivityEditorHeaderProps> = ({
                       <Text size="3">
                         <ShowIcon />
                         Show
+                      </Text>
+                    </Flex>
+                  </Link>
+                </TabNav.Link>
+              )}
+              {activity.type === ActivityType.Workshop && (
+                <TabNav.Link asChild active={isFeedbackTab(tab)}>
+                  <Link
+                    to="/admin/$activityType/$slug/feedback"
+                    params={{
+                      activityType: activity.type,
+                      slug: activity.slug,
+                    }}
+                  >
+                    <Flex asChild align="center" gap="2">
+                      <Text size="3">
+                        <QuoteIcon />
+                        Feedback
                       </Text>
                     </Flex>
                   </Link>
