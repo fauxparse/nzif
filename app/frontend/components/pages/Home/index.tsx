@@ -29,13 +29,13 @@ export const Home = () => {
             <Box asChild gridColumn="1" gridRow="2">
               <Text size={{ initial: '5', md: '6' }} weight="medium">
                 <span>
-                  {festival.startDate.toFormat('d')}–{festival.endDate.toFormat('d MMMM')}
+                  {festival.startDate.toFormat('d MMMM')}–{festival.endDate.toFormat('d MMMM')}
                 </span>
                 <span>Te Whanganui-a-Tara</span>
               </Text>
             </Box>
           </Grid>
-          <Flex className={classes.lower} direction="column" align="stretch" justify="end" gap="3">
+          <Flex direction="column" align="stretch" justify="end" gap="3">
             <Text asChild color="gray" size="5" align="center" m="0">
               <p>
                 A week of local, national, and international improvisation at BATS&nbsp;Theatre in
