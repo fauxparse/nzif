@@ -42,7 +42,7 @@ class PitchPrinter
       pdf.stroke_horizontal_rule
       pdf.font_size(10) do
         move_down
-        pdf.text "#{pitch.presenter.name}’s #{pitch.type.to_s.humanize.downcase}"
+        pdf.text pitch.presenter.name
       end
     end
   end
@@ -54,18 +54,19 @@ class PitchPrinter
   def print_pitch(pitch)
     @current_pitch = pitch
     pdf.font_size(16) do
-      pdf.text "#{pitch.presenter.name} (#{pitch.presenter.pronouns.downcase})"
+      pdf.text "#{pitch.presenter.name} #{pitch.presenter.pronouns.present? ? "(#{pitch.presenter.pronouns.downcase})" : ''}"
       pdf.text pitch.presenter.location
     end
     move_down
-    print_title(pitch)
+    # print_title(pitch)
 
-    print_show(pitch.show)
-    print_workshop(pitch.workshop)
-    print_conference(pitch.conference)
-    print_other(pitch.other)
     print_presenter(pitch.presenter)
-    print_company(pitch.company)
+    print_idea(pitch.idea)
+
+    # print_show(pitch.show)
+    # print_workshop(pitch.workshop)
+    # print_conference(pitch.conference)
+    # print_other(pitch.other)
   end
 
   def print_title(pitch)
@@ -155,23 +156,32 @@ class PitchPrinter
     pdf.stroke_horizontal_rule
     move_down
 
-    pdf.font_size(16) { pdf.text "#{presenter.name} (#{presenter.pronouns})" }
-    move_down
-
-    field 'Presented at NZIF before?', presenter.presented
-    field 'Attended NZIF before?', presenter.attended
-    field 'Youth programme?', presenter.youth ? 'Yes' : 'No'
-    field 'Availability', presenter.restrictions
+    field 'Introduction', presenter.bio
+    field 'My group/company', presenter.group
+    field 'Inclusivity', presenter.identity
+    field 'Collaborators', presenter.others
+    field 'Availability', presenter.availability
+    field 'Accessibility', presenter.accessibility
   end
 
-  def print_company(company)
-    return if company.blank?
-
-    pdf.font_size(16) { pdf.text company.name }
-    pdf.text company.location
+  def print_idea(idea)
+    pdf.stroke_horizontal_rule
     move_down
-    field 'Accessibility', company.access_requirements
-    field 'Presented at NZIF before?', company.presented
+
+    field 'What sort of thing are you thinking of?', idea.what
+    field 'Brief outline', idea.outline
+    field 'Does it fit our regular structure?', idea.structure
+    field 'Participant experience', idea.participant_experience
+    field 'Ideal audience', idea.audience
+    field 'Have you done this before?', idea.previous
+    field 'How does your idea vibe with our core themes?', idea.vibe
+    field 'Accessibility', idea.accessibility
+    field 'Space/technical requirements', idea.requirements
+    field 'Cast/personnel', idea.cast
+    field 'Would you like help developing your idea?', idea.mentoring
+    field 'Anything else', idea.anything_else
+
+    move_down(2)
   end
 
   def field(label, value)

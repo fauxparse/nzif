@@ -4,19 +4,40 @@ class PrintablePitch
   attr_reader :row
 
   class Presenter
-    attr_reader :name, :email, :pronouns, :location, :bio, :presented, :attended, :youth,
-      :restrictions
+    attr_reader :name, :email, :pronouns, :location, :bio, :restrictions, :group, :identity, :others,
+      :availability, :accessibility
 
     def initialize(pitch)
       @name = pitch[/your name/i]
-      @email = pitch[/username/i]
+      @email = pitch[/email/i]
       @pronouns = pitch[/pronouns/i]
-      @location = pitch[/personally based/i]
-      @bio = pitch[/brief bio/i]
-      @presented = pitch[/you presented at NZIF/i]
-      @attended = pitch[/you attended NZIF/i]
-      @youth = pitch[/guest tutors/i].present?
-      @restrictions = pitch[/restrictions.+available/i]
+      @identity = pitch[/identify as/i]
+      @location = pitch[/you based/i]
+      @bio = pitch[/bio or introduction/i]
+      @group = pitch[/group or company/i]
+      @others = pitch[/collaborators/i]
+      @availability = pitch[/limitations on your availability/i]
+      @accessibility = pitch[/accessibility requirements/i]
+    end
+  end
+
+  class Idea
+    attr_reader :what, :outline, :structure, :participant_experience, :audience, :previous,
+      :vibe, :accessibility, :requirements, :cast, :mentoring, :anything_else
+
+    def initialize(pitch)
+      @what = pitch[/what sort of thing/i]
+      @outline = pitch[/brief outline/i]
+      @structure = pitch[/our regular structure/i]
+      @participant_experience = pitch[/like for participants/i]
+      @audience = pitch[/intended audience/i]
+      @previous = pitch[/done this thing before/i]
+      @vibe = pitch[/vibe with/i]
+      @accessibility = pitch[/accessible to/i]
+      @requirements = pitch[/space or technical/i]
+      @cast = pitch[/cast or personnel/i]
+      @mentoring = pitch[/help developing/i]
+      @anything_else = pitch[/anything else/i]
     end
   end
 
@@ -109,6 +130,10 @@ class PrintablePitch
 
   def presenter
     @presenter ||= Presenter.new(self)
+  end
+
+  def idea
+    @idea ||= Idea.new(self)
   end
 
   def company
