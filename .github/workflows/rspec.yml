@@ -1,0 +1,65 @@
+name: RSpec
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgis/postgis:14-3.4
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: nzif_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: "postgres://postgres:password@localhost:5432/nzif_test"
+      RAILS_MASTER_KEY: ${{secrets.RAILS_MASTER_KEY}}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.5'
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: sudo apt-get -yqq install libpq-dev
+
+      - name: Create database config
+        run: |
+          cat <<EOF > config/database.yml
+          test:
+            adapter: postgresql
+            encoding: unicode
+            database: nzif_test
+            pool: 5
+            username: postgres
+            password: password
+            host: localhost
+          EOF
+
+      - name: Create database
+        run: bin/rails db:create
+
+      - name: Load schema
+        run: bin/rails db:schema:load
+
+      - name: Run RSpec
+        run: bundle exec rspec

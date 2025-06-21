@@ -133,12 +133,14 @@ group :development do
   # gem "spring"
 
   gem 'rubocop', '~> 1.69'
+  gem 'rubocop-capybara', '~> 2.21'
   gem 'rubocop-factory_bot', '~> 2.26'
   gem 'rubocop-graphql', '~> 1.5'
   gem 'rubocop-rails', '~> 2.29'
   gem 'rubocop-rspec', '~> 3.4'
-
+  gem 'rubocop-rspec_rails', '~> 2.30'
   gem 'seed-fu', '~> 2.3'
+  gem 'standard', '>= 1.35.1'
 
   gem 'letter_opener'
 
@@ -170,9 +172,3 @@ group :development, :test, :staging do
   gem 'graphiql-rails'
   gem 'mailsafe'
 end
-
-gem 'rubocop-rspec_rails', '~> 2.30'
-
-gem 'rubocop-capybara', '~> 2.21'
-
-gem 'standard', '~> 1.35'
