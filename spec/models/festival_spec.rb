@@ -33,7 +33,7 @@ RSpec.describe Festival do
 
   describe '#year' do
     before do
-      create(:festival, start_date: Date.civil(2024, 7, 22), end_date: Date.civil(2024, 7, 29))
+      create(:festival, start_date: Date.civil(2025, 7, 22), end_date: Date.civil(2025, 7, 29))
     end
 
     it 'must be unique' do
@@ -45,7 +45,7 @@ RSpec.describe Festival do
     subject(:state) { festival.state }
 
     before do
-      travel_to Time.zone.local(2024, 7, 27, 13, 0)
+      travel_to Time.zone.local(2025, 7, 27, 13, 0)
     end
 
     context 'when in the past' do
