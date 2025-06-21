@@ -1,22 +1,20 @@
 {
-  "css.validate": false,
-  "less.validate": false,
-  "scss.validate": false,
-  "postcss.validate": false,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.stylelint": "explicit",
-    "source.fixAll.biomejs": "explicit",
-    "source.organizeImports.biome": "explicit",
-    "source.removeUnusedImports": "explicit"
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
   },
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
   "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
-  "[ruby]": {
-    "testFramework": "rspec"
+  "editor.codeActionsOnSave": {
+    "quickfix.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
   },
+  "stylelint.packageManager": "pnpm",
+  "npm.packageManager": "pnpm",
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -25,16 +23,9 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     "**/.ruby-lsp": true,
-    "**/node_modules": true,
-    "app/frontend/molecules": true,
-    "app/frontend/organisms": true,
-    "app/frontend/helpers": true,
-    "app/frontend/atoms": true,
-    "old": true,
-    "_templates": true,
-    ".overmind.sock": true
+    "**/node_modules": true
   },
-  "hide-files.files": ["old", "_templates", ".overmind.sock"],
+  "typescript.tsdk": "node_modules/typescript/lib",
   "explorerExclude.backup": {},
-  "rubyTestExplorer.testFramework": "rspec"
+  "hide-files.files": []
 }

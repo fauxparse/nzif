@@ -132,10 +132,11 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 
-  gem 'rubocop', '~>1.52.1', require: false
-  gem 'rubocop-graphql', '~> 1.1'
-  gem 'rubocop-rails', '~> 2.18', require: false
-  gem 'rubocop-rspec', '~> 2.19', require: false
+  gem 'rubocop', '~> 1.69'
+  gem 'rubocop-factory_bot', '~> 2.26'
+  gem 'rubocop-graphql', '~> 1.5'
+  gem 'rubocop-rails', '~> 2.29'
+  gem 'rubocop-rspec', '~> 3.4'
 
   gem 'seed-fu', '~> 2.3'
 
@@ -169,3 +170,9 @@ group :development, :test, :staging do
   gem 'graphiql-rails'
   gem 'mailsafe'
 end
+
+gem 'rubocop-rspec_rails', '~> 2.30'
+
+gem 'rubocop-capybara', '~> 2.21'
+
+gem 'standard', '~> 1.35'

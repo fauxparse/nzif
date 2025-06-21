@@ -1,6 +1,6 @@
 module Profiles
   class Merge < ApplicationInteractor
-    delegate :attributes, to: :context
+    delegate :profiles, to: :context
 
     def call
       validate!
@@ -16,8 +16,8 @@ module Profiles
       context[:profile] ||= Profile.new
     end
 
-    def profiles
-      @profiles ||= context[:profiles].index_by(&:to_param)
+    def attributes
+      context[:attributes] ||= merged_attributes
     end
 
     private
@@ -27,18 +27,17 @@ module Profiles
         unless profiles.many?
 
       context.fail!(error: 'multiple profiles have users attached') \
-        if profiles.values.many?(&:user_id?)
+        if profiles.many?(&:user_id?)
 
       authorize! profile, to: :update?
     end
 
     def transformed_attributes
       attributes
-        .to_h { |key, value| [key, profiles[value].send(key)] }
         .merge(
-          user_id: profiles.values.find(&:user_id?)&.user_id,
-          picture: profiles.values.map(&:picture).detect(&:present?),
-          bio: profiles.values.map(&:bio).detect(&:present?),
+          user_id: profiles.find(&:user_id?)&.user_id,
+          picture: profiles.map(&:picture).detect(&:present?),
+          bio: profiles.map(&:bio).detect(&:present?),
         )
     end
 
@@ -51,13 +50,21 @@ module Profiles
     def update_references
       models_to_update.each do |model|
         model
-          .where(profile_id: profiles.values.map(&:id))
+          .where(profile_id: profiles.map(&:id))
           .find_each { |record| record.update!(profile_id: profile.id) }
       end
     end
 
     def delete_old_profiles
-      profiles.values.reject { |p| p.id == profile.id }.each(&:destroy!)
+      profiles.reject { |p| p.id == profile.id }.each(&:destroy!)
+    end
+
+    ATTRIBUTES_TO_MERGE = %i[name pronouns city country phone].freeze
+
+    def merged_attributes
+      ATTRIBUTES_TO_MERGE.index_with do |attribute|
+        profiles.map { |p| p.send(attribute) }.compact_blank.first
+      end
     end
   end
 end

@@ -2,28 +2,19 @@ require 'rails_helper'
 
 RSpec.describe Profiles::Merge, type: :interactor do
   describe '.call' do
-    let(:context) { { profiles:, attributes: } }
+    let(:context) { { profiles: } }
 
     let(:first) do
-      create(:profile, :with_user, name: 'First Profile', country: 'NZ', city: 'wellington',
+      create(:profile, :with_user, name: 'First Profile', country: 'NZ', city: 'Wellington',
         bio: '')
     end
 
     let(:second) do
-      create(:profile, name: 'Second Profile', city: 'Te Whanganui-a-Tara', pronouns: 'he/him',
+      create(:profile, name: 'Second Profile', pronouns: 'he/him',
         bio: 'Short bio')
     end
 
     let(:profiles) { [first, second] }
-
-    let(:attributes) do
-      {
-        name: first.to_param,
-        country: first.to_param,
-        city: second.to_param,
-        pronouns: second.to_param,
-      }
-    end
 
     it { is_expected.to be_success }
 
@@ -48,7 +39,7 @@ RSpec.describe Profiles::Merge, type: :interactor do
 
       its(:name) { is_expected.to eq(first.name) }
       its(:country) { is_expected.to eq(first.country) }
-      its(:city) { is_expected.to eq(second.city) }
+      its(:city) { is_expected.to eq(first.city) }
       its(:pronouns) { is_expected.to eq(second.pronouns) }
       its(:bio) { is_expected.to eq(second.bio) }
     end
