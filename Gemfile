@@ -144,7 +144,7 @@ group :development do
 
   gem 'letter_opener'
 
-  gem 'ruby-lsp-rails', '~>0.3.13'
+  gem 'ruby-lsp-rails', '~>0.4.6'
 end
 
 group :test do
