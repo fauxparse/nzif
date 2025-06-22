@@ -52,6 +52,7 @@
     "@vitejs/plugin-react-swc": "^3.7.0",
     "braces": "^3.0.3",
     "canvas": "^2.11.2",
+    "dset": "^3.1.4",
     "fishery": "^2.2.2",
     "graphql-language-service-server": "^2.13.2",
     "graphql-tag": "^2.0.0",
