@@ -50,6 +50,7 @@
     "@types/react-highlight-words": "^0.20.0",
     "@types/tinycolor2": "^1.4.3",
     "@vitejs/plugin-react-swc": "^3.7.0",
+    "braces": "^3.0.3",
     "canvas": "^2.11.2",
     "fishery": "^2.2.2",
     "graphql-language-service-server": "^2.13.2",
