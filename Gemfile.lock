@@ -291,7 +291,7 @@ GEM
     graphiql-rails (1.9.0)
       railties
       sprockets-rails
-    graphql (2.3.21)
+    graphql (2.3.22)
       base64
       fiber-storage
     graphql_devise (1.5.0)
@@ -708,7 +708,7 @@ DEPENDENCIES
   geocoder (~> 1.8)
   geokit-rails (~> 2.5)
   graphiql-rails
-  graphql (~> 2.3.21)
+  graphql (~> 2.3.22)
   graphql_devise (~> 1.5.0)
   hashid-rails (~> 1.4)
   hashie (~> 5.0)
