@@ -1,21 +1,36 @@
-require "rails_helper"
+# rubocop:disable RSpec/ScatteredSetup
+
+require 'rails_helper'
 
 RSpec.describe FeedbackPolicy, type: :policy do
-  # See https://actionpolicy.evilmartians.io/#/testing?id=rspec-dsl
-  #
-  # let(:user) { build_stubbed :user }
-  # let(:record) { build_stubbed :post, draft: false }
-  # let(:context) { {user: user} }
+  let(:user) { create(:user) }
+  let(:session) { create(:session) }
+  let(:registration) { create(:registration, user: user, festival: session.festival) }
+  let(:record) { build_stubbed(:feedback, registration: registration, session: session) }
 
-  describe_rule :index? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
+  let(:context) { { user: nil } }
 
-  describe_rule :create? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
+  describe_rule :save? do
+    failed 'when user is not logged in'
 
-  describe_rule :manage? do
-    pending "add some examples to (or delete) #{__FILE__}"
+    context 'when user is logged in' do
+      let(:context) { { user: user } }
+
+      failed 'when the registration is not for the current user' do
+        before do
+          record.registration = create(:registration, festival: session.festival)
+        end
+      end
+
+      failed 'when the user was not placed in the session'
+
+      succeed 'when the user was placed in the session' do
+        before do
+          create(:placement, registration: registration, session: session)
+        end
+      end
+    end
   end
 end
+
+# rubocop:enable RSpec/ScatteredSetup
