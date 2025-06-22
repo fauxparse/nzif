@@ -4,12 +4,12 @@ import { Fragment, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import Button from '@/atoms/Button';
-import { Scalars, useDirectoryQuery } from '@/graphql/types';
+import { useDirectoryQuery } from '@/graphql/types';
 
 import { ROUTES } from './Routes';
 
 type Slot = {
-  id: Scalars['ID'];
+  id: string;
   startsAt: DateTime;
 };
 

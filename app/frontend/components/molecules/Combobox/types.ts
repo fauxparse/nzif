@@ -1,9 +1,8 @@
-import { Scalars } from '@/graphql/types';
 import { TextField } from '@radix-ui/themes';
 import { PropsWithChildren } from 'react';
 
 export type ComboboxItem = {
-  id: Scalars['ID'];
+  id: string;
   label: string;
 };
 
