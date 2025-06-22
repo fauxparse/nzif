@@ -1,7 +1,5 @@
-import { Scalars } from '@/graphql/types';
-
 export type CityPickerOption = {
-  id: Scalars['ID'];
+  id: string;
   label: string;
   value: string;
   name: string;

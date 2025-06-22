@@ -2,7 +2,6 @@ import {
   ActivityAttributes,
   ActivityType,
   MultipleSessionAttributes,
-  Scalars,
   SessionAttributes,
 } from '@/graphql/types';
 import { useDisclosure } from '@/hooks/useDisclosure';
@@ -37,12 +36,10 @@ type TimetableEditorProps = {
     attributes: MultipleSessionAttributes
   ) => Promise<FetchResult<ResultOf<typeof CreateSessionsMutation>>>;
   onUpdateSession: (
-    id: Scalars['ID'],
+    id: string,
     attributes: Partial<SessionAttributes>
   ) => Promise<FetchResult<ResultOf<typeof UpdateSessionMutation>>>;
-  onDeleteSession: (
-    id: Scalars['ID']
-  ) => Promise<FetchResult<ResultOf<typeof DestroySessionMutation>>>;
+  onDeleteSession: (id: string) => Promise<FetchResult<ResultOf<typeof DestroySessionMutation>>>;
 };
 
 export const TimetableEditor: React.FC<TimetableEditorProps> = ({

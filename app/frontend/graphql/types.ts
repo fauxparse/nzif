@@ -6,81 +6,83 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  Country: string;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  Country: { input: string; output: string; }
   /** An ISO 8601-encoded datetime */
-  ISO8601DateTime: DateTime;
-  ISODate: DateTime;
-  Money: number;
-  Upload: File;
+  ISO8601DateTime: { input: DateTime; output: DateTime; }
+  ISODate: { input: DateTime; output: DateTime; }
+  Money: { input: number; output: number; }
+  Upload: { input: File; output: File; }
 };
 
 export type Activity = {
-  bookingLink: Maybe<Scalars['String']>;
-  description: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  missingInfo: Array<Scalars['String']>;
-  name: Scalars['String'];
+  bookingLink: Maybe<Scalars['String']['output']>;
+  description: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  missingInfo: Array<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
   picture: Maybe<ActivityPicture>;
   presenters: Array<Person>;
   session: Maybe<Session>;
   sessions: Array<Session>;
-  slug: Scalars['String'];
+  slug: Scalars['String']['output'];
   type: ActivityType;
 };
 
 
 export type ActivitySessionArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 export type ActivityAttributes = {
-  attachedActivityId: InputMaybe<Scalars['ID']>;
-  bookingLink: InputMaybe<Scalars['String']>;
-  description: InputMaybe<Scalars['String']>;
-  name: InputMaybe<Scalars['String']>;
-  picture: InputMaybe<Scalars['Upload']>;
-  pictureAltText: InputMaybe<Scalars['String']>;
-  profileIds: InputMaybe<Array<Scalars['ID']>>;
-  slug: InputMaybe<Scalars['String']>;
-  suitability: InputMaybe<Scalars['String']>;
+  attachedActivityId: InputMaybe<Scalars['ID']['input']>;
+  bookingLink: InputMaybe<Scalars['String']['input']>;
+  description: InputMaybe<Scalars['String']['input']>;
+  name: InputMaybe<Scalars['String']['input']>;
+  picture: InputMaybe<Scalars['Upload']['input']>;
+  pictureAltText: InputMaybe<Scalars['String']['input']>;
+  profileIds: InputMaybe<Array<Scalars['ID']['input']>>;
+  slug: InputMaybe<Scalars['String']['input']>;
+  suitability: InputMaybe<Scalars['String']['input']>;
   uploadedPicture: InputMaybe<UploadedFile>;
 };
 
 export type ActivityCount = {
   __typename: 'ActivityCount';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   id: ActivityType;
 };
 
 export type ActivityPicture = {
   __typename: 'ActivityPicture';
-  altText: Maybe<Scalars['String']>;
-  blurhash: Scalars['String'];
-  id: Scalars['ID'];
+  altText: Maybe<Scalars['String']['output']>;
+  blurhash: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
   /** 1920x1080 */
-  large: Scalars['String'];
+  large: Scalars['String']['output'];
   /** 1280x720 */
-  medium: Scalars['String'];
+  medium: Scalars['String']['output'];
   /** 480x270 */
-  small: Scalars['String'];
+  small: Scalars['String']['output'];
   /** 48x27 */
-  tiny: Scalars['String'];
+  tiny: Scalars['String']['output'];
 };
 
 export type ActivityResult = SearchResult & {
   __typename: 'ActivityResult';
   activity: Activity;
-  description: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  title: Scalars['String'];
-  url: Scalars['String'];
+  description: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  title: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
 
 export enum ActivityType {
@@ -135,7 +137,7 @@ export type AddVoucherPayload = {
 export type Appearance = {
   __typename: 'Appearance';
   activity: Activity;
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   role: Role;
   sessions: Array<Session>;
 };
@@ -148,26 +150,26 @@ export type ApprovePaymentPayload = {
 
 export type Balance = {
   __typename: 'Balance';
-  id: Scalars['ID'];
-  paid: Scalars['Money'];
-  total: Scalars['Money'];
+  id: Scalars['ID']['output'];
+  paid: Scalars['Money']['output'];
+  total: Scalars['Money']['output'];
 };
 
 export type BooleanSetting = Setting & {
   __typename: 'BooleanSetting';
-  description: Scalars['String'];
-  id: Scalars['String'];
-  value: Scalars['Boolean'];
+  description: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  value: Scalars['Boolean']['output'];
 };
 
 export type CalendarSession = {
   __typename: 'CalendarSession';
   feedback: Maybe<Feedback>;
-  full: Scalars['Boolean'];
-  hidden: Scalars['Boolean'];
-  id: Scalars['ID'];
+  full: Scalars['Boolean']['output'];
+  hidden: Scalars['Boolean']['output'];
+  id: Scalars['ID']['output'];
   session: Session;
-  waitlisted: Scalars['Boolean'];
+  waitlisted: Scalars['Boolean']['output'];
 };
 
 /** Autogenerated return type of CancelPayment. */
@@ -178,41 +180,41 @@ export type CancelPaymentPayload = {
 
 export type Cart = {
   __typename: 'Cart';
-  discount: Scalars['Money'];
-  id: Scalars['ID'];
-  outstanding: Scalars['Money'];
-  paid: Scalars['Money'];
-  total: Scalars['Money'];
-  value: Scalars['Money'];
-  workshopsCount: Scalars['Int'];
+  discount: Scalars['Money']['output'];
+  id: Scalars['ID']['output'];
+  outstanding: Scalars['Money']['output'];
+  paid: Scalars['Money']['output'];
+  total: Scalars['Money']['output'];
+  value: Scalars['Money']['output'];
+  workshopsCount: Scalars['Int']['output'];
 };
 
 export type City = {
   __typename: 'City';
-  country: Scalars['Country'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  traditionalNames: Array<Scalars['String']>;
+  country: Scalars['Country']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  traditionalNames: Array<Scalars['String']['output']>;
 };
 
 export type CityAttributes = {
-  country: Scalars['String'];
-  name: Scalars['String'];
-  traditionalNames: InputMaybe<Array<Scalars['String']>>;
+  country: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  traditionalNames: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type Conference = Activity & {
   __typename: 'Conference';
-  bookingLink: Maybe<Scalars['String']>;
-  description: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  missingInfo: Array<Scalars['String']>;
-  name: Scalars['String'];
+  bookingLink: Maybe<Scalars['String']['output']>;
+  description: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  missingInfo: Array<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
   picture: Maybe<ActivityPicture>;
   presenters: Array<Person>;
   session: Maybe<Session>;
   sessions: Array<Session>;
-  slug: Scalars['String'];
+  slug: Scalars['String']['output'];
   /** Speakers */
   speakers: Array<Person>;
   type: ActivityType;
@@ -220,7 +222,7 @@ export type Conference = Activity & {
 
 
 export type ConferenceSessionArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 /** Autogenerated return type of CreateActivity. */
@@ -234,14 +236,14 @@ export type CreateActivityPayload = {
 export type CreateDonationPayload = {
   __typename: 'CreateDonationPayload';
   donation: Donation;
-  paymentIntentSecret: Scalars['String'];
+  paymentIntentSecret: Scalars['String']['output'];
 };
 
 /** Autogenerated return type of CreateDonationPayment. */
 export type CreateDonationPaymentPayload = {
   __typename: 'CreateDonationPaymentPayload';
   donation: Donation;
-  paymentIntentSecret: Scalars['String'];
+  paymentIntentSecret: Scalars['String']['output'];
 };
 
 /** Autogenerated return type of CreateMultipleSessions. */
@@ -270,19 +272,19 @@ export type CreateTranslationPayload = {
 
 export type Credential = {
   __typename: 'Credential';
-  accessToken: Scalars['String'];
-  client: Scalars['String'];
-  expiry: Scalars['Int'];
-  tokenType: Scalars['String'];
-  uid: Scalars['String'];
+  accessToken: Scalars['String']['output'];
+  client: Scalars['String']['output'];
+  expiry: Scalars['Int']['output'];
+  tokenType: Scalars['String']['output'];
+  uid: Scalars['String']['output'];
 };
 
 export type CreditCardPayment = Payment & {
   __typename: 'CreditCardPayment';
-  amount: Scalars['Money'];
-  createdAt: Scalars['ISO8601DateTime'];
-  id: Scalars['ID'];
-  reference: Scalars['String'];
+  amount: Scalars['Money']['output'];
+  createdAt: Scalars['ISO8601DateTime']['output'];
+  id: Scalars['ID']['output'];
+  reference: Scalars['String']['output'];
   registration: Registration;
   state: PaymentState;
   type: PaymentType;
@@ -290,7 +292,7 @@ export type CreditCardPayment = Payment & {
 
 export type Dashboard = {
   __typename: 'Dashboard';
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   income: Value;
   registrations: Value;
   workshopPlaces: Value;
@@ -304,32 +306,32 @@ export type DemoteSessionParticipantPayload = {
 
 export type Donation = {
   __typename: 'Donation';
-  amount: Scalars['Money'];
-  anonymous: Scalars['Boolean'];
-  createdAt: Scalars['ISO8601DateTime'];
-  email: Scalars['String'];
-  id: Scalars['ID'];
-  message: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  newsletter: Scalars['Boolean'];
+  amount: Scalars['Money']['output'];
+  anonymous: Scalars['Boolean']['output'];
+  createdAt: Scalars['ISO8601DateTime']['output'];
+  email: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  message: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  newsletter: Scalars['Boolean']['output'];
 };
 
 export type Feedback = {
   __typename: 'Feedback';
-  constructive: Scalars['String'];
-  id: Scalars['ID'];
-  positive: Scalars['String'];
-  rating: Maybe<Scalars['Int']>;
+  constructive: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  positive: Scalars['String']['output'];
+  rating: Maybe<Scalars['Int']['output']>;
   registration: Registration;
   session: Session;
-  testimonial: Scalars['String'];
+  testimonial: Scalars['String']['output'];
 };
 
 export type FeedbackAttributes = {
-  constructive: InputMaybe<Scalars['String']>;
-  positive: InputMaybe<Scalars['String']>;
-  rating: InputMaybe<Scalars['Int']>;
-  testimonial: InputMaybe<Scalars['String']>;
+  constructive: InputMaybe<Scalars['String']['input']>;
+  positive: InputMaybe<Scalars['String']['input']>;
+  rating: InputMaybe<Scalars['Int']['input']>;
+  testimonial: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Festival = {
@@ -338,25 +340,25 @@ export type Festival = {
   activity: Maybe<Activity>;
   activityCounts: Array<ActivityCount>;
   balance: Balance;
-  earlybirdClosesAt: Maybe<Scalars['ISO8601DateTime']>;
-  earlybirdOpensAt: Maybe<Scalars['ISO8601DateTime']>;
-  endDate: Scalars['ISODate'];
-  generalOpensAt: Maybe<Scalars['ISO8601DateTime']>;
-  id: Scalars['ID'];
+  earlybirdClosesAt: Maybe<Scalars['ISO8601DateTime']['output']>;
+  earlybirdOpensAt: Maybe<Scalars['ISO8601DateTime']['output']>;
+  endDate: Scalars['ISODate']['output'];
+  generalOpensAt: Maybe<Scalars['ISO8601DateTime']['output']>;
+  id: Scalars['ID']['output'];
   payments: Maybe<Array<Payment>>;
   people: Array<Person>;
   registrationPhase: RegistrationPhase;
   registrations: Array<Registration>;
   session: Session;
   slots: Array<Slot>;
-  startDate: Scalars['ISODate'];
+  startDate: Scalars['ISODate']['output'];
   state: FestivalState;
   teamMembers: Array<User>;
   timetable: Timetable;
   venues: Array<Venue>;
   workshopAllocation: Maybe<WorkshopAllocation>;
   workshopPricing: Pricing;
-  workshopTotal: Scalars['Money'];
+  workshopTotal: Scalars['Money']['output'];
   workshops: Array<Workshop>;
 };
 
@@ -367,18 +369,18 @@ export type FestivalActivitiesArgs = {
 
 
 export type FestivalActivityArgs = {
-  slug: Scalars['String'];
+  slug: Scalars['String']['input'];
   type: ActivityType;
 };
 
 
 export type FestivalRegistrationsArgs = {
-  name: InputMaybe<Scalars['String']>;
+  name: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type FestivalSessionArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
@@ -397,10 +399,10 @@ export enum FestivalState {
 
 export type InternetBankingPayment = Payment & {
   __typename: 'InternetBankingPayment';
-  amount: Scalars['Money'];
-  createdAt: Scalars['ISO8601DateTime'];
-  id: Scalars['ID'];
-  reference: Scalars['String'];
+  amount: Scalars['Money']['output'];
+  createdAt: Scalars['ISO8601DateTime']['output'];
+  id: Scalars['ID']['output'];
+  reference: Scalars['String']['output'];
   registration: Registration;
   state: PaymentState;
   type: PaymentType;
@@ -409,11 +411,11 @@ export type InternetBankingPayment = Payment & {
 /** Autogenerated return type of JobProgress. */
 export type JobProgressPayload = {
   __typename: 'JobProgressPayload';
-  error: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  progress: Scalars['Int'];
+  error: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  progress: Scalars['Int']['output'];
   state: JobState;
-  total: Scalars['Int'];
+  total: Scalars['Int']['output'];
 };
 
 export enum JobState {
@@ -435,11 +437,11 @@ export type MergePeoplePayload = {
 
 export type Message = {
   __typename: 'Message';
-  content: Maybe<Scalars['String']>;
-  createdAt: Scalars['ISO8601DateTime'];
-  id: Scalars['ID'];
+  content: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['ISO8601DateTime']['output'];
+  id: Scalars['ID']['output'];
   sender: User;
-  subject: Maybe<Scalars['String']>;
+  subject: Maybe<Scalars['String']['output']>;
 };
 
 /** Autogenerated return type of MoveActivity. */
@@ -461,12 +463,12 @@ export type MoveWaitlistParticipantPayload = {
 };
 
 export type MultipleSessionAttributes = {
-  activityId: InputMaybe<Scalars['ID']>;
+  activityId: InputMaybe<Scalars['ID']['input']>;
   activityType: ActivityType;
-  capacity: InputMaybe<Scalars['Int']>;
-  festivalId: Scalars['ID'];
+  capacity: InputMaybe<Scalars['Int']['input']>;
+  festivalId: Scalars['ID']['input'];
   timeRanges: Array<TimeRangeAttributes>;
-  venueIds: Array<Scalars['ID']>;
+  venueIds: Array<Scalars['ID']['input']>;
 };
 
 export type Mutation = {
@@ -488,8 +490,8 @@ export type Mutation = {
   createSessions: Maybe<CreateMultipleSessionsPayload>;
   createTranslation: Maybe<CreateTranslationPayload>;
   demoteSessionParticipant: Maybe<DemoteSessionParticipantPayload>;
-  destroySession: Maybe<Scalars['Boolean']>;
-  destroyTranslation: Maybe<Scalars['Boolean']>;
+  destroySession: Maybe<Scalars['Boolean']['output']>;
+  destroyTranslation: Maybe<Scalars['Boolean']['output']>;
   finaliseRegistration: Maybe<FinaliseRegistrationPayload>;
   mergePeople: Maybe<MergePeoplePayload>;
   moveActivity: Maybe<MoveActivityPayload>;
@@ -498,9 +500,9 @@ export type Mutation = {
   promiseInternetBankingPayment: Maybe<PromiseInternetBankingPaymentPayload>;
   promoteWaitlistParticipant: Maybe<PromoteWaitlistParticipantPayload>;
   removeFromSession: Maybe<RemoveFromSessionPayload>;
-  removeFromWaitlist: Maybe<Scalars['Boolean']>;
-  removePreference: Maybe<Scalars['Boolean']>;
-  removeSessionCast: Maybe<Scalars['Boolean']>;
+  removeFromWaitlist: Maybe<Scalars['Boolean']['output']>;
+  removePreference: Maybe<Scalars['Boolean']['output']>;
+  removeSessionCast: Maybe<Scalars['Boolean']['output']>;
   renameActivity: Maybe<RenameActivityPayload>;
   resetPasswordAndLogIn: Maybe<ResetPasswordAndLogInPayload>;
   saveFeedback: Maybe<SaveFeedbackPayload>;
@@ -529,76 +531,76 @@ export type Mutation = {
 
 
 export type MutationAddPaymentArgs = {
-  amount: Scalars['Money'];
-  createdAt: InputMaybe<Scalars['ISO8601DateTime']>;
-  registrationId: Scalars['ID'];
+  amount: Scalars['Money']['input'];
+  createdAt: InputMaybe<Scalars['ISO8601DateTime']['input']>;
+  registrationId: Scalars['ID']['input'];
   state?: InputMaybe<PaymentState>;
   type?: InputMaybe<PaymentType>;
 };
 
 
 export type MutationAddPreferenceArgs = {
-  registrationId: InputMaybe<Scalars['ID']>;
-  sessionId: Scalars['ID'];
+  registrationId: InputMaybe<Scalars['ID']['input']>;
+  sessionId: Scalars['ID']['input'];
 };
 
 
 export type MutationAddSessionCastArgs = {
-  profileId: Scalars['ID'];
+  profileId: Scalars['ID']['input'];
   role: Role;
-  sessionId: Scalars['ID'];
+  sessionId: Scalars['ID']['input'];
 };
 
 
 export type MutationAddToSessionArgs = {
-  registrationId: InputMaybe<Scalars['ID']>;
-  sessionId: Scalars['ID'];
+  registrationId: InputMaybe<Scalars['ID']['input']>;
+  sessionId: Scalars['ID']['input'];
 };
 
 
 export type MutationAddToWaitlistArgs = {
-  position: InputMaybe<Scalars['Int']>;
-  registrationId: InputMaybe<Scalars['ID']>;
-  sessionId: Scalars['ID'];
+  position: InputMaybe<Scalars['Int']['input']>;
+  registrationId: InputMaybe<Scalars['ID']['input']>;
+  sessionId: Scalars['ID']['input'];
 };
 
 
 export type MutationAddVoucherArgs = {
-  registrationId: Scalars['ID'];
-  workshops: Scalars['Int'];
+  registrationId: Scalars['ID']['input'];
+  workshops: Scalars['Int']['input'];
 };
 
 
 export type MutationApprovePaymentArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationCancelPaymentArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationCreateActivityArgs = {
   attributes: ActivityAttributes;
-  festivalId: InputMaybe<Scalars['ID']>;
-  sessionId: InputMaybe<Scalars['ID']>;
+  festivalId: InputMaybe<Scalars['ID']['input']>;
+  sessionId: InputMaybe<Scalars['ID']['input']>;
   type: ActivityType;
 };
 
 
 export type MutationCreateDonationArgs = {
-  amountCents: Scalars['Int'];
-  anonymous?: InputMaybe<Scalars['Boolean']>;
-  email: Scalars['String'];
-  message: InputMaybe<Scalars['String']>;
-  name: Scalars['String'];
-  newsletter?: InputMaybe<Scalars['Boolean']>;
+  amountCents: Scalars['Int']['input'];
+  anonymous?: InputMaybe<Scalars['Boolean']['input']>;
+  email: Scalars['String']['input'];
+  message: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  newsletter?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationCreateDonationPaymentArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
@@ -609,7 +611,7 @@ export type MutationCreatePersonArgs = {
 
 export type MutationCreateSessionArgs = {
   attributes: SessionAttributes;
-  festivalId: Scalars['ID'];
+  festivalId: Scalars['ID']['input'];
 };
 
 
@@ -619,140 +621,140 @@ export type MutationCreateSessionsArgs = {
 
 
 export type MutationCreateTranslationArgs = {
-  name: Scalars['String'];
-  traditionalName: Scalars['String'];
+  name: Scalars['String']['input'];
+  traditionalName: Scalars['String']['input'];
 };
 
 
 export type MutationDemoteSessionParticipantArgs = {
-  position: Scalars['Int'];
-  registrationId: Scalars['ID'];
-  sessionId: Scalars['ID'];
+  position: Scalars['Int']['input'];
+  registrationId: Scalars['ID']['input'];
+  sessionId: Scalars['ID']['input'];
 };
 
 
 export type MutationDestroySessionArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationDestroyTranslationArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationMergePeopleArgs = {
   attributes: ProfileMergeAttributes;
-  profileIds: Array<Scalars['ID']>;
+  profileIds: Array<Scalars['ID']['input']>;
 };
 
 
 export type MutationMoveActivityArgs = {
-  id: Scalars['ID'];
-  slug: Scalars['String'];
+  id: Scalars['ID']['input'];
+  slug: Scalars['String']['input'];
 };
 
 
 export type MutationMoveAllocatedParticipantArgs = {
-  newSessionId?: InputMaybe<Scalars['ID']>;
-  oldSessionId?: InputMaybe<Scalars['ID']>;
-  registrationId: Scalars['ID'];
-  waitlist?: InputMaybe<Scalars['Boolean']>;
+  newSessionId?: InputMaybe<Scalars['ID']['input']>;
+  oldSessionId?: InputMaybe<Scalars['ID']['input']>;
+  registrationId: Scalars['ID']['input'];
+  waitlist?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationMoveWaitlistParticipantArgs = {
-  position: Scalars['Int'];
-  registrationId: Scalars['ID'];
-  sessionId: Scalars['ID'];
+  position: Scalars['Int']['input'];
+  registrationId: Scalars['ID']['input'];
+  sessionId: Scalars['ID']['input'];
 };
 
 
 export type MutationPromiseInternetBankingPaymentArgs = {
-  amount: Scalars['Money'];
-  registrationId: Scalars['ID'];
+  amount: Scalars['Money']['input'];
+  registrationId: Scalars['ID']['input'];
 };
 
 
 export type MutationPromoteWaitlistParticipantArgs = {
-  registrationId: Scalars['ID'];
-  sessionId: Scalars['ID'];
+  registrationId: Scalars['ID']['input'];
+  sessionId: Scalars['ID']['input'];
 };
 
 
 export type MutationRemoveFromSessionArgs = {
-  promote: InputMaybe<Scalars['Boolean']>;
-  registrationId: InputMaybe<Scalars['ID']>;
-  sessionId: Scalars['ID'];
+  promote: InputMaybe<Scalars['Boolean']['input']>;
+  registrationId: InputMaybe<Scalars['ID']['input']>;
+  sessionId: Scalars['ID']['input'];
 };
 
 
 export type MutationRemoveFromWaitlistArgs = {
-  registrationId: InputMaybe<Scalars['ID']>;
-  sessionId: Scalars['ID'];
+  registrationId: InputMaybe<Scalars['ID']['input']>;
+  sessionId: Scalars['ID']['input'];
 };
 
 
 export type MutationRemovePreferenceArgs = {
-  registrationId: InputMaybe<Scalars['ID']>;
-  sessionId: Scalars['ID'];
+  registrationId: InputMaybe<Scalars['ID']['input']>;
+  sessionId: Scalars['ID']['input'];
 };
 
 
 export type MutationRemoveSessionCastArgs = {
-  profileId: Scalars['ID'];
+  profileId: Scalars['ID']['input'];
   role: Role;
-  sessionId: Scalars['ID'];
+  sessionId: Scalars['ID']['input'];
 };
 
 
 export type MutationRenameActivityArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 };
 
 
 export type MutationResetPasswordAndLogInArgs = {
-  password: Scalars['String'];
-  passwordConfirmation: Scalars['String'];
-  resetPasswordToken: Scalars['String'];
+  password: Scalars['String']['input'];
+  passwordConfirmation: Scalars['String']['input'];
+  resetPasswordToken: Scalars['String']['input'];
 };
 
 
 export type MutationSaveFeedbackArgs = {
   attributes: FeedbackAttributes;
-  sessionId: Scalars['ID'];
+  sessionId: Scalars['ID']['input'];
 };
 
 
 export type MutationSendMessageArgs = {
-  content: Scalars['String'];
-  sessionId: Scalars['ID'];
-  subject: Scalars['String'];
+  content: Scalars['String']['input'];
+  sessionId: Scalars['ID']['input'];
+  subject: Scalars['String']['input'];
 };
 
 
 export type MutationSetSessionVisibilityArgs = {
-  hidden: Scalars['Boolean'];
-  sessionId: Scalars['ID'];
+  hidden: Scalars['Boolean']['input'];
+  sessionId: Scalars['ID']['input'];
 };
 
 
 export type MutationUpdateActivityArgs = {
   attributes: ActivityAttributes;
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationUpdatePaymentArgs = {
   attributes: PaymentAttributes;
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationUpdatePersonArgs = {
   attributes: PersonAttributes;
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
@@ -773,94 +775,94 @@ export type MutationUpdateRegistrationArgs = {
 
 export type MutationUpdateRegistrationUserDetailsArgs = {
   attributes: UserDetailsAttributes;
-  registrationId: InputMaybe<Scalars['ID']>;
+  registrationId: InputMaybe<Scalars['ID']['input']>;
 };
 
 
 export type MutationUpdateSessionArgs = {
   attributes: SessionAttributes;
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationUpdateSettingArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
   value: SettingValue;
 };
 
 
 export type MutationUpdateTranslationArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  traditionalName: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  traditionalName: Scalars['String']['input'];
 };
 
 
 export type MutationUpdateUserArgs = {
   attributes: UserAttributes;
-  id: InputMaybe<Scalars['ID']>;
+  id: InputMaybe<Scalars['ID']['input']>;
 };
 
 
 export type MutationUpdateWorkshopsArgs = {
-  sessionIds: Array<Scalars['ID']>;
-  waitlistIds: Array<Scalars['ID']>;
+  sessionIds: Array<Scalars['ID']['input']>;
+  waitlistIds: Array<Scalars['ID']['input']>;
 };
 
 
 export type MutationUserConfirmRegistrationWithTokenArgs = {
-  confirmationToken: Scalars['String'];
+  confirmationToken: Scalars['String']['input'];
 };
 
 
 export type MutationUserLoginArgs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 
 export type MutationUserRegisterArgs = {
-  confirmUrl: InputMaybe<Scalars['String']>;
-  email: Scalars['String'];
-  name: Scalars['String'];
-  password: Scalars['String'];
-  passwordConfirmation: Scalars['String'];
+  confirmUrl: InputMaybe<Scalars['String']['input']>;
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  passwordConfirmation: Scalars['String']['input'];
 };
 
 
 export type MutationUserResendConfirmationWithTokenArgs = {
-  confirmUrl: Scalars['String'];
-  email: Scalars['String'];
+  confirmUrl: Scalars['String']['input'];
+  email: Scalars['String']['input'];
 };
 
 
 export type MutationUserSendPasswordResetWithTokenArgs = {
-  email: Scalars['String'];
-  redirectUrl: Scalars['String'];
+  email: Scalars['String']['input'];
+  redirectUrl: Scalars['String']['input'];
 };
 
 
 export type MutationUserUpdatePasswordWithTokenArgs = {
-  password: Scalars['String'];
-  passwordConfirmation: Scalars['String'];
-  resetPasswordToken: Scalars['String'];
+  password: Scalars['String']['input'];
+  passwordConfirmation: Scalars['String']['input'];
+  resetPasswordToken: Scalars['String']['input'];
 };
 
 export type PageResult = SearchResult & {
   __typename: 'PageResult';
-  description: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  lede: Maybe<Scalars['String']>;
-  slug: Scalars['String'];
-  title: Scalars['String'];
-  url: Scalars['String'];
+  description: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  lede: Maybe<Scalars['String']['output']>;
+  slug: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
 
 export type Payment = {
-  amount: Scalars['Money'];
-  createdAt: Scalars['ISO8601DateTime'];
-  id: Scalars['ID'];
-  reference: Scalars['String'];
+  amount: Scalars['Money']['output'];
+  createdAt: Scalars['ISO8601DateTime']['output'];
+  id: Scalars['ID']['output'];
+  reference: Scalars['String']['output'];
   registration: Registration;
   state: PaymentState;
   type: PaymentType;
@@ -872,8 +874,8 @@ export type PaymentAttributes = {
 
 export type PaymentIntent = {
   __typename: 'PaymentIntent';
-  clientSecret: Maybe<Scalars['String']>;
-  error: Maybe<Scalars['String']>;
+  clientSecret: Maybe<Scalars['String']['output']>;
+  error: Maybe<Scalars['String']['output']>;
 };
 
 export enum PaymentState {
@@ -927,91 +929,91 @@ export type PermissionDefinition = {
   __typename: 'PermissionDefinition';
   children: Maybe<Array<PermissionDefinition>>;
   id: Permission;
-  label: Scalars['String'];
+  label: Scalars['String']['output'];
 };
 
 export type Person = {
   __typename: 'Person';
   appearances: Array<Appearance>;
-  bio: Scalars['String'];
+  bio: Scalars['String']['output'];
   city: Maybe<City>;
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  phone: Maybe<Scalars['String']>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  phone: Maybe<Scalars['String']['output']>;
   picture: Maybe<ProfilePicture>;
-  pronouns: Maybe<Scalars['String']>;
+  pronouns: Maybe<Scalars['String']['output']>;
   user: Maybe<User>;
 };
 
 export type PersonAttributes = {
-  bio: InputMaybe<Scalars['String']>;
+  bio: InputMaybe<Scalars['String']['input']>;
   city: InputMaybe<CityAttributes>;
-  name: InputMaybe<Scalars['String']>;
-  phone: InputMaybe<Scalars['String']>;
-  picture: InputMaybe<Scalars['Upload']>;
-  pronouns: InputMaybe<Scalars['String']>;
+  name: InputMaybe<Scalars['String']['input']>;
+  phone: InputMaybe<Scalars['String']['input']>;
+  picture: InputMaybe<Scalars['Upload']['input']>;
+  pronouns: InputMaybe<Scalars['String']['input']>;
   uploadedPicture: InputMaybe<UploadedFile>;
 };
 
 export type PersonResult = SearchResult & {
   __typename: 'PersonResult';
-  description: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
+  description: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
   person: Person;
-  title: Scalars['String'];
-  url: Scalars['String'];
+  title: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
 
 export type Preference = {
   __typename: 'Preference';
-  id: Scalars['ID'];
-  position: Scalars['Int'];
+  id: Scalars['ID']['output'];
+  position: Scalars['Int']['output'];
   session: Session;
-  sessionId: Scalars['ID'];
+  sessionId: Scalars['ID']['output'];
   workshop: Workshop;
-  workshopId: Scalars['ID'];
+  workshopId: Scalars['ID']['output'];
 };
 
 export type PreferenceAttributes = {
-  position: Scalars['Int'];
-  sessionId: Scalars['ID'];
+  position: Scalars['Int']['input'];
+  sessionId: Scalars['ID']['input'];
 };
 
 export type Pricing = {
   __typename: 'Pricing';
-  baseWorkshopPrice: Scalars['Money'];
-  discountLimit: Scalars['Int'];
-  discountPerAdditionalWorkshop: Scalars['Money'];
-  id: Scalars['ID'];
+  baseWorkshopPrice: Scalars['Money']['output'];
+  discountLimit: Scalars['Int']['output'];
+  discountPerAdditionalWorkshop: Scalars['Money']['output'];
+  id: Scalars['ID']['output'];
 };
 
 export type ProfileAttributes = {
-  bio: InputMaybe<Scalars['String']>;
+  bio: InputMaybe<Scalars['String']['input']>;
   city: InputMaybe<CityAttributes>;
-  email: InputMaybe<Scalars['String']>;
-  name: InputMaybe<Scalars['String']>;
-  phone: InputMaybe<Scalars['String']>;
-  picture: InputMaybe<Scalars['Upload']>;
-  pronouns: InputMaybe<Scalars['String']>;
+  email: InputMaybe<Scalars['String']['input']>;
+  name: InputMaybe<Scalars['String']['input']>;
+  phone: InputMaybe<Scalars['String']['input']>;
+  picture: InputMaybe<Scalars['Upload']['input']>;
+  pronouns: InputMaybe<Scalars['String']['input']>;
   uploadedPicture: InputMaybe<UploadedFile>;
 };
 
 export type ProfileMergeAttributes = {
-  city: InputMaybe<Scalars['ID']>;
-  country: InputMaybe<Scalars['ID']>;
-  name: InputMaybe<Scalars['ID']>;
-  pronouns: InputMaybe<Scalars['ID']>;
+  city: InputMaybe<Scalars['ID']['input']>;
+  country: InputMaybe<Scalars['ID']['input']>;
+  name: InputMaybe<Scalars['ID']['input']>;
+  pronouns: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type ProfilePicture = {
   __typename: 'ProfilePicture';
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** 256x256 */
-  large: Scalars['String'];
+  large: Scalars['String']['output'];
   /** 128x128 */
-  medium: Scalars['String'];
+  medium: Scalars['String']['output'];
   /** 64x64 */
-  small: Scalars['String'];
+  small: Scalars['String']['output'];
 };
 
 /** Autogenerated return type of PromiseInternetBankingPayment. */
@@ -1049,64 +1051,64 @@ export type Query = {
 
 
 export type QueryDirectoryResultArgs = {
-  id: Scalars['ID'];
-  time: Scalars['ISO8601DateTime'];
+  id: Scalars['ID']['input'];
+  time: Scalars['ISO8601DateTime']['input'];
 };
 
 
 export type QueryDirectorySearchArgs = {
-  query: Scalars['String'];
+  query: Scalars['String']['input'];
 };
 
 
 export type QueryFestivalArgs = {
-  year: InputMaybe<Scalars['String']>;
+  year: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type QueryPaymentArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QueryPersonArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QueryRegistrationArgs = {
-  id: InputMaybe<Scalars['ID']>;
+  id: InputMaybe<Scalars['ID']['input']>;
 };
 
 
 export type QuerySearchArgs = {
   activityType: InputMaybe<ActivityType>;
-  limit: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   only?: InputMaybe<Array<SearchType>>;
-  query: Scalars['String'];
+  query: Scalars['String']['input'];
 };
 
 
 export type QuerySessionArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QuerySettingArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryUserArgs = {
-  id: InputMaybe<Scalars['ID']>;
+  id: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type Refund = Payment & {
   __typename: 'Refund';
-  amount: Scalars['Money'];
-  createdAt: Scalars['ISO8601DateTime'];
-  id: Scalars['ID'];
-  reference: Scalars['String'];
+  amount: Scalars['Money']['output'];
+  createdAt: Scalars['ISO8601DateTime']['output'];
+  id: Scalars['ID']['output'];
+  reference: Scalars['String']['output'];
   registration: Registration;
   state: PaymentState;
   type: PaymentType;
@@ -1115,33 +1117,33 @@ export type Refund = Payment & {
 export type Registration = {
   __typename: 'Registration';
   cart: Maybe<Cart>;
-  codeOfConductAcceptedAt: Maybe<Scalars['ISO8601DateTime']>;
-  completedAt: Maybe<Scalars['ISO8601DateTime']>;
-  donateDiscount: Scalars['Boolean'];
+  codeOfConductAcceptedAt: Maybe<Scalars['ISO8601DateTime']['output']>;
+  completedAt: Maybe<Scalars['ISO8601DateTime']['output']>;
+  donateDiscount: Scalars['Boolean']['output'];
   feedback: Array<Feedback>;
-  id: Scalars['ID'];
-  outstanding: Scalars['Money'];
+  id: Scalars['ID']['output'];
+  outstanding: Scalars['Money']['output'];
   paymentIntent: Maybe<PaymentIntent>;
   payments: Array<Payment>;
-  photoPermission: Scalars['Boolean'];
+  photoPermission: Scalars['Boolean']['output'];
   preferences: Array<Preference>;
   sessions: Array<Session>;
-  showExplainer: Scalars['Boolean'];
+  showExplainer: Scalars['Boolean']['output'];
   teaching: Array<Session>;
   user: Maybe<User>;
   waitlist: Array<Session>;
-  workshopsCount: Scalars['Int'];
+  workshopsCount: Scalars['Int']['output'];
 };
 
 
 export type RegistrationPaymentIntentArgs = {
-  amount: Scalars['Money'];
+  amount: Scalars['Money']['input'];
 };
 
 export type RegistrationAttributes = {
-  codeOfConductAcceptedAt: InputMaybe<Scalars['ISO8601DateTime']>;
-  donateDiscount: InputMaybe<Scalars['Boolean']>;
-  photoPermission: InputMaybe<Scalars['Boolean']>;
+  codeOfConductAcceptedAt: InputMaybe<Scalars['ISO8601DateTime']['input']>;
+  donateDiscount: InputMaybe<Scalars['Boolean']['input']>;
+  photoPermission: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export enum RegistrationPhase {
@@ -1160,7 +1162,7 @@ export enum RegistrationPhase {
 /** Autogenerated return type of Registrations. */
 export type RegistrationsPayload = {
   __typename: 'RegistrationsPayload';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
 };
 
 /** Autogenerated return type of RemoveFromSession. */
@@ -1214,10 +1216,10 @@ export type SaveFeedbackPayload = {
 };
 
 export type SearchResult = {
-  description: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  title: Scalars['String'];
-  url: Scalars['String'];
+  description: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  title: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
 
 export enum SearchType {
@@ -1241,12 +1243,12 @@ export type Session = {
   __typename: 'Session';
   activity: Maybe<Activity>;
   activityType: ActivityType;
-  capacity: Maybe<Scalars['Int']>;
-  count: Scalars['Int'];
-  endsAt: Scalars['ISO8601DateTime'];
-  full: Scalars['Boolean'];
+  capacity: Maybe<Scalars['Int']['output']>;
+  count: Scalars['Int']['output'];
+  endsAt: Scalars['ISO8601DateTime']['output'];
+  full: Scalars['Boolean']['output'];
   hosts: Array<Person>;
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   messages: Array<Message>;
   musos: Array<Person>;
   operators: Array<Person>;
@@ -1254,60 +1256,60 @@ export type Session = {
   performers: Array<Person>;
   slot: Slot;
   slots: Array<Slot>;
-  startsAt: Scalars['ISO8601DateTime'];
+  startsAt: Scalars['ISO8601DateTime']['output'];
   venue: Maybe<Venue>;
   waitlist: Array<Registration>;
   workshop: Maybe<Workshop>;
 };
 
 export type SessionAttributes = {
-  activityId: InputMaybe<Scalars['ID']>;
+  activityId: InputMaybe<Scalars['ID']['input']>;
   activityType: InputMaybe<ActivityType>;
-  capacity: InputMaybe<Scalars['Int']>;
-  endsAt: InputMaybe<Scalars['ISO8601DateTime']>;
-  startsAt: InputMaybe<Scalars['ISO8601DateTime']>;
-  venueId: InputMaybe<Scalars['ID']>;
+  capacity: InputMaybe<Scalars['Int']['input']>;
+  endsAt: InputMaybe<Scalars['ISO8601DateTime']['input']>;
+  startsAt: InputMaybe<Scalars['ISO8601DateTime']['input']>;
+  venueId: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type Setting = {
-  description: Scalars['String'];
-  id: Scalars['String'];
+  description: Scalars['String']['output'];
+  id: Scalars['String']['output'];
 };
 
 export type SettingValue = {
-  boolean: InputMaybe<Scalars['Boolean']>;
-  string: InputMaybe<Scalars['String']>;
+  boolean: InputMaybe<Scalars['Boolean']['input']>;
+  string: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Show = Activity & {
   __typename: 'Show';
-  bookingLink: Maybe<Scalars['String']>;
-  description: Maybe<Scalars['String']>;
+  bookingLink: Maybe<Scalars['String']['output']>;
+  description: Maybe<Scalars['String']['output']>;
   /** Directors */
   directors: Array<Person>;
-  id: Scalars['ID'];
-  missingInfo: Array<Scalars['String']>;
-  name: Scalars['String'];
+  id: Scalars['ID']['output'];
+  missingInfo: Array<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
   picture: Maybe<ActivityPicture>;
   presenters: Array<Person>;
   session: Maybe<Session>;
   sessions: Array<Session>;
-  slug: Scalars['String'];
+  slug: Scalars['String']['output'];
   type: ActivityType;
   workshop: Maybe<Workshop>;
 };
 
 
 export type ShowSessionArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 export type Slot = {
   __typename: 'Slot';
-  endsAt: Scalars['ISO8601DateTime'];
-  id: Scalars['ID'];
+  endsAt: Scalars['ISO8601DateTime']['output'];
+  id: Scalars['ID']['output'];
   sessions: Array<Session>;
-  startsAt: Scalars['ISO8601DateTime'];
+  startsAt: Scalars['ISO8601DateTime']['output'];
   workshops: Array<Workshop>;
 };
 
@@ -1318,31 +1320,31 @@ export type SlotSessionsArgs = {
 
 export type SocialEvent = Activity & {
   __typename: 'SocialEvent';
-  bookingLink: Maybe<Scalars['String']>;
-  description: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  missingInfo: Array<Scalars['String']>;
-  name: Scalars['String'];
+  bookingLink: Maybe<Scalars['String']['output']>;
+  description: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  missingInfo: Array<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
   /** Organisers */
   organisers: Array<Person>;
   picture: Maybe<ActivityPicture>;
   presenters: Array<Person>;
   session: Maybe<Session>;
   sessions: Array<Session>;
-  slug: Scalars['String'];
+  slug: Scalars['String']['output'];
   type: ActivityType;
 };
 
 
 export type SocialEventSessionArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 export type StringSetting = Setting & {
   __typename: 'StringSetting';
-  description: Scalars['String'];
-  id: Scalars['String'];
-  value: Scalars['String'];
+  description: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  value: Scalars['String']['output'];
 };
 
 export type Subscription = {
@@ -1353,31 +1355,31 @@ export type Subscription = {
 
 
 export type SubscriptionJobProgressArgs = {
-  id: Scalars['ID'];
-  jobName: Scalars['String'];
+  id: Scalars['ID']['input'];
+  jobName: Scalars['String']['input'];
 };
 
 
 export type SubscriptionRegistrationsArgs = {
-  year: Scalars['ID'];
+  year: Scalars['ID']['input'];
 };
 
 export type TimeRangeAttributes = {
-  endsAt: Scalars['ISO8601DateTime'];
-  startsAt: Scalars['ISO8601DateTime'];
+  endsAt: Scalars['ISO8601DateTime']['input'];
+  startsAt: Scalars['ISO8601DateTime']['input'];
 };
 
 export type Timetable = {
   __typename: 'Timetable';
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   sessions: Array<Session>;
 };
 
 export type Translation = {
   __typename: 'Translation';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  traditionalName: Scalars['String'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  traditionalName: Scalars['String']['output'];
 };
 
 /** Autogenerated return type of UpdateActivity. */
@@ -1441,18 +1443,18 @@ export type UpdateWorkshopsPayload = {
 };
 
 export type UploadedFile = {
-  filename: Scalars['String'];
-  id: Scalars['String'];
-  mimeType: InputMaybe<Scalars['String']>;
-  size: Scalars['Int'];
+  filename: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+  mimeType: InputMaybe<Scalars['String']['input']>;
+  size: Scalars['Int']['input'];
 };
 
 export type User = {
   __typename: 'User';
   activities: Array<Activity>;
-  email: Scalars['String'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  email: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
   permissions: Array<Permission>;
   profile: Maybe<Person>;
   registration: Maybe<Registration>;
@@ -1460,10 +1462,10 @@ export type User = {
 };
 
 export type UserAttributes = {
-  email: InputMaybe<Scalars['String']>;
-  name: InputMaybe<Scalars['String']>;
-  password: InputMaybe<Scalars['String']>;
-  passwordConfirmation: InputMaybe<Scalars['String']>;
+  email: InputMaybe<Scalars['String']['input']>;
+  name: InputMaybe<Scalars['String']['input']>;
+  password: InputMaybe<Scalars['String']['input']>;
+  passwordConfirmation: InputMaybe<Scalars['String']['input']>;
   permissions: InputMaybe<Array<Permission>>;
 };
 
@@ -1476,15 +1478,15 @@ export type UserConfirmRegistrationWithTokenPayload = {
 };
 
 export type UserDetailsAttributes = {
-  city: InputMaybe<Scalars['String']>;
-  codeOfConductAcceptedAt: InputMaybe<Scalars['ISO8601DateTime']>;
-  country: InputMaybe<Scalars['String']>;
-  email: InputMaybe<Scalars['String']>;
-  name: InputMaybe<Scalars['String']>;
-  phone: InputMaybe<Scalars['String']>;
-  photoPermission: InputMaybe<Scalars['Boolean']>;
-  pronouns: InputMaybe<Scalars['String']>;
-  showExplainer: InputMaybe<Scalars['Boolean']>;
+  city: InputMaybe<Scalars['String']['input']>;
+  codeOfConductAcceptedAt: InputMaybe<Scalars['ISO8601DateTime']['input']>;
+  country: InputMaybe<Scalars['String']['input']>;
+  email: InputMaybe<Scalars['String']['input']>;
+  name: InputMaybe<Scalars['String']['input']>;
+  phone: InputMaybe<Scalars['String']['input']>;
+  photoPermission: InputMaybe<Scalars['Boolean']['input']>;
+  pronouns: InputMaybe<Scalars['String']['input']>;
+  showExplainer: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Autogenerated return type of UserLogin. */
@@ -1514,13 +1516,13 @@ export type UserRegisterPayload = {
 /** Autogenerated return type of UserResendConfirmationWithToken. */
 export type UserResendConfirmationWithTokenPayload = {
   __typename: 'UserResendConfirmationWithTokenPayload';
-  message: Scalars['String'];
+  message: Scalars['String']['output'];
 };
 
 /** Autogenerated return type of UserSendPasswordResetWithToken. */
 export type UserSendPasswordResetWithTokenPayload = {
   __typename: 'UserSendPasswordResetWithTokenPayload';
-  message: Scalars['String'];
+  message: Scalars['String']['output'];
 };
 
 /** Autogenerated return type of UserUpdatePasswordWithToken. */
@@ -1533,68 +1535,68 @@ export type UserUpdatePasswordWithTokenPayload = {
 
 export type Value = {
   __typename: 'Value';
-  current: Scalars['Int'];
-  max: Scalars['Int'];
+  current: Scalars['Int']['output'];
+  max: Scalars['Int']['output'];
 };
 
 export type Venue = {
   __typename: 'Venue';
-  address: Scalars['String'];
-  building: Scalars['String'];
-  id: Scalars['ID'];
-  latitude: Scalars['Float'];
-  longitude: Scalars['Float'];
-  position: Scalars['Int'];
-  room: Maybe<Scalars['String']>;
+  address: Scalars['String']['output'];
+  building: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  latitude: Scalars['Float']['output'];
+  longitude: Scalars['Float']['output'];
+  position: Scalars['Int']['output'];
+  room: Maybe<Scalars['String']['output']>;
 };
 
 export type VenueResult = SearchResult & {
   __typename: 'VenueResult';
-  description: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  title: Scalars['String'];
-  url: Scalars['String'];
+  description: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  title: Scalars['String']['output'];
+  url: Scalars['String']['output'];
   venue: Venue;
 };
 
 export type Voucher = Payment & {
   __typename: 'Voucher';
-  amount: Scalars['Money'];
-  createdAt: Scalars['ISO8601DateTime'];
-  id: Scalars['ID'];
-  reference: Scalars['String'];
+  amount: Scalars['Money']['output'];
+  createdAt: Scalars['ISO8601DateTime']['output'];
+  id: Scalars['ID']['output'];
+  reference: Scalars['String']['output'];
   registration: Registration;
   state: PaymentState;
   type: PaymentType;
-  workshops: Scalars['Int'];
+  workshops: Scalars['Int']['output'];
 };
 
 export type Waitlist = {
   __typename: 'Waitlist';
-  id: Scalars['ID'];
-  offeredAt: Maybe<Scalars['ISO8601DateTime']>;
-  position: Scalars['Int'];
+  id: Scalars['ID']['output'];
+  offeredAt: Maybe<Scalars['ISO8601DateTime']['output']>;
+  position: Scalars['Int']['output'];
   registration: Registration;
   session: Maybe<Session>;
 };
 
 export type Workshop = Activity & {
   __typename: 'Workshop';
-  bookingLink: Maybe<Scalars['String']>;
-  capacity: Scalars['Int'];
-  description: Maybe<Scalars['String']>;
+  bookingLink: Maybe<Scalars['String']['output']>;
+  capacity: Scalars['Int']['output'];
+  description: Maybe<Scalars['String']['output']>;
   feedback: Array<Feedback>;
-  id: Scalars['ID'];
-  missingInfo: Array<Scalars['String']>;
-  name: Scalars['String'];
+  id: Scalars['ID']['output'];
+  missingInfo: Array<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
   picture: Maybe<ActivityPicture>;
   presenters: Array<Person>;
   session: Maybe<Session>;
   sessions: Array<Session>;
   show: Maybe<Show>;
-  slug: Scalars['String'];
+  slug: Scalars['String']['output'];
   stats: WorkshopStat;
-  suitability: Maybe<Scalars['String']>;
+  suitability: Maybe<Scalars['String']['output']>;
   /** Tutors */
   tutors: Array<Person>;
   type: ActivityType;
@@ -1602,33 +1604,33 @@ export type Workshop = Activity & {
 
 
 export type WorkshopSessionArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 export type WorkshopAllocation = {
   __typename: 'WorkshopAllocation';
-  id: Scalars['ID'];
-  score: Maybe<Scalars['Float']>;
+  id: Scalars['ID']['output'];
+  score: Maybe<Scalars['Float']['output']>;
   sessions: Array<WorkshopAllocationSession>;
   state: JobState;
 };
 
 export type WorkshopAllocationSession = {
   __typename: 'WorkshopAllocationSession';
-  capacity: Scalars['Int'];
-  endsAt: Scalars['ISO8601DateTime'];
-  id: Scalars['ID'];
+  capacity: Scalars['Int']['output'];
+  endsAt: Scalars['ISO8601DateTime']['output'];
+  id: Scalars['ID']['output'];
   registrations: Array<Registration>;
   slots: Array<Slot>;
-  startsAt: Scalars['ISO8601DateTime'];
+  startsAt: Scalars['ISO8601DateTime']['output'];
   waitlist: Array<Registration>;
   workshop: Workshop;
 };
 
 export type WorkshopStat = {
   __typename: 'WorkshopStat';
-  counts: Array<Scalars['Int']>;
-  id: Scalars['ID'];
+  counts: Array<Scalars['Int']['output']>;
+  id: Scalars['ID']['output'];
 };
 
 /** Autogenerated return type of allocateWorkshops. */

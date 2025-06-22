@@ -13,7 +13,6 @@ import {
   ActivityType,
   MultipleSessionAttributes,
   Permission,
-  Scalars,
   SessionAttributes,
 } from '@/graphql/types';
 import { useFestival } from '@/hooks/useFestival';
@@ -101,7 +100,7 @@ export const Route = createFileRoute('/admin/timetable')({
     const [updateSessionMutation] = useMutation(UpdateSessionMutation);
 
     const updateSession = useCallback(
-      (id: Scalars['ID'], attributes: Partial<SessionAttributes>) => {
+      (id: string, attributes: Partial<SessionAttributes>) => {
         const session = data?.festival?.timetable?.sessions?.find((s) => s.id === id);
         return updateSessionMutation({
           variables: { id, attributes },
@@ -134,7 +133,7 @@ export const Route = createFileRoute('/admin/timetable')({
     const [destroySessionMutation] = useMutation(DestroySessionMutation);
 
     const deleteSession = useCallback(
-      (id: Scalars['ID']) =>
+      (id: string) =>
         destroySessionMutation({
           variables: { id },
           update: (cache, { data }) => {
