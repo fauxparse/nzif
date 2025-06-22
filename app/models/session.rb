@@ -2,6 +2,8 @@ class Session < ApplicationRecord
   include Castable
   include Messageable
 
+  WAITLIST_CUTOFF = 24.hours
+
   belongs_to :festival
   belongs_to :venue, optional: true
   belongs_to :activity, optional: true
@@ -76,6 +78,10 @@ class Session < ApplicationRecord
 
   def conference?
     activity_type == Conference
+  end
+
+  def waitlist_cutoff
+    starts_at - WAITLIST_CUTOFF
   end
 
   def slots

@@ -5,7 +5,7 @@ module Waitlists
     def call
       skip_authorization!
 
-      return if session.starts_at.past?
+      return if session.waitlist_cutoff.past?
 
       while session.placements.count < session.capacity
         registration = session.waitlist.includes(:registration).first&.registration
