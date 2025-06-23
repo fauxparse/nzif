@@ -148,7 +148,7 @@ GEM
     bcrypt (3.1.18)
     bigdecimal (3.2.2)
     bindex (0.8.1)
-    blurhash (0.1.7)
+    blurhash (0.1.8)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
     builder (3.3.0)
@@ -695,7 +695,7 @@ DEPENDENCIES
   apollo_upload_server (= 2.1)
   auto_strip_attributes (~> 2.6)
   aws-sdk-s3 (~> 1.132.0)
-  blurhash (~> 0.1.7)
+  blurhash (~> 0.1.8)
   bootsnap
   capybara (~> 3.39)
   clicksend_client!
