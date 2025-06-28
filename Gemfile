@@ -162,7 +162,7 @@ group :test do
   gem 'database_cleaner', '~> 2.0'
 
   gem 'action_mailer_cache_delivery', '~> 0.4.0'
-  gem 'email_spec', '~> 2.2'
+  gem 'email_spec', '~> 2.3'
 
   gem 'puffing-billy', '~> 4.0.0'
   gem 'webmock', '~> 3.18'
