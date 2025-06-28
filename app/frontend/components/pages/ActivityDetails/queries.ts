@@ -27,6 +27,8 @@ export const ActivityDetailsActivityFragment = graphql(
     slug
     name
     description
+    tagline
+    quotes
     bookingLink
 
     presenters {

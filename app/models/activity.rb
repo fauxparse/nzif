@@ -19,7 +19,7 @@ class Activity < ApplicationRecord
   has_many :owners, through: :activity_owners, source: :user
   has_many :feedback, through: :sessions
 
-  searchable_on :name, :description
+  searchable_on :name, :description, :tagline
 
   validates :booking_link,
     absence: { unless: :show? }

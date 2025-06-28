@@ -31,9 +31,11 @@ export type Activity = {
   name: Scalars['String']['output'];
   picture: Maybe<ActivityPicture>;
   presenters: Array<Person>;
+  quotes: Maybe<Scalars['String']['output']>;
   session: Maybe<Session>;
   sessions: Array<Session>;
   slug: Scalars['String']['output'];
+  tagline: Maybe<Scalars['String']['output']>;
   type: ActivityType;
 };
 
@@ -212,11 +214,13 @@ export type Conference = Activity & {
   name: Scalars['String']['output'];
   picture: Maybe<ActivityPicture>;
   presenters: Array<Person>;
+  quotes: Maybe<Scalars['String']['output']>;
   session: Maybe<Session>;
   sessions: Array<Session>;
   slug: Scalars['String']['output'];
   /** Speakers */
   speakers: Array<Person>;
+  tagline: Maybe<Scalars['String']['output']>;
   type: ActivityType;
 };
 
@@ -1292,9 +1296,11 @@ export type Show = Activity & {
   name: Scalars['String']['output'];
   picture: Maybe<ActivityPicture>;
   presenters: Array<Person>;
+  quotes: Maybe<Scalars['String']['output']>;
   session: Maybe<Session>;
   sessions: Array<Session>;
   slug: Scalars['String']['output'];
+  tagline: Maybe<Scalars['String']['output']>;
   type: ActivityType;
   workshop: Maybe<Workshop>;
 };
@@ -1329,9 +1335,11 @@ export type SocialEvent = Activity & {
   organisers: Array<Person>;
   picture: Maybe<ActivityPicture>;
   presenters: Array<Person>;
+  quotes: Maybe<Scalars['String']['output']>;
   session: Maybe<Session>;
   sessions: Array<Session>;
   slug: Scalars['String']['output'];
+  tagline: Maybe<Scalars['String']['output']>;
   type: ActivityType;
 };
 
@@ -1591,12 +1599,14 @@ export type Workshop = Activity & {
   name: Scalars['String']['output'];
   picture: Maybe<ActivityPicture>;
   presenters: Array<Person>;
+  quotes: Maybe<Scalars['String']['output']>;
   session: Maybe<Session>;
   sessions: Array<Session>;
   show: Maybe<Show>;
   slug: Scalars['String']['output'];
   stats: WorkshopStat;
   suitability: Maybe<Scalars['String']['output']>;
+  tagline: Maybe<Scalars['String']['output']>;
   /** Tutors */
   tutors: Array<Person>;
   type: ActivityType;

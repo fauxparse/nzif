@@ -42,7 +42,7 @@ Layout/FirstHashElementIndentation:
   EnforcedStyle: consistent
 
 Layout/LineLength:
-  Max: 100
+  Max: 120
   AllowedPatterns: ['\A\s*#']
 
 Lint/AmbiguousBlockAssociation:
@@ -74,6 +74,9 @@ Metrics/MethodLength:
 Metrics/PerceivedComplexity:
   Enabled: false
   Max: 10
+
+Performance/ChainArrayAllocation:
+  Enabled: false
 
 Rails/I18nLocaleTexts:
   Enabled: false

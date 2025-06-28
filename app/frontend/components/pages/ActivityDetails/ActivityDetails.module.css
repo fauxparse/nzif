@@ -21,6 +21,14 @@
   grid-area: description;
 }
 
+.tagline {
+  margin-bottom: var(--space-3);
+}
+
+.quotes {
+  margin-block: var(--space-3);
+}
+
 .picture {
   display: block;
   width: 100%;

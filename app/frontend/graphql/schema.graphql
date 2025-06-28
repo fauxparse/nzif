@@ -6,9 +6,11 @@ interface Activity {
   name: String!
   picture: ActivityPicture
   presenters: [Person!]!
+  quotes: String
   session(id: ID!): Session
   sessions: [Session!]!
   slug: String!
+  tagline: String
   type: ActivityType!
 }
 
@@ -203,6 +205,7 @@ type Conference implements Activity {
   name: String!
   picture: ActivityPicture
   presenters: [Person!]!
+  quotes: String
   session(id: ID!): Session
   sessions: [Session!]!
   slug: String!
@@ -211,6 +214,7 @@ type Conference implements Activity {
   Speakers
   """
   speakers: [Person!]!
+  tagline: String
   type: ActivityType!
 }
 
@@ -1029,9 +1033,11 @@ type Show implements Activity {
   name: String!
   picture: ActivityPicture
   presenters: [Person!]!
+  quotes: String
   session(id: ID!): Session
   sessions: [Session!]!
   slug: String!
+  tagline: String
   type: ActivityType!
   workshop: Workshop
 }
@@ -1057,9 +1063,11 @@ type SocialEvent implements Activity {
   organisers: [Person!]!
   picture: ActivityPicture
   presenters: [Person!]!
+  quotes: String
   session(id: ID!): Session
   sessions: [Session!]!
   slug: String!
+  tagline: String
   type: ActivityType!
 }
 
@@ -1318,12 +1326,14 @@ type Workshop implements Activity {
   name: String!
   picture: ActivityPicture
   presenters: [Person!]!
+  quotes: String
   session(id: ID!): Session
   sessions: [Session!]!
   show: Show
   slug: String!
   stats: WorkshopStat!
   suitability: String
+  tagline: String
 
   """
   Tutors
