@@ -163,10 +163,10 @@ dependencies:
     version: 0.26.4(zod@3.23.8)
   '@uppy/aws-s3':
     specifier: ^3.6.2
-    version: 3.6.2(@uppy/core@3.12.0)
+    version: 3.6.2(@uppy/core@3.13.1)
   '@uppy/core':
-    specifier: ^3.12.0
-    version: 3.12.0
+    specifier: ^3.13.1
+    version: 3.13.1
   '@visx/axis':
     specifier: ^3.3.0
     version: 3.3.0(react@18.2.0)
@@ -6552,8 +6552,8 @@ packages:
       - graphql
     dev: true
 
-  /@transloadit/prettier-bytes@0.3.4:
-    resolution: {integrity: sha512-8/SnIF9Q2k52mbjRVAYLranwkaDTLb+O9r4Z/uo8uNw//SjygKvvbF4BHSOuReufaAyum1q13602VcNud25Dfg==}
+  /@transloadit/prettier-bytes@0.3.5:
+    resolution: {integrity: sha512-xF4A3d/ZyX2LJWeQZREZQw+qFX4TGQ8bGVP97OLRt6sPO6T0TNHBFTuRHOJh7RNmYOBmQ9MHxpolD9bXihpuVA==}
     dev: false
 
   /@types/acorn@4.0.6:
@@ -6928,51 +6928,51 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
 
-  /@uppy/aws-s3-multipart@3.12.0(@uppy/core@3.12.0):
+  /@uppy/aws-s3-multipart@3.12.0(@uppy/core@3.13.1):
     resolution: {integrity: sha512-l6/TlRjde/mP4LMFWdJIRBEUUceYXtAiNAHukfyzM3VbY3/+YrEJTAchsa4DrqAiyToJJu6b+xxvL2H46cDs3Q==}
     peerDependencies:
       '@uppy/core': ^3.12.0
     dependencies:
-      '@uppy/companion-client': 3.8.1(@uppy/core@3.12.0)
-      '@uppy/core': 3.12.0
+      '@uppy/companion-client': 3.8.1(@uppy/core@3.13.1)
+      '@uppy/core': 3.13.1
       '@uppy/utils': 5.9.0
     dev: false
 
-  /@uppy/aws-s3@3.6.2(@uppy/core@3.12.0):
+  /@uppy/aws-s3@3.6.2(@uppy/core@3.13.1):
     resolution: {integrity: sha512-pXXSfJbPLR9tmmLFckKU3lyp7Zx4AVvamH/Y5MU2WHKj8TQMrGeM0/M/nXn8SIa7roYEaskY6dVYT/DcHLdO9A==}
     peerDependencies:
       '@uppy/core': ^3.9.1
     dependencies:
-      '@uppy/aws-s3-multipart': 3.12.0(@uppy/core@3.12.0)
-      '@uppy/companion-client': 3.8.1(@uppy/core@3.12.0)
-      '@uppy/core': 3.12.0
+      '@uppy/aws-s3-multipart': 3.12.0(@uppy/core@3.13.1)
+      '@uppy/companion-client': 3.8.1(@uppy/core@3.13.1)
+      '@uppy/core': 3.13.1
       '@uppy/utils': 5.9.0
-      '@uppy/xhr-upload': 3.6.7(@uppy/core@3.12.0)
+      '@uppy/xhr-upload': 3.6.7(@uppy/core@3.13.1)
       nanoid: 4.0.2
     dev: false
 
-  /@uppy/companion-client@3.8.1(@uppy/core@3.12.0):
+  /@uppy/companion-client@3.8.1(@uppy/core@3.13.1):
     resolution: {integrity: sha512-A1k9cOgGMsJNx1lI0Lj2ZaLAH3WIL3xImi2EPXuAHgL1uBZqjuffP2P9XK4nr+KVc+PBivOxH7MoiYpJm97/xw==}
     peerDependencies:
       '@uppy/core': ^3.11.0
     dependencies:
-      '@uppy/core': 3.12.0
+      '@uppy/core': 3.13.1
       '@uppy/utils': 5.9.0
       namespace-emitter: 2.0.1
       p-retry: 6.2.0
     dev: false
 
-  /@uppy/core@3.12.0:
-    resolution: {integrity: sha512-kLkbJfDvJsjR2fIJdEFtLLVGNVxQS+Gtm1z4SxYVmJEm7ZNePsVsDABHasr2CI0jWKcq0PEQACr7wRBpNDkpKA==}
+  /@uppy/core@3.13.1:
+    resolution: {integrity: sha512-iQGAUO4ziQRpfv7kix6tO6JOWqjI0K4vt8AynvHWzDPZxYSba3zd6RojGNPsYWSR7Xv+dRXYx+GU8oTiK1FRUA==}
     dependencies:
-      '@transloadit/prettier-bytes': 0.3.4
+      '@transloadit/prettier-bytes': 0.3.5
       '@uppy/store-default': 3.2.2
       '@uppy/utils': 5.9.0
       lodash: 4.17.21
       mime-match: 1.0.2
       namespace-emitter: 2.0.1
       nanoid: 4.0.2
-      preact: 10.22.0
+      preact: 10.26.9
     dev: false
 
   /@uppy/store-default@3.2.2:
@@ -6983,16 +6983,16 @@ packages:
     resolution: {integrity: sha512-9Ubddd3orCOLYjf0KobwgJ+aTrABSxk9t4X/QdM4qJHVZuMIftkaMplrViRUO+kvIBCXEZDIP2AmS060siDNGw==}
     dependencies:
       lodash: 4.17.21
-      preact: 10.22.0
+      preact: 10.26.9
     dev: false
 
-  /@uppy/xhr-upload@3.6.7(@uppy/core@3.12.0):
+  /@uppy/xhr-upload@3.6.7(@uppy/core@3.13.1):
     resolution: {integrity: sha512-xd8PA6gz8/usm7wpI6w8zOjnw5KnE/Yt7fWknFubMFCbP0yutWbStgeFAj5AMdLjLQpGveGb/OVWHhBfy2LwlA==}
     peerDependencies:
       '@uppy/core': ^3.11.3
     dependencies:
-      '@uppy/companion-client': 3.8.1(@uppy/core@3.12.0)
-      '@uppy/core': 3.12.0
+      '@uppy/companion-client': 3.8.1(@uppy/core@3.13.1)
+      '@uppy/core': 3.13.1
       '@uppy/utils': 5.9.0
     dev: false
 
@@ -13035,7 +13035,7 @@ packages:
     resolution: {integrity: sha512-YF2kKIUzAofPMpfH6hOi2cGnv/HrUlfucspc7pDyvv7kGdqXrfj8SCl/t8owkEgKEuu8ZcRjSOxFxVLqwChZ2Q==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
-      nanoid: 3.3.7
+      nanoid: 3.3.11
       picocolors: 1.1.1
       source-map-js: 1.2.0
     dev: true
@@ -13053,8 +13053,8 @@ packages:
     resolution: {integrity: sha512-Q+/tYsFU9r7xoOJ+y/ZTtdVQwTWfzjbiXBDMM/JKUux3+QPP02iUuIoeBQ+Ot6oEDlC+/PGjB/5A3K7KKb7hcw==}
     dev: false
 
-  /preact@10.22.0:
-    resolution: {integrity: sha512-RRurnSjJPj4rp5K6XoP45Ui33ncb7e4H7WiOHVpjbkvqvA3U+N8Z6Qbo0AE6leGYBV66n8EhEaFixvIu3SkxFw==}
+  /preact@10.26.9:
+    resolution: {integrity: sha512-SSjF9vcnF27mJK1XyFMNJzFd5u3pQiATFqoaDy03XuN00u4ziveVVEGt5RKJrDR8MHE/wJo9Nnad56RLzS2RMA==}
     dev: false
 
   /prebuild-install@7.1.3:
