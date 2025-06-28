@@ -12,6 +12,8 @@ module Types
     end
     field :presenters, [PersonType], null: false
     field :description, String, null: true
+    field :tagline, String, null: true
+    field :quotes, String, null: true
     field :picture, Types::ActivityPictureType, null: true
     field :missing_info, [String], null: false
     field :booking_link, String, null: true

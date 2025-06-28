@@ -167,7 +167,9 @@ CREATE TABLE public.activities (
     picture_data jsonb,
     blurhash character varying,
     booking_link character varying,
-    suitability text
+    suitability text,
+    tagline character varying DEFAULT ''::character varying NOT NULL,
+    quotes character varying DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -2247,6 +2249,8 @@ ALTER TABLE ONLY public.sessions
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250626220704'),
+('20250626220219'),
 ('20241005022723'),
 ('20240902040156'),
 ('20240902035845'),

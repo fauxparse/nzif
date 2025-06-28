@@ -93,6 +93,16 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, load
       <Body>
         <Section className={classes.main}>
           <div className={classes.description}>
+            {activity.tagline && (
+              <Text
+                as="div"
+                size={{ initial: '4', sm: '5' }}
+                weight="medium"
+                className={classes.tagline}
+              >
+                <Markdown>{String(activity.tagline)}</Markdown>
+              </Text>
+            )}
             <Text as="div" size={{ initial: '3', sm: '4' }}>
               {loading ? (
                 <Skeleton loading>{randParagraph()}</Skeleton>
@@ -100,6 +110,11 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, load
                 <Markdown>{String(activity.description)}</Markdown>
               )}
             </Text>
+            {activity.quotes && (
+              <Text as="div" size={{ initial: '3', sm: '4' }} className={classes.quotes}>
+                <Markdown>{String(activity.quotes)}</Markdown>
+              </Text>
+            )}
             <Cast activity={activity} loading={loading} />
           </div>
           <AtAGlance activity={activity} loading={loading} />

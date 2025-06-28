@@ -109,7 +109,7 @@ class Session < ApplicationRecord
   def check_for_venue_clashes
     return if venue.blank?
 
-    clashes = festival.sessions.overlapping(self).where(venue:)
+    clashes = festival.sessions.overlapping(self).where(venue:).where.not(id:)
 
     errors.add(:venue, "is already in use at #{clashes.first.starts_at}") if clashes.exists?
   end
