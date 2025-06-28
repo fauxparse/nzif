@@ -107,6 +107,7 @@
     "@lexical/rich-text": "^0.16.0",
     "@lexical/selection": "^0.16.0",
     "@lexical/utils": "^0.16.0",
+    "@mapbox/node-pre-gyp": "^2.0.0",
     "@ngneat/falso": "^6.4.0",
     "@radix-ui/colors": "^0.1.8",
     "@radix-ui/primitive": "^1.1.0",
