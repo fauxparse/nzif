@@ -27,6 +27,7 @@ export const Route = createFileRoute('/_public/$activityType/$slug')({
           quotes: null,
           type: activityType,
           bookingLink: null,
+          suitability: null,
         },
       [loading, data]
     );

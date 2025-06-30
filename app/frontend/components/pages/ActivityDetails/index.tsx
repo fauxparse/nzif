@@ -1,12 +1,3 @@
-import Placename from '@/components/atoms/Placename';
-import ShareButton from '@/components/atoms/ShareButton';
-import { Markdown } from '@/components/helpers/Markdown';
-import Body from '@/components/organisms/Body';
-import Header from '@/components/organisms/Header';
-import { Permission } from '@/graphql/types';
-import EditIcon from '@/icons/EditIcon';
-import { useAuthentication } from '@/services/Authentication';
-import sentence from '@/util/sentence';
 import { randParagraph } from '@ngneat/falso';
 import {
   Box,
@@ -23,12 +14,20 @@ import { Link } from '@tanstack/react-router';
 import { map, uniqBy } from 'lodash-es';
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
+import Placename from '@/components/atoms/Placename';
+import ShareButton from '@/components/atoms/ShareButton';
+import { Markdown } from '@/components/helpers/Markdown';
+import Body from '@/components/organisms/Body';
+import Header from '@/components/organisms/Header';
+import { Permission } from '@/graphql/types';
+import EditIcon from '@/icons/EditIcon';
+import { useAuthentication } from '@/services/Authentication';
+import sentence from '@/util/sentence';
+import classes from './ActivityDetails.module.css';
 import { AtAGlance } from './AtAGlance';
+import { Cast } from './Cast';
 import { Presenters } from './Presenters';
 import { Activity } from './types';
-
-import classes from './ActivityDetails.module.css';
-import { Cast } from './Cast';
 
 type ActivityDetailsProps = {
   activity: Activity;
@@ -58,21 +57,19 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, load
             : undefined
         }
         title={
-          <>
-            <Flex direction="column" gap="2">
-              <Heading>
-                <Skeleton loading={loading}>{loading ? 'Loading…' : activity.name}</Skeleton>
-              </Heading>
-              <Heading as="h2" size="6" weight="medium">
-                <Skeleton loading={loading}>
-                  {loading ? 'Loading…' : sentence(map(activity.presenters, 'name'))}
-                </Skeleton>
-              </Heading>
-              <Flex wrap="wrap" gap="2">
-                {cities.map((city) => city && <Placename key={city.id} city={city} />)}
-              </Flex>
+          <Flex direction="column" gap="2">
+            <Heading>
+              <Skeleton loading={loading}>{loading ? 'Loading…' : activity.name}</Skeleton>
+            </Heading>
+            <Heading as="h2" size="6" weight="medium">
+              <Skeleton loading={loading}>
+                {loading ? 'Loading…' : sentence(map(activity.presenters, 'name'))}
+              </Skeleton>
+            </Heading>
+            <Flex wrap="wrap" gap="2">
+              {cities.map((city) => city && <Placename key={city.id} city={city} />)}
             </Flex>
-          </>
+          </Flex>
         }
         actions={
           <Flex gap="3">
@@ -110,10 +107,25 @@ export const ActivityDetails: React.FC<ActivityDetailsProps> = ({ activity, load
                 <Markdown>{String(activity.description)}</Markdown>
               )}
             </Text>
+            {'suitability' in activity && activity.suitability && (
+              <Box className={classes.subsection}>
+                <Heading as="h3" size="4" weight="medium">
+                  Is this workshop right for me?
+                </Heading>
+                <Text as="div" size={{ initial: '3', sm: '4' }}>
+                  <Markdown>{String(activity.suitability)}</Markdown>
+                </Text>
+              </Box>
+            )}
             {activity.quotes && (
-              <Text as="div" size={{ initial: '3', sm: '4' }} className={classes.quotes}>
-                <Markdown>{String(activity.quotes)}</Markdown>
-              </Text>
+              <Box className={classes.subsection}>
+                <Heading as="h3" size="4" weight="medium">
+                  What people are saying
+                </Heading>
+                <Text as="div" size={{ initial: '3', sm: '4' }}>
+                  <Markdown>{String(activity.quotes)}</Markdown>
+                </Text>
+              </Box>
             )}
             <Cast activity={activity} loading={loading} />
           </div>

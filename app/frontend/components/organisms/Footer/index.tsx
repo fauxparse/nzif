@@ -69,7 +69,7 @@ const Footer: React.FC<FooterProps> = ({ className, ...props }) => {
                   Get merch
                 </a>
               </ActionList.Item>
-              <ActionList.Item asChild>
+              {/* <ActionList.Item asChild>
                 <a
                   href="https://docs.google.com/forms/d/e/1FAIpQLScFcMMbK93sGtbcdj7i9TGU7ZlSGh-gm-XDdrnvGfbi7y9iFg/viewform"
                   target="_blank"
@@ -78,11 +78,11 @@ const Footer: React.FC<FooterProps> = ({ className, ...props }) => {
                   <ExternalLinkIcon />
                   Awards nominations
                 </a>
-              </ActionList.Item>
+              </ActionList.Item> */}
             </ActionList>
           </section>
           <section>
-            <p>2024 New Zealand Improv Trust</p>
+            <p>2025 New Zealand Improv Trust</p>
           </section>
         </Grid>
       </motion.footer>

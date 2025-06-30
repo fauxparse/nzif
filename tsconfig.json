@@ -19,7 +19,9 @@
     "paths": {
       "@config/*": ["./config/*"],
       "@ladle/*": ["./.ladle/*"],
-      "@/*": ["./app/frontend/*"]
+      "@/*": ["./app/frontend/*"],
+      "@/graphql": ["./app/frontend/graphql"],
+      "@/graphql/*": ["./app/frontend/graphql/*"]
     },
     "types": ["@modyfi/vite-plugin-yaml/modules", "vite/client"],
     "plugins": [

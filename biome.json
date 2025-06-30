@@ -1,16 +1,11 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.8.0/schema.json",
-  "organizeImports": {
-    "enabled": true
-  },
+  "$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "formatter": {
     "enabled": true,
-    "formatWithErrors": false,
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineWidth": 100,
-    "lineEnding": "lf",
-    "ignore": []
+    "lineWidth": 100
   },
   "javascript": {
     "formatter": {
@@ -26,7 +21,6 @@
     }
   },
   "linter": {
-    "enabled": true,
     "rules": {
       "recommended": true,
       "a11y": {
@@ -44,18 +38,18 @@
         "useNumberNamespace": "off"
       },
       "suspicious": {
-        "noArrayIndexKey": "off",
-        "noConsoleLog": "error"
+        "noArrayIndexKey": "off"
       }
     }
   },
   "files": {
-    "ignore": [
-      "*.typegen.ts",
-      "*.gen.ts",
-      "graphql-env.d.ts",
-      "app/frontend/graphql/types.ts",
-      "app/frontend/graphql/schema.json"
+    "includes": [
+      "**",
+      "!*.typegen.ts",
+      "!*.gen.ts",
+      "!graphql-env.d.ts",
+      "!app/frontend/graphql/types.ts",
+      "!app/frontend/graphql/schema.json"
     ]
   }
 }

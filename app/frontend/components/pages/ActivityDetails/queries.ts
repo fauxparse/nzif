@@ -31,6 +31,10 @@ export const ActivityDetailsActivityFragment = graphql(
     quotes
     bookingLink
 
+    ...on Workshop {
+      suitability
+    }
+
     presenters {
       ...ActivityPresenter
     }
