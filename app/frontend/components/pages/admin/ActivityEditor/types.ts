@@ -1,6 +1,6 @@
+import { FragmentOf, ResultOf } from 'gql.tada';
 import { TimetableActivityFragment } from '@/components/organisms/TimetableEditor/queries';
 import { ActivityType, UploadedFile } from '@/graphql/types';
-import { FragmentOf, ResultOf } from 'gql.tada';
 import { ActivityDetailsQuery, PresenterDetailsFragment, WorkshopShowFragment } from './queries';
 
 export type Activity = NonNullable<ResultOf<typeof ActivityDetailsQuery>['festival']['activity']>;
@@ -19,6 +19,8 @@ export type ActivityDetails = Pick<Activity, 'name' | 'type' | 'slug' | 'descrip
   presenters: Array<Presenter>;
   attachedActivityId: string | null;
   bookingLink: string | null;
+  suitability: string | null;
+  quotes: string | null;
 };
 
 export type AttachedActivity = FragmentOf<typeof TimetableActivityFragment>;

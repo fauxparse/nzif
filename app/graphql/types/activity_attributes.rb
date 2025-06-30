@@ -7,6 +7,7 @@ module Types
     argument :picture, ApolloUploadServer::Upload, required: false
     argument :picture_alt_text, String, required: false
     argument :profile_ids, [ID], required: false
+    argument :quotes, String, required: false
     argument :slug, String, required: false
     argument :suitability, String, required: false
     argument :uploaded_picture, Types::UploadedFile, required: false

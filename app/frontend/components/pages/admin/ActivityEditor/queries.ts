@@ -86,6 +86,9 @@ export const ActivityDetailsQuery = graphql(
         }
 
         ...on Workshop {
+          suitability
+          quotes
+
           show {
           ...WorkshopShow
           }
@@ -177,6 +180,7 @@ export const UpdateActivityMutation = graphql(
         id
         description
         bookingLink
+        quotes
 
         picture {
           id
@@ -195,6 +199,7 @@ export const UpdateActivityMutation = graphql(
         }
 
         ...on Workshop {
+          suitability
           show {
             ...TimetableActivity
           }

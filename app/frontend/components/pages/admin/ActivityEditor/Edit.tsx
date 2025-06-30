@@ -1,28 +1,27 @@
+import { useMutation } from '@apollo/client';
+import { Box, Flex, Heading, TextArea } from '@radix-ui/themes';
+import { useForm } from '@tanstack/react-form';
+import { ResultOf } from 'gql.tada';
+import { get, isEmpty, pick, pickBy } from 'lodash-es';
+import { useEffect, useRef, useState } from 'react';
+import { FormField } from '@/components/molecules/FormField';
 import { ImageUploader } from '@/components/molecules/ImageUploader';
 import { useToast } from '@/components/molecules/Toast';
 import { Editor } from '@/components/organisms/Editor';
 import { ActivityPicker } from '@/components/organisms/TimetableEditor/ActivityPicker';
 import { ActivityAttributes, ActivityType } from '@/graphql/types';
-import { useMutation } from '@apollo/client';
-import { Box, Flex, TextArea } from '@radix-ui/themes';
-import { useForm } from '@tanstack/react-form';
-import { ResultOf } from 'gql.tada';
-import { get, isEmpty, pick, pickBy } from 'lodash-es';
-import { useEffect, useRef, useState } from 'react';
+import classes from './ActivityEditor.module.css';
 import { Presenters } from './Presenters';
 import { UpdateActivityMutation } from './queries';
 import {
   Activity,
   ActivityDetails,
   AttachedActivity,
-  Presenter,
-  WithUploadedPicture,
   isShow,
   isWorkshop,
+  Presenter,
+  WithUploadedPicture,
 } from './types';
-
-import { FormField } from '@/components/molecules/FormField';
-import classes from './ActivityEditor.module.css';
 
 type EditProps = {
   activity: Activity;
@@ -31,7 +30,15 @@ type EditProps = {
 type Fields = WithUploadedPicture<ActivityDetails>;
 
 const getDefaultValuesFromActivity = (activity: Activity): ActivityDetails => {
-  return pick(activity, ['name', 'type', 'slug', 'description', 'bookingLink']) as ActivityDetails;
+  return pick(activity, [
+    'name',
+    'type',
+    'slug',
+    'description',
+    'bookingLink',
+    'suitability',
+    'quotes',
+  ]) as ActivityDetails;
 };
 
 export const Edit: React.FC<EditProps> = ({ activity }) => {
@@ -143,10 +150,49 @@ export const Edit: React.FC<EditProps> = ({ activity }) => {
             )}
           </form.Field>
         )}
+
+        {(isShow(activity) || isWorkshop(activity)) && (
+          <Flex direction="column" gap="4">
+            <Heading as="h3" size="4" weight="medium">
+              What people are saying
+            </Heading>
+            <form.Field name="quotes">
+              {(field) => (
+                <Editor
+                  value={field.state.value || ''}
+                  onChange={(value) => {
+                    if (value === field.state.value) return;
+                    field.handleChange(value);
+                    form.handleSubmit();
+                  }}
+                />
+              )}
+            </form.Field>
+          </Flex>
+        )}
+        {isWorkshop(activity) && (
+          <Flex direction="column" gap="4">
+            <Heading as="h3" size="4" weight="medium">
+              Suitability notes
+            </Heading>
+            <form.Field name="suitability">
+              {(field) => (
+                <Editor
+                  value={field.state.value || ''}
+                  onChange={(value) => {
+                    if (value === field.state.value) return;
+                    field.handleChange(value);
+                    form.handleSubmit();
+                  }}
+                />
+              )}
+            </form.Field>
+          </Flex>
+        )}
       </Flex>
       {hasPresenters && (
         <form.Field name="presenters">
-          {(field) => (
+          {(_field) => (
             <Presenters
               title={isShow(activity) ? 'Directors' : 'Tutors'}
               activity={activity}
