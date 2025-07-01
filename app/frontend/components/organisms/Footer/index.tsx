@@ -1,15 +1,14 @@
-import { ActionList } from '@/components/molecules/ActionList';
-import { Page, useFooterLinksQuery } from '@/contentful/types';
-import ExternalLinkIcon from '@/icons/ExternalLinkIcon';
-import { useDarkMode } from '@/services/Themes';
 import { Grid, Theme } from '@radix-ui/themes';
 import { Link } from '@tanstack/react-router';
 import clsx from 'clsx';
 import { MotionProps, motion } from 'framer-motion';
-import { useMemo, useRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
-
+import { useMemo, useRef } from 'react';
+import { ActionList } from '@/components/molecules/ActionList';
+import { Page, useFooterLinksQuery } from '@/contentful/types';
+import ExternalLinkIcon from '@/icons/ExternalLinkIcon';
 import PageIcon from '@/icons/PageIcon';
+import { useDarkMode } from '@/services/Themes';
 import classes from './Footer.module.css';
 
 const isPageLink = (link: { __typename: string } | null): link is Page =>
@@ -82,7 +81,7 @@ const Footer: React.FC<FooterProps> = ({ className, ...props }) => {
             </ActionList>
           </section>
           <section>
-            <p>2025 New Zealand Improv Trust</p>
+            <p>&copy; 2025 New Zealand Improv Trust</p>
           </section>
         </Grid>
       </motion.footer>
