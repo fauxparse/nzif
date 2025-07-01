@@ -1,22 +1,21 @@
-import Placename from '@/components/atoms/Placename';
-import { RoutableLink } from '@/components/helpers/RoutableLink';
-import BlurrableImage from '@/components/molecules/BlurrableImage';
-import { ResultOf, readFragment } from '@/graphql';
-import { Session } from '@/graphql/types';
-import sentence from '@/util/sentence';
 import { Badge, Card, Flex, Inset, Skeleton, Text } from '@radix-ui/themes';
 import { Responsive } from '@radix-ui/themes/dist/esm/props/prop-def.js';
 import { Link, LinkProps, useRouter } from '@tanstack/react-router';
 import clsx from 'clsx';
 import { map, uniqBy } from 'lodash-es';
 import { PropsWithChildren, useMemo } from 'react';
+import Placename from '@/components/atoms/Placename';
+import { RoutableLink } from '@/components/helpers/RoutableLink';
+import BlurrableImage from '@/components/molecules/BlurrableImage';
+import { ResultOf, readFragment } from '@/graphql';
+import { Session } from '@/graphql/types';
+import sentence from '@/util/sentence';
+import classes from './ActivityCard.module.css';
 import {
   ActivityCardFragment,
   ActivityCardPictureFragment,
   ActivityCardPresenterFragment,
 } from './queries';
-
-import classes from './ActivityCard.module.css';
 
 export type ActivityCardSession = Pick<
   Session,
@@ -71,9 +70,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
     [presenters]
   );
 
-  const presenterNames = isEnsemble
-    ? 'NZIF Ensemble'
-    : sentence(presenters.map((presenter) => presenter.name));
+  const presenterNames = sentence(presenters.map((presenter) => presenter.name));
 
   return (
     <Card
@@ -124,7 +121,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
       <Flex className={classes.badges} wrap="wrap" gap="1">
         {isEnsemble && (
           <Badge variant="surface" size={size}>
-            NZIF Ensemble
+            NZIF
           </Badge>
         )}
         {hasAssociated(activity) && (
