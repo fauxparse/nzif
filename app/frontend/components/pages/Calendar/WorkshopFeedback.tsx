@@ -1,10 +1,10 @@
-import { FormField } from '@/components/molecules/FormField';
-import { useToast } from '@/components/molecules/Toast';
-import { Feedback } from '@/graphql/types';
 import { Reference, useMutation } from '@apollo/client';
 import { Button, Dialog, Flex, VisuallyHidden } from '@radix-ui/themes';
 import { useForm } from '@tanstack/react-form';
 import { useEffect, useState } from 'react';
+import { FormField } from '@/components/molecules/FormField';
+import { useToast } from '@/components/molecules/Toast';
+import { Feedback } from '@/graphql/types';
 import { useCalendar } from './Context';
 import { SubmitWorkshopFeedbackMutation } from './queries';
 import { CalendarSession } from './types';
@@ -137,7 +137,7 @@ export const WorkshopFeedback: React.FC<WorkshopFeeedbackProps> = ({ session: pa
                         onValueChange={field.handleChange}
                       />
                       <FormField.Description>
-                        This will be attributed anonymously to “NZIF 2024 participant”, unless you
+                        This will be attributed anonymously to “NZIF 2025 participant”, unless you
                         include your name.
                       </FormField.Description>
                     </FormField.Root>

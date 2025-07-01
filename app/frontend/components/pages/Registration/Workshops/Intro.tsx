@@ -23,7 +23,7 @@ export const Intro: React.FC = () => {
             <Text size={{ initial: '3', md: '4' }}>
               Select your preferred workshops below. You can change your preferences at any time
               before preferential registration closes on 3 August; you will not be charged for any
-              workshops until initial placements are confirmed in early September.
+              workshops until initial placements are confirmed in early August.
             </Text>
           </p>
           <DoubleWorkshopNote />
