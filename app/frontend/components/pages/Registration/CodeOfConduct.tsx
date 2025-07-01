@@ -1,7 +1,3 @@
-import { Checkbox } from '@/components/atoms/Checkbox';
-import { Spinner } from '@/components/atoms/Spinner';
-import { StaticPageQuery, renderOptions } from '@/components/pages/Static';
-import { useRegistration } from '@/services/Registration';
 import { useMutation, useQuery } from '@apollo/client';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { Document } from '@contentful/rich-text-types';
@@ -22,14 +18,17 @@ import {
 } from '@radix-ui/themes';
 import { useForm } from '@tanstack/react-form';
 import { Link, useChildMatches, useNavigate } from '@tanstack/react-router';
+import clsx from 'clsx';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
+import { Checkbox } from '@/components/atoms/Checkbox';
+import { Spinner } from '@/components/atoms/Spinner';
+import { renderOptions, StaticPageQuery } from '@/components/pages/Static';
+import staticClasses from '@/components/pages/Static/Static.module.css';
+import { useRegistration } from '@/services/Registration';
 import { Buttons } from './Buttons';
 import { AcceptCodeOfConductMutation } from './queries';
-
-import staticClasses from '@/components/pages/Static/Static.module.css';
-import clsx from 'clsx';
 import classes from './Registration.module.css';
 
 export const CodeOfConduct: React.FC = () => {
@@ -89,7 +88,7 @@ export const CodeOfConduct: React.FC = () => {
       }}
     >
       <Section maxWidth="40em" pb="6">
-        <Heading as="h1" size="6">
+        <Heading as="h1" size="8">
           Code of conduct
         </Heading>
         <p>

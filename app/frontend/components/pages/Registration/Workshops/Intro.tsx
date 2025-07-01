@@ -1,9 +1,9 @@
-import { RegistrationPhase } from '@/graphql/types';
-import { useRegistration } from '@/services/Registration';
 import { Button, Callout, Heading, Text } from '@radix-ui/themes';
 import { useState } from 'react';
-import { WaitlistExplainer } from './WaitlistExplainer';
+import { RegistrationPhase } from '@/graphql/types';
+import { useRegistration } from '@/services/Registration';
 import { useWorkshopExplainer } from './useWorkshopExplainer';
+import { WaitlistExplainer } from './WaitlistExplainer';
 
 export const Intro: React.FC = () => {
   const { phase } = useRegistration();
@@ -22,8 +22,8 @@ export const Intro: React.FC = () => {
           <p>
             <Text size={{ initial: '3', md: '4' }}>
               Select your preferred workshops below. You can change your preferences at any time
-              before preferential registration closes on 1 September; you will not be charged for
-              any workshops until initial placements are confirmed in early September.
+              before preferential registration closes on 3 August; you will not be charged for any
+              workshops until initial placements are confirmed in early September.
             </Text>
           </p>
           <DoubleWorkshopNote />

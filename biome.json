@@ -27,7 +27,8 @@
         "noAutofocus": "off",
         "noRedundantAlt": "off",
         "useKeyWithClickEvents": "off",
-        "useValidAnchor": "off"
+        "useValidAnchor": "off",
+        "noLabelWithoutControl": "off"
       },
       "correctness": {
         "useExhaustiveDependencies": "off",

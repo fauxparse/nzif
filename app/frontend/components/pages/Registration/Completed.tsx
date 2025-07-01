@@ -1,13 +1,11 @@
-import ChevronLeftIcon from '@/icons/ChevronLeftIcon';
 import { Link as A, Box, Button, Flex, Heading, Portal, Text } from '@radix-ui/themes';
 import { Link } from '@tanstack/react-router';
 import clsx from 'clsx';
 import ReactCanvasConfetti from 'react-canvas-confetti';
-
-import Image from './completed.svg';
-
 import { RegistrationPhase } from '@/graphql/types';
+import ChevronLeftIcon from '@/icons/ChevronLeftIcon';
 import { useRegistration } from '@/services/Registration';
+import Image from './completed.svg';
 import classes from './Registration.module.css';
 
 export const Completed = () => {
@@ -26,8 +24,8 @@ export const Completed = () => {
             Check your email for confirmation of your registration.{' '}
             {phase === RegistrationPhase.Earlybird && (
               <>
-                We’ll be in touch again after 1&nbsp;September to let you know which workshops
-                you’ve been allocated.{' '}
+                We’ll be in touch again after 3&nbsp;August to let you know which workshops you’ve
+                been allocated.{' '}
               </>
             )}{' '}
             If you have any questions, please reach out to Matt at{' '}
