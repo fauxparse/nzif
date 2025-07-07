@@ -1,8 +1,9 @@
-import { Box, Button, Container, Flex, Grid, Text } from '@radix-ui/themes';
+import { Box, Button, Container, Link as ExternalLink, Flex, Grid, Text } from '@radix-ui/themes';
 import { Link } from '@tanstack/react-router';
 import { ActivityType } from '@/graphql/types';
 import { useFestival } from '@/hooks/useFestival';
 
+import BATSIcon from '@/icons/BATSIcon';
 import WorkshopIcon from '@/icons/WorkshopIcon';
 import classes from './Home.module.css';
 
@@ -52,12 +53,11 @@ export const Home = () => {
                 Browse the programme
               </Link>
             </Button>
-            <Button size="3" variant="outline" disabled>
-              Tickets available soon
-              {/* <ExternalLink href="https://bats.co.nz/whats-on/?tags=NZ%20Improv%20Festival">
+            <Button asChild size="3" variant="outline">
+              <ExternalLink href="https://bats.co.nz/whats-on/?tags=NZ%20Improv%20Festival">
                 <BATSIcon size="3" />
                 Book tickets
-              </ExternalLink> */}
+              </ExternalLink>
             </Button>
           </Flex>
         </Grid>
