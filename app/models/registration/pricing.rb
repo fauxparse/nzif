@@ -14,6 +14,8 @@ class Registration
 
     def package_discount(workshops:)
       n = [workshops, discount_limit].min
+      return 0 if n.zero?
+
       discounted = ((n * (n - 1)) / 2) * discount_per_additional_workshop
       additional = [workshops - discount_limit, 0].max *
                    (discount_per_additional_workshop * (discount_limit - 1))

@@ -38,7 +38,7 @@
   <p>
     Your total registration fee is as follows. Note that full-day workshops are counted as two slots.
   </p>
-  <%= render partial: 'cart', locals: { cart: @cart } %>
+  <%= render partial: 'cart', locals: { cart: @cart, registration: @registration } %>
 <% end %>
 <p>
   If we manage to slot you into a workshop from a waitlist, we’ll notify you by email and/or text message.

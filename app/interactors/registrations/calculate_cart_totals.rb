@@ -8,6 +8,8 @@ module Registrations
       authorize! registration, to: :view?
       base_workshop_price
       context[:outstanding] = [0, total - paid].max
+      context[:donate_discount] = registration.donate_discount?
+      discount
     end
 
     def base_workshop_price
@@ -34,7 +36,7 @@ module Registrations
     end
 
     def total
-      context[:total] ||= value - discount
+      context[:total] ||= value - (registration.donate_discount? ? 0 : discount)
     end
 
     def paid

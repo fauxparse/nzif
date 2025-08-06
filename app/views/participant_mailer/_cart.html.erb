@@ -5,7 +5,12 @@
   </tr>
   <% if cart.discount.positive? %>
     <tr class="discount">
-      <td><%= cart.workshops_count %>-workshop discount</td>
+      <td>
+        <%= cart.workshops_count %>-workshop discount
+        <% if registration.donate_discount? %>
+          <div><i>You’ve chosen to donate your discount. Thanks so much!</i></div>
+        <% end %>
+      </td>
       <td>-<%= humanized_money_with_symbol cart.discount %></td>
     </tr>
   <% end %>
