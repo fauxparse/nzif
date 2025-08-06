@@ -7,8 +7,7 @@
 <div style="margin: 0 0 1.5rem">
   <div style="font-size: 1.125rem"><%= session.activity.name %> <%= "(two slots)" if session.session_slots.size > 1 %></div>
   <div class="subtle">
-    <%= l session.starts_at, format: :friendly %> – <%= l session.ends_at, format: :short %> in
-    <%= session.venue.room %>
+    <%= l session.starts_at, format: :friendly %> – <%= l session.ends_at, format: :short %> <%= session.venue ? "in #{session.venue.room}" : "(venue TBC)" %>
   </div>
   <% if waitlisted.any? -%>
     <p style="margin-top: 0.5rem">
