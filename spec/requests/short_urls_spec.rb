@@ -10,6 +10,13 @@ RSpec.describe 'ShortUrls' do
 
         expect(response).to redirect_to(short.url)
       end
+
+      it 'increments the counter' do
+        expect do
+          get short_url(short, host: Domains::Short::DOMAIN)
+          short.reload
+        end.to change(short, :counter).by(1)
+      end
     end
 
     context 'with a bad param' do

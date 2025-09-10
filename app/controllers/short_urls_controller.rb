@@ -6,6 +6,8 @@ class ShortUrlsController < ApplicationController
 
     raise ActiveRecord::RecordNotFound unless short_url.redirect?
 
+    short_url.increment!(:counter) # rubocop:disable Rails/SkipsModelValidations
+
     redirect_to short_url.url, status: :moved_permanently, allow_other_host: true
   end
 

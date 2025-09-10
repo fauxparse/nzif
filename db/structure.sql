@@ -1,6 +1,7 @@
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -266,6 +267,23 @@ CREATE TABLE public.sessions (
 --
 
 CREATE VIEW public.activity_owners AS
+ WITH casting AS (
+         SELECT "cast".profile_id,
+            sessions.activity_id,
+            (sessions.activity_type)::text AS activity_type,
+            "cast".role,
+            sessions.id AS session_id
+           FROM (public."cast"
+             JOIN public.sessions ON (((("cast".activity_type)::text = 'Activity'::text) AND ("cast".activity_id = sessions.activity_id))))
+        UNION ALL
+         SELECT "cast".profile_id,
+            sessions.activity_id,
+            (sessions.activity_type)::text AS activity_type,
+            "cast".role,
+            sessions.id AS session_id
+           FROM (public."cast"
+             JOIN public.sessions ON (((("cast".activity_type)::text = 'Session'::text) AND ("cast".activity_id = sessions.id))))
+        )
  SELECT owners.user_id,
     'User'::text AS user_type,
     casting.activity_id,
@@ -279,21 +297,7 @@ CREATE VIEW public.activity_owners AS
          SELECT ownerships.user_id,
             ownerships.profile_id
            FROM public.ownerships) owners
-     JOIN ( SELECT "cast".profile_id,
-            sessions.activity_id,
-            (sessions.activity_type)::text AS activity_type,
-            "cast".role,
-            sessions.id AS session_id
-           FROM (public."cast"
-             JOIN public.sessions ON (((("cast".activity_type)::text = 'Activity'::text) AND (sessions.activity_id = "cast".activity_id))))
-        UNION ALL
-         SELECT "cast".profile_id,
-            sessions.activity_id,
-            (sessions.activity_type)::text AS activity_type,
-            "cast".role,
-            sessions.id AS session_id
-           FROM (public."cast"
-             JOIN public.sessions ON (((("cast".activity_type)::text = 'Session'::text) AND ("cast".activity_id = sessions.id))))) casting ON ((casting.profile_id = owners.profile_id)))
+     JOIN casting ON ((owners.profile_id = casting.profile_id)))
   WHERE (owners.user_id IS NOT NULL);
 
 
@@ -860,10 +864,10 @@ CREATE MATERIALIZED VIEW public.session_slots AS
                 END AS ends_at
            FROM public.sessions
         )
- SELECT multi_slot_sessions.session_id,
-    multi_slot_sessions.festival_id,
-    unnest(multi_slot_sessions.starts_at) AS starts_at,
-    unnest(multi_slot_sessions.ends_at) AS ends_at
+ SELECT session_id,
+    festival_id,
+    unnest(starts_at) AS starts_at,
+    unnest(ends_at) AS ends_at
    FROM multi_slot_sessions
   WITH NO DATA;
 
@@ -895,7 +899,8 @@ CREATE TABLE public.short_urls (
     id bigint NOT NULL,
     url character varying NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    counter integer DEFAULT 0 NOT NULL
 );
 
 
@@ -955,11 +960,11 @@ ALTER SEQUENCE public.show_workshops_id_seq OWNED BY public.show_workshops.id;
 --
 
 CREATE VIEW public.slot_activities AS
- SELECT sessions.starts_at,
-    sessions.activity_id,
-    sessions.id AS session_id
+ SELECT starts_at,
+    activity_id,
+    id AS session_id
    FROM public.sessions
-  WHERE (sessions.activity_id IS NOT NULL);
+  WHERE (activity_id IS NOT NULL);
 
 
 --
@@ -967,10 +972,10 @@ CREATE VIEW public.slot_activities AS
 --
 
 CREATE VIEW public.slot_sessions AS
- SELECT sessions.starts_at,
-    sessions.id AS session_id
+ SELECT starts_at,
+    id AS session_id
    FROM public.sessions
-  WHERE (sessions.activity_id IS NOT NULL);
+  WHERE (activity_id IS NOT NULL);
 
 
 --
@@ -978,9 +983,9 @@ CREATE VIEW public.slot_sessions AS
 --
 
 CREATE VIEW public.slots AS
- SELECT DISTINCT session_slots.festival_id,
-    session_slots.starts_at,
-    session_slots.ends_at
+ SELECT DISTINCT festival_id,
+    starts_at,
+    ends_at
    FROM public.session_slots;
 
 
@@ -1217,16 +1222,16 @@ CREATE VIEW public.workshop_preferences AS
             count(preferences_1.id) AS count
            FROM (public.preferences preferences_1
              JOIN public.sessions sessions_1 ON ((preferences_1.session_id = sessions_1.id)))
-          WHERE (sessions_1.festival_id = 2)
           GROUP BY preferences_1.session_id, preferences_1."position"
         )
  SELECT sessions.id,
     activities.name,
+    sessions.festival_id,
     array_agg(ARRAY[(preferences."position")::bigint, preferences.count]) AS counts
    FROM ((preferences
      JOIN public.sessions ON ((preferences.session_id = sessions.id)))
      JOIN public.activities ON ((sessions.activity_id = activities.id)))
-  GROUP BY activities.name, sessions.id;
+  GROUP BY activities.name, sessions.id, sessions.festival_id;
 
 
 --
@@ -2033,12 +2038,12 @@ CREATE UNIQUE INDEX index_waitlist_on_session_id_and_registration_id ON public.w
 --
 
 CREATE OR REPLACE VIEW public.accounts AS
- SELECT inner_query.id,
-    inner_query.registration_id,
-    inner_query.placements_count,
-    inner_query.total_cents,
-    inner_query.paid_cents,
-    (inner_query.total_cents - inner_query.paid_cents) AS outstanding_cents
+ SELECT id,
+    registration_id,
+    placements_count,
+    total_cents,
+    paid_cents,
+    (total_cents - paid_cents) AS outstanding_cents
    FROM ( SELECT registrations.id,
             registrations.id AS registration_id,
             registrations.placements_count,
@@ -2249,6 +2254,7 @@ ALTER TABLE ONLY public.sessions
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250910010442'),
 ('20250626220704'),
 ('20250626220219'),
 ('20241005022723'),
@@ -2330,6 +2336,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -2344,14 +2351,14 @@ SET row_security = off;
 
 COPY public.active_record_views (name, class_name, checksum, options, refreshed_at) FROM stdin;
 accounts	Account	527717ab674bda9a8d0d439f086869ff2cf1098a	{"dependencies":[]}	\N
-activity_owners	ActivityOwner	f2723da6818beb2445e1d563125953c531272374	{"dependencies":[]}	\N
+activity_owners	ActivityOwner	f46f07699264375b8c8f31c120f42dec9a2d175a	{"dependencies":[]}	\N
 profile_activities	ProfileActivity	620b36acc01bdec1cee0a4ad0563589583e7477a	{"dependencies":[]}	\N
 registration_totals	RegistrationTotal	d0b0e308f3d49300e5a808de6b7f8fdb2edf60ae	{"dependencies":[]}	\N
 session_slots	SessionSlot	ff3c3045df6f7160a21a2db1c77dc7a7943f1a85	{"materialized":true,"dependencies":[]}	\N
 slot_activities	SlotActivity	717b988a5900ecc4d9842325e50563404a15d71b	{"dependencies":[]}	\N
 slot_sessions	SlotSession	6ab18ab7d8faec08af36bec11b736b3e84e21cca	{"dependencies":[]}	\N
 slots	Slot	1c4ea33d8111de6a131f801f66ede63abb6667e7	{"dependencies":["SessionSlot"]}	\N
-workshop_preferences	WorkshopPreference	48a849004965844f43917f92313d87f9e450c65b	{"dependencies":[]}	\N
+workshop_preferences	WorkshopPreference	d7874e370b3b6e690d7379588ded4f6663191c10	{"dependencies":[]}	\N
 \.
 
 
