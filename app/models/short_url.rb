@@ -3,8 +3,14 @@ class ShortUrl < ApplicationRecord
 
   hashid_config min_hash_length: 3
 
+  ALLOWED_HOSTS = [
+    Domains::Main::DOMAIN,
+    'bats.co.nz',
+  ]
+
   def redirect?
-    URI(url).host == Domains::Main::DOMAIN
+    host = URI(url).host
+    ALLOWED_HOSTS.include?(host)
   end
 
   def to_s

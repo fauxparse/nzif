@@ -17,6 +17,12 @@ RSpec.describe ShortUrl do
     end
   end
 
+  context 'with a URL from bats.co.nz' do
+    subject(:short) { build(:short_url, url: 'https://bats.co.nz/about-bats/news/new-zealand-improv-festival-2025/?_=a') }
+
+    it { is_expected.to be_redirect }
+  end
+
   context 'with a URL outside the correct domain' do
     subject(:short) { build(:short_url, url: 'https://example.com') }
 
