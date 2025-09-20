@@ -2,7 +2,7 @@ class Session < ApplicationRecord
   include Castable
   include Messageable
 
-  WAITLIST_CUTOFF = 24.hours
+  WAITLIST_CUTOFF = 48.hours
 
   belongs_to :festival
   belongs_to :venue, optional: true

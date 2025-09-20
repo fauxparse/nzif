@@ -1,4 +1,4 @@
-import { Button, Callout, Heading, Text } from '@radix-ui/themes';
+import { Button, Callout, Heading, Link, Text } from '@radix-ui/themes';
 import { useState } from 'react';
 import { RegistrationPhase } from '@/graphql/types';
 import { useRegistration } from '@/services/Registration';
@@ -58,6 +58,12 @@ export const Intro: React.FC = () => {
             discount. If a workshop is sold out, you can join the waitlist; in the event that a
             place becomes available, you’ll be notified by email and/or text message, and removed
             from any other workshops you may be in at the same time.
+          </p>
+          <p>
+            If you need to withdraw from a workshop less than 48 hours before it starts, we cannot
+            offer refunds. In the event of illness or emergency, please contact us at{' '}
+            <Link href="mailto:registrations@improvfest.nz">registrations@improvfest.nz</Link> or
+            see a team member at the Festival.
           </p>
           <DoubleWorkshopNote />
           <Button

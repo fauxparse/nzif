@@ -1,3 +1,5 @@
+import { Button, IconButton } from '@radix-ui/themes';
+import { DateTime, Duration } from 'luxon';
 import { ActivityCard } from '@/components/molecules/ActivityCard';
 import { RegistrationPhase } from '@/graphql/types';
 import CheckboxIcon from '@/icons/CheckboxIcon';
@@ -5,11 +7,12 @@ import CloseIcon from '@/icons/CloseIcon';
 import PlusIcon from '@/icons/PlusIcon';
 import WaitlistIcon from '@/icons/WaitlistIcon';
 import { useRegistration } from '@/services/Registration';
-import { Button, IconButton } from '@radix-ui/themes';
-import { usePreferences } from './WorkshopPreferencesProvider';
 import { Session } from './types';
+import { usePreferences } from './WorkshopPreferencesProvider';
 
 import classes from './Workshops.module.css';
+
+const LOCKOUT = Duration.fromObject({ hours: 48 });
 
 type WorkshopProps = {
   session: Session;
@@ -20,7 +23,10 @@ export const Workshop: React.FC<WorkshopProps> = ({ session }) => {
 
   const { add, remove, getPosition, disabledSessions, sessions, waitlist } = usePreferences();
 
-  const readOnly = phase === RegistrationPhase.Paused || phase === RegistrationPhase.Closed;
+  const readOnly =
+    phase === RegistrationPhase.Paused ||
+    phase === RegistrationPhase.Closed ||
+    session.startsAt.diff(DateTime.now()).as('hours') < LOCKOUT.as('hours');
 
   const position = getPosition(session);
 
@@ -85,21 +91,19 @@ export const Workshop: React.FC<WorkshopProps> = ({ session }) => {
       }
     >
       {earlybird ? (
-        <>
-          {(!readOnly || !!position) && (
-            <IconButton
-              type="button"
-              variant={position ? 'solid' : 'surface'}
-              radius="full"
-              className={classes.preference}
-              onClick={toggle}
-              disabled={disabled || undefined}
-              data-filled={!!position}
-            >
-              {position ?? <PlusIcon />}
-            </IconButton>
-          )}
-        </>
+        (!readOnly || !!position) && (
+          <IconButton
+            type="button"
+            variant={position ? 'solid' : 'surface'}
+            radius="full"
+            className={classes.preference}
+            onClick={toggle}
+            disabled={disabled || undefined}
+            data-filled={!!position}
+          >
+            {position ?? <PlusIcon />}
+          </IconButton>
+        )
       ) : (
         <IconButton
           type="button"
