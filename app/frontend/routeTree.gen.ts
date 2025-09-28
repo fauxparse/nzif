@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SignageImport } from './routes/signage'
 import { Route as LogoutImport } from './routes/logout'
 import { Route as AdminImport } from './routes/admin'
 import { Route as RegisterRouteImport } from './routes/register/route'
@@ -83,6 +84,11 @@ import { Route as PublicAuthenticatedMyWorkshopsSlugSessionIdShowImport } from '
 import { Route as PublicAuthenticatedMyWorkshopsSlugSessionIdMessagesImport } from './routes/_public/_authenticated/my/workshops/$slug/$sessionId/messages'
 
 // Create/Update Routes
+
+const SignageRoute = SignageImport.update({
+  path: '/signage',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const LogoutRoute = LogoutImport.update({
   path: '/logout',
@@ -509,6 +515,13 @@ declare module '@tanstack/react-router' {
       path: '/logout'
       fullPath: '/logout'
       preLoaderRoute: typeof LogoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/signage': {
+      id: '/signage'
+      path: '/signage'
+      fullPath: '/signage'
+      preLoaderRoute: typeof SignageImport
       parentRoute: typeof rootRoute
     }
     '/_public/$activityType': {
@@ -1054,6 +1067,7 @@ export const routeTree = rootRoute.addChildren({
     AdminIndexRoute,
   }),
   LogoutRoute,
+  SignageRoute,
 })
 
 /* prettier-ignore-end */
@@ -1070,7 +1084,8 @@ export const routeTree = rootRoute.addChildren({
         "/donate",
         "/register",
         "/admin",
-        "/logout"
+        "/logout",
+        "/signage"
       ]
     },
     "/_auth": {
@@ -1131,6 +1146,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/logout": {
       "filePath": "logout.tsx"
+    },
+    "/signage": {
+      "filePath": "signage.tsx"
     },
     "/_public/$activityType": {
       "filePath": "_public/$activityType/route.tsx",
