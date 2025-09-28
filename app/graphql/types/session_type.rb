@@ -5,7 +5,7 @@ module Types
     field :capacity, Integer, null: true
     field :count, Integer, null: false, method: :placements_count
     field :ends_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :full, Boolean, null: false, method: :full?
+    field :full, Boolean, null: false
     field :id, ID, null: false
     field :participants, [RegistrationType], null: false
     field :slot, SlotType, null: false
@@ -80,6 +80,10 @@ module Types
 
     def messages
       dataloader.with(Sources::SessionMessages, context:).load(object.id)
+    end
+
+    def full
+      waitlist.then { |waitlist| object.full? || waitlist.any? }
     end
   end
 end
