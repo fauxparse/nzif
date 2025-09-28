@@ -1,21 +1,21 @@
 import { Reference, useMutation, useQuery } from '@apollo/client';
 import { useChildMatches, useNavigate } from '@tanstack/react-router';
-import { PropsWithChildren, createContext, useCallback, useContext, useMemo } from 'react';
-import { useAuthentication } from '../Authentication';
-import {
-  JoinSessionMutation,
-  LeaveSessionMutation,
-  LeaveWaitlistMutation,
-  RegistrationQuery,
-} from './queries';
-import { Registration } from './types';
-
+import { createContext, PropsWithChildren, useCallback, useContext, useMemo } from 'react';
 import { RegistrationPhase } from '@/graphql/types';
 import CheckIcon from '@/icons/CheckIcon';
 import CodeOfConductIcon from '@/icons/CodeOfConductIcon';
 import PaymentIcon from '@/icons/PaymentIcon';
 import ProfileIcon from '@/icons/ProfileIcon';
 import WorkshopIcon from '@/icons/WorkshopIcon';
+import { useAuthentication } from '../Authentication';
+import {
+  JoinSessionMutation,
+  JoinWaitlistMutation,
+  LeaveSessionMutation,
+  LeaveWaitlistMutation,
+  RegistrationQuery,
+} from './queries';
+import { Registration } from './types';
 
 export const STEPS = [
   { id: 'yourself', title: 'About you', icon: ProfileIcon },
@@ -208,7 +208,7 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
     [registration, doJoinSession]
   );
 
-  const [doJoinWaitlist] = useMutation(JoinSessionMutation);
+  const [doJoinWaitlist] = useMutation(JoinWaitlistMutation);
 
   const joinWaitlist = useCallback(
     async (sessionId: string) => {
@@ -216,6 +216,14 @@ export const RegistrationProvider: React.FC<PropsWithChildren> = ({ children }) 
 
       await doJoinWaitlist({
         variables: { sessionId },
+        update: (cache, { data }) => {
+          cache.modify({
+            id: cache.identify(registration),
+            fields: {
+              waitlist: (existing) => [...existing, data?.addToWaitlist?.waitlist],
+            },
+          });
+        },
       });
     },
     [registration, doJoinWaitlist]

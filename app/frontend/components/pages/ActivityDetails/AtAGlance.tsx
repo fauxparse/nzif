@@ -1,3 +1,17 @@
+import {
+  Button,
+  Card,
+  DataList,
+  Flex,
+  HoverCard,
+  Inset,
+  Link,
+  Separator,
+  Skeleton,
+  Text,
+} from '@radix-ui/themes';
+import { DateTime } from 'luxon';
+import { useMemo } from 'react';
 import { useConfirmation } from '@/components/organisms/ConfirmationModal';
 import { CastMemberFragment } from '@/components/organisms/ShowCast/queries';
 import { FragmentOf } from '@/graphql';
@@ -13,23 +27,8 @@ import WaitlistIcon from '@/icons/WaitlistIcon';
 import { useRegistration } from '@/services/Registration';
 import { formatSessionTime } from '@/util/formatSessionTime';
 import { mapLink } from '@/util/mapLink';
-import {
-  Button,
-  Card,
-  DataList,
-  Flex,
-  HoverCard,
-  Inset,
-  Link,
-  Separator,
-  Skeleton,
-  Text,
-} from '@radix-ui/themes';
-import { DateTime } from 'luxon';
-import { useMemo } from 'react';
-import { Activity } from './types';
-
 import classes from './ActivityDetails.module.css';
+import { Activity } from './types';
 
 type CastMember = FragmentOf<typeof CastMemberFragment>;
 
