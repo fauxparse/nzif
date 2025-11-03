@@ -133,7 +133,7 @@ group :development do
   # gem "spring"
 
   gem 'rubocop', '~> 1.69'
-  gem 'rubocop-capybara', '~> 2.21'
+  gem 'rubocop-capybara', '~> 2.22'
   gem 'rubocop-factory_bot', '~> 2.26'
   gem 'rubocop-graphql', '~> 1.5'
   gem 'rubocop-rails', '~> 2.29'
