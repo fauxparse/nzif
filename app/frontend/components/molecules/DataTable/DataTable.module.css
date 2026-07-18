@@ -34,7 +34,6 @@
         color: var(--gray-11);
         font-weight: var(--font-weight-regular);
         font-size: 100%;
-
       }
     }
 
@@ -44,7 +43,8 @@
     }
   }
 
-  th, td {
+  th,
+  td {
     &:first-child {
       padding-left: calc(var(--space-4) + var(--space-3));
     }

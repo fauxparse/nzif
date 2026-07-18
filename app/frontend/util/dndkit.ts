@@ -82,7 +82,7 @@ export const dndkit = <DragData, DropData>() => {
     ) => Array<Omit<Collision, 'data'> & TypesafeOver>;
   };
 
-  // biome-ignore lint/suspicious/noExplicitAny:
+  // eslint-disable-next-line typescript/no-explicit-any:
   const DndContext: React.NamedExoticComponent<ContextProps> = OriginalDndContext as any;
 
   const useDndMonitor: (
@@ -90,7 +90,7 @@ export const dndkit = <DragData, DropData>() => {
       ContextProps,
       'onDragStart' | 'onDragMove' | 'onDragOver' | 'onDragEnd' | 'onDragCancel'
     >
-    // biome-ignore lint/suspicious/noExplicitAny:
+    // eslint-disable-next-line typescript/no-explicit-any:
   ) => void = baseUseDndMonitor as any;
 
   const useDraggable: (args: Omit<UseDraggableArguments, 'data'> & { data: DragData }) => Omit<
@@ -99,7 +99,7 @@ export const dndkit = <DragData, DropData>() => {
   > & {
     active: TypesafeActive | null;
     over: TypesafeOver | null;
-    // biome-ignore lint/suspicious/noExplicitAny:
+    // eslint-disable-next-line typescript/no-explicit-any:
   } = baseUseDraggable as any;
 
   const useDroppable: (args: Omit<UseDroppableArguments, 'data'> & { data: DropData }) => Omit<
@@ -108,7 +108,7 @@ export const dndkit = <DragData, DropData>() => {
   > & {
     active: TypesafeActive | null;
     over: TypesafeOver | null;
-    // biome-ignore lint/suspicious/noExplicitAny:
+    // eslint-disable-next-line typescript/no-explicit-any:
   } = baseUseDroppable as any;
 
   return { DndContext, useDndMonitor, useDraggable, useDroppable };

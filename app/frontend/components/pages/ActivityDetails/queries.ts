@@ -21,76 +21,76 @@ export const ActivityPresenterFragment = graphql(`
 
 export const ActivityDetailsActivityFragment = graphql(
   `
-  fragment ActivityDetailsActivity on Activity @_unmask {
-    id
-    type
-    slug
-    name
-    description
-    tagline
-    quotes
-    bookingLink
-
-    ...on Workshop {
-      suitability
-    }
-
-    presenters {
-      ...ActivityPresenter
-    }
-
-    picture {
+    fragment ActivityDetailsActivity on Activity @_unmask {
       id
-      large
-      blurhash
-      altText
-    }
+      type
+      slug
+      name
+      description
+      tagline
+      quotes
+      bookingLink
 
-    sessions {
-      id
-      startsAt
-      endsAt
-      full
+      ... on Workshop {
+        suitability
+      }
 
-      venue {
+      presenters {
+        ...ActivityPresenter
+      }
+
+      picture {
         id
-        room
-        building
-        address
+        large
+        blurhash
+        altText
       }
 
-      performers {
-        ...CastMember
-      }
+      sessions {
+        id
+        startsAt
+        endsAt
+        full
 
-      hosts {
-        ...CastMember
-      }
+        venue {
+          id
+          room
+          building
+          address
+        }
 
-      musos {
-        ...CastMember
-      }
+        performers {
+          ...CastMember
+        }
 
-      operators {
-        ...CastMember
+        hosts {
+          ...CastMember
+        }
+
+        musos {
+          ...CastMember
+        }
+
+        operators {
+          ...CastMember
+        }
       }
     }
-  }
-`,
+  `,
   [ActivityPresenterFragment, CastMemberFragment]
 );
 
 export const ActivityDetailsQuery = graphql(
   `
-  query ActivityDetails($year: String!, $type: ActivityType!, $slug: String!) {
-    festival(year: $year) {
-      id
+    query ActivityDetails($year: String!, $type: ActivityType!, $slug: String!) {
+      festival(year: $year) {
+        id
 
-      activity(type: $type, slug: $slug) {
-        ...ActivityDetailsActivity
+        activity(type: $type, slug: $slug) {
+          ...ActivityDetailsActivity
+        }
       }
     }
-  }
-`,
+  `,
   [ActivityDetailsActivityFragment]
 );

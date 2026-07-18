@@ -10,37 +10,37 @@ export const CastMemberFragment = graphql(`
 
 export const ShowCastQuery = graphql(
   `
-  query ShowCast($slug: String!, $sessionId: ID!) {
-    festival {
-      id
-
-      activity(type: Show, slug: $slug) {
+    query ShowCast($slug: String!, $sessionId: ID!) {
+      festival {
         id
 
-        ... on Show {
+        activity(type: Show, slug: $slug) {
           id
 
-          session(id: $sessionId) {
-            hosts {
-              ...CastMember
-            }
+          ... on Show {
+            id
 
-            performers {
-              ...CastMember
-            }
+            session(id: $sessionId) {
+              hosts {
+                ...CastMember
+              }
 
-            musos {
-              ...CastMember
-            }
+              performers {
+                ...CastMember
+              }
 
-            operators {
-              ...CastMember
+              musos {
+                ...CastMember
+              }
+
+              operators {
+                ...CastMember
+              }
             }
           }
         }
       }
     }
-  }
-`,
+  `,
   [CastMemberFragment]
 );

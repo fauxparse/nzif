@@ -21,92 +21,92 @@ export const SessionRegistrationFragment = graphql(`
 
 export const WorkshopSessionFragment = graphql(
   `
-  fragment WorkshopSession on Session @_unmask {
-    id
-    startsAt
-    endsAt
-    capacity
+    fragment WorkshopSession on Session @_unmask {
+      id
+      startsAt
+      endsAt
+      capacity
 
-    participants {
-      ...SessionRegistration
-    }
-
-    waitlist {
+      participants {
         ...SessionRegistration
+      }
+
+      waitlist {
+        ...SessionRegistration
+      }
     }
-  }
-`,
+  `,
   [SessionRegistrationFragment]
 );
 
 export const WorkshopWithSessionsFragment = graphql(
   `
-  fragment WorkshopWithSessions on Activity @_unmask {
-    id
-    slug
-    name
+    fragment WorkshopWithSessions on Activity @_unmask {
+      id
+      slug
+      name
 
-    sessions {
-      ...WorkshopSession
+      sessions {
+        ...WorkshopSession
+      }
     }
-  }
-`,
+  `,
   [WorkshopSessionFragment]
 );
 
 export const WorkshopSessionQuery = graphql(
   `
-  query WorkshopSession($slug: String!) {
-    festival {
-      activity(type: Workshop, slug: $slug) {
-        ...WorkshopWithSessions
+    query WorkshopSession($slug: String!) {
+      festival {
+        activity(type: Workshop, slug: $slug) {
+          ...WorkshopWithSessions
+        }
       }
     }
-  }
-`,
+  `,
   [WorkshopWithSessionsFragment]
 );
 
 export const AddToSessionMutation = graphql(
   `
-  mutation AddToSession($sessionId: ID!, $registrationId: ID!) {
-    addToSession(sessionId: $sessionId, registrationId: $registrationId) {
-      registration {
-        ...SessionRegistration
-      }
-    }
-  }
-`,
-  [SessionRegistrationFragment]
-);
-
-export const AddToWaitlistMutation = graphql(
-  `
-  mutation AddToWaitlist($sessionId: ID!, $registrationId: ID!, $position: Int) {
-    addToWaitlist(sessionId: $sessionId, registrationId: $registrationId, position: $position) {
-      waitlist {
-        id
-        position
+    mutation AddToSession($sessionId: ID!, $registrationId: ID!) {
+      addToSession(sessionId: $sessionId, registrationId: $registrationId) {
         registration {
           ...SessionRegistration
         }
       }
     }
-  }
-`,
+  `,
+  [SessionRegistrationFragment]
+);
+
+export const AddToWaitlistMutation = graphql(
+  `
+    mutation AddToWaitlist($sessionId: ID!, $registrationId: ID!, $position: Int) {
+      addToWaitlist(sessionId: $sessionId, registrationId: $registrationId, position: $position) {
+        waitlist {
+          id
+          position
+          registration {
+            ...SessionRegistration
+          }
+        }
+      }
+    }
+  `,
   [SessionRegistrationFragment]
 );
 
 export const RemoveFromSessionMutation = graphql(
   `
-  mutation RemoveFromSession($sessionId: ID!, $registrationId: ID!) {
-    removeFromSession(sessionId: $sessionId, registrationId: $registrationId) {
-      registration {
-        ...SessionRegistration
+    mutation RemoveFromSession($sessionId: ID!, $registrationId: ID!) {
+      removeFromSession(sessionId: $sessionId, registrationId: $registrationId) {
+        registration {
+          ...SessionRegistration
+        }
       }
     }
-  }
-`,
+  `,
   [SessionRegistrationFragment]
 );
 
@@ -118,14 +118,14 @@ export const RemoveFromWaitlistMutation = graphql(`
 
 export const RegistrationSearchQuery = graphql(
   `
-  query RegistrationSearch($query: String!) {
-    festival {
-      id
-      registrations(name: $query) {
-        ...SessionRegistration
+    query RegistrationSearch($query: String!) {
+      festival {
+        id
+        registrations(name: $query) {
+          ...SessionRegistration
+        }
       }
     }
-  }
-`,
+  `,
   [SessionRegistrationFragment]
 );

@@ -2,7 +2,6 @@
   grid-column: main;
 }
 
-
 .event {
   --card-background-color: var(--accent-a2);
   --card-border-color: var(--accent-8);
@@ -49,7 +48,6 @@
 
 .eventDetails {
   grid-area: details;
-
 }
 
 .eventHide {

@@ -13,15 +13,15 @@ export const MapVenueFragment = graphql(`
 
 export const MapVenuesQuery = graphql(
   `
-  query MapVenues {
-    festival {
-      id
+    query MapVenues {
+      festival {
+        id
 
-      venues {
-        ...MapVenue
+        venues {
+          ...MapVenue
+        }
       }
     }
-  }
-`,
+  `,
   [MapVenueFragment]
 );

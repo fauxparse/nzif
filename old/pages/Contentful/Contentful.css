@@ -72,7 +72,6 @@
   }
 }
 
-
 /*
   &__lede {
     color: var(--text-subtle);
@@ -200,7 +199,6 @@ line-height: 2;
 
   }
 } */
-
 
 .toc {
   grid-row: 2;

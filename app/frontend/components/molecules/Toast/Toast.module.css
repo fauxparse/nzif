@@ -18,7 +18,7 @@
 
 .root {
   display: grid;
-  grid-template-areas: 'title action' 'description action';
+  grid-template-areas: "title action" "description action";
   grid-template-columns: auto max-content;
   align-items: center;
   margin: 0;
@@ -30,27 +30,27 @@
   column-gap: var(--space-4);
 
   &:not(:has(.title)) {
-    grid-template-areas: 'description action';
+    grid-template-areas: "description action";
   }
 
-  &[data-state='open'] {
+  &[data-state="open"] {
     animation: slide-in 150ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  &[data-state='closed'] {
+  &[data-state="closed"] {
     animation: hide 100ms ease-in;
   }
 
-  &[data-swipe='move'] {
+  &[data-swipe="move"] {
     transform: translateX(var(--radix-toast-swipe-move-x));
   }
 
-  &[data-swipe='cancel'] {
+  &[data-swipe="cancel"] {
     transition: transform 200ms ease-out;
     transform: translateX(0);
   }
 
-  &[data-swipe='end'] {
+  &[data-swipe="end"] {
     animation: swipe-out 100ms ease-out;
   }
 }

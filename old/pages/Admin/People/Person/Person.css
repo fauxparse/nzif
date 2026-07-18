@@ -183,13 +183,13 @@
   font-size: var(--font-size-legible);
   line-height: var(--line-height-legible);
 
-  td, th {
+  td,
+  th {
     vertical-align: top;
     padding: var(--small) var(--medium);
     border-top: var(--border-width-standard) solid var(--border-subtle);
     font-weight: var(--font-weight-normal);
     text-align: left;
-
 
     strong {
       font-weight: var(--font-weight-medium);
@@ -236,7 +236,8 @@
   tbody:first-child,
   tfoot {
     tr:last-child {
-      td, th {
+      td,
+      th {
         border-top: var(--border-width-standard) solid var(--text);
         border-bottom: var(--border-width-standard) solid var(--text);
       }
@@ -244,7 +245,8 @@
   }
 
   tfoot {
-    td, th {
+    td,
+    th {
       font-weight: var(--font-weight-medium);
     }
   }

@@ -13,11 +13,11 @@ export const DonationsRowFragment = graphql(`
 
 export const DonationsQuery = graphql(
   `
-  query Donations {
-    donations {
-      ...DonationsRow
+    query Donations {
+      donations {
+        ...DonationsRow
+      }
     }
-  }
-`,
+  `,
   [DonationsRowFragment]
 );

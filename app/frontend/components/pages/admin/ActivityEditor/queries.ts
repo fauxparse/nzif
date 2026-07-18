@@ -26,136 +26,136 @@ export const PresenterDetailsFragment = graphql(`
 
 export const WorkshopShowFragment = graphql(
   `
-  fragment WorkshopShow on Show @_unmask {
-    ...TimetableActivity
+    fragment WorkshopShow on Show @_unmask {
+      ...TimetableActivity
 
-    sessions {
-      id
-      startsAt
-      endsAt
+      sessions {
+        id
+        startsAt
+        endsAt
 
-      activity {
-        type
-      }
+        activity {
+          type
+        }
 
-      hosts {
-        ...TimetableCast
-      }
+        hosts {
+          ...TimetableCast
+        }
 
-      performers {
-        ...TimetableCast
-      }
+        performers {
+          ...TimetableCast
+        }
 
-      musos {
-        ...TimetableCast
-      }
+        musos {
+          ...TimetableCast
+        }
 
-      operators {
-        ...TimetableCast
+        operators {
+          ...TimetableCast
+        }
       }
     }
-  }
-`,
+  `,
   [TimetableActivityFragment, TimetableCastFragment]
 );
 
 export const ActivityDetailsQuery = graphql(
   `
-  query AdminActivityDetailsQuery($year: String!, $type: ActivityType!, $slug: String!) {
-    festival(year: $year) {
-      id
-
-      activity(type: $type, slug: $slug) {
+    query AdminActivityDetailsQuery($year: String!, $type: ActivityType!, $slug: String!) {
+      festival(year: $year) {
         id
-        name
-        slug
-        type
-        description
 
-        picture {
+        activity(type: $type, slug: $slug) {
           id
-          large
-          altText
-        }
+          name
+          slug
+          type
+          description
 
-        ...on Show {
-          bookingLink
-          workshop {
-            ...TimetableActivity
-          }
-        }
-
-        ...on Workshop {
-          suitability
-          quotes
-
-          show {
-          ...WorkshopShow
-          }
-
-          feedback {
-            positive
-            constructive
-            testimonial
-          }
-        }
-
-        presenters {
-          ...PresenterDetails
-        }
-
-        sessions {
-          id
-          startsAt
-          endsAt
-          capacity
-
-          activity {
-            type
-          }
-
-          participants {
+          picture {
             id
+            large
+            altText
+          }
 
-            user {
+          ... on Show {
+            bookingLink
+            workshop {
+              ...TimetableActivity
+            }
+          }
+
+          ... on Workshop {
+            suitability
+            quotes
+
+            show {
+              ...WorkshopShow
+            }
+
+            feedback {
+              positive
+              constructive
+              testimonial
+            }
+          }
+
+          presenters {
+            ...PresenterDetails
+          }
+
+          sessions {
+            id
+            startsAt
+            endsAt
+            capacity
+
+            activity {
+              type
+            }
+
+            participants {
               id
-              name
+
+              user {
+                id
+                name
+              }
             }
-          }
 
-          waitlist {
-            id
-            user {
-              name
+            waitlist {
+              id
+              user {
+                name
+              }
             }
-          }
 
-          venue {
-            id
-            room
-            building
-          }
+            venue {
+              id
+              room
+              building
+            }
 
-          hosts {
-            ...CastMember
-          }
+            hosts {
+              ...CastMember
+            }
 
-          performers {
-            ...CastMember
-          }
+            performers {
+              ...CastMember
+            }
 
-          musos {
-            ...CastMember
-          }
+            musos {
+              ...CastMember
+            }
 
-          operators {
-            ...CastMember
+            operators {
+              ...CastMember
+            }
           }
         }
       }
     }
-  }
-`,
+  `,
   [PresenterDetailsFragment, TimetableActivityFragment, WorkshopShowFragment, CastMemberFragment]
 );
 
@@ -174,76 +174,76 @@ export const UpdateActivityDetailsMutation = graphql(`
 
 export const UpdateActivityMutation = graphql(
   `
-  mutation AdminUpdateActivityMutation($id: ID!, $attributes: ActivityAttributes!) {
-    updateActivity(id: $id, attributes: $attributes) {
-      activity {
-        id
-        description
-        bookingLink
-        quotes
-
-        picture {
+    mutation AdminUpdateActivityMutation($id: ID!, $attributes: ActivityAttributes!) {
+      updateActivity(id: $id, attributes: $attributes) {
+        activity {
           id
-          large
-          altText
-        }
+          description
+          bookingLink
+          quotes
 
-        presenters {
-          ...PresenterDetails
-        }
-
-        ...on Show {
-          workshop {
-            ...TimetableActivity
+          picture {
+            id
+            large
+            altText
           }
-        }
 
-        ...on Workshop {
-          suitability
-          show {
-            ...TimetableActivity
+          presenters {
+            ...PresenterDetails
+          }
+
+          ... on Show {
+            workshop {
+              ...TimetableActivity
+            }
+          }
+
+          ... on Workshop {
+            suitability
+            show {
+              ...TimetableActivity
+            }
           }
         }
       }
     }
-  }
-`,
+  `,
   [PresenterDetailsFragment, TimetableActivityFragment]
 );
 
 export const PresenterDetailsQuery = graphql(
   `
-  query PresenterDetails($id: ID!) {
-    person(id: $id) {
-      ...PresenterDetails
+    query PresenterDetails($id: ID!) {
+      person(id: $id) {
+        ...PresenterDetails
+      }
     }
-  }
   `,
   [PresenterDetailsFragment]
 );
 
 export const AddPresenterByNameMutation = graphql(
   `
-  mutation AddPresenterByName($name: String!) {
-    createPerson(attributes: { name: $name }) {
-      profile {
-        ...PresenterDetails
+    mutation AddPresenterByName($name: String!) {
+      createPerson(attributes: { name: $name }) {
+        profile {
+          ...PresenterDetails
+        }
       }
     }
-  }
   `,
   [PresenterDetailsFragment]
 );
 
 export const UpdatePresenterMutation = graphql(
   `
-  mutation UpdatePresenter($id: ID!, $attributes: PersonAttributes!) {
-    updatePerson(id: $id, attributes: $attributes) {
-      profile {
-        ...PresenterDetails
+    mutation UpdatePresenter($id: ID!, $attributes: PersonAttributes!) {
+      updatePerson(id: $id, attributes: $attributes) {
+        profile {
+          ...PresenterDetails
+        }
       }
     }
-  }
   `,
   [PresenterDetailsFragment]
 );
@@ -252,7 +252,7 @@ export const SearchPeopleQuery = graphql(`
   query SearchPeople($query: String!) {
     search(query: $query, only: Person) {
       id
-      ...on PersonResult {
+      ... on PersonResult {
         person {
           id
           name
@@ -264,14 +264,14 @@ export const SearchPeopleQuery = graphql(`
 
 export const AddCastMutation = graphql(
   `
-  mutation AddCast($sessionId: ID!, $role: Role!, $personId: ID!) {
-    addSessionCast(sessionId: $sessionId, role: $role, profileId: $personId) {
-      cast {
-        ...CastMember
+    mutation AddCast($sessionId: ID!, $role: Role!, $personId: ID!) {
+      addSessionCast(sessionId: $sessionId, role: $role, profileId: $personId) {
+        cast {
+          ...CastMember
+        }
       }
     }
-  }
-`,
+  `,
   [CastMemberFragment]
 );
 
@@ -283,13 +283,13 @@ export const RemoveCastMutation = graphql(`
 
 export const CreateCastMemberMutation = graphql(
   `
-  mutation CreateCastMember($name: String!) {
-    createPerson(attributes: { name: $name }) {
-      profile {
-        ...CastMember
+    mutation CreateCastMember($name: String!) {
+      createPerson(attributes: { name: $name }) {
+        profile {
+          ...CastMember
+        }
       }
     }
-  }
-`,
+  `,
   [CastMemberFragment]
 );

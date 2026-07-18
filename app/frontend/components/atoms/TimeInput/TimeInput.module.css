@@ -33,7 +33,17 @@
   place-content: center;
   overflow: hidden;
   min-width: 16rem;
-  background: radial-gradient(circle closest-side at center, transparent 40%, var(--gray-a2) 0, var(--gray-a2) 68%, transparent 0, transparent 71%, var(--gray-a2) 0, var(--gray-a2) 99%, transparent 0);
+  background: radial-gradient(
+    circle closest-side at center,
+    transparent 40%,
+    var(--gray-a2) 0,
+    var(--gray-a2) 68%,
+    transparent 0,
+    transparent 71%,
+    var(--gray-a2) 0,
+    var(--gray-a2) 99%,
+    transparent 0
+  );
   aspect-ratio: 1;
   container-name: clock;
   container-type: inline-size;
@@ -83,4 +93,3 @@
     }
   }
 }
-

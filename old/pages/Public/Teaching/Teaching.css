@@ -23,7 +23,8 @@
       color: var(--text-subtle);
     }
 
-    dt, dd {
+    dt,
+    dd {
       margin: 0;
       padding: 0;
     }

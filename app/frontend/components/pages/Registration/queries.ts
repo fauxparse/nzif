@@ -24,8 +24,16 @@ export const YourselfQuery = graphql(`
 `);
 
 export const AcceptCodeOfConductMutation = graphql(`
-  mutation AcceptCodeOfConduct($codeOfConductAcceptedAt: ISO8601DateTime!, $photoPermission: Boolean!) {
-    updateRegistrationUserDetails(attributes: { codeOfConductAcceptedAt: $codeOfConductAcceptedAt, photoPermission: $photoPermission }) {
+  mutation AcceptCodeOfConduct(
+    $codeOfConductAcceptedAt: ISO8601DateTime!
+    $photoPermission: Boolean!
+  ) {
+    updateRegistrationUserDetails(
+      attributes: {
+        codeOfConductAcceptedAt: $codeOfConductAcceptedAt
+        photoPermission: $photoPermission
+      }
+    ) {
       registration {
         id
         codeOfConductAcceptedAt
@@ -81,14 +89,14 @@ export const PaymentFragment = graphql(`
 
 export const CreatePaymentMutation = graphql(
   `
-  mutation CreatePayment($amount: Money!, $registrationId: ID!, $type: PaymentType!) {
-    addPayment(amount: $amount, registrationId: $registrationId, type: $type, state: Pending) {
-      payment {
-        ...PaymentFragment
+    mutation CreatePayment($amount: Money!, $registrationId: ID!, $type: PaymentType!) {
+      addPayment(amount: $amount, registrationId: $registrationId, type: $type, state: Pending) {
+        payment {
+          ...PaymentFragment
+        }
       }
     }
-  }
-`,
+  `,
   [PaymentFragment]
 );
 

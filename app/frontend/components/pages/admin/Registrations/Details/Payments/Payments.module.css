@@ -13,7 +13,8 @@
   .highlightRow {
     background: var(--gray-a2);
 
-    th, td {
+    th,
+    td {
       font-weight: var(--font-weight-medium);
     }
   }

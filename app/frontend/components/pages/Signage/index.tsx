@@ -11,14 +11,13 @@ import BATSIcon from '@/icons/BATSIcon';
 import sentence from '@/util/sentence';
 import classes from './Signage.module.css';
 
-const SignageActivityFragment = graphql(
-  `
+const SignageActivityFragment = graphql(`
   fragment SignageActivity on Activity @_unmask {
     id
     name
     type
 
-    ...on Workshop {
+    ... on Workshop {
       presenters {
         id
         name
@@ -43,8 +42,7 @@ const SignageActivityFragment = graphql(
       }
     }
   }
-  `
-);
+`);
 
 type SignageActivity = FragmentOf<typeof SignageActivityFragment>;
 type Slot = SignageActivity['sessions'][number]['slots'][number];
@@ -55,14 +53,14 @@ type SignageActivityWithVenue = SignageActivity & {
 
 const SignageQuery = graphql(
   `
-  query Signage {
-    festival {
-      activities {
-        ...SignageActivity
+    query Signage {
+      festival {
+        activities {
+          ...SignageActivity
+        }
       }
     }
-  }
-`,
+  `,
   [SignageActivityFragment]
 );
 

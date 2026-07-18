@@ -109,7 +109,8 @@ const Result = forwardRef<HTMLDivElement, unknown>((_, ref) => {
           <div>
             <h1>Sorry…</h1>
             <p>
-              We couldn’t find you in a workshop this {time.hour < 12 ? 'morning' : 'afternoon'}.{' '}
+              We couldn’t find you in a workshop this {time.hour < 12 ? 'morning' : 'afternoon'}
+              .{' '}
             </p>
             <p>Please see a Festival team member if you think this is a mistake.</p>
           </div>

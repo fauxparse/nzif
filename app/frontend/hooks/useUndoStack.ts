@@ -12,7 +12,10 @@ type Handler<T> = (move: T) => void;
 export const useUndoStack = <T>({
   onExecute,
   onUndo,
-}: { onExecute: Handler<T>; onUndo: Handler<T> }) => {
+}: {
+  onExecute: Handler<T>;
+  onUndo: Handler<T>;
+}) => {
   const [stack, dispatch] = useReducer(
     (stack: State<T>, action: Action<T>) => {
       if (action === 'undo') {

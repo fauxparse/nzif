@@ -38,7 +38,8 @@
       grid-template-columns: auto 1fr auto;
       gap: var(--small);
       align-items: center;
-      padding: var(--small) var(--horizontal-padding) var(--small) calc(var(--horizontal-padding) - var(--icon-size) - var(--small));
+      padding: var(--small) var(--horizontal-padding) var(--small)
+        calc(var(--horizontal-padding) - var(--icon-size) - var(--small));
       list-style: none;
       cursor: pointer;
       appearance: none;
@@ -164,7 +165,8 @@
     height: var(--row-height);
     border: var(--border-width-standard) solid var(--person-border);
     border-radius: var(--border-radius-standard);
-    background: var(--background) linear-gradient(to bottom, var(--person-background), var(--person-background));
+    background: var(--background)
+      linear-gradient(to bottom, var(--person-background), var(--person-background));
 
     &:not([data-dragging]) {
       transition: transform var(--timing-slow) var(--ease-standard);

@@ -102,7 +102,9 @@ export const CreditCard: React.FC<PaymentMethodProps> = ({ amount, active, handl
 
 const StripeLoader = ({
   onLoad,
-}: { onLoad: (value: { stripe: Stripe; elements: StripeElements }) => void }) => {
+}: {
+  onLoad: (value: { stripe: Stripe; elements: StripeElements }) => void;
+}) => {
   const elements = useElements();
   const stripe = useStripe();
 

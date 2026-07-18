@@ -9,15 +9,15 @@ export const PickablePersonFragment = graphql(`
 
 export const PersonSearchQuery = graphql(
   `
-  query PersonSearch($query: String!) {
-    search(query: $query, only: Person) {
-      ...on PersonResult {
-        person {
-          ...PickablePerson
+    query PersonSearch($query: String!) {
+      search(query: $query, only: Person) {
+        ... on PersonResult {
+          person {
+            ...PickablePerson
+          }
         }
       }
     }
-  }
   `,
   [PickablePersonFragment]
 );

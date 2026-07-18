@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc"],
+  "categories": {
+    "correctness": "error"
+  },
+  "rules": {
+    // Biome's `recommended` set flagged unused variables but the project chose
+    // to leave them; keep that behaviour with oxc.
+    "eslint/no-unused-vars": "off",
+    // These oxlint correctness rules have no direct Biome `recommended`
+    // equivalent and surface pre-existing patterns. Re-enable individually
+    // when ready to address them.
+    "unicorn/no-empty-file": "off",
+    "unicorn/no-useless-spread": "off",
+    "eslint/no-unassigned-vars": "off",
+    "eslint/no-unused-expressions": "off",
+    "eslint/no-useless-escape": "off"
+  },
+  "env": {
+    "builtin": true
+  },
+  "ignorePatterns": [
+    "*.typegen.ts",
+    "*.gen.ts",
+    "graphql-env.d.ts",
+    "app/frontend/graphql/types.ts",
+    "app/frontend/graphql/schema.json"
+  ]
+}

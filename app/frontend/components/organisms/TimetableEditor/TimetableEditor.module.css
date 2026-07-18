@@ -64,7 +64,11 @@
   [data-empty] > & {
     border-style: dashed;
     background-color: var(--background-subtle);
-    background-image: repeating-linear-gradient(-45deg, transparent 0 0.25rem, var(--background-light) 0 0.5rem);
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent 0 0.25rem,
+      var(--background-light) 0 0.5rem
+    );
   }
 }
 

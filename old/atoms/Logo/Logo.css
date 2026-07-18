@@ -11,7 +11,6 @@
   width: 800px;
   height: 600px;
 
-
   :where(.logo__blob) {
     mix-blend-mode: var(--logo-blob-blend-mode);
   }

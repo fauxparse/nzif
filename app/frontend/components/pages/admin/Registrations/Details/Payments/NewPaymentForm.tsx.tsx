@@ -148,7 +148,12 @@ const ResponsiveSelect = <T extends string>({
   values,
   onChange,
   children,
-}: { value: T; values: T[]; onChange: (value: T) => void; children: (value: T) => ReactNode }) => (
+}: {
+  value: T;
+  values: T[];
+  onChange: (value: T) => void;
+  children: (value: T) => ReactNode;
+}) => (
   <>
     <Box display={{ initial: 'none', md: 'block' }}>
       <SegmentedControl.Root value={value} onValueChange={(v) => onChange(v as T)}>

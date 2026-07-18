@@ -59,7 +59,7 @@
     &[data-collapsing="true"],
     &:hover {
       z-index: var(--z-index-search);
-      background-color: var(--background-hover)
+      background-color: var(--background-hover);
     }
   }
 

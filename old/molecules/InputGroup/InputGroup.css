@@ -6,16 +6,14 @@
   --addon-border-width: var(--border-width-standard);
   --addon-border-radius: var(--border-radius-standard);
   --input-group-padding-start: calc(
-    (
-      (var(--icon-size) + var(--addon-padding-block)) * var(--input-group-start-icons) +
-      var(--addon-padding-block)
-    ) * min(1, var(--input-group-start-icons))
+    ((var(--icon-size) + var(--addon-padding-block)) * var(--input-group-start-icons) +
+        var(--addon-padding-block)) *
+      min(1, var(--input-group-start-icons))
   );
   --input-group-padding-end: calc(
-    (
-      (var(--icon-size) + var(--addon-padding-block)) * var(--input-group-end-icons) +
-      var(--addon-padding-block)
-    ) * min(1, var(--input-group-end-icons))
+    ((var(--icon-size) + var(--addon-padding-block)) * var(--input-group-end-icons) +
+        var(--addon-padding-block)) *
+      min(1, var(--input-group-end-icons))
   );
 
   display: flex;

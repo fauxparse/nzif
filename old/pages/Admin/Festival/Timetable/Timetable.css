@@ -31,7 +31,9 @@
     --grid-background-header: var(--background);
     --grid-background-cell: transparent;
 
-    width: calc(var(--row-header-width) * var(--row-headers) + var(--column-width) * var(--columns));
+    width: calc(
+      var(--row-header-width) * var(--row-headers) + var(--column-width) * var(--columns)
+    );
     font-variant-numeric: tabular-nums;
 
     &__column-header {
@@ -41,16 +43,16 @@
       font-size: var(--font-size-small);
       line-height: var(--line-height-small);
 
-      &:not(:nth-child(4n+1)) {
+      &:not(:nth-child(4n + 1)) {
         border-right: 0;
       }
 
-      &:not(:nth-child(4n+2)) {
+      &:not(:nth-child(4n + 2)) {
         background: transparent;
       }
     }
 
-    &__row-header{
+    &__row-header {
       &.grid__column-header {
         background-color: var(--background);
       }

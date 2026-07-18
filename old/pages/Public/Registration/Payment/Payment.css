@@ -2,7 +2,8 @@
   padding-bottom: 3.5rem;
   line-height: var(--line-height-large);
 
-  h2, h3 {
+  h2,
+  h3 {
     margin: var(--large) 0;
     line-height: var(--line-height-huge);
   }
@@ -149,7 +150,8 @@
       width: max-content;
       margin-left: var(--large);
 
-      dt, dd {
+      dt,
+      dd {
         margin: 0;
         padding: 0;
         font-size: var(--font-size-legible);

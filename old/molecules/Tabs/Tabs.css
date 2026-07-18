@@ -35,7 +35,7 @@
         margin: calc(var(--small) * -1);
         padding: var(--small);
         border-radius: var(--huge);
-        background-color: var(--highlight)
+        background-color: var(--highlight);
       }
     }
 

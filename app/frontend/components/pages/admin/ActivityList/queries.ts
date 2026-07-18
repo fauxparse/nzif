@@ -19,14 +19,14 @@ export const AdminActivityListItemFragment = graphql(`
 
 export const AdminActivityListQuery = graphql(
   `
-  query AdminActivityListQuery($activityType: ActivityType!) {
-    festival {
-      id
-      activities(type: $activityType) {
-        ...AdminActivityListItem
+    query AdminActivityListQuery($activityType: ActivityType!) {
+      festival {
+        id
+        activities(type: $activityType) {
+          ...AdminActivityListItem
+        }
       }
     }
-  }
-`,
+  `,
   [AdminActivityListItemFragment]
 );

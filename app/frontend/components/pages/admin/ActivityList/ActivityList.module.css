@@ -34,14 +34,12 @@
         color: var(--gray-11);
         font-weight: var(--font-weight-regular);
         font-size: 100%;
-
       }
     }
 
     tr[data-hover]:hover {
       background: var(--gray-a4);
       cursor: pointer;
-
     }
   }
 

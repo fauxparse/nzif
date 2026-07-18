@@ -216,7 +216,6 @@
 
   &[data-dragging] {
     opacity: 0.25;
-
   }
 
   &[data-drag-overlay] {
@@ -250,7 +249,6 @@
       small {
         font-weight: var(--font-weight-medium);
         font-size: 100%;
-
       }
     }
 

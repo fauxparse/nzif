@@ -101,7 +101,7 @@
   }
 
   &:not(:first-of-type)::before {
-    content: '';
+    content: "";
     position: absolute;
     top: calc(var(--icon-size) / 2);
     right: calc(100% + 0.5rem);
@@ -122,7 +122,6 @@
       font-weight: var(--font-weight-medium);
     }
   }
-
 
   @media (--md) {
     flex-direction: row;
@@ -217,7 +216,8 @@
 
   /* backdrop-filter: blur(6px); */
 
-  button, a {
+  button,
+  a {
     span {
       flex: 1;
 

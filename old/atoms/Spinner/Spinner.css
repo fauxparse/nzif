@@ -5,10 +5,11 @@
   width: var(--spinner-size);
   color: var(--accent9);
   text-align: center;
-  animation: spinner-rotate 2.0s infinite linear;
+  animation: spinner-rotate 2s infinite linear;
   aspect-ratio: 1;
 
-  &::before, &::after {
+  &::before,
+  &::after {
     content: "";
     position: absolute;
     top: 0;
@@ -17,13 +18,13 @@
     height: 60%;
     border-radius: 100%;
     background-color: currentcolor;
-    animation: spinner-bounce 2.0s infinite ease-in-out;
+    animation: spinner-bounce 2s infinite ease-in-out;
   }
 
   &::after {
     top: auto;
     bottom: 0;
-    animation-delay: -1.0s;
+    animation-delay: -1s;
   }
 
   &[data-size="small"] {
@@ -39,10 +40,15 @@
   }
 }
 
-@keyframes spinner-rotate { 100% { transform: rotate(360deg) } }
+@keyframes spinner-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 @keyframes spinner-bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(0);
   }
 

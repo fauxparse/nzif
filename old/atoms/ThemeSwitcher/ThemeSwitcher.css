@@ -1,7 +1,7 @@
 @custom-media --motion-ok (prefers-reduced-motion: no-preference);
 
 .theme-switcher {
-  --transition-duration: .5s;
+  --transition-duration: 0.5s;
 
   display: flex;
   align-items: center;
@@ -20,15 +20,16 @@
     }
 
     .sun-beams {
-      transition: transform var(--transition-duration) var(--ease-elastic-4),
+      transition:
+        transform var(--transition-duration) var(--ease-elastic-4),
         opacity var(--transition-duration) var(--ease-3);
     }
 
     .moon circle {
-      transition: transform .25s var(--ease-out-5);
+      transition: transform 0.25s var(--ease-out-5);
 
       @supports (cx: 1) {
-        transition: cx .25s var(--ease-out-5);
+        transition: cx 0.25s var(--ease-out-5);
       }
     }
   }
@@ -50,12 +51,12 @@
   [data-theme="dark"] & {
     @media (--motion-ok) {
       .sun-beams {
-        transition-duration: .15s;
+        transition-duration: 0.15s;
         transform: rotateZ(-25deg);
       }
 
       .moon circle {
-        transition-delay: .25s;
+        transition-delay: 0.25s;
         transition-duration: var(--transition-duration);
       }
     }
@@ -65,8 +66,8 @@
 
       @media (--motion-ok) {
         transition-timing-function: var(--ease-3);
-        transition-duration: .25s;
-        transform: scale(1.75)
+        transition-duration: 0.25s;
+        transform: scale(1.75);
       }
     }
 

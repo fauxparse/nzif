@@ -43,7 +43,8 @@
   width: 100%;
   padding-top: var(--space-4);
 
-  form, fieldset {
+  form,
+  fieldset {
     display: contents;
   }
 }

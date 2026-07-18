@@ -1,5 +1,7 @@
 .layout {
-  --layout-columns: [full-bleed-start] 1fr var(--gutter-width) [main-start] min(var(--max-width), calc(100vw - var(--gutter-width) * 2)) [main-end] var(--gutter-width) 1fr [full-bleed-end];
+  --layout-columns: [full-bleed-start] 1fr var(--gutter-width) [main-start]
+    min(var(--max-width), calc(100vw - var(--gutter-width) * 2)) [main-end] var(--gutter-width) 1fr
+    [full-bleed-end];
 
   display: grid;
   grid-template-rows: [navigation-start] auto [navigation-end main-start] 1fr [main-end footer-start] auto [footer-end];

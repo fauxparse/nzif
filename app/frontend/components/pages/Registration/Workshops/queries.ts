@@ -50,25 +50,25 @@ export const RegistrationWorkshopFragment = graphql(`
 
 export const WorkshopRegistrationQuery = graphql(
   `
-  query WorkshopRegistrationQuery {
-    festival {
-      id
-      registrationPhase
-      workshops {
-        ...RegistrationWorkshop
-      }
-    }
-
-    registration {
-      id
-      teaching {
+    query WorkshopRegistrationQuery {
+      festival {
         id
-        startsAt
-        endsAt
+        registrationPhase
+        workshops {
+          ...RegistrationWorkshop
+        }
+      }
+
+      registration {
+        id
+        teaching {
+          id
+          startsAt
+          endsAt
+        }
       }
     }
-  }
-`,
+  `,
   [RegistrationWorkshopFragment]
 );
 
@@ -105,47 +105,47 @@ export const UpdateWorkshopsMutation = graphql(`
 
 export const WorkshopDetailsQuery = graphql(
   `
-  query ActivityDetails($slug: String!) {
-    festival {
-      id
-
-      activity(type: Workshop, slug: $slug) {
+    query ActivityDetails($slug: String!) {
+      festival {
         id
-        type
-        slug
-        name
-        description
-        bookingLink
 
-        presenters {
-          ...ActivityPresenter
-        }
-
-        picture {
+        activity(type: Workshop, slug: $slug) {
           id
-          large
-          blurhash
-          altText
-        }
+          type
+          slug
+          name
+          description
+          bookingLink
 
-        sessions {
-          id
-          startsAt
-          endsAt
-          count
-          capacity
-          full
+          presenters {
+            ...ActivityPresenter
+          }
 
-          venue {
+          picture {
             id
-            room
-            building
-            address
+            large
+            blurhash
+            altText
+          }
+
+          sessions {
+            id
+            startsAt
+            endsAt
+            count
+            capacity
+            full
+
+            venue {
+              id
+              room
+              building
+              address
+            }
           }
         }
       }
     }
-  }
-`,
+  `,
   [ActivityPresenterFragment]
 );

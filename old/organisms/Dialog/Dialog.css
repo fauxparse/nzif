@@ -24,10 +24,12 @@
   }
 
   &__content {
-    width:  min(var(--dialog-width), calc(100vw - var(--min-horizontal-padding) * 2));
+    width: min(var(--dialog-width), calc(100vw - var(--min-horizontal-padding) * 2));
     border-radius: var(--border-radius-large);
     background: var(--background);
-    box-shadow: var(--shadow-6), inset 0 0 0 var(--border-width-standard) var(--dialog-border);
+    box-shadow:
+      var(--shadow-6),
+      inset 0 0 0 var(--border-width-standard) var(--dialog-border);
     pointer-events: auto;
 
     @media (width <= 480px) {

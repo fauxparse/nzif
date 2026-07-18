@@ -24,33 +24,33 @@ const ProfileDetailsFragment = graphql(`
 
 export const ProfileQuery = graphql(
   `
-  query ProfileQuery {
-    user {
-      id
-      email
+    query ProfileQuery {
+      user {
+        id
+        email
 
-      profile {
-        ...ProfileDetails
+        profile {
+          ...ProfileDetails
+        }
       }
     }
-  }
-`,
+  `,
   [ProfileDetailsFragment]
 );
 
 export const UpdateProfileMutation = graphql(
   `
-  mutation UpdateProfileMutation($attributes: ProfileAttributes!) {
-    updateProfile(attributes: $attributes) {
-      ...ProfileDetails
+    mutation UpdateProfileMutation($attributes: ProfileAttributes!) {
+      updateProfile(attributes: $attributes) {
+        ...ProfileDetails
 
-      user {
-        id
-        email
+        user {
+          id
+          email
+        }
       }
     }
-  }
-`,
+  `,
   [ProfileDetailsFragment]
 );
 

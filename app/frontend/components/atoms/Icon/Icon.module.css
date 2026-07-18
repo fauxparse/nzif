@@ -56,7 +56,9 @@
     --arc-radius: 10px;
 
     * {
-      transition: transform 0.5s var(--ease-squish-5), opacity 0.5s var(--ease-standard);
+      transition:
+        transform 0.5s var(--ease-squish-5),
+        opacity 0.5s var(--ease-standard);
     }
 
     circle {
@@ -85,14 +87,30 @@
       stroke-linecap: round;
       stroke-width: 2px;
 
-      &:nth-child(1) { --i: 0; }
-      &:nth-child(2) { --i: 1; }
-      &:nth-child(3) { --i: 2; }
-      &:nth-child(4) { --i: 3; }
-      &:nth-child(5) { --i: 4; }
-      &:nth-child(6) { --i: 5; }
-      &:nth-child(7) { --i: 6; }
-      &:nth-child(8) { --i: 7; }
+      &:nth-child(1) {
+        --i: 0;
+      }
+      &:nth-child(2) {
+        --i: 1;
+      }
+      &:nth-child(3) {
+        --i: 2;
+      }
+      &:nth-child(4) {
+        --i: 3;
+      }
+      &:nth-child(5) {
+        --i: 4;
+      }
+      &:nth-child(6) {
+        --i: 5;
+      }
+      &:nth-child(7) {
+        --i: 6;
+      }
+      &:nth-child(8) {
+        --i: 7;
+      }
     }
 
     body[data-theme="dark"] & {

@@ -9,11 +9,11 @@ export const DirectoryResultFragment = graphql(`
 
 export const DirectorySearchQuery = graphql(
   `
-  query DirectorySearch($query: String!) {
-    directorySearch(query: $query) {
-      ...DirectoryResult
+    query DirectorySearch($query: String!) {
+      directorySearch(query: $query) {
+        ...DirectoryResult
+      }
     }
-  }
-`,
+  `,
   [DirectoryResultFragment]
 );

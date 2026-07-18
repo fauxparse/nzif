@@ -9,7 +9,7 @@
 
       &::before,
       &::after {
-        content: '';
+        content: "";
         flex: 1;
         height: var(--border-width-standard);
         margin-top: 0.5ex;
@@ -253,7 +253,9 @@
       opacity: 0.75;
 
       circle {
-        transition: translate 0.6s var(--ease-out-5), scale 0.7s var(--ease-in-4);
+        transition:
+          translate 0.6s var(--ease-out-5),
+          scale 0.7s var(--ease-in-4);
         translate: 2.5rem 0;
         scale: 0;
       }
@@ -337,8 +339,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding:
-      calc(var(--medium) - var(--border-width-standard))
+    padding: calc(var(--medium) - var(--border-width-standard))
       calc(var(--medium) - var(--border-width-standard))
       calc(var(--medium) - var(--border-width-standard))
       calc(var(--large) - var(--border-width-standard));
@@ -365,7 +366,15 @@
 
   .timeline {
     --line: var(--accentA7);
-    --dashed: repeating-linear-gradient(to right, var(--line) 0, var(--line) 0.25rem, transparent 0.25rem, transparent 0.5rem, var(--line) 0.5rem, var(--line) 0.75rem);
+    --dashed: repeating-linear-gradient(
+      to right,
+      var(--line) 0,
+      var(--line) 0.25rem,
+      transparent 0.25rem,
+      transparent 0.5rem,
+      var(--line) 0.5rem,
+      var(--line) 0.75rem
+    );
 
     display: grid;
     grid-template-columns: auto 1fr;
@@ -373,7 +382,8 @@
     margin: 0;
     padding: 0 calc(var(--large) - var(--border-width-standard));
 
-    dt, dd {
+    dt,
+    dd {
       margin: 0;
       padding: 0;
     }
@@ -427,7 +437,7 @@
           display: unset;
 
           &::before {
-            content: '';
+            content: "";
             position: absolute;
             top: calc((var(--medium) - var(--border-width-thick)) / 2);
             width: 2rem;
@@ -452,7 +462,7 @@
         background: none;
 
         &::before {
-          content: '';
+          content: "";
           display: block;
           height: var(--border-width-thick);
           margin-bottom: var(--small);
@@ -535,7 +545,7 @@
     width: 100%;
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       inset: 0;
       background: linear-gradient(to bottom, transparent, var(--neutralA11));
@@ -629,7 +639,8 @@
       font-size: var(--font-size-small);
       line-height: var(--line-height-large);
 
-      dt, dd {
+      dt,
+      dd {
         margin: 0;
         padding: 0;
       }
@@ -683,7 +694,7 @@
   &__footer {
     @media (width > 768px) {
       .button[data-variant="primary"] {
-        min-width: calc(15rem - var(--medium))
+        min-width: calc(15rem - var(--medium));
       }
     }
   }

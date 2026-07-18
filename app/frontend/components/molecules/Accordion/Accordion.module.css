@@ -72,11 +72,11 @@
   border-top: 1px solid var(--gray-a6);
   background-color: var(--gray-a2);
 
-  &[data-state='open'] {
+  &[data-state="open"] {
     animation: slide-down var(--speed-slow) var(--ease-standard);
   }
 
-  &[data-state='closed'] {
+  &[data-state="closed"] {
     animation: slide-up var(--speed-slow) var(--ease-standard);
   }
 
@@ -92,7 +92,8 @@
 }
 
 .AccordionContentInner {
-  padding: var(--accordion-padding-top) var(--accordion-padding-right) var(--accordion-padding-bottom) var(--accordion-padding-left);
+  padding: var(--accordion-padding-top) var(--accordion-padding-right)
+    var(--accordion-padding-bottom) var(--accordion-padding-left);
 }
 
 @keyframes slide-down {

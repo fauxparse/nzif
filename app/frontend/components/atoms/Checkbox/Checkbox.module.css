@@ -1,4 +1,3 @@
-
 .root {
   --checkbox-indicator-size: calc(9px * var(--scaling));
   --checkbox-border-radius: calc(var(--radius-1) * 0.875);
@@ -43,14 +42,14 @@
   }
 
   &::before {
-    content: '';
+    content: "";
     display: block;
     width: var(--checkbox-size);
     height: var(--checkbox-size);
     border-radius: var(--checkbox-border-radius);
   }
 
-  &:where([data-state='checked']) {
+  &:where([data-state="checked"]) {
     .icon {
       path:nth-of-type(1) {
         transition: stroke-dashoffset 0.2s ease-out;
@@ -59,7 +58,7 @@
     }
   }
 
-  &:where([data-state='indeterminate']) {
+  &:where([data-state="indeterminate"]) {
     .icon {
       path:nth-of-type(2) {
         transition: stroke-dashoffset 0.2s ease-out;
@@ -77,7 +76,7 @@
       color: var(--accent-contrast);
     }
 
-    &:where([data-state='unchecked']) {
+    &:where([data-state="unchecked"]) {
       &::before {
         background-color: var(--color-surface);
         box-shadow: inset 0 0 0 1px var(--gray-a7);
@@ -122,4 +121,4 @@
     stroke-dasharray: 1;
     stroke-dashoffset: -1;
   }
-};
+}

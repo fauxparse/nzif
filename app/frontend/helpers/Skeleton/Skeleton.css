@@ -37,7 +37,7 @@
 
   &:where([data-shape="text"]) {
     border-radius: 0.25em / 0.417em;
-    transform: scale(1, 0.60);
+    transform: scale(1, 0.6);
     transform-origin: 0 55%;
   }
 
@@ -62,7 +62,7 @@
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(to right, transparent, var(--skeleton-highlight), transparent);

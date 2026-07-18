@@ -743,21 +743,21 @@ export type FooterLinksQuery = {
 };
 
 export const ContentPageDocument = gql`
-    query ContentPage($slug: String!) {
-  pageCollection(where: {slug: $slug}, limit: 1) {
-    items {
-      slug
-      title
-      lede {
-        json
-      }
-      body {
-        json
+  query ContentPage($slug: String!) {
+    pageCollection(where: { slug: $slug }, limit: 1) {
+      items {
+        slug
+        title
+        lede {
+          json
+        }
+        body {
+          json
+        }
       }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useContentPageQuery__
@@ -797,27 +797,27 @@ export type ContentPageQueryResult = Apollo.QueryResult<
   ContentPageQueryVariables
 >;
 export const FooterLinksDocument = gql`
-    query FooterLinks {
-  footerCollection(limit: 1) {
-    items {
-      linksCollection {
-        items {
-          sys {
-            id
-          }
-          ... on Page {
-            slug
-            title
-            body {
-              json
+  query FooterLinks {
+    footerCollection(limit: 1) {
+      items {
+        linksCollection {
+          items {
+            sys {
+              id
+            }
+            ... on Page {
+              slug
+              title
+              body {
+                json
+              }
             }
           }
         }
       }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useFooterLinksQuery__

@@ -10,7 +10,7 @@
     container-type: inline-size;
   }
 
-  @media (max-aspect-ratio: 1 / 2) {
+  @media (max-aspect-ratio: 1/2) {
     min-height: 100vh;
   }
 }
@@ -34,7 +34,9 @@
   width: 100%;
 
   @media (--md) {
-    grid-template: "intro intro intro ." auto "details separator amounts amounts" auto "button . . ." auto / 22.5rem calc((var(--space-6) - var(--space-3)) * 2 + 1px) 16rem 16rem;
+    grid-template: "intro intro intro ." auto "details separator amounts amounts" auto "button . . ." auto / 22.5rem calc(
+        (var(--space-6) - var(--space-3)) * 2 + 1px
+      ) 16rem 16rem;
     gap: var(--space-6) var(--space-3);
     justify-items: start;
   }
@@ -54,7 +56,8 @@
   width: 100%;
   max-width: 40rem;
 
-  h1, p {
+  h1,
+  p {
     margin-bottom: var(--space-3);
   }
 }
@@ -99,7 +102,7 @@
   gap: var(--space-3);
   align-items: center;
 
-  :has(>:global(.money)) {
+  :has(> :global(.money)) {
     justify-self: end;
 
     + * {

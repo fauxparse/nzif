@@ -15,7 +15,7 @@ import classes from './Static.module.css';
 
 export const StaticPageQuery = gql`
   query ContentPage($slug: String!) {
-    pageCollection(where: {slug: $slug}, limit: 1) {
+    pageCollection(where: { slug: $slug }, limit: 1) {
       items {
         slug
         title

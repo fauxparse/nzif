@@ -1,0 +1,41 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "useTabs": false,
+  "tabWidth": 2,
+  "printWidth": 100,
+  "singleQuote": true,
+  "jsxSingleQuote": false,
+  "quoteProps": "as-needed",
+  "trailingComma": "es5",
+  "semi": true,
+  "arrowParens": "always",
+  "bracketSameLine": false,
+  "bracketSpacing": true,
+  "overrides": [
+    {
+      "files": ["**/*.css", "**/*.scss", "**/*.less"],
+      "options": {
+        "singleQuote": false
+      }
+    }
+  ],
+  "ignorePatterns": [
+    "*.typegen.ts",
+    "*.gen.ts",
+    "graphql-env.d.ts",
+    "app/frontend/graphql/types.ts",
+    "app/frontend/graphql/schema.json",
+    // Biome only formatted JS/TS/JSX/CSS/JSON. Keep oxfmt to the same scope and
+    // leave Ruby/Rails/GraphQL/Markdown files untouched.
+    "**/*.graphql",
+    "**/*.yml",
+    "**/*.yaml",
+    "**/*.md",
+    "**/*.mdx",
+    "**/*.html",
+    "**/*.erb",
+    "**/*.rb",
+    "**/*.ru",
+    "**/*.svg"
+  ]
+}

@@ -26,13 +26,13 @@
     }
 
     &::before {
-      content: 'Step ' counter(step) ' of ' attr(data-step-count);
+      content: "Step " counter(step) " of " attr(data-step-count);
       display: none;
       color: var(--text-subtle);
     }
 
     &::after {
-      content: '';
+      content: "";
       display: block;
       height: var(--tiny);
       margin-top: var(--small);
@@ -64,7 +64,7 @@
 
     > * {
       grid-row: 1 / -1;
-      grid-column: 1 / -1
+      grid-column: 1 / -1;
     }
   }
 
@@ -330,7 +330,7 @@
       }
 
       &::before {
-        content: 'Step ' counter(step);
+        content: "Step " counter(step);
         display: block;
       }
 

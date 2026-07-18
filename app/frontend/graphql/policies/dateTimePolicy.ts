@@ -2,7 +2,7 @@ import { FieldPolicy } from '@apollo/client';
 import { DateTime } from 'luxon';
 
 export const dateTimePolicy: FieldPolicy<DateTime, string> = {
-  // biome-ignore lint/suspicious/noExplicitAny:
+  // eslint-disable-next-line typescript/no-explicit-any:
   merge: (_, incoming: any) => {
     if (incoming === null || incoming === undefined) {
       return incoming;
@@ -15,7 +15,7 @@ export const dateTimePolicy: FieldPolicy<DateTime, string> = {
 };
 
 export const datePolicy: FieldPolicy<DateTime, string> = {
-  // biome-ignore lint/suspicious/noExplicitAny:
+  // eslint-disable-next-line typescript/no-explicit-any:
   merge: (_, incoming: any) => {
     if (incoming === null || incoming === undefined) {
       return incoming;

@@ -24,39 +24,39 @@ export const ActivityCardPictureFragment = graphql(`
 
 export const ActivityCardFragment = graphql(
   `
-  fragment ActivityCard on Activity @_unmask {
-    id
-    name
-    type
-    slug
-
-    picture {
-      ...ActivityCardPicture
-    }
-
-    presenters {
-      ...ActivityCardPresenter
-    }
-
-    sessions {
+    fragment ActivityCard on Activity @_unmask {
       id
-      startsAt
-      endsAt
-      full
-    }
+      name
+      type
+      slug
 
-    ...on Workshop {
-      show {
+      picture {
+        ...ActivityCardPicture
+      }
+
+      presenters {
+        ...ActivityCardPresenter
+      }
+
+      sessions {
         id
+        startsAt
+        endsAt
+        full
+      }
+
+      ... on Workshop {
+        show {
+          id
+        }
+      }
+
+      ... on Show {
+        workshop {
+          id
+        }
       }
     }
-
-    ...on Show {
-      workshop {
-        id
-      }
-    }
-  }
-`,
+  `,
   [ActivityCardPresenterFragment, ActivityCardPictureFragment]
 );

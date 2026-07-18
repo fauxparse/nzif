@@ -84,7 +84,18 @@
   background-color: var(--color-background);
   opacity: 0.75;
   pointer-events: none;
-  clip-path: polygon(0% 0%, 0% 100%, var(--left) 100%, var(--left) var(--top), calc(var(--left) + var(--width)) var(--top), calc(var(--left) + var(--width)) calc(var(--top) + var(--height)), var(--left) calc(var(--top) + var(--height)), var(--left) 100%, 100% 100%, 100% 0%);
+  clip-path: polygon(
+    0% 0%,
+    0% 100%,
+    var(--left) 100%,
+    var(--left) var(--top),
+    calc(var(--left) + var(--width)) var(--top),
+    calc(var(--left) + var(--width)) calc(var(--top) + var(--height)),
+    var(--left) calc(var(--top) + var(--height)),
+    var(--left) 100%,
+    100% 100%,
+    100% 0%
+  );
 }
 
 .cropFrame {

@@ -34,14 +34,14 @@ export const WorkshopAllocationSessionDetailsFragment = graphql(`
 
 export const WorkshopAllocationDetailsFragment = graphql(
   `
-  fragment WorkshopAllocationDetails on WorkshopAllocation @_unmask {
-    id
-    state
-    sessions {
-      ...WorkshopAllocationSessionDetails
+    fragment WorkshopAllocationDetails on WorkshopAllocation @_unmask {
+      id
+      state
+      sessions {
+        ...WorkshopAllocationSessionDetails
+      }
     }
-  }
-`,
+  `,
   [WorkshopAllocationSessionDetailsFragment]
 );
 
@@ -67,52 +67,52 @@ export const WorkshopAllocationRegistrationFragment = graphql(`
 
 export const WorkshopAllocationQuery = graphql(
   `
-  query WorkshopAllocation {
-    festival {
-      id
-
-      workshopAllocation {
-        ...WorkshopAllocationDetails
-      }
-
-      registrations {
-        ...WorkshopAllocationRegistration
-      }
-
-      teamMembers {
+    query WorkshopAllocation {
+      festival {
         id
-        name
 
-        registration {
+        workshopAllocation {
+          ...WorkshopAllocationDetails
+        }
+
+        registrations {
+          ...WorkshopAllocationRegistration
+        }
+
+        teamMembers {
           id
+          name
+
+          registration {
+            id
+          }
         }
       }
     }
-  }
-`,
+  `,
   [WorkshopAllocationDetailsFragment, WorkshopAllocationRegistrationFragment]
 );
 
 export const MoveAllocatedParticipantMutation = graphql(
   `
-  mutation MoveAllocatedParticipant(
-    $registrationId: ID!
-    $from: ID
-    $to: ID
-    $waitlist: Boolean
-  ) {
-    moveAllocatedParticipant(
-      registrationId: $registrationId
-      oldSessionId: $from
-      newSessionId: $to
-      waitlist: $waitlist
+    mutation MoveAllocatedParticipant(
+      $registrationId: ID!
+      $from: ID
+      $to: ID
+      $waitlist: Boolean
     ) {
-      affectedSessions {
-        ...WorkshopAllocationSessionDetails
+      moveAllocatedParticipant(
+        registrationId: $registrationId
+        oldSessionId: $from
+        newSessionId: $to
+        waitlist: $waitlist
+      ) {
+        affectedSessions {
+          ...WorkshopAllocationSessionDetails
+        }
       }
     }
-  }
-`,
+  `,
   [WorkshopAllocationSessionDetailsFragment]
 );
 

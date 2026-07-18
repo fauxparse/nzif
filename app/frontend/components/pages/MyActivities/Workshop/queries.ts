@@ -24,104 +24,102 @@ export const MessageFragment = graphql(`
 
 export const MyWorkshopSessionQuery = graphql(
   `
-  query MyWorkshopSession($sessionId: ID!) {
-    session(id: $sessionId) {
-      id
-      startsAt
-      endsAt
-      capacity
-
-      activity {
+    query MyWorkshopSession($sessionId: ID!) {
+      session(id: $sessionId) {
         id
-        name
+        startsAt
+        endsAt
+        capacity
 
-        ...on Workshop {
-          show {
-            id
+        activity {
+          id
+          name
 
-            sessions {
+          ... on Workshop {
+            show {
               id
-              performers {
-                ...CastMember
+
+              sessions {
+                id
+                performers {
+                  ...CastMember
+                }
               }
             }
           }
         }
-      }
 
-      venue {
-        id
-        room
-        building
-      }
-
-      participants {
-        id
-        user {
+        venue {
           id
-          profile {
+          room
+          building
+        }
+
+        participants {
+          id
+          user {
             id
-            name
-            pronouns
-
-            picture {
-              id
-              medium
-            }
-
-            city {
+            profile {
               id
               name
-              traditionalNames
-              country
+              pronouns
+
+              picture {
+                id
+                medium
+              }
+
+              city {
+                id
+                name
+                traditionalNames
+                country
+              }
             }
           }
         }
-      }
 
-      waitlist {
-        id
-      }
+        waitlist {
+          id
+        }
 
-      messages {
-        ...Message
+        messages {
+          ...Message
+        }
       }
     }
-  }
-`,
+  `,
   [MessageFragment, CastMemberFragment]
 );
 
 export const SendMessageMutation = graphql(
   `
-  mutation SendMessage($sessionId: ID!, $subject: String!, $content: String!) {
-    sendMessage(sessionId: $sessionId, subject: $subject, content: $content) {
-      message {
-        ...Message
+    mutation SendMessage($sessionId: ID!, $subject: String!, $content: String!) {
+      sendMessage(sessionId: $sessionId, subject: $subject, content: $content) {
+        message {
+          ...Message
+        }
       }
     }
-  }
   `,
   [MessageFragment]
 );
 
 export const AddCastMemberMutation = graphql(
   `
-  mutation AddCastMember($profileId: ID!, $sessionId: ID!) {
-    addSessionCast(sessionId: $sessionId, profileId: $profileId, role: performer) {
-      cast {
-        ...CastMember
+    mutation AddCastMember($profileId: ID!, $sessionId: ID!) {
+      addSessionCast(sessionId: $sessionId, profileId: $profileId, role: performer) {
+        cast {
+          ...CastMember
+        }
       }
     }
-  }
-`,
+  `,
   [CastMemberFragment]
 );
 
-export const RemoveCastMemberMutation = graphql(
-  `
+export const RemoveCastMemberMutation = graphql(`
   mutation RemoveCastMember($profileId: ID!, $sessionId: ID!) {
     removeSessionCast(sessionId: $sessionId, profileId: $profileId, role: performer)
   }
-`
-);
+`);

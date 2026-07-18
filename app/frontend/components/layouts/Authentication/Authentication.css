@@ -21,7 +21,11 @@
       overflow: hidden;
       width: var(--blob-size);
       height: var(--blob-size);
-      background: radial-gradient(circle closest-side at center, var(--blob-color) 0%, transparent 50%);
+      background: radial-gradient(
+        circle closest-side at center,
+        var(--blob-color) 0%,
+        transparent 50%
+      );
       opacity: 0.8;
 
       &:nth-child(1) {

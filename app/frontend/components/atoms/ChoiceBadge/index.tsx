@@ -20,7 +20,7 @@ const COLORS: Record<number, BadgeProps['color']> = {
 
 export const ChoiceBadge = forwardRef<HTMLSpanElement, ChoiceBadgeProps>(
   ({ choice, size = 'full', ...props }, ref) => {
-    const color = choice === null ? 'red' : COLORS[choice as keyof typeof COLORS] ?? 'gray';
+    const color = choice === null ? 'red' : (COLORS[choice as keyof typeof COLORS] ?? 'gray');
 
     return (
       <Badge ref={ref} className={styles.choiceBadge} data-size={size} color={color} {...props}>

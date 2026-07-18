@@ -25,8 +25,18 @@
     grid-template-columns: var(--row-header-width) repeat(var(--columns), var(--column-width)) 1fr;
     align-self: start;
     background-color: var(--color-background);
-    background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 0.25rem, var(--color-background) 0, var(--color-background) 0.5rem), linear-gradient(to right, var(--border-subtle) 0, var(--border-subtle) 1px, transparent 0);
-    background-position: 0 0, calc(var(--row-header-width) - 1px) 0;
+    background-image:
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 0.25rem,
+        var(--color-background) 0,
+        var(--color-background) 0.5rem
+      ),
+      linear-gradient(to right, var(--border-subtle) 0, var(--border-subtle) 1px, transparent 0);
+    background-position:
+      0 0,
+      calc(var(--row-header-width) - 1px) 0;
     background-size: var(--column-group-width) 100%;
     background-repeat: repeat-x;
     user-select: none;
@@ -135,7 +145,7 @@
       pointer-events: none;
     }
 
-  @media (max-width: 480px) {
+    @media (max-width: 480px) {
       --row-header-width: 3.75rem;
       --drag-enabled: false;
 
@@ -184,7 +194,7 @@
           }
         }
       }
-  }
+    }
   }
 }
 
@@ -195,7 +205,10 @@ body:has(.timetable-editor) {
     position: fixed;
     right: 0;
     left: 0;
-    grid-template-columns: [full-bleed-start] var(--gutter-width) [main-start] min(var(--max-width), calc(100vw - var(--gutter-width) * 2)) [main-end] var(--gutter-width) [full-bleed-end];
+    grid-template-columns: [full-bleed-start] var(--gutter-width) [main-start] min(
+        var(--max-width),
+        calc(100vw - var(--gutter-width) * 2)
+      ) [main-end] var(--gutter-width) [full-bleed-end];
     width: 100vw;
   }
 }

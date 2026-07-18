@@ -69,7 +69,7 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
         ref={mergeRefs([ref, ownRef])}
         className={clsx('switch', className)}
         type="checkbox"
-        // biome-ignore lint/a11y/useAriaPropsForRole:
+        // eslint-disable-next-line jsx-a11y/aria-props:
         role="switch"
         onPointerDown={pointerDown}
         onClick={click}

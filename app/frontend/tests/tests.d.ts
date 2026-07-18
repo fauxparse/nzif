@@ -4,7 +4,7 @@ import 'vitest';
 
 declare global {
   namespace Vi {
-    // biome-ignore lint/suspicious/noEmptyInterface:
+    // eslint-disable-next-line typescript/no-empty-interface:
     interface Assertion {}
   }
 }

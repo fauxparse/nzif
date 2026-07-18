@@ -40,19 +40,19 @@ export const MyActivityFragment = graphql(`
 
 export const NavigationMenuQuery = graphql(
   `
-  query NavigationMenu {
-    registration {
-      ...RegistrationSummary
-    }
+    query NavigationMenu {
+      registration {
+        ...RegistrationSummary
+      }
 
-    user {
-      id
+      user {
+        id
 
-      activities {
-        ...MyActivity
+        activities {
+          ...MyActivity
+        }
       }
     }
-  }
-`,
+  `,
   [RegistrationSummaryFragment, MyActivityFragment]
 );

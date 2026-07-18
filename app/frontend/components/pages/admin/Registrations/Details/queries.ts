@@ -31,74 +31,86 @@ export const RegistrationPaymentFragment = graphql(`
 
 export const RegistrationDetailsFragment = graphql(
   `
-  fragment RegistrationDetails on Registration @_unmask {
-    id
-
-    user {
+    fragment RegistrationDetails on Registration @_unmask {
       id
-      name
-      email
-    }
 
-    completedAt
-    donateDiscount
+      user {
+        id
+        name
+        email
+      }
 
-    preferences {
-      id
-      position
-      session {
+      completedAt
+      donateDiscount
+
+      preferences {
+        id
+        position
+        session {
+          ...RegistrationSession
+        }
+      }
+
+      sessions {
         ...RegistrationSession
       }
-    }
 
-    sessions {
-      ...RegistrationSession
+      payments {
+        ...RegistrationPayment
+      }
     }
-
-    payments {
-      ...RegistrationPayment
-    }
-  }
-`,
+  `,
   [RegistrationSessionFragment, RegistrationPaymentFragment]
 );
 
 export const RegistrationDetailsQuery = graphql(
   `
-  query RegistrationDetails($id: ID!) {
-    registration(id: $id) {
-      ...RegistrationDetails
+    query RegistrationDetails($id: ID!) {
+      registration(id: $id) {
+        ...RegistrationDetails
+      }
     }
-  }
-`,
+  `,
   [RegistrationDetailsFragment]
 );
 
 export const RemoveFromSessionMutation = graphql(
   `
-  mutation RemoveFromSession($registrationId: ID!, $sessionId: ID!) {
-    removeFromSession(registrationId: $registrationId, sessionId: $sessionId) {
-      registration {
-        id
-        sessions {
-          ...RegistrationSession
+    mutation RemoveFromSession($registrationId: ID!, $sessionId: ID!) {
+      removeFromSession(registrationId: $registrationId, sessionId: $sessionId) {
+        registration {
+          id
+          sessions {
+            ...RegistrationSession
+          }
         }
       }
     }
-  }
-`,
+  `,
   [RegistrationSessionFragment]
 );
 
 export const AddPaymentMutation = graphql(
   `
-  mutation AddPayment($registrationId: ID!, $type: PaymentType!, $state: PaymentState!, $amount: Money!, $createdAt: ISO8601DateTime!) {
-    addPayment(registrationId: $registrationId, type: $type, state: $state, amount: $amount, createdAt: $createdAt) {
-      payment {
-        ...RegistrationPayment
+    mutation AddPayment(
+      $registrationId: ID!
+      $type: PaymentType!
+      $state: PaymentState!
+      $amount: Money!
+      $createdAt: ISO8601DateTime!
+    ) {
+      addPayment(
+        registrationId: $registrationId
+        type: $type
+        state: $state
+        amount: $amount
+        createdAt: $createdAt
+      ) {
+        payment {
+          ...RegistrationPayment
+        }
       }
     }
-  }
-`,
+  `,
   [RegistrationPaymentFragment]
 );

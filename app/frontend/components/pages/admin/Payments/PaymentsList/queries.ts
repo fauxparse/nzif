@@ -22,20 +22,19 @@ export const PaymentsRowFragment = graphql(`
 
 export const PaymentsQuery = graphql(
   `
-  query Payments {
-    festival {
-      id
-      payments {
-        ...PaymentsRow
+    query Payments {
+      festival {
+        id
+        payments {
+          ...PaymentsRow
+        }
       }
     }
-  }
-`,
+  `,
   [PaymentsRowFragment]
 );
 
-export const UpdatePaymentStateMutation = graphql(
-  `
+export const UpdatePaymentStateMutation = graphql(`
   mutation UpdatePaymentState($id: ID!, $state: PaymentState!) {
     updatePayment(id: $id, attributes: { state: $state }) {
       payment {
@@ -45,5 +44,4 @@ export const UpdatePaymentStateMutation = graphql(
       }
     }
   }
-`
-);
+`);

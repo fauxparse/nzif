@@ -42,7 +42,8 @@
     background: var(--switch-thumb-color) var(--switch-icon) no-repeat center;
     background-size: calc(var(--switch-thumb-size) * 0.75);
     outline: 0 solid var(--focus);
-    transition: transform var(--thumb-transition-duration) var(--ease-standard),
+    transition:
+      transform var(--thumb-transition-duration) var(--ease-standard),
       outline-width var(--timing-slow) var(--ease-squish-5);
     transform: translateX(var(--thumb-position));
   }
@@ -56,10 +57,9 @@
 
   &:where(:indeterminate) {
     --thumb-position: calc(
-      (
-        ((var(--switch-track-length) - var(--switch-track-padding) * 2) / 2) -
-        (var(--switch-thumb-size) / 2)
-      ) * var(--ltr)
+      (((var(--switch-track-length) - var(--switch-track-padding) * 2) / 2) -
+          (var(--switch-thumb-size) / 2)) *
+        var(--ltr)
     );
   }
 

@@ -23,7 +23,8 @@
   gap: var(--space-2);
   align-items: center;
   margin: 0;
-  padding: var(--action-list-item-padding-y) var(--action-list-item-padding-x) var(--action-list-item-padding-y) var(--space-1);
+  padding: var(--action-list-item-padding-y) var(--action-list-item-padding-x)
+    var(--action-list-item-padding-y) var(--space-1);
   border-radius: var(--radius-small);
   background-color: transparent;
   color: var(--action-list-item-color);

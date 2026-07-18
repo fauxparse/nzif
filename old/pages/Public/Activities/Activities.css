@@ -58,11 +58,11 @@
 
 :root,
 [data-theme="light"] {
-  --duotone-filter: url('#duotone-light');
+  --duotone-filter: url("#duotone-light");
 }
 
 [data-theme="dark"] {
-  --duotone-filter: url('#duotone-dark');
+  --duotone-filter: url("#duotone-dark");
 }
 
 .activity-details {
@@ -195,7 +195,8 @@
       color: var(--text-subtle);
       font-size: var(--font-size-small);
 
-      dt, dd {
+      dt,
+      dd {
         margin: 0;
         padding: 0;
       }

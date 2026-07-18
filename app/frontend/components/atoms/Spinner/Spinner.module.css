@@ -48,7 +48,7 @@
   }
 
   100% {
-    transform: rotateZ(360deg)
+    transform: rotateZ(360deg);
   }
 }
 

@@ -1,5 +1,6 @@
 .menuButton {
-  g, path {
+  g,
+  path {
     transition: transform 0.5s var(--ease-squish-5);
     transform-origin: center;
   }
