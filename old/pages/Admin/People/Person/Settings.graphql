@@ -1,9 +1,0 @@
-query Settings($id: ID!) {
-  user(id: $id) {
-    id
-
-    settings {
-      ...SettingValueFragment
-    }
-  }
-}

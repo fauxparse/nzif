@@ -1,7 +1,0 @@
-:where(.callout) {
-  padding: var(--medium);
-  border: var(--border-width-standard) solid var(--border-info);
-  border-radius: var(--border-radius-standard);
-  background: var(--background-info);
-  color: var(--text-info);
-}

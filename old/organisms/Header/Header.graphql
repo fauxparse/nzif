@@ -1,7 +1,0 @@
-query Header {
-  festival {
-    id
-    startDate
-    endDate
-  }
-}
