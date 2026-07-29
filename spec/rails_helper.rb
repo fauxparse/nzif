@@ -21,6 +21,7 @@ require 'webmock/rspec'
 require 'support/authorization_matchers'
 require 'support/interactor_helper'
 require 'support/mutation_helper'
+require 'support/matchmaker_helper'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -50,6 +51,8 @@ I18n.available_locales += [:mi]
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   # config.fixture_paths << Rails.root.join('/spec/fixtures')
+
+  config.include MatchmakerHelper
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
