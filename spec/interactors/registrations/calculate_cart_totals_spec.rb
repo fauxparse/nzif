@@ -31,9 +31,9 @@ RSpec.describe Registrations::CalculateCartTotals, type: :interactor do
 
     its(:workshops_count) { is_expected.to eq 1 }
 
-    its(:value) { is_expected.to eq Money.from_cents(70_00) }
+    its(:value) { is_expected.to eq Money.from_cents(75_00) }
 
-    its(:total) { is_expected.to eq Money.from_cents(70_00) }
+    its(:total) { is_expected.to eq Money.from_cents(75_00) }
 
     its(:discount) { is_expected.to be_zero }
   end
@@ -51,18 +51,18 @@ RSpec.describe Registrations::CalculateCartTotals, type: :interactor do
 
     its(:workshops_count) { is_expected.to eq 1 }
 
-    its(:value) { is_expected.to eq Money.from_cents(70_00) }
+    its(:value) { is_expected.to eq Money.from_cents(75_00) }
 
-    its(:total) { is_expected.to eq Money.from_cents(70_00) }
+    its(:total) { is_expected.to eq Money.from_cents(75_00) }
 
     its(:discount) { is_expected.to be_zero }
 
     context 'when some money has been paid' do
       before do
-        create(:credit_card_payment, registration:, amount: Money.from_cents(70_00))
+        create(:credit_card_payment, registration:, amount: Money.from_cents(75_00))
       end
 
-      its(:paid) { is_expected.to eq Money.from_cents(70_00) }
+      its(:paid) { is_expected.to eq Money.from_cents(75_00) }
 
       its(:outstanding) { is_expected.to be_zero }
     end
@@ -85,14 +85,15 @@ RSpec.describe Registrations::CalculateCartTotals, type: :interactor do
         sessions: [festival.sessions.second],
         festival:,
         payments: [],
+        donate_discount?: false,
       )
     end
 
     let(:payments) do
-      [CreditCardPayment.new(amount: Money.from_cents(70_00))]
+      [CreditCardPayment.new(amount: Money.from_cents(75_00))]
     end
 
-    its(:paid) { is_expected.to eq Money.from_cents(70_00) }
+    its(:paid) { is_expected.to eq Money.from_cents(75_00) }
 
     its(:outstanding) { is_expected.to be_zero }
 

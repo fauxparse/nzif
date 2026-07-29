@@ -33,7 +33,7 @@ RSpec.describe Festival do
 
   describe '#year' do
     before do
-      create(:festival, start_date: Date.civil(2025, 7, 22), end_date: Date.civil(2025, 7, 29))
+      create(:festival, start_date: Date.new(festival.start_date.year, 7, 22), end_date: Date.new(festival.start_date.year, 7, 29))
     end
 
     it 'must be unique' do

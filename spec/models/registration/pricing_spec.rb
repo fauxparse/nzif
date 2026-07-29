@@ -4,17 +4,17 @@ RSpec.describe Registration::Pricing do
   subject(:pricing) { described_class.instance }
 
   PRICING_SCHEDULE = [ # rubocop:disable RSpec/LeakyConstantDeclaration,Lint/ConstantDefinitionInBlock
-    { count: 1,  package_price: Money.from_cents(70_00) },
-    { count: 2,  package_price: Money.from_cents(135_00) },
-    { count: 3,  package_price: Money.from_cents(195_00) },
-    { count: 4,  package_price: Money.from_cents(250_00) },
-    { count: 5,  package_price: Money.from_cents(300_00) },
-    { count: 6,  package_price: Money.from_cents(350_00) },
-    { count: 7,  package_price: Money.from_cents(400_00) },
-    { count: 8,  package_price: Money.from_cents(450_00) },
-    { count: 9,  package_price: Money.from_cents(500_00) },
-    { count: 10, package_price: Money.from_cents(550_00) },
-    { count: 11, package_price: Money.from_cents(600_00) },
+    { count: 1,  package_price: Money.from_cents(75_00) },
+    { count: 2,  package_price: Money.from_cents(145_00) },
+    { count: 3,  package_price: Money.from_cents(210_00) },
+    { count: 4,  package_price: Money.from_cents(270_00) },
+    { count: 5,  package_price: Money.from_cents(325_00) },
+    { count: 6,  package_price: Money.from_cents(380_00) },
+    { count: 7,  package_price: Money.from_cents(435_00) },
+    { count: 8,  package_price: Money.from_cents(490_00) },
+    { count: 9,  package_price: Money.from_cents(545_00) },
+    { count: 10, package_price: Money.from_cents(600_00) },
+    { count: 11, package_price: Money.from_cents(655_00) },
   ].freeze
 
   describe '#package_price' do
