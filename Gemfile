@@ -95,8 +95,6 @@ gem 'money', '~> 6.16'
 gem 'money-rails', '~> 1.12'
 gem 'stripe'
 
-gem 'sorted_set'
-
 gem 'active_snapshot', '~> 0.3.1'
 
 gem 'redcarpet', '~> 3.6'
@@ -173,4 +171,4 @@ group :development, :test, :staging do
   gem 'mailsafe'
 end
 
-gem "airrecord", "~> 1.0"
+gem 'airrecord', '~> 1.0'

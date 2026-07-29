@@ -510,7 +510,6 @@ GEM
       rack
     rbs (3.9.4)
       logger
-    rbtree (0.4.6)
     rdoc (6.7.0)
       psych (>= 4.0.0)
     redcarpet (3.6.1)
@@ -600,7 +599,6 @@ GEM
     seed-fu (2.3.9)
       activerecord (>= 3.1)
       activesupport (>= 3.1)
-    set (1.0.3)
     sexp_processor (4.17.0)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
@@ -622,9 +620,6 @@ GEM
       colorize
       simplecov
     simplecov_json_formatter (0.1.4)
-    sorted_set (1.0.3)
-      rbtree
-      set (~> 1.0)
     sprockets (4.2.2)
       concurrent-ruby (~> 1.0)
       logger
@@ -776,7 +771,6 @@ DEPENDENCIES
   sidekiq (~> 7.3.0)
   simplecov
   simplecov-summary
-  sorted_set
   sprockets-rails
   standard (>= 1.35.1)
   stringex (~> 2.8)

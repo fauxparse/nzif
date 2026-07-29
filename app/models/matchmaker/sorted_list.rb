@@ -1,5 +1,3 @@
-require 'sorted_set'
-
 module Matchmaker
   class SortedList < Set
     attr_reader :session
