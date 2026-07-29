@@ -27,6 +27,7 @@ Shrine.plugin :activerecord
 Shrine.plugin :derivatives, create_on_promote: true
 Shrine.plugin :validation_helpers
 Shrine.plugin :add_metadata
+Shrine.plugin :determine_mime_type
 # Shrine.plugin :url_options, store: { expires_in: 1.week.to_i }
 
 Shrine.plugin :presign_endpoint, presign_options: lambda { |request|
