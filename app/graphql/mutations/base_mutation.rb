@@ -13,8 +13,9 @@ module Mutations
     end
 
     def current_registration
+      registrations = current_user&.registrations
       context[:current_registration] =
-        current_user&.registrations&.includes(:festival)
+        registrations&.includes(:festival)
           &.find_or_initialize_by(festival: current_festival)
     end
 

@@ -6,7 +6,8 @@ module GraphqlHelpers
   end
 
   def current_registration
+    registrations = current_user&.registrations
     context[:current_registration] =
-      current_user&.registrations&.includes(:festival)&.find_by(festival: current_festival)
+      registrations&.includes(:festival)&.find_by(festival: current_festival)
   end
 end
