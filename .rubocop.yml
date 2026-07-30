@@ -17,6 +17,10 @@ AllCops:
 GraphQL/ArgumentDescription:
   Enabled: false
 
+Naming/PredicateMethod:
+  Exclude:
+    - 'app/graphql/**/*'
+
 GraphQL/ExtractInputType:
   Enabled: false
 
