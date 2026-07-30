@@ -761,6 +761,7 @@ DEPENDENCIES
   rubocop-capybara (~> 2.21)
   rubocop-factory_bot (~> 2.26)
   rubocop-graphql (~> 1.5)
+  rubocop-performance (~> 1.24)
   rubocop-rails (~> 2.29)
   rubocop-rspec (~> 3.4)
   rubocop-rspec_rails (~> 2.30)

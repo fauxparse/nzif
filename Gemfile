@@ -134,6 +134,7 @@ group :development do
   gem 'rubocop-capybara', '~> 2.21'
   gem 'rubocop-factory_bot', '~> 2.26'
   gem 'rubocop-graphql', '~> 1.5'
+  gem 'rubocop-performance', '~> 1.24'
   gem 'rubocop-rails', '~> 2.29'
   gem 'rubocop-rspec', '~> 3.4'
   gem 'rubocop-rspec_rails', '~> 2.30'

@@ -17,7 +17,7 @@ class Festival < ApplicationRecord
   validates :end_date, presence: true, date: { after: :start_date, same_year: :start_date }
   validates :year, uniqueness: { conditions: -> { with_year } }
 
-  after_commit :clear_current_cache, on: [:create, :update, :destroy]
+  after_commit :clear_current_cache, on: %i[create update destroy]
 
   def self.current
     Rails.cache.fetch(current_cache_key) do

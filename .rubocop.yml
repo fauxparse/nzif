@@ -6,6 +6,9 @@ require:
   - rubocop-capybara
   - rubocop-rspec_rails
 
+plugins:
+  - rubocop-performance
+
 AllCops:
   NewCops: enable
   TargetRubyVersion: 3.2.1
