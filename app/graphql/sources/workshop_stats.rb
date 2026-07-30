@@ -16,10 +16,11 @@ module Sources
           end
           (1..max).map { |i| h[i] }
         end
+      zero_counts = [0] * max
       workshop_ids.map do |id|
         {
           id:,
-          counts: stats[id] || ([0] * max),
+          counts: stats[id] || zero_counts,
         }
       end
     end
