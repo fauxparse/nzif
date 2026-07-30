@@ -8,9 +8,9 @@ module Matchmaker
 
     def to_csv(filename: nil)
       if filename
-        CSV.open(filename, 'wb', &method(:generate))
+        CSV.open(filename, 'wb') { |csv| generate(csv) }
       else
-        CSV.generate(&method(:generate))
+        CSV.generate { |csv| generate(csv) }
       end
     end
 
