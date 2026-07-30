@@ -16,30 +16,30 @@ RSpec.describe Matchmaker::Session do
     )
   end
 
-  let(:r1) { allocation.registrations['R1'] }
-  let(:r2) { allocation.registrations['R2'] }
+  let(:first_registration) { allocation.registrations['R1'] }
+  let(:second_registration) { allocation.registrations['R2'] }
 
   describe '#place' do
     it 'places a registration within capacity' do
-      session.place(r1)
+      session.place(first_registration)
       expect(session.placements.map(&:id)).to eq(['R1'])
     end
 
     it 'removes the registration from the waitlist when placed' do
-      session.waitlist << r1
-      session.place(r1)
+      session.waitlist << first_registration
+      session.place(first_registration)
       expect(session.waitlist).to be_empty
     end
 
     it 'is a no-op when the registration is already placed' do
-      session.place(r1)
-      expect { session.place(r1) }.not_to(change { session.placements.map(&:id) })
+      session.place(first_registration)
+      expect { session.place(first_registration) }.not_to(change { session.placements.map(&:id) })
     end
 
     context 'when the session is over capacity' do
       before do
-        session.place(r1)
-        session.place(r2)
+        session.place(first_registration)
+        session.place(second_registration)
       end
 
       it 'keeps only `capacity` placements' do
@@ -47,23 +47,23 @@ RSpec.describe Matchmaker::Session do
       end
 
       it 'moves the bumped registration onto the waitlist' do
-        bumped = r1.id == session.placements.first.id ? r2 : r1
+        bumped = first_registration.id == session.placements.first.id ? second_registration : first_registration
         expect(session.waitlist.map(&:id)).to contain_exactly(bumped.id)
       end
     end
   end
 
   describe '#remove' do
-    before { session.place(r1) }
+    before { session.place(first_registration) }
 
     it 'removes the registration from the session' do
-      expect { session.remove(r1) }
+      expect { session.remove(first_registration) }
         .to change { session.placements.map(&:id) }.from(['R1']).to([])
     end
 
     it 'lets the registration be placed again afterwards' do
-      session.remove(r1)
-      expect { session.place(r1) }
+      session.remove(first_registration)
+      expect { session.place(first_registration) }
         .to change { session.placements.map(&:id) }.to(['R1'])
     end
   end

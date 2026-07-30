@@ -14,12 +14,12 @@ RSpec.describe Matchmaker::SortedList do
   end
 
   let(:session) { allocation.sessions['A'] }
-  let(:r1) { allocation.registrations['R1'] }
-  let(:r2) { allocation.registrations['R2'] }
+  let(:first_registration) { allocation.registrations['R1'] }
+  let(:second_registration) { allocation.registrations['R2'] }
 
   before do
-    session.place(r1)
-    session.place(r2)
+    session.place(first_registration)
+    session.place(second_registration)
   end
 
   describe '#pop' do
@@ -37,7 +37,7 @@ RSpec.describe Matchmaker::SortedList do
 
   describe '#delete' do
     it 'removes a registration matched by id' do
-      expect { list.delete(r1) }.to change { list.map(&:id) }.from(%w[R1 R2]).to(%w[R2])
+      expect { list.delete(first_registration) }.to change { list.map(&:id) }.from(%w[R1 R2]).to(%w[R2])
     end
   end
 end
