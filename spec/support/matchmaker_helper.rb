@@ -38,7 +38,7 @@ module MatchmakerHelper
     Matchmaker::Allocation.new(sessions: sessions, registrations: registrations)
   end
 
-  def session_json(
+  def session_json( # rubocop:disable Metrics/ParameterLists
     id:,
     capacity: 5,
     slots: [SLOT_AM],

@@ -63,6 +63,7 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Exclude:
     - 'config/**/*'
+    - 'lib/tasks/**/*'
 
 Metrics/ClassLength:
   Enabled: false

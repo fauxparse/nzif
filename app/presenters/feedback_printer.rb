@@ -38,21 +38,16 @@ class FeedbackPrinter
     move_down
     pdf.font_size(32) { pdf.text workshop.name }
     move_down
-    print_feedback(
-      workshop,
-      :positive,
-      'What did you like about this workshop? What did the tutor(s) do well?',
-    )
-    print_feedback(
-      workshop,
-      :constructive,
-      'What could have gone better? What could the tutor improve for next time?',
-    )
-    print_feedback(
-      workshop,
-      :testimonial,
-      'Would you like to leave a testimonial for the tutor(s) to use in future marketing?',
-    )
+
+    feedback_prompts.each { |key, label| print_feedback(workshop, key, label) }
+  end
+
+  def feedback_prompts
+    {
+      positive: 'What did you like about this workshop? What did the tutor(s) do well?',
+      constructive: 'What could have gone better? What could the tutor improve for next time?',
+      testimonial: 'Would you like to leave a testimonial for the tutor(s) to use in future marketing?',
+    }
   end
 
   def print_feedback(workshop, key, label)
