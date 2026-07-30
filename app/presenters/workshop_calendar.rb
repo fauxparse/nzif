@@ -5,7 +5,7 @@ class WorkshopCalendar
 
   attr_reader :registration, :sessions
 
-  def initialize(registration, sessions: nil, deleted_sessions: [])
+  def initialize(registration, sessions: nil, deleted_sessions: []) # rubocop:disable Lint/UnusedMethodArgument
     @registration = Registration.with_details_for_calendar.find(registration.id)
     @sessions = sessions ||= default_sessions
 
