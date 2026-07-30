@@ -1,7 +1,5 @@
 module Profiles
   class Create < ApplicationInteractor
-    delegate :attributes, to: :context
-
     def call
       authorize! profile, to: :create?
 

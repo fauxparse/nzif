@@ -1,6 +1,6 @@
 module Sessions
   class Update < ApplicationInteractor
-    delegate :session, :attributes, to: :context
+    delegate :session, to: :context
 
     def call
       authorize! session, to: :update?

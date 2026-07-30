@@ -1,6 +1,6 @@
 module Profiles
   class Update < ApplicationInteractor
-    delegate :profile, :attributes, to: :context
+    delegate :profile, to: :context
 
     def call
       authorize! profile, to: :update?

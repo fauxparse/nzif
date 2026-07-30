@@ -60,6 +60,7 @@ module Profiles
     end
 
     ATTRIBUTES_TO_MERGE = %i[name pronouns city country phone].freeze
+    private_constant :ATTRIBUTES_TO_MERGE
 
     def merged_attributes
       ATTRIBUTES_TO_MERGE.index_with do |attribute|

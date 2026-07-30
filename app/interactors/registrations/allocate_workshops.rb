@@ -1,6 +1,6 @@
 module Registrations
   class AllocateWorkshops < ApplicationInteractor
-    delegate :allocation, :id, :best, to: :context
+    delegate :id, :best, to: :context
 
     def call
       skip_authorization!

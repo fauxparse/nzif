@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/MethodLength Metrics/ClassLength Metrics/LineLength
+# rubocop:disable Metrics/MethodLength, Metrics/ClassLength, Layout/LineLength
 require 'prawn/measurement_extensions'
 
 class FeedbackReport
@@ -47,6 +47,7 @@ class FeedbackReport
   private
 
   FONT_DIR = Rails.root.join('app/frontend/fonts')
+  private_constant :FONT_DIR
 
   def load_fonts(pdf:)
     pdf.font_families.update(
@@ -137,4 +138,4 @@ class FeedbackReport
   end
 end
 
-# rubocop:enable Metrics/MethodLength Metrics/ClassLength Metrics/LineLength
+# rubocop:enable Metrics/MethodLength, Metrics/ClassLength, Layout/LineLength

@@ -1,6 +1,6 @@
 module Sessions
   class Create < ApplicationInteractor
-    delegate :festival, :attributes, to: :context
+    delegate :festival, to: :context
 
     def call
       authorize! session, to: :create?
