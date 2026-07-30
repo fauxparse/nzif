@@ -67,7 +67,7 @@ class PrintablePitch
       @audience = pitch[/ideal audience/i]
       @why = pitch[/show should be included/i]
       @accessible = pitch[/show accessible/i]
-      @workshop = pitch[/have a workshop attached/i] =~ /yes/i ? Workshop.new(pitch) : nil
+      @workshop = /yes/i.match?(pitch[/have a workshop attached/i]) ? Workshop.new(pitch) : nil
     end
 
     def workshop?
@@ -144,7 +144,7 @@ class PrintablePitch
     @type ||=
       case self[/what.s your idea/i]
       when /a show/i
-        self[/have a workshop attached/i] =~ /yes/i ? :workshop_to_show : :show
+        /yes/i.match?(self[/have a workshop attached/i]) ? :workshop_to_show : :show
 
       when /stand-alone workshop/i then :workshop
       when /talk/i then :conference
@@ -154,13 +154,13 @@ class PrintablePitch
   end
 
   def show
-    return unless type == :workshop_to_show || type == :show
+    return unless %i[workshop_to_show show].include?(type)
 
     @show ||= Show.new(self)
   end
 
   def workshop
-    return unless type == :workshop_to_show || type == :workshop
+    return unless %i[workshop_to_show workshop].include?(type)
 
     @workshop ||= Workshop.new(self)
   end

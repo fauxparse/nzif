@@ -17,7 +17,7 @@ class Waitlist < ApplicationRecord
     low, high, direction = [*[new_position, position].sort, position <=> new_position]
 
     acts_as_list_list
-      .where('position >= ? AND position <= ?', low, high)
+      .where(position: low..high)
       .update_all( # rubocop:disable Rails/SkipsModelValidations
         Waitlist.sanitize_sql_array(
           [

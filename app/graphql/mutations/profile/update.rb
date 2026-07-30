@@ -11,9 +11,7 @@ module Mutations
         profile = context[:current_user].profile
         profile_attributes = attributes.to_h.except(:email)
 
-        unless profile_attributes.empty?
-          perform(::Profiles::Update, profile:, attributes: profile_attributes)
-        end
+        perform(::Profiles::Update, profile:, attributes: profile_attributes) unless profile_attributes.empty?
 
         context[:current_user].update!(email: attributes[:email]) if attributes[:email].present?
 

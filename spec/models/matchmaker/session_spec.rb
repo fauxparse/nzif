@@ -47,7 +47,7 @@ RSpec.describe Matchmaker::Session do
       end
 
       it 'moves the bumped registration onto the waitlist' do
-        bumped = (r1.id == session.placements.first.id) ? r2 : r1
+        bumped = r1.id == session.placements.first.id ? r2 : r1
         expect(session.waitlist.map(&:id)).to contain_exactly(bumped.id)
       end
     end
@@ -78,7 +78,8 @@ RSpec.describe Matchmaker::Session do
         build_allocation(
           sessions: [
             session_json(id: 'A', capacity: 1, slots: [MatchmakerHelper::SLOT_AM]),
-            session_json(id: 'B', capacity: 1, slots: [MatchmakerHelper::SLOT_PM], starts_at: MatchmakerHelper::STARTS_AT_PM),
+            session_json(id: 'B', capacity: 1, slots: [MatchmakerHelper::SLOT_PM],
+              starts_at: MatchmakerHelper::STARTS_AT_PM),
           ],
           registrations: [
             registration_json(id: 'R1', preferences: { MatchmakerHelper::SLOT_AM => { 1 => 'A' } }),

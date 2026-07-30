@@ -13,7 +13,7 @@ module Types
       )
     end
 
-    def total # rubocop:disable GraphQL/ResolverMethodLength, Metrics/MethodLength
+    def total # rubocop:disable GraphQL/ResolverMethodLength
       Festival.connection.execute(
         Festival.sanitize_sql_array([
 

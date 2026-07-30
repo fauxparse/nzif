@@ -4,7 +4,7 @@ module Sources
       records = SessionSlot
         .where(session_id: session_ids)
         .group_by(&:session_id)
-      session_ids.map { |id| (records[id] || []) }
+      session_ids.map { |id| records[id] || [] }
     end
   end
 end

@@ -1,6 +1,6 @@
 module Types
   class BaseActivity < BaseObject
-    def self.casts(*role_names) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    def self.casts(*role_names)
       role_names.each do |role|
         field role.to_s.pluralize.to_sym, [Types::PersonType], null: false,
           description: role.to_s.pluralize.humanize

@@ -92,9 +92,7 @@ module Registrations
       return if new_position.blank?
 
       new_session.conflicting_sessions.each do |session|
-        unless session.placements.include?(registration) || session.waitlist.include?(registration)
-          next
-        end
+        next unless session.placements.include?(registration) || session.waitlist.include?(registration)
 
         session.placements.delete(registration)
 

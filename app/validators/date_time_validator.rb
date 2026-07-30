@@ -32,7 +32,7 @@ class DateTimeValidator < ActiveModel::EachValidator
   end
 
   def validate_same(record, attribute, value)
-    options.each do |option, _limit|
+    options.each_key do |option|
       next unless option.to_s =~ /\Asame_(.+)\z/
 
       component = ::Regexp.last_match(1)

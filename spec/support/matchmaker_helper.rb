@@ -64,4 +64,3 @@ module MatchmakerHelper
     { id: id, name: name || id, preferences: preferences }
   end
 end
-

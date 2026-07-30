@@ -70,7 +70,7 @@ class PitchPrinter
   end
 
   def print_title(pitch)
-    return if pitch.type == :other || pitch.type == :conference
+    return if %i[other conference].include?(pitch.type)
 
     pdf.font_size(32) { pdf.text pitch.title }
     move_down

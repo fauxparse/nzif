@@ -7,7 +7,7 @@
 require 'cucumber/rails'
 require 'email_spec'
 require 'email_spec/cucumber'
-require_relative './webmock'
+require_relative 'webmock'
 
 Capybara.default_max_wait_time = 5
 
@@ -107,8 +107,8 @@ module CupriteHelpers
   end
 
   # Drop #debug anywhere in a test to open a Chrome inspector and pause the execution
-  def debug(*args)
-    page.driver.debug(*args)
+  def debug(*)
+    page.driver.debug(*)
   end
 end
 

@@ -40,8 +40,8 @@ module Settings
       end
     end
 
-    def setting(name, **options)
-      settings[name] = Setting.new(name, **options)
+    def setting(name, **)
+      settings[name] = Setting.new(name, **)
 
       define_method(name) { self.class.settings[name].read_from(self) }
       define_method(:"#{name}=") { |value| self.class.settings[name].write_to(self, value) }

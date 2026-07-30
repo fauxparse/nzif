@@ -27,7 +27,7 @@ module Sessions
     end
 
     def remove_venue_clashes(venue_id)
-      session.slot.sessions.where(venue_id:).where.not(id: session.id).each do |s|
+      session.slot.sessions.where(venue_id:).where.not(id: session.id).find_each do |s|
         s.update!(venue_id: nil)
       end
     end

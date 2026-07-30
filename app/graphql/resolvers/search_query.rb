@@ -12,7 +12,7 @@ module Resolvers
       @activity_type = activity_type
 
       only.flat_map do |type|
-        send("#{type}_matches", query:, limit:)
+        send(:"#{type}_matches", query:, limit:)
       end
     end
 

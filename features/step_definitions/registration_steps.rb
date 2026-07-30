@@ -68,7 +68,7 @@ Given('I am logged in') do
     click_button 'Log in'
   end
   sleep 1
-  expect(page).not_to have_content('New here?')
+  expect(page).to have_no_content('New here?')
 end
 
 Given('I am registered for the festival') do
@@ -124,7 +124,7 @@ end
 Then('I should be logged in') do
   @user = User.last!
   expect(User.where(id: user.id)).to exist
-  expect(page).not_to have_content('Log in')
+  expect(page).to have_no_content('Log in')
 end
 
 Then('I should see {string}') do |string|

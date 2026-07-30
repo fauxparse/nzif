@@ -20,9 +20,7 @@ module Activities
 
     def assign_attributes
       assign_cast(attributes.delete(:profile_ids)) if attributes.key?(:profile_ids)
-      if attributes.key?(:attached_activity_id)
-        assign_attached_activity(attributes.delete(:attached_activity_id))
-      end
+      assign_attached_activity(attributes.delete(:attached_activity_id)) if attributes.key?(:attached_activity_id)
       activity.assign_attributes(attributes)
     end
 

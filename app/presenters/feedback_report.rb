@@ -64,7 +64,7 @@ class FeedbackReport
   end
 
   def star_rating(pdf, session)
-    ratings = session.feedback.map(&:rating).compact
+    ratings = session.feedback.filter_map(&:rating)
     return if ratings.empty?
 
     rating = ratings.sum.to_f / ratings.size
@@ -126,7 +126,7 @@ class FeedbackReport
     if feedback.any?
       feedback.each do |line|
         pdf.move_down 6.pt
-        pdf.text line.chomp.gsub(/\n+/, "\n"), size: 12.pt, leading: 6.pt
+        pdf.text line.chomp.squeeze("\n"), size: 12.pt, leading: 6.pt
       end
     else
       pdf.save_graphics_state do

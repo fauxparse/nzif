@@ -6,7 +6,7 @@ class ShortUrl < ApplicationRecord
   ALLOWED_HOSTS = [
     Domains::Main::DOMAIN,
     'bats.co.nz',
-  ]
+  ].freeze
 
   def redirect?
     host = URI(url).host

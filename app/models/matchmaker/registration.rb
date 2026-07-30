@@ -12,7 +12,7 @@ module Matchmaker
     end
 
     def score
-      [@placements.values.map { |v| 1.0 / v }.sum / [preferences.size, 1].max, 1].min
+      [@placements.values.sum { |v| 1.0 / v } / [preferences.size, 1].max, 1].min
     end
 
     delegate :zero?, to: :score
@@ -55,7 +55,7 @@ module Matchmaker
       end
       @activities.delete(session.activity_id)
 
-      candidates_for(session).map { |c| c.bump(session) }.compact
+      candidates_for(session).filter_map { |c| c.bump(session) }
     end
 
     def <=>(other)

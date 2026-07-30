@@ -26,14 +26,14 @@ RSpec.describe Matchmaker::Allocation do
   it 'places every registration in at most one session per slot' do
     allocation.registrations.each_value do |registration|
       by_slot = registration.placements.group_by { |slot, _| slot }
-      expect(by_slot.values).to all(satisfy { |slots| slots.one? })
+      expect(by_slot.values).to all(satisfy(&:one?))
     end
   end
 
   it 'places or waitlists every registration that expressed a preference' do
     requested = allocations_with_preferences(allocation)
 
-    allocation.sessions.values.group_by(&:starts_at).each do |_starts_at, group|
+    allocation.sessions.values.group_by(&:starts_at).each_value do |group|
       allocated = Set.new(group.flat_map { |s| s.placements.map(&:id) + s.waitlist.map(&:id) })
       expect(allocated).to include(*requested[group.first.slots.first])
     end

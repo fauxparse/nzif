@@ -49,34 +49,28 @@ class FestivalSeeder
     Clumsy Brilliant Forgotten Imagined Reluctant Magnificent Half-Baked Whispered
     Unlikely Borrowed Improvised
   ].freeze
-  SHOW_NOUNS = %w[
-    Cabaret Variations Pantry Detective Hive Weather\ Report House\ Party Time\ Machine
-    Casserole Confessional Mixtape Antechamber Slumber\ Party Buffet Rollercoaster
-    Pigeon Monologue Diorama Footnotes Broadcast Feast Petting\ Zoo Specimen
+  SHOW_NOUNS = [
+    'Cabaret', 'Variations', 'Pantry', 'Detective', 'Hive', 'Weather Report', 'House Party', 'Time Machine', 'Casserole', 'Confessional', 'Mixtape', 'Antechamber', 'Slumber Party', 'Buffet', 'Rollercoaster', 'Pigeon', 'Monologue', 'Diorama', 'Footnotes', 'Broadcast', 'Feast', 'Petting Zoo', 'Specimen'
   ].freeze
   WORKSHOP_VERBS = %w[
     Building Breaking Sculpting Trusting Borrowing Undoing Stretching Wiring Tuning
     Rerouting Demolishing Planting Hosting Rewiring Composting Skating Surfing
   ].freeze
-  WORKSHOP_SUBJECTS = %w[
-    the\ Offer Status Silence the\ Group\ Mind Your\ Voice the\ Long\ Form Failure
-    Relationships the\ Edit Character the\ Audience Tension the\ Scene Subtext Genre
+  WORKSHOP_SUBJECTS = [
+    'the Offer', 'Status', 'Silence', 'the Group Mind', 'Your Voice', 'the Long Form', 'Failure', 'Relationships', 'the Edit', 'Character', 'the Audience', 'Tension', 'the Scene', 'Subtext', 'Genre'
   ].freeze
-  SOCIAL_NAMES = %w[
-    Welcome\ Mixer Late\ Karaoke Awards\ Lunch The\ Big\ Jam Board\ Game\ Bonanza
-    Lightning\ Talks Wind-Down\ Yoga Morning\ Meditation Grab\ Bag Closing\ Night
-    Opening\ Night Coffee\ &\ Chat Sunset\ Stretch
+  SOCIAL_NAMES = [
+    'Welcome Mixer', 'Late Karaoke', 'Awards Lunch', 'The Big Jam', 'Board Game Bonanza', 'Lightning Talks', 'Wind-Down Yoga', 'Morning Meditation', 'Grab Bag', 'Closing Night', 'Opening Night', 'Coffee & Chat', 'Sunset Stretch'
   ].freeze
-  CONFERENCE_TOPICS = %w[
-    Risk\ &\ Reward Listening\ Beyond\ Words The\ Geometry\ of\ Scenes Yes\ And\ Revisited
-    Finding\ the\ Game Trust\ on\ Stage The\ Empty\ Stage Failure\ as\ Fuel
+  CONFERENCE_TOPICS = [
+    'Risk & Reward', 'Listening Beyond Words', 'The Geometry of Scenes', 'Yes And Revisited', 'Finding the Game', 'Trust on Stage', 'The Empty Stage', 'Failure as Fuel'
   ].freeze
 
   TAGLINES = {
     'Show' => 'A brand-new improvised hour, never seen before.',
     'Workshop' => 'A hands-on session for curious improvisers.',
     'SocialEvent' => 'A chance to connect with the festival community.',
-    'Conference' => 'A short talk on the craft of improvisation.'
+    'Conference' => 'A short talk on the craft of improvisation.',
   }.freeze
 
   attr_reader :created_count
@@ -111,7 +105,7 @@ class FestivalSeeder
       festival: @target,
       name: name,
       tagline: TAGLINES[src.type],
-      description: "#{name}. #{TAGLINES[src.type]}"
+      description: "#{name}. #{TAGLINES[src.type]}",
     }
     # suitability is only valid for workshops; booking_link only for shows.
     attrs[:suitability] = src.suitability if src.workshop? && src.suitability.present?
@@ -164,7 +158,7 @@ class FestivalSeeder
 
   def copy_show_workshops
     source_show_ids = Show.where(festival: @source).pluck(:id)
-    ShowWorkshop.where(show_id: source_show_ids).each do |sw|
+    ShowWorkshop.where(show_id: source_show_ids).find_each do |sw|
       new_show = @activity_map[sw.show_id]
       new_workshop = @activity_map[sw.workshop_id]
       next unless new_show && new_workshop
@@ -186,6 +180,7 @@ class FestivalSeeder
       name = generate_name(type, seed + attempt)
       slug = name.downcase.gsub(/[^a-z0-9]+/, '-').gsub(/^-|-$/, '')
       next if @used[type].include?(slug)
+
       @used[type] << slug
       return name
     end

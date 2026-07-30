@@ -12,12 +12,12 @@ module ResolverCallbacks
   end
 
   module ClassMethods
-    def before_resolve(*args, &)
-      set_callback(:resolve, :before, *args, &)
+    def before_resolve(*, &)
+      set_callback(:resolve, :before, *, &)
     end
 
-    def after_resolve(*args, &)
-      set_callback(:resolve, :after, *args, &)
+    def after_resolve(*, &)
+      set_callback(:resolve, :after, *, &)
     end
   end
 end

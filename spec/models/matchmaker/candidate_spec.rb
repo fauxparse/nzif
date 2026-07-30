@@ -48,7 +48,7 @@ RSpec.describe Matchmaker::Candidate do
     end
 
     it 'is unaffected by bumping a different session' do
-      expect { candidate.bump(session_b) }.not_to change { candidate.session_id }
+      expect { candidate.bump(session_b) }.not_to change(candidate, :session_id)
     end
   end
 end

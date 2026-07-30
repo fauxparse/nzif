@@ -46,22 +46,20 @@ module Matchmaker
     end
 
     def validate_no_dupes!
-      allocation.sessions.values.group_by(&:starts_at).each do |_starts_at, sessions|
+      allocation.sessions.values.group_by(&:starts_at).each_value do |sessions|
         ids = sessions.flat_map { |s| s.placements.map(&:id) }
         next unless ids.uniq.size != ids.size
 
         sets = sessions.map { |s| [s, Set.new(s.placements)] }
         sets.combination(2) do |(s1, r1), (s2, r2)|
           intersection = r1 & r2
-          if intersection.any?
-            raise "#{intersection.map(&:name).inspect} in both #{s1.name} and #{s2.name}"
-          end
+          raise "#{intersection.map(&:name).inspect} in both #{s1.name} and #{s2.name}" if intersection.any?
         end
       end
     end
 
     def validate_everyone_on_waitlists!
-      allocation.sessions.values.group_by(&:starts_at).each do |_starts_at, sessions|
+      allocation.sessions.values.group_by(&:starts_at).each_value do |sessions|
         session_ids = Set.new(sessions.map(&:id))
         allocated_ids = Set.new(
           sessions.flat_map { |s| s.placements.map(&:id) + s.waitlist.map(&:id) },
@@ -74,7 +72,7 @@ module Matchmaker
         next if allocated_ids == requested_ids
 
         not_allocated = (requested_ids - allocated_ids).map { |id| allocation.registrations[id] }
-        puts not_allocated.map(&:preferences).inspect
+        Rails.logger.debug not_allocated.map(&:preferences).inspect
       end
     end
   end

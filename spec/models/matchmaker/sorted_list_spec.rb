@@ -31,7 +31,7 @@ RSpec.describe Matchmaker::SortedList do
     end
 
     it 'shrinks the list' do
-      expect { list.pop }.to change { list.size }.by(-1)
+      expect { list.pop }.to change(list, :size).by(-1)
     end
   end
 

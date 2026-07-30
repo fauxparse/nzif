@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   get '/register/workshops', to: 'festivals#show', as: :registration
   get '/register/payment', to: 'festivals#show', as: :payment
 
-  get '/calendar', to:  'festivals#show', as: :personal_calendar
+  get '/calendar', to: 'festivals#show', as: :personal_calendar
 
   get '/workshops/:slug', to: 'festivals#show', as: :workshop
 
