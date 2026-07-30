@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/MethodLength, Metrics/ClassLength, Layout/LineLength
+# rubocop:disable Metrics/MethodLength
 require 'prawn/measurement_extensions'
 
 class FeedbackReport
@@ -138,4 +138,4 @@ class FeedbackReport
   end
 end
 
-# rubocop:enable Metrics/MethodLength, Metrics/ClassLength, Layout/LineLength
+# rubocop:enable Metrics/MethodLength
