@@ -1,3 +1,8 @@
+\restrict VIR0uHCTCJWIpfVlzMtoSx920axHAqeSYlGu9qHi6wywb4QxNN7O4lbNgFfKbGj
+
+-- Dumped from database version 18.4 (Postgres.app)
+-- Dumped by pg_dump version 18.4 (Postgres.app)
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
@@ -1705,6 +1710,13 @@ CREATE INDEX index_feedback_on_session_id ON public.feedback USING btree (sessio
 
 
 --
+-- Name: index_festivals_on_start_date; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_festivals_on_start_date ON public.festivals USING btree (start_date);
+
+
+--
 -- Name: index_hidden_sessions_on_session_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2251,9 +2263,12 @@ ALTER TABLE ONLY public.sessions
 -- PostgreSQL database dump complete
 --
 
+\unrestrict VIR0uHCTCJWIpfVlzMtoSx920axHAqeSYlGu9qHi6wywb4QxNN7O4lbNgFfKbGj
+
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250910010443'),
 ('20250910010442'),
 ('20250626220704'),
 ('20250626220219'),
@@ -2333,6 +2348,11 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230404000215'),
 ('20230403213514');
 
+\restrict d9kHWIhmFaq9lRj3Gn2crUVNZmFvo8GyaXB7gkqYe7kaD8bsV0ztl7CU8wz7YVg
+
+-- Dumped from database version 18.4 (Postgres.app)
+-- Dumped by pg_dump version 18.4 (Postgres.app)
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
@@ -2365,4 +2385,6 @@ workshop_preferences	WorkshopPreference	d7874e370b3b6e690d7379588ded4f6663191c10
 --
 -- PostgreSQL database dump complete
 --
+
+\unrestrict d9kHWIhmFaq9lRj3Gn2crUVNZmFvo8GyaXB7gkqYe7kaD8bsV0ztl7CU8wz7YVg
 
