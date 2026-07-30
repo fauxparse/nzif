@@ -62,7 +62,8 @@ Then(/^(?:I|they|"([^"]*?)") should receive (an|no|\d+) emails? with subject "([
          end).to eql parse_email_count(amount)
 end
 
-Then(%r{^(?:I|they|"([^"]*?)") should receive (an|no|\d+) emails? with subject /([^"]*?)/$}) do |address, amount, subject|
+Then(%r{^(?:I|they|"([^"]*?)") should receive (an|no|\d+) emails? with subject /([^"]*?)/$}) do
+  |address, amount, subject|
   expect(unread_emails_for(address).count do |m|
            m.subject =~ Regexp.new(subject)
          end).to eql parse_email_count(amount)

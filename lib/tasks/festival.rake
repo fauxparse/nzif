@@ -50,20 +50,30 @@ class FestivalSeeder
     Unlikely Borrowed Improvised
   ].freeze
   SHOW_NOUNS = [
-    'Cabaret', 'Variations', 'Pantry', 'Detective', 'Hive', 'Weather Report', 'House Party', 'Time Machine', 'Casserole', 'Confessional', 'Mixtape', 'Antechamber', 'Slumber Party', 'Buffet', 'Rollercoaster', 'Pigeon', 'Monologue', 'Diorama', 'Footnotes', 'Broadcast', 'Feast', 'Petting Zoo', 'Specimen'
+    'Cabaret', 'Variations', 'Pantry', 'Detective', 'Hive', 'Weather Report',
+    'House Party', 'Time Machine', 'Casserole', 'Confessional', 'Mixtape',
+    'Antechamber', 'Slumber Party', 'Buffet', 'Rollercoaster', 'Pigeon',
+    'Monologue', 'Diorama', 'Footnotes', 'Broadcast', 'Feast', 'Petting Zoo', 'Specimen'
   ].freeze
   WORKSHOP_VERBS = %w[
     Building Breaking Sculpting Trusting Borrowing Undoing Stretching Wiring Tuning
     Rerouting Demolishing Planting Hosting Rewiring Composting Skating Surfing
   ].freeze
   WORKSHOP_SUBJECTS = [
-    'the Offer', 'Status', 'Silence', 'the Group Mind', 'Your Voice', 'the Long Form', 'Failure', 'Relationships', 'the Edit', 'Character', 'the Audience', 'Tension', 'the Scene', 'Subtext', 'Genre'
+    'the Offer', 'Status', 'Silence', 'the Group Mind', 'Your Voice',
+    'the Long Form', 'Failure', 'Relationships', 'the Edit', 'Character',
+    'the Audience', 'Tension', 'the Scene', 'Subtext', 'Genre'
   ].freeze
   SOCIAL_NAMES = [
-    'Welcome Mixer', 'Late Karaoke', 'Awards Lunch', 'The Big Jam', 'Board Game Bonanza', 'Lightning Talks', 'Wind-Down Yoga', 'Morning Meditation', 'Grab Bag', 'Closing Night', 'Opening Night', 'Coffee & Chat', 'Sunset Stretch'
+    'Welcome Mixer', 'Late Karaoke', 'Awards Lunch', 'The Big Jam',
+    'Board Game Bonanza', 'Lightning Talks', 'Wind-Down Yoga',
+    'Morning Meditation', 'Grab Bag', 'Closing Night', 'Opening Night',
+    'Coffee & Chat', 'Sunset Stretch'
   ].freeze
   CONFERENCE_TOPICS = [
-    'Risk & Reward', 'Listening Beyond Words', 'The Geometry of Scenes', 'Yes And Revisited', 'Finding the Game', 'Trust on Stage', 'The Empty Stage', 'Failure as Fuel'
+    'Risk & Reward', 'Listening Beyond Words', 'The Geometry of Scenes',
+    'Yes And Revisited', 'Finding the Game', 'Trust on Stage',
+    'The Empty Stage', 'Failure as Fuel'
   ].freeze
 
   TAGLINES = {

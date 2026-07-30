@@ -54,7 +54,8 @@ class PitchPrinter
   def print_pitch(pitch)
     @current_pitch = pitch
     pdf.font_size(16) do
-      pdf.text "#{pitch.presenter.name} #{"(#{pitch.presenter.pronouns.downcase})" if pitch.presenter.pronouns.present?}"
+      pronouns = "(#{pitch.presenter.pronouns.downcase})" if pitch.presenter.pronouns.present?
+      pdf.text "#{pitch.presenter.name} #{pronouns}"
       pdf.text pitch.presenter.location
     end
     move_down
