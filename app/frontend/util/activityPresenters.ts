@@ -27,7 +27,7 @@ const presenters = <T>(activity: WithPresenters<T>): T[] => {
     case ActivityType.SocialEvent:
       return activity.organisers;
     case ActivityType.Conference:
-      return [...activity.organisers, ...activity.speakers, ...activity.panellists];
+      return activity.speakers;
   }
 };
 

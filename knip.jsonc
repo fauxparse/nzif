@@ -1,0 +1,16 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": [
+    // vite-plugin-ruby bundle entrypoints (config/vite.json sourceCodeDir).
+    "app/frontend/entrypoints/**/*.{ts,tsx,css}",
+    // ladle stories are glob-loaded by the ladle vite config, not imported.
+    "app/frontend/**/*.stories.tsx",
+    // vitest setup, referenced as a string from vite.config.ts.
+    "app/frontend/tests/setup.ts",
+    "bin/generate-colors.ts",
+    "postcss.breakpoints.cjs"
+  ],
+  "project": ["app/frontend/**/*.{ts,tsx}", ".ladle/**/*.{ts,tsx,mjs}"],
+  // shims used in package.json scripts that aren't npm bins.
+  "ignoreBinaries": ["r", "production", "development"]
+}
