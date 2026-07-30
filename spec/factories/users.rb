@@ -6,7 +6,7 @@ FactoryBot.define do
     password { 'P4$$w0rd' }
 
     trait :with_profile do
-      profile { create(:profile, name:) }
+      profile { association :profile, name: }
     end
 
     factory :admin do
