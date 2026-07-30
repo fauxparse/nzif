@@ -35,8 +35,11 @@ RSpec.describe Matchmaker::Registration do
   end
 
   describe '#preference_for' do
-    it 'returns the position for a preferred session' do
+    it 'returns the position for the first-choice session' do
       expect(registration.preference_for(session_a)).to eq(1)
+    end
+
+    it 'returns the position for the second-choice session' do
       expect(registration.preference_for(session_b)).to eq(2)
     end
 
@@ -48,8 +51,11 @@ RSpec.describe Matchmaker::Registration do
   end
 
   describe '#prefers?' do
-    it 'is true for ranked sessions and false otherwise' do
+    it 'is true for the first-choice session' do
       expect(registration).to prefer(session_a)
+    end
+
+    it 'is true for the second-choice session' do
       expect(registration).to prefer(session_b)
     end
   end
@@ -61,10 +67,13 @@ RSpec.describe Matchmaker::Registration do
   end
 
   describe '#placed_in / #bump_from' do
-    it 'records and clears a placement' do
+    it 'records a placement' do
       expect { registration.placed_in(session_a) }
         .to change { registration.placements.key?(MatchmakerHelper::SLOT_AM) }.from(false).to(true)
+    end
 
+    it 'clears a placement' do
+      registration.placed_in(session_a)
       expect { registration.bump_from(session_a) }
         .to change { registration.placements.key?(MatchmakerHelper::SLOT_AM) }.from(true).to(false)
     end

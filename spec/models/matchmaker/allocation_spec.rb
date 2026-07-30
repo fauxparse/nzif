@@ -56,10 +56,16 @@ RSpec.describe Matchmaker::Allocation do
   describe '.dump/.load' do
     subject(:round_tripped) { described_class.load(described_class.dump(allocation)) }
 
-    it 'preserves the placements and waitlists of every session' do
+    it 'preserves the placements of every session' do
       allocation.sessions.each_value do |session|
         reloaded = round_tripped.sessions[session.id]
         expect(reloaded.placements.map(&:id)).to eq(session.placements.map(&:id))
+      end
+    end
+
+    it 'preserves the waitlists of every session' do
+      allocation.sessions.each_value do |session|
+        reloaded = round_tripped.sessions[session.id]
         expect(reloaded.waitlist.map(&:id)).to eq(session.waitlist.map(&:id))
       end
     end
