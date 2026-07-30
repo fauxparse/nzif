@@ -2,8 +2,8 @@ module Types
   module SettingType
     include BaseInterface
 
-    field :id, String, null: false
     field :description, String, null: false
+    field :id, String, null: false
 
     definition_methods do
       def resolve_type(object, _context)

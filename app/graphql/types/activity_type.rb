@@ -2,21 +2,21 @@ module Types
   module ActivityType
     include BaseInterface
 
+    field :booking_link, String, null: true
+    field :description, String, null: true
     field :id, ID, null: false
+    field :missing_info, [String], null: false
     field :name, String, null: false
-    field :slug, String, null: false
-    field :type, ActivityTypeType, null: false
-    field :sessions, [SessionType], null: false
+    field :picture, Types::ActivityPictureType, null: true
+    field :presenters, [PersonType], null: false
+    field :quotes, String, null: true
     field :session, SessionType, null: true do
       argument :id, ID, required: true
     end
-    field :presenters, [PersonType], null: false
-    field :description, String, null: true
+    field :sessions, [SessionType], null: false
+    field :slug, String, null: false
     field :tagline, String, null: true
-    field :quotes, String, null: true
-    field :picture, Types::ActivityPictureType, null: true
-    field :missing_info, [String], null: false
-    field :booking_link, String, null: true
+    field :type, ActivityTypeType, null: false
 
     definition_methods do
       def resolve_type(object, _context)

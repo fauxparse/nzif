@@ -2,7 +2,8 @@ module Waitlists
   class Promote < ApplicationInteractor
     delegate :session, :registration, to: :context
 
-    NotOnWaitlist = Class.new(StandardError)
+    class NotOnWaitlist < StandardError
+    end
 
     def call
       authorize! :session, to: :manage?

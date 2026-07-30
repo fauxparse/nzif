@@ -1,13 +1,11 @@
-require:
+plugins:
+  - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
   - rubocop-graphql
   - rubocop-factory_bot
   - rubocop-capybara
   - rubocop-rspec_rails
-
-plugins:
-  - rubocop-performance
 
 AllCops:
   NewCops: enable

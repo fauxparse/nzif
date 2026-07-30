@@ -4,7 +4,7 @@ module Sources
 
     def initialize(context:, states: [])
       super(context:)
-      @states = states.blank? ? nil : states.map(&:to_sym)
+      @states = states.presence&.map(&:to_sym)
     end
 
     def fetch(registration_ids)

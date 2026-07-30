@@ -77,7 +77,7 @@ module Matchmaker
     end
 
     def conflicts_with?(other)
-      slots.any? { |slot| other.slots.include?(slot) }
+      slots.intersect?(other.slots)
     end
 
     def to_param

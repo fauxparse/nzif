@@ -1,6 +1,7 @@
 module Sessions
   class RemoveCast < ApplicationInteractor
-    NotCast = Class.new(StandardError)
+    class NotCast < StandardError
+    end
 
     delegate :session, :profile, :role, to: :context
 
@@ -15,7 +16,9 @@ module Sessions
     private
 
     def cast
-      @cast ||= session.cast.find_by(profile:, role:)
+      return @cast if defined?(@cast)
+
+      @cast = session.cast.find_by(profile:, role:)
     end
   end
 end

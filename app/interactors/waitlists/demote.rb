@@ -2,8 +2,11 @@ module Waitlists
   class Demote < ApplicationInteractor
     delegate :registration, :session, :position, to: :context
 
-    NotInSession = Class.new(StandardError)
-    AlreadyOnWaitlist = Class.new(StandardError)
+    class NotInSession < StandardError
+    end
+
+    class AlreadyOnWaitlist < StandardError
+    end
 
     def call
       authorize! registration, to: :manage?

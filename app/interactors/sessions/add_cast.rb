@@ -1,6 +1,7 @@
 module Sessions
   class AddCast < ApplicationInteractor
-    AlreadyCast = Class.new(StandardError)
+    class AlreadyCast < StandardError
+    end
 
     delegate :session, :profile, :role, to: :context
 

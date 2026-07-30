@@ -2,7 +2,8 @@ module Waitlists
   class Move < ApplicationInteractor
     delegate :registration, :session, :position, to: :context
 
-    NotOnWaitlist = Class.new(StandardError)
+    class NotOnWaitlist < StandardError
+    end
 
     def call
       authorize! registration, to: :manage?

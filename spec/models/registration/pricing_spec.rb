@@ -21,7 +21,7 @@ RSpec.describe Registration::Pricing do
     subject { pricing.package_price(workshops: count) }
 
     PRICING_SCHEDULE.each do |row|
-      context "for #{row[:count]} workshop#{row[:count] > 1 ? 's' : ''}" do
+      context "for #{row[:count]} workshop#{'s' if row[:count] > 1}" do
         let(:count) { row[:count] }
 
         it { is_expected.to eq row[:package_price] }

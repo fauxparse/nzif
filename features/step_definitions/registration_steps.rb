@@ -68,7 +68,7 @@ Given('I am logged in') do
     click_button 'Log in'
   end
   sleep 1
-  expect(page).to have_no_content('New here?')
+  expect(page).to have_no_text('New here?')
 end
 
 Given('I am registered for the festival') do
@@ -105,7 +105,7 @@ end
 
 When('I read the code of conduct') do
   expect(page).to have_field('codeOfConductAccepted', disabled: true)
-  expect(page).to have_content('What is the Code of Conduct?')
+  expect(page).to have_text('What is the Code of Conduct?')
 
   page.execute_script <<~JS
     document.querySelector('.end-of-page').scrollIntoView()
@@ -124,11 +124,11 @@ end
 Then('I should be logged in') do
   @user = User.last!
   expect(User.where(id: user.id)).to exist
-  expect(page).to have_no_content('Log in')
+  expect(page).to have_no_text('Log in')
 end
 
 Then('I should see {string}') do |string|
-  expect(page).to have_content(string)
+  expect(page).to have_text(string)
 end
 
 Then('I should have my preferences recorded') do

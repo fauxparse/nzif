@@ -2,9 +2,9 @@ module Types
   module SearchResultType
     include BaseInterface
 
+    field :description, String, null: true
     field :id, ID, null: false
     field :title, String, null: false
-    field :description, String, null: true
     field :url, String, null: false
 
     definition_methods do

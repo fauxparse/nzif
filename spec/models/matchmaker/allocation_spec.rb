@@ -41,9 +41,7 @@ RSpec.describe Matchmaker::Allocation do
 
   it 'does not place a registration in a session they did not prefer' do
     allocation.sessions.each_value do |session|
-      session.placements.each do |registration|
-        expect(registration).to prefer(session)
-      end
+      expect(session.placements).to all(prefer(session))
     end
   end
 
