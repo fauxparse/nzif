@@ -19,7 +19,7 @@ export const Steps = () => {
     }
 
     if (phase === RegistrationPhase.Earlybird) {
-      return 'Pay later';
+      return 'Confirm';
     }
 
     return 'Payment';

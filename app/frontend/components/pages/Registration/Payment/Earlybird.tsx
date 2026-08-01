@@ -26,7 +26,11 @@ export const Earlybird = () => {
     >
       <div />
       <Text as="div" size={{ initial: '3', md: '4' }}>
-        <Heading>Nothing to pay yet!</Heading>
+        <Heading>Confirm your registration</Heading>
+        <p>
+          Click <b>Finish</b> below to confirm your registration. You can change your preferences
+          any time up until preferential registration closes on 28 August.
+        </p>
         <p>
           We’ll be in touch once initial workshop allocations are done in early September. Then
           you’ll be able to pay for any workshops you’ve been allocated to.
