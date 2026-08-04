@@ -81,7 +81,7 @@ const Footer: React.FC<FooterProps> = ({ className, ...props }) => {
             </ActionList>
           </section>
           <section>
-            <p>&copy; 2025 New Zealand Improv Trust</p>
+            <p>&copy; 2026 New Zealand Improv Trust</p>
           </section>
         </Grid>
       </motion.footer>

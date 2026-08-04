@@ -137,7 +137,7 @@ export const WorkshopFeedback: React.FC<WorkshopFeeedbackProps> = ({ session: pa
                         onValueChange={field.handleChange}
                       />
                       <FormField.Description>
-                        This will be attributed anonymously to “NZIF 2025 participant”, unless you
+                        This will be attributed anonymously to “NZIF 2026 participant”, unless you
                         include your name.
                       </FormField.Description>
                     </FormField.Root>
