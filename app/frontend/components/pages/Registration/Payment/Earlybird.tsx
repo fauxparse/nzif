@@ -29,7 +29,7 @@ export const Earlybird = () => {
         <Heading>Confirm your registration</Heading>
         <p>
           Click <b>Finish</b> below to confirm your registration. You can change your preferences
-          any time up until preferential registration closes on 28 August.
+          any time up until preferential registration closes on 30 August.
         </p>
         <p>
           We’ll be in touch once initial workshop allocations are done in early September. Then
@@ -72,6 +72,16 @@ export const Earlybird = () => {
           </Table.Body>
         </Table.Root>
       </Text>
+      <p>
+        Thanks to Support from the Community Organisation Grants Scheme (COGS) we are able to offer
+        one free scholarship place in each workshop at this year's Festival. To see the criteria and
+        apply for scholarship places, please fill out our{' '}
+        <a href="https://forms.gle/BxhpvbwyHv7quLkm7" target="_blank" rel="noopener noreferrer">
+          EOI form
+        </a>
+        . Note that you must have selected and submitted your workshop preferences by August 30th to
+        be eligible.
+      </p>
       <Buttons />
     </form>
   );
