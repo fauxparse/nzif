@@ -80,6 +80,7 @@ export const ActivityDetailsQuery = graphql(
 
           ... on Show {
             bookingLink
+            quotes
             workshop {
               ...TimetableActivity
             }
