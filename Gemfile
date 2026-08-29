@@ -80,7 +80,7 @@ gem 'i18n-active_record', '~> 1.3.0', require: 'i18n/active_record'
 
 gem 'premailer-rails'
 
-gem 'aws-sdk-s3', '~> 1.132.0'
+gem 'aws-sdk-s3', '~> 1.208.0'
 
 gem 'redis', '~> 5.0'
 gem 'sidekiq', '~> 7.3.0'
