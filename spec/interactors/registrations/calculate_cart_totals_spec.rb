@@ -66,6 +66,16 @@ RSpec.describe Registrations::CalculateCartTotals, type: :interactor do
 
       its(:outstanding) { is_expected.to be_zero }
     end
+
+    context 'when a pending internet banking payment exists' do
+      before do
+        create(:internet_banking_payment, registration:, amount: Money.from_cents(75_00))
+      end
+
+      its(:paid) { is_expected.to be_zero }
+
+      its(:outstanding) { is_expected.to eq Money.from_cents(75_00) }
+    end
   end
 
   context 'when passed payments' do
@@ -96,6 +106,16 @@ RSpec.describe Registrations::CalculateCartTotals, type: :interactor do
     its(:paid) { is_expected.to eq Money.from_cents(75_00) }
 
     its(:outstanding) { is_expected.to be_zero }
+
+    context 'when the passed payment is pending internet banking' do
+      let(:payments) do
+        [InternetBankingPayment.new(amount: Money.from_cents(75_00))]
+      end
+
+      its(:paid) { is_expected.to be_zero }
+
+      its(:outstanding) { is_expected.to eq Money.from_cents(75_00) }
+    end
 
     it 'does not reload the payments' do
       result

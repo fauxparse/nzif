@@ -801,7 +801,7 @@ CREATE VIEW public.registration_totals AS
  WITH pricing AS (
          SELECT base.count,
             discounted.discountable,
-            (base.count * 7000) AS total,
+            (base.count * 7500) AS total,
             ((((discounted.discountable * (discounted.discountable - 1)) / 2) * 500) + (GREATEST(0, (base.count - discounted.discountable)) * 2000)) AS discount
            FROM ( SELECT generate_series(0, 11) AS count) base,
             LATERAL ( SELECT discounted_1.discountable
@@ -2059,7 +2059,7 @@ CREATE OR REPLACE VIEW public.accounts AS
    FROM ( SELECT registrations.id,
             registrations.id AS registration_id,
             registrations.placements_count,
-            ((7000 * registrations.placements_count) - (((registrations.placements_count * (registrations.placements_count - 1)) / 2) * 500)) AS total_cents,
+            ((7500 * registrations.placements_count) - (((registrations.placements_count * (registrations.placements_count - 1)) / 2) * 500)) AS total_cents,
             COALESCE(sum(payments.amount_cents), (0)::bigint) AS paid_cents
            FROM (public.registrations
              LEFT JOIN public.payments ON (((payments.registration_id = registrations.id) AND (payments.state = 'approved'::public.payment_state))))

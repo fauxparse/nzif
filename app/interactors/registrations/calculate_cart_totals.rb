@@ -40,7 +40,9 @@ module Registrations
     end
 
     def paid
-      context[:paid] ||= payments.sum(Money.new(0), &:amount)
+      context[:paid] ||= payments
+        .reject { |payment| payment.pending? && payment.is_a?(InternetBankingPayment) }
+        .sum(Money.new(0), &:amount)
     end
 
     def payments

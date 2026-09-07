@@ -2,7 +2,7 @@ WITH pricing AS (
   SELECT
     base.count,
     discounted.discountable,
-    base.count * 7000 AS total,
+    base.count * 7500 AS total,
     (
       discountable * (discountable - 1)) / 2 * 500 + GREATEST(
       0,
