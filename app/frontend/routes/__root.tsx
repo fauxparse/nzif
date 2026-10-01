@@ -32,6 +32,5 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     };
   },
   component: Root,
-  staleTime: Infinity,
   errorComponent: NotFound,
 });
