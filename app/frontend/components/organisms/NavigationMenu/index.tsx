@@ -1,4 +1,4 @@
-import { Drawer, useDrawer } from '@/components/molecules/Drawer';
+import { Drawer } from '@/components/molecules/Drawer';
 import { useDisclosure } from '@/hooks/useDisclosure';
 import MenuIcon from '@/icons/MenuIcon';
 import {
@@ -23,10 +23,10 @@ import ThemeIcon from '@/icons/ThemeIcon';
 import UsersIcon from '@/icons/UsersIcon';
 import { useAuthentication } from '@/services/Authentication';
 import { useQuery } from '@apollo/client';
-import { Link } from '@tanstack/react-router';
+import { Link, useRouter } from '@tanstack/react-router';
 import { isEmpty } from 'lodash-es';
 import pluralize from 'pluralize';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MyActivities } from './MyActivities';
 import classes from './NavigationMenu.module.css';
 import { RegistrationSummary } from './RegistrationSummary';
@@ -34,6 +34,9 @@ import { NavigationMenuQuery } from './queries';
 
 const NavigationMenu: React.FC = () => {
   const [opened, { toggle, open, close }] = useDisclosure();
+  const router = useRouter();
+
+  useEffect(() => router.subscribe('onBeforeNavigate', close), [router, close]);
 
   const { appearance } = useThemeContext();
 
@@ -66,23 +69,8 @@ const NavigationMenuContent: React.FC<{ visible?: boolean }> = ({ visible }) => 
 
   const { toggle: toggleTheme } = useDarkMode();
 
-  const { close } = useDrawer();
-
-  const clicked = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { tagName } = e.target as HTMLElement;
-    if (tagName === 'A' || tagName === 'BUTTON') {
-      close();
-    }
-  };
-
   return (
-    <Drawer.Content
-      className={classes.drawer}
-      visible={visible}
-      origin="left"
-      size="400"
-      onClick={clicked}
-    >
+    <Drawer.Content className={classes.drawer} visible={visible} origin="left" size="400">
       <VisuallyHidden asChild>
         <Drawer.Description>Navigation menu</Drawer.Description>
       </VisuallyHidden>
