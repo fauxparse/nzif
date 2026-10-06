@@ -50,8 +50,8 @@ module Types
       mutation: Mutations::Payments::PromiseInternetBankingPayment
     field :update_payment, mutation: Mutations::Payments::Update
 
+    field :resend_message, mutation: Mutations::Messages::Resend
     field :send_message, mutation: Mutations::Messages::Send
-
     field :save_feedback, mutation: Mutations::Feedback::Save
 
     field :set_session_visibility, mutation: Mutations::Calendar::SetSessionVisibility

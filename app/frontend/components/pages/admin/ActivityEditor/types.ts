@@ -11,7 +11,8 @@ export type Tab =
   | 'details'
   | { session: Session }
   | { show: FragmentOf<typeof WorkshopShowFragment>['sessions'][number] }
-  | 'feedback';
+  | 'feedback'
+  | 'messages';
 
 export type Presenter = FragmentOf<typeof PresenterDetailsFragment>;
 
@@ -46,5 +47,6 @@ export const isShowTab = (
   typeof tab === 'object' && 'show' in tab;
 
 export const isFeedbackTab = (tab: Tab): tab is 'feedback' => tab === 'feedback';
+export const isMessagesTab = (tab: Tab): tab is 'messages' => tab === 'messages';
 
 export const isDetailsTab = (tab: Tab): tab is 'details' => tab === 'details';

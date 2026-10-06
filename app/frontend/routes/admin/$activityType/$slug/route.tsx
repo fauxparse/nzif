@@ -17,6 +17,7 @@ const useTab = (activity: Activity | null, loading: boolean): Tab => {
   if (loading || !activity) return 'details';
 
   if (matches.find((match) => match.routeId.endsWith('/feedback'))) return 'feedback';
+  if (matches.find((match) => match.routeId.endsWith('/messages'))) return 'messages';
 
   const sessionStartsAt =
     (matches.find((match) => 'session' in match.params)?.params as { session: DateTime })

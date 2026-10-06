@@ -11,9 +11,18 @@ import { useState } from 'react';
 import { InPlaceEdit } from './InPlaceEdit';
 import { SlugEditor } from './SlugEditor';
 import { UpdateActivityDetailsMutation } from './queries';
-import { Activity, Tab, isDetailsTab, isFeedbackTab, isSessionTab, isShowTab } from './types';
+import {
+  Activity,
+  Tab,
+  isDetailsTab,
+  isFeedbackTab,
+  isMessagesTab,
+  isSessionTab,
+  isShowTab,
+} from './types';
 
 import QuoteIcon from '@/icons/QuoteIcon';
+import SendIcon from '@/icons/SendIcon';
 import ShowIcon from '@/icons/ShowIcon';
 import classes from './ActivityEditor.module.css';
 
@@ -188,6 +197,24 @@ export const ActivityEditorHeader: React.FC<ActivityEditorHeaderProps> = ({
                       <Text size="3">
                         <QuoteIcon />
                         Feedback
+                      </Text>
+                    </Flex>
+                  </Link>
+                </TabNav.Link>
+              )}
+              {activity.type === ActivityType.Workshop && (
+                <TabNav.Link asChild active={isMessagesTab(tab)}>
+                  <Link
+                    to="/admin/$activityType/$slug/messages"
+                    params={{
+                      activityType: activity.type,
+                      slug: activity.slug,
+                    }}
+                  >
+                    <Flex asChild align="center" gap="2">
+                      <Text size="3">
+                        <SendIcon />
+                        Messages
                       </Text>
                     </Flex>
                   </Link>

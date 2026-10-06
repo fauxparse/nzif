@@ -1,4 +1,5 @@
 import { CastMemberFragment } from '@/components/organisms/ShowCast/queries';
+import { MessageFragment } from '@/components/pages/MyActivities/Workshop/queries';
 import {
   TimetableActivityFragment,
   TimetableCastFragment,
@@ -159,6 +160,41 @@ export const ActivityDetailsQuery = graphql(
   `,
   [PresenterDetailsFragment, TimetableActivityFragment, WorkshopShowFragment, CastMemberFragment]
 );
+
+export const ActivityMessagesQuery = graphql(
+  `
+    query AdminActivityMessagesQuery($year: String!, $type: ActivityType!, $slug: String!) {
+      festival(year: $year) {
+        id
+
+        activity(type: $type, slug: $slug) {
+          id
+          type
+
+          sessions {
+            id
+            startsAt
+
+            messages {
+              ...Message
+            }
+          }
+        }
+      }
+    }
+  `,
+  [MessageFragment]
+);
+
+export const ResendMessageMutation = graphql(`
+  mutation ResendMessage($id: ID!) {
+    resendMessage(id: $id) {
+      message {
+        id
+      }
+    }
+  }
+`);
 
 export const UpdateActivityDetailsMutation = graphql(`
   mutation AdminUpdateActivityDetailsMutation($id: ID!, $attributes: ActivityAttributes!) {

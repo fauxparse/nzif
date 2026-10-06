@@ -15,9 +15,7 @@
           "kind": "INTERFACE",
           "name": "Activity",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": [
             {
               "kind": "OBJECT",
@@ -51,9 +49,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "description",
@@ -65,9 +61,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -83,9 +77,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "missingInfo",
@@ -109,9 +101,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "name",
@@ -127,9 +117,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "picture",
@@ -141,9 +129,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "presenters",
@@ -167,9 +153,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "quotes",
@@ -181,9 +165,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "session",
@@ -236,9 +218,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "slug",
@@ -254,9 +234,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "tagline",
@@ -268,9 +246,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "type",
@@ -286,9 +262,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -395,6 +369,18 @@
               "deprecationReason": null
             },
             {
+              "name": "quotes",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "slug",
               "description": null,
               "type": {
@@ -437,9 +423,7 @@
           "kind": "OBJECT",
           "name": "ActivityCount",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -456,9 +440,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -474,9 +456,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -486,9 +466,7 @@
           "kind": "OBJECT",
           "name": "ActivityPicture",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -501,9 +479,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "blurhash",
@@ -519,9 +495,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -537,9 +511,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "large",
@@ -555,9 +527,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "medium",
@@ -573,9 +543,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "small",
@@ -591,9 +559,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "tiny",
@@ -609,9 +575,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -644,9 +608,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "description",
@@ -658,9 +620,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -676,9 +636,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "title",
@@ -694,9 +652,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "url",
@@ -712,9 +668,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -759,9 +713,7 @@
           "kind": "OBJECT",
           "name": "AddPaymentPayload",
           "description": "Autogenerated return type of AddPayment.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -778,9 +730,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -790,9 +740,7 @@
           "kind": "OBJECT",
           "name": "AddPreferencePayload",
           "description": "Autogenerated return type of AddPreference.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -809,9 +757,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -821,9 +767,7 @@
           "kind": "OBJECT",
           "name": "AddSessionCastPayload",
           "description": "Autogenerated return type of AddSessionCast.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -840,9 +784,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "session",
@@ -858,9 +800,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -870,9 +810,7 @@
           "kind": "OBJECT",
           "name": "AddToSessionPayload",
           "description": "Autogenerated return type of AddToSession.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -889,9 +827,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "session",
@@ -907,9 +843,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -919,9 +853,7 @@
           "kind": "OBJECT",
           "name": "AddToWaitlistPayload",
           "description": "Autogenerated return type of AddToWaitlist.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -938,9 +870,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -950,9 +880,7 @@
           "kind": "OBJECT",
           "name": "AddVoucherPayload",
           "description": "Autogenerated return type of AddVoucher.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -969,9 +897,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -981,9 +907,7 @@
           "kind": "OBJECT",
           "name": "Appearance",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -1000,9 +924,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -1018,9 +940,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "role",
@@ -1036,9 +956,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "sessions",
@@ -1062,9 +980,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -1074,9 +990,7 @@
           "kind": "OBJECT",
           "name": "ApprovePaymentPayload",
           "description": "Autogenerated return type of ApprovePayment.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -1093,9 +1007,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -1105,9 +1017,7 @@
           "kind": "OBJECT",
           "name": "Balance",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -1124,9 +1034,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "paid",
@@ -1142,9 +1050,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "total",
@@ -1160,9 +1066,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -1205,9 +1109,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -1223,9 +1125,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "value",
@@ -1241,9 +1141,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -1253,9 +1151,7 @@
           "kind": "OBJECT",
           "name": "CalendarSession",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -1268,9 +1164,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "full",
@@ -1286,9 +1180,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "hidden",
@@ -1304,9 +1196,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -1322,9 +1212,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "session",
@@ -1340,9 +1228,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "waitlisted",
@@ -1358,9 +1244,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -1370,9 +1254,7 @@
           "kind": "OBJECT",
           "name": "CancelPaymentPayload",
           "description": "Autogenerated return type of CancelPayment.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -1389,9 +1271,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -1401,9 +1281,7 @@
           "kind": "OBJECT",
           "name": "Cart",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -1420,9 +1298,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -1438,9 +1314,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "outstanding",
@@ -1456,9 +1330,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "paid",
@@ -1474,9 +1346,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "total",
@@ -1492,9 +1362,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "value",
@@ -1510,9 +1378,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "workshopsCount",
@@ -1528,9 +1394,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -1540,9 +1404,7 @@
           "kind": "OBJECT",
           "name": "City",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -1559,9 +1421,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -1577,9 +1437,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "name",
@@ -1595,9 +1453,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "traditionalNames",
@@ -1621,9 +1477,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -1715,9 +1569,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "description",
@@ -1729,9 +1581,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -1747,9 +1597,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "missingInfo",
@@ -1773,9 +1621,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "name",
@@ -1791,9 +1637,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "picture",
@@ -1805,9 +1649,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "presenters",
@@ -1831,9 +1673,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "quotes",
@@ -1845,9 +1685,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "session",
@@ -1900,9 +1738,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "slug",
@@ -1918,9 +1754,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "speakers",
@@ -1944,9 +1778,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "tagline",
@@ -1958,9 +1790,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "type",
@@ -1976,9 +1806,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -1998,9 +1826,7 @@
           "kind": "OBJECT",
           "name": "CreateActivityPayload",
           "description": "Autogenerated return type of CreateActivity.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -2017,9 +1843,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "session",
@@ -2031,9 +1855,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -2043,9 +1865,7 @@
           "kind": "OBJECT",
           "name": "CreateDonationPayload",
           "description": "Autogenerated return type of CreateDonation.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -2062,9 +1882,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "paymentIntentSecret",
@@ -2080,9 +1898,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -2092,9 +1908,7 @@
           "kind": "OBJECT",
           "name": "CreateDonationPaymentPayload",
           "description": "Autogenerated return type of CreateDonationPayment.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -2111,9 +1925,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "paymentIntentSecret",
@@ -2129,9 +1941,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -2141,9 +1951,7 @@
           "kind": "OBJECT",
           "name": "CreateMultipleSessionsPayload",
           "description": "Autogenerated return type of CreateMultipleSessions.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -2168,9 +1976,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -2180,9 +1986,7 @@
           "kind": "OBJECT",
           "name": "CreatePersonPayload",
           "description": "Autogenerated return type of CreatePerson.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -2199,9 +2003,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -2211,9 +2013,7 @@
           "kind": "OBJECT",
           "name": "CreateSessionPayload",
           "description": "Autogenerated return type of CreateSession.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -2230,9 +2030,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -2242,9 +2040,7 @@
           "kind": "OBJECT",
           "name": "CreateTranslationPayload",
           "description": "Autogenerated return type of CreateTranslation.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -2261,9 +2057,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -2273,9 +2067,7 @@
           "kind": "OBJECT",
           "name": "Credential",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -2292,9 +2084,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "client",
@@ -2310,9 +2100,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "expiry",
@@ -2328,9 +2116,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "tokenType",
@@ -2346,9 +2132,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "uid",
@@ -2364,9 +2148,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -2399,9 +2181,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "createdAt",
@@ -2417,9 +2197,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -2435,9 +2213,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "reference",
@@ -2453,9 +2229,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "registration",
@@ -2471,9 +2245,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "state",
@@ -2489,9 +2261,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "type",
@@ -2507,9 +2277,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -2519,9 +2287,7 @@
           "kind": "OBJECT",
           "name": "Dashboard",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -2538,9 +2304,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "income",
@@ -2556,9 +2320,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "registrations",
@@ -2574,9 +2336,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "workshopPlaces",
@@ -2592,9 +2352,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -2604,9 +2362,7 @@
           "kind": "OBJECT",
           "name": "DemoteSessionParticipantPayload",
           "description": "Autogenerated return type of DemoteSessionParticipant.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -2623,9 +2379,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -2635,9 +2389,7 @@
           "kind": "OBJECT",
           "name": "Donation",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -2654,9 +2406,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "anonymous",
@@ -2672,9 +2422,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "createdAt",
@@ -2690,9 +2438,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "email",
@@ -2708,9 +2454,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -2726,9 +2470,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "message",
@@ -2740,9 +2482,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "name",
@@ -2758,9 +2498,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "newsletter",
@@ -2776,9 +2514,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -2788,9 +2524,7 @@
           "kind": "OBJECT",
           "name": "Feedback",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -2807,9 +2541,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -2825,9 +2557,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "positive",
@@ -2843,9 +2573,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "rating",
@@ -2857,9 +2585,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "registration",
@@ -2875,9 +2601,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "session",
@@ -2893,9 +2617,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "testimonial",
@@ -2911,9 +2633,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -2982,9 +2702,7 @@
           "kind": "OBJECT",
           "name": "Festival",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -3091,9 +2809,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "balance",
@@ -3109,9 +2825,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "earlybirdClosesAt",
@@ -3123,9 +2837,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "earlybirdOpensAt",
@@ -3137,9 +2849,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "endDate",
@@ -3155,9 +2865,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "generalOpensAt",
@@ -3169,9 +2877,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -3187,9 +2893,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "payments",
@@ -3209,9 +2913,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "people",
@@ -3235,9 +2937,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "registrationPhase",
@@ -3253,9 +2953,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "registrations",
@@ -3378,9 +3076,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "state",
@@ -3396,9 +3092,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "teamMembers",
@@ -3422,9 +3116,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "timetable",
@@ -3440,9 +3132,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "venues",
@@ -3466,9 +3156,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "workshopAllocation",
@@ -3480,9 +3168,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "workshopPricing",
@@ -3498,9 +3184,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "workshopTotal",
@@ -3516,9 +3200,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "workshops",
@@ -3542,9 +3224,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -3656,9 +3336,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "createdAt",
@@ -3674,9 +3352,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -3692,9 +3368,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "reference",
@@ -3710,9 +3384,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "registration",
@@ -3728,9 +3400,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "state",
@@ -3746,9 +3416,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "type",
@@ -3764,9 +3432,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -3776,9 +3442,7 @@
           "kind": "OBJECT",
           "name": "JobProgressPayload",
           "description": "Autogenerated return type of JobProgress.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -3791,9 +3455,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -3809,9 +3471,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "progress",
@@ -3827,9 +3487,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "state",
@@ -3845,9 +3503,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "total",
@@ -3863,9 +3519,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -3910,9 +3564,7 @@
           "kind": "OBJECT",
           "name": "MergePeoplePayload",
           "description": "Autogenerated return type of MergePeople.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -3929,9 +3581,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -3941,9 +3591,7 @@
           "kind": "OBJECT",
           "name": "Message",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -3956,9 +3604,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "createdAt",
@@ -3974,9 +3620,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -3992,9 +3636,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "sender",
@@ -4010,9 +3652,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "subject",
@@ -4024,9 +3664,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -4046,9 +3684,7 @@
           "kind": "OBJECT",
           "name": "MoveActivityPayload",
           "description": "Autogenerated return type of MoveActivity.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -4065,9 +3701,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -4077,9 +3711,7 @@
           "kind": "OBJECT",
           "name": "MoveAllocatedParticipantPayload",
           "description": "Autogenerated return type of MoveAllocatedParticipant.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -4104,9 +3736,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -4116,9 +3746,7 @@
           "kind": "OBJECT",
           "name": "MoveWaitlistParticipantPayload",
           "description": "Autogenerated return type of MoveWaitlistParticipant.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -4143,9 +3771,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -4270,9 +3896,7 @@
           "kind": "OBJECT",
           "name": "Mutation",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -4607,9 +4231,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "approvePayment",
@@ -5141,9 +4763,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "mergePeople",
@@ -5691,6 +5311,35 @@
                     "ofType": {
                       "kind": "SCALAR",
                       "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ]
+            },
+            {
+              "name": "resendMessage",
+              "description": null,
+              "type": {
+                "kind": "OBJECT",
+                "name": "ResendMessagePayload",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+                {
+                  "name": "id",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID",
                       "ofType": null
                     }
                   },
@@ -6520,9 +6169,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "userRegister",
@@ -6791,9 +6438,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -6809,9 +6454,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "lede",
@@ -6823,9 +6466,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "slug",
@@ -6841,9 +6482,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "title",
@@ -6859,9 +6498,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "url",
@@ -6877,9 +6514,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -6889,9 +6524,7 @@
           "kind": "INTERFACE",
           "name": "Payment",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": [
             {
               "kind": "OBJECT",
@@ -6929,9 +6562,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "createdAt",
@@ -6947,9 +6578,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -6965,9 +6594,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "reference",
@@ -6983,9 +6610,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "registration",
@@ -7001,9 +6626,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "state",
@@ -7019,9 +6642,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "type",
@@ -7037,9 +6658,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -7072,9 +6691,7 @@
           "kind": "OBJECT",
           "name": "PaymentIntent",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -7087,9 +6704,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "error",
@@ -7101,9 +6716,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -7260,9 +6873,7 @@
           "kind": "OBJECT",
           "name": "PermissionDefinition",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -7283,9 +6894,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -7301,9 +6910,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "label",
@@ -7319,9 +6926,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -7331,9 +6936,7 @@
           "kind": "OBJECT",
           "name": "Person",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -7358,9 +6961,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "bio",
@@ -7376,9 +6977,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "city",
@@ -7390,9 +6989,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -7408,9 +7005,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "name",
@@ -7426,9 +7021,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "phone",
@@ -7440,9 +7033,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "picture",
@@ -7454,9 +7045,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "pronouns",
@@ -7468,9 +7057,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "user",
@@ -7482,9 +7069,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -7608,9 +7193,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -7626,9 +7209,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "person",
@@ -7644,9 +7225,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "title",
@@ -7662,9 +7241,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "url",
@@ -7680,9 +7257,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -7692,9 +7267,7 @@
           "kind": "OBJECT",
           "name": "Preference",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -7711,9 +7284,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "position",
@@ -7729,9 +7300,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "session",
@@ -7747,9 +7316,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "sessionId",
@@ -7765,9 +7332,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "workshop",
@@ -7783,9 +7348,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "workshopId",
@@ -7801,9 +7364,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -7856,9 +7417,7 @@
           "kind": "OBJECT",
           "name": "Pricing",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -7875,9 +7434,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "discountLimit",
@@ -7893,9 +7450,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "discountPerAdditionalWorkshop",
@@ -7911,9 +7466,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -7929,9 +7482,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -8107,9 +7658,7 @@
           "kind": "OBJECT",
           "name": "ProfilePicture",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -8126,9 +7675,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "large",
@@ -8144,9 +7691,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "medium",
@@ -8162,9 +7707,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "small",
@@ -8180,9 +7723,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -8192,9 +7733,7 @@
           "kind": "OBJECT",
           "name": "PromiseInternetBankingPaymentPayload",
           "description": "Autogenerated return type of PromiseInternetBankingPayment.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -8211,9 +7750,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -8223,9 +7760,7 @@
           "kind": "OBJECT",
           "name": "PromoteWaitlistParticipantPayload",
           "description": "Autogenerated return type of PromoteWaitlistParticipant.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -8242,9 +7777,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -8254,9 +7787,7 @@
           "kind": "OBJECT",
           "name": "Query",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -8281,9 +7812,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "cities",
@@ -8307,9 +7836,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "dashboard",
@@ -8325,9 +7852,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "directoryResult",
@@ -8437,9 +7962,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "festival",
@@ -8521,9 +8044,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "permissions",
@@ -8547,9 +8068,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "person",
@@ -8778,9 +8297,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "user",
@@ -8838,9 +8355,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "createdAt",
@@ -8856,9 +8371,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -8874,9 +8387,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "reference",
@@ -8892,9 +8403,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "registration",
@@ -8910,9 +8419,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "state",
@@ -8928,9 +8435,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "type",
@@ -8946,9 +8451,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -8958,9 +8461,7 @@
           "kind": "OBJECT",
           "name": "Registration",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -8973,9 +8474,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "codeOfConductAcceptedAt",
@@ -8987,9 +8486,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "completedAt",
@@ -9001,9 +8498,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "donateDiscount",
@@ -9019,9 +8514,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "feedback",
@@ -9045,9 +8538,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -9063,9 +8554,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "outstanding",
@@ -9081,9 +8570,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "paymentIntent",
@@ -9136,9 +8623,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "photoPermission",
@@ -9154,9 +8639,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "preferences",
@@ -9180,9 +8663,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "sessions",
@@ -9206,9 +8687,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "showExplainer",
@@ -9224,9 +8703,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "teaching",
@@ -9250,9 +8727,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "user",
@@ -9264,9 +8739,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "waitlist",
@@ -9290,9 +8763,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "workshopsCount",
@@ -9308,9 +8779,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -9408,9 +8877,7 @@
           "kind": "OBJECT",
           "name": "RegistrationsPayload",
           "description": "Autogenerated return type of Registrations.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -9427,9 +8894,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -9439,9 +8904,7 @@
           "kind": "OBJECT",
           "name": "RemoveFromSessionPayload",
           "description": "Autogenerated return type of RemoveFromSession.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -9458,9 +8921,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "session",
@@ -9476,9 +8937,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -9488,9 +8947,7 @@
           "kind": "OBJECT",
           "name": "RenameActivityPayload",
           "description": "Autogenerated return type of RenameActivity.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -9507,9 +8964,34 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
+            }
+          ],
+          "inputFields": null,
+          "enumValues": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "ResendMessagePayload",
+          "description": "Autogenerated return type of ResendMessage.",
+          "interfaces": [],
+          "possibleTypes": null,
+          "fields": [
+            {
+              "name": "message",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Message",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": []
             }
           ],
           "inputFields": null,
@@ -9519,9 +9001,7 @@
           "kind": "OBJECT",
           "name": "ResetPasswordAndLogInPayload",
           "description": "Autogenerated return type of ResetPasswordAndLogIn.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -9538,9 +9018,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "credentials",
@@ -9552,9 +9030,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -9635,9 +9111,7 @@
           "kind": "OBJECT",
           "name": "SaveFeedbackPayload",
           "description": "Autogenerated return type of SaveFeedback.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -9654,9 +9128,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -9666,9 +9138,7 @@
           "kind": "INTERFACE",
           "name": "SearchResult",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": [
             {
               "kind": "OBJECT",
@@ -9702,9 +9172,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -9720,9 +9188,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "title",
@@ -9738,9 +9204,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "url",
@@ -9756,9 +9220,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -9803,9 +9265,7 @@
           "kind": "OBJECT",
           "name": "SendMessagePayload",
           "description": "Autogenerated return type of SendMessage.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -9822,9 +9282,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -9834,9 +9292,7 @@
           "kind": "OBJECT",
           "name": "Session",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -9849,9 +9305,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "activityType",
@@ -9867,9 +9321,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "capacity",
@@ -9881,9 +9333,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "count",
@@ -9899,9 +9349,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "endsAt",
@@ -9917,9 +9365,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "full",
@@ -9935,9 +9381,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "hosts",
@@ -9961,9 +9405,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -9979,9 +9421,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "messages",
@@ -10005,9 +9445,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "musos",
@@ -10031,9 +9469,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "operators",
@@ -10057,9 +9493,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "participants",
@@ -10083,9 +9517,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "performers",
@@ -10109,9 +9541,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "slot",
@@ -10127,9 +9557,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "slots",
@@ -10153,9 +9581,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "startsAt",
@@ -10171,9 +9597,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "venue",
@@ -10185,9 +9609,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "waitlist",
@@ -10211,9 +9633,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "workshop",
@@ -10225,9 +9645,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -10320,9 +9738,7 @@
           "kind": "INTERFACE",
           "name": "Setting",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": [
             {
               "kind": "OBJECT",
@@ -10350,9 +9766,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -10368,9 +9782,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -10434,9 +9846,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "description",
@@ -10448,9 +9858,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "directors",
@@ -10474,9 +9882,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -10492,9 +9898,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "missingInfo",
@@ -10518,9 +9922,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "name",
@@ -10536,9 +9938,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "picture",
@@ -10550,9 +9950,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "presenters",
@@ -10576,9 +9974,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "quotes",
@@ -10590,9 +9986,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "session",
@@ -10645,9 +10039,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "slug",
@@ -10663,9 +10055,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "tagline",
@@ -10677,9 +10067,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "type",
@@ -10695,9 +10083,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "workshop",
@@ -10709,9 +10095,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -10721,9 +10105,7 @@
           "kind": "OBJECT",
           "name": "Slot",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -10740,9 +10122,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -10758,9 +10138,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "sessions",
@@ -10813,9 +10191,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "workshops",
@@ -10839,9 +10215,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -10870,9 +10244,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "description",
@@ -10884,9 +10256,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -10902,9 +10272,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "missingInfo",
@@ -10928,9 +10296,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "name",
@@ -10946,9 +10312,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "organisers",
@@ -10972,9 +10336,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "picture",
@@ -10986,9 +10348,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "presenters",
@@ -11012,9 +10372,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "quotes",
@@ -11026,9 +10384,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "session",
@@ -11081,9 +10437,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "slug",
@@ -11099,9 +10453,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "tagline",
@@ -11113,9 +10465,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "type",
@@ -11131,9 +10481,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -11176,9 +10524,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -11194,9 +10540,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "value",
@@ -11212,9 +10556,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -11224,9 +10566,7 @@
           "kind": "OBJECT",
           "name": "Subscription",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -11362,9 +10702,7 @@
           "kind": "OBJECT",
           "name": "Timetable",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -11381,9 +10719,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "sessions",
@@ -11407,9 +10743,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -11419,9 +10753,7 @@
           "kind": "OBJECT",
           "name": "Translation",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -11438,9 +10770,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "name",
@@ -11456,9 +10786,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "traditionalName",
@@ -11474,9 +10802,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -11486,9 +10812,7 @@
           "kind": "OBJECT",
           "name": "UpdateActivityPayload",
           "description": "Autogenerated return type of UpdateActivity.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -11505,9 +10829,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -11517,9 +10839,7 @@
           "kind": "OBJECT",
           "name": "UpdatePayload",
           "description": "Autogenerated return type of Update.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -11532,9 +10852,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -11544,9 +10862,7 @@
           "kind": "OBJECT",
           "name": "UpdatePaymentPayload",
           "description": "Autogenerated return type of UpdatePayment.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -11563,9 +10879,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -11575,9 +10889,7 @@
           "kind": "OBJECT",
           "name": "UpdatePersonPayload",
           "description": "Autogenerated return type of UpdatePerson.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -11594,9 +10906,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -11606,9 +10916,7 @@
           "kind": "OBJECT",
           "name": "UpdateSessionPayload",
           "description": "Autogenerated return type of UpdateSession.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -11625,9 +10933,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -11637,9 +10943,7 @@
           "kind": "OBJECT",
           "name": "UpdateSettingPayload",
           "description": "Autogenerated return type of UpdateSetting.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -11656,9 +10960,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -11668,9 +10970,7 @@
           "kind": "OBJECT",
           "name": "UpdateTranslationPayload",
           "description": "Autogenerated return type of UpdateTranslation.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -11687,9 +10987,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -11699,9 +10997,7 @@
           "kind": "OBJECT",
           "name": "UpdateUserDetailsPayload",
           "description": "Autogenerated return type of UpdateUserDetails.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -11718,9 +11014,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -11730,9 +11024,7 @@
           "kind": "OBJECT",
           "name": "UpdateUserPayload",
           "description": "Autogenerated return type of UpdateUser.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -11749,9 +11041,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -11761,9 +11051,7 @@
           "kind": "OBJECT",
           "name": "UpdateWorkshopsPayload",
           "description": "Autogenerated return type of UpdateWorkshops.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -11780,9 +11068,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -11873,9 +11159,7 @@
           "kind": "OBJECT",
           "name": "User",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -11900,9 +11184,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "email",
@@ -11918,9 +11200,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -11936,9 +11216,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "name",
@@ -11954,9 +11232,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "permissions",
@@ -11980,9 +11256,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "profile",
@@ -11994,9 +11268,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "registration",
@@ -12008,9 +11280,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "settings",
@@ -12034,9 +11304,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -12125,9 +11393,7 @@
           "kind": "OBJECT",
           "name": "UserConfirmRegistrationWithTokenPayload",
           "description": "Autogenerated return type of UserConfirmRegistrationWithToken.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -12144,9 +11410,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "credentials",
@@ -12158,9 +11422,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -12289,9 +11551,7 @@
           "kind": "OBJECT",
           "name": "UserLoginPayload",
           "description": "Autogenerated return type of UserLogin.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -12308,9 +11568,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "credentials",
@@ -12326,9 +11584,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -12338,9 +11594,7 @@
           "kind": "OBJECT",
           "name": "UserLogoutPayload",
           "description": "Autogenerated return type of UserLogout.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -12357,9 +11611,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -12369,9 +11621,7 @@
           "kind": "OBJECT",
           "name": "UserRegisterPayload",
           "description": "Autogenerated return type of UserRegister.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -12388,9 +11638,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "credentials",
@@ -12402,9 +11650,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -12414,9 +11660,7 @@
           "kind": "OBJECT",
           "name": "UserResendConfirmationWithTokenPayload",
           "description": "Autogenerated return type of UserResendConfirmationWithToken.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -12433,9 +11677,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -12445,9 +11687,7 @@
           "kind": "OBJECT",
           "name": "UserSendPasswordResetWithTokenPayload",
           "description": "Autogenerated return type of UserSendPasswordResetWithToken.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -12464,9 +11704,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -12476,9 +11714,7 @@
           "kind": "OBJECT",
           "name": "UserUpdatePasswordWithTokenPayload",
           "description": "Autogenerated return type of UserUpdatePasswordWithToken.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -12495,9 +11731,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "credentials",
@@ -12509,9 +11743,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -12521,9 +11753,7 @@
           "kind": "OBJECT",
           "name": "Value",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -12540,9 +11770,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "max",
@@ -12558,9 +11786,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -12570,9 +11796,7 @@
           "kind": "OBJECT",
           "name": "Venue",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -12589,9 +11813,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "building",
@@ -12607,9 +11829,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -12625,9 +11845,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "latitude",
@@ -12643,9 +11861,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "longitude",
@@ -12661,9 +11877,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "position",
@@ -12679,9 +11893,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "room",
@@ -12693,9 +11905,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -12724,9 +11934,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -12742,9 +11950,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "title",
@@ -12760,9 +11966,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "url",
@@ -12778,9 +11982,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "venue",
@@ -12796,9 +11998,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -12831,9 +12031,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "createdAt",
@@ -12849,9 +12047,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -12867,9 +12063,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "reference",
@@ -12885,9 +12079,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "registration",
@@ -12903,9 +12095,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "state",
@@ -12921,9 +12111,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "type",
@@ -12939,9 +12127,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "workshops",
@@ -12957,9 +12143,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -12969,9 +12153,7 @@
           "kind": "OBJECT",
           "name": "Waitlist",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -12988,9 +12170,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "offeredAt",
@@ -13002,9 +12182,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "position",
@@ -13020,9 +12198,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "registration",
@@ -13038,9 +12214,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "session",
@@ -13052,9 +12226,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -13083,9 +12255,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "capacity",
@@ -13101,9 +12271,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "description",
@@ -13115,9 +12283,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "feedback",
@@ -13141,9 +12307,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -13159,9 +12323,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "missingInfo",
@@ -13185,9 +12347,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "name",
@@ -13203,9 +12363,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "picture",
@@ -13217,9 +12375,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "presenters",
@@ -13243,9 +12399,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "quotes",
@@ -13257,9 +12411,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "session",
@@ -13312,9 +12464,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "show",
@@ -13326,9 +12476,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "slug",
@@ -13344,9 +12492,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "stats",
@@ -13362,9 +12508,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "suitability",
@@ -13376,9 +12520,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "tagline",
@@ -13390,9 +12532,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "tutors",
@@ -13416,9 +12556,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "type",
@@ -13434,9 +12572,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -13446,9 +12582,7 @@
           "kind": "OBJECT",
           "name": "WorkshopAllocation",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -13465,9 +12599,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "score",
@@ -13479,9 +12611,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "sessions",
@@ -13505,9 +12635,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "state",
@@ -13523,9 +12651,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -13535,9 +12661,7 @@
           "kind": "OBJECT",
           "name": "WorkshopAllocationSession",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -13554,9 +12678,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "endsAt",
@@ -13572,9 +12694,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -13590,9 +12710,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "registrations",
@@ -13616,9 +12734,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "slots",
@@ -13642,9 +12758,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "startsAt",
@@ -13660,9 +12774,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "waitlist",
@@ -13686,9 +12798,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "workshop",
@@ -13704,9 +12814,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -13716,9 +12824,7 @@
           "kind": "OBJECT",
           "name": "WorkshopStat",
           "description": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -13743,9 +12849,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "id",
@@ -13761,9 +12865,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -13773,9 +12875,7 @@
           "kind": "OBJECT",
           "name": "__Directive",
           "description": "A Directive provides a way to describe alternate runtime execution and type validation behavior in a GraphQL document.\n\nIn some cases, you need to provide options to alter GraphQL's execution behavior in ways field arguments will not suffice, such as conditionally including or skipping a field. Directives provide this by describing additional information to the executor.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -13825,9 +12925,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "isRepeatable",
@@ -13839,9 +12937,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "locations",
@@ -13865,9 +12961,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "name",
@@ -13883,9 +12977,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "onField",
@@ -13901,9 +12993,7 @@
               },
               "isDeprecated": true,
               "deprecationReason": "Use `locations`.",
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "onFragment",
@@ -13919,9 +13009,7 @@
               },
               "isDeprecated": true,
               "deprecationReason": "Use `locations`.",
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "onOperation",
@@ -13937,9 +13025,7 @@
               },
               "isDeprecated": true,
               "deprecationReason": "Use `locations`.",
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -14074,9 +13160,7 @@
           "kind": "OBJECT",
           "name": "__EnumValue",
           "description": "One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -14089,9 +13173,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "description",
@@ -14103,9 +13185,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "isDeprecated",
@@ -14121,9 +13201,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "name",
@@ -14139,9 +13217,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -14151,9 +13227,7 @@
           "kind": "OBJECT",
           "name": "__Field",
           "description": "Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -14203,9 +13277,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "description",
@@ -14217,9 +13289,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "isDeprecated",
@@ -14235,9 +13305,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "name",
@@ -14253,9 +13321,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "type",
@@ -14271,9 +13337,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -14283,9 +13347,7 @@
           "kind": "OBJECT",
           "name": "__InputValue",
           "description": "Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -14298,9 +13360,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "deprecationReason",
@@ -14312,9 +13372,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "description",
@@ -14326,9 +13384,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "isDeprecated",
@@ -14344,9 +13400,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "name",
@@ -14362,9 +13416,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "type",
@@ -14380,9 +13432,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -14392,9 +13442,7 @@
           "kind": "OBJECT",
           "name": "__Schema",
           "description": "A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -14407,9 +13455,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "directives",
@@ -14433,9 +13479,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "mutationType",
@@ -14447,9 +13491,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "queryType",
@@ -14465,9 +13507,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "subscriptionType",
@@ -14479,9 +13519,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "types",
@@ -14505,9 +13543,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -14517,9 +13553,7 @@
           "kind": "OBJECT",
           "name": "__Type",
           "description": "The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.\n\nDepending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name and description, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -14532,9 +13566,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "enumValues",
@@ -14653,9 +13685,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "isOneOf",
@@ -14671,9 +13701,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "kind",
@@ -14689,9 +13717,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "name",
@@ -14703,9 +13729,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "ofType",
@@ -14717,9 +13741,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "possibleTypes",
@@ -14739,9 +13761,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             },
             {
               "name": "specifiedByURL",
@@ -14753,9 +13773,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -14824,9 +13842,7 @@
           "kind": "OBJECT",
           "name": "allocateWorkshopsPayload",
           "description": "Autogenerated return type of allocateWorkshops.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -14843,9 +13859,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -14855,9 +13869,7 @@
           "kind": "OBJECT",
           "name": "finaliseRegistrationPayload",
           "description": "Autogenerated return type of finaliseRegistration.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -14874,9 +13886,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -14886,9 +13896,7 @@
           "kind": "OBJECT",
           "name": "updatePreferencesPayload",
           "description": "Autogenerated return type of updatePreferences.",
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "possibleTypes": null,
           "fields": [
             {
@@ -14905,9 +13913,7 @@
               },
               "isDeprecated": false,
               "deprecationReason": null,
-              "args": [
-
-              ]
+              "args": []
             }
           ],
           "inputFields": null,
@@ -14972,9 +13978,7 @@
           "locations": [
             "INPUT_OBJECT"
           ],
-          "args": [
-
-          ]
+          "args": []
         },
         {
           "name": "skip",
